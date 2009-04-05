@@ -1,0 +1,9 @@
+<h2>Ny bruger</h2>
+
+<% form_tag :action => :create do %>
+<%= render :partial => 'form' %>
+
+<%= submit_tag "Opret", :name => 'submit[create]', :class => 'btn_gray' %>
+<% end %>
+
+<%= link_to 'Tilbage', :action => :list, :title => 'Tilbage' %>

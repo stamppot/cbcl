@@ -1,0 +1,12 @@
+
+<h2>Slet Journal &quot;<%= @group.title %>&quot;</h2>
+
+<p>
+Er du sikker på at du vil slette journalen &quot;<%= @group.title %>&quot;?
+Alle besvarelser og login-brugere tilknyttet denne journal vil blive slettet. <strong>Denne handling kan ikke fortrydes</strong>.
+</p>
+
+<% form_tag delete_journal(@group), :method => :delete do %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'btn_gray'  %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'btn_gray' %>
+<% end %>

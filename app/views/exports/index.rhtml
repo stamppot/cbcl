@@ -1,0 +1,49 @@
+<h1>Dataudtræk</h1>
+
+<% form_tag(csv_download_path, :onSubmit => "Element.show('spinner');") do %>
+<h3>Besvaret mellem</h3>
+<div id='filter_fields'>
+	<label for='start_date'>Startdato</label>
+	<%= select_date(@start_date, :prefix => 'start_date', :order => [:day, :month, :year], :start_year => (@start_date.year), :end_year => @stop_date.year ) %>
+	<br/>
+	<label for='stop_date'>Slutdato</label>
+	<%= select_date(@stop_date, :prefix => 'stop_date', :order => [:day, :month, :year], :start_year => (@stop_date.year), :end_year => @start_date.year ) %>
+	<br/>
+	
+<h3>Alder</h3>
+	<%= render :partial => 'select_age' %>
+	
+	<p>
+		<h3>Vælg skemaer</h3>
+	</p>
+	<% @surveys.each do |survey| %>
+		<div style='background-color: #<%= survey.color %>; width: 25em;'>
+			<%= check_box_tag("surveys[#{survey.id}]", "1", survey.selected, { :class => 'no_border'}) %>		
+			<%= "<label for=\"surveys_#{survey.id}\">#{survey.title}</label> <br/>" %>
+		</div>
+	<% end %>
+	<br/>
+</div>	
+
+	<div>
+		<img alt="spinner" id="filter_spinner" src="/images/spinner.gif" style="display:none;" />
+		<span id="results">Antal: <%= @survey_answers.size %></span>
+	</div>
+	<br/>
+	
+<span style="padding: 3px;" id='send_form' class="btn-submit">
+	<span id='filter'>
+		<%= link_to_remote("Filtrer", :submit => "filter_fields", :url => export_filter_path) %>
+	</span>
+</span>
+
+<img alt="spinner" id="spinner" src="/images/spinner.gif" style="display:none;" />
+
+<%= submit_tag 'Download', { :class => 'normal', :id => 'download', :onclick => "$('downloading').show();" } %>
+
+<div id="downloading" style="display: none">
+	<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Øjeblik... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif" />
+</div
+<% end %>
+
+<br/>

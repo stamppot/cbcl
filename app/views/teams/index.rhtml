@@ -1,0 +1,21 @@
+<h2>Liste af Teams</h2>
+
+<% @groups.each do |center, teams| %>
+    <%= "Center: " + link_to(center.title, center_path(center), :title => 'Vis Center') %>
+		<% if teams.any? %>
+			<ul>
+    		<% teams.each do |group| %>
+	    	<li>
+					<%= link_to( group.title, group, :title => (group.is_a?(Team) ? "Vis team" : "Vis center") ) %>
+         	 <%= "[" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] " %>
+	    	</li>
+    		<% end %>
+			</ul>
+ 		<% end %>
+<% end %>
+
+<% if current_user.has_access? :team_new_edit_delete %>
+<div class="commands">
+	<%= link_to 'Nyt Team', :action => :new %>
+</div>
+<% end %>

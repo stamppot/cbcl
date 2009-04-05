@@ -1,0 +1,21 @@
+
+<div id="form_div">
+
+	<% form_for(@section, :html => {:id => 'faq_section_form'}, :url => (current_page?(:action => 'edit_section', :id => @section) ? {:controller => :faq, :action => 'update_section', :id => @section} : {:controller => :faq, :action => 'create_section'})) do |f| %>
+
+	<div class="form-row">
+		<%= f.label(:title, "Afsnit") %>:
+		<%= f.text_field(:title, :class => "btn_gray") %>
+	</div>
+	
+	<div class="form-row">
+		<% if @section.new_record? %>
+	  	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>
+		<% else %>
+			<%= submit_tag "Gem", :name => "submit", :class => "btn_gray" %> | <%= link_to "afbryd", :action => 'show_section', :id => @section %>
+		<% end %>
+	</div>
+	
+	<% end %>
+</div>
+

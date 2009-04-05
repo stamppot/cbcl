@@ -1,0 +1,30 @@
+<%= error_messages_for 'user' %>
+
+<!--[form:user]-->
+<dl>
+  <dt><label for="user_login">Login</label></dt>
+  <dd><%= text_field 'user', 'login', :class => 'gray'  %></dd>
+
+  <dt><label for="user_email">Email</label></dt>
+  <dd><%= text_field 'user', 'email', :class => 'gray'  %></dd>
+
+  <%= render :partial => 'active_rbac/user/password' %>
+
+  <dt><label for="user_state">State</label></dt>
+  <dd><%= select 'user', 'state', User.stateToStatus(User.states.reject { |key, value| !@user.state_transition_allowed?(@user.state, value) }) %></dd>
+
+<p/>
+
+  <dt><label>Rolle</label></dt>
+  <dd>    <%= node_tree(@roles) do |role|
+          result = "<input id=\"user_roles_#{role.id}\" type=\"hidden\" name=\"user[roles][]\" value=\"#{role.id}\" checked=\"checked\" /> " if @user.roles.include? role
+          result = "<input id=\"user_roles_#{role.id}\" type=\"hidden\" name=\"user[roles][]\" value=\"#{role.id}\" /> " unless @user.roles.include? role
+          result += "<label for=\"user_roles_#{role.id}\">#{role.prettyname}</label> "
+          result
+  		#end
+        end %>
+  </dd>
+
+</dl>
+
+<!--[eoform:user]-->

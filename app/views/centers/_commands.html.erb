@@ -1,0 +1,7 @@
+<div class="commands">
+	<% if current_user.has_access? :center_delete %>
+	<%= link_to 'Slet', { :action => :delete, :id => @group }, :title => 'Slet Center' %>
+	<%= link_to 'Rediger', edit_center_path(@group), { :title => 'Rediger' } %>
+	<% end %>
+	<%= link_to 'Tilbage til liste', centers_path, { :title => 'Tilbage til liste' } %>
+</div>

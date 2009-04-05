@@ -1,0 +1,8 @@
+<% for column in ScoreGroup.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @score_group.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Rediger', :action => :edit, :id => @score_group %> |
+<%= link_to 'Tilbage', :action => :list %>

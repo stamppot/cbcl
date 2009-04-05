@@ -1,0 +1,11 @@
+<h2>Opret journal</h2>
+
+<% form_tag journals_path do %>
+<%= render :partial => 'form' %>
+
+	<% render :partial => "shared/add_survey", :object => @surveys %>
+
+<%= submit_tag "Opret", :name => 'submit[create]', :class => 'btn_gray' %>
+<% end %>
+
+<%= link_to 'Tilbage', journals_path, :title => 'Tilbage til liste af journaler' %>

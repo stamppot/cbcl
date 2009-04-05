@@ -1,0 +1,81 @@
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'css_browser_selector' %>
+<%= javascript_include_tag 'survey_builder' %>
+<%= stylesheet_link_tag 'survey' %>
+<%= javascript_include_tag 'application' %>
+<p />
+
+<!-- <h4>Params</h4> <% debug(params) %>  -->
+
+<div id="debug">
+</div>
+
+<% form_tag :action => :save_question, :id => @survey do %>
+
+<%- row_no = 1  # used by after choice examples
+    col_no = 1 %>
+    
+Question no: <%= text_field("question" , :number, { :value => @survey.new_question_number, :size => 2 }) %>
+<table class="question" border="1">
+  <tbody id="questionbody">
+<%=
+	contents = []
+	1.upto(4) do |i|
+	    row_no += 1
+		contents << "\t<tr id='row#{i}' class='row'>\n"
+		contents << "\t\t<td class='item' id='item#{i}'>" << text_field("row#{i}", ("answeritem"), { :value => i, :size => 1 }) << # answer_item(i)
+		  "</td>"
+		1.upto(4) do |j|
+		    col_no += 1
+			contents << "\n\t\t" << "<td id='cell#{i}_#{j}' class='cell'>" << "\n\t\t\t"
+			contents << q_item(i, j)
+			contents << "\n\t\t</td>"
+		end
+		contents << "\n\t</tr>\n"
+	end
+	contents.join
+	%>
+</tbody>
+</table>
+
+<div id="actions">
+	<%= link_to_remote "Tilføj række", :url => { :action => :add_question_row} %>
+    <%= link_to_remote "Slet række", :url => { :action => :delete_question_row} %>
+	<br/>
+	<%= link_to_remote "Tilføj kolonne", { :url => { :action => "add_question_column" } }, { :class => "ie_action" } %>
+    <%= link_to_remote "Slet kolonne", { :url => { :action => "delete_question_column" } }, { :class => "ie_action" } %>
+</div>
+
+<br/>
+
+<br/>
+  <%= submit_tag 'Tilføj spørgsmål', :class => 'btn_gray' %>
+<% end %>
+
+<%= link_to "Gå tilbage", :controller => :survey, :action => :index %>
+<%= link_to "Vis", :controller => :survey, :action => :show_only, :id => @survey %>
+
+<p>
+<p>
+<% # link_to "Se vejledning", { :action => :man_opret_spg' }, { :target => 'new } %>
+
+
+<!-- <div id="debug">
+</div>
+<script type="text/javascript">
+        Ajax.Responders.register({
+        // log the beginning of the requests
+        onCreate: function(request, transport) {
+        new Insertion.Bottom('debug', '<p><strong>[' + new Date().toString() + '] current_user.has_access?ng ' + request.url + '</strong></p>')
+        },
+
+        // log the completion of the requests
+       onComplete: function(request, transport) {
+       new Insertion.Bottom('debug',
+        '<p><strong>http status: ' + transport.status + '</strong></p>' +
+        '<pre>' + transport.responseText.escapeHTML() + '</pre>')
+     }
+    });
+ </script> -->
+<br /><br />

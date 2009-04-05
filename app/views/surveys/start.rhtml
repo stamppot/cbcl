@@ -1,0 +1,26 @@
+<h1>Spørgeskemaer</h1>
+
+<h3>Velkommen.</h3>
+<p>
+Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
+<p/>
+
+<table>
+<%	
+	odd_or_even = 0
+	
+	for survey in @surveys
+		odd_or_even = 1 - odd_or_even %>
+
+  <tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
+	<td width="80%" class="surveyname">
+		<span class="survey_title"><%= link_to "Start", { :controller => :survey, :action => :show, :id => @entry } %></span><br />
+		<%= h(truncate(survey.description, 80)) %>
+	</td>
+  </tr>
+	<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Afslut', { :controller => 'login', :action => :logout }, :title => 'Log ud af systemet' %>

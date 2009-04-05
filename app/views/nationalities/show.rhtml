@@ -1,0 +1,12 @@
+
+<table>
+	<th>Nationalitet</th>
+	
+	<tr>
+		<td><%=h @nationality.country %></td>
+		<td><%=h @nationality.country_code %></td>
+	</tr>
+</table>
+
+<%= link_to 'Rediger', :action => :edit, :id => @nationality %> |
+<%= link_to 'Tilbage', :action => :list %>

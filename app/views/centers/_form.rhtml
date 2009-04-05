@@ -1,0 +1,67 @@
+<% javascript_include_tag 'validation' %>
+<% stylesheet_link_tag 'validation' %>
+
+<% form_for(:group, :html => {:id => 'center_form'}, :action => :new) do |f| %>
+<%= error_messages_for 'group' %>
+
+<% if @group.new_record? %>
+<dl>  
+<dt>Vælg spørgeskemaer at abbonnere på</dt>
+<dd>
+
+	<% @surveys.each do |survey| %>
+	<% 	 sub = @subscribed.detect { |subsc| subsc.survey_id == survey.id }	%>
+
+  <%=   result = "<div style='background-color: #{survey.color}; width: 25em;'>" + 
+	"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" checked=\"checked\" /> " if !sub.nil?
+        result = "<div style='background-color: #{survey.color}; width: 25em;'>" +
+				"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" /> " if sub.nil?
+        result += "<label for=\"group_surveys_#{survey.id}\">#{survey.title}</label></div>"
+        result %>
+  <% end %>
+</dd>
+</dl>
+<% end %>
+
+<!--[form:group]-->
+<table class="center_info">
+	<tr>
+		<td class="t_i"><%= f.label(:title, "Navn:") %></td>
+		<td class="t"><%= f.text_field :title, { :class => "required validate-alpha gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= f.label(:code, "Centerkode:") %></td>
+		<td class="t"><%= f.text_field :code, { :class => "required validate-number gray" }  %></td>
+	</tr>
+	<% fields_for "group[center_info]", @group.center_info do |c| %>
+  <tr>
+		<td class="t_i"><%= c.label(:street, "Adresse:") %></td>
+		<td class="t"><%= c.text_field :street, { :class => "required validate-alpha gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= c.label(:zipcode, "Postkode:") %></td>
+		<td class="t"><%= c.text_field :zipcode, { :class => "required validate-number gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= c.label(:city, "By:") %></td>
+		<td class="t"><%= c.text_field :city, { :class => "required validate-number gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= c.label(:telephone, "Telefon:") %></td>
+		<td class="t"><%= c.text_field :telephone, { :class => "required validate-number gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= c.label(:person, "Kontaktperson:") %></td>
+		<td class="t"><%= c.text_field :person, { :class => "required validate-alpha gray" }  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><%= c.label(:street, "EAN-nr:") %></td>
+		<td class="t"><%= c.text_field :ean, { :class => "required validate-number gray" }  %></td>
+	</tr>
+	<% end %>
+</table>
+
+<!--[eoform:group]-->
+
+  <%= f.submit "Anvend", { :class => 'btn_gray' } %>
+<% end %>

@@ -1,0 +1,8 @@
+<h2>Nyt Team</h2>
+
+<% form_tag :action => :create do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Opret Team", :class => 'btn_gray' %>
+<% end %>
+<p/>
+<%= link_to 'Tilbage', :action => :list, :title => 'Tilbage til liste' %>

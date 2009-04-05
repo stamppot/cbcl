@@ -1,0 +1,43 @@
+<h2>Detaljer for Abonnement &quot;<%=h @subscription.center.title %>&quot;</h2>
+
+<dl>
+  <dt>Center:</dt>
+  <dd><%=h @subscription.center.title %></dd>
+
+	<dt>Spørgeskema:</dt>
+	<dd><%= @subscription.survey.title %><dd>
+	
+  <dt>Oprettet</dt>
+  <dd><%= @subscription.created_at.to_formatted_s(:long) %></dd>
+
+  <dt>Ændret</dt>
+  <dd><%= @subscription.updated_at.to_formatted_s(:long) %></dd>
+	
+	<dt>Status</dt>
+	<dd><%= @subscription.states.invert[@subscription.state] %><dd>
+
+	<dt>Brugt</dt>
+	
+	<% @copies = @subscription.summary(@options) %>
+	<dd><%= render :partial => "shared/subscription_summary", :object => @copies %></dd>
+
+	<dt><span id="subscription_note">Noter</span></dt>
+	<dd><%= in_place_editor_field :subscription, :note, {}, :rows => 5,
+                     :external_control => 'subscription_note', :style => "border: 1px solid #888;" %>
+	</dd>
+<dl>
+
+<p/>	
+
+
+<div class="commands">
+<% if current_user.has_access? :subscription_new_edit %>
+<%= link_to 'Nulstil', subscription_reset_path(@subscription), :title => 'Nulstil' %>
+	<% if @subscription.state == 1 %>
+		<%= link_to 'Deaktiver', subscription_deactivate_path(@subscription), :title => 'Deaktiver abonnement' %>
+	<% else %>
+		<%= link_to 'Aktiver', subscription_activate_path(@subscription), :title => 'Aktiver abonnement' %>
+	<% end %>
+<% end %>
+<%= link_to 'Tilbage til Liste', subscriptions_path, :title => 'Tilbage til liste af abonnementer' %>
+</div>

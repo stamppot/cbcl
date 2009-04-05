@@ -1,0 +1,38 @@
+<p>
+	<div style="color: green;"><%= flash[:notice] %></div>
+</p>
+
+<br/>
+
+<p>List of files</p>
+
+<table class="files">
+	<% unless @files.blank? %>
+	<tr>
+		<th>Filename</th>
+		<th>Date</th>
+		<th>Type</th>
+		<th>External</th>
+		<th>Action</th>
+	</tr>
+	<% end %>
+<% @files.each_with_index do |file, i| %>
+	<p>
+		<tr class="file line<%= i%2 %>">
+			<td class="col" id="col0"><%= link_to h(file.filename), :action => 'download', :id => file.id, :format => 'csv' %></td>
+			<td class="col" id="col1">file.created_at.to_s(:long)</td>
+			<td class="col" id="col2"><%= file.content_type %></td>
+			<td class="col" id="col0"><%= link_to 'View', :action => 'download', :id => file.id %></td>
+			<td class="col action" id="col4"><%= link_to "Delete", {:action => 'delete', :id => file.id }, :confirm => "Are you sure?"   %></td>
+		</tr>
+	</p>
+<% end %>
+
+</table>
+
+<p/>
+<br/>
+
+
+
+

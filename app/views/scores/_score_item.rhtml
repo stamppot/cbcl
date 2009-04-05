@@ -1,0 +1,19 @@
+<% @item_id = "score_item_#{score_item.id}" %>
+<% @score_item = score_item %>
+
+<% surveys = [@score.survey.title, @score.survey.title] %>
+<% items = @score.survey.questions.map { |q| ["Spg. #{q.number} (#{q.count_items} items)", q.id] } # was: q.number %>
+<% item_id = score_item.id %>
+
+<tr id='score_item_<%= score_item.id %>'>
+	<td><%= select 'score_item[]', 'question_id', items, { :id => "#{@item_id}_question" } %></td>
+	<td><%= text_field 'score_item[]', 'range', { :size => 5, :class => 'gray' } %></td>
+	<td><%= select 'score_item[]', 'qualifier', @score.item_qualifiers.to_a %></td>
+	<td><%= text_field 'score_item[]', 'items', { :size => 38, :class => 'gray' } %></td>
+	<td><%= link_to_remote((image_tag('icon_delete_survey.gif', :border => 0, 
+						:class => 'icon icon_delete', :title => 'Fjern score')), 
+			:update => ('score_item_'<<@score_item.id.to_s), 
+			:confirm => "Vil du fjerne denne fra scoren #{@score.title}?",
+	 		:url => { :controller => 'score', :action => :remove_score_item, :id => @score_item}) %>
+	</td>
+</tr>

@@ -1,0 +1,10 @@
+<h1>Ny scoreberegning</h1>
+
+<% form_tag scores_path, :method => :post do %>
+  <%= render :partial => 'form' %>
+
+  <%= submit_tag "Opret", :class => 'btn_gray' %>
+<% end %>
+
+<p/><br/>
+<%= link_to 'Tilbage til liste', scores_path %>

@@ -1,0 +1,22 @@
+<table id="survey_answer_list" class="sortable list" class="survey_answers">
+	<tr>
+		<th class="narrow" title="Sorter efter id">Id</th>
+		<th title="Sorter efter Rolle">Skema</th>
+		<th>Besvaret</th>
+		<th title="Sorter efter alder">Alder</th>
+	</tr>
+	
+	<% @survey_answers.each do |survey_answer| %>
+	<tr>
+		<td><%= link_to( survey_answer.journal_entry.journal.code, survey_answer_path(survey_answer.id) ) %></td>
+		<td><%= survey_answer.survey.title %></td>
+		<td><%= survey_answer.created_at.strftime("%d %m %y") %></td>
+		<td><%= survey_answer.age %></td>
+	<tr/>
+	<% end %>
+</table>
+
+<% if @survey_answers.page_count > 1 -%>
+	<div class="page_entries"><%= page_entries_info(@survey_answers) -%></div>
+	<%= will_paginate @survey_answers, :remote => {:with => 'value', :update => 'survey_answer_list'} -%>
+<% end -%>

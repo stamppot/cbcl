@@ -1,0 +1,80 @@
+<%= render :partial => 'surveys/survey_header' %>
+
+<br/>
+
+<div id='draft-message' style='color:red;'></div>
+
+<% if current_user.has_access? :survey_show_fast_input %>
+<div class="command">
+	<% if @options[:show_only] %>
+	<%=  link_to 'Normal indtastning', survey_show_only_path(@survey) %>
+	<% else %>
+	<%=  link_to 'Normal indtastning', survey_path(@journal_entry) %>
+	<% end %>
+</div>
+<% end %>
+
+<p/>
+<br/>
+
+<a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
+<p/>
+
+
+<!-- DO NOT TOUCH THIS! -->
+<% unless @options[:action] =~ /show/ %>
+		<form action="/survey_answers/create/<%= @journal_entry.id %>" id="surveyform" method="post" onsubmit="return submitAction;" >
+<% end %>
+
+	<div>
+		<%= render :partial => "surveys/answer_by" %>
+	</div>
+	<br/>
+
+	<%= render :partial => "surveys/question_fast", :collection => @survey.questions.sort %>
+
+	<% unless @options[:action] =~ /show/ %>
+		<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
+		<div id="sending_form" style="display: none">
+			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif"></img>
+		</div>
+		
+		</form>
+	<% end %>
+	</div>
+	
+	<% unless @options[:action] =~ /show/ %>
+	<% if @options[:action] =~ /show|edit/ && !@options[:show_only] %>
+		<%= observe_form "surveyform",
+				 :url => survey_save_draft_path(@journal_entry),
+				 :update => "draft-message",
+				 :frequency => 20 %>
+	<% end %>
+
+	<!-- Put before validation.add -->
+	<script type='text/javascript'>
+
+		function formCallback(result, form) {
+			if(!result) {
+				window.status = "Der er manglende eller forkerte værdier i besvarelsen";
+				return false;
+			}
+			if(result) { 
+				window.status = "Sender besvarelsen...";
+			}
+			return true;
+		}
+		var valid = new Validation('surveyform', {immediate : true, stopOnFirst : true, onFormValidate : formCallback});
+	</script>
+<% end %>
+
+<p/>
+<% if current_user.has_access? :survey_new_edit %>
+<%= link_to 'Rediger', edit_survey_path(@survey) %> |
+<% end %>
+<%= link_to 'Tilbage', journal_path(@journal_entry.journal) %>
+
+
+
+<div id="debug">
+</div>

@@ -1,0 +1,44 @@
+<h2>Liste af Centre</h2>
+
+<% if flash[:error] -%>
+	<div id="errorExplanation"><%= flash[:error] %></div>
+<% end %>
+<% if flash[:notice] -%>
+	<div id="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<table class="sortable list" class="groups">
+	<tr>
+	<th class="wide" title="Sorter efter navn">Navn</th>
+	<th title="Sorter efter SKS-kode">ID</th>
+	<th title="Sorter efter antal brugere">Brugere</th>
+	<th title="Sorter efter oprettelsesdato">Oprettet</th>
+	<% if current_user.has_access? :show_column_actions %>
+	<th class="nosort">Handling</th>
+	<% end %>
+	</tr>	
+	
+		<% @groups.each do |group| %>
+		<tr>
+			<td><%= link_to( group.title, center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
+			<td><%= group.code %></td>
+			<td style="text-align: right;"><%= group.users.size %></td>
+			<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
+		<% if current_user.has_access? :center_delete %>
+		<td>
+			<%= link_to image_tag('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => 'Rediger' -%>
+			<%= link_to image_tag('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => 'Slet' -%>
+		</td>
+		<% end %>
+		<tr/>
+		<% end %>
+	</table>
+
+<p/>
+
+
+<% if current_user.has_access? :center_new %>
+	<div class="commands">
+	<%= link_to 'Nyt center', new_center_path %>
+	</div>
+<% end %>

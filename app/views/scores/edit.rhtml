@@ -1,0 +1,11 @@
+<h1>Rediger scoreberegning</h1>
+
+<% form_tag score_path(@score), :method => :put do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Gem ændringer', :class => 'btn_gray' %>
+<% end %>
+
+<p/><br/>
+<%= link_to 'Vis', score_path(@score) %> |
+<%= link_to 'Tilbage til liste', scores_path %>
+

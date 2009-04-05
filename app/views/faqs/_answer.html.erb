@@ -1,0 +1,8 @@
+<div class="answer">
+	<strong>
+		<p><%= @question.faq_section.position %>. <%= section_text(@question.faq_section) %></p>
+		<%= @question.faq_section.position %>.<%= @question.position %> <%= question_text(@question) %>
+	</strong>
+	<hr style="border: 0;"/>
+	<%= answer_text(@question) %>
+</div>

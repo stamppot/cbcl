@@ -1,0 +1,5 @@
+<%= cells.each |cells| %>
+<td class="score_title"><%=h title = cells.shift %></td>
+<% cells.each do |score| %>
+<td><%=h score %></td>
+<% end %>

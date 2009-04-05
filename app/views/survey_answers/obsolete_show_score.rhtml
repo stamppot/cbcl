@@ -1,0 +1,19 @@
+<%= stylesheet_link_tag 'score_report' %>
+
+<table class="score_report">
+	<th>Calculation</th>
+	<th>Score</th>
+	<th>Skema</th>
+<% @results.each do |result| %>
+	<% score = result.first %>
+	<% report = result.last %>
+	<tr>
+		<td class="report_left"><%= score.title %></td>
+		<td class="report_left">Score: <%= report %></td>
+		<td class="report_left"><%= score.survey.title %></td>
+		<td class="report_left"></td>
+		<td></td>
+		<td></td>
+	<tr/>
+<% end %>
+</table>
