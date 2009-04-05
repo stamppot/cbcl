@@ -1,0 +1,8 @@
+<h2>Ny gruppe</h2>
+
+<% form_tag :action => :create do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Opret Gruppe", :class => 'btn_gray' %>
+<% end %>
+
+<%= link_to 'Back', :action => :list %>

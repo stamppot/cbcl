@@ -1,0 +1,25 @@
+<% @user = current_user %>
+<html>
+<head>
+	<title><%= @page_title %></title>
+	 <%= javascript_include_tag 'prototype' %>
+	 <%= javascript_include_tag 'scriptaculous' %>
+	 <%= javascript_include_tag 'effects' %>
+	 <%= javascript_include_tag 'controls' %>
+	 <%= javascript_include_tag 'tabbing' %>
+
+	<%= stylesheet_link_tag 'score_report' %>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+	<% render :partial => 'layouts/info_header' %>
+
+<div id="score_report">
+	<%= render :partial => 'layouts/error_messages' %>
+
+	<%= @content_for_layout %>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<h1 id="cbcl-title">CBCL-online Login</h1>
+	<div id="subtitle"></div>
+
+<% form_tag :action => :login do %>
+
+<div title="Account login" id="loginform" class="form">
+
+    <h3>Log venligst ind:</h3>
+    
+    <table>
+      <tr>
+        <td align=right width="100px"><label for="user_login">brugernavn:</label></td>
+
+        <td width="100px"><%= text_field_tag :login, params[:login], :size => 20, :class => "gray" %></td>
+      </tr>
+      <tr> 
+        <td align=right width="100px"><label for="user_password">password:</label></td>
+        <td width="100px"><%= password_field_tag :password, params[:password], :size => 20, :class => "gray" %></td>
+      </tr>
+      <tr> 
+        <td width="100px"></td>
+        <td><input type="submit" name="login" value="Login &#187;" class="primary gray" /></td>
+      </tr>
+    </table>
+   <div align="center">
+<!--     <small>don't have an account? <a href="/signup">sign up</a></small><br/> -->
+	
+<!--	 <br />
+     <small>Vil du bare kigge ind?  Prøv at logge ind med <em>cbcl</em></small>
+     -->
+     <br /><small>
+     Har du mistet dit password? <%= link_to 'Få et nyt her.', :controller => 'registration', :action => :lostpassword %>
+    </small>
+     
+   </div>
+    <p style="color: green"><%= flash[:notice] %></p>
+	<% if flash[:error] -%>
+	<p style="color: red"><%= flash[:error] %></p>
+	<% end %>
+</div>
+
+<% end %>

@@ -1,0 +1,43 @@
+<h1>Spørgeskemaer</h1>
+
+<table id="list">
+<%	
+	odd_or_even = 0
+	id = ""
+	idname = ""
+	idversion = ""
+	for survey in @surveys
+		odd_or_even = 1 - odd_or_even
+		idname = case survey.title
+		when /CBCL(.*)ldreskema(.*)5/ : 'parentsurvey0'	
+		when /CBCL(.*)ldreskema(.*)16/ : 'parentsurvey1'
+		when /CBCL(.*)dagogskema(.*)5/ : 'educatorsurvey'
+		when /TRF(.*)16/ : 'teachersurvey'
+		when /YSR/ : 'selfsurvey'
+		end
+%>
+  <tr valign="top" class="ListLine<%= odd_or_even %>" id="<%= idname %>">
+	<td width="80%">
+		<br />
+		<span class="survey_title"><%= h(survey.title) %></span><br />
+		<%= h(truncate(survey.description, 80)) %>
+	</td>
+	<td class="survey_actions">
+    <%= link_to 'Add question', :action => :add_question, :id => survey %><br />
+    <%= link_to 'Show', :action => :show, :id => survey %><br />
+    <%= link_to 'Edit', :action => :edit, :id => survey %><br />
+    <%= link_to 'Destroy', { :action => :destroy, :id => survey }, :confirm => 'Are you sure?', :method => "post" %><br />
+	</td>
+	</tr>
+	<% end %>
+</table>
+
+
+<% if @users.page_count > 1 -%>
+	<div class="page_entries"><%= page_entries_info(@users) -%></div>
+	<%= will_paginate @users, :remote => {:with => 'value', :update => 'user_list'} -%>
+<% end -%>
+
+<br />
+
+<%= link_to 'Nyt spørgeskema', :action => :new %>

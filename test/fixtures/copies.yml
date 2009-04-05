@@ -1,0 +1,199 @@
+--- 
+copies_001: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:23:46
+  consolidated: "0"
+  id: "1"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "3"
+  active: "1"
+copies_002: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:23:46
+  consolidated: "0"
+  id: "2"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "4"
+  active: "1"
+copies_003: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:23:46
+  consolidated: "0"
+  id: "3"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "5"
+  active: "1"
+copies_004: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:23:46
+  consolidated: "0"
+  id: "4"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "6"
+  active: "1"
+copies_005: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:23:47
+  consolidated: "0"
+  id: "5"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "7"
+  active: "1"
+copies_006: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:24:35
+  consolidated: "0"
+  id: "6"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "8"
+  active: "1"
+copies_007: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:24:35
+  consolidated: "0"
+  id: "7"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "9"
+  active: "1"
+copies_008: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:24:35
+  consolidated: "0"
+  id: "8"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "10"
+  active: "1"
+copies_009: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:24:35
+  consolidated: "0"
+  id: "9"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "11"
+  active: "1"
+copies_010: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 20:24:36
+  consolidated: "0"
+  id: "10"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "12"
+  active: "1"
+copies_011: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:02
+  consolidated: "0"
+  id: "11"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "3"
+  active: "1"
+copies_012: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:02
+  consolidated: "0"
+  id: "12"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "4"
+  active: "1"
+copies_013: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:02
+  consolidated: "0"
+  id: "13"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "5"
+  active: "1"
+copies_014: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:02
+  consolidated: "0"
+  id: "14"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "6"
+  active: "1"
+copies_015: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:02
+  consolidated: "0"
+  id: "15"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "7"
+  active: "1"
+copies_016: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:15
+  consolidated: "0"
+  id: "16"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "8"
+  active: "1"
+copies_017: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:15
+  consolidated: "0"
+  id: "17"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "9"
+  active: "1"
+copies_018: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:15
+  consolidated: "0"
+  id: "18"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "10"
+  active: "1"
+copies_019: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:15
+  consolidated: "0"
+  id: "19"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "11"
+  active: "1"
+copies_020: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:44:15
+  consolidated: "0"
+  id: "20"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "12"
+  active: "1"
+copies_021: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:50:05
+  consolidated: "0"
+  id: "21"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "13"
+  active: "1"
+copies_022: 
+  created_on: "2009-01-30"
+  updated_on: 2009-01-30 21:50:05
+  consolidated: "0"
+  id: "22"
+  consolidated_on: 
+  used: "0"
+  subscription_id: "14"
+  active: "1"

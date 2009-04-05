@@ -1,0 +1,561 @@
+--- 
+score_refs_007: 
+  age_group: 11-16
+  percent95: "23"
+  mean: "7"
+  gender: "1"
+  id: "7"
+  percent98: "29"
+  score_id: "2"
+score_refs_030: 
+  age_group: 11-16
+  percent95: "11"
+  mean: "5.1"
+  gender: "2"
+  id: "30"
+  percent98: "13"
+  score_id: "15"
+score_refs_028: 
+  age_group: 11-16
+  percent95: "5"
+  mean: "1.7"
+  gender: "2"
+  id: "28"
+  percent98: "6"
+  score_id: "6"
+score_refs_051: 
+  age_group: 11-16
+  percent95: "4"
+  mean: "1.1"
+  gender: "1"
+  id: "51"
+  percent98: "6"
+  score_id: "22"
+score_refs_049: 
+  age_group: 6-10
+  percent95: "5"
+  mean: "1.4"
+  gender: "1"
+  id: "49"
+  percent98: "6"
+  score_id: "22"
+score_refs_010: 
+  age_group: 4-10
+  percent95: "12"
+  mean: "3.9"
+  gender: "2"
+  id: "10"
+  percent98: "15"
+  score_id: "3"
+score_refs_008: 
+  age_group: 11-16
+  percent95: "15"
+  mean: "5.3"
+  gender: "2"
+  id: "8"
+  percent98: "22"
+  score_id: "2"
+score_refs_031: 
+  age_group: 11-16
+  percent95: "9"
+  mean: "3.3"
+  gender: "1"
+  id: "31"
+  percent98: "10"
+  score_id: "16"
+score_refs_029: 
+  age_group: 11-16
+  percent95: "16"
+  mean: "6.5"
+  gender: "1"
+  id: "29"
+  percent98: "18"
+  score_id: "15"
+score_refs_052: 
+  age_group: 11-16
+  percent95: "5"
+  mean: "1.3"
+  gender: "2"
+  id: "53"
+  percent98: "6"
+  score_id: "22"
+score_refs_011: 
+  age_group: 11-16
+  percent95: "17"
+  mean: "5.4"
+  gender: "1"
+  id: "11"
+  percent98: "26"
+  score_id: "3"
+score_refs_009: 
+  age_group: 4-10
+  percent95: "15"
+  mean: "4.5"
+  gender: "1"
+  id: "9"
+  percent98: "17"
+  score_id: "3"
+score_refs_032: 
+  age_group: 11-16
+  percent95: "7"
+  mean: "3"
+  gender: "2"
+  id: "32"
+  percent98: "9"
+  score_id: "16"
+score_refs_053: 
+  age_group: 11-16
+  percent95: "65"
+  mean: "30"
+  gender: "1"
+  id: "54"
+  percent98: "80"
+  score_id: "23"
+score_refs_012: 
+  age_group: 11-16
+  percent95: "14"
+  mean: "5"
+  gender: "2"
+  id: "12"
+  percent98: "22"
+  score_id: "3"
+score_refs_033: 
+  age_group: 11-16
+  percent95: "7"
+  mean: "2"
+  gender: "1"
+  id: "33"
+  percent98: "8"
+  score_id: "17"
+score_refs_054: 
+  age_group: 11-16
+  percent95: "66"
+  mean: "31.7"
+  gender: "2"
+  id: "55"
+  percent98: "75"
+  score_id: "23"
+score_refs_034: 
+  age_group: 11-16
+  percent95: "8"
+  mean: "2.7"
+  gender: "2"
+  id: "34"
+  percent98: "9"
+  score_id: "17"
+score_refs_055: 
+  age_group: 11-16
+  percent95: "23"
+  mean: "11"
+  gender: "1"
+  id: "56"
+  percent98: "30"
+  score_id: "24"
+score_refs_056: 
+  age_group: 11-16
+  percent95: "20"
+  mean: "9.7"
+  gender: "2"
+  id: "57"
+  percent98: "23"
+  score_id: "24"
+score_refs_013: 
+  age_group: 4-10
+  percent95: "14"
+  mean: "4.8"
+  gender: "1"
+  id: "13"
+  percent98: "15"
+  score_id: "4"
+score_refs_014: 
+  age_group: 4-10
+  percent95: "11"
+  mean: "3.3"
+  gender: "2"
+  id: "14"
+  percent98: "13"
+  score_id: "4"
+score_refs_035: 
+  age_group: 11-16
+  percent95: "8"
+  mean: "2.7"
+  gender: "1"
+  id: "35"
+  percent98: "10"
+  score_id: "18"
+score_refs_015: 
+  age_group: 11-16
+  percent95: "15"
+  mean: "4.1"
+  gender: "1"
+  id: "15"
+  percent98: "18"
+  score_id: "4"
+score_refs_036: 
+  age_group: 11-16
+  percent95: "8"
+  mean: "3.6"
+  gender: "2"
+  id: "36"
+  percent98: "9"
+  score_id: "18"
+score_refs_057: 
+  age_group: 11-16
+  percent95: "23"
+  mean: "7.7"
+  gender: "1"
+  id: "58"
+  percent98: "26"
+  score_id: "25"
+score_refs_016: 
+  age_group: 11-16
+  percent95: "10"
+  mean: "2.9"
+  gender: "2"
+  id: "16"
+  percent98: "12"
+  score_id: "4"
+score_refs_037: 
+  age_group: 6-10
+  percent95: "15"
+  mean: "3.3"
+  gender: "1"
+  id: "37"
+  percent98: "19"
+  score_id: "19"
+score_refs_060: 
+  age_group: 6-10
+  percent95: "34"
+  mean: "12.1"
+  gender: "2"
+  id: "61"
+  percent98: "72"
+  score_id: "26"
+score_refs_058: 
+  age_group: 11-16
+  percent95: "24"
+  mean: "9.9"
+  gender: "2"
+  id: "59"
+  percent98: "29"
+  score_id: "25"
+score_refs_017: 
+  age_group: 4-10
+  percent95: "8"
+  mean: "2.7"
+  gender: "1"
+  id: "17"
+  percent98: "9"
+  score_id: "7"
+score_refs_040: 
+  age_group: 11-16
+  percent95: "10"
+  mean: "2"
+  gender: "2"
+  id: "40"
+  percent98: "11"
+  score_id: "19"
+score_refs_038: 
+  age_group: 6-10
+  percent95: "7"
+  mean: "1.2"
+  gender: "2"
+  id: "38"
+  percent98: "11"
+  score_id: "19"
+score_refs_061: 
+  age_group: 11-16
+  percent95: "72"
+  mean: "20"
+  gender: "1"
+  id: "62"
+  percent98: "84"
+  score_id: "26"
+score_refs_059: 
+  age_group: 6-10
+  percent95: "76"
+  mean: "20.7"
+  gender: "1"
+  id: "60"
+  percent98: "95"
+  score_id: "26"
+score_refs_020: 
+  age_group: 11-16
+  percent95: "6"
+  mean: "1.5"
+  gender: "2"
+  id: "20"
+  percent98: "7"
+  score_id: "7"
+score_refs_018: 
+  age_group: 4-10
+  percent95: "5"
+  mean: "1.5"
+  gender: "2"
+  id: "18"
+  percent98: "6"
+  score_id: "7"
+score_refs_041: 
+  age_group: 6-10
+  percent95: "9"
+  mean: "2.4"
+  gender: "1"
+  id: "41"
+  percent98: "10"
+  score_id: "20"
+score_refs_039: 
+  age_group: 11-16
+  percent95: "11"
+  mean: "2.9"
+  gender: "1"
+  id: "39"
+  percent98: "15"
+  score_id: "19"
+score_refs_062: 
+  age_group: 11-16
+  percent95: "54"
+  mean: "16.1"
+  gender: "2"
+  id: "63"
+  percent98: "85"
+  score_id: "26"
+score_refs_021: 
+  age_group: 4-10
+  percent95: "6"
+  mean: "1.4"
+  gender: "1"
+  id: "21"
+  percent98: "7"
+  score_id: "5"
+score_refs_019: 
+  age_group: 11-16
+  percent95: "8"
+  mean: "2.4"
+  gender: "1"
+  id: "19"
+  percent98: "11"
+  score_id: "7"
+score_refs_042: 
+  age_group: 6-10
+  percent95: "5"
+  mean: "1"
+  gender: "2"
+  id: "42"
+  percent98: "8"
+  score_id: "20"
+score_refs_063: 
+  age_group: 6-10
+  percent95: "30"
+  mean: "6.5"
+  gender: "1"
+  id: "64"
+  percent98: "43"
+  score_id: "27"
+score_refs_001: 
+  age_group: 4-10
+  percent95: "56"
+  mean: "20.2"
+  gender: "1"
+  id: "1"
+  percent98: "69"
+  score_id: "1"
+score_refs_022: 
+  age_group: 4-10
+  percent95: "5"
+  mean: "1.3"
+  gender: "2"
+  id: "22"
+  percent98: "7"
+  score_id: "5"
+score_refs_043: 
+  age_group: 11-16
+  percent95: "9"
+  mean: "2.5"
+  gender: "1"
+  id: "43"
+  percent98: "10"
+  score_id: "20"
+score_refs_064: 
+  age_group: 6-10
+  percent95: "12"
+  mean: "2.8"
+  gender: "2"
+  id: "65"
+  percent98: "25"
+  score_id: "27"
+score_refs_023: 
+  age_group: 11-16
+  percent95: "7"
+  mean: "1.6"
+  gender: "1"
+  id: "23"
+  percent98: "8"
+  score_id: "5"
+score_refs_044: 
+  age_group: 11-16
+  percent95: "7"
+  mean: "1.6"
+  gender: "2"
+  id: "44"
+  percent98: "8"
+  score_id: "20"
+score_refs_065: 
+  age_group: 11-16
+  percent95: "26"
+  mean: "6.5"
+  gender: "1"
+  id: "66"
+  percent98: "35"
+  score_id: "27"
+score_refs_045: 
+  age_group: 6-10
+  percent95: "6"
+  mean: "1.3"
+  gender: "1"
+  id: "45"
+  percent98: "7"
+  score_id: "21"
+score_refs_066: 
+  age_group: 11-16
+  percent95: "21"
+  mean: "4.7"
+  gender: "2"
+  id: "67"
+  percent98: "26"
+  score_id: "27"
+score_refs_002: 
+  age_group: 4-10
+  percent95: "36"
+  mean: "15.8"
+  gender: "2"
+  id: "2"
+  percent98: "45"
+  score_id: "1"
+score_refs_067: 
+  age_group: 6-10
+  percent95: "19"
+  mean: "5.5"
+  gender: "1"
+  id: "68"
+  percent98: "30"
+  score_id: "28"
+score_refs_003: 
+  age_group: 11-16
+  percent95: "55"
+  mean: "19"
+  gender: "1"
+  id: "3"
+  percent98: "85"
+  score_id: "1"
+score_refs_024: 
+  age_group: 11-16
+  percent95: "6"
+  mean: "1.6"
+  gender: "2"
+  id: "24"
+  percent98: "8"
+  score_id: "5"
+score_refs_004: 
+  age_group: 11-16
+  percent95: "48"
+  mean: "16.4"
+  gender: "2"
+  id: "4"
+  percent98: "68"
+  score_id: "1"
+score_refs_025: 
+  age_group: 4-10
+  percent95: "5"
+  mean: "1.7"
+  gender: "1"
+  id: "25"
+  percent98: "7"
+  score_id: "6"
+score_refs_046: 
+  age_group: 6-10
+  percent95: "5"
+  mean: "1.1"
+  gender: "2"
+  id: "46"
+  percent98: "7"
+  score_id: "21"
+score_refs_070: 
+  age_group: 11-16
+  percent95: "14"
+  mean: "4.6"
+  gender: "2"
+  id: "71"
+  percent98: "23"
+  score_id: "28"
+score_refs_068: 
+  age_group: 6-10
+  percent95: "18"
+  mean: "5.3"
+  gender: "2"
+  id: "69"
+  percent98: "24"
+  score_id: "28"
+score_refs_005: 
+  age_group: 4-10
+  percent95: "20"
+  mean: "7.7"
+  gender: "1"
+  id: "5"
+  percent98: "26"
+  score_id: "2"
+score_refs_026: 
+  age_group: 4-10
+  percent95: "5"
+  mean: "1.7"
+  gender: "2"
+  id: "26"
+  percent98: "6"
+  score_id: "6"
+score_refs_047: 
+  age_group: 11-16
+  percent95: "5"
+  mean: "0.9"
+  gender: "1"
+  id: "47"
+  percent98: "6"
+  score_id: "21"
+score_refs_069: 
+  age_group: 11-16
+  percent95: "15"
+  mean: "4.2"
+  gender: "1"
+  id: "70"
+  percent98: "26"
+  score_id: "28"
+score_refs_006: 
+  age_group: 4-10
+  percent95: "17"
+  mean: "5.6"
+  gender: "2"
+  id: "6"
+  percent98: "20"
+  score_id: "2"
+score_refs_027: 
+  age_group: 11-16
+  percent95: "4"
+  mean: "1.6"
+  gender: "1"
+  id: "27"
+  percent98: "7"
+  score_id: "6"
+score_refs_050: 
+  age_group: 6-10
+  percent95: "5"
+  mean: "1.4"
+  gender: "2"
+  id: "50"
+  percent98: "7"
+  score_id: "22"
+score_refs_048: 
+  age_group: 11-16
+  percent95: "5"
+  mean: "1.3"
+  gender: "2"
+  id: "48"
+  percent98: "7"
+  score_id: "21"

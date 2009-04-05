@@ -1,0 +1,7 @@
+body {font-family: verdana, arial, helvetica, sans-serif; font-size: 12px; line-height: 18px; background: #eee}
+#bodylogin {text-align: center; float: center}
+#cbcl-title {text-align: center; font-family: verdana, arial, helvetica, sans-serif; font-size: 18pt; line-height: 18px}
+#subtitle {text-align: center; font-size: 14pt}
+div.form {text-align: center; width: 350px; margin: 100px auto; margin-top: 60px; padding: 10px; border: 1px solid #999; background: #ff9}
+form td {font-family: verdana, arial, helvetica, sans-serif; font-size: 12px; text-align: left; border: 0px}
+#logout {padding-left: 100px; padding-top: 100px}

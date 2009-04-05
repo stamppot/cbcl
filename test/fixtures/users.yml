@@ -1,0 +1,391 @@
+--- 
+users_015: 
+  password_hash_type: md5
+  name: abc-login3
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: e4VUVmRACV
+  id: "28"
+  last_logged_in_at: 2009-01-30 22:46:06
+  login_failure_count: "0"
+  center_id: "5"
+  password: bf9374d12b1c17220315012fda83af85
+  login: abc-login3
+  state: "2"
+  email: abc-login3@center.dk
+  created_at: 2009-01-30 21:46:06
+user1_202: 
+  password_hash_type: md5
+  name: Bruger 1 team 202
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: BkYtSTcs5S
+  id: "17"
+  last_logged_in_at: 2009-01-30 21:27:36
+  login_failure_count: "0"
+  center_id: "6"
+  password: 5e8255f988b8400e854b2d322e82e0e3
+  login: user1_202
+  state: "2"
+  email: testuser1@testcenter2.dk
+  created_at: 2009-01-30 20:27:36
+users_016: 
+  password_hash_type: md5
+  name: abc-login4
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: 0UAgCc0iRk
+  id: "29"
+  last_logged_in_at: 2009-01-30 22:46:06
+  login_failure_count: "0"
+  center_id: "5"
+  password: 95d50b4832e6a3d7282d5e235f2f2372
+  login: abc-login4
+  state: "2"
+  email: abc-login4@center.dk
+  created_at: 2009-01-30 21:46:06
+user2_202: 
+  password_hash_type: md5
+  name: Bruger 2 team 202
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: GKNJcQsrZF
+  id: "18"
+  last_logged_in_at: 2009-01-30 21:29:29
+  login_failure_count: "0"
+  center_id: "6"
+  password: 03fb61e6f5fb37374ae3eea50f1a17f7
+  login: user2_202
+  state: "2"
+  email: testuser2@testcenter2.dk
+  created_at: 2009-01-30 20:29:29
+users_017: 
+  password_hash_type: md5
+  name: abc-login5
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: 9worcLsnnc
+  id: "30"
+  last_logged_in_at: 2009-01-30 22:46:19
+  login_failure_count: "0"
+  center_id: "5"
+  password: 626aa564b31fb3e13dc837a06ae18b79
+  login: abc-login5
+  state: "2"
+  email: abc-login5@center.dk
+  created_at: 2009-01-30 21:46:19
+user1_201: 
+  password_hash_type: md5
+  name: Bruger 1 team 201
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: JBRblSn4l6
+  id: "19"
+  last_logged_in_at: 2009-01-30 21:33:59
+  login_failure_count: "0"
+  center_id: "6"
+  password: b8cadc875e3669883672114d500bfba2
+  login: user1_201
+  state: "2"
+  email: user1_201@testcenter2.dk
+  created_at: 2009-01-30 20:33:59
+users_018: 
+  password_hash_type: md5
+  name: abc-login6
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: EVXD1NcCUU
+  id: "31"
+  last_logged_in_at: 2009-01-30 22:46:19
+  login_failure_count: "0"
+  center_id: "5"
+  password: 7c6d80798018f9c270a4c284f3bdaba0
+  login: abc-login6
+  state: "2"
+  email: abc-login6@center.dk
+  created_at: 2009-01-30 21:46:19
+user2_201: 
+  password_hash_type: md5
+  name: Bruger 2 team 201
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: 7qSlMPdW7N
+  id: "20"
+  last_logged_in_at: 2009-01-30 21:34:34
+  login_failure_count: "0"
+  center_id: "6"
+  password: 3d1f8d258d906611a37281bd9b4bd8bf
+  login: user2_201
+  state: "2"
+  email: user2_201@testcenter2.dk
+  created_at: 2009-01-30 20:34:34
+users_020: 
+  password_hash_type: md5
+  name: abc-login8
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: eIJikKRKOM
+  id: "33"
+  last_logged_in_at: 2009-01-30 22:47:34
+  login_failure_count: "0"
+  center_id: "6"
+  password: bfb0824e5aae77447eebcd3c403660df
+  login: abc-login8
+  state: "2"
+  email: abc-login8@center.dk
+  created_at: 2009-01-30 21:47:34
+users_019: 
+  password_hash_type: md5
+  name: abc-login7
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: 5j9EZNshVo
+  id: "32"
+  last_logged_in_at: 2009-01-30 22:47:34
+  login_failure_count: "0"
+  center_id: "6"
+  password: 0bfae17dca349e694e9ec9a093ed5c05
+  login: abc-login7
+  state: "2"
+  email: abc-login7@center.dk
+  created_at: 2009-01-30 21:47:34
+user_center1: 
+  password_hash_type: md5
+  name: Test Testesen
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: sweHxDekxi
+  id: "21"
+  last_logged_in_at: 2009-01-30 22:41:24
+  login_failure_count: "0"
+  center_id: "5"
+  password: 3eb342c8b1b2a5576130212a80dd3750
+  login: test testesen
+  state: "2"
+  email: test@testcenter1.dk
+  created_at: 2009-01-30 21:28:36
+users_021: 
+  password_hash_type: md5
+  name: abc-login9
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: +dpJ5p67qp
+  id: "34"
+  last_logged_in_at: 2009-01-30 22:47:44
+  login_failure_count: "0"
+  center_id: "6"
+  password: 06e9d857cab6309858aa9f9cdd52538e
+  login: abc-login9
+  state: "2"
+  email: abc-login9@center.dk
+  created_at: 2009-01-30 21:47:44
+user2_101: 
+  password_hash_type: md5
+  name: Bruger 2 team 101
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: TADOTsJ34q
+  id: "23"
+  last_logged_in_at: 2009-01-30 22:31:49
+  login_failure_count: "0"
+  center_id: "5"
+  password: a71b1bbe8606dbb67232036646726ded
+  login: user2_101
+  state: "2"
+  email: user2_101@testcenter1.dk
+  created_at: 2009-01-30 21:31:49
+teamadmin_101: 
+  password_hash_type: md5
+  name: Bruger 2 team 101
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: TADOTsJ34q
+  id: "50"
+  last_logged_in_at: 2009-01-30 22:31:49
+  login_failure_count: "0"
+  center_id: "5"
+  password: a71b1bbe8606dbb67232036646726ded
+  login: teamadmin_101
+  state: "2"
+  email: teamadmin_101@testcenter1.dk
+  created_at: 2009-01-30 21:31:49
+user1_101: 
+  password_hash_type: md5
+  name: Bruger 1 team 101
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: yaY5D7F1zj
+  id: "22"
+  last_logged_in_at: 2009-01-30 22:29:41
+  login_failure_count: "0"
+  center_id: "5"
+  password: 88dafb809248b6385d877cfd78aa69c7
+  login: user1_101
+  state: "2"
+  email: user1_101@testcenter1.dk
+  created_at: 2009-01-30 21:29:41
+users_022: 
+  password_hash_type: md5
+  name: abc-login10
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: Mw3Mdr4b0n
+  id: "35"
+  last_logged_in_at: 2009-01-30 22:47:44
+  login_failure_count: "0"
+  center_id: "6"
+  password: a719dc2bef13837ef82ce872b22d83ff
+  login: abc-login10
+  state: "2"
+  email: abc-login10@center.dk
+  created_at: 2009-01-30 21:47:44
+user1_102: 
+  password_hash_type: md5
+  name: Bruger 1 team 102
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: gMDiE1oClw
+  id: "24"
+  last_logged_in_at: 2009-01-30 22:35:22
+  login_failure_count: "0"
+  center_id: "5"
+  password: c7aa3eccc4cddaf318f281fe4dfbca4d
+  login: user1_102
+  state: "2"
+  email: user1_102@testcenter1.dk
+  created_at: 2009-01-30 21:35:22
+users_023: 
+  password_hash_type: md5
+  name: abc-login11
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: SZhRnzWg5U
+  id: "36"
+  last_logged_in_at: 2009-01-30 22:48:03
+  login_failure_count: "0"
+  center_id: "6"
+  password: 93e180960b25a8acdf928ffeac24b524
+  login: abc-login11
+  state: "2"
+  email: abc-login11@center.dk
+  created_at: 2009-01-30 21:48:03
+user2_102: 
+  password_hash_type: md5
+  name: Bruger 2 team 102
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: 4NpU/TnaXG
+  id: "25"
+  last_logged_in_at: 2009-01-30 22:36:00
+  login_failure_count: "0"
+  center_id: "5"
+  password: 6ac624eebe0c354fa3e6700bcf592f78
+  login: user2_102
+  state: "2"
+  email: user2_102@testcenter1.dk
+  created_at: 2009-01-30 21:36:00
+user_superadmin: 
+  password_hash_type: md5
+  name: Jens Rasmussen
+  login_user: "0"
+  updated_at: 2009-01-30 22:02:18
+  password_salt: W2LeHQTHFM
+  id: "1"
+  last_logged_in_at: 2009-01-30 23:02:18
+  login_failure_count: "0"
+  center_id: 
+  password: 55664753bfaaeea23b7b1c380502d94a
+  login: jens
+  state: "2"
+  email: stamppot@gmail.com
+  created_at: 2008-01-01 12:00:00
+users_024: 
+  password_hash_type: md5
+  name: abc-login12
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: p2yx7Ie6jm
+  id: "37"
+  last_logged_in_at: 2009-01-30 22:48:03
+  login_failure_count: "0"
+  center_id: "6"
+  password: 63f290ca33ec4291fe0036f870b1f049
+  login: abc-login12
+  state: "2"
+  email: abc-login12@center.dk
+  created_at: 2009-01-30 21:48:03
+users_013: 
+  password_hash_type: md5
+  name: abc-login1
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: prFBxVa3CZ
+  id: "26"
+  last_logged_in_at: 2009-01-30 22:45:35
+  login_failure_count: "0"
+  center_id: "5"
+  password: 53203ab0794788fc2f37bdcd4033e0fc
+  login: abc-login1
+  state: "2"
+  email: abc-login1@center.dk
+  created_at: 2009-01-30 21:45:35
+user_superadmin2: 
+  password_hash_type: md5
+  name: superadmin
+  login_user: "0"
+  updated_at: 2008-01-01 12:00:00
+  password_salt: S58h18RfGe
+  id: "4"
+  last_logged_in_at: 2008-01-01 12:00:00
+  login_failure_count: "0"
+  center_id: 
+  password: 6563322ab85e26abaef99e483fffcd12
+  login: superadmin
+  state: "2"
+  email: stamppot@gmail.com
+  created_at: 2008-01-01 12:00:00
+user_admin: 
+  password_hash_type: md5
+  name: CBCL Administrator
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: DVXGApwOYP
+  id: "40"
+  last_logged_in_at: 2008-01-01 12:00:00
+  login_failure_count: "0"
+  center_id: 
+  password: b2abc86652cec508579af52c006181b7
+  login: cbcl-admin
+  state: "2"
+  email: admin@test.dk
+  created_at: 2008-01-01 12:00:00
+users_014: 
+  password_hash_type: md5
+  name: abc-login2
+  login_user: "1"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: EzCj8VZ4rN
+  id: "27"
+  last_logged_in_at: 2009-01-30 22:45:35
+  login_failure_count: "0"
+  center_id: "5"
+  password: 6937bdb64d1ccc9b2ca056931184858e
+  login: abc-login2
+  state: "2"
+  email: abc-login2@center.dk
+  created_at: 2009-01-30 21:45:35
+user_center2: 
+  password_hash_type: md5
+  name: Test Testgaard
+  login_user: "0"
+  updated_at: 2009-01-30 22:19:39
+  password_salt: TzG36w9tIh
+  id: "16"
+  last_logged_in_at: 2009-01-30 22:47:12
+  login_failure_count: "0"
+  center_id: "6"
+  password: a4c0d065963c5ffcc72e978128e42e7f
+  login: test testgaard
+  state: "2"
+  email: test@testcenter2.dk
+  created_at: 2009-01-30 20:25:15

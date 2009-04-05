@@ -1,0 +1,21 @@
+<% if pages.length > 1 %>
+<div class="pagerNavigation">
+  <em>Gå til side:</em>
+  <%= link_to 'første', { :page => pages.first }, { :title => 'first' } %>
+  <%= link_to 'forrige', { :page => pages.current.previous }, { :title => 'gå ttil forrige page' } if pages.current.previous %>
+  <% if pages.current.to_i - 3 > 1 %>&hellip;<% end %>
+  <% 3.downto 1 do |i| %>
+    <% index = pages.current.to_i - i %>
+    <%= link_to(pages[index].to_i, { :page => index}) if pages.has_page_number? index %>
+  <% end %>
+  <%= pages.current.to_i %>
+  <% for i in 1..3 do %>
+    <% index = pages.current.to_i + i %>
+    <%= link_to(pages[index].to_i, { :page => index}) if pages.has_page_number? index %>
+  <% end %>
+  <% if pages.length > pages.current.to_i + 3 %>&hellip;<% end %>
+  <%= link_to 'næste', { :page => pages.current.next }, { :title => 'Gå til næste side' } if pages.current.next %> 
+  <%= link_to 'sidste', { :page => pages.last }, { :title => 'Gå til sidste side' } %>
+  <em>total: <%= pages.length %></em>
+</div>
+<% end %>

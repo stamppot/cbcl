@@ -1,0 +1,22 @@
+<%	roles = @survey.answer_by.sort_by { |r| r.last }
+		values = roles.map { |r| r.last }
+		errormsg = "Ugyldig værdi. Brug " << values.join(", ")
+		script = "\t\t<script type='text/javascript'>\n" <<
+			"\tValidation.add('answer_person', '#{errormsg}', { exactlyOneOf : #{values.inspect}, onElementValidate : tabNext });\n"
+			$('answer_person').focus();
+  	script << "\t\t</script>"
+%>
+<p/>
+<div id="answered_by">
+			
+	Udfyldt af <input id='answer_person' name='answer[person]' class='required answer_person' type='text'  size='2' />
+	Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' />
+	
+<%= script %>
+
+	<% help = roles.map { |r| "#{r.last} = #{r.first}<br/>"}.join %>	
+	<%= help_tip(help, "answered_by")%>
+
+</div>
+
+<p/>

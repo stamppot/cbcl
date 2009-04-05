@@ -1,0 +1,32 @@
+<h1>Listing variables</h1>
+
+<%= link_to 'Ny variabel', new_variable_path %>
+
+<table>
+  <tr>
+    <th>Var</th>
+    <th>Item</th>
+    <th>Row</th>
+    <th>Col</th>
+    <th>Skema</th>
+    <th>Spg</th>
+  </tr>
+
+<% for variable in @variables %>
+  <tr>
+    <td><%=h variable.var %></td>
+    <td><%=h variable.item %></td>
+    <td><%=h variable.row %></td>
+    <td><%=h variable.col %></td>
+    <td><%=h survey_short(variable.survey) %></td>
+    <td><%=h variable.question.number.to_roman.downcase %></td>
+    <td><%= link_to 'Show', variable %></td>
+    <td><%= link_to 'Edit', edit_variable_path(variable) %></td>
+    <td><%= link_to 'Destroy', variable, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Ny variabel', new_variable_path %>

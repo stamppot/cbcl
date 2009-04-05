@@ -1,0 +1,105 @@
+--- 
+roles_users_017: 
+  role_id: "10"
+  user_id: "29"
+  created_at: 2007-01-17 17:58:30
+roles_users_006: 
+  role_id: "5"
+  user_id: "18"
+  created_at: 2007-01-17 17:56:56
+roles_users_018: 
+  role_id: "10"
+  user_id: "30"
+  created_at: 2007-01-17 17:58:30
+roles_users_007: 
+  role_id: "5"
+  user_id: "19"
+  created_at: 2007-01-17 17:56:56
+roles_users_019: 
+  role_id: "10"
+  user_id: "31"
+  created_at: 2007-01-17 17:58:30
+roles_users_008: 
+  role_id: "5"
+  user_id: "20"
+  created_at: 2007-01-17 17:56:56
+roles_users_020: 
+  role_id: "10"
+  user_id: "32"
+  created_at: 2007-01-17 17:58:30
+roles_users_021: 
+  role_id: "10"
+  user_id: "33"
+  created_at: 2007-01-17 17:58:30
+roles_users_010: 
+  role_id: "5"
+  user_id: "22"
+  created_at: 2007-01-17 17:56:56
+roles_users_009: 
+  role_id: "3"
+  user_id: "21"
+  created_at: 2007-01-17 17:57:11
+roles_users_022: 
+  role_id: "10"
+  user_id: "34"
+  created_at: 2007-01-17 17:58:30
+roles_users_011: 
+  role_id: "5"
+  user_id: "23"
+  created_at: 2007-01-17 17:56:56
+roles_users_023: 
+  role_id: "10"
+  user_id: "35"
+  created_at: 2007-01-17 17:58:30
+roles_users_012: 
+  role_id: "5"
+  user_id: "24"
+  created_at: 2007-01-17 17:56:56
+roles_users_001: 
+  role_id: "1"
+  user_id: "1"
+  created_at: 2007-01-17 17:57:40
+roles_users_024: 
+  role_id: "10"
+  user_id: "36"
+  created_at: 2007-01-17 17:58:30
+roles_users_013: 
+  role_id: "5"
+  user_id: "25"
+  created_at: 2007-01-17 17:56:56
+roles_users_002: 
+  role_id: "1"
+  user_id: "4"
+  created_at: 2007-01-17 17:57:40
+roles_users_025: 
+  role_id: "10"
+  user_id: "37"
+  created_at: 2007-01-17 17:58:30
+roles_users_026: 
+  role_id: "4"
+  user_id: "50"
+  created_at: 2007-01-17 17:58:30
+roles_users_014: 
+  role_id: "10"
+  user_id: "26"
+  created_at: 2007-01-17 17:58:30
+roles_users_003: 
+  role_id: "2"
+  user_id: "40"
+  created_at: 2008-03-12 11:57:40
+roles_users_015: 
+  role_id: "10"
+  user_id: "27"
+  created_at: 2007-01-17 17:58:30
+roles_users_004: 
+  role_id: "3"
+  user_id: "16"
+  created_at: 2007-01-17 17:57:11
+roles_users_016: 
+  role_id: "10"
+  user_id: "28"
+  created_at: 2007-01-17 17:58:30
+roles_users_005: 
+  role_id: "5"
+  user_id: "17"
+  created_at: 2007-01-17 17:56:56

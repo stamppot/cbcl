@@ -1,0 +1,217 @@
+--- 
+:survey_show_fast_input: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+  - Behandler
+:team_show_all: 
+  - SuperAdmin
+:leader: 
+  - SuperAdmin
+  - Centerleder
+:role_show: 
+  - SuperAdmin
+:center_show_leader: 
+  - Centerleder
+:layout_show_survey_menu: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+:journal_show_member: 
+  - SuperAdmin
+  - Behandler
+:leader_create_user: 
+  - Behandler
+:layout_show_user_menu: 
+  - SuperAdmin
+  - Administrator
+  - Behandler
+:login_user_new_edit_delete: 
+  - SuperAdmin
+  - Behandler
+:user_new: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+:layout_show_default_title: 
+  - SuperAdmin
+  - Admin
+:team_new_edit_delete: 
+  - SuperAdmin
+  - Centerleder
+:group_show_all: 
+  - SuperAdmin
+  - Centerleder
+:survey_new_edit: 
+  - SuperAdmin
+:team_show: 
+  - SuperAdmin
+  - Behandler
+:show_column_actions: 
+  - SuperAdmin
+  - Centerleder
+:journal_show_leader: 
+  - SuperAdmin
+  - Centerleder
+:center_show: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+:layout_show_teams_journals: 
+  - SuperAdmin
+  - Behandler
+:subscription_reset: 
+  - SuperAdmin
+  - Administrator
+:user_show_all: 
+  - SuperAdmin
+:layout_show: 
+  - SuperAdmin
+  - Administrator
+  - Behandler
+:superadmin: 
+  - SuperAdmin
+:user_new_leader: 
+  - Administrator
+:survey_show_login: 
+  - Login-bruger
+:team_show_member: 
+  - SuperAdmin
+  - Behandler
+:group_show: 
+  - SuperAdmin
+:survey_new: 
+  - SuperAdmin
+:center_show_teams: 
+  - SuperAdmin
+  - Centerleder
+  - Behandler
+:layout_show_journal_menu: 
+  - SuperAdmin
+  - Behandler
+:journal_show_all: 
+  - SuperAdmin
+:center_delete: 
+  - SuperAdmin
+  - Administrator
+:layout_show_group_menu: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+  - Behandler
+:subscription_show_inactive: 
+  - SuperAdmin
+  - Administrator
+:user_show: 
+  - SuperAdmin
+  - Centerleder
+  - Behandler
+:layout_show_group_info: 
+  - SuperAdmin
+  - Centerleder
+  - Behandler
+:all_users: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+  - Behandler
+:admin: 
+  - SuperAdmin
+  - Administrator
+:team_show_leader: 
+  - Centerleder
+:test_menu_show_menu: 
+  - SuperAdmin
+:survey_show_subscribed: 
+  - Centerleder
+  - Behandler
+:center_show_all: 
+  - SuperAdmin
+  - Administrator
+:layout_show_scores: 
+  - SuperAdmin
+  - Admin
+:login_users: 
+  - Login-bruger
+:survey_finish: 
+  - Login-bruger
+:layout_show_login_users: 
+  - SuperAdmin
+  - Behandler
+:journal_show: 
+  - SuperAdmin
+  - Behandler
+:center_edit: 
+  - SuperAdmin
+  - Administrator
+:subscription_new: 
+  - SuperAdmin
+  - Administrator
+:user_edit_delete: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+:layout_show_login_info: 
+  - SuperAdmin
+  - Administrator
+  - Behandler
+:users: 
+  - SuperAdmin
+  - Centerleder
+  - Behandler
+:team_show_none: 
+  - Administrator
+:behandler: 
+  - SuperAdmin
+  - Behandler
+:role_show_all: 
+  - SuperAdmin
+  - Administrator
+:survey_show_all: 
+  - SuperAdmin
+  - Administrator
+:center_show_member: 
+  - Behandler
+:layout_show_subscriptions: 
+  - SuperAdmin
+  - Administrator
+:all_real_users: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+  - Behandler
+:survey_new_edit_delete: 
+  - SuperAdmin
+  - Administrator
+:login_user: 
+  - Login-bruger
+:center_new: 
+  - SuperAdmin
+  - Administrator
+:layout_show_users: 
+  - SuperAdmin
+  - Administrator
+  - Behandler
+:journal_new_edit_delete: 
+  - SuperAdmin
+  - Behandler
+:all_roles: 
+  - SuperAdmin
+  - Administrator
+  - Centerleder
+  - Behandler
+  - Login-bruger
+  - parent
+  - teacher
+  - pedagogue
+  - youth
+  - other
+  - Indtaster
+:user_new_in_center: 
+  - Centerleder
+:layout_show_center_title: 
+  - Centerleder
+  - Behandler
+:centerleder_opret: 
+  - SuperAdmin
+  - Administrator

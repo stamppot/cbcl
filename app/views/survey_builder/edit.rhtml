@@ -1,0 +1,9 @@
+<h1>Redigering af spørgeskema</h1>
+
+<% form_tag :action => :update, :id => @survey do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Anvend', { :class => 'normal' } %>
+<% end %>
+
+<%= link_to 'Vis', :controller => :survey, :action => :show, :id => @survey %> |
+<%= link_to 'Tilbage', :controller => :survey, :action => :list %>

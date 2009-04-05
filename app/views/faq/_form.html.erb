@@ -1,0 +1,59 @@
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag "tiny_mce/tiny_mce" %>
+<%= include_tiny_mce_if_needed %>
+<script type="text/javascript" >
+  tinyMCE.init({
+    mode:"textareas", editor_selector : "tiny_mce"
+  });
+</script>
+
+<div id="form_div">
+	
+	<% if @question.new_record? %>
+		<% action_method = {:controller => :faq, :action => 'create'} %>
+	<% else %>
+		<% action_method = {:controller => :faq, :action => 'update', :id => @question} %>
+	<% end %>
+	<% form_for(@question, :html => {:id => 'faq_form'}, 
+			:url => (current_page?(:action => 'edit', :id => @question) ? {:controller => :faq, :action => 'update', :id => @question} : {:controller => :faq, :action => 'create'}),
+			:before => "tinyMCE.triggerSave(true,true)") do |f| %>
+	
+
+	  <div>
+	    <div>
+		    <div>
+		      <%= f.label(:faq_section_id, "Afsnit") %>
+	    		<%= f.select(:faq_section_id, @sections.map {|s| [s.title, s.id]}, :selected => @section ) %>
+		    </div>
+		  </div>
+		  
+	    <div>
+	      <div>
+  	      <%= f.label(:title, "Overskrift") %><br/>
+    			<%= f.text_field(:title, :size => 30, :style => "width: 500px;", :class => "mceEditor") %>
+	      </div>
+				<br/>
+	      <div>
+  	      <%= f.label(:question, "Spørgsmål") %><br/>
+    			<%= f.text_area(:question, :rows => 6, :style => "width: 500px;", :class => "mceEditor") %>
+	      </div>
+				<br/>
+	      <div>
+  	      <%= f.label(:answer, "Svar") %><br/>
+    			<%= f.text_area(:answer, :rows => 6, :style => "width: 500px;", :class => "mceEditor") %>
+	      </div>	
+	    </div>
+	  </div>
+
+		<div>
+  		<div>
+				<% if @question.new_record? %>
+  		  	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %> | <%= link_to "tilbage", :action => 'index' %>
+				<% else %>
+					<%= submit_tag "Gem", :name => "submit", :class => "btn_gray" %> | <%= link_to "afbryd", :action => 'show_section', :id => @section %>
+				<% end %>
+  		</div>
+	  </div>
+  <% end %>
+
+</div>

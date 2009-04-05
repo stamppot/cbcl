@@ -1,0 +1,58 @@
+--- 
+javascripts: 
+- base: 
+  - tablekit
+  - css_browser_selector
+  - application
+- user: 
+  - prototype
+  - scriptaculous
+  - effects
+  - controls
+  - tablekit
+  - css_browser_selector
+  - validation
+- survey:
+  - prototype
+  # - scriptaculous
+  # - effects
+  # - controls
+  - wforms_core
+  - wforms_switch
+#  - wforms_jump
+  - validation
+  - tabbing
+  - css_browser_selector
+- score_report:
+  - prototype
+  - scriptaculous
+  - effects
+  - controls
+  - tabbing
+- survey_builder:
+  - prototype
+  - scriptaculous
+  - effects
+  - css_browser_selector
+  - survey_builder
+stylesheets: 
+- base:
+  - admin
+  - cbcl
+- login:
+  - login
+- survey:
+  - cbcl
+  - survey
+  - validation
+- score_report:
+  - score_report
+- survey_builder:
+  - survey
+- user: 
+  - tablekit
+  - survey
+  - validation
+  - login
+  - admin
+  - cbcl

@@ -1,0 +1,33 @@
+<p>
+  <b>Var:</b>
+  <%=h @variable.var %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%=h @variable.item %>
+</p>
+
+<p>
+  <b>Row:</b>
+  <%=h @variable.row %>
+</p>
+
+<p>
+  <b>Col:</b>
+  <%=h @variable.col %>
+</p>
+
+<p>
+  <b>Survey:</b>
+  <%=h @variable.survey_id %>
+</p>
+
+<p>
+  <b>Question:</b>
+  <%=h @variable.question_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_variable_path(@variable) %> |
+<%= link_to 'Back', variables_path %>

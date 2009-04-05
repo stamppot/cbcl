@@ -1,0 +1,30 @@
+<% @subtitle = "Vælg spørgeskemaer der skal fjernes" %>
+
+<h3>Fjern spørgeskemaer fra journal <%= @group.title %></h3>
+
+<% if @entries.empty? %>
+<p>Der er ingen spørgeskemaer tilknyttet.</p>
+
+<% else %>
+<p/>
+<% form_tag :action => :remove_survey do %>
+
+<dl>
+	<dt><%= @subtitle || "" %></dt>
+	<dd>
+		<%= "<input id=\"group\" type=\"hidden\" name=\"group[id]\" value=\"#{@group.id}\" checked=\"checked\" /> " %>
+		<% @entries.each do |entry| %>
+			<div style='background-color: #<%= entry.survey.color %>; width: 25em;'>
+				<%= check_box( :entry, entry.id) %>		
+				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.title}</label> <br/>" %>
+			</div>
+		<% end %>
+	</dd>
+</dl>
+
+<p/>
+<%= submit_tag "Fjern valgte", :name => 'submit[update]', :class => 'btn_gray' %>
+<% end %>
+<% end %>
+<%= link_to 'Tilbage', { :action => :show, :id => @group }, :title => 'Tilbage til journal' %>
+

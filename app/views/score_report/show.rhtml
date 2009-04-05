@@ -1,0 +1,55 @@
+<h1 class="score_report">CBCL-Rapport</h1>
+<hr/>
+
+<%= render :partial => "shared/center_info", :object => @journal %>
+
+<hr / >
+
+<p/>
+
+<table class="outer">
+	<%- @groups.each_with_index do |group, i| %>
+   <% # survey titles in top line only
+	@titles.each_with_index do |title, j|
+	 	fst_col = (j == 0) %>
+		<th class='col<%= j %>' colspan='<%= fst_col ? 1 : 2 %>'><%= (i == 0) ? title : "&nbsp;" %></th>
+	<% end %>
+	<% if (1..group.size + 1) === i && !group.empty? %>
+   		<tr class='scale_title'>
+			<td class='scale_show_hide'>
+				<a class='show_hide' HREF='javascript:toggleElems("scale_<%= i %>")'>
+					<%= @group_titles[i] %>
+				</a>
+			</td>
+		</tr>
+	<% end %>
+
+	<%= render :partial => "score_group", :object => group %>
+	<%- end %>
+</table>
+
+<p>
+	<br/>
+</p>
+
+<table class='score_ref_description'>
+	<tr>
+		<td class='no_border'>(m) Middelværdi *≥95 percentil ** ≥98</td>
+		<td class='no_border' rowspan='3'></td>
+		<% if @journal.age > 6 %>
+			<td class='no_border'>er beregnet på baggrund af køn og aldergruppe (6-10 og 11-16).</td>
+		<% else %>
+			<td class='no_border'>er beregnet på baggrund af køn og aldergruppe (1,5-5).</td>
+		<% end %>
+	</tr>
+</table>
+<p/>
+<br/>
+<p/>
+
+<table class='score_ref_description' style="float: bottom">
+	<tr>
+		<td class='no_border'><%= Date.today.strftime("%d-%m-%Y")%></td>
+		<td class='no_border'>Udskrevet af sygehus/institution <%= @journal.qualified_code %></td>
+	</tr>
+</table>

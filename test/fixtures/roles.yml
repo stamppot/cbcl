@@ -1,0 +1,85 @@
+--- 
+superadmin: 
+  updated_at: 2007-01-17 17:57:40
+  title: superadmin
+  id: "1"
+  parent_id: 
+  identifier: ""
+  created_at: 2007-01-17 17:57:40
+admin: 
+  updated_at: 2007-01-17 17:57:30
+  title: admin
+  id: "2"
+  parent_id: 
+  identifier: ""
+  created_at: 2007-01-17 17:57:30
+centeradministrator: 
+  updated_at: 2007-01-17 17:57:11
+  title: centeradministrator
+  id: "3"
+  parent_id: "4"
+  identifier: ""
+  created_at: 2007-01-17 17:57:11
+teamadministrator: 
+  updated_at: 2007-01-17 17:56:56
+  title: teamadministrator
+  id: "4"
+  parent_id: "5"
+  identifier: ""
+  created_at: 2007-01-17 17:56:56
+behandler: 
+  updated_at: 2007-01-17 17:56:56
+  title: behandler
+  id: "5"
+  parent_id: 
+  identifier: ""
+  created_at: 2007-01-17 17:56:56
+login_bruger: 
+  updated_at: 2007-01-17 17:58:30
+  title: login_bruger
+  id: "10"
+  parent_id: 
+  identifier: ""
+  created_at: 2007-01-17 17:58:30
+parent: 
+  updated_at: 2007-01-17 17:59:43
+  title: parent
+  id: "11"
+  parent_id: "10"
+  identifier: ""
+  created_at: 2007-01-17 17:59:43
+teacher: 
+  updated_at: 2007-01-17 17:59:53
+  title: teacher
+  id: "12"
+  parent_id: "10"
+  identifier: ""
+  created_at: 2007-01-17 17:59:53
+pedagogue: 
+  updated_at: 2007-01-17 18:00:03
+  title: pedagogue
+  id: "13"
+  parent_id: "10"
+  identifier: ""
+  created_at: 2007-01-17 18:00:03
+youth: 
+  updated_at: 2007-01-17 18:00:16
+  title: youth
+  id: "14"
+  parent_id: "10"
+  identifier: ""
+  created_at: 2007-01-17 18:00:16
+other: 
+  updated_at: 2007-01-17 18:00:16
+  title: other
+  id: "15"
+  parent_id: "10"
+  identifier: ""
+  created_at: 2007-01-17 18:00:16
+indtaster: 
+  updated_at: 2007-01-17 17:57:51
+  title: indtaster
+  id: "16"
+  parent_id: 
+  identifier: ""
+  created_at: 2007-01-17 17:57:51

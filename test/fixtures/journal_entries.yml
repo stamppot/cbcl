@@ -1,0 +1,121 @@
+--- 
+journal_entries_007: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "7"
+  journal_id: "17"
+  user_id: "32"
+  password: mark5syd1
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:47:34
+journal_entries_008: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "8"
+  journal_id: "17"
+  user_id: "33"
+  password: brak7hep2
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:47:34
+journal_entries_010: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "10"
+  journal_id: "13"
+  user_id: "35"
+  password: quiz3syd3
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:47:44
+journal_entries_009: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "9"
+  journal_id: "13"
+  user_id: "34"
+  password: ting7have5
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:47:44
+journal_entries_011: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "11"
+  journal_id: "14"
+  user_id: "36"
+  password: bus4bil0
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:48:03
+journal_entries_012: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "12"
+  journal_id: "14"
+  user_id: "37"
+  password: dyr5ord2
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:48:03
+journal_entries_001: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "1"
+  journal_id: "16"
+  user_id: "26"
+  password: krat1sand9
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:45:35
+journal_entries_002: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "2"
+  journal_id: "16"
+  user_id: "27"
+  password: hep3hane6
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:45:35
+journal_entries_003: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "3"
+  journal_id: "15"
+  user_id: "28"
+  password: snep5dyr9
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:46:06
+journal_entries_004: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "4"
+  journal_id: "15"
+  user_id: "29"
+  password: bold5hip4
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:46:06
+journal_entries_005: 
+  survey_id: "1"
+  survey_answer_id: 
+  id: "5"
+  journal_id: "12"
+  user_id: "30"
+  password: sten7fun9
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:46:19
+journal_entries_006: 
+  survey_id: "3"
+  survey_answer_id: 
+  id: "6"
+  journal_id: "12"
+  user_id: "31"
+  password: kage6tut3
+  state: "2"
+  answered_at: 
+  created_at: 2009-01-30 21:46:19

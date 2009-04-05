@@ -1,0 +1,159 @@
+require 'facets/dictionary'
+
+class Survey < ActiveRecord::Base
+  has_many :questions, :dependent => :destroy, :include => [ :question_cells ], :order => 'number ASC'
+  has_many :subscriptions  # this not needed?
+  has_many :centers, :through => :subscriptions
+  has_many :survey_answers, :through => :journal_entries
+  has_many :journals, :through => :journal_entries
+  has_many :scores
+
+  named_scope :and_questions, :include => {:questions => :question_cells}
+  named_scope :and_q, :include => :questions
+  named_scope :selected, lambda { |ids| { :conditions => (ids ? ['id IN (?)', ids] : []) } }
+   
+  attr_accessor :selected
+  # includes cells
+  
+  def no_questions
+    Question.by_survey(self.id).count #(:conditions => ['survey_id = ?', self.id]) # self.questions.count
+  end
+  
+  def sort_questions
+    Question.and_question_cells.by_survey(self.id).find(:all, :order => 'number ASC') # used for showing survey, so preload
+    # Question.find(:all, :conditions => ['survey_id = ?', self.id],
+    #               :include => [:question_cells],                    
+    #               :order => 'number ASC')  # self.questions.sort
+  end
+    
+  def new_question_number
+    no_questions = [0]
+    no_questions << Question.by_survey(self.id).maximum(:number) #, :conditions => ['survey_id = ?', self.id])
+    no_questions.delete(nil)
+    return no_questions.max + 1
+  end
+ 
+  def typename
+  	rolename = case self.surveytype
+    when "parent":    "forælder"
+    when "youth":     "barn"
+	  when "teacher":   "lærer"
+	  when "pedagogue": "pædagog"
+	  when "other":     "andet"
+	  else self.surveytype
+	  end
+  end
+  
+  def merge_answer(survey_answer)
+    return self if survey_answer.nil?
+    survey_answer.answers.each do |answer|
+      # find question which matches answer
+      question = self.questions.detect { |question| question.id == answer.question_id }
+      question.merge_answer(answer)
+    end
+    return self  # return survey with questions with values (answers)
+  end
+
+  def merge_answertype(survey_answer)
+    survey_answer.answers.each do |answer|
+      # find question which matches answer
+      question = self.questions.detect { |question| question.id == answer.question_id }
+      question.merge_answertype(answer)
+    end
+    return self  # return survey with questions with values (answers)
+  end
+
+  def valid_values
+    params = {}
+    self.questions.each do |question|
+      params["Q#{question.number}"] = question.valid_values
+    end
+    return params
+  end
+
+  # users that can answer a given survey
+  def answer_by
+    roles = []
+    roles << Role.get(self.surveytype)
+    # teacher survey can be answered by pedagogue and vice-versa
+    case self.surveytype
+    when "teacher": roles << Role.get(:pedagogue)
+    when "pedagogue": roles << Role.get(:teacher)
+    end
+    roles << Role.get(:other)
+    roles = roles.map { |r| [r.prettyname, r.id] }
+  end
+  
+  def question_with_most_items
+    self.questions.max {|q,p| q.count_items <=> p.count_items }
+  end
+  
+  # return range of valid ages
+  # age is fx "4-10"
+  def age_group
+    years = age.split("-")
+    return Range.new(years.first.to_f, years.last.to_f)
+  end
+  
+  # shortest name used for prefix for statistics variables
+  def prefix
+    pre = case id
+    when 1: "cc"  # cbcl 1,5-5 # change
+    when 2: "ccy" # CBCL 6-16
+    when 3: "ct"  # CTRF pædagog 1,5-5
+    when 4: "tt"  # TRF lærer 6-16
+    when 5: "ycy" # YSR 6-16
+    end
+    return pre
+  end
+
+  # set variable values in survey's question cells. Use vars when they exist, otherwise create a value
+  def set_variables
+    d = Dictionary.new
+    self.questions.each { |question| question.set_variables }
+    d.order_by
+  end
+    
+  def cell_variables
+    d = Dictionary.new
+    self.questions.each { |question| d = d.merge!(question.cell_variables) }
+    d.order_by
+  end
+
+  # export to xml. Recurses through objects
+  # add indentation when one object in the array is an array (of answers)
+  def to_xml2
+    xml = []
+    xml << "<survey id='#{self.id.to_s}' >"
+    xml << "  <name>#{self.name}</name>"
+    xml << "  <description>#{self.description}</description>"
+    xml << "  <type>#{self.surveytype}</type>"
+    xml << "  <questions>"
+    xml << questions.collect { |question| question.to_xml }
+    xml << "  </questions>"
+    xml << "</survey>"
+  end
+  
+  def Survey.SURVEY_TYPES
+    [ ["Lærer", "teacher"], ["Forælder", "parent"], ["Ung", "youth"], ["Pædagog", "pedagogue"], ["Andet", "other"] ]
+   end
+   
+  # expand label the same way as rating, to choose between multiple labels
+  # change to include (value, text) pairs
+  # angiv tydeligt om feltet kan besvares
+  def Survey.OPTIONS
+    [ ["Spørgsmål", "Text"], ["Svarboks", "TextBox"], ["Tekst/svar-felt", "ListItem"], ["Tekst + svar-felt", "ListItemx2"], ["Tekst + svarboks", "ListItemComment"],
+    ["Valgliste", "SelectList"], ["Tekst + valgliste", "ListItem_SelectList"],
+    ["Rating 0..1", "Rating0_2"], ["Rating 0..2", "Rating0_3"], ["Rating 1..3", "Rating1_3"],
+    ["Rating 0-index", "Rating_0"], ["Rating 1-index", "Rating_1"],
+    ["Check Ingen", "CheckboxAccess"], ["Check tekst", "Checkbox"],
+    ["Infoboks", "Information"], ["(tom)", "Placeholder"],
+    ["Beskrivelse 2", "Description_2"], ["Beskrivelse 3", "Description_3"], ["Beskrivelse 4", "Description_4"],
+    ["Beskrivelse 5", "Description_5"], ["Beskrivelse 6", "Description_6"], ["Beskrivelse 7", "Description_7"] ] #if OPTIONS.nil?
+  end
+  
+  def Survey.ANSWER_ITEMS
+    [ ["No", "Number"], ["abc", "Letter"] ]
+  end
+  
+end

@@ -1,0 +1,44 @@
+<%- question_first = Time.now %>
+<%- @question = question_edit %>
+<hr/>
+<div id='question_number<%= @question.number %>'>Spørgsmål:
+<% if current_user.has_access? :survey_new_edit_delete
+<%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 1 %>
+<div class='edit_question'>
+	<%= link_to_remote "Slet", :url => { :action => "delete_question", :id => @question.id, :number => @question.number },
+	:confirm => "Slet spørgsmål #{@question.number}?",
+	:failure => "alert('HTTP Error ' + request.status + '!')" %>
+</div>
+<% else %>
+<%= @question.number %>
+<% end %>
+ID: <%= @question.id %>
+<br/>
+<table class="question" id="question<%= @question.id %>"> 
+	<tbody>
+	<%- cells = @question.cells_rows_of_cols
+	output = []
+	output << "<input id='Q#{@question.number}_id_#{@question.id}' name='Q#{@question.number}[id]' type='hidden' value='#{@question.id}' />"
+	#puts "_question, cells: " << cells.inspect
+	cells.each_with_index do |rows, i|
+		#puts "_question, rows: " << rows.inspect
+		output << "<tr id='row#{i+1}' class='row'>\n" << if i==0 then "\t<td class='group'>" + @question.number.to_roman + ". </td>\n" else "\t<td></td>\n" end
+		output << "<input id='Q#{@question.number}_row#{i+1}_answer_item' name='Q#{@question.number}[row#{i+1}][answer_item]' type='hidden' value='#{rows.first.answer_item}' />"
+		rows.each_with_index do |cell, j|
+			answer_item_set = false
+			colspan = ""
+			colspan = "colspan='3' " if cell.instance_of? Information
+			output << "\t<td #{colspan}id='#{cell.cell_id}' class=\"#{cell.class_name}\">\n"
+			
+			# do inline editing for some question_cells. Requires ugly stuff
+			output << "\t\t"+ cell.edit_form
+			output << "\n\t</td>\n"
+		end
+		output << "</tr>\n"
+	end	%>
+<%= output.join %>
+	</tbody>
+</table>
+
+</div>
+<p/>

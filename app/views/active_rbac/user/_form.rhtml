@@ -1,0 +1,55 @@
+<%= error_messages_for 'user' %>
+
+<!--[form:user]-->
+<dl>
+	<dt><label for="user_login">Login</label></dt>
+	<dd><%= text_field 'user', 'login', :class => 'gray'  %></dd>
+
+	<dt><label for="user_name">Navn</label></dt>
+	<dd>
+		<%= text_field 'user', 'name', :class => 'gray'  %>
+		<div class="hint">Efterlad tom for samme navn som login</div>
+	</dd>
+
+	<dt><label for="user_email">Email</label></dt>
+	<dd><%= text_field 'user', 'email', :class => 'gray'  %></dd>
+
+	<%= render :partial => 'password' %>
+
+	<dt><label for="user_state">Status</label></dt>
+	<dd><%= select 'user', 'state', User.stateToStatus(User.states.reject { |key, value| !@user.state_transition_allowed?(@user.state, value) }) %></dd>
+
+	<p/>
+
+	<dt><label>Roller</label></dt>
+	<dd>
+		<% roles = []
+			@roles.each do |role|
+			result = if @user.has_role?(role)
+				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" 	checked=\"checked\" /> "
+			else
+				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" /> "
+			end
+			result += "<label for=\"user_roles_#{role.id}\">#{role.title}</label> "
+			roles << result << "<br/>"
+			end %>
+		 <%= roles.join %>
+	</dd>
+
+	<p/>
+
+	<dt><label>Grupper</label></dt>
+	<dd>
+		<%= node_tree(@groups) do |group|
+			result = if @user.groups.include? group
+				"<input id=\"user_groups_#{group.id}\" type=\"checkbox\" name=\"user[groups][]\" value=\"#{group.id}\" checked=\"checked\" /> " 
+			else
+				"<input id=\"user_groups_#{group.id}\" type=\"checkbox\" name=\"user[groups][]\" value=\"#{group.id}\" /> "
+			end
+			result += "<label for=\"user_groups_#{group.id}\">#{group.title}</label> "
+			result
+		end %>
+	</dd>
+</dl>
+
+<!--[eoform:user]-->

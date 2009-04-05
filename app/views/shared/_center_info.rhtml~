@@ -1,0 +1,29 @@
+<!-- gets @journal -->
+<div id="centerlabel">&nbsp;
+	<%= @journal.name %>
+</div>
+
+<table class="center_info">
+	
+	<tr>
+		<td class="p">Sygehusafd-/institutionskode:</td>
+		<td class="p"><%=h @journal.qualified_code %></td>
+	</tr>
+	<tr>
+		<td class="p">Team/Projekt:</td>
+		<td class="p"><%=h @journal.team.title %></td>
+	</tr>
+	<tr>
+		<td class="p">ID-nr.:</td>
+		<td class="p"><%=h @journal.qualified_id %></td>
+	</tr>
+	<tr>
+		<td class="p">Køn:</td>
+		<td class="p"><%=h @journal.sex_text.capitalize %></td>
+	</tr>
+	<tr>
+		<td class="p">Alder (år):</td>
+		<td class="p"><%=h @journal.age %></td>
+	</tr>
+</table>
+

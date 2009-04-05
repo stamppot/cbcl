@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  var: MyString
+  item: MyString
+  row: 1
+  col: 1
+  survey_id: 1
+  question_id: 1
+
+two:
+  var: MyString
+  item: MyString
+  row: 1
+  col: 1
+  survey_id: 1
+  question_id: 1

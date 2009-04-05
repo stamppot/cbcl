@@ -1,0 +1,40 @@
+<%- question_first = Time.now %>
+<% question = question_fast %>
+<% no = question.number %>
+<% id = question.id.to_s %>
+<hr/>
+
+<div id='question_number<%= no %>'>
+	<% if current_user.has_access? :survey_edit_delete %>
+		<% if no > 0 %>
+			Spørgsmål: <%= no %>
+		<% end %>
+	<% end%>
+	
+	<br/>
+	<table class="question" id="question<%= id %>"> 
+		<tbody>
+		<%- 
+		# rows = question.cells_rows_of_cols
+		rows = question.rows_of_cols
+		
+		# output = []
+		output = ["<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' />"]
+
+		rows.sort.each do |row, cols|
+			output << "<tr id='row#{row}' class='row'>\n" << 
+			((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
+
+			cols.each do |col, cell|
+				colspan = (cell.instance_of? Information) ? "colspan='3'" : ""
+				output << cell.to_fast_input_html(@options.merge(:number => no))
+			end
+			output << "</tr>\n"
+		end	
+		%>
+		<%= output.join %>
+		</tbody>
+	</table>
+	</div>
+
+<p/>

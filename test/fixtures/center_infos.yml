@@ -1,0 +1,55 @@
+--- 
+center_infos_006: 
+  city: ""
+  zipcode: ""
+  id: "6"
+  ean: ""
+  street: test hteaoustnahus
+  telephone: ""
+  center_id: "11"
+  person: ""
+center_infos_001: 
+  city: Testby
+  zipcode: "1111"
+  id: "1"
+  ean: ""
+  street: Testgade 1
+  telephone: "010203040506"
+  center_id: 
+  person: Test Testesen
+center_infos_002: 
+  city: "Testel\xC3\xB8se"
+  zipcode: "2222"
+  id: "2"
+  ean: ""
+  street: Testevej 2
+  telephone: "1020304050607080"
+  center_id: 
+  person: Test Testgaard
+center_infos_003: 
+  city: "Testel\xC3\xB8se"
+  zipcode: "2222"
+  id: "3"
+  ean: ""
+  street: Testevej 2
+  telephone: "1020304050607080"
+  center_id: 
+  person: Test Testgaard
+center_infos_004: 
+  city: "Testel\xC3\xB8se"
+  zipcode: "2222"
+  id: "4"
+  ean: ""
+  street: Testevej 2
+  telephone: "1020304050607080"
+  center_id: "6"
+  person: Test Testgaard
+center_infos_005: 
+  city: Testby
+  zipcode: "1111"
+  id: "5"
+  ean: ""
+  street: Testgade 1
+  telephone: "010203040506"
+  center_id: "5"
+  person: Test Testesen

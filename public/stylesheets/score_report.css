@@ -1,0 +1,199 @@
+body { background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+/*  font-family: verdana, arial, helvetica, sans-serif;*/
+  font-size:   14px;
+  line-height: 20px; /*20px*/
+}
+
+#score_report {
+	margin: 0px 0px 500px 0px;
+	padding:0px;
+	border: 1px #DDD solid;
+	width: 840px;
+}
+/*
+table.clear {
+	border: 1px;
+}
+
+table.clear td {
+	border: 1px;
+}*/
+
+#centerlabel {
+	border: 1px solid black;
+/*	float: left;*/
+	float: right;
+	width: 40%;
+	height: 120px;
+	background: #eee;
+}
+
+td.t_i, td.p_i {
+	width: 120px;
+}
+
+td.p, td.t, td.t_i, td.p_i {
+	border: 0 yellow;
+	padding-right: 15px;
+}
+
+table.outer {
+	border: 1px orange;
+}
+table.inner {
+	border: 1px red;
+}
+td.score_title, td.score_result, td.score_percentile {
+	border: 1 dashed navy;
+}
+
+td.score_percentile {
+	padding-right: 20px;
+}
+
+th.col0 {
+	width: 250px;
+	font-size: 10px;
+	border: 0;
+	white-space: wrap;
+}
+
+th.col1, th.col2, th.col3, th.col4, th.col5 {
+	width: 120px;
+	border: 0;
+}
+
+tr.col0 td {
+	width: 250px;
+	text-align: left;
+}
+
+tr.col1, tr.col2, tr.col3, tr.col4, tr.col5 {
+/*	width: 120px;*/
+	border: 0;
+}
+
+
+th.score_survey {
+	width: 100px;
+}
+
+th.col0 { /* space between groups */
+	font-size: 0px;
+}
+
+th.score_survey_empty {
+	width: 280px;
+}
+/*
+td.score_title {
+	width: 120px;
+}
+
+td.score_result {
+	width: 40px;
+}
+
+td.score_percentile {
+	width: 40px;
+}
+*/
+td.score_title {
+/*	width: 140px;*/
+	white-space: normal;
+	border: 0px solid pink;
+}
+
+td.score_result {
+	border: 0px dashed lightblue;
+/*	width: 60px;*/
+	padding-right: 25px;
+}
+
+td.scale_show_hide {
+/*	width: 130px;*/
+	border: 0px solid lightblue;
+}
+td.scale_show_hide a {
+/*	width: 130px;*/
+	font-size: 14px;
+/*	font-weight: bold;*/
+}
+
+a.show_hide, a.show_hide:visited {
+	color: black;
+}
+
+/*.scale_title {
+	border: 1px dashed #888;
+	text-align: left;
+	font: bold;
+}*/
+
+tr.scale_unanswered td.score_title {
+	border: 1px dashed #aaa;
+	width: 290px;
+	padding-right: 0px;
+	border: 0px pink;
+}
+
+td.score_result {
+	border: 1px solid lightgreen;
+	width: 170px;
+	padding-right: 0px;
+}
+
+.report_result {
+	border: 1px dashed #a44;
+	width: 45px;
+	text-align: right;
+	float: left;
+	display: inline;
+	padding-left: 15px;
+}
+
+.report_percentile {
+	border: 1px dashed #4a4;
+	padding-left: 0px;
+	text-align: right;
+	float: right;
+	display: inline;
+	padding-right: 35px;
+}
+
+td.no_result {
+	text-align: center;
+	border: 0;
+}
+/*td.score_percentile {
+	width: 34px;
+}
+*/
+td.no_border {
+	border: 0;
+}
+
+
+h1.score_report {
+  text-align: center;
+}
+
+
+.scale_title {
+	border: 1px solid #ccc;
+	text-align: left;
+	font: bold;
+}
+
+/* TODO: check if needed */
+table.score_report {
+	border: 0px;
+}
+
+td.report_left {
+	border: 0px;
+}
+
+

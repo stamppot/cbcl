@@ -1,0 +1,4 @@
+
+page.insert_html :bottom, 'thoughts', :partial => 'thought'
+page.visual_effect :highlight, 'thoughts'
+page.form.reset 'thought-form'

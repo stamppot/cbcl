@@ -1,0 +1,77 @@
+<%= javascript_include_tag 'variables' %>
+<%= stylesheet_link_tag 'validation' %>	
+<%= stylesheet_link_tag 'cbcl' %>
+<%= stylesheet_link_tag 'survey' %>
+
+<div id="right" style="float:right; width:75%; padding-left: 1%;">
+	<div id='question_view'>
+		<%= render :partial => "survey/question" %>
+	</div>
+</div>
+
+<div id="left" style="width:22%; padding-right: 1%; height: 100%; border-right: 1px solid #ccc;">
+
+	<h1>Opret variabel</h1>
+
+<% form_remote_for(@variable) do |f| %>
+<%= f.error_messages %>
+
+<div id="status"></div>
+
+<p>
+	<%= f.label(:survey_id, 'Skema') %><br />
+	<%= f.select :survey_id, survey_options(), {}, {:class => "select-survey",
+		:onchange => remote_function(
+		:with => "'survey_id=' + this.value",
+		:url => { :action => :update_questions })}
+		%>
+	</p>
+	<p>
+		<%= f.label :question_id, 'Spørgsmål' %><br />
+		<%= f.select :question_id, @survey.questions.map { |q| [q.number.to_roman.underscore,q.number] }, {}, {:class => "select-question",
+			:onchange => remote_function(:with => "'question_id=' + this.value", 
+			:url => { :action => :update_rows })}
+			%>
+			<%= hidden_field_tag :question_id, @question.id %>
+		</p>
+
+		<p>
+			<%= f.label :short, 'Variabelnavn' %><br />
+			<%= f.text_field :short, :size => 6, :class => 'gray', :onkeyup => "updatePreview()" %>
+		</p>
+		<p>
+			<%= f.label :item %><br />
+			<%= f.text_field :item, :size => 4, :class => 'gray', :onkeyup => "updatePreview()" %>
+		</p>
+	<p>
+			<%= f.label :row %>
+			<%= f.select :row, @question.rows, {}, {:class => "select-row",
+			:onchange => "highlightCell($('variable_question_id').value, $('variable_row').value, $('variable_col').value)"								
+			} %>
+			<%= f.label :col %>
+			<%= f.select :col, @question.cols, {}, 
+					{:class => "select-col", :onchange => "highlightCell($('variable_question_id').value, $('variable_row').value, $('variable_col').value)"} %>
+			<%= link_to_function 'show cell', "highlightCell($('variable_question_id').value, $('variable_row').value, $('variable_col').value)" %>
+		</p>
+		<p>
+			<%= f.label :var, 'Variabel' %><br/>
+			<%= f.hidden_field :var %>
+			<span id="preview" style="padding-left: 6px; padding-right: 6px; border: 1px solid #bbb; height:1em; width: 3em;" onload="updatePreview()">
+			</span>
+		</p>
+		<p>
+		<%= f.submit "Create", :class => 'gray' %>
+	</p>
+	<% end %>
+
+	<%= link_to 'Back', variables_path %>
+
+</div>
+
+<script type="text/javascript">
+	var currHighlight = 'status';
+	var s_prefix = '<%= @survey.prefix %>';
+	var q_prefix = '<%= @survey.questions.first.number.to_roman.downcase %>';
+
+	window.onload = updatePreview();
+</script>

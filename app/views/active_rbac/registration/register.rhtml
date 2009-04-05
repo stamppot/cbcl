@@ -1,0 +1,29 @@
+<h2>Registering</h2>
+
+<%= error_messages_for 'user' %>
+
+<% form_tag :action => :register do %>
+
+<dl class="form">
+  <dt><label for="user_login">Ønsket Brugernavn</label></dt>
+  <dd><%= text_field 'user', 'login', :class => 'gray' %></dd>
+
+  <dt><label for="user_email">Din Email</label></dt>
+  <dd>
+    <%= text_field 'user', 'email', :class => 'gray' %>
+    <div class="hint">
+		En email vil blive sendt til denne adresse med instruktioner for, hvordan du færdiggør registreringsprocessen.
+	</div>
+  </dd>
+
+  <%= render :partial => 'password' %>
+
+  <% # include the additional form fields
+     for template_path in @additional_partials do %>
+    <%= render :partial => template_path %>
+  <% end %>
+</dl>
+
+
+<%= submit_tag 'Send' %>
+<% end %>

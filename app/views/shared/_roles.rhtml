@@ -1,0 +1,14 @@
+<% roller = [] %>
+
+<ul>
+	<% @roles.each do |r| 
+		roller << "<li>"
+		roller << if (current_user.has_access? :role_show) 
+			link_to( r.title, { :controller => 'role', :action => :show, :id => r.id }) 
+	 	else 
+			r.title
+		end
+		roller << "</li>"
+	end %>
+	<%= roller.join %>
+</ul>

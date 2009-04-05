@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Web Form Conditional Sections / Switch Behavior - wForms 2.0 Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Description" content="wForms is an open-source, unobtrusive javascript library that adds commonly needed behaviors to traditional web forms without the need for any programming skill." />
+<meta http-equiv="Keywords" content="form, web form, html form, online form, form builder, form creator, survey, questionnaires, form processor, wForms, form template" />
+
+.codeSample {
+	font-family: "Courier New", Courier, mono;
+	font-size: 9px;
+	overflow: auto;
+	white-space: nowrap;
+}
+.preField {
+	display: block;
+	margin:0 0 0.5em 0;
+}
+#RightColumn form {
+	padding: 4px;
+	background-color:#F5F7F0;
+	border: 1px solid #D6E9D6;
+}
+tt {
+	font-size: small;
+}
+dt tt {
+	font-weight: normal;
+}
+</style>
+
+<!-- wForms script and stylesheet -->
+<script type="text/javascript" src="wforms_core.js" ></script>
+<script type="text/javascript" src="wforms_switch.js" ></script>
+</head>
+<body>
+
+	  <h1>How to create conditional form fields  with the wForms javascript library</h1>
+	  <p style="text-align:right"><small>Jump to : <a href="#setup">setup</a> | <a href="#switch">how it works </a> | <a href="#customization">customization</a> </small></p>
+      <p>The wForms Switch behavior tackles one of the most common problem in web forms:  How to make a form field or section conditional to a previous answer. </p>
+      <h2>Example</h2>
+	  <form method="post" action="http://www.formassembly.com/wForms/dummy-form-processor.php">
+	  	<fieldset><legend>Conditional Section Activated by a Checkbox</legend>
+			<input type="checkbox" value="yes" name="wf_optin2" id="wf_optin2" class="switch-a"/>
+			<label for="wf_optin2" class="postField">Show section A</label>
+			<div class="offstate-a">
+				<label for="wf_email2" class="preField">Section A:</label>
+				<input type="text" id="wf_email2" name="wf_email2" value="" />
+			</div>
+		</fieldset>
+	  </form>
+
+</body>
+</html>

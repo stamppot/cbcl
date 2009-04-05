@@ -1,0 +1,7 @@
+<h2>Allerede logget ind</h2>
+
+<p>
+<%=h current_user.name %>, du er allerede logget ind. Du skal logge ud før du kan logge ind igen.
+<%= link_to 'Klik her', :action => :logout, :title => 'Log ud' %> for at logge ud.
+</p>
+<%= link_to 'Klik her', :controller => '/survey', :action => :index %> for at g� videre.

@@ -1,0 +1,9 @@
+<h2>Redigering af gruppe</h2>
+
+<% form_tag :action => :update, :id => @group do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
+<% end %>
+
+<%= link_to 'Vis', :action => :show, :id => @group, :title => 'Vis' %> |
+<%= link_to 'Tilbage', {:action => :list}, :title => 'Tilbage til liste' %>

@@ -1,0 +1,10 @@
+<h2>Rediger Bruger <%=h @user.login %></h2>
+
+<% form_tag :action => :update, :id => @user do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
+<% end %>
+
+
+<%= link_to 'Vis', :action => :show, :id => @user, :title => 'Vis bruger' %> |
+<%= link_to 'Tilbage', :action => :list, :title => 'Tilbage til liste' %>

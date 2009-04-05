@@ -1,0 +1,18 @@
+<h2>Genererer dataudtræk</h2>
+<h3>Dette kan tage et stykke tid</h3>
+
+<div id="time"></div>
+
+<span id="progress">Genererer</span>
+
+<script type="text/javascript">
+  //<![CDATA[
+    generating_export = true;
+		// function stopPolling() {
+		// 	generating_export = false;
+		// }
+  //]]>
+</script>
+
+<%= periodically_call_remote(:url => {:action => :generating_export, :id => @task},
+     :frequency => 3.0, :condition => "generating_export == true" ) -%>

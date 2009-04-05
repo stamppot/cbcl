@@ -1,0 +1,311 @@
+--- 
+scores_022: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 social afvigelse"
+  scale: "1"
+  survey_id: "4"
+  id: "22"
+  short_name: TRF
+  score_group_id: "4"
+  position: "8"
+scores_011: 
+  score_scale_id: 
+  sum: "1"
+  title: Attention problems
+  scale: "2"
+  survey_id: "2"
+  id: "11"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "11"
+scores_023: 
+  score_scale_id: 
+  sum: "1"
+  title: Total Problem Score
+  scale: "0"
+  survey_id: "5"
+  id: "23"
+  short_name: YSR
+  score_group_id: "5"
+  position: "9"
+scores_012: 
+  score_scale_id: 
+  sum: "1"
+  title: Delinquent
+  scale: "2"
+  survey_id: "2"
+  id: "12"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "12"
+scores_001: 
+  score_scale_id: 
+  sum: "1"
+  title: Total problem score
+  scale: "0"
+  survey_id: "2"
+  id: "1"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "1"
+scores_024: 
+  score_scale_id: 
+  sum: "1"
+  title: Eksternalisering
+  scale: "0"
+  survey_id: "5"
+  id: "24"
+  short_name: YSR
+  score_group_id: "5"
+  position: "10"
+scores_013: 
+  score_scale_id: 
+  sum: "1"
+  title: Aggressive behavior
+  scale: "2"
+  survey_id: "2"
+  id: "13"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "13"
+scores_002: 
+  score_scale_id: 
+  sum: "1"
+  title: Eksternalisering
+  scale: "0"
+  survey_id: "2"
+  id: "2"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "2"
+scores_025: 
+  score_scale_id: 
+  sum: "1"
+  title: Internalisering
+  scale: "0"
+  survey_id: "5"
+  id: "25"
+  short_name: YSR
+  score_group_id: "5"
+  position: "11"
+scores_014: 
+  score_scale_id: 
+  sum: "1"
+  title: Somatic complaints
+  scale: "2"
+  survey_id: "2"
+  id: "14"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "14"
+scores_003: 
+  score_scale_id: 
+  sum: "1"
+  title: Internalisering
+  scale: "0"
+  survey_id: "2"
+  id: "3"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "3"
+scores_026: 
+  score_scale_id: 
+  sum: "1"
+  title: Total Problem Score
+  scale: "0"
+  survey_id: "4"
+  id: "26"
+  short_name: TRF
+  score_group_id: "4"
+  position: "12"
+scores_015: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 adf\xC3\xA6rdsforstyrrelse"
+  scale: "1"
+  survey_id: "5"
+  id: "15"
+  short_name: YSR
+  score_group_id: "5"
+  position: "1"
+scores_004: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 adf\xC3\xA6rdsforstyrrelse"
+  scale: "1"
+  survey_id: "2"
+  id: "4"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "4"
+scores_027: 
+  score_scale_id: 
+  sum: "1"
+  title: Eksternalisering
+  scale: "0"
+  survey_id: "4"
+  id: "27"
+  short_name: TRF
+  score_group_id: "4"
+  position: "13"
+scores_016: 
+  score_scale_id: 
+  sum: "2"
+  title: ADHD-symptomer
+  scale: "1"
+  survey_id: "5"
+  id: "16"
+  short_name: YSR
+  score_group_id: "5"
+  position: "2"
+scores_005: 
+  score_scale_id: 
+  sum: "2"
+  title: Depressionssymptomer
+  scale: "1"
+  survey_id: "2"
+  id: "5"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "5"
+scores_028: 
+  score_scale_id: 
+  sum: "1"
+  title: Internalisering
+  scale: "0"
+  survey_id: "4"
+  id: "28"
+  short_name: TRF
+  score_group_id: "4"
+  position: "14"
+scores_017: 
+  score_scale_id: 
+  sum: "2"
+  title: Depressionssymptomer
+  scale: "1"
+  survey_id: "5"
+  id: "17"
+  short_name: YSR
+  score_group_id: "5"
+  position: "3"
+scores_006: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 social afvigelse"
+  scale: "1"
+  survey_id: "2"
+  id: "6"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "6"
+scores_029: 
+  score_scale_id: 
+  sum: "1"
+  title: Withdrawn
+  scale: "2"
+  survey_id: "2"
+  id: "29"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "15"
+scores_018: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 social afvigelse"
+  scale: "1"
+  survey_id: "5"
+  id: "18"
+  short_name: YSR
+  score_group_id: "5"
+  position: "4"
+scores_007: 
+  score_scale_id: 
+  sum: "2"
+  title: ADHD-symptomer
+  scale: "1"
+  survey_id: "2"
+  id: "7"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "7"
+scores_030: 
+  score_scale_id: 
+  sum: "1"
+  title: "DSM: Angstproblemer"
+  scale: "0"
+  survey_id: "1"
+  id: "30"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "16"
+scores_019: 
+  score_scale_id: 
+  sum: "2"
+  title: "Symptomer p\xC3\xA5 adf\xC3\xA6rdsforstyrrelse"
+  scale: "1"
+  survey_id: "4"
+  id: "19"
+  short_name: TRF
+  score_group_id: "4"
+  position: "5"
+scores_008: 
+  score_scale_id: 
+  sum: "1"
+  title: Anxious/depressed
+  scale: "2"
+  survey_id: "2"
+  id: "8"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "8"
+scores_031: 
+  score_scale_id: 
+  sum: "1"
+  title: "DSM: Affektive problemer"
+  scale: "0"
+  survey_id: "1"
+  id: "31"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "17"
+scores_020: 
+  score_scale_id: 
+  sum: "2"
+  title: ADHD-symptomer
+  scale: "1"
+  survey_id: "4"
+  id: "20"
+  short_name: TRF
+  score_group_id: "4"
+  position: "6"
+scores_009: 
+  score_scale_id: 
+  sum: "1"
+  title: Social problems
+  scale: "2"
+  survey_id: "2"
+  id: "9"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "9"
+scores_021: 
+  score_scale_id: 
+  sum: "2"
+  title: Depressionssymptomer
+  scale: "1"
+  survey_id: "4"
+  id: "21"
+  short_name: TRF
+  score_group_id: "4"
+  position: "7"
+scores_010: 
+  score_scale_id: 
+  sum: "1"
+  title: Thought problems
+  scale: "2"
+  survey_id: "2"
+  id: "10"
+  short_name: CBCL
+  score_group_id: "1"
+  position: "10"

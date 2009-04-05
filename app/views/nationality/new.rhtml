@@ -1,0 +1,8 @@
+<h1>Ny nationalitet</h1>
+
+<% form_tag :action => :create do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Opret", :class => 'btn_gray' %>
+<% end %>
+
+<%= link_to 'Tilbage', :action => :list %>

@@ -1,0 +1,36 @@
+<% if current_user %>
+<h1>Velkommen til CBCL-Online</h1>
+
+<p><br/></p>
+
+<h2>Introduktion</h2>
+
+<% if current_user && current_user.has_access?(:faq_show) %>
+	<div id="journal_help">
+		<h3>Journaler</h3>
+		<p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn eller (delvis) fødselsdato, fx. 05-10.</p>
+	</div>
+
+<% end %>
+
+	<p><br/></p>
+
+<% if current_user && current_user.has_access?(:faq_admin) %>
+
+	<div id="center_help">
+		<h3>Centre</h3>
+		<p>Du kan oprette nye centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
+	</div>
+
+	<div id="score_help">
+		<h3>Abonnementer</h3>
+		<p>Du kan oprette abonnementer til centre under menupunktet 'Abonnementer'. Her kan du også se forbruget og nulstille forbrugstælleren.</p>
+	</div>
+
+	<div id="score_help" style="display:none;">
+		<h3>Scoreberegninger</h3>
+		<p>Du kan oprette scoreberegninger til spørgeskemaer under menupunktet 'Scores'</p>
+	</div>
+	
+<% end %>
+<% end %>

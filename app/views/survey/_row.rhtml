@@ -1,0 +1,12 @@
+<tr id=<%= "row"+row %>
+	<% col.each do |i| %>
+	<td id=<%= "cell"+row+"_"+i %>
+		<%= q_item(row, i) %>
+	</td>
+	<% end %>
+</tr>
+	<p>
+	  <span style="font-size: 0.8em;">[<%= Time.now.to_s(:db) %>]</span>
+	  <%=h row %>
+	</p>
+</tr>

@@ -1,0 +1,109 @@
+--- 
+center2: 
+  updated_at: 2009-01-30 20:45:17
+  code: "2222"
+  title: center2
+  type: Center
+  id: "6"
+  center_id: 
+  parent_id: 
+  created_at: 2009-01-30 20:24:35
+team201: 
+  updated_at: 2009-01-30 20:25:38
+  code: "201"
+  title: team201
+  type: Team
+  id: "7"
+  center_id: "6"
+  parent_id: "6"
+  created_at: 2009-01-30 20:25:38
+team202: 
+  updated_at: 2009-01-30 20:26:20
+  code: "202"
+  title: team202
+  type: Team
+  id: "8"
+  center_id: "6"
+  parent_id: "6"
+  created_at: 2009-01-30 20:26:20
+team101: 
+  updated_at: 2009-01-30 21:28:55
+  code: "101"
+  title: team101
+  type: Team
+  id: "9"
+  center_id: "5"
+  parent_id: "5"
+  created_at: 2009-01-30 21:28:55
+team102: 
+  updated_at: 2009-01-30 21:34:41
+  code: "102"
+  title: team102
+  type: Team
+  id: "10"
+  center_id: "5"
+  parent_id: "5"
+  created_at: 2009-01-30 21:34:41
+journala_101: 
+  updated_at: 2009-01-30 21:41:52
+  code: "1"
+  title: Journal A team 101
+  type: Journal
+  id: "12"
+  center_id: "5"
+  parent_id: "9"
+  created_at: 2009-01-30 21:41:52
+journale_201: 
+  updated_at: 2009-01-30 21:42:54
+  code: "1"
+  title: Journal E team 201
+  type: Journal
+  id: "13"
+  center_id: "6"
+  parent_id: "7"
+  created_at: 2009-01-30 21:42:54
+journalf_202: 
+  updated_at: 2009-01-30 21:43:42
+  code: "2"
+  title: Journal F team 202
+  type: Journal
+  id: "14"
+  center_id: "6"
+  parent_id: "8"
+  created_at: 2009-01-30 21:43:42
+journalb_102: 
+  updated_at: 2009-01-30 21:45:06
+  code: "2"
+  title: Journal B team 102
+  type: Journal
+  id: "15"
+  center_id: "5"
+  parent_id: "10"
+  created_at: 2009-01-30 21:45:06
+journalc_1: 
+  updated_at: 2009-01-30 21:47:29
+  code: "3"
+  title: Journal C center 1
+  type: Journal
+  id: "17"
+  center_id: "5"
+  parent_id: "5"
+  created_at: 2009-01-30 21:47:29
+journald_2: 
+  updated_at: 2009-01-30 21:47:29
+  code: "4"
+  title: Journal D center 2
+  type: Journal
+  id: "18"
+  center_id: "6"
+  parent_id: "6"
+  created_at: 2009-01-30 21:47:29
+center1: 
+  updated_at: 2009-01-30 20:45:24
+  code: "1111"
+  title: center1
+  type: Center
+  id: "5"
+  center_id: 
+  parent_id: 
+  created_at: 2009-01-30 20:23:46

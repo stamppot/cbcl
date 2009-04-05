@@ -1,0 +1,14 @@
+<h2>Nulstil tæller for abonnement</h2>
+<p>
+	Dette vil nulstille alle tællere, inkl. allerede betalte abonnementer. 
+</p>
+<p>
+Er du sikker på at du vil nulstille tæller?
+<p>
+<strong>Denne handling kan ikke fortrydes</strong>.
+</p>
+
+<% form_tag :action => :reset, :id => @subscription do %>
+<%= submit_tag 'Ja, nulstil', :name => 'yes' %>
+<%= submit_tag 'Nej, nulstil ikke', :name => 'no' %>
+<% end %>

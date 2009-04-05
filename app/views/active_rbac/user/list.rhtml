@@ -1,0 +1,18 @@
+<h2>Liste af Brugere</h2>
+
+<div class="commands">
+<%= link_to 'Ny bruger', :action => :new, :title => 'Opret ny bruger' %>
+</div>
+
+<%= render :partial => 'shared/user_list' %>
+
+<br/>
+<p/>
+
+<div class="commands">
+<% if current_user.has_access? :user_new_in_center %>
+	<%= link_to 'Ny bruger', { :action => :new, :id => current_user.center }, :title => 'Opret ny bruger' %>
+<% elsif current_user.has_access? :user_new %>
+	<%= link_to 'Ny bruger', :action => :new %>
+<% end %>
+</div>

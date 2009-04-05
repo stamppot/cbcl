@@ -1,0 +1,10 @@
+<h2>Bekræftigelse af Registrering</h2>
+
+<p>
+Vil du bekræftige din registrering?
+</p>
+
+<% form_tag :action => :confirm, :user => @user, :token => @token do %>
+  <%= submit_tag 'Ja', :name => 'yes' %>
+  <%= submit_tag 'Nej', :name => 'no' %>
+<% end %>

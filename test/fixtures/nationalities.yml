@@ -1,0 +1,37 @@
+--- 
+nationalities_001: 
+  country_code: DK
+  country: Dansk
+  id: "1"
+nationalities_002: 
+  country_code: SVE
+  country: Svensk
+  id: "2"
+nationalities_003: 
+  country_code: NOR
+  country: Norsk
+  id: "3"
+nationalities_004: 
+  country_code: ISL
+  country: Islandsk
+  id: "4"
+nationalities_005: 
+  country_code: DE
+  country: Tysk
+  id: "5"
+nationalities_006: 
+  country_code: ""
+  country: Uoplyst
+  id: "6"
+nationalities_007: 
+  country_code: ""
+  country: Adopteret
+  id: "7"
+nationalities_008: 
+  country_code: ""
+  country: Indvandrer/flygtning
+  id: "8"
+nationalities_009: 
+  country_code: ""
+  country: Andet
+  id: "9"

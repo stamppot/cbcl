@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+	<title><%= @page_title %></title>
+ 	<%= javascript_include_tag 'prototype' %>
+ 	<%= javascript_include_tag 'scriptaculous' %>
+ 	<%= javascript_include_tag 'effects' %>
+ 	<%= javascript_include_tag 'controls' %>
+ 	<%= javascript_include_tag 'tablekit' %>
+ 	<%= javascript_include_tag 'css_browser_selector' %>
+ 	<%= javascript_include_tag 'validation' %>
+ 	<%= javascript_include_tag 'application' %>
+
+	<%= stylesheet_link_tag 'tablekit' %>
+	<%= stylesheet_link_tag 'validation' %>
+	<%= stylesheet_link_tag 'login' %>
+	<%= stylesheet_link_tag 'admin' %>
+	<%= stylesheet_link_tag 'cbcl' %>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+	<%= render :partial => 'layouts/info_header' %>
+
+	<%= render :partial => 'layouts/menu' %>
+
+<div id="content">
+	<%= render :partial => 'layouts/error_messages' %>
+
+	<%= @content_for_layout %>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+
+Reuse show survey and show survey fast.
+
+QuestionCell has a parameter not in the DB, @value.
+Showing surveys, can be shown with or without @value.
+When there's a value, the form value is set to @value.
+When answering, the cells with a @value != nil will be saved as answers
+When showing surveys, the values is not set
+When showing answers, the values are taken from answer_cells and inserted to the question_cells
+
+When editing the answers, they should be compared with existing answers, by comparing the set of answer_cells for the just_answered with the saved_answered
+When saving draft, save just_answered cells which are different from existing answers
+
+
+Saving draft of answer
+Draft is every minute saved to session
+when submitting and saving all answers, save draft in session to db
+
+
+
+surveyController.answer params: 
+{"Q1"=>{"cell5_3"=>{"qtype"=>"Rating", "value"=>"2"},
+ 		"row1"=>{"answer_item"=>""}, "id"=>"1", 
+ 		"row2"=>{"answer_item"=>""}, "cell2_1"=>{"qtype"=>"Checkbox", "value"=>"0"}, "cell3_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row3"=>{"answer_item"=>"1a"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"2"}, 
+ 		"row4"=>{"answer_item"=>"1b"}, "cell4_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"2"}, "cell3_3"=>{"qtype"=>"Rating", "value"=>"3"}, 
+ 		"row5"=>{"answer_item"=>"1c"}, "cell5_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell4_3"=>{"qtype"=>"Rating", "value"=>"1"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"1"}},
+ "Q2"=>{"cell5_3"=>{"qtype"=>"Rating", "value"=>"3"}, "id"=>"2", 
+ 		"row1"=>{"answer_item"=>""}, "cell2_1"=>{"qtype"=>"Checkbox", "value"=>"0"}, 
+ 		"row2"=>{"answer_item"=>""}, "cell3_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row3"=>{"answer_item"=>"1a"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"2"}, 
+ 		"row4"=>{"answer_item"=>"1b"}, "cell4_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell3_3"=>{"qtype"=>"Rating", "value"=>"3"}, "cell5_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"2"}, 
+ 		"row5"=>{"answer_item"=>"1c"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"2"}, "cell4_3"=>{"qtype"=>"Rating", "value"=>"3"}}, "commit"=>"Send svar",
+ "Q3"=>{"id"=>"3", 
+ 		"row1"=>{"answer_item"=>""}, "cell2_1"=>{"qtype"=>"Checkbox", "value"=>"0"}, 
+ 		"row2"=>{"answer_item"=>""}, "cell3_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row3"=>{"answer_item"=>"1a"}, "cell4_1"=>{"qtype"=>"SelectOption", "value"=>"3"}, 
+ 		"row4"=>{"answer_item"=>"1b"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"2"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell5_1"=>{"qtype"=>"SelectOption", "value"=>"2"}, 
+ 		"row5"=>{"answer_item"=>"1c"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"3"}}, 
+ "Q4"=>{
+ 		"row1"=>{"answer_item"=>""}, "id"=>"4", 
+ 		"row2"=>{"answer_item"=>""}, "cell2_1"=>{"qtype"=>"Checkbox", "value"=>"0"}, "cell3_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row3"=>{"answer_item"=>"1a"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"3"}, 
+ 		"row4"=>{"answer_item"=>"1b"}, "cell4_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell5_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"2"}, 
+ 		"row5"=>{"answer_item"=>"1c"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"2"}}, 
+ "Q5"=>{
+ 		"row1"=>{"answer_item"=>"1"}, "id"=>"5", 
+ 		"row2"=>{"answer_item"=>"2"}, "cell1_2"=>{"qtype"=>"SelectOption", "value"=>"1"}, "cell2_2"=>{"qtype"=>"SelectOption", "value"=>"1"}}, "action"=>"answer", 
+ "Q6"=>{
+ 		"row1"=>{"answer_item"=>""}, "id"=>"6", 
+ 		"row2"=>{"answer_item"=>"1a"}, 
+ 		"row3"=>{"answer_item"=>"1b"}, "cell2_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row4"=>{"answer_item"=>"1c"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"2"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row5"=>{"answer_item"=>"1d"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"1"}}, "id"=>"2", 
+ "Q7"=>{
+ 		"row14"=>{"answer_item"=>"6"}, "cell6_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row7"=>{"answer_item"=>"1e"}, "cell8_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row15"=>{"answer_item"=>"7"}, 
+ 		"row8"=>{"answer_item"=>"1f"}, "cell7_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell10_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell8_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell9_1"=>{"qtype"=>"SelectOption", "value"=>"1"}, 
+ 		"row16"=>{"answer_item"=>"8"}, 
+ 		"row9"=>{"answer_item"=>"1g"}, "cell11_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell9_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell10_3"=>{"qtype"=>"ListItemComment"}, "cell11_3"=>{"qtype"=>"ListItemComment"}, "cell12_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row1"=>{"answer_item"=>"1"}, "cell13_2"=>{"qtype"=>"Rating", "value"=>"1"}, "id"=>"7", "cell12_3"=>{"qtype"=>"ListItemComment"}, "cell1_2"=>{"qtype"=>"ListItem", "value"=>""}, "cell14_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row2"=>{"answer_item"=>""}, 
+ 		"row10"=>{"answer_item"=>"2"}, "cell15_2"=>{"qtype"=>"TextBox", "value"=>"1"}, 
+ 		"row3"=>{"answer_item"=>"1a"}, "cell14_3"=>{"qtype"=>"ListItemComment"}, "cell3_2"=>{"qtype"=>"Rating", "value"=>"1"}, "cell16_2"=>{"qtype"=>"TextBox", "value"=>"1"}, 
+ 		"row4"=>{"answer_item"=>"1b"}, 
+ 		"row11"=>{"answer_item"=>"3"}, 
+ 		"row5"=>{"answer_item"=>"1c"}, "cell4_2"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row12"=>{"answer_item"=>"4"}, 
+ 		"row13"=>{"answer_item"=>"5"}, 
+ 		"row6"=>{"answer_item"=>"1d"}, "cell5_2"=>{"qtype"=>"Rating", "value"=>"1"}}, "controller"=>"survey", 
+ "Q8"=>{"cell112_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell93_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell56_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row110"=>{"answer_item"=>"100"}, "row96"=>{"answer_item"=>"86"}, "row1"=>{"answer_item"=>""}, "cell93_2"=>{"qtype"=>"ListItemComment"}, "cell6_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell105_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell72_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row111"=>{"answer_item"=>"101"}, "cell49_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row97"=>{"answer_item"=>"87"}, "cell35_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row2"=>{"answer_item"=>""}, "cell28_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row112"=>{"answer_item"=>"102"}, "row98"=>{"answer_item"=>"88"}, "row3"=>{"answer_item"=>"1"}, "row113"=>{"answer_item"=>"103"}, 
+ 		"row99"=>{"answer_item"=>"89"}, "row4"=>{"answer_item"=>"2"}, "cell66_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row114"=>{"answer_item"=>"104"}, 
+ 		"row5"=>{"answer_item"=>"3"}, "cell122_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell66_2"=>{"qtype"=>"ListItemComment"}, "cell115_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell96_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell82_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row115"=>{"answer_item"=>"105"}, "cell59_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row6"=>{"answer_item"=>"4"}, "cell38_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell115_2"=>{"qtype"=>"ListItemComment"}, "cell9_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row116"=>{"answer_item"=>"106"}, "row7"=>{"answer_item"=>"5"}, "cell108_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell75_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row20"=>{"answer_item"=>"18"}, "row117"=>{"answer_item"=>"107"}, "cell10_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row8"=>{"answer_item"=>"6"}, "row21"=>{"answer_item"=>"19"}, "row118"=>{"answer_item"=>"108"}, 
+ 		"row9"=>{"answer_item"=>"7"}, "row22"=>{"answer_item"=>"20"}, "row119"=>{"answer_item"=>"109"}, "cell69_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell41_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row23"=>{"answer_item"=>"21"}, "cell118_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell99_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell85_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell78_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row24"=>{"answer_item"=>"22"}, "row50"=>{"answer_item"=>"48"}, "cell20_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row25"=>{"answer_item"=>"23"}, "row51"=>{"answer_item"=>"49"}, "cell13_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row26"=>{"answer_item"=>"24"}, "row52"=>{"answer_item"=>"50"}, "cell51_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row27"=>{"answer_item"=>"25"}, 
+ 		"row53"=>{"answer_item"=>"51"}, "cell88_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row54"=>{"answer_item"=>"52"}, "row80"=>{"answer_item"=>"70"}, "cell44_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell30_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row28"=>{"answer_item"=>"26"}, "row55"=>{"answer_item"=>"53"}, "row81"=>{"answer_item"=>"71"}, "cell30_2"=>{"qtype"=>"ListItemComment"}, "cell23_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row29"=>{"answer_item"=>"27"}, "row56"=>{"answer_item"=>"54"}, "row82"=>{"answer_item"=>"72"}, "cell16_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell101_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row57"=>{"answer_item"=>"55"}, "row83"=>{"answer_item"=>"73"}, "cell61_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell110_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell91_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row58"=>{"answer_item"=>"56"}, "row84"=>{"answer_item"=>"74"}, "cell54_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell110_2"=>{"qtype"=>"ListItemComment"}, 
+ 		"row59"=>{"answer_item"=>"56a"}, "row85"=>{"answer_item"=>"75"}, "cell4_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell103_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell70_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell47_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell33_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row100"=>{"answer_item"=>"90"}, "row86"=>{"answer_item"=>"76"}, "cell4_2"=>{"qtype"=>"ListItemComment"}, "cell26_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row101"=>{"answer_item"=>"91"}, "cell120_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row87"=>{"answer_item"=>"77"}, "cell19_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row102"=>{"answer_item"=>"92"}, 
+ 		"row88"=>{"answer_item"=>"78"}, "cell64_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row89"=>{"answer_item"=>"79"}, "cell113_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell94_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell80_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell57_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row103"=>{"answer_item"=>"93"}, "cell36_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell94_2"=>{"qtype"=>"ListItemComment"}, "cell80_2"=>{"qtype"=>"ListItemComment"}, "cell7_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell106_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row104"=>{"answer_item"=>"94"}, "cell73_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell29_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row105"=>{"answer_item"=>"95"}, "row106"=>{"answer_item"=>"96"}, "cell67_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row10"=>{"answer_item"=>"8"}, "row107"=>{"answer_item"=>"97"}, "cell123_2"=>{"qtype"=>"ListItemComment"}, 
+ 		"row11"=>{"answer_item"=>"9"}, "row108"=>{"answer_item"=>"98"}, "cell116_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell97_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell83_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell109_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell76_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell39_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row12"=>{"answer_item"=>"10"}, "cell11_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell76_2"=>{"qtype"=>"ListItemComment"}, "row13"=>{"answer_item"=>"11"}, "row109"=>{"answer_item"=>"99"}, "cell11_2"=>{"qtype"=>"ListItemComment"}, "row14"=>{"answer_item"=>"12"}, "row40"=>{"answer_item"=>"38"}, "row15"=>{"answer_item"=>"13"}, "row41"=>{"answer_item"=>"39"}, "cell119_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell86_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell42_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row16"=>{"answer_item"=>"14"}, 
+ 		"row42"=>{"answer_item"=>"40"}, "cell42_2"=>{"qtype"=>"ListItemComment"}, "row43"=>{"answer_item"=>"41"}, "cell79_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell21_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell14_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row17"=>{"answer_item"=>"15"}, "row44"=>{"answer_item"=>"42"}, "row70"=>{"answer_item"=>"60"}, "row18"=>{"answer_item"=>"16"}, "row45"=>{"answer_item"=>"43"}, "row71"=>{"answer_item"=>"61"}, "id"=>"23", "cell52_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row19"=>{"answer_item"=>"17"}, "row46"=>{"answer_item"=>"44"}, "row72"=>{"answer_item"=>"62"}, "row47"=>{"answer_item"=>"45"}, 
+ 		"row73"=>{"answer_item"=>"63"}, "cell89_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell45_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell31_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell24_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row48"=>{"answer_item"=>"46"}, "row74"=>{"answer_item"=>"64"}, "cell89_2"=>{"qtype"=>"ListItemComment"}, "cell31_2"=>{"qtype"=>"ListItemComment"}, 
+ 		"row49"=>{"answer_item"=>"47"}, "row75"=>{"answer_item"=>"65"}, "cell17_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell62_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row76"=>{"answer_item"=>"66"}, "cell62_2"=>{"qtype"=>"ListItemComment"}, "row77"=>{"answer_item"=>"67"}, "cell111_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell92_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell55_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell104_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell71_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell48_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell34_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row78"=>{"answer_item"=>"68"}, "cell5_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell48_2"=>{"qtype"=>"ListItemComment"}, "row79"=>{"answer_item"=>"69"}, "cell27_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row120"=>{"answer_item"=>"110"}, "row121"=>{"answer_item"=>"111"}, "cell121_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell65_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell81_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row122"=>{"answer_item"=>"112"}, "cell114_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell95_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell8_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row123"=>{"answer_item"=>"113"}, "cell107_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell74_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell37_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell95_2"=>{"qtype"=>"ListItemComment"}, "cell68_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row30"=>{"answer_item"=>"28"}, "cell68_2"=>{"qtype"=>"ListItemComment"}, "cell117_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell98_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell84_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell40_1"=>{"qtype"=>"Rating", 
+ 		"value"=>"1"}, "row31"=>{"answer_item"=>"29"}, "cell84_2"=>{"qtype"=>"ListItemComment"}, "cell77_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell12_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row32"=>{"answer_item"=>"30"}, "row33"=>{"answer_item"=>"31"}, "row34"=>{"answer_item"=>"32"}, "cell50_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row60"=>{"answer_item"=>"56b"}, "cell43_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row35"=>{"answer_item"=>"33"}, "cell87_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row61"=>{"answer_item"=>"56c"}, "row62"=>{"answer_item"=>"56d"}, "row36"=>{"answer_item"=>"34"}, "cell87_2"=>{"qtype"=>"ListItemComment"}, "cell22_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row63"=>{"answer_item"=>"56e"}, "row37"=>{"answer_item"=>"35"}, "cell100_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell15_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row90"=>{"answer_item"=>"80"}, 
+ 		"row64"=>{"answer_item"=>"56f"}, "row38"=>{"answer_item"=>"36"}, "cell60_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell53_1"=>{"qtype"=>"Rating", "value"=>"1"}, 
+ 		"row91"=>{"answer_item"=>"81"}, "cell90_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row65"=>{"answer_item"=>"56g"}, "row92"=>{"answer_item"=>"82"}, 
+ 		"row66"=>{"answer_item"=>"56h"}, "row39"=>{"answer_item"=>"37"}, "cell3_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell32_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell46_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell102_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row93"=>{"answer_item"=>"83"}, "cell25_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell102_2"=>{"qtype"=>"ListItemComment"}, "row67"=>{"answer_item"=>"57"}, "row94"=>{"answer_item"=>"84"}, "row68"=>{"answer_item"=>"58"}, "cell18_1"=>{"qtype"=>"Rating", "value"=>"1"}, "cell63_1"=>{"qtype"=>"Rating", "value"=>"1"}, "row95"=>{"answer_item"=>"85"}, 
+ 		"row69"=>{"answer_item"=>"59"}}, "journal_entry"=>"2"}

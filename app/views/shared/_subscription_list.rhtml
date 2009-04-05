@@ -1,0 +1,29 @@
+<table class="sortable list">
+	<th>Spørgeskema</th>
+	<th>Noter</th>
+	<th>Status</th>
+	<th class="number" title="Brugt i alt">Total</th>
+	<th class="number" title="Brugt siden sidste betaling">Siden sidst</th>
+<%
+ total_used = 0
+ active_total_used = 0
+ %>
+<% for subscription in @group.subscriptions
+    if current_user.has_access? :subscription_show_inactive and subscription.states.invert[subscription.state] == "Inaktiv"
+      next    # do not show inactive to others than admins
+    else
+		 total_used += subscription.copies_used
+		 active_total_used += subscription.active_copies_used %>
+			<tr>
+				<td><%= link_to subscription.survey.title, { :controller => 'subscription', :action => :show, :id => subscription }, :title => 'Vis Abonnement' %></td>
+				<td><%= subscription.note.nil? ? "&nbsp;" : split_string(subscription.note) %></td>
+				<td><%= subscription.states.invert[subscription.state] %></td>
+				<td class="number"><%= subscription.copies_used %></td>
+				<td class="number"><%= subscription.active_copies_used %></td>
+			</tr>
+ <% end %>
+<% end %>
+	<tr>
+		<td>Total:</td><td/><td/><td class="number"><%= total_used %></td><td class="number"><%= active_total_used %></td>
+	</tr>
+</table>

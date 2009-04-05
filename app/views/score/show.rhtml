@@ -1,0 +1,52 @@
+<table class="score_info">
+	<tr>
+		<td class="t_i"><label for="score_name">Symptom:</label></td>
+		<td class="t"><%=h @score.title %></td>
+	</tr>
+	<tr>
+		<td class="t_i">Skema:</td>
+		<td class="t"
+		<%= if @score.survey.nil?
+		 	"Ingen" 
+		else
+			"<span class='survey_color_box' style='background: ##{@score.survey.color};'>&nbsp;</span>" + @score.survey.title
+		end %>
+		</td>
+	</tr>
+	<tr>
+		<td class="t_i"><label for="score_sum">Pointtælling:</label></td>
+		<td class="t_i"><%=h @score.sum_type %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><label for="score_sum">Skala:</label></td>
+		<td class="t_i"><%=h @score.score_scale.title %></td>
+	</tr>
+</table>
+
+<p>
+
+	<% if @score.score_refs.size > 0 %>
+		<table class="sortable">
+			<%= @score_refs_header.map { |h| "<th>#{h}</th>" }.join %>
+
+		<b>Referenceværdier</b><p/>
+			<%= render :partial => "score/show_score_ref", :collection => @score.score_refs %>
+		</table>
+
+	<% end %>
+</p>
+<br/>
+	
+<p/>
+	<% if @score.score_items.size > 0 %>
+	<table class="sortable">
+		<%= @score_items_header.map { |h| "<th>#{h}</th>" }.join %>
+
+		<b>Score items</b><p/>
+		<%= render :partial => "score/show_score_item", :collection => @score.score_items %>
+	</table>
+	<% end %>
+<p/>
+
+<%= link_to 'Rediger', :action => :edit, :id => @score %> |
+<%= link_to 'Tilbage til liste', :action => :list %>

@@ -1,0 +1,43 @@
+<% if @groups.empty? %>
+Der er ingen journaler i systemet.
+<% else %>
+<table id="journal_list" class="sortable list">
+<th class="wide" title="Sorter efter navn">Navn</th>
+<th class= title="Sorter efter Id">Id</th>
+<th title="Sorter efter fødselsdato">Fødselsdato</th>
+<!-- <th class="number" title="Sorter efter antal skemaer">Skemaer</th> -->
+<!-- <th class="half_wide" title="Sorter efter status">Status</th> -->
+<th title="Sorter efter oprettelsesdato">Oprettet</th>
+<% unless @hide_team %>
+<th class="half_wide" title="Sorter efter team">Team</th>
+<% end %>
+<th class="nosort">Handling</th>
+
+<% @groups.each do |g| %>
+  <tr>
+    <td class="pj_name"><%= link_to( g.title, { :controller => "/"+g.class.to_s.underscore, :action => :show, :id => g.id },
+        :title => "Vis #{g.class.to_s}" ) %></td>
+		<td class="pj small number"><%= g.code %></td>
+		<% puts g.inspect %>
+    <td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
+    <td class="pj small"><span class="nobr"><%= g.created_at.to_date.strftime("%d-%m-%y") %></span></td>
+		<% unless @hide_team %>
+    <td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
+		<% end %>
+    <td class="pj"><%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), { :controller => :journal, :action => :edit, :id => g.id }, :title => 'Rediger' -%>
+      <%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), { :controller => :journal, :action => :delete, :id => g.id}, :title => 'Slet' -%>
+    </td>
+  <tr/>
+<% end %>
+</table>
+<% end %>
+
+<% if params[:action] =~ /search/ %>
+	<p/>
+	<div style='align: right;'><b><%= @groups.size %></b> resultat<%= 'er' if @groups.size > 1 %></div>
+<% else %>
+	<% if @groups.page_count > 1 -%>
+		<div class="page_entries"><%= page_entries_info(@groups) -%></div>
+		<%= will_paginate @groups, :remote => {:with => 'value', :update => 'journal_list'} -%> &nbsp;&nbsp;
+	<% end -%>
+<% end %>

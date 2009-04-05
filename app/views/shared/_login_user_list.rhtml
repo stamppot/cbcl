@@ -1,0 +1,20 @@
+<% user = @user
+ %>
+  <tr>
+    <td class="users"><%=h user.login %></td>
+    <td class="users"><%=h user.roles.first.prettyname unless user.roles.empty? %></td>
+    <td class="users"><%=h user.email %></td>
+    <td class="users"><%= case user.state
+            when 1 then 'unconfirmed'
+            when 2 then 'confirmed'
+            when 3 then 'locked'
+            when 4 then 'deleted'
+            end
+            %></td>
+    
+    <td class="users" class="actions">
+      (<%= link_to 'Vis', {:action => :show, :id => user }, :title => 'Vis' %>
+       <%= link_to 'Rediger', { :action => :edit, :id => user }, :title => 'Rediger' %>
+       <%= link_to 'Slet', { :action => :delete, :id => user}, :title => 'Slet' %>)
+    </td>
+  </tr>
