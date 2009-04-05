@@ -24,7 +24,8 @@ class Access
     :group_all                  => [:superadmin, :admin], 
     :role_show                  => [:superadmin],
     :role_show_all              => [:superadmin, :admin],
-
+    :shadow_login               => [:superadmin],
+    
     :test_menu_show_menu        => [:superadmin],
     :user_new_leader            => [:superadmin, :admin],
     :user_new                   => [:superadmin, :admin, :centeradministrator, :teamadministrator],

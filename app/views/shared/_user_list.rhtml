@@ -28,7 +28,7 @@
 		<%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), { :controller => 'user', :action => :edit, :id => user.id }, :title => 'Rediger' -%>
 		<%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), { :controller => 'user', :action => :delete, :id => user.id}, :title => 'Slet' -%>
 		<span>&nbsp;&nbsp;</span>
-		<% unless user.id == current_user.id %>
+		<% if current_user.has_access?(:shadow_login) and user.id != current_user.id %>
 		<%= link_to image_tag('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger', :title => 'Login som denne bruger'), shadow_login_path(:user => {:login => user.login}) %>
 		<% end %>
 	</td>
