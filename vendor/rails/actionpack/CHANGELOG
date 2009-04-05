@@ -4048,7 +4048,7 @@ Default YAML web services were retired, ActionController::Base.param_parsers car
 
 * Added arrays as a value option for params in url_for and friends #467 [Eric Anderson]. Example:
 
-    url_for(:controller => 'user', :action => 'delete', :params => { 'username' =>  %( paul john steve ) } )
+    url_for(@current_user_cached, :action => 'delete', :params => { 'username' =>  %( paul john steve ) } )
     # => /user/delete?username[]=paul&username[]=john&username[]=steve
 
 * Fixed that controller tests can now assert on the use of cookies #466 [Alexey]

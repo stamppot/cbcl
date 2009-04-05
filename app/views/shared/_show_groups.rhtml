@@ -1,8 +1,7 @@
 <%= node_tree(@groups) do |g|
 	  if current_user.has_access?(:team_show)
-      	link_to( g.title, { :controller => "/"+g.class.to_s.underscore, :action => :show, :id => g.id },
-        	:title => "Vis #{g.class.to_s}" )
+     	link_to( g.title, team_path(g),	:title => "Vis #{g.class.underscore}" )
 	  else
-		g.title
+			g.title
 	  end
-    end %>
+end %>

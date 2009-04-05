@@ -141,21 +141,7 @@ class VariablesController < ApplicationController
       page << "updatePreview()"
     end
   end
-  
-  # def highlight_cell
-  #   puts "PARAMS: #{params.inspect}"
-  #   q = Question.find(params[:variable][:question_id])
-  #   row = params[:variable][:row]
-  #   col = params[:variable][:col]
-  #   
-  #   render :update do |page|
-  #     cell = "td_q#{q.number}_#{row}_#{col}"
-  #     page.visual_effect :highlight, 'variable_row'
-  #     page.visual_effect :highlight, 'variable_col'
-  #     page.visual_effect :pulsate, cell, :duration => 4
-  # 
-  #   end
-  # end
+
   
   private
   

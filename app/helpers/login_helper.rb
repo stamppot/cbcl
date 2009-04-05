@@ -13,18 +13,16 @@ module LoginHelper
   end
 
   # context user switch. sets to_user in rbac_user_id. Backs up from_user in shadow
+  # TODO: check that user has rights to change user!!!!
   def switch_user(from_user, to_user)
     # backup admin user
     session[:shadow_user_secure_key] = from_user.id.to_s.crypt(from_user.password_salt)
     session[:shadow_user_id] = from_user.id.to_s
-    puts "Complete session: #{session.inspect}"
-    puts "Set user: #{from_user.id} in the shadow. Session: #{session[:shadow_user_id].inspect}"
 
     # set new user
     session[:user_secure_key] = to_user.id.to_s.crypt(to_user.password_salt)
     session[:rbac_user_id] = to_user.id.to_s
 
-    puts "Logged in as user: #{session[:rbac_user_id].inspect}"
     # set current user to to_user
     @current_user_cached = to_user
   end

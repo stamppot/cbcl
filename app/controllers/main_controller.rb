@@ -4,7 +4,7 @@ class MainController < ApplicationController
 
    # TODO: check for logged in user. Else log user out explicitly!
   def index
-    redirect_to :controller => :login, :action => :login if current_user.nil?
+    redirect_to login_path if current_user.nil?
     flash[:notice] = ""
   end
   

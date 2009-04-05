@@ -779,11 +779,12 @@ class Rating < QuestionCell
     q_items.each_with_index do |item, i|
       switch_src = (i > 0) ? switch_source(options) : "" # set switch on positive answers; 0 is 'no'
       if show_all
-           checked = (value == item.value ? 'checked="checked"' : '')
-           switch  = ((switch_src.blank? || switch_off) ? "" : "class='rating #{switch_src}'")
-           disable = (disabled ? " disabled " : " ")
+           checked = (value == item.value ? 'checked="checked"' : nil)
+           switch  = ((switch_src.blank? || switch_off) ? nil : "class='rating #{switch_src}'")
+           disable = (disabled ? "disabled" : nil)
+           # id = "id='#{c_id.strip}_#{i}'"
            newform << div_item(
-           "<input #{onclick} id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} />" +
+           "<input id='#{c_id}_#{i}' #{onclick} name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} />" +
            (item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
       else # show only answers, not all radiobuttons, disabled
         newform << if value == item.value    # show checked radiobutton

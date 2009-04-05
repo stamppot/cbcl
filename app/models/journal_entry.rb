@@ -27,11 +27,6 @@ class JournalEntry < ActiveRecord::Base
     return false
   end
   
-  # kill self, first destroy survey_answer and login user
-  def kill!
-    remove_login! && self.survey_answer.destroy && self.destroy
-  end
-  
   def valid_for_csv?
     if survey_answer_id && survey_id && journal_id && answered?
       return self

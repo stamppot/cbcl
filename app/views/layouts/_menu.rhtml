@@ -5,7 +5,7 @@
 	<div id="group_menu" class="menu_section">
 		<div class="menu_title">Grupper</div>
 
-		<% form_tag({ :controller => "/center", :action=> "live_search"}, { :onSubmit => "Element.show('spinner');" }) do %>
+		<% form_tag(center_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 		
 		<% if @user && @user.has_access?(:layout_show_center_search) %>
 		<div class="searchbox">
@@ -21,15 +21,15 @@
 				:update => :content,
 				:loading => "Element.show('center_spinner')",
 				:complete => "Element.hide('center_spinner')",
-				:url => { :controller => '/center', :action => :live_search }) %>
+				:url => center_search_path ) %>
 			<% end %>
 		<% end %>
 
-		<%= link_to (@user && @user.has_access?(:admin) ? 'Centre' : 'Center'), { :controller => '/center', :action => :list }, :title => 'Vis Centre' %>
+		<%= link_to (@user && @user.has_access?(:admin) ? 'Centre' : 'Center'), centers_path, :title => 'Vis Centre' %>
 
 		<!-- Vis ikke teams/personer til admin -->
 		<% if @user && @user.has_access?(:team_show) %>
-			<%= link_to 'Teams', { :controller => '/team', :action => :list}, :title => 'Vis Teams' %>
+			<%= link_to 'Teams', teams_path, :title => 'Vis Teams' %>
 		<% end %>
 	</div>
 	<% end %>
@@ -38,17 +38,17 @@
 	<div id="user_menu" class="menu_section">
 		<div class="menu_title">Brugere</div>
 		<% if @user.status == 'new_password' %>
-			<%= link_to 'Skift password', { :controller => '/user', :action => :change_password, :id => @user }, :title => 'Skift dit password, det tager kun et øjeblik' %>
+			<%= link_to 'Skift password', change_password_path(@user), :title => 'Skift dit password, det tager kun et øjeblik' %>
 		<% end %>
 		<% if @user.has_access? :layout_show_users  %>
-		<%= link_to 'Vis Brugere', { :controller => '/user', :action => :list }, :title => 'Vis Brugere' %>
+		<%= link_to 'Vis Brugere', users_path, :title => 'Vis Brugere' %>
 			<% if @user.has_access? :user_new %>
-				<%= link_to 'Tilføj Bruger', { :controller => '/user', :action => :new }, :title => 'Tilføj brugere' %>
+				<%= link_to 'Tilføj Bruger', new_user_path, :title => 'Tilføj brugere' %>
 			<% end %>
-		<%- link_to 'Profil', { :controller => 'user', :action => :show, :id => @user }, :title => 'Egen brugerprofil' %>
+		<% link_to 'Profil', user_path(@user), :title => 'Egen brugerprofil' %>
 		<% end %>
 		<% if @user.has_access? :layout_show_login_users %>
-		<% link_to 'Vis Login-brugere', { :controller => '/login_user', :action => :list }, :title => 'Vis login-bruger liste' %>
+		<% link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
 		<% end %>
 	</div>
 	<% end %>
@@ -58,16 +58,16 @@
 	<div id="survey_menu" class="menu_section">
 		<div class="menu_title">Spørgeskemaer</div>
 		<% if @user.has_access? :layout_show_only_surveys %>
-		<%= link_to 'Vis Skemaer', { :controller => '/survey', :action => :list }, :title => 'Spørgeskema-liste' %>
+		<%= link_to 'Vis Skemaer', surveys_path, :title => 'Spørgeskema-liste' %>
 		<% end %>
 		<% if @user.has_access? :layout_show_subscriptions %>
-		<%= link_to 'Abonnementer', { :controller => '/subscription', :action => :list }, :title => 'Vis abonnementer' %>
+		<%= link_to 'Abonnementer', subscriptions_path, :title => 'Vis abonnementer' %>
 		<% end %>
 		<% if @user.has_access? :layout_show_scores %>
-		<%= link_to "Scores", :controller => "/score", :action => :list %>
+		<%= link_to "Scores", scores_path %>
 		<% end %>
 		<% if @user.has_access? :layout_show_data_export %>
-		<%= link_to "Dataudtræk", :controller => "/export", :action => :index %>
+		<%= link_to "Dataudtræk", exports_path %>
 		<% end %>
 	</div>
 	<% end %>
@@ -75,7 +75,7 @@
 	<% if @user && @user.has_access?(:layout_show_teams_journals) %>
 	<div id="journal_menu" class="menu_section">
 		<div class="menu_title">Journaler</div>
-		<% form_tag({ :controller => "/journal", :action=> "live_search"}, { :onSubmit => "Element.show('spinner');" }) do %>
+		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 
 			<div class="searchbox">
 				<label for="search_journals"><font size="1"><b>Søg:</b></font></label><br />
@@ -89,32 +89,30 @@
 			:update => :content,
 			:loading => "Element.show('journal_spinner')",
 			:complete => "Element.hide('journal_spinner')",
-			:url => { :controller => '/journal', :action => :live_search }) %>
+			:url => journal_search_path) %>
 		
-		<%= link_to 'Vis Journaler', { :controller => '/journal', :action => :list }, :title => 'Vis Journaler' %>
-		<%= link_to 'Opret Journal', { :controller => '/journal', :action => :new }, :title => 'Opret journal' %>
+		<%= link_to 'Vis Journaler', journals_path, :title => 'Vis Journaler' %>
+		<%= link_to 'Opret Journal', new_journal_path, :title => 'Opret journal' %>
 	</div>
 	<% end %>
 
 	<% if @user && @user.has_access?(:layout_show_settings_menu) %>
 	<div id="settings_menu" class="menu_section">
 		<div class="menu_title">Indstillinger</div>
-		<%= link_to 'Nationaliteter', { :controller => '/nationality', :action => :list }, :title => 'Nationalitetsliste' %>
+		<%= link_to 'Nationaliteter', nationalities_path, :title => 'Nationalitetsliste' %>
 		<%= link_to 'Skemavariabler', variables_path, :title => 'Skemavariabler' %>
 	</div>
 	<% end %>
 	
 	<div id="logout_menu" class="menu_section">
 		<div class="menu_title">Andet</div>
-		<%= link_to 'Hjælp', { :controller => '/faq', :action => :index }, :title => 'Spørgsmål & Svar' %>
-		<%= link_to 'Log ud', { :controller => '/login', :action => :logout }, :title => 'Log ud af systemet' %>
+		<%= link_to 'Hjælp', faqs_path, :title => 'Spørgsmål & Svar' %>
+		<% if shadow_user? %>
+		<%= link_to 'Log ud', shadow_logout_path, :alt => 'Gå tilbage til egen bruger', :title => 'Log tilbage til egen bruger' %>
+		<% else %>
+		<%= link_to 'Log ud', logout_path, :title => 'Log ud af systemet' %>
+		<% end %>
 	</div>
-
-	<% if @user && @user.has_access?(:do_not_show_settings) %>
-	<div id="settings_menu" class="menu_section">
-		<%= link_to 'Indstillinger', { :controller => '/settings', :action => :list }, :title => 'Gå til indstillinger' %>
-	</div>
-	<% end %>
 
 </div>
 <% else %>

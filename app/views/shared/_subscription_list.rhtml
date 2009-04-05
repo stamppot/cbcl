@@ -8,18 +8,19 @@
  total_used = 0
  active_total_used = 0
  %>
-<% for subscription in @group.subscriptions
-    if current_user.has_access? :subscription_show_inactive and subscription.states.invert[subscription.state] == "Inaktiv"
+<% for sub in @group.subscriptions
+    if current_user.has_access? :subscription_show_inactive and sub.states.invert[sub.state] == "Inaktiv"
       next    # do not show inactive to others than admins
     else
-		 total_used += subscription.copies_used
-		 active_total_used += subscription.active_copies_used %>
+	puts "SUB: #{sub.inspect} #{sub.to_s}"
+		 total_used += sub.copies_used
+		 active_total_used += sub.active_copies_used %>
 			<tr>
-				<td><%= link_to subscription.survey.title, { :controller => 'subscription', :action => :show, :id => subscription }, :title => 'Vis Abonnement' %></td>
-				<td><%= subscription.note.nil? ? "&nbsp;" : split_string(subscription.note) %></td>
-				<td><%= subscription.states.invert[subscription.state] %></td>
-				<td class="number"><%= subscription.copies_used %></td>
-				<td class="number"><%= subscription.active_copies_used %></td>
+				<td><%= link_to sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement' %></td>
+				<td><%= sub.note.nil? ? "&nbsp;" : split_string(sub.note) %></td>
+				<td><%= sub.states.invert[sub.state] %></td>
+				<td class="number"><%= sub.copies_used %></td>
+				<td class="number"><%= sub.active_copies_used %></td>
 			</tr>
  <% end %>
 <% end %>

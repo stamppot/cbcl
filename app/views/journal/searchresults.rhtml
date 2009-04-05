@@ -1,9 +1,0 @@
-<% if flash[:notice] -%>
-  <div id="notice" align="center"><%= flash[:notice] %></div>
-<% end -%>
-<% if @groups.length > 0 %>
-	<h2>Fundne journaler</h2>
-  	<%= render :partial => 'shared/journal_list' %>
-<% else %>
-  <h2>Intet fundet!</h2>
-<% end %>

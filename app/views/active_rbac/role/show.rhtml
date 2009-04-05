@@ -44,7 +44,7 @@
 <% else %>
 <ul>
   <% for user in @role.users %>
-  <li><%= link_to user.login, { :controller => 'user', :action => :show, :id => user } %></li>
+  <li><%= link_to user.login, user_path(user) %></li>
   <% end %>
 </ul>
 <% end %>
@@ -56,7 +56,7 @@
 <% else %>
 <ul>
   <% for user in @role.all_users %>
-  <li><%= link_to user.login, { :controller => 'user', :action => :show, :id => user } %></li>
+  <li><%= link_to user.login, user_path(user) %></li>
   <% end %>
 </ul>
 <% end %>
@@ -68,7 +68,7 @@
 <% else %>
 <ul>
   <% for group in @role.groups %>
-  <li><%= link_to group.title, { :controller => 'group', :action => :show, :id => group } %></li>
+  <li><%= link_to group.title, g %></li>
   <% end %>
 </ul>
 <% end %>
@@ -80,7 +80,7 @@
 <% else %>
 <ul>
   <% for group in @role.all_groups %>
-  <li><%= link_to group.title, { :controller => 'group', :action => :show, :id => group } %></li>
+  <li><%= link_to group.title, group %></li>
   <% end %>
 </ul>
 <% end %>

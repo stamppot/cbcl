@@ -47,7 +47,14 @@ class Center < Group
     # if self.center_info
     # self.center_info.build(attributes)
   end
-      
+  
+  def city; center_info && center_info.city; end
+  def street; center_info && center_info.street; end
+  def zipcode; center_info && center_info.zipcode; end
+  def telephone; center_info && center_info.telephone; end
+  def person; center_info && center_info.person; end
+  def ean; center_info && center_info.ean; end
+    
   # returns subscription for the specified survey
   def get_subscription(survey_id)
     # self.subscriptions.detect { |sub| sub.survey_id == survey_id } # || false

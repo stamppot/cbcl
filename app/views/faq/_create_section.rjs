@@ -1,2 +1,0 @@
-page.call "cancelSectionForm"
-page.replace_html 'faq_faq_section_id', @options

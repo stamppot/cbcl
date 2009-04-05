@@ -15,8 +15,7 @@ Der er ingen journaler i systemet.
 
 <% @groups.each do |g| %>
   <tr>
-    <td class="pj_name"><%= link_to( g.title, { :controller => "/"+g.class.to_s.underscore, :action => :show, :id => g.id },
-        :title => "Vis #{g.class.to_s}" ) %></td>
+    <td class="pj_name"><%= link_to( g.title, g, :title => "Vis #{g.class.to_s}" ) %></td>
 		<td class="pj small number"><%= g.code %></td>
 		<% puts g.inspect %>
     <td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
@@ -24,8 +23,8 @@ Der er ingen journaler i systemet.
 		<% unless @hide_team %>
     <td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
 		<% end %>
-    <td class="pj"><%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), { :controller => :journal, :action => :edit, :id => g.id }, :title => 'Rediger' -%>
-      <%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), { :controller => :journal, :action => :delete, :id => g.id}, :title => 'Slet' -%>
+    <td class="pj"><%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), edit_journal_path(g), :title => 'Rediger' -%>
+      <%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), delete_journal_path(g), :title => 'Slet' -%>
     </td>
   <tr/>
 <% end %>

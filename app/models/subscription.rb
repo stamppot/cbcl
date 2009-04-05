@@ -104,11 +104,11 @@ class Subscription < ActiveRecord::Base
   end
   
   def summary(options = {})
-    case options[:show]
-    when "active":
-      results = copies.active
-    when "paid":
-      results = copies.consolidated
+    results = case options[:show]
+    when "active": copies.active
+    when "paid": copies.consolidated
+    else 
+      copies
     end
     results.group_by { |c| c.created_on }
   end

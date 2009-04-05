@@ -1,9 +1,0 @@
-<h2>Redigering af team</h2>
-
-<% form_tag :action => :update, :id => @group do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend', { :class => 'normal' } %>
-<% end %>
-
-<%= link_to 'Vis', { :action => :show, :id => @group }, :title => 'Vis Team' %> |
-<%= link_to 'Tilbage', { :action => :list }, :title => 'Tilbage' %>

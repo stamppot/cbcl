@@ -1,11 +1,9 @@
 class ActiveRbac::RoleController < ActiveRbac::ComponentController
-  layout "survey"
-
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
-
+  
   # Use the configured layout.
-  layout ActiveRbac.controller_layout
+  layout 'survey' #ActiveRbac.controller_layout
 
   # Simply redirects to #list.
   def index

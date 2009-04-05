@@ -1,4 +1,5 @@
 <table id="user_list" class="sortable list" class="users">
+	<tr>
 	<th class="wide" title="Sorter efter navn">Navn</th>
 	<th title="Sorter efter Rolle">Rolle</th>
 	<% if current_user.has_access?(:user_view_status) %>
@@ -7,12 +8,12 @@
 	<th title="Sorter efter grupper">Grupper</th>
 	<% if current_user.has_access? :user_edit_delete %>
 	<th class="nosort" style="width: 75px;">Handling</th>
+	</tr>
 	<% end %>
 
 	<% @users.each do |user| %>
 	<tr>
-		<td><%= link_to( user.name, { :controller => 'user', :action => :show, :id => user.id },
-		:title => "Vis #{user.class.to_s}" ) %></td>
+		<td><%= link_to( user.name, user_path(user), :title => "Vis #{user.class.to_s}" ) %></td>
 		<td><%= roles = user.roles.empty? ? " " : user.roles.first.title -%></td>
 		<% if current_user.has_access?(:user_view_status) %>
 		<td><%= h user.status %></td>
@@ -25,11 +26,11 @@
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.has_access? :user_edit_delete %>
 	<td>
-		<%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), { :controller => 'user', :action => :edit, :id => user.id }, :title => 'Rediger' -%>
-		<%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), { :controller => 'user', :action => :delete, :id => user.id}, :title => 'Slet' -%>
+		<%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), edit_user_path(user), :title => 'Rediger' -%>
+		<%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), delete_user_path(user), :title => 'Slet' -%>
 		<span>&nbsp;&nbsp;</span>
 		<% if current_user.has_access?(:shadow_login) and user.id != current_user.id %>
-		<%= link_to image_tag('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger', :title => 'Login som denne bruger'), shadow_login_path(:user => {:login => user.login}) %>
+		<%= link_to image_tag('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger'), shadow_login_path(user), :title => 'Login som denne bruger' %>
 		<% end %>
 	</td>
 	<% end %>

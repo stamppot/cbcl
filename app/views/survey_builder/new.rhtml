@@ -1,8 +1,0 @@
-<h1>Nyt spørgeskema</h1>
-
-<% form_tag :action => :create do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag "Opret", :class => 'btn_gray' %>
-<% end %>
-
-<%= link_to 'Tilbage', :controller => :main, :action => :index %>

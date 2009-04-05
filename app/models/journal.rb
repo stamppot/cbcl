@@ -42,6 +42,8 @@ class Journal < Group
   
   named_scope :and_entries, :include => :journal_entries
   named_scope :and_person_info, :include => :person_info
+  named_scope :with_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
+  named_scope :by_code, :order => 'code ASC'
   # named_scope :answers_for_surveys, lambda { |survey_ids| { :joins => {:journal_entries => :survey_answer},
   #  :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
   

@@ -1,9 +1,0 @@
-<h3>Center: <%= @group.title %></h3>
-
-<% form_tag :action => :subscribe do %>
-	<%= render :partial => "shared/subscription_new" %>
-	
-	<p>
-		<%= submit_tag "Abbonner", :class => 'btn_gray' %>
-	</p>
-<% end %>

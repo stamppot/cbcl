@@ -34,6 +34,14 @@ class Team < Group
     self.children.map { |journal| journal.journal_entries(:include => :survey_answer).answered.map {|je| je.survey_answer} }
     # or just get journal_ids directly
   end
+
+  def login_users
+    self.children.map { |journal| journal.journal_entries }.flatten.map {|entry| entry.login_user}.compact
+  end
+  
+  def journals
+    self.children
+  end
   
   def self.per_page
     15

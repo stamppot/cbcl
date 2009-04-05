@@ -3,22 +3,28 @@ require 'facets/dictionary'
 
 class CSVHelper
   
+  # TODO: does not work!
   def login_users(journals)
-    journals = journals.select { |journal| journal.journal_entries.any? }
+    journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
+    puts "journals with unanswered entries: #{journals.size}"
     # {"journal_155"=> {
     #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
     #   :navn=>"Frederik Fran Søndergaard" } }
     results = journals.inject({}) do |results, journal|
       surveys = journal.journal_entries.inject([]) do |col, entry|
+        puts "entry: #{entry.inspect}"
         if entry.login_user && entry.not_answered?
           survey_name = entry.survey.title.gsub(/\s\(.*\)/,'')
-          col << { :user => entry.login_user.login, :password => entry.password,
+          an_entry = { :user => entry.login_user.login, :password => entry.password,
             :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
+          col << an_entry
+          puts "entry #{entry.id}: #{an_entry.inspect}"
         end
-        col
       end
 
+      puts "surveys: #{surveys.inspect}"
+      puts "results size1: #{results.size}  #{results.inspect}"
       results["journal_#{journal.code}"] = { 
         :navn => journal.person_info.name,
         :skemaer => surveys
@@ -26,8 +32,10 @@ class CSVHelper
 
       results
     end
-    
+
+    puts "results size: #{results.size}"
     # max no surveys in any journal
+    results.values.each { |r| puts "R: #{r.inspect}"}
     max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
     
     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
