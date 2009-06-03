@@ -29,7 +29,7 @@ class ScoreReportsController < ApplicationController
       # holds scores in groups of standard, latent, cross-informant
       @groups = []
 
-      @unanswered = ["Penis"]
+      @unanswered = ["Ubesvarede"]
       @survey_answers.each do |survey_answer|
         score = survey_answer.survey.scores.first
           report = ScoreReport.new
