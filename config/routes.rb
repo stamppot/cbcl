@@ -69,13 +69,13 @@ ActionController::Routing::Routes.draw do |map|
   
   # center
   map.delete_center '/centers/delete/:id', :controller                         => 'centers', :action => 'delete'
-  map.center_search 'centers/live_search/:id', :controller                     => 'centers', :action => 'livesearch'
+  map.center_search 'centers/live_search/:id', :controller                     => 'centers', :action => 'live_search'
   map.pay_subscriptions 'centers/pay_subscriptions/:id', :controller           => 'centers', :action => 'pay_subscriptions'
   map.undo_pay_subscriptions 'centers/undo_pay_subscriptions/:id', :controller => 'centers', :action => 'undo_pay_subscriptions'
 
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
 
-  map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'livesearch'
+  map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
   map.new_journal 'journals/new/:id', :controller              => 'journals', :action => 'new'
   map.delete_journal '/journals/delete/:id', :controller       => 'journals', :action => 'delete'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
