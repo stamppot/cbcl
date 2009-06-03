@@ -150,10 +150,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.create_score_report 'score_reports/create', :controller => 'score_reports', :action => 'create'
   
+  map.lostpassword 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :lostpassword
+  # is this used?
+  map.register 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :registration
+  
   map.connect '/register/confirm/:user/:token',
     :controller => 'active_rbac/registration', :action => :confirm
-  map.connect '/register/:action/:id', :controller => 'active_rbac/registration'
-  map.connect '/registration/lostpassword', :controller => 'active_rbac/registration', :action => :lostpassword
+  # map.connect '/register/:action/:id', :controller => 'active_rbac/registration'
+  # map.connect '/registration/lostpassword', :controller => 'active_rbac/registration', :action => :lostpassword
 
   map.connect '/export_logins/:action/:id', :controller => 'export_logins', :action => :team, :id => :id
   
