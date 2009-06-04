@@ -214,8 +214,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
     
     respond_to do |wants|
-      wants.html  { render(:template  => "journal/searchresults" )}
-      wants.js    { render(:layout   =>  false, :template =>  "journal/searchresults" )}
+      wants.html  { render(:template  => "journals/searchresults" )}
+      wants.js    { render(:layout   =>  false, :template =>  "journals/searchresults" )}
     end
   end
   

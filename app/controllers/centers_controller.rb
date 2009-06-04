@@ -118,7 +118,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     redirect_to center_path(@group)
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Destroy: This center could not be found.'
-    redirect_to centers_path #:action => :list
+    redirect_to centers_path
   end
 
   ## this is our live ajax search method
@@ -127,8 +127,8 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @raw_phrase = request.raw_post || params[:id]
     @groups = Center.search_title_or_code(@raw_phrase)
     respond_to do |wants|
-      wants.html  { render(:template  => "center/searchresults" )}
-      wants.js    { render(:layout   =>  false, :template =>  "center/searchresults" )}
+      wants.html  { render(:template  => "centers/searchresults" )}
+      wants.js    { render(:layout   =>  false, :template =>  "centers/searchresults" )}
     end
   end
 

@@ -1500,7 +1500,7 @@ INSERT INTO `question_cells` VALUES (1875,273,'ListItem',2,1,'','listitem::::','
 INSERT INTO `question_cells` VALUES (1876,273,'TextBox',2,2,'','textbox::::','');
 INSERT INTO `question_cells` VALUES (1959,275,'ListItem',1,1,'','listitem::::Klassetrin:','');
 INSERT INTO `question_cells` VALUES (1960,275,'ListItem',1,2,'','listitem::::Skole (navn)','');
-INSERT INTO `question_cells` VALUES (1961,275,'SelectOption',2,1,'','option::0::0. klasse###option::1::1. klasse###option::2::2. klasse###option::3::3. klasse###option::4::4. klasse###option::5::5. klasse###option::6::6. klasse###option::7::7. klasse###option::8::8. klasse###option::9::9. klasse###option::10::10. klasse###option::99::Andet','--- \n:validation: []\n\n');
+INSERT INTO `question_cells` VALUES (1961,275,'SelectOption',2,1,'','option::0::0. klasse###option::1::1. klasse###option::2::2. klasse###option::3::3. klasse###option::4::4. klasse###option::5::5. klasse###option::6::6. klasse###option::7::7. klasse###option::8::8. klasse###option::9::9. klasse###option::10::10. klasse###option::99::Andet','');
 INSERT INTO `question_cells` VALUES (1962,275,'TextBox',2,2,'','textbox::::','');
 INSERT INTO `question_cells` VALUES (1964,276,'Questiontext',1,1,'','questiontext::::Har der vÃ¦ret ivÃ¦rksat specielle tiltag for eleven, eksempelvis specialundervisning, stÃ¸ttelÃ¦rer, centerklasse eller lignende?','');
 INSERT INTO `question_cells` VALUES (1965,276,'Rating',2,1,'','radio::0::Nej###radio::1::Ja','--- \n:switch: \n- a\n');
