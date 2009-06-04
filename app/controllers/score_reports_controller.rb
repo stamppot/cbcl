@@ -1,5 +1,6 @@
 class ScoreReportsController < ApplicationController
 
+  
   def create
     @page_title = "CBCL - Scorerapport"
     answers = []
