@@ -65,14 +65,15 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     if params[:id]  # center id is parameter
       @groups += Group.find :all, :conditions => [ 'id = ?', params[:id] ]
     else
-      @groups = [] << current_user.center  # teams can only be subgroup of center, not of teams
-      @groups.compact!  # if superadmin, center is nil
+      @groups = current_user.centers # + current_user.center  # teams can only be subgroup of center, not of teams
+      @groups.compact!.uniq  # if superadmin, center is nil
     end
 
     @group = Team.new
     @group.parent = @groups.first if @groups.size == 1
-    # set suggested team code
-    @groups = current_user.center ? [current_user.center] : current_user.centers
+    # set suggested team code if only one center possible
+    # if @groups.size > 1
+      # @groups = current_user.center ? [current_user.center] : current_user.centers
     @group.code = @groups.first.next_team_id if @groups.size == 1 # for superadmin, no code is set
   end
 

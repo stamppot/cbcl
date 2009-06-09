@@ -14,7 +14,6 @@
 		<td class="t_i">Center:</td>
 		<td class="t">
     <% unless @group.errors[:parent].nil? %><div class="fieldWithErrors"><% end %>
-
       <%= node_tree(@groups) do |group|
             result = "<input id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
             result = "<input id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group

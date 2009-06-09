@@ -1,6 +1,10 @@
 <%= node_tree(@groups) do |g|
 	  if current_user.has_access?(:team_show)
-     	link_to( g.title, team_path(g),	:title => "Vis #{g.class.to_s.underscore}" )
+			if g.is_a? Center
+				link_to g.title, center_path(g), :title => "Vis center #{g.title}"
+			else
+     		link_to( g.title, team_path(g),	:title => "Vis team #{g.title}" )
+			end
 	  else
 			g.title
 	  end
