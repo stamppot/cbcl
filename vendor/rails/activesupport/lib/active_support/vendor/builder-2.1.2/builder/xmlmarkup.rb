@@ -27,7 +27,7 @@ module Builder
   #   xm.em { xmm.b("emp & bold") }   # => <em><b>emph &amp; bold</b></em>
   #   xm.a("A Link", "href"=>"http://onestepback.org")
   #                                   # => <a href="http://onestepback.org">A Link</a>
-  #   xm.div { br }                    # => <div><br/></div>
+  #   xm.div { br }                    # => <div><br></div>
   #   xm.target("name"=>"compile", "option"=>"fast")
   #                                   # => <target option="fast" name="compile"\>
   #                                   # NOTE: order of attributes is not specified.
@@ -55,8 +55,8 @@ module Builder
   #   Example:
   #
   #     xm.div {                          # <div>
-  #       xm.text! "line"; xm.br          #   line<br/>
-  #       xm.text! "another line"; xmbr   #    another line<br/>
+  #       xm.text! "line"; xm.br          #   line<br>
+  #       xm.text! "another line"; xmbr   #    another line<br>
   #     }                                 # </div>
   #
   # * The special XML characters <, >, and & are converted to &lt;,
@@ -282,7 +282,7 @@ module Builder
     end
 
     # Start an XML tag.  If <tt>end_too</tt> is true, then the start
-    # tag is also the end tag (e.g.  <br/>
+    # tag is also the end tag (e.g.  <br>
     def _start_tag(sym, attrs, end_too=false)
       @target << "<#{sym}"
       _insert_attributes(attrs)

@@ -22,9 +22,9 @@
 				<% if @action == 'order' %>
 				<%= link_to_remote 'Færdig!', :url => {:controller => :score, :action => 'done_ordering_scales', :id => @scale} %>
 				<% elsif @scales.size > 1 %>
-				<%= link_to 'Reorganiser liste', {:controller => :score, :action => 'order_scales'} %><br/>
+				<%= link_to 'Reorganiser liste', {:controller => :score, :action => 'order_scales'} %><br>
 				<% else %>
-				<%= link_to 'Index', {:controller => :score, :action => 'list_scales'} %><br/>
+				<%= link_to 'Index', {:controller => :score, :action => 'list_scales'} %><br>
 				<% end %>
 
 				<% unless @action == 'order' %>
@@ -44,7 +44,7 @@
 
 	</div>
 	<p>
-		<br/>
-		<br/>
+		<br>
+		<br>
 	</p>
 </div>

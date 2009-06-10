@@ -21,6 +21,15 @@ module ApplicationHelper
 
   LINE_LENGTH = 78 unless defined? LINE_LENGTH
 
+  # correctly close/open html 4.01 tags
+  def stylesheet_link_tag_html4( _n )
+    return stylesheet_link_tag( _n ).gsub( ' />', '>' )
+  end  
+
+  def img_tag_html4( a, b )
+    return image_tag( a, b ).gsub( ' />', '>' )
+  end  
+
   # This method returns the User model of the currently logged in user or
   # the anonymous user if no user has been logged in yet.
   def current_user

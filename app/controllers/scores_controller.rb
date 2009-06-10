@@ -151,7 +151,7 @@ class ScoresController < ApplicationController
   #     if @score.save
   #       flash[:notice] = "Spørgeskemaer blev tilføjet score-beregning."
   #     else
-  #       flash[:error] = "Spørgeskemaer blev ikke tilføjet!" << "<br/><br/>Params: #{params.inspect}"
+  #       flash[:error] = "Spørgeskemaer blev ikke tilføjet!" << "<br><br>Params: #{params.inspect}"
   #     end
   #     redirect_to :action => :edit, :id => @score
   #   else

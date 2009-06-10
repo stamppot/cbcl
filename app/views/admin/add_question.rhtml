@@ -32,14 +32,14 @@ Question no: <%= text_field("question" , :number, { :value => @survey.new_questi
 <div id="actions">
 	<%= link_to_remote "Add row", :url => { :controller => 'survey_builder', :action => :add_question_row} %>
     <%= link_to_remote "Delete row", :url => { :controller => 'survey_builder', :action => :delete_question_row} %>
-	<br/>
+	<br>
 	<%= link_to_remote "Add column", { :url => { :controller => 'survey_builder', :action => "add_question_column" } }, { :class => "ie_action" } %>
     <%= link_to_remote "Delete column", { :url => { :controller => 'survey_builder', :action => "delete_question_column" } }, { :class => "ie_action" } %>
 </div>
 
-<br/>
+<br>
 
-<br/>
+<br>
   <%= submit_tag 'Tilføj spørgsmål', :class => 'btn_gray' %>
 <% end %>
 

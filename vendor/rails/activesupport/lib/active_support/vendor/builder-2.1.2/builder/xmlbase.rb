@@ -76,7 +76,7 @@ module Builder
     # Append text to the output target.  Escape any markup.  May be
     # used within the markup brackets as:
     #
-    #   builder.p { |b| b.br; b.text! "HI" }   #=>  <p><br/>HI</p>
+    #   builder.p { |b| b.br; b.text! "HI" }   #=>  <p><br>HI</p>
     def text!(text)
       _text(_escape(text))
     end
@@ -84,7 +84,7 @@ module Builder
     # Append text to the output target without escaping any markup.
     # May be used within the markup brackets as:
     #
-    #   builder.p { |x| x << "<br/>HI" }   #=>  <p><br/>HI</p>
+    #   builder.p { |x| x << "<br>HI" }   #=>  <p><br>HI</p>
     #
     # This is useful when using non-builder enabled software that
     # generates strings.  Just insert the string directly into the

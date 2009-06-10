@@ -19,7 +19,7 @@
   <dt><label for="person_info_nationality">Nationalitet</label></dt>
   <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
 
-	<br/>
+	<br>
   <dt><label>Vælg center/team:</label></dt>
   <dd>
     <%= node_tree(@groups) do |group|

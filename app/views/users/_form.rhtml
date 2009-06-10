@@ -31,7 +31,7 @@
 				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" /> "
 			end
 			result += "<label for=\"user_roles_#{role.id}\">#{role.title}</label> "
-			roles << result << "<br/>"
+			roles << result << "<br>"
 			end %>
 		 <%= roles.join %>
 	</dd>

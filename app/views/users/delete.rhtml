@@ -4,7 +4,7 @@
 <p>
 Er du sikker på at du vil slette brugeren &quot;<%= @user.login %>&quot;
 <% if @user.roles.size > 0 %>
-med <%= @user.roles.size == 1 ? 'rollen' : 'rollerne' %> &quot;<%= @user.roles.collect { |r| r.title }.join(", ") %>&quot;<% end %>?<br/>
+med <%= @user.roles.size == 1 ? 'rollen' : 'rollerne' %> &quot;<%= @user.roles.collect { |r| r.title }.join(", ") %>&quot;<% end %>?<br>
 <strong>Denne handling kan ikke fortrydes</strong>.
 </p>
 

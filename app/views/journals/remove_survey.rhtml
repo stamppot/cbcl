@@ -16,7 +16,7 @@
 		<% @entries.each do |entry| %>
 			<div style='background-color: #<%= entry.survey.color %>; width: 25em;'>
 				<%= check_box( :entry, entry.id) %>		
-				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.title}</label> <br/>" %>
+				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.title}</label> <br>" %>
 			</div>
 		<% end %>
 	</dd>

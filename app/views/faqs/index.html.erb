@@ -28,9 +28,9 @@
 				<% if @action == 'order' %>
 				<%= link_to_remote 'Færdig!', :url => faq_done_order(@section) %>
 				<% elsif @sections.size > 1 %>
-				<%= link_to 'Reorganiser liste', {:controller => :faq, :action => 'order_sections'} %><br/>
+				<%= link_to 'Reorganiser liste', {:controller => :faq, :action => 'order_sections'} %><br>
 				<% else %>
-				<%= link_to 'Index', {:controller => :faq, :action => 'index'} %><br/>
+				<%= link_to 'Index', {:controller => :faq, :action => 'index'} %><br>
 				<% end %>
 
 				<% unless @action == 'order' %>
@@ -50,7 +50,7 @@
 
 	</div>
 	<p>
-		<br/>
-		<br/>
+		<br>
+		<br>
 	</p>
 </div>

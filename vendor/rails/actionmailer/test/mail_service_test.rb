@@ -215,7 +215,7 @@ class TestMailer < ActionMailer::Base
     content_type "multipart/mixed"
     part :content_type => "multipart/alternative", :content_disposition => "inline", :headers => { "foo" => "bar" } do |p|
       p.part :content_type => "text/plain", :body => "test text\nline #2"
-      p.part :content_type => "text/html", :body => "<b>test</b> HTML<br/>\nline #2"
+      p.part :content_type => "text/html", :body => "<b>test</b> HTML<br>\nline #2"
     end
     attachment :content_type => "application/octet-stream",:filename => "test.txt", :body => "test abcdefghijklmnopqstuvwxyz"
   end
@@ -226,7 +226,7 @@ class TestMailer < ActionMailer::Base
     from         "test@example.com"
     content_type "multipart/mixed"
     part :content_type => "multipart/alternative", :content_disposition => "inline", :body => "Nothing to see here." do |p|
-      p.part :content_type => "text/html", :body => "<b>test</b> HTML<br/>"
+      p.part :content_type => "text/html", :body => "<b>test</b> HTML<br>"
     end
   end
 

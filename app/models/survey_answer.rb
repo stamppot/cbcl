@@ -104,7 +104,7 @@ class SurveyAnswer < ActiveRecord::Base
         
   # print all values iteratively
   def print
-    output = "Survey Answer: #{self.survey.title}<br/>"
+    output = "Survey Answer: #{self.survey.title}<br>"
     answers.each { |answer| output << answer.print }
     return output
   end

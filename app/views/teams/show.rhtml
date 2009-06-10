@@ -40,11 +40,11 @@
 <p/>
 
 <div class="commands">
-    <%= link_to "Ny bruger til team #{@group.title}", new_user_path(@group), :title => 'Opret ny bruger i teamet' %><br/>
+    <%= link_to "Ny bruger til team #{@group.title}", new_user_path(@group), :title => 'Opret ny bruger i teamet' %><br>
 </div>
 
 
-<br/>
+<br>
 <h3>Journaler  <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "journal_list", {:duration => 0.5}) %></span></h3></h3>
   <% if @groups.empty? %>
   	Ingen

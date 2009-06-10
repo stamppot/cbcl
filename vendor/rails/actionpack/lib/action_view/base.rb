@@ -22,7 +22,7 @@ module ActionView #:nodoc:
   #
   #   <b>Names of all the people</b>
   #   <% for person in @people %>
-  #     Name: <%= person.name %><br/>
+  #     Name: <%= person.name %><br>
   #   <% end %>
   #
   # The loop is setup in regular embedding tags <% %> and the name is written using the output embedding tag <%= %>. Note that this

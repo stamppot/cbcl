@@ -240,7 +240,7 @@ class SurveyBuilderController < ApplicationController
       cellno = cell.to_s.scan(/[0-9]+/)
       @q_cell = QuestionCell.new( :row => cellno.first.to_i, :col => cellno.last.to_i)
       attributes.each do |cellattr, val|  # val == items|no|type|answeritem
-        # render_text "type: #{type.inspect}<br/>val: #{val.inspect}"
+        # render_text "type: #{type.inspect}<br>val: #{val.inspect}"
     
         case cellattr
         when "type":  @q_cell.type = val

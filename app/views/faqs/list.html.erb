@@ -16,6 +16,6 @@
 	<%= link_to_remote 'Færdig!', :url => {:action => 'done_ordering_sections', :id => @section} %>
 <% else %>
 	<%= link_to 'Reorganiser liste', :action => 'order_sections_path', :id => @section %>
-	<br/>
+	<br>
 	<%= link_to 'Nyt afsnit', :action => 'new_section' %>
 <% end %>

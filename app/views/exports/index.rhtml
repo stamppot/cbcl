@@ -5,10 +5,10 @@
 <div id='filter_fields'>
 	<label for='start_date'>Startdato</label>
 	<%= select_date(@start_date, :prefix => 'start_date', :order => [:day, :month, :year], :start_year => (@start_date.year), :end_year => @stop_date.year ) %>
-	<br/>
+	<br>
 	<label for='stop_date'>Slutdato</label>
 	<%= select_date(@stop_date, :prefix => 'stop_date', :order => [:day, :month, :year], :start_year => (@stop_date.year), :end_year => @start_date.year ) %>
-	<br/>
+	<br>
 	
 <h3>Alder</h3>
 	<%= render :partial => 'select_age' %>
@@ -19,17 +19,17 @@
 	<% @surveys.each do |survey| %>
 		<div style='background-color: #<%= survey.color %>; width: 25em;'>
 			<%= check_box_tag("surveys[#{survey.id}]", "1", survey.selected, { :class => 'no_border'}) %>		
-			<%= "<label for=\"surveys_#{survey.id}\">#{survey.title}</label> <br/>" %>
+			<%= "<label for=\"surveys_#{survey.id}\">#{survey.title}</label> <br>" %>
 		</div>
 	<% end %>
-	<br/>
+	<br>
 </div>	
 
 	<div>
 		<img alt="spinner" id="filter_spinner" src="/images/spinner.gif" style="display:none;" />
 		<span id="results">Antal: <%= @survey_answers.size %></span>
 	</div>
-	<br/>
+	<br>
 	
 <span style="padding: 3px;" id='send_form' class="btn-submit">
 	<span id='filter'>
@@ -46,4 +46,4 @@
 </div
 <% end %>
 
-<br/>
+<br>

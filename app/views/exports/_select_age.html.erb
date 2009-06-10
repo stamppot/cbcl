@@ -7,7 +7,7 @@
 			:onchange => remote_function(:submit => "select_age", :url => set_age_range_path("up")
 ) ) %>
 <!-- { :controller => :export, :action => :set_age_range, :id => "up" } -->
-	<br/>
+	<br>
 	
 	<label for='stop_age'>Alder slut</label>
 	<%= select_tag('stop_age', options_for_select((1..21), selected_value = @stop_age), 

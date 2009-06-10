@@ -725,7 +725,7 @@ class FormHelperTest < ActionView::TestCase
     (field_helpers - %w(hidden_field)).each do |selector|
       src = <<-END_SRC
         def #{selector}(field, *args, &proc)
-          "<label for='\#{field}'>\#{field.to_s.humanize}:</label> " + super + "<br/>"
+          "<label for='\#{field}'>\#{field.to_s.humanize}:</label> " + super + "<br>"
         end
       END_SRC
       class_eval src, __FILE__, __LINE__
@@ -741,10 +741,10 @@ class FormHelperTest < ActionView::TestCase
 
     expected =
       "<form action='http://www.example.com' method='post'>" +
-      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br/>" +
-      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br/>" +
+      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br>" +
+      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br>" +
       "<label for='secret'>Secret:</label> <input name='post[secret]' checked='checked' type='checkbox' id='post_secret' value='1' />" +
-      "<input name='post[secret]' type='hidden' value='0' /><br/>" +
+      "<input name='post[secret]' type='hidden' value='0' /><br>" +
       "</form>"
 
     assert_dom_equal expected, output_buffer
@@ -762,10 +762,10 @@ class FormHelperTest < ActionView::TestCase
 
     expected =
       "<form action='http://www.example.com' method='post'>" +
-      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br/>" +
-      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br/>" +
+      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br>" +
+      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br>" +
       "<label for='secret'>Secret:</label> <input name='post[secret]' checked='checked' type='checkbox' id='post_secret' value='1' />" +
-      "<input name='post[secret]' type='hidden' value='0' /><br/>" +
+      "<input name='post[secret]' type='hidden' value='0' /><br>" +
       "</form>"
 
     assert_dom_equal expected, output_buffer
@@ -818,10 +818,10 @@ class FormHelperTest < ActionView::TestCase
 
      expected =
        %(<form action="http://www.example.com" onsubmit="new Ajax.Request('http://www.example.com', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;" method="post">) +
-       "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br/>" +
-       "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br/>" +
+       "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br>" +
+       "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br>" +
        "<label for='secret'>Secret:</label> <input name='post[secret]' checked='checked' type='checkbox' id='post_secret' value='1' />" +
-       "<input name='post[secret]' type='hidden' value='0' /><br/>" +
+       "<input name='post[secret]' type='hidden' value='0' /><br>" +
        "</form>"
 
      assert_dom_equal expected, output_buffer
@@ -835,10 +835,10 @@ class FormHelperTest < ActionView::TestCase
     end
 
     expected =
-      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br/>" +
-      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br/>" +
+      "<label for='title'>Title:</label> <input name='post[title]' size='30' type='text' id='post_title' value='Hello World' /><br>" +
+      "<label for='body'>Body:</label> <textarea name='post[body]' id='post_body' rows='20' cols='40'>Back to the hill and over it again!</textarea><br>" +
       "<label for='secret'>Secret:</label> <input name='post[secret]' checked='checked' type='checkbox' id='post_secret' value='1' />" +
-      "<input name='post[secret]' type='hidden' value='0' /><br/>"
+      "<input name='post[secret]' type='hidden' value='0' /><br>"
 
     assert_dom_equal expected, output_buffer
   end

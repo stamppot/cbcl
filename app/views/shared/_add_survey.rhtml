@@ -5,7 +5,7 @@
 		<% @surveys.each do |survey| %>
 			<div style='background-color: #<%= survey.color %>; width: 25em;'>
 				<%= check_box( :survey, survey.id, { :class => 'no_border'}) %>		
-				<%= "<label for=\"survey_#{survey.id}\">#{survey.title}</label> <br/>" %>
+				<%= "<label for=\"survey_#{survey.id}\">#{survey.title}</label> <br>" %>
 			</div>
 		<% end %>
 	</dd>

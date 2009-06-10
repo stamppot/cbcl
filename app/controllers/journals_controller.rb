@@ -68,7 +68,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
 
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br/>" + @group.errors.inspect
+    flash[:error] = 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + @group.errors.inspect
     redirect_to :action => :list
   end
 

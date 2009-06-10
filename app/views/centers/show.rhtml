@@ -60,7 +60,7 @@
 
 <%= render :partial => 'commands' %>
 
-<br/>
+<br>
 
 <% localadmins = @users.select { |u| u.has_access? :centeradm } %>
 
@@ -70,7 +70,7 @@
 	<p>Ingen</p>
   <% if current_user.has_access? :user_new_leader %>
     <div class="commands">
-        <%= link_to "Opret Centeradministrator", new_user_path(@group), :title => 'Opret ny bruger i centret' %><br/>
+        <%= link_to "Opret Centeradministrator", new_user_path(@group), :title => 'Opret ny bruger i centret' %><br>
     </div>
     <% end %>
 <% else %>
@@ -80,7 +80,7 @@
   <% end %>
 </ul>
 <% end %>
-<br/>
+<br>
 
 <% if current_user.has_access? :user_show_all %>
 <h3>Alle brugere i centeret <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "user_list", {:duration => 0.5}) %></span></h3>
@@ -95,9 +95,9 @@
 <% end %>
 
 <div class="commands">
-    <%= link_to "Opret bruger", new_user_path(@group), :title => 'Opret ny bruger i teamet' %><br/>
+    <%= link_to "Opret bruger", new_user_path(@group), :title => 'Opret ny bruger i teamet' %><br>
 </div>
-<br/>
+<br>
 
 <h3>Abonnementer <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "subscription_list", {:duration => 0.5}) %></span></h3></h3>
 
@@ -114,14 +114,14 @@
 		<% end %>
 	</p>
 	<% end %>
-	<br/>
+	<br>
 
 	<p><strong>Detaljeret oversigt</strong>
 	<%= render :partial => "shared/subscription_list", :object => @group %>
 	</div>
 <% end %>
 </p>
-<br/>
+<br>
 
 <% if current_user.has_access? :subscription_new_edit %>
 <div class="commands">

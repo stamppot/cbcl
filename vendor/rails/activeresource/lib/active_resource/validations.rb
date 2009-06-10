@@ -138,7 +138,7 @@ module ActiveResource
     #   my_person.errors.add('login', 'can not be empty') if my_person.login == ''
     #   my_person.errors.add('password', 'can not be empty') if my_person.password == ''
     #   messages = ''
-    #   my_person.errors.each_full {|msg| messages += msg + "<br/>"}
+    #   my_person.errors.each_full {|msg| messages += msg + "<br>"}
     #   messages
     #   # => "Login can not be empty<br />Password can not be empty<br />"
     #
@@ -154,7 +154,7 @@ module ActiveResource
     #   my_person.errors.add('login', 'can not be empty') if my_person.login == ''
     #   my_person.errors.add('password', 'can not be empty') if my_person.password == ''
     #   messages = ''
-    #   my_person.errors.full_messages.each {|msg| messages += msg + "<br/>"}
+    #   my_person.errors.full_messages.each {|msg| messages += msg + "<br>"}
     #   messages
     #   # => "Login can not be empty<br />Password can not be empty<br />"
     #

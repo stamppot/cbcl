@@ -18,7 +18,7 @@
 			else
 				out = ["&nbsp;&nbsp;"]
 				out << "<span class='survey_color_box' style='background: ##{@score.survey.color};'>#{@score.survey.title}</span>"
-				# out << "<br/>" << link_to('Vælg andet skema', { :action => :edit_survey, :id => @score.id })
+				# out << "<br>" << link_to('Vælg andet skema', { :action => :edit_survey, :id => @score.id })
 				out.join
 			end %>
 			<p/>
@@ -34,7 +34,7 @@
 		<td class="t_i"><%= select 'score', 'score_scale_id', @score.scales.to_a %></td>
 	</tr>
 </table>
-<p><br/>
+<p><br>
 	
 	<!-- Score references -->
 	<p>

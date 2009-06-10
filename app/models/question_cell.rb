@@ -508,7 +508,7 @@ class SelectOption < QuestionCell
     qitems = self.question_items.collect { |item| [item.qtype, item.value, item.text] }
     if qitems.first[0] == "listitem"
       label = qitems.shift
-      newform << "<label for=#{c_id} class='selectlabel'>#{label.last || ""}</label><br/>"
+      newform << "<label for=#{c_id} class='selectlabel'>#{label.last || ""}</label><br>"
     end 
     sel_options = ["<option value=''>Vælg et svar</option>"]
     qitems.each do |option|
@@ -554,7 +554,7 @@ class SelectOption < QuestionCell
       newform << "<label for=#{c_id} class='selectlabel#{target}'>#{label.last}</label>"
     end
     values = qitems.map { |item| item[1] }
-    help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br/>")
+    help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br>")
 
     newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
     (self.value.nil? ? " />" : "value='#{self.value}' />"), "selectoption #{target}".rstrip) # <<
@@ -601,7 +601,7 @@ class SelectOption < QuestionCell
   end
   
   # def popup_selectoption
-  #   text = question_items.map {|item| item.text + " = " + item.value }.join("<br/>")
+  #   text = question_items.map {|item| item.text + " = " + item.value }.join("<br>")
   #   #script = "<SCRIPT language=javascript>\n<!--\n"
   #   link = "window.open(\"hest\",\"#{@controller.class.name}\",\"width=20,height=600,resizable,scrollbars=yes\");\n"
   #   #yield script

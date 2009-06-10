@@ -1,7 +1,7 @@
 <%= !current_user.login_user ? link_to("Gå tilbage", journal_path(@journal_entry.journal)) : "" %>
 <%= render :partial => 'surveys/survey_header' %>
 
-<br/>
+<br>
 
 <div id='draft-message' style='color:red;'></div>
 
@@ -12,13 +12,13 @@
 	<% elsif @options[:show_only] %>
 	<%=  link_to 'Hurtig indtastning', survey_show_only_fast_path(@survey) %>
 	<% else %>
-	<%= link_to "Hurtig indtastning " + image_tag("icon_input.gif", :border=>0, :alt => 'Hurtig indtastning', :title => 'Hurtig indtastning' ),
+	<%= link_to ("Hurtig indtastning " + img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning")),
 	 			survey_show_fast_path(@journal_entry), :title => 'Besvar med hurtig indtastning', :style => 'width: 16px;' %>
 	<% end %>
 </div>
 <% end %>
 
-<br/>
+<br>
 <p/>
 
 
@@ -34,7 +34,7 @@
 <div>
 	<%= render :partial => "surveys/answer_by" %>
 </div>
-<br/>
+<br>
 
 <%= render :partial => "surveys/question", :collection => @survey.questions %>
 

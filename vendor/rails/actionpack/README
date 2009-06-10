@@ -314,15 +314,15 @@ A short rundown of the major features:
     
     <form action="create" method="POST">
       <p>
-        <b>Title:</b><br/> 
+        <b>Title:</b><br> 
         <input type="text" name="post[title]" value="<%= @post.title %>" />
       </p>
       <p>
-        <b>Content:</b><br/>
+        <b>Content:</b><br>
         <textarea name="post[content]"><%= @post.title %></textarea>
       </p>
       <p>
-        <b>Written on:</b><br/>
+        <b>Written on:</b><br>
         <select name='post[written_on(3i)]'><option>18</option></select>
         <select name='post[written_on(2i)]'><option value='7'>July</option></select>
         <select name='post[written_on(1i)]'><option>2004</option></select>
@@ -397,7 +397,7 @@ And the templates look like this:
 
   weblog/display.erb:
     <p>
-      <b><%= post.title %></b><br/>
+      <b><%= post.title %></b><br>
       <b><%= post.content %></b>
     </p>
 

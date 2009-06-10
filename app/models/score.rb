@@ -121,7 +121,7 @@ class Score < ActiveRecord::Base
   end
 
   def to_s
-    "<br/>Score: #{id}" + "<br/>" + title + "<br/>" + "Skema: #{short_name}" + "<br/>" + "Tælling: #{sum_type}" + "<br/>" + "Skala: #{scale}" + "<br/>"
+    "<br>Score: #{id}" + "<br>" + title + "<br>" + "Skema: #{short_name}" + "<br>" + "Tælling: #{sum_type}" + "<br>" + "Skala: #{scale}" + "<br>"
   end
   
   private

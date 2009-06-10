@@ -1,6 +1,6 @@
 <%= render :partial => 'surveys/survey_header' %>
 
-<br/>
+<br>
 
 <div id='draft-message' style='color:red;'></div>
 
@@ -15,7 +15,7 @@
 <% end %>
 
 <p/>
-<br/>
+<br>
 
 <a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
 <p/>
@@ -29,7 +29,7 @@
 	<div>
 		<%= render :partial => "surveys/answer_by" %>
 	</div>
-	<br/>
+	<br>
 
 	<%= render :partial => "surveys/question_fast", :collection => @survey.questions.sort %>
 
