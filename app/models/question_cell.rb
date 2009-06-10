@@ -766,7 +766,7 @@ class Rating < QuestionCell
     show_all = options[:show_all] && true || false
     fast     = options[:fast] ? true : false
     edit     = options[:edit] ? true : false
-    onclick  = options[:onclick] || "onclick='toggleRadio(this)"
+    onclick  = options[:onclick] || "onclick='toggleRadio(this)'"
     no       = options[:number].to_s || self.question.number.to_s
     switch_off = options[:switch_off]
     c_id     = cell_id(no)
