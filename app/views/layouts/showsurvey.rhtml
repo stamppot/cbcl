@@ -1,23 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <% @user = current_user %>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+
 	<title><%= @page_title %></title>
+	<%= stylesheet_link_tag 'validation' %>	
+	<%= stylesheet_link_tag 'cbcl' %>
+	<%= stylesheet_link_tag 'survey' %>
+
 	<%= javascript_include_tag 'prototype' %>
 	<%= javascript_include_tag 'effects' %>
 	<%= javascript_include_tag 'controls' %>
 	<%= javascript_include_tag 'application' %>
 	<%= javascript_include_tag 'wforms/wforms_core' %>
 	<%= javascript_include_tag 'wforms/wforms_switch' %>
-	<!-- Add wforms_jump when fix bugs -->
+
 	<% javascript_include_tag 'wforms/wforms_jump' %>
 	<%= javascript_include_tag 'validation' %>
 	<%= javascript_include_tag 'tabbing' %>
 	<%= javascript_include_tag 'css_browser_selector' %>
-	<%= stylesheet_link_tag 'validation' %>	
-	<%= stylesheet_link_tag 'cbcl' %>
-	<%= stylesheet_link_tag 'survey' %>
 </head>
 <body>
 
