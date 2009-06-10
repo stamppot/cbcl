@@ -14,11 +14,11 @@
 </div>
 <% end %>
 
-<p/>
+
 <br>
 
 <a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
-<p/>
+
 
 
 <!-- DO NOT TOUCH THIS! -->
@@ -36,7 +36,7 @@
 	<% unless @options[:action] =~ /show/ %>
 		<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
 		<div id="sending_form" style="display: none">
-			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif"></img>
+			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img alt="busy" src="/images/spinner.gif">
 		</div>
 		
 		</form>
@@ -68,7 +68,7 @@
 	</script>
 <% end %>
 
-<p/>
+
 <% if current_user.has_access? :survey_new_edit %>
 <%= link_to 'Rediger', edit_survey_path(@survey) %> |
 <% end %>

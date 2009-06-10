@@ -79,7 +79,7 @@
 	</table>
 <% end %>
 
-<p/>
+
 <div class="commands">
 	<%= link_to 'Tilføj spørgeskemaer', journal_add_survey_path(@group), :title => 'Tilføj skemaer' %>
 	<%= link_to 'Fjern spørgeskemaer', journal_remove_survey_path(@group), :title => 'Fjern skemaer' %>
@@ -118,7 +118,7 @@
 	<% end %>
 	</table>
 	<% if @group.answered_entries.size > 0 %>
-	  <p/>
+	  
 	  <div class="commands">
 		<%= submit_tag "Beregn score", :class => 'btn_gray' %>
 		<% end %>
@@ -126,7 +126,7 @@
 	<% end %>
 <% end %>
 
-<p/>
+
 
 <div class="commands">
 	<%= link_to 'Rediger', edit_journal_path(@group), :title => 'Rediger' %>

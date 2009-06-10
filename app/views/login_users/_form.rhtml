@@ -13,7 +13,7 @@
   <dt><label for="user_state">State</label></dt>
   <dd><%= select 'user', 'state', User.stateToStatus(User.states.reject { |key, value| !@user.state_transition_allowed?(@user.state, value) }) %></dd>
 
-<p/>
+
 
   <dt><label>Rolle</label></dt>
   <dd>    <%= node_tree(@roles) do |role|

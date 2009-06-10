@@ -32,7 +32,7 @@ Der er ingen journaler i systemet.
 <% end %>
 
 <% if params[:action] =~ /search/ %>
-	<p/>
+	
 	<div style='align: right;'><b><%= @groups.size %></b> resultat<%= 'er' if @groups.size > 1 %></div>
 <% else %>
 	<% if @groups.page_count > 1 -%>

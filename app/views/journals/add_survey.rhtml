@@ -1,6 +1,6 @@
 <% @subtitle = "Vælg spørgeskemaer der skal besvares" %>
 <h3>Tilføj spørgeskemaer til journal <%= @group.title %></h3>
-<p/>
+
 <% form_tag :action => :add_survey do %>
 
 <% if @surveys.empty? %>
@@ -8,7 +8,7 @@ Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.
 
 <% else %>
 
-	<p/>
+	
 
 	<%= render :partial => "shared/add_survey" %>
 	
@@ -17,7 +17,7 @@ Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.
 	</p>
 <% end %>
 
-<p/>
+
 
 <%= link_to 'Tilbage', { :action => :show, :id => @group }, :title => 'Tilbage' %>
 

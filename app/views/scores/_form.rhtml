@@ -21,7 +21,7 @@
 				# out << "<br>" << link_to('Vælg andet skema', { :action => :edit_survey, :id => @score.id })
 				out.join
 			end %>
-			<p/>
+			
 		<% end %>
 		</td>
 	</tr>
@@ -60,7 +60,7 @@
 		<div id="new_score_ref_button">
 			<%= link_to_remote "Tilføj referenceværdi", :url => new_score_ref_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
-		<p/>
+		
 
 		<% end %>
 		<% end %>
@@ -92,7 +92,7 @@
 		<div id="new_score_item_button">
 			<%= link_to_remote "Tilføj beregning", :url => new_score_item_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
-		<p/>
+		
 
 		<% end %>
 		<% end %>

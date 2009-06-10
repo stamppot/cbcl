@@ -29,7 +29,7 @@
 		<table class="sortable">
 			<%= @score_refs_header.map { |h| "<th>#{h}</th>" }.join %>
 
-		<b>Referenceværdier</b><p/>
+		<b>Referenceværdier</b>
 			<%= render :partial => "scores/show_score_ref", :collection => @score.score_refs %>
 		</table>
 
@@ -37,16 +37,16 @@
 </p>
 <br>
 	
-<p/>
+
 	<% if @score.score_items.size > 0 %>
 	<table class="sortable">
 		<%= @score_items_header.map { |h| "<th>#{h}</th>" }.join %>
 
-		<b>Score items</b><p/>
+		<b>Score items</b>
 		<%= render :partial => "scores/show_score_item", :collection => @score.score_items %>
 	</table>
 	<% end %>
-<p/>
+
 
 <%= link_to 'Rediger', edit_score_path(@score) %> |
 <%= link_to 'Tilbage til liste', scores_path %>

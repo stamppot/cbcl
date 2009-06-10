@@ -451,8 +451,8 @@ class ListItem < QuestionCell
         if(disabled and value)      # show answer value
           field << value
         else                        # show text field
-          field << "<input id='#{c_id}' name='#{question_no}[#{cell_id(no)}]' value='#{self.value}' type='text' size='20'" +
-          (item.value ? " value='#{item.value}'" : "") + " ></input>"
+          field << "<input id='#{c_id}' name='#{question_no}[#{cell_id(no)}]' type='text' size='20'" +
+          (item.value ? " value='#{item.value}'" : "") + " >"
         end
         newform << div_item(field, "listitemfield")
       else
@@ -557,7 +557,7 @@ class SelectOption < QuestionCell
     help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br>")
 
     newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
-    (self.value.nil? ? " />" : "value='#{self.value}' />"), "selectoption #{target}".rstrip) # <<
+    (self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
     newform <<  # TODO: fix values of help not shown for q7
       "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' border='0' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' />" <<
       "<div id='help_#{c_id}' style='display:none;'><div class='help_tip'>#{help}</div></div>"
@@ -629,8 +629,8 @@ class Checkbox < QuestionCell
     self.question_items.each do |item|
       label = "<label for='#{c_id}'>#{item.text}</label>"
       checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
-      checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' />" : "/>"
-      checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' />"
+      checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' >" : ">" # removed />
+      checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
       newform << div_item(checkbox + label, "checkbox")
     end
     newform.join
@@ -653,7 +653,7 @@ class Checkbox < QuestionCell
         label = "<label for='#{c_id}'>#{item.text}</label>"
         checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
         checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' />" : "/>"
-        checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' />"
+        checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
         newform << div_item(checkbox + label, "checkbox") << self.add_validation(:validate => "checkbox", :number => no)# + hidden_fields
       end
       newform.join
@@ -728,7 +728,7 @@ class ListItemComment < QuestionCell
       when "listitem": newform <<
         if ( item.text.nil? || item.text.empty?)     # listitem without predefined text
           div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
-          "<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' />", "listitemfield")
+          "<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >", "listitemfield") # removed />
         else div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
         end
         answer_item_set = true;
@@ -784,7 +784,7 @@ class Rating < QuestionCell
            disable = (disabled ? "disabled" : nil)
            # id = "id='#{c_id.strip}_#{i}'"
            newform << div_item(
-           "<input id='#{c_id}_#{i}' #{onclick} name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} />" +
+           "<input id='#{c_id}_#{i}' #{onclick} name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} >" + # removed />
            (item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
       else # show only answers, not all radiobuttons, disabled
         newform << if value == item.value    # show checked radiobutton
@@ -798,7 +798,7 @@ class Rating < QuestionCell
     end
     # default value, obsoleted. Default value is set when no value is given in create_cells
     if show_all
-      newform << div_item("<input id='#{c_id}_9' name='#{question_no}[#{c_id}]' type='radio' value='9' #{checked ? '' : checked} style='display:none;' />",
+      newform << div_item("<input id='#{c_id}_9' name='#{question_no}[#{c_id}]' type='radio' value='9' #{checked ? '' : checked} style='display:none;' >",  # removed />
       "hidden_radio")
           
     end
@@ -834,7 +834,7 @@ class Rating < QuestionCell
     show_label = self.question_items.map { |item| item.text.to_i }.select {|i| i == 0}.size > 1
     newform = div_item((show_label ? label.join(", ") : ""), "radiolabel") <<
     div_item("<input id='#{c_id}' " <<
-    "name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value + "'")} size='2' />", "radio")  <<
+    "name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value + "'")} size='2' >", "radio")  << # removed />
     "\n" << self.add_validation(options)
     return newform
   end
@@ -902,7 +902,7 @@ class TextBox < QuestionCell
       elsif answer
         newform << (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_textbox'>#{self.value}</div>")
       else
-        newform << div_item("<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' value='#{self.value}' cols='20' rows='3'>#{self.value}</textarea>", "itemtextbox")
+        newform << div_item("<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' cols='20' rows='3'>#{self.value}</textarea>", "itemtextbox")
       end
     end
     newform.join

@@ -20,10 +20,11 @@
 	<tbody>
 	<%- 
 	rows = question.rows_of_cols
-	output = ["<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' />"]
+	output = ["<tr>", "<td>", "<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"] # removed />
 	
 	rows.sort.each do |row, cols|
-		output << "<tr id='row#{row}' class='row'>\n" << 
+		# puts "ROW: #{row.inspect}  cols: #{cols.inspect}"
+		output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
 		((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
 		
 		cols.each do |col, cell|
@@ -37,4 +38,4 @@
 </table>
 
 </div>
-<p/>
+

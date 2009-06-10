@@ -6,7 +6,7 @@
 <p>Der er ingen spørgeskemaer tilknyttet.</p>
 
 <% else %>
-<p/>
+
 <% form_tag journal_remove_survey_path, :method => :post do %>
 
 <dl>
@@ -22,7 +22,7 @@
 	</dd>
 </dl>
 
-<p/>
+
 <%= submit_tag "Fjern valgte", :name => 'submit[update]', :class => 'btn_gray' %>
 <% end %>
 <% end %>

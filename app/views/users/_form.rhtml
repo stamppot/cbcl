@@ -19,7 +19,7 @@
 	<dt><label for="user_state">Status</label></dt>
 	<dd><%= select 'user', 'state', User.stateToStatus(User.states.reject { |key, value| !@user.state_transition_allowed?(@user.state, value) }) %></dd>
 
-	<p/>
+	
 
 	<dt><label>Roller</label></dt>
 	<dd>
@@ -36,7 +36,7 @@
 		 <%= roles.join %>
 	</dd>
 
-	<p/>
+	
 
 	<dt><label>Grupper</label></dt>
 	<dd>
