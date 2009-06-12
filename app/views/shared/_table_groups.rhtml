@@ -1,13 +1,14 @@
 <% unless @groups.empty? %>
 
 <table class="sortable list">
-<th>Navn</th>
-<th>Fødselsdato</th>
-<th>Alder</th>
-<th>Køn</th>
-<th>Nationalitet</th>
-<th>Team</th>
-
+	<tr>
+		<th>Navn</th>
+		<th>Fødselsdato</th>
+		<th>Alder</th>
+		<th>Køn</th>
+		<th>Nationalitet</th>
+		<th>Team</th>
+	</tr>
     <% @groups.each do |g| %>
   <tr>
     <td><%= g.title %></td>

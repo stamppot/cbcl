@@ -1,9 +1,11 @@
 <table class="sortable list">
-	<th>Spørgeskema</th>
-	<th>Noter</th>
-	<th>Status</th>
-	<th class="number" title="Brugt i alt">Total</th>
-	<th class="number" title="Brugt siden sidste betaling">Siden sidst</th>
+	<tr>
+		<th>Spørgeskema</th>
+		<th>Noter</th>
+		<th>Status</th>
+		<th class="number" title="Brugt i alt">Total</th>
+		<th class="number" title="Brugt siden sidste betaling">Siden sidst</th>
+	</tr>
 <%
  total_used = 0
  active_total_used = 0
@@ -25,6 +27,6 @@
  <% end %>
 <% end %>
 	<tr>
-		<td>Total:</td><td/><td/><td class="number"><%= total_used %></td><td class="number"><%= active_total_used %></td>
+		<td>Total:</td><td></td><td class="number"><%= total_used %></td><td class="number"><%= active_total_used %></td>
 	</tr>
 </table>

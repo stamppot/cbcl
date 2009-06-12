@@ -50,11 +50,13 @@
 <% if @group.not_answered_entries.size > 0 %>
 	<h4>Skemaer der skal besvares</h4>
 	<table class="sortable">
-		<th>Spørgeskema</th>
-		<th>Type</th>
-		<th>Tilføjet</th>
-		<th>Status</th>
-		<th class="nosort">Handling</th>
+		<tr>
+			<th>Spørgeskema</th>
+			<th>Type</th>
+			<th>Tilføjet</th>
+			<th>Status</th>
+			<th class="nosort">Handling</th>
+		</tr>
 	<% for entry in @group.not_answered_entries %>
 		 	 <tr id='<%= "entry" + entry.id.to_s %>'>
 				 <% survey = entry.survey %>

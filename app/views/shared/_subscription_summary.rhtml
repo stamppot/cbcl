@@ -7,9 +7,11 @@
 <% end %>
 
 <table class="sortable list">
-	<th>Periode</th>
-	<th class="number">Brugte skemaer</th>
-	<th>Betalt</th>
+	<tr>
+		<th>Periode</th>
+		<th class="number">Brugte skemaer</th>
+		<th>Betalt</th>
+	</tr>
 <%
 total_used = 0
 @copies.each do |tuple|
@@ -25,7 +27,7 @@ total_used = 0
 		<td class="number"><%= paid > 0 ? "Ja" : "Nej" %></td>
 	</tr>
 <% end %>
-</tr>
+
 <tr>
 	<td>Total:</td><td></td><td class="number"><%= total_used %></td>
 </tr>
