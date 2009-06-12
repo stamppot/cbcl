@@ -19,7 +19,7 @@
 		rows = question.rows_of_cols
 		
 		# output = []
-		output = ["<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' />"]
+		output = ["<tr>", "<td>", "<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"]
 
 		rows.sort.each do |row, cols|
 			output << "<tr id='row#{row}' class='row'>\n" << 

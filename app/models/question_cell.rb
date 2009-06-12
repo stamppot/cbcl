@@ -720,7 +720,7 @@ class ListItemComment < QuestionCell
         # enable/disable button
       when "textbox": newform << 
         if ( item.text.nil? || item.text.empty?)     # listitem without predefined text
-          input_or_answer = answer ? (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") : "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='20' rows='3' #{disabled ? ' "' : ''}>#{self.value}</textarea>"
+          input_or_answer = answer ? (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") : "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='20' rows='3' #{disabled ? ' ' : ''}>#{self.value}</textarea>"
           div_item((answer_item_set ? "" : answer_item) + input_or_answer,
           "itemtextbox #{target}".rstrip)
         else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
