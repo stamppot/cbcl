@@ -505,7 +505,7 @@ The +respond_to+ block handles both HTML and XML calls to this action. If you br
 <% end %>
 </table>
 
-<br />
+<br>
 
 <%= link_to 'New post', new_post_path %>
 -------------------------------------------------------
@@ -571,15 +571,15 @@ The +new.html.erb+ view displays this empty Post to the user:
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </p>
   <p>
-    <%= f.label :title %><br />
+    <%= f.label :title %><br>
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :content %><br />
+    <%= f.label :content %><br>
     <%= f.text_area :content %>
   </p>
   <p>
@@ -679,15 +679,15 @@ After finding the requested post, Rails uses the +edit.html.erb+ view to display
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </p>
   <p>
-    <%= f.label :title %><br />
+    <%= f.label :title %><br>
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :content %><br />
+    <%= f.label :content %><br>
     <%= f.text_area :content %>
   </p>
   <p>
@@ -781,15 +781,15 @@ As you saw earlier, the scaffold-generated views for the +new+ and +edit+ action
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </p>
   <p>
-    <%= f.label :title, "title" %><br />
+    <%= f.label :title, "title" %><br>
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :content %><br />
+    <%= f.label :content %><br>
     <%= f.text_area :content %>
   </p>
   <p>
@@ -1095,7 +1095,7 @@ The +index.html.erb+ view:
 <% end %>
 </table>
 
-<br />
+<br>
 
 <%= link_to 'New comment', new_post_comment_path(@post) %>
 <%= link_to 'Back to Post', @post %>
@@ -1111,11 +1111,11 @@ The +new.html.erb+ view:
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :commenter %><br />
+    <%= f.label :commenter %><br>
     <%= f.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br />
+    <%= f.label :body %><br>
     <%= f.text_area :body %>
   </p>
   <p>
@@ -1156,11 +1156,11 @@ The +edit.html.erb+ view:
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :commenter %><br />
+    <%= f.label :commenter %><br>
     <%= f.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br />
+    <%= f.label :body %><br>
     <%= f.text_area :body %>
   </p>
   <p>

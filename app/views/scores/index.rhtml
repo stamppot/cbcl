@@ -27,7 +27,7 @@
 	<div class="page_entries"><%= page_entries_info(@scores) -%></div>
 	<%= will_paginate @scores, :remote => {:with => 'value', :update => 'score_list'} -%>
 <% end -%>
-<br />
-<br />
+<br>
+<br>
 
 <%= link_to 'Ny scoreberegning', new_score_path %> | <%= link_to 'Scoreskalaer', score_scales_path %>

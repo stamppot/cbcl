@@ -9,9 +9,9 @@
 		
 		<% if @user && @user.has_access?(:layout_show_center_search) %>
 		<div class="searchbox">
-			<label for="search_centers"><font size="1"><b>Søg:</b></font></label><br />
-			<%= text_field_tag :search_centers, "", { :size => 10, :class => 'search' } %>
-			<img alt="spinner" id="center_spinner" src="/images/spinner.gif" style="display:none;" />
+			<label for="search_centers"><font size="1"><b>Søg:</b></font></label><br>
+			<%= text_field_tag_html4 :search_centers, "", { :size => 10, :class => 'search' } %>
+			<img alt="spinner" id="center_spinner" src="/images/spinner.gif" style="display:none;" >
 		</div>
 		<% end %>
 
@@ -78,9 +78,9 @@
 		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 
 			<div class="searchbox">
-				<label for="search_journals"><font size="1"><b>Søg:</b></font></label><br />
-				<%= text_field_tag :search_journals, "", { :size => 10, :class => 'search' } %>
-				<img alt="spinner" id="journal_spinner" src="/images/spinner.gif" style="display:none;" />
+				<label for="search_journals"><font size="1"><b>Søg:</b></font></label><br>
+				<%= text_field_tag_html4 :search_journals, "", { :size => 10, :class => 'search' } %>
+				<img alt="spinner" id="journal_spinner" src="/images/spinner.gif" style="display:none;" >
 			</div>
 		<% end %>
 

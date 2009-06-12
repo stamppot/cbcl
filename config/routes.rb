@@ -153,7 +153,15 @@ ActionController::Routing::Routes.draw do |map|
   map.lostpassword 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :lostpassword
   # is this used?
   map.register 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :registration
-  
+
+
+  # survey builder
+  map.edit_survey_builder 'survey_builder/show_edit/:id', :controller => 'survey_builder', :action => 'show_edit'
+  map.add_question_survey_builder 'survey_builder/add_question/:id', :controller => 'survey_builder', :action => 'add_question'
+  map.edit_survey_builder 'survey_builder/edit/:id', :controller => 'survey_builder', :action => 'edit'
+  map.new_survey_builder 'survey_builder/new', :controller => 'survey_builder', :action => 'new'
+  # map.destroy_survey_builder 'survey_builder/destroy', :controller => 'survey_builder', :action => 'destroy', :method => 'delete'
+
   map.connect '/register/confirm/:user/:token',
     :controller => 'active_rbac/registration', :action => :confirm
   # map.connect '/register/:action/:id', :controller => 'active_rbac/registration'

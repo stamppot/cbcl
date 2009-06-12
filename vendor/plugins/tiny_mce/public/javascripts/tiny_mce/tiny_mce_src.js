@@ -1941,7 +1941,7 @@ tinymce.create('static tinymce.util.XHR', {
 						try {
 							// IE will remove comments from the beginning
 							// unless you padd the contents with something
-							e.innerHTML = '<br />' + h;
+							e.innerHTML = '<br>' + h;
 							e.removeChild(e.firstChild);
 						} catch (ex) {
 							// IE sometimes produces an unknown runtime error on innerHTML if it's an block element within a block element for example a div inside a p
@@ -1953,7 +1953,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 							// Create new div with HTML contents and a BR infront to keep comments
 							x = t.create('div');
-							x.innerHTML = '<br />' + h;
+							x.innerHTML = '<br>' + h;
 
 							// Add all children from div to target
 							each (x.childNodes, function(n, i) {
@@ -4196,7 +4196,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 				// Use BR instead of &nbsp; padded P elements inside editor and use <p>&nbsp;</p> outside editor
 /*				if (o.set)
-					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p><br /></p>');
+					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p><br></p>');
 				else
 					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p>$1</p>');*/
 
@@ -4359,7 +4359,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 						// Padd empty nodes with a &nbsp;
 						if (ru.padd) {
-							// If it has only one bogus child, padd it anyway workaround for <td><br /></td> bug
+							// If it has only one bogus child, padd it anyway workaround for <td><br></td> bug
 							if (hc && (cn = n.firstChild) && cn.nodeType === 1 && n.childNodes.length === 1) {
 								if (cn.hasAttribute ? cn.hasAttribute('mce_bogus') : cn.getAttribute('mce_bogus'))
 									w.writeText('\u00a0');
@@ -7233,7 +7233,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			if (s.convert_newlines_to_brs) {
 				t.onBeforeSetContent.add(function(ed, o) {
 					if (o.initial)
-						o.content = o.content.replace(/\r?\n/g, '<br />');
+						o.content = o.content.replace(/\r?\n/g, '<br>');
 				});
 			}
 
@@ -10019,8 +10019,8 @@ tinymce.create('tinymce.UndoManager', {
 
 				if (!isIE && !isOpera && o.set) {
 					// Use &nbsp; instead of BR in padded paragraphs
-					o.content = o.content.replace(t.reNbsp2BR1, '<' + elm + '$1$2><br /></' + elm + '>');
-					o.content = o.content.replace(t.reNbsp2BR2, '<' + elm + '$1$2><br /></' + elm + '>');
+					o.content = o.content.replace(t.reNbsp2BR1, '<' + elm + '$1$2><br></' + elm + '>');
+					o.content = o.content.replace(t.reNbsp2BR2, '<' + elm + '$1$2><br></' + elm + '>');
 				} else {
 					o.content = o.content.replace(t.reBR2Nbsp, '<' + elm + '$1$2>\u00a0</' + elm + '>');
 					o.content = o.content.replace(t.reTrailBr, '</' + elm + '>');
@@ -10071,7 +10071,7 @@ tinymce.create('tinymce.UndoManager', {
 					each(ed.dom.select('br', o.node), function(n) {
 						var p = n.parentNode;
 
-						// Replace <p><br /></p> with <p>&nbsp;</p>
+						// Replace <p><br></p> with <p>&nbsp;</p>
 						if (p && p.nodeName == 'p' && (p.childNodes.length == 1 || p.lastChild == n)) {
 							p.replaceChild(ed.getDoc().createTextNode('\u00a0'), n);
 						}
@@ -10312,8 +10312,8 @@ tinymce.create('tinymce.UndoManager', {
 				dom.remove(sn.firstChild); // Remove BR
 
 				// Create two new block elements
-				ed.dom.add(sn, se.element, null, '<br />');
-				aft = ed.dom.add(sn, se.element, null, '<br />');
+				ed.dom.add(sn, se.element, null, '<br>');
+				aft = ed.dom.add(sn, se.element, null, '<br>');
 
 				// Move caret into the last one
 				r = d.createRange();
@@ -10446,7 +10446,7 @@ tinymce.create('tinymce.UndoManager', {
 
 			// Padd empty blocks
 			if (isEmpty(bef))
-				bef.innerHTML = '<br />';
+				bef.innerHTML = '<br>';
 
 			function appendStyles(e, en) {
 				var nl = [], nn, n, i;
@@ -10472,10 +10472,10 @@ tinymce.create('tinymce.UndoManager', {
 						nn = nn.appendChild(nl[i]);
 
 					// Padd most inner style element
-					nl[0].innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
+					nl[0].innerHTML = isOpera ? '&nbsp;' : '<br>'; // Extra space for Opera so that the caret can move there
 					return nl[0]; // Move caret to most inner element
 				} else
-					e.innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
+					e.innerHTML = isOpera ? '&nbsp;' : '<br>'; // Extra space for Opera so that the caret can move there
 			};
 
 			// Fill empty afterblook with current style

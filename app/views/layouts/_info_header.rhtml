@@ -7,7 +7,7 @@
 		Rolle: <%= @user.roles.first.title %>
 		<% if shadow_user? %>
 			<div class="last">
-				<%= link_to image_tag('door.png', :border => 0, :class => 'icon', :alt => 'Gå tilbage til egen bruger', :title => 'Log tilbage til egen bruger'), shadow_logout_path %>
+				<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => 'Gå tilbage til egen bruger', :title => 'Log tilbage til egen bruger'), shadow_logout_path %>
 			</div>
 		<% end %>
 		<% roller = ""

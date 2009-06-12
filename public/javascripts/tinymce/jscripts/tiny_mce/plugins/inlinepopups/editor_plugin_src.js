@@ -179,7 +179,7 @@
 					DOM.add(id + '_wrapper', 'a', {'class' : 'mceButton mceCancel', href : 'javascript:;', onmousedown : 'return false;'}, 'Cancel');
 
 				DOM.add(id + '_middle', 'div', {'class' : 'mceIcon'});
-				DOM.setHTML(id + '_content', f.content.replace('\n', '<br />'));
+				DOM.setHTML(id + '_content', f.content.replace('\n', '<br>'));
 			}
 
 			// Register events

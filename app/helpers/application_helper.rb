@@ -30,6 +30,10 @@ module ApplicationHelper
     return image_tag( a, b ).gsub( ' />', '>' )
   end  
 
+  def text_field_tag_html4(name, value = nil, options = {})
+    return text_field_tag( name, value, options ).gsub( ' />', '>' )
+  end
+  
   # This method returns the User model of the currently logged in user or
   # the anonymous user if no user has been logged in yet.
   def current_user

@@ -376,7 +376,7 @@
   e.g.  map.dashboard '/dashboard', :controller=>'dashboard'
         map.root      :dashboard
 
-* Handle corner case with image_tag when passed 'messed up' image names. #9018 [duncanbeevers, mpalmer]
+* Handle corner case with img_tag_html4 when passed 'messed up' image names. #9018 [duncanbeevers, mpalmer]
 
 * Add label_tag helper for generating elements. #10802 [DefV]
 
@@ -507,7 +507,7 @@
 
 * Fixed that has_many :through associations should render as collections too #9051 [mathie/danger]
 
-* Added :mouseover short-cut to AssetTagHelper#image_tag for doing easy image swaps #6893 [joost]
+* Added :mouseover short-cut to AssetTagHelper#img_tag_html4 for doing easy image swaps #6893 [joost]
 
 * Fixed handling of non-domain hosts #9479 [purp]
 
@@ -711,7 +711,7 @@
   - ActionController::Base.template_root/= methods (use ActionController#Base.view_paths/= instead)
   - ActionController::Base.cookie (use ActionController#Base.cookies[]= instead)
 
-* Removed the deprecated behavior of appending ".png" to image_tag/image_path calls without an existing extension [DHH]
+* Removed the deprecated behavior of appending ".png" to img_tag_html4/image_path calls without an existing extension [DHH]
 
 * Removed ActionController::Base.scaffold -- it went through the whole idea of scaffolding (card board walls you remove and tweak one by one). Use the scaffold generator instead (it does resources too now!) [DHH]
 
@@ -1591,9 +1591,9 @@ superclass' view_paths.  [Rick]
     page['foo']['style']['color'] = 'red' # => $('blank_slate').style.color = 'red';
     page['foo']['style'].color = 'red'    # => $('blank_slate').style.color = 'red';
 
-* Fixed that AssetTagHelper#image_tag and others using compute_public_path should not modify the incoming source argument (closes #5102) [eule@space.ch]
+* Fixed that AssetTagHelper#img_tag_html4 and others using compute_public_path should not modify the incoming source argument (closes #5102) [eule@space.ch]
 
-* Deprecated the auto-appending of .png to AssetTagHelper#image_tag calls that doesn't have an extension [DHH] 
+* Deprecated the auto-appending of .png to AssetTagHelper#img_tag_html4 calls that doesn't have an extension [DHH] 
 
 * Fixed FormOptionsHelper#select to respect :selected value #5813
 
@@ -2215,9 +2215,9 @@ superclass' view_paths.  [Rick]
     page['foo']['style']['color'] = 'red' # => $('blank_slate').style.color = 'red';
     page['foo']['style'].color = 'red'    # => $('blank_slate').style.color = 'red';
 
-* Fixed that AssetTagHelper#image_tag and others using compute_public_path should not modify the incoming source argument (closes #5102) [eule@space.ch]
+* Fixed that AssetTagHelper#img_tag_html4 and others using compute_public_path should not modify the incoming source argument (closes #5102) [eule@space.ch]
 
-* Deprecated the auto-appending of .png to AssetTagHelper#image_tag calls that doesn't have an extension [DHH] 
+* Deprecated the auto-appending of .png to AssetTagHelper#img_tag_html4 calls that doesn't have an extension [DHH] 
 
 * Fixed FormOptionsHelper#select to respect :selected value #5813
 
@@ -2519,12 +2519,12 @@ superclass' view_paths.  [Rick]
 
 * Added automated timestamping to AssetTagHelper methods for stylesheets, javascripts, and images when Action Controller is run under Rails [DHH]. Example:
 
-    image_tag("rails.png") # => '<img alt="Rails" src="/images/rails.png?1143664135" />'
+    img_tag_html4("rails.png") # => '<img alt="Rails" src="/images/rails.png?1143664135" />'
   
   ...to avoid frequent stats (not a problem for most people), you can set RAILS_ASSET_ID in the ENV to avoid stats:
 
     ENV["RAILS_ASSET_ID"] = "2345"
-    image_tag("rails.png") # => '<img alt="Rails" src="/images/rails.png?2345" />'
+    img_tag_html4("rails.png") # => '<img alt="Rails" src="/images/rails.png?2345" />'
 
   This can be used by deployment managers to set the asset id by application revision
 
@@ -2667,7 +2667,7 @@ Default YAML web services were retired, ActionController::Base.param_parsers car
  
 * Fixed Effect.Appear in effects.js to work with floats in Safari #3524, #3813, #3044 [Thomas Fuchs]
 
-* Fixed that default image extension was not appended when using a full URL with AssetTagHelper#image_tag #4032, #3728 [rubyonrails@beautifulpixel.com]
+* Fixed that default image extension was not appended when using a full URL with AssetTagHelper#img_tag_html4 #4032, #3728 [rubyonrails@beautifulpixel.com]
 
 * Added that page caching will only happen if the response code is less than 400 #4033 [g.bucher@teti.ch]
 
@@ -3415,7 +3415,7 @@ Default YAML web services were retired, ActionController::Base.param_parsers car
 
 * Added button_to as a form-based solution to deal with harmful actions that should be hidden behind POSTs. This makes it just as easy as link_to to create a safe trigger for actions like destroy, although it's limited by being a block element, the fixed look, and a no-no inside other forms. #1371 [tom@moertel.com]
 
-* Fixed image_tag so an exception is not thrown just because the image is missing and alt value can't be generated #1395 [Marcel]
+* Fixed img_tag_html4 so an exception is not thrown just because the image is missing and alt value can't be generated #1395 [Marcel]
 
 * Added a third parameter to TextHelper#auto_link called href_options for specifying additional tag options on the links generated #1401 [tyler.kovacs@gmail.com]. Example: auto_link(text, :all, { :target => "_blank" }) to have all the generated links open in a new window.
 
@@ -3487,7 +3487,7 @@ Default YAML web services were retired, ActionController::Base.param_parsers car
 
 * Fixed Request#remote_ip in testing #1251 [Jeremy Kemper]
 
-* Fixed that compute_public_path should recognize external URLs, so image_tag("http://www.example.com/images/icon.gif") is not prefixed with the relative url path #1254 [victor-ronr-trac@carotena.net]
+* Fixed that compute_public_path should recognize external URLs, so img_tag_html4("http://www.example.com/images/icon.gif") is not prefixed with the relative url path #1254 [victor-ronr-trac@carotena.net]
 
 * Added support for descending year values in DateHelper#select_year, like select_year(Date.today, :start_year => 2005, :end_year => 1900), which would count down from 2005 to 1900 instead of the other way #1274 [nwoods@mail.com]
 
@@ -3853,7 +3853,7 @@ Default YAML web services were retired, ActionController::Base.param_parsers car
       assert_equal 8, assigns(:categories).size
     end
 
-* Added TagHelper#image_tag and deprecated UrlHelper#link_image_to (recommended approach is to combine image_tag and link_to instead)
+* Added TagHelper#img_tag_html4 and deprecated UrlHelper#link_image_to (recommended approach is to combine img_tag_html4 and link_to instead)
 
 * Fixed textilize to be resilient to getting nil parsed (by using Object#blank? instead of String#empty?)
 

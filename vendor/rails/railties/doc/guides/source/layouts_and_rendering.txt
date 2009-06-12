@@ -493,9 +493,9 @@ Asset tags provide methods for generating HTML that links views to assets like i
 * auto_discovery_link_tag
 * javascript_include_tag
 * stylesheet_link_tag
-* image_tag
+* img_tag_html4
 
-You can use these tags in layouts or other views, although the tags other than +image_tag+ are most commonly used in the +<head>+ section of a layout.
+You can use these tags in layouts or other views, although the tags other than +img_tag_html4+ are most commonly used in the +<head>+ section of a layout.
 
 WARNING: The asset tags do _not_ verify the existence of the assets at the specified locations; they simply assume that you know what you're doing and generate the link.
 
@@ -648,30 +648,30 @@ By default, the combined file will be delivered as +stylesheets/all.css+. You ca
 
 You can even use dynamic paths such as "cache/#{current_site}/main/display"+.
 	
-==== Linking to Images with +image_tag+
+==== Linking to Images with +img_tag_html4+
 
-The +image_tag+ helper builds an HTML +<image>+ tag to the specified file. By default, files are loaded from +public/images+. If you don't specify an extension, .png is assumed by default:
+The +img_tag_html4+ helper builds an HTML +<image>+ tag to the specified file. By default, files are loaded from +public/images+. If you don't specify an extension, .png is assumed by default:
 
 [source, ruby]
 -------------------------------------------------------
-<%= image_tag "header" %>
+<%= img_tag_html4 "header" %>
 -------------------------------------------------------
 
 You can supply a path to the image if you like:
 	
 [source, ruby]
 -------------------------------------------------------
-<%= image_tag "icons/delete.gif" %>
+<%= img_tag_html4 "icons/delete.gif" %>
 -------------------------------------------------------
 
 You can supply a hash of additional HTML options:
 	
 [source, ruby]
 -------------------------------------------------------
-<%= image_tag "icons/delete.gif", :height => 45 %>
+<%= img_tag_html4 "icons/delete.gif", :height => 45 %>
 -------------------------------------------------------
 
-There are also three special options you can use with +image_tag+:
+There are also three special options you can use with +img_tag_html4+:
 
 * +:alt+ specifies the alt text for the image (which defaults to the file name of the file, capitalized and with no extension)
 * +:size+ specifies both width and height, in the format "{width}x{height}" (for example, "150x125")
@@ -818,7 +818,7 @@ You can also pass local variables into partials, making them even more powerful 
 -------------------------------------------------------
 <% form_for(zone) do |f| %>
 	<p>
-	  <b>Zone name</b><br />
+	  <b>Zone name</b><br>
 	  <%= f.text_field :name %>
 	</p>
   <p>

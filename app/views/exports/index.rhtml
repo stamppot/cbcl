@@ -26,7 +26,7 @@
 </div>	
 
 	<div>
-		<img alt="spinner" id="filter_spinner" src="/images/spinner.gif" style="display:none;" />
+		<img alt="spinner" id="filter_spinner" src="/images/spinner.gif" style="display:none;" >
 		<span id="results">Antal: <%= @survey_answers.size %></span>
 	</div>
 	<br>
@@ -37,12 +37,12 @@
 	</span>
 </span>
 
-<img alt="spinner" id="spinner" src="/images/spinner.gif" style="display:none;" />
+<img alt="spinner" id="spinner" src="/images/spinner.gif" style="display:none;" >
 
 <%= submit_tag 'Download', { :class => 'normal', :id => 'download', :onclick => "$('downloading').show();" } %>
 
 <div id="downloading" style="display: none">
-	<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Øjeblik... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif" />
+	<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Øjeblik... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif" >
 </div
 <% end %>
 

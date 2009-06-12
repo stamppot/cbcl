@@ -145,9 +145,9 @@ class AssetPackageHelperProductionTest < Test::Unit::TestCase
       stylesheet_link_merged(:base, :secondary, "subdir/styles")
   end
   
-  def test_image_tag
+  def test_img_tag_html4
     timestamp = rails_asset_id("images/rails.png")
-    assert_dom_equal %(<img alt="Rails" src="/images/rails.png?#{timestamp}" />), image_tag("rails")
+    assert_dom_equal %(<img alt="Rails" src="/images/rails.png?#{timestamp}" />), img_tag_html4("rails")
   end
   
 end

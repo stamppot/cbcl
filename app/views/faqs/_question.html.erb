@@ -1,7 +1,7 @@
 <% question_id = "question_#{@question.id}" %>
 <li id="<%= question_id %>" class="<%= @action == "order" ? "draggable" : "" %>" >
 	<% if @action == 'order' %>
-		<%= image_tag '/images/drag_handle.gif' %>
+		<%= img_tag_html4 '/images/drag_handle.gif' %>
 		<%= @question.title %>
 		<%= question_text(@question) %>
 	<% else %>

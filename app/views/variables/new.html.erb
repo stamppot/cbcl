@@ -19,7 +19,7 @@
 <div id="status"></div>
 
 <p>
-	<%= f.label(:survey_id, 'Skema') %><br />
+	<%= f.label(:survey_id, 'Skema') %><br>
 	<%= f.select :survey_id, survey_options(), {}, {:class => "select-survey",
 		:onchange => remote_function(
 		:with => "'survey_id=' + this.value",
@@ -27,7 +27,7 @@
 		%>
 	</p>
 	<p>
-		<%= f.label :question_id, 'Spørgsmål' %><br />
+		<%= f.label :question_id, 'Spørgsmål' %><br>
 		<%= f.select :question_id, @survey.questions.map { |q| [q.number.to_roman.underscore,q.number] }, {}, {:class => "select-question",
 			:onchange => remote_function(:with => "'question_id=' + this.value", 
 			:url => { :action => :update_rows })}
@@ -36,11 +36,11 @@
 		</p>
 
 		<p>
-			<%= f.label :short, 'Variabelnavn' %><br />
+			<%= f.label :short, 'Variabelnavn' %><br>
 			<%= f.text_field :short, :size => 6, :class => 'gray', :onkeyup => "updatePreview()" %>
 		</p>
 		<p>
-			<%= f.label :item %><br />
+			<%= f.label :item %><br>
 			<%= f.text_field :item, :size => 4, :class => 'gray', :onkeyup => "updatePreview()" %>
 		</p>
 	<p>

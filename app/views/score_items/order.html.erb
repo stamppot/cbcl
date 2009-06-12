@@ -9,7 +9,7 @@
 				<% scale_id = "scale_#{@scale.id}" %>
 					<li id="<%= scale_id %>" class="<%= @action == "order" ? "draggable" : "" %>" >
 						<% if @action == 'order' %>
-							<%= image_tag '/images/drag_handle.gif' %>
+							<%= img_tag_html4 '/images/drag_handle.gif' %>
 							<%= @scale.title %>
 							<%= draggable_element(scale_id) %>
 						<% end %>

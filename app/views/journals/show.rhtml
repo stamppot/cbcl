@@ -67,9 +67,9 @@
 				 <td><%= entry.status %>
 				 </td>
 				 <td>
-				<%= entry.login_user.nil? ? "&nbsp;" : link_to((image_tag('icon_edit_mailbox.gif', :border => 0, 
+				<%= entry.login_user.nil? ? "&nbsp;" : link_to((img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
 									:class => 'icon', :title => 'Vis login-info')), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
-				<%= link_to_remote((image_tag('icon_delete_survey.gif', :border => 0, 
+				<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 									:class => 'icon icon_delete', :title => 'Fjern skema')), 
 						:update => ('entry'<<entry.id.to_s), 
 						:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.title}'\n fra journalen #{@group.title}?",
@@ -103,9 +103,9 @@
 					<%= link_to @entry.survey.title, survey_answer_path(@entry), :title => 'Vis Besvarelse' %></td>
 				 <td><%= @entry.answered_at.strftime "%d-%m-%Y" %> </td>
 				 <td><%= @entry.status %></td>
-				 <td><%= link_to image_tag("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(@entry), :title => 'Ret besvarelse' %>
+				 <td><%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(@entry), :title => 'Ret besvarelse' %>
 				
-						<%= link_to_remote((image_tag('icon_delete_survey.gif', :border => 0, 
+						<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 									:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
 						:update => ('entry_answer' << @entry.id.to_s), 
 						:confirm => "Vil du fjerne besvarelsen '#{@entry.survey.title}'\n fra journalen #{@group.title}?",

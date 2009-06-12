@@ -1,7 +1,7 @@
 <% section_id = "section_#{@section.id}" %>
 <li class="draggable" id="<%= section_id %>" style="border: 1px solid #aaa; width: 30%;">
 	<% if @action == 'order' %>
-		<%= image_tag '/images/drag_handle.gif' %>
+		<%= img_tag_html4 '/images/drag_handle.gif' %>
 	<% end %>
 	<strong>
 		<% if @action == 'order' %>

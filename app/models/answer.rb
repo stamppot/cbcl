@@ -116,7 +116,7 @@ class Answer < ActiveRecord::Base
   end
   
   def print
-    output = "Answer: #{self.number}<br />"
+    output = "Answer: #{self.number}<br>"
     answer_cells.sort_by {|cell| cell.item.to_i }.each { |cell| output << "i: #{cell.item} => #{cell.value}<br>" }
     return output
   end

@@ -164,6 +164,7 @@ class SurveysController < ApplicationController
 
   def destroy
     Survey.destroy(params[:id])
+    flash[:notice] = "Spørgeskema er slettet"
     redirect_to surveys_path
   end
 

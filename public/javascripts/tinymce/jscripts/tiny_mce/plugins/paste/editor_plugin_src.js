@@ -155,9 +155,9 @@
 					} 
 
 					if (this.editor.getParam("paste_create_linebreaks", true)) {
-						content = content.replace(/\r\n/g, '<br />');
-						content = content.replace(/\r/g, '<br />');
-						content = content.replace(/\n/g, '<br />');
+						content = content.replace(/\r\n/g, '<br>');
+						content = content.replace(/\r/g, '<br>');
+						content = content.replace(/\n/g, '<br>');
 					}
 				} 
 
@@ -223,7 +223,7 @@
 
 				if (!this.editor.getParam('force_p_newlines')) {
 					content = content.replace('', '' ,'gi');
-					content = content.replace('</p>', '<br /><br />' ,'gi');
+					content = content.replace('</p>', '<br><br>' ,'gi');
 				}
 
 				if (!tinymce.isIE && !this.editor.getParam('force_p_newlines')) {

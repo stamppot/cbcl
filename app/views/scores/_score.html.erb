@@ -2,7 +2,7 @@
 <% score_id = "score_#{@score.id}" %>
 <li id="<%= score_id %>" class="<%= @action == "order" ? "draggable" : "" %>" >
 	<% if @action == 'order' %>
-		<%= image_tag '/images/drag_handle.gif' %>
+		<%= img_tag_html4 '/images/drag_handle.gif' %>
 		<%= @score.title %>
 	<% else %>
 		<%= link_to_remote (@score.title  + " " + @score.short_name), :url => {:action => 'show_scale_surveys', :id => @score} %>

@@ -71,6 +71,7 @@ class SurveyBuilderController < ApplicationController
 
   def destroy
     Survey.find(params[:id]).destroy
+    flash[:notice] = "Spørgeskema er slettet"
     redirect_to :controller => :survey, :action => :list
   end
 

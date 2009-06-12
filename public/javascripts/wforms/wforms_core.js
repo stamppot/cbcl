@@ -270,7 +270,7 @@ if (!Array.prototype.push) {
 			if(!wFORMS.debugOutput)
 				wFORMS.initDebug();
 			if(wFORMS.debugOutput)
-				wFORMS.debugOutput.innerHTML += "<br />" + txt;
+				wFORMS.debugOutput.innerHTML += "<br>" + txt;
 		}
 	  },
 	  

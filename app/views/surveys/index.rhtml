@@ -14,16 +14,16 @@ for survey in @surveys
 
 	<tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
 		<td width="80%" class="surveyname">
-			<span class="survey_title"><%= link_to h(survey.title), :action => :show_only, :id => survey %></span><br />
+			<span class="survey_title"><%= link_to h(survey.title), :action => :show_only, :id => survey %></span><br>
 			<%= h(truncate(survey.description, 80)) %>
 		</td>
 
 		<% if current_user.has_access? :survey_new_edit %>
 		<td class="survey_actions">
-			<% link_to 'Vis 2', :controller => 'survey_builder', :action => :show_edit, :id => survey %><br />
-			<%= link_to 'Tilføj spørgsmål', :controller => 'survey_builder', :action => :add_question, :id => survey %><br />
-			<%= link_to 'Rediger', :controller => 'survey_builder', :action => :edit, :id => survey %><br />
-			<%= link_to 'Slet', { :controller => :survey, :action => :destroy, :id => survey }, :confirm => 'Er du sikker?', :method => "post" %><br />
+			<% link_to 'Vis 2', edit_survey_builder_url(survey) %><br>
+			<%= link_to 'Tilføj spørgsmål', add_question_survey_builder_url(survey) %><br>
+			<%= link_to 'Rediger', edit_survey_builder_url(survey) %><br>
+			 <!-- link_to 'Slet', surveys_url(survey), :method => 'delete', :confirm => 'Er du sikker?' --><br>
 		</td>
 		<% end %>
 	</tr>
@@ -32,12 +32,12 @@ for survey in @surveys
 </table>
 <% end %>
 
-<br />
+<br>
 
 <% if current_user.has_access? :survey_finish %>
 	<%= link_to 'Afslut', logout_path, :title => 'Log ud af systemet' %>
 <% end %>
 
 <% if current_user.has_access? :survey_new_edit %>
-	<%= link_to 'Nyt spørgeskema', :controller => 'survey_builder', :action => :new %>
+	<%= link_to 'Nyt spørgeskema', new_survey_builder_url %>
 <% end %>

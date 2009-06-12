@@ -26,11 +26,11 @@
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.has_access? :user_edit_delete %>
 	<td>
-		<%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), edit_user_path(user), :title => 'Rediger' -%>
-		<%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), delete_user_path(user), :title => 'Slet' -%>
+		<%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), edit_user_path(user), :title => 'Rediger' -%>
+		<%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), delete_user_path(user), :title => 'Slet' -%>
 		<span>&nbsp;&nbsp;</span>
 		<% if current_user.has_access?(:shadow_login) and user.id != current_user.id %>
-		<%= link_to image_tag('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger'), shadow_login_path(user), :title => 'Login som denne bruger' %>
+		<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger'), shadow_login_path(user), :title => 'Login som denne bruger' %>
 		<% end %>
 	</td>
 	<% end %>

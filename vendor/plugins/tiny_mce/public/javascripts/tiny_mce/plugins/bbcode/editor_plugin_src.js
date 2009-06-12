@@ -94,7 +94,7 @@
 			};
 
 			// example: [b] to <strong>
-			rep(/\n/gi,"<br />");
+			rep(/\n/gi,"<br>");
 			rep(/\[b\]/gi,"<strong>");
 			rep(/\[\/b\]/gi,"</strong>");
 			rep(/\[i\]/gi,"<em>");

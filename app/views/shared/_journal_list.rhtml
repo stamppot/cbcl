@@ -2,8 +2,9 @@
 Der er ingen journaler i systemet.
 <% else %>
 <table id="journal_list" class="sortable list">
+	<tr>
 <th class="wide" title="Sorter efter navn">Navn</th>
-<th class= title="Sorter efter Id">Id</th>
+<th title="Sorter efter Id">Id</th>
 <th title="Sorter efter fødselsdato">Fødselsdato</th>
 <!-- <th class="number" title="Sorter efter antal skemaer">Skemaer</th> -->
 <!-- <th class="half_wide" title="Sorter efter status">Status</th> -->
@@ -12,6 +13,7 @@ Der er ingen journaler i systemet.
 <th class="half_wide" title="Sorter efter team">Team</th>
 <% end %>
 <th class="nosort">Handling</th>
+</tr>
 
 <% @groups.each do |g| %>
   <tr>
@@ -23,10 +25,10 @@ Der er ingen journaler i systemet.
 		<% unless @hide_team %>
     <td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
 		<% end %>
-    <td class="pj"><%= link_to image_tag('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), edit_journal_path(g), :title => 'Rediger' -%>
-      <%= link_to image_tag('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), delete_journal_path(g), :title => 'Slet' -%>
+    <td class="pj"><%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), edit_journal_path(g), :title => 'Rediger' -%>
+      <%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), delete_journal_path(g), :title => 'Slet' -%>
     </td>
-  <tr/>
+  </tr>
 <% end %>
 </table>
 <% end %>

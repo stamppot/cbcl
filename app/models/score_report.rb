@@ -16,7 +16,7 @@ class ScoreReport
   def to_s
     if @score.nil?
       @description = 'link'
-      "<div class='scale_title'>#{@title}</div><a class='show_hide' HREF='javascript:toggleElems(&quot;scale_#{@scale}&quot;)'><img border='0' src='/images/icon_show_hide.png' /></a>"
+      "<div class='scale_title'>#{@title}</div><a class='show_hide' HREF='javascript:toggleElems(&quot;scale_#{@scale}&quot;)'><img border='0' src='/images/icon_show_hide.png' ></a>"
     else
       @result.to_s
     end

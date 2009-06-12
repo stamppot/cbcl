@@ -26,8 +26,8 @@
 			<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
 		<% if current_user.has_access? :center_delete %>
 		<td>
-			<%= link_to image_tag('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => 'Rediger' -%>
-			<%= link_to image_tag('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => 'Slet' -%>
+			<%= link_to img_tag_html4('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => 'Rediger' -%>
+			<%= link_to img_tag_html4('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => 'Slet' -%>
 		</td>
 		<% end %>
 		<tr/>
