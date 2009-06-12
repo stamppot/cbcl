@@ -551,7 +551,7 @@ class SelectOption < QuestionCell
     if qitems.first[0] != "option"  # Select options has label of type listitem
       label = qitems.shift
       target = ""
-      newform << "<label for=#{c_id} class='selectlabel#{target}'>#{label.last}</label>"
+      newform << "<label for=#{question_no}_#{c_id} class='selectlabel#{target}'>#{label.last}</label>"
     end
     values = qitems.map { |item| item[1] }
     help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br>")
@@ -559,7 +559,7 @@ class SelectOption < QuestionCell
     newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
     (self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
     newform <<  # TODO: fix values of help not shown for q7
-      "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' border='0' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' />" <<
+      "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' border='0' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' >" << # removed />
       "<div id='help_#{c_id}' style='display:none;'><div class='help_tip'>#{help}</div></div>"
       
       # "<a class='#{target}' onclick='try { Element.toggle(\"help_#{c_id}\"); } catch (e) { alert(\"RJS error:\" + e.toString() + \"help_#{c_id}\"); throw e }; return false;' href='#'>" <<
@@ -693,7 +693,7 @@ class ListItemComment < QuestionCell
     c_id     = cell_id(no)
 
     comment_box = "<a href='#' onclick='return toggleComment(#{c_id});' >" <<
-      "<img src='/images/icon_comment.gif' border=0 title='Kommentar' alt='kommentar' class='comment' />" <<
+      "<img src='/images/icon_comment.gif' border=0 title='Kommentar' alt='kommentar' class='comment' >" << # removed />
     "</a>" unless options[:answers]
     form = form_template(options) << comment_box.to_s
   end

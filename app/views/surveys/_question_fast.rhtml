@@ -2,7 +2,6 @@
 <% question = question_fast %>
 <% no = question.number %>
 <% id = question.id.to_s %>
-<hr/>
 
 <div id='question_number<%= no %>'>
 	<% if current_user.has_access? :survey_edit_delete %>
@@ -22,7 +21,7 @@
 		output = ["<tr>", "<td>", "<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"]
 
 		rows.sort.each do |row, cols|
-			output << "<tr id='row#{row}' class='row'>\n" << 
+			output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
 			((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
 
 			cols.each do |col, cell|

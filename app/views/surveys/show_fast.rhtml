@@ -36,14 +36,13 @@
 	<% unless @options[:action] =~ /show/ %>
 		<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
 		<div id="sending_form" style="display: none">
-			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img alt="busy" src="/images/spinner.gif">
+			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;
+			<img alt="busy" src="/images/spinner.gif">
 		</div>
-		
-		</form>
 	<% end %>
-	</div>
 	
 	<% unless @options[:action] =~ /show/ %>
+	</form>
 	<% if @options[:action] =~ /show|edit/ && !@options[:show_only] %>
 		<%= observe_form "surveyform",
 				 :url => survey_save_draft_path(@journal_entry),
