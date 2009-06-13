@@ -48,10 +48,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/admin/static_permission/:action/:id', :controller => 'active_rbac/static_permission'
   
   # map the login and registration controller somewhere prettier
-  map.login 'login', :controller            => 'login', :action => 'login'
-  map.logout 'logout', :controller          => 'login', :action => 'logout'
-  map.connect '/login', :controller         => 'login', :action => 'login'
-  map.connect '/logout', :controller        => 'login', :action => 'logout'
+  map.login 'login', :controller            => :login, :action => :login
+  map.logout 'logout', :controller          => :login, :action => :logout
+  map.connect '/login', :controller         => :login, :action => :login
+  map.connect '/logout', :controller        => :login, :action => :logout
   map.connect '/shadow_login', :controller  => :login, :action => :shadow_login
   map.connect '/shadow_logout', :controller => :login, :action => :shadow_logout
 
@@ -113,9 +113,10 @@ ActionController::Routing::Routes.draw do |map|
   map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'
   map.export_filter 'exports/filter', :controller => 'exports', :action => 'filter'
+  map.generating 'exports/generating_export/:id', :controller => 'exports', :action => 'generating_export'
   # map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
 
-  map.file_download 'export_files/download', :controller => 'export_files', :action => 'download'
+  map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
 
   # map.faq_show_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
   # map.faq_edit_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
@@ -168,6 +169,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '/registration/lostpassword', :controller => 'active_rbac/registration', :action => :lostpassword
 
   map.connect '/export_logins/:action/:id', :controller => 'export_logins', :action => :team, :id => :id
+  # map.connect '/exports/:action/:id', :controller => 'exports', :action => :team, :id => :id
   
   # testing
   map.connect '/myaccount/:action/:id', :controller => 'active_rbac/my_account'

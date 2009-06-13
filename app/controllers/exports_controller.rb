@@ -56,14 +56,14 @@ class ExportsController < ApplicationController
     @surveys = Survey.selected(params[:surveys].keys)
     @survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
     @journal_entries = @survey_answers.map {|sa| sa.journal_entry_id }
-    puts "export_controller download COUNT SAS: #{@survey_answers.size}"
-    puts "export_controller download COUNT JES: #{@journal_entries.size}"
+    # puts "export_controller download COUNT SAS: #{@survey_answers.size}"
+    # puts "export_controller download COUNT JES: #{@journal_entries.size}"
 
     # spawns background task
     @task = Task.create(:status => "In progress")
     @task.create_export(@surveys.map(&:id), @journal_entries)
 
-    redirect_to :action => :generating_export, :id => @task
+    redirect_to generating_path(@task) #:action => :generating_export, :id => @task
   end
   
   # a periodic updater should check the progress of the export data generation 
@@ -73,16 +73,16 @@ class ExportsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          if @task.completed?
-            page.redirect_to :controller => 'export_file', :action => :show, :id => @task.export_file, :content_type => 'application/javascript'
+          if @task.completed? #:controller => 'export_file', :action => :show, :id => @task.export_file
+            page.redirect_to export_file_path(@task.export_file) #, :content_type => 'application/javascript'
           else
-            page.update_progress
+            # page.update_progress
           end
         end
       }
       format.html do
         if @task.completed?
-          redirect_to export_files(@task.export_file) #:controller => 'export_file', :action => :show, :id => @task.export_file
+          redirect_to export_file_path(@task.export_file) #:controller => 'export_file', :action => :show, :id => @task.export_file
         else
           render
         end
