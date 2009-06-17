@@ -2,9 +2,9 @@
 
 <% @results.each do |result| %>
 	<% if result.instance_of? Faq %>
-		<%= link_to_remote question_text(result), :url => {:action => 'answer_path', :id => result %>
+		<%= link_to_remote result.question, :url => {:action => 'answer_path', :id => result %>
 	<% elsif result.instance_of? FaqSection %>
-		<%= link_to_remote section_text(result), :url => {:action => 'answer_path', :id => result %>
+		<%= link_to_remote result.title, :url => {:action => 'answer_path', :id => result %>
 	<% else %>
 		<%= result.inspect %>
 	<% end %>

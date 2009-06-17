@@ -1,6 +1,6 @@
 <h3><%= 'Rediger afsnit' %></h3>
 
-<% form_remote_for(@section, :html => {:id => 'faq_section_form'}, :url => {:action => 'update_section', :id => @section}) do |f| %>
+<% form_for(@section, :html => {:id => 'faq_section_form'}, :method => :put) do |f| %>
 <div>
   <div>
     <div>
@@ -8,6 +8,7 @@
   		<%= f.text_field(:title, :class => "btn_gray") %>
     </div>
 	</div>
-	<%= f.submit "Gem", :name => "submit", :disable_with => "Øjeblik...", :class => "btn_gray" %>
+	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>
 </div>
 <% end %>
+<%= link_to 'Tilbage', faqs_url, :title => 'Tilbage' %>

@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :export_files
   map.resources :exports
   map.resources :faqs
+  map.resources :faq_sections
   map.resources :users
   map.resources :login_users
   map.resources :nationalities
@@ -118,13 +119,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
 
-  # map.faq_show_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_edit_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_create_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_update_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_delete_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_show_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
-  # map.faq_show_section 'faqs/show_section/:id', :controller => 'faqs', :action => 'show_section'
+  map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'
   map.faq_order_questions 'faq_sections/order_questions/:id', :controller => 'faq_sections', :action => 'order_questions'
   map.faq_done_order_questions 'faq_sections/done_order_questions/:id', :controller => 'faq_sections', :action => 'done_order_questions'

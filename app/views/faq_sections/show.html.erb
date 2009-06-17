@@ -1,31 +1,30 @@
 <%= javascript_include_tag :defaults %>
 
 <h1>Spørgsmål &amp; svar</h1>
-	 <h2>Afsnit <%= section_text(@section) %></h2>
+	 <h2>Afsnit <%= @section.title %></h2>
 
 <ol class="<%= @action == "order" ? "drag" : "" %>" id='question_list'>
 	<% @section.faqs.each do |@question| %>
-		<%= render :partial => "question", :object => @question %>
+		<%= render :partial => "faqs/question", :object => @question %>
 	<% end %>
 </ol>
 
 <% if @action == 'order' %>
 	<div id="sortable">
-		<%= sortable_element 'question_list', :url => {:action => 'sort_questions', :id => @section, 
-			:complete => visual_effect(:highlight, 'question_list') }
+		<%= sortable_element 'question_list', :url => faq_sort_questions_path(@section), :complete => visual_effect(:highlight, 'question_list')
 		%> 
 	</div>
-	<%= link_to_remote 'Færdig!', :url => {:action => 'done_ordering_questions', :id => @section} %>
+	<%= link_to_remote 'Færdig!', :url => faq_done_order_questions_path(@section) %>
 
 <% else %>
-	<%= link_to 'Reorganiser liste', :action => 'order_questions', :id => @section %>
+	<%= link_to 'Reorganiser liste', faq_order_questions_path(@section) %>
 
 	<br>
-	<%= link_to 'Nyt spørgsmål', :action => 'new', :id => @section %>
+	<%= link_to 'Nyt spørgsmål', new_faq_path(@section) %>
 	<br>
 
 	<p>
-		<%= link_to 'Index', :action => 'index' %>
+		<%= link_to 'Index', faqs_path %>
 	</p>
 <% end %>
 

@@ -9,13 +9,8 @@
 
 <div id="form_div">
 	
-	<% if @question.new_record? %>
-		<% action_method = faqs_path, :method => :post %>
-	<% else %>
-		<% action_method = faqs_path(@question), :method => :put %>
-	<% end %>
-	<% form_for(@question, :html => {:id => 'faq_form'}, 
-			:url => (current_page?(:action => 'edit', :id => @question) ? (faqs_path(@question), :method => :put) : (faqs_path, :method => :post)),
+	<% form_remote_for(@question, :html => {:id => 'faq_form'}, 
+			# :url => ((@question.new_record?) ? faqs_path(@question, :method => :put) : faqs_path(@question, :method => :post)),
 			:before => "tinyMCE.triggerSave(true,true)") do |f| %>
 	
 

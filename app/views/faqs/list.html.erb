@@ -8,14 +8,13 @@
 
 <% if @action == 'order' %>
 <div id="sortable">
-	<%= sortable_element 'section_list', :url => {:action => 'sort_sections_path', :id => @section, 
-		:complete => visual_effect(:highlight, 'section_list') }
+	<%= sortable_element 'section_list', :url => faq_sort_path(@section),	:complete => visual_effect(:highlight, 'section_list')
 	%> 
 </div>
+	<%= link_to_remote 'Færdig!', :url => faq_done_order_path(@section), :class => 'faq_action' %>
 
-	<%= link_to_remote 'Færdig!', :url => {:action => 'done_ordering_sections', :id => @section} %>
 <% else %>
-	<%= link_to 'Reorganiser liste', :action => 'order_sections_path', :id => @section %>
+	<%= link_to 'Reorganiser listen', faq_order_path(@section) %>
 	<br>
-	<%= link_to 'Nyt afsnit', :action => 'new_section' %>
+	<%= link_to 'Nyt afsnit', new_fag_section_path %>
 <% end %>

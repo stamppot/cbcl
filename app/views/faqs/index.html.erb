@@ -3,15 +3,6 @@
 <div id="faq" class="container">
 	<h1>Spørgsmål &amp; svar</h1>
 
-	<div id="search_fag">
-		<% form_remote_tag(:url => {:controller => :faq, :action => 'search'}, :html => {:id => 'faq_search_form'}) do |f| %>
-		<% label_tag("search", "Søg") %>
-		<% text_field_tag("search", {}, {:size => "15", :class => "btn_gray"}) %>
-		<% submit_tag("Søg", :class => "btn_gray") %>
-		<% end %>
-	</div>
-
-
 	<div id="right" style="float:right; width:48%; padding-left: 1%;">
 	</div>
 
@@ -28,13 +19,13 @@
 				<% if @action == 'order' %>
 				<%= link_to_remote 'Færdig!', :url => faq_done_order(@section) %>
 				<% elsif @sections.size > 1 %>
-				<%= link_to 'Reorganiser liste', {:controller => :faq, :action => 'order_sections'} %><br>
+				<%= link_to 'Reorganiser lister', faq_order_path(@section) %><br>
 				<% else %>
-				<%= link_to 'Index', {:controller => :faq, :action => 'index'} %><br>
+				<%= link_to 'Index', faqs_path %><br>
 				<% end %>
 
 				<% unless @action == 'order' %>
-				<%= link_to 'Nyt afsnit', {:controller => :faq, :action => 'new_section'} %>
+				<%= link_to 'Nyt afsnit', new_faq_section_path %>
 				<% end %>
 			</div>
 		</div>
@@ -42,7 +33,7 @@
 
 		<% if @action == 'order' %>
 		<div id="sortable">
-			<%= sortable_element 'section_list', :url => {:controller => :faq, :action => 'sort_sections'}, 
+			<%= sortable_element 'section_list', :url => faq_sort_path, 
 			:complete => visual_effect(:highlight, 'section_list') 
 			%> 
 		</div>

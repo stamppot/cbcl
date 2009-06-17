@@ -1,13 +1,13 @@
 <% section_id = "section_#{@section.id}" %>
 <li class="draggable" id="<%= section_id %>" style="border: 1px solid #aaa; width: 30%;">
 	<% if @action == 'order' %>
-		<%= img_tag_html4 '/images/drag_handle.gif' %>
+		<%= img_tag_html4 '/images/drag_handle.gif', :alt => 'træk til ønskede position' %>
 	<% end %>
 	<strong>
 		<% if @action == 'order' %>
-			<%= section_text(@section) %>
+			<%= @section.title %>
 		<% else %>
-			<%= link_to section_text(@section), :action => 'show_section_path', :id => @section %>
+			<%= link_to @section.title, faq_section_path(@section) %>
 		<% end %>
 	</strong>
 </li>

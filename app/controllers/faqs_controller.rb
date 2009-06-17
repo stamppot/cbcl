@@ -54,17 +54,17 @@ class FaqsController < ApplicationController
     @question = Faq.find(params[:id])
     @sections = FaqSection.find(:all)
     @section = @question.faq_section
-    render :template => 'faq/new'
+    render :template => 'faqs/new'
   end
   
   def update
     @question = Faq.find(params[:id])
     @question.update_attributes(params[:faq])
     flash[:notice] = "Spørgsmål & svar er rettet."
-    redirect_to :action => 'index'
+    redirect_to faqs_path
   end
   
-  def delete
+  def destroy
     @question = Faq.find(params[:id])
     if @question.destroy
       render :update do |page|

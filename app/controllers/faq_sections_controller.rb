@@ -103,7 +103,7 @@ class FaqSectionsController < ApplicationController
     @section.update_attributes(params[:faq_section])
     
     flash[:notice] = "Afsnittet er rettet."
-    render(:update) { |page| page.redirect_to faq_sections_path}
+    redirect_to faqs_path
   end
   
   def delete
@@ -116,19 +116,19 @@ class FaqSectionsController < ApplicationController
   
   def show
     @sections = [] << FaqSection.find(params[:id])
-    render :template => 'faq/index'
+    render :template => 'faqs/index'
   end
   
   def order_questions
     @section = FaqSection.find(params[:id])
     @action = 'order'
-    render :template => 'faq/show_section'
+    render :template => 'faq_sections/show'
   end
   
-  def done_ordering_questions
-    @section = FaqSection.find(params[:id])
+  def done_order_questions
+    # @section = FaqSection.find(params[:id])
     flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to :action => 'index'}
+    render(:update) { |page| page.redirect_to faqs_path }
   end
   
   def sort_questions
@@ -144,7 +144,7 @@ class FaqSectionsController < ApplicationController
   def order
     @sections = FaqSection.find(:all, :order => :position)
     @action = 'order'
-    render :template => 'faq/list'
+    render :template => 'faqs/list'
   end
 
   def sort
@@ -160,7 +160,7 @@ class FaqSectionsController < ApplicationController
   def done_order
     @sections = FaqSection.find(:all)
     flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to faq_sections_path }
+    render(:update) { |page| page.redirect_to faqs_path }
   end
 
   def search

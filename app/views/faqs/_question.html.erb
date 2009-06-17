@@ -1,17 +1,17 @@
 <% question_id = "question_#{@question.id}" %>
 <li id="<%= question_id %>" class="<%= @action == "order" ? "draggable" : "" %>" >
 	<% if @action == 'order' %>
-		<%= img_tag_html4 '/images/drag_handle.gif' %>
+		<%= img_tag_html4 '/images/drag_handle.gif', :alt => "træk" %>
 		<%= @question.title %>
-		<%= question_text(@question) %>
+		<%= @question.question %>
 	<% else %>
-		<%= link_to_remote @question.title, :url => {:action => 'answer', :id => @question} %>
+		<%= link_to_remote @question.title, :url => faq_answer_path(@question) %>
 	<% end %>
 	
 	<% if current_user.has_access? :superadmin %>
 		<span class="small_action" style="padding-left: 3em;">
-			<%= link_to "Rediger", :action => 'edit', :id => @question %>
-			<%= link_to_remote 'Slet', :url => {:action => 'delete', :id => @question}, :confirm => "Vil du slette spørgsmålet?" %>
+			<%= link_to "Rediger", edit_faq_url(@question) %>
+			<%= link_to_remote 'Slet', :url => faq_path(@question), :method => :delete, :confirm => "Vil du slette spørgsmålet?" %>
 		</span>
 	<% end %>
 </li>
