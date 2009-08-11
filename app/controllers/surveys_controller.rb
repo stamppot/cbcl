@@ -61,7 +61,9 @@ class SurveysController < ApplicationController
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
       # @survey_answer.journal_entry = @journal_entry
     else  # survey_answer already created, find draft
-      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      @survey_answer = Rails.cache.fetch("survey_answer_#{@journal_entry.survey_answer_id}") do
+        SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      end
       @survey.merge_answer(@survey_answer)
       @journal_entry.survey_answer = @survey_answer
       @journal_entry.save
@@ -84,7 +86,9 @@ class SurveysController < ApplicationController
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry_id => @journal_entry.id)
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
-      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      @survey_answer = Rails.cache.fetch("survey_answer_#{@journal_entry.survey_answer_id}") do
+        SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      end
       @survey.merge_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer
