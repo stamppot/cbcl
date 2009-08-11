@@ -49,7 +49,9 @@ class SurveysController < ApplicationController
   def show                                  # 11-2 it's fastest to preload all needed objects
     @options = {:show_all => true, :action => "create"}
     @journal_entry = JournalEntry.find(params[:id])
-    @survey = Survey.and_questions.find(@journal_entry.survey_id)
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@journal_entry.survey_id)
+    end
     @page_title = @survey.title
 
     # create survey_answer
@@ -70,8 +72,9 @@ class SurveysController < ApplicationController
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
     @journal_entry = JournalEntry.find(params[:id])
-    # @@surveys[@journal_entry.survey_id]  # cached find
-    @survey = Survey.and_questions.find(@journal_entry.survey_id)
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@journal_entry.survey_id)
+    end
     @page_title = @survey.title
   
     @survey_answer = nil
