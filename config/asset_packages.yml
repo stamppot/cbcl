@@ -37,7 +37,6 @@ javascripts:
   - survey_builder
 stylesheets: 
 - base:
-  - admin
   - cbcl
 - login:
   - login
@@ -54,5 +53,4 @@ stylesheets:
   - survey
   - validation
   - login
-  - admin
   - cbcl

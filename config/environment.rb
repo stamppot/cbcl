@@ -77,7 +77,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-# CACHE = MemCache.new('127.0.0.1') if ENV['RAILS_ENV'] == 'production'
+CACHE = MemCache.new('127.0.0.1') if false #ENV['RAILS_ENV'] == 'production'
 
 module Enumerable
   def foldr(o, m = nil)
