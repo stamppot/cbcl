@@ -1,5 +1,5 @@
-<% javascript_include_tag 'validation' %>
-<% stylesheet_link_tag 'validation' %>
+<% javascript_include_tag 'validation', :cache => true %>
+<% stylesheet_link_tag 'validation', :cache => true %>
 
 <% form_for(:group, :html => {:id => 'center_form'}, :action => :new) do |f| %>
 <%= error_messages_for 'group' %>
