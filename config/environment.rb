@@ -5,7 +5,7 @@
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-# RAILS_GEM_VERSION = '1.2.6'
+# RAILS_GEM_VERSION = '2.3.3'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -57,6 +57,7 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
   
+  config.action_controller.relative_url_root = ""
   # See Rails::Configuration for more options
 end
 
@@ -72,7 +73,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-CACHE = MemCache.new('127.0.0.1')
+CACHE = MemCache.new('127.0.0.1') if ENV['RAILS_ENV'] == 'production'
 
 module Enumerable
   def foldr(o, m = nil)

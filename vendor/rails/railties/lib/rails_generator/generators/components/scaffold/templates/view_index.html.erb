@@ -7,7 +7,7 @@
 <% end -%>
   </tr>
 
-<%% for <%= singular_name %> in @<%= plural_name %> %>
+<%% @<%= plural_name %>.each do |<%= singular_name %>| %>
   <tr>
 <% for attribute in attributes -%>
     <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
@@ -19,6 +19,6 @@
 <%% end %>
 </table>
 
-<br>
+<br />
 
 <%%= link_to 'New <%= singular_name %>', new_<%= singular_name %>_path %>

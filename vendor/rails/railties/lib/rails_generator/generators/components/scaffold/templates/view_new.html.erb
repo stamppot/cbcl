@@ -5,12 +5,12 @@
 
 <% for attribute in attributes -%>
   <p>
-    <%%= f.label :<%= attribute.name %> %><br>
+    <%%= f.label :<%= attribute.name %> %><br />
     <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
   </p>
 <% end -%>
   <p>
-    <%%= f.submit "Create" %>
+    <%%= f.submit 'Create' %>
   </p>
 <%% end %>
 

@@ -14,7 +14,6 @@
     if current_user.has_access? :subscription_show_inactive and sub.states.invert[sub.state] == "Inaktiv"
       next    # do not show inactive to others than admins
     else
-	puts "SUB: #{sub.inspect} #{sub.to_s}"
 		 total_used += sub.copies_used
 		 active_total_used += sub.active_copies_used %>
 			<tr>

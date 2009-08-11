@@ -22,7 +22,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   def login
     # Check that the user is not already logged in
     unless current_user.nil?
-      user = User.find_with_credentials(params[:login], params[:password])
+      user = User.find_with_credentials(params[:username], params[:password])
       flash[:notice] = "#{current_user.name}, du er allerede logget ind."
       
       if session[:rbac_user_id] and current_user.has_access? :login_user
@@ -47,9 +47,9 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     @errors = Array.new
 
     # If login or password is missing, we can stop processing right away.
-    raise ActiveRecord::RecordNotFound if params[:login].to_s.empty? or params[:password].to_s.empty?
+    raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
 
-    user = User.find_with_credentials(params[:login], params[:password])    # Try to log the user in.
+    user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
     raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
     raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
     write_user_to_session(user)    # Write the user into the session object.

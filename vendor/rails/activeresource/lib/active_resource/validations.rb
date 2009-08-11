@@ -138,7 +138,7 @@ module ActiveResource
     #   my_person.errors.add('login', 'can not be empty') if my_person.login == ''
     #   my_person.errors.add('password', 'can not be empty') if my_person.password == ''
     #   messages = ''
-    #   my_person.errors.each_full {|msg| messages += msg + "<br>"}
+    #   my_person.errors.each_full {|msg| messages += msg + "<br/>"}
     #   messages
     #   # => "Login can not be empty<br />Password can not be empty<br />"
     #
@@ -154,7 +154,7 @@ module ActiveResource
     #   my_person.errors.add('login', 'can not be empty') if my_person.login == ''
     #   my_person.errors.add('password', 'can not be empty') if my_person.password == ''
     #   messages = ''
-    #   my_person.errors.full_messages.each {|msg| messages += msg + "<br>"}
+    #   my_person.errors.full_messages.each {|msg| messages += msg + "<br/>"}
     #   messages
     #   # => "Login can not be empty<br />Password can not be empty<br />"
     #
@@ -203,7 +203,7 @@ module ActiveResource
     def from_xml(xml)
       clear
       humanized_attributes = @base.attributes.keys.inject({}) { |h, attr_name| h.update(attr_name.humanize => attr_name) }
-      messages = Hash.from_xml(xml)['errors']['error'] rescue []
+      messages = Array.wrap(Hash.from_xml(xml)['errors']['error']) rescue []
       messages.each do |message|
         attr_message = humanized_attributes.keys.detect do |attr_name|
           if message[0, attr_name.size + 1] == "#{attr_name} "

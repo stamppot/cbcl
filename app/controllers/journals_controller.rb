@@ -189,7 +189,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   ## this is our live ajax search method
   def live_search
-    @raw_phrase = request.raw_post || params[:id]
+    @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
 
     date = @phrase.split("-")
