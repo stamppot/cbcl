@@ -136,6 +136,10 @@ a:visited { color: #666; }
 	width:150px;
 }
 
+.ie #menu {
+	top: 116px;
+}
+
 #infoheader {
 	margin:30px 0px 10px 0px;
 	padding:10px 0px 0px 20px;
@@ -143,12 +147,11 @@ a:visited { color: #666; }
 	height:61px; /* 49px + 10px + 2px = 61px */
 	border-style:solid;
 	border-color:black;
-	border-width:1px 0px; /* top and bottom borders: 1px; left and right borders: 0px */
+	border-width:1px 0px;
 	line-height:12px;
 	background-color:#eee;
 
 /* Here is the ugly brilliant hack that protects IE5/Win from its own stupidity. 
-Thanks to Tantek Celik for the hack and to Eric Costello for publicizing it. 
 IE5/Win incorrectly parses the "\"}"" value, prematurely closing the style 
 declaration. The incorrect IE5/Win value is above, while the correct value is 
 below. See http://glish.com/css/hacks.asp for details. */
@@ -227,10 +230,6 @@ a img.icon_delete {
 	margin-left: 10px;
 }
 
-/*td a:hover {
-	background: #FFF;
-}*/
-
 td a:hover img.icon {
   background: #dddddd;
 }
@@ -251,7 +250,7 @@ table.clear td {
 	border: 0px;
 }
 
-.commands { /* used in show instutition/project/etc */
+.commands { /* used in show center/team/ */
   padding: 4px;
 }
 
@@ -281,7 +280,7 @@ table#add_new_score_item {
 table#add_new_score_item td {
 	border: 0px solid #ff8;
 	background: #ff8;
-}}
+}
 
 td.t_i, td.p_i {
 	width: 120px;
@@ -418,7 +417,6 @@ table.list td {
 .page_entries {
 	float: right;
 }
-
 
 #survey_info {
 	float: left;
