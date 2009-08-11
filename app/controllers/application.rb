@@ -46,25 +46,26 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # check_access is implemented in most subclassed controllers (where needed)
   def check_access
     # check controller
-    if !params[:id].blank? and params[:controller] =~ /center|team|journal|journal_entry|user|score|faq/  # for survey, journalentry should be checked
+    if !params[:id].blank? and params[:controller] =~ /score|faq/
       if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
-          puts "checking access... params: #{params.inspect}"
+          # puts "checking access... params: #{params.inspect}"
           case params[:controller]
           when /faq/
             access = current_user.has_access?(:superadmin) || current_user.has_access?(:admin)
-          when "score"
-            access = current_user.has_access? :superadmin
-          when "score_report"  # TODO: test this one!!!
+          when /score_reports/  # TODO: test this one!!!
             access = if params[:answers]
               params[:answers].keys.all? { |entry| current_user.journal_ids.include? entry }
             else
               current_user.journal_ids.include? id
             end
+          when /scores/
+            access = current_user.has_access? :superadmin
           when /group|role|admin/
             access = current_user.has_access? :superadmin
           else
@@ -73,12 +74,22 @@ class ApplicationController < ActionController::Base
           return access
         end
       else
-        puts "ACCESS: #{params.inspect}"
+        puts "ACCESS FAILED: #{params.inspect}"
         return false
       end
     end
     return true
   end
+  
+  private
+  def cache(key)
+    unless output = CACHE.get(key)
+      output = yield
+      CACHE.set(key, output, 1.hour)
+    end
+    return output
+  end
+  
 end
 
 # http://mspeight.blogspot.com/2007/06/better-groupby-ingroupsby-for.html

@@ -114,7 +114,7 @@ class Question < ActiveRecord::Base
           # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
           #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
           # else
-          puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: " + "#{prefix}#{q}#{item}"
+          # puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: " + "#{prefix}#{q}#{item}"
           cell.var = "#{prefix}#{q}#{item}"
           # puts "cell: #{cell.items} #{cell.inspect}" if cell.var =~ /ccyviiihandbe/
         end

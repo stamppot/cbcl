@@ -24,10 +24,10 @@ class Variable < ActiveRecord::Base
     by_id = options[:by] || 'survey_id'
 
     if by_id == 'question_id'
-      puts "fast_return q_hash" if @@question_hash
+      # puts "fast_return q_hash" if @@question_hash
       return @@question_hash if @@question_hash
     else
-      puts "fast_return s_hash" if @@survey_hash
+      # puts "fast_return s_hash" if @@survey_hash
       return @@survey_hash if @@survey_hash
     end
     

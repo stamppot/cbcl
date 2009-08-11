@@ -5,9 +5,10 @@ class CSVHelper
   
   # TODO: does not work!
   def login_users(journals)
+    DEBUG = false
     journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
-    puts "journals with unanswered entries: #{journals.size}"
+    puts "journals with unanswered entries: #{journals.size}" if DEBUG
     # {"journal_155"=> {
     #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
     #   :navn=>"Frederik Fran Søndergaard" } }
@@ -23,8 +24,8 @@ class CSVHelper
         end
       end
 
-      puts "surveys: #{surveys.inspect}"
-      puts "results size1: #{results.size}  #{results.inspect}"
+      puts "surveys: #{surveys.inspect}"  if DEBUG
+      puts "results size1: #{results.size}  #{results.inspect}"  if DEBUG
       results["journal_#{journal.code}"] = { 
         :navn => journal.person_info.name,
         :skemaer => surveys
@@ -33,7 +34,7 @@ class CSVHelper
       results
     end
 
-    puts "results size: #{results.size}"
+    puts "results size: #{results.size}"  if DEBUG
     # max no surveys in any journal
     results.values.each { |r| puts "R: #{r.inspect}"}
     max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size

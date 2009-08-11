@@ -72,16 +72,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-#@@surveys = [nil]
-#@@surveys += Survey.find(:all, :include => { :questions => :question_cells } )
-
-# Include your application configuration below
-# module ActiveRbacConfig
-#   # controller and layout configuration
-#  config :controller_layout, "survey"
-# end
-# Engines.start 'active_rbac'
-
+CACHE = MemCache.new('127.0.0.1')
 
 module Enumerable
   def foldr(o, m = nil)
