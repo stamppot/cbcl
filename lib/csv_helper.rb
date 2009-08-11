@@ -90,10 +90,6 @@ class CSVHelper
     ss = Survey.find(survey_ids, :include => {:questions => :question_cells})
     ss.map { |s| s.cell_variables }.foldl(:merge)
   end
-  # def survey_headers2(survey_ids)
-  #   ss = Survey.find(survey_ids, :include => {:questions => :question_cells})
-  #   ss.inject(Dictionary.new) { |hash, s| hash[s.id] = s.cell_variables2; hash }.order_by
-  # end
   
   # var => val, grouped by survey
   def survey_answers_groups(survey_answers)

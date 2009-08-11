@@ -38,7 +38,7 @@
 		<td class="p_i"><%= (@group and @group.parent.kind_of? Team) ? "Team" : "Center" %>:</td>
 		<% if @group.parent != nil %>
 	  <%   group = @group.parent.class.to_s.underscore %> 
-	  <td class="p"><%= link_to h(@group.parent.title), @group_parent, :title => "Vis #{group.camelize}" %></td>
+	  <td class="p"><%= link_to h(@group.parent.title), @group.parent, :title => "Vis #{group.camelize}" %></td>
 	  <% else %>
 	  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
 	  <% end %>
