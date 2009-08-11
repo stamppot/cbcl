@@ -16,6 +16,7 @@ class AnswerCell < ActiveRecord::Base
       new_value = "9" if new_value.blank?
       if new_value != self.value && valid_values[:values].include?(new_value)
         self.value, some_value_changed = new_value, true
+        # self.touch
       end
     else  # other types
       self.value, some_value_changed = CGI.escape(new_value), true if new_value != self.value  # TODO: escape value
