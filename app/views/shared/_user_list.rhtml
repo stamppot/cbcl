@@ -38,7 +38,7 @@
 	<% end %>
 </table>
 
-<% if @users.page_count > 1 -%>
+<% if @users.total_pages > 1 -%>
 	<div class="page_entries"><%= page_entries_info(@users) -%></div>
 	<%= will_paginate @users, :remote => {:with => 'value', :update => 'user_list'} -%>
 <% end -%>

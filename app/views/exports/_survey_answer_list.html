@@ -16,7 +16,7 @@
 	<% end %>
 </table>
 
-<% if @survey_answers.page_count > 1 -%>
+<% if @survey_answers.total_pages > 1 -%>
 	<div class="page_entries"><%= page_entries_info(@survey_answers) -%></div>
 	<%= will_paginate @survey_answers, :remote => {:with => 'value', :update => 'survey_answer_list'} -%>
 <% end -%>

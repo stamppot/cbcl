@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserGroupsTest < Test::Unit::TestCase #ActiveSupport::TestCase
+class UserGroupsTest < ActiveSupport::TestCase #ActiveSupport::TestCase
 
   def setup
   end

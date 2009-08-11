@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'shoulda'
 
-class UsersTest < Test::Unit::TestCase #ActiveSupport::TestCase
+class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
 
   fixtures :groups, :roles
   

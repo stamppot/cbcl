@@ -35,14 +35,14 @@ class SurveysController < ApplicationController
     @survey = Survey.and_questions.find(params[:id])
     @page_title = @survey.title
     flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
-    render :template => 'survey/show', :layout => "layouts/showsurvey"
+    render :template => 'surveys/show', :layout => "layouts/showsurvey"
   end
   
   def show_only_fast
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
     @survey = Survey.and_questions.find(params[:id])
     @page_title = @survey.title
-    render :template => 'survey/show_fast', :layout => "layouts/showsurvey"
+    render :template => 'surveys/show_fast', :layout => "layouts/showsurvey"
   end
   
   # 25-2 Changed to use params[:id] for journal_entry. Survey is found here. This means that survey can only be shown thru journal_entries
@@ -85,6 +85,7 @@ class SurveysController < ApplicationController
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
       @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      puts "SURVEY TYPE: #{@survey.inspect}"
       @survey.merge_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer
@@ -97,38 +98,6 @@ class SurveysController < ApplicationController
       redirect_to surveys_path
   end
   
-  # optimize Survey.find
-  # def show_answer
-  #   @options = {:answers => true, :disabled => true, :action => "show_answer"}
-  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-  #   @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-  #   @survey = Survey.and_questions.find(@survey_answer.survey_id)
-  #   @survey.merge_answer(@survey_answer)
-  #   @page_title = "CBCL - Vis Svar: " << @survey.title
-  #   # render :text => @survey.to_s.inspect
-  #   render :template => 'survey/show' #, :layout => "layouts/showsurvey"
-  # end
-  # 
-  # def show_answer_fast
-  #   @options = {:action => "show_answer"}
-  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-  #   @survey_answer = @journal_entry.survey_answer
-  #   @survey = Survey.and_questions.find(@journal_entry.survey_id)
-  #   @survey.merge_answer(@survey_answer)
-  #   @page_title = "CBCL - Vis Svar: " << @survey.title
-  #   render :template => 'survey/show_fast' #, :layout => "layouts/showsurvey"
-  # end
-  # 
-  # def change_answer
-  #   @options = {:answers => true, :show_all => true, :action => "edit"}
-  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-  #   @survey_answer = @journal_entry.survey_answer
-  #   @survey = Survey.and_questions.find(@survey_answer.survey_id)
-  #   @survey.merge_answer(@survey_answer)
-  #   @page_title = "CBCL - Ret Svar: " << @survey.title
-  #   render :template => 'survey/show'
-  # end
-
   def finish
     login_user = LoginUser.find_by_id(params[:id])
     login_user.destroy if login_user

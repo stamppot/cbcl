@@ -117,7 +117,7 @@ class VariablesController < ApplicationController
     
     render :update do |page|
       page.replace_html 'variable_question_id', options_for_select(question_options(params[:survey_id]))
-      page.replace_html 'question_view', :partial => 'survey/question'
+      page.replace_html 'question_view', :partial => 'surveys/question'
       page.replace_html 'variable_row', options_for_select(r = @question.rows, r)
       page.replace_html 'variable_col', options_for_select(c = @question.cols, c)
       page << "$('question_id').value = #{@question.id}"
@@ -132,7 +132,7 @@ class VariablesController < ApplicationController
     @options = {:show_all => true, :onclick => "onclick='updateRowCol(this.id);'", :switch_off => true}
 
     render :update do |page|
-      page.replace_html 'question_view', :partial => 'survey/question'
+      page.replace_html 'question_view', :partial => 'surveys/question'
       page.replace_html 'variable_row', options_for_select(r = @question.rows, r)
       page.replace_html 'variable_col', options_for_select(c = @question.cols, c)
       page << "$('question_id').value = #{@question.id}"

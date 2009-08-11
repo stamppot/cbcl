@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'shoulda'
 
-class UsersControllerTest < Test::Unit::TestCase
+class UsersControllerTest < ActiveSupport::TestCase
 
   # user behandler should have a role, a center (a group)
   login_as(:user_center1) do

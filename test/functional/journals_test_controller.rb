@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'shoulda'
 
-class JournalsControllerTest < Test::Unit::TestCase
+class JournalsControllerTest < ActiveSupport::TestCase
 
   login_as(:user1_101) do
     context "on GET to :list" do

@@ -692,7 +692,7 @@ class ListItemComment < QuestionCell
     options[:hidden] = true
     c_id     = cell_id(no)
 
-    comment_box = "<a href='#' onclick='return toggleComment(#{c_id});' >" <<
+    comment_box = "<a href='#' onclick='return toggleComment(\"#{c_id}\");' >" <<
       "<img src='/images/icon_comment.gif' border=0 title='Kommentar' alt='kommentar' class='comment' >" << # removed />
     "</a>" unless options[:answers]
     form = form_template(options) << comment_box.to_s

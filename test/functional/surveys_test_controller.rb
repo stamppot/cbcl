@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'shoulda'
 
-class SurveysControllerTest < Test::Unit::TestCase
+class SurveysControllerTest < ActiveSupport::TestCase
 
   login_as(:user_center1) do
     context "show CBCL 1,5-5 forældreskema on GET to :show_only successfully" do

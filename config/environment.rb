@@ -52,6 +52,8 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
 
+  # config.action_view.cache_asset_timestamps = true
+  
   config.action_controller.session = { :session_key => "_cbcl_online_session", :secret => '0001237daee31bffae5fd8dc02313d' }
 
   # Make Active Record use UTC-base instead of local time
@@ -65,8 +67,8 @@ end
 
 require "will_paginate"
 
-# WillPaginate::ViewHelpers.pagination_options[:prev_label] = 'Forrige'
-# WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
+WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
+WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
 
 EXPORT_FILES_STORAGE_PATH = "./files/"
 # ActionMailer::Base.server_settings = { 

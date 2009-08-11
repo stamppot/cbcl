@@ -12,7 +12,7 @@ function tabbing(input, e) {
 
 function toggleComments(form) {
     var comments = document.getElementsByClassName('comment');
-    comments.each(function(v) {
+    comments.all(function(v) {
       v.toggle(); 
     });
 }

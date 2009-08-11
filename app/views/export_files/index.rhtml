@@ -23,7 +23,7 @@
 			<td class="col" id="col1">file.created_at.to_s(:long)</td>
 			<td class="col" id="col2"><%= file.content_type %></td>
 			<td class="col" id="col0"><%= link_to 'View', :action => 'download', :id => file.id %></td>
-			<td class="col action" id="col4"><%= link_to "Delete", {:action => 'delete', :id => file.id }, :confirm => "Are you sure?"   %></td>
+			<td class="col action" id="col4"><%= link_to "Delete", export_file_path(file), :method => :delete, :confirm => "Are you sure?"   %></td>
 		</tr>
 	</p>
 <% end %>
