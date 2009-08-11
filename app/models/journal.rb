@@ -19,7 +19,7 @@ class Journal < Group
                  
   delegate :name, :to        => :person_info
   delegate :sex, :to         => :person_info
-  delegate :birthdate, :to   => :person_info
+  delegate :birthdate, :to   => :person_info, :allow_nil => true
   delegate :nationality, :to => :person_info
   delegate :age, :to         => :person_info
   delegate :sex_text, :to    => :person_info

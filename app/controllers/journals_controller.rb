@@ -205,7 +205,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
     
     @groups = []
-    @groups = current_user.journals(:reload => true, :per_page => 9999999)
+    @groups = current_user.journals( :per_page => 9999999)
     if @phrase.blank?
       @groups = []
     else

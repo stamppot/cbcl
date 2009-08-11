@@ -59,10 +59,14 @@ Rails::Initializer.run do |config|
   
   config.action_controller.relative_url_root = ""
   # See Rails::Configuration for more options
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
+      :source => 'http://gems.github.com'
 end
 
-WillPaginate::ViewHelpers.pagination_options[:prev_label] = 'Forrige'
-WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
+require "will_paginate"
+
+# WillPaginate::ViewHelpers.pagination_options[:prev_label] = 'Forrige'
+# WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
 
 EXPORT_FILES_STORAGE_PATH = "./files/"
 # ActionMailer::Base.server_settings = { 
@@ -73,7 +77,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-CACHE = MemCache.new('127.0.0.1') if ENV['RAILS_ENV'] == 'production'
+# CACHE = MemCache.new('127.0.0.1') if ENV['RAILS_ENV'] == 'production'
 
 module Enumerable
   def foldr(o, m = nil)
