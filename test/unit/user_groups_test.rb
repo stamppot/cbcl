@@ -91,7 +91,7 @@ class UserGroupsTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     assert_equal 2, @team202.users.size
     # centers also have a centeradmin
     assert_equal 6, @center1.users.size
-    assert_equal 6, @center2.users.size
+    assert_equal 5, @center2.users.size
   end
 
   def test_user_have_center

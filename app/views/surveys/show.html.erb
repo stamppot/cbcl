@@ -1,0 +1,60 @@
+<%= (@journal_entry && !current_user.login_user) ? link_to("Gå tilbage", journal_path(@journal_entry.journal)) : "" %>
+<%= render :partial => 'surveys/survey_header' %>
+
+<br>
+
+<div id='draft-message' style='color:red;'></div>
+
+<% if current_user.has_access? :survey_show_fast_input and !@options[:show_only] %>
+<div class="command">
+	<% if @options[:answers] %>
+	<%=  link_to 'Hurtig indtastning', survey_show_fast_path(@journal_entry) %>
+	<% elsif @options[:show_only] %>
+	<%=  link_to 'Hurtig indtastning', survey_show_only_fast_path(@survey) %>
+	<% else %>
+	<%= link_to ("Hurtig indtastning " + 
+	img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning")),
+	 			survey_show_fast_path(@journal_entry), :title => 'Besvar med hurtig indtastning', :style => 'width: 16px;' %>
+	<% end %>
+</div>
+<% end %>
+
+<br>
+
+
+<% unless @options[:action] =~ /show/ %>
+		<form action="/survey_answers/create/<%= @journal_entry.id %>" id="surveyform" method="post" >
+
+			<!-- Put before validation.add -->
+		<script type='text/javascript'>
+	    new Validation('surveyform', {immediate : true, stopOnFirst : true });
+		</script>
+<% end %>
+
+<div>
+	<%= render :partial => "surveys/answer_by" %>
+</div>
+
+<br>
+
+<%= render :partial => "surveys/question", :collection => @survey.questions %>
+
+<% unless @options[:action] =~ /show/ %>
+	<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
+	<div id="sending_form" style="display: none">
+		<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img alt="Sender svar" src="/images/spinner.gif">
+	</div>
+<% end %>
+
+<% unless @options[:action] =~ /show/ && !@options[:show_only] %>
+	</form>
+	<%= observe_form "surveyform",
+			 :url => survey_save_draft_path(@journal_entry),
+			 :update => "draft-message",
+			 :frequency => 20 %>
+<% end %>
+
+
+<div id="debug">
+</div>
+

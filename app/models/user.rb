@@ -3,6 +3,8 @@ require 'access'
 class User < ActiveRecord::Base
   include ActiveRbacMixins::UserMixins::Core
 
+  after_save :expire_cache # delete cached roles, # groups
+  
   belongs_to :center
   
   validates_associated :center # center must be valid
@@ -14,15 +16,23 @@ class User < ActiveRecord::Base
 
   # This method returns true if the user is assigned the role with one of the
   # role titles given as parameters. False otherwise.
+  
   def has_access?(right)
     role_titles = Access.roles(right) # << "SuperAdmin"  # SuperAdmin has access to everything
     return false if role_titles.nil?
 
-    self.all_roles.map.any? do |role| 
+    _all_roles = Rails.cache.fetch("user_roles_#{self.id}") do self.all_roles end
+    _all_roles.map.any? do |role| 
       role_titles.include?(role.title.to_sym)
     end
   end
   
+  # Try override user.groups with a cached version
+  # def groups
+  #   Rails.cache.fetch("groups_#{self.id}") do
+  #     self.groups
+  #   end
+  # end
   named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   named_scope :users, :conditions => ['login_user = ?', false], :order => "created_at"
   named_scope :login_users, :conditions => ['login_user = ?', true]
@@ -32,6 +42,10 @@ class User < ActiveRecord::Base
   named_scope :in_journals, lambda { |journal_ids| { :select => "users.*", :joins => "INNER JOIN journal_entries ON journal_entries.user_id = users.id",
     :conditions => ["journal_entries.journal_id IN (?)", journal_ids] } }
   
+  def expire_cache
+    Rails.cache.delete("user_roles_#{self.id}")
+  end
+    
   def admin?
     self.has_role?(:admin) or self.has_role?(:superadmin)
   end
@@ -39,7 +53,7 @@ class User < ActiveRecord::Base
   #   {"user"=>{"roles"=>["5"], "name"=>"behandler test 22222", "groups"=>["121"], "login"=>"test 22222", "state"=>"2", "email"=>"behandler22222@test.dk"}, "submit"=>{"create"=>"Opret"}, "password_confirmation"=>"[FILTERED]", "action"=>"create", "controller"=>"active_rbac/user", "password"=>"[FILTERED]"}
   def create_user(params)
     # if user name not provided, it's same as login
-    params[:name] = params[:login] if params[:name].empty?
+    params[:name] = params[:login] if params[:name].blank?
 
     roles  = params.delete(:roles)
     groups = params.delete(:groups)
@@ -188,7 +202,7 @@ class User < ActiveRecord::Base
   # returns only active surveys which user's centers are subscribed to
   def subscribed_surveys
     if self.has_access?(:survey_show_all)
-      s = Survey.find(:all, :order => :position)
+      s = Survey.all(:order => :position)
       # s.delete_if {|s| s.title =~ /Test/}
       # s
     elsif self.has_access?(:survey_show_subscribed)
@@ -239,14 +253,21 @@ class User < ActiveRecord::Base
     per_page = options[:per_page] || REGISTRY[:journals_per_page]
     journals =
     if self.has_access?(:journal_show_all)
-      Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
+      # Rails.cache.fetch("journals_all_paged_#{page}_#{per_page}") do
+        Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
+      # end
     elsif self.has_access?(:journal_show_centeradm)
-      Journal.and_person_info.in_center(self.center).paginate(:all, :page => page, :per_page => per_page)
+      # Rails.cache.fetch("journals_center_#{self.center_id}_paged_#{page}_#{per_page}") do
+        Journal.and_person_info.in_center(self.center).paginate(:all, :page => page, :per_page => per_page)
+      # end
     elsif self.has_access?(:journal_show_member)
-      # get all ids of all parent groups
-      group_ids = self.group_ids(options[:reload]) # get teams and centers for this users
-      # find journals whose parents are current_user's groups 
-      Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
+      group_ids = #Rails.cache.fetch("group_ids_team_#{self.id}", :expires_in => 30.minutes) do
+        self.group_ids(options[:reload]) # get teams and center ids for this user
+      # end
+      # Rails.cache.fetch("journals_user_#{self.id}_paged_#{page}_#{per_page}", :expires_in => 30.minutes) do
+        # find journals whose parents are current_user's groups 
+        Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
+      # end
     elsif self.has_access?(:login_user)
       entry = JournalEntry.find_by_user_id(self.id)
       [entry.journal]
@@ -284,6 +305,9 @@ class User < ActiveRecord::Base
     options = { :select => "id", :include => [:journal_entries] }
     journals =
     if self.has_access?(:journal_show_all)
+      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}") do
+        self.journal_entry_ids
+      end
       Journal.and_entries.find(:all, options)
     elsif self.has_access?(:journal_show_centeradm)
       Journal.and_entries.in_center(self.center).find(:all, options)
@@ -307,7 +331,9 @@ class User < ActiveRecord::Base
     stop_age   = options.delete(:age_stop) || 21
 
     surveys    = options.delete(:surveys)
-    je_ids = self.journal_entry_ids
+    je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+      self.journal_entry_ids
+    end
     
     if self.has_access?(:group_all)
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page ) #, :include => [{:journal_entry => :journal}, :survey])
@@ -315,7 +341,8 @@ class User < ActiveRecord::Base
       # sa_ids = JournalEntry.find(self.journal_ids, :include => :survey_answer).map {|je| je.survey_answer}
       # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).all(:conditions => ['id IN (?)', sa_ids])
     else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
-      sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', self.journal_ids]).map {|je| je.survey_answer_id }
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
+      sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['id IN (?)', sa_ids], :page => page, :per_page => per_page)
     end
   end
@@ -323,7 +350,8 @@ class User < ActiveRecord::Base
   def login_users(options = {})
     page     = options[:page] || 1
     per_page = options[:per_page] || 100000 
-    users = User.login_users.in_journals(self.journal_ids).paginate(:all, :page => page, :per_page => per_page)
+    journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
+    users = User.login_users.in_journals(journal_ids).paginate(:all, :page => page, :per_page => per_page)
   end
   
   # returns users that a specific user role is allowed to see
@@ -343,13 +371,14 @@ class User < ActiveRecord::Base
     
   # roles a user can pass on
   def pass_on_roles
-    r = self.all_roles
+    r = Rails.cache.fetch("roles_user_#{self.id}") do self.all_roles end
+    # r = self.all_roles
     if self.has_access?(:superadmin)
-      r = Access.roles(:all_users).map {|role| Role.get(role) }
+      r = Role.get(Access.roles(:all_users)) #.map {|role| Rails.cache.fetch("role_#{role}") { Role.find_by_title(role) } }
     elsif self.has_access?(:admin)
-      r = Access.roles(:admin_roles).map {|role| Role.get(role) }
+      r = Role.get(Access.roles(:admin_roles)) #.map {|role| Role.get(role) }
     elsif self.has_access?(:centeradm)
-      r = Access.roles(:center_users).map {|role| Role.get(role) }
+      r = Role.get(Access.roles(:center_users)) #.map {|role| Role.get(role) }
     end
     return r
   end

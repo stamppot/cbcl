@@ -28,7 +28,10 @@ class Role < ActiveRecord::Base
     roles = roles.shift if roles.first.is_a?(Array)
     head, tail = roles.shift.to_s, roles
     if head && !head.empty?
-      col << Role.find_by_title(head)
+      role_title = Rails.cache.fetch("role_#{head}") do
+        Role.find_by_title(head)
+      end
+      col << role_title # Role.find_by_title(head)
       self.recursive_get_all(col, tail)
     else
       return (col.compact.size == 1 ? col.first : col.compact)

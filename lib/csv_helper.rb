@@ -2,10 +2,11 @@ require 'fastercsv'
 require 'facets/dictionary'
 
 class CSVHelper
+
+  DEBUG = false
   
   # TODO: does not work!
   def login_users(journals)
-    DEBUG = false
     journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
     puts "journals with unanswered entries: #{journals.size}" if DEBUG
@@ -124,36 +125,6 @@ class CSVHelper
       hash
     end
   end
-
-  # def sa_values_by_survey(survey_answers)
-  #   survey_answers.inject(Dictionary.new) do |hash,sa|
-  #     hash[sa.survey_id] = Dictionary.new
-  #     hash[sa.journal_entry_id][sa.survey_id] = sa.cell_values
-  #     hash[sa.journal_entry_id].order_by
-  #     hash
-  #   end
-  # end
-
-  # def sa_values_by_entry(survey_answers)
-  #   survey_answers.inject(Dictionary.new) do |hash,sa|
-  #     h = hash[sa.id] = Dictionary.new
-  #     if h[sa.journal_entry_id]
-  #       h[sa.journal_entry_id] << sa.cell_values
-  #     else
-  #       h[sa.journal_entry_id] = [sa.cell_values]
-  #     end
-  #     hash
-  #   end
-  # end
-
-  # def mix_no_vars(vars, vals)
-  #   vars.each do |survey_id, varsh|
-  #     if vals[survey_id]
-  #       vals = varsh.merge(vals[survey_id]).values
-  #     end
-  #   end
-  #   return vals
-  # end
   
 
   def mix(vars, vals, with_vars = true)
@@ -240,7 +211,7 @@ class CSVHelper
     
     survey_answers = entries.map {|e| e.survey_answer_id }    # sa_id => {survey_id => vars (for this survey)} 
     sa_table = survey_answers.inject(Dictionary.new) do |h, sa|
-      sa_obj = SurveyAnswer.and_answer_cells.find_by_id(sa)
+      sa_obj = Rails.cache.fetch("survey_answer_#{sa}") do SurveyAnswer.and_answer_cells.find_by_id(sa) end
       if sa_obj.blank?
         puts "HEHEUHUH? #{sa_obj}  #{h[sa]}"
       end
@@ -270,7 +241,9 @@ class CSVHelper
   end
 
   def journal_table_to_csv(table_journals_sas, s_headers)
-    journals = Journal.find(table_journals_sas.keys).inject({}) { |col, j| col[j.id] = j; col }
+    journals = Rails.cache.fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
+      Journal.find(table_journals_sas.keys).inject({}) { |col, j| col[j.id] = j; col }
+    end
     headers = Journal.csv_header.merge(s_headers)
   
     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|

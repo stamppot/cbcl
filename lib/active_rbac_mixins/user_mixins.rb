@@ -170,9 +170,10 @@ module UserMixins
               result << role.ancestors_and_self
             end
 
-            for group in self.groups
-              result << group.all_roles
-            end
+            # Group roles are not used!
+            # for group in self.groups
+            #   result << group.all_roles
+            # end
 
             result.flatten!
             result.uniq!

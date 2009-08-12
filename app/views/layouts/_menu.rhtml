@@ -1,3 +1,4 @@
+<% cache current_user.roles.map {|r| r.id}.join("_") do %>
 <% if @user && @user.has_access?(:layout_show_menu) %>
 <div id="menu">
 
@@ -117,4 +118,5 @@
 </div>
 <% else %>
 Log venligst ud af systemet og log ind igen ved at trykke <%= link_to 'her', { :controller => '/login', :action => 'logout' } %>
+<% end %>
 <% end %>

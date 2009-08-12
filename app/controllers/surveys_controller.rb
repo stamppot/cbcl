@@ -162,8 +162,13 @@ class SurveysController < ApplicationController
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include? id
-      else  # show methods uses journal_entry id
-        current_user.journal_entry_ids.include?(id)
+      elsif current_user.has_access?(:superadmin) # don't do check for superadmin
+        true
+      else
+        journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
+          current_user.journal_entry_ids
+        end
+        journal_entry_ids.include?(id)
       end
     end
   end

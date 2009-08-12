@@ -1,136 +1,136 @@
 <% javascript_include_tag 'prototype', :cache => true %>
 <% javascript_include_tag 'effects', :cache => true %>
 
-<h2>Journal &quot;<%=h @group.title %>&quot;</h2>
+<% cache @group.cache_key do %>
 
-<!-- <h3>Personjournal Data</h3> -->
-
-<table class="journal_info">
-	<tr>
-		<td class="p_i">ID:</td>
-		<td class="p"><%=@group.qualified_id %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Journalnavn:</td>
-		<td class="p"><%=h @group.name %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Køn:</td>
-		<td class="p"><%=h @group.sex_text %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Fødselsdato:</td>
-		<td class="p"><%= @group.birthdate.to_s(:long) %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Alder (år):</td>
-		<td class="p"><%=h @group.age %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Nationalitet:</td>
-		<td class="p"><%=h @group.nationality %></td>
-	</tr>
-	<tr>
-		<td class="p_i">Oprettet:</td>
-		<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
-	</tr>
-	<tr>
-		<td class="p_i"><%= (@group and @group.parent.kind_of? Team) ? "Team" : "Center" %>:</td>
-		<% if @group.parent != nil %>
-	  <%   group = @group.parent.class.to_s.underscore %> 
-	  <td class="p"><%= link_to h(@group.parent.title), @group.parent, :title => "Vis #{group.camelize}" %></td>
-	  <% else %>
-	  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
-	  <% end %>
-	  </td>
-	</tr>
-</table>
-
-
-<% if @group.not_answered_entries.size > 0 %>
-	<h4>Skemaer der skal besvares</h4>
-	<table class="sortable">
+	<h2>Journal &quot;<%=h @group.title %>&quot;</h2>
+	
+	<table class="journal_info">
 		<tr>
+			<td class="p_i">ID:</td>
+			<td class="p"><%=@group.qualified_id %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Journalnavn:</td>
+			<td class="p"><%=h @group.name %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Køn:</td>
+			<td class="p"><%=h @group.sex_text %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Fødselsdato:</td>
+			<td class="p"><%= @group.birthdate.to_s(:long) %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Alder (år):</td>
+			<td class="p"><%=h @group.age %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Nationalitet:</td>
+			<td class="p"><%=h @group.nationality %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Oprettet:</td>
+			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
+		</tr>
+		<tr>
+			<td class="p_i"><%= (@group and @group.parent.kind_of? Team) ? "Team" : "Center" %>:</td>
+			<% if @group.parent != nil %>
+		  <%   group = @group.parent.class.to_s.underscore %> 
+		  <td class="p"><%= link_to h(@group.parent.title), @group.parent, :title => "Vis #{group.camelize}" %></td>
+		  <% else %>
+		  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
+		  <% end %>
+		  </td>
+		</tr>
+	</table>
+	
+	
+	<% if @group.not_answered_entries.size > 0 %>
+		<h4>Skemaer der skal besvares</h4>
+		<table class="sortable">
+			<tr>
+				<th>Spørgeskema</th>
+				<th>Type</th>
+				<th>Tilføjet</th>
+				<th>Status</th>
+				<th class="nosort">Handling</th>
+			</tr>
+		<% for entry in @group.not_answered_entries %>
+			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
+					 <% survey = entry.survey %>
+					 <td style='background-color: #<%= survey.color %>;'>
+					<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
+							survey_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
+					<%= link_to survey.title, survey_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
+					 <td><%= survey.typename %></td>
+					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
+					 <td><%= entry.status %>
+					 </td>
+					 <td>
+					<%= entry.login_user.nil? ? "&nbsp;" : link_to((img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
+										:class => 'icon', :title => 'Vis login-info')), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
+					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
+										:class => 'icon icon_delete', :title => 'Fjern skema')), 
+							:update => ('entry'<<entry.id.to_s), 
+							:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.title}'\n fra journalen #{@group.title}?",
+					 		:url => entry_remove_path(entry)) %></td>
+				 </tr>
+		<% end %>
+		</table>
+	<% end %>
+	
+	
+	<div class="commands">
+		<%= link_to 'Tilføj spørgeskemaer', journal_add_survey_path(@group), :title => 'Tilføj skemaer' %>
+		<%= link_to 'Fjern spørgeskemaer', journal_remove_survey_path(@group), :title => 'Fjern skemaer' %>
+	</div>
+	
+	
+	<% if @group.answered_entries.size > 0 %>
+		<h4>Besvarelser</h4>
+		<% form_tag create_score_report_path, :method => 'post' do %>
+			<%= hidden_field_tag 'journal_id', @group.id %>
+		<table class="sortable">
+		<% if @group.answered_entries.size > 0 %>
 			<th>Spørgeskema</th>
-			<th>Type</th>
-			<th>Tilføjet</th>
+			<th>Besvaret</th>
 			<th>Status</th>
 			<th class="nosort">Handling</th>
-		</tr>
-	<% for entry in @group.not_answered_entries %>
-		 	 <tr id='<%= "entry" + entry.id.to_s %>'>
-				 <% survey = entry.survey %>
-				 <td style='background-color: #<%= survey.color %>;'>
-				<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
-						survey_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
-				<%= link_to survey.title, survey_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
-				 <td><%= survey.typename %></td>
-				 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
-				 <td><%= entry.status %>
-				 </td>
-				 <td>
-				<%= entry.login_user.nil? ? "&nbsp;" : link_to((img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
-									:class => 'icon', :title => 'Vis login-info')), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
-				<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
-									:class => 'icon icon_delete', :title => 'Fjern skema')), 
-						:update => ('entry'<<entry.id.to_s), 
-						:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.title}'\n fra journalen #{@group.title}?",
-				 		:url => entry_remove_path(entry)) %></td>
-			 </tr>
-	<% end %>
-	</table>
-<% end %>
-
-
-<div class="commands">
-	<%= link_to 'Tilføj spørgeskemaer', journal_add_survey_path(@group), :title => 'Tilføj skemaer' %>
-	<%= link_to 'Fjern spørgeskemaer', journal_remove_survey_path(@group), :title => 'Fjern skemaer' %>
-</div>
-
-
-<% if @group.answered_entries.size > 0 %>
-	<h4>Besvarelser</h4>
-	<% form_tag create_score_report_path, :method => 'post' do %>
-		<%= hidden_field_tag 'journal_id', @group.id %>
-	<table class="sortable">
-	<% if @group.answered_entries.size > 0 %>
-		<th>Spørgeskema</th>
-		<th>Besvaret</th>
-		<th>Status</th>
-		<th class="nosort">Handling</th>
-		<% for @entry in @group.answered_entries %>
-	 	 	<tr id='<%= "entry_answer" + @entry.id.to_s %>'>
-				 <td class="no_border" style='background-color: #<%= @entry.survey.color %>;'>
-					<%= check_box "answers", @entry.id, { :class => 'no_border'} %>
-					<%= link_to @entry.survey.title, survey_answer_path(@entry), :title => 'Vis Besvarelse' %></td>
-				 <td><%= @entry.answered_at.strftime "%d-%m-%Y" %> </td>
-				 <td><%= @entry.status %></td>
-				 <td><%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(@entry), :title => 'Ret besvarelse' %>
-				
-						<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
-									:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
-						:update => ('entry_answer' << @entry.id.to_s), 
-						:confirm => "Vil du fjerne besvarelsen '#{@entry.survey.title}'\n fra journalen #{@group.title}?",
-				 		:url => entry_remove_answer_path(@entry)) %>      
-					</td>
-
+			<% for @entry in @group.answered_entries %>
+		 	 	<tr id='<%= "entry_answer" + @entry.id.to_s %>'>
+					 <td class="no_border" style='background-color: #<%= @entry.survey.color %>;'>
+						<%= check_box "answers", @entry.id, { :class => 'no_border'} %>
+						<%= link_to @entry.survey.title, survey_answer_path(@entry), :title => 'Vis Besvarelse' %></td>
+					 <td><%= @entry.answered_at.strftime "%d-%m-%Y" %> </td>
+					 <td><%= @entry.status %></td>
+					 <td><%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(@entry), :title => 'Ret besvarelse' %>
+					
+							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
+										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
+							:update => ('entry_answer' << @entry.id.to_s), 
+							:confirm => "Vil du fjerne besvarelsen '#{@entry.survey.title}'\n fra journalen #{@group.title}?",
+					 		:url => entry_remove_answer_path(@entry)) %>      
+						</td>
+	
+			<% end %>
+		<% else %>
+		   Ingen
 		<% end %>
-	<% else %>
-	   Ingen
-	<% end %>
-	</table>
-	<% if @group.answered_entries.size > 0 %>
-	  
-	  <div class="commands">
-		<%= submit_tag "Beregn score", :class => 'btn_gray' %>
+		</table>
+		<% if @group.answered_entries.size > 0 %>
+		  
+		  <div class="commands">
+			<%= submit_tag "Beregn score", :class => 'btn_gray' %>
+			<% end %>
+		</div>
 		<% end %>
+	<% end %>
+
+	<div class="commands">
+		<%= link_to 'Rediger', edit_journal_path(@group), :title => 'Rediger' %>
+		<%= link_to 'Tilbage', journals_path, :title => 'Tilbage til liste' %>
 	</div>
-	<% end %>
-<% end %>
-
-
-
-<div class="commands">
-	<%= link_to 'Rediger', edit_journal_path(@group), :title => 'Rediger' %>
-	<%= link_to 'Tilbage', journals_path, :title => 'Tilbage til liste' %>
-</div>
+	
+<% end %> <!-- end of cache -->

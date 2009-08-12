@@ -59,10 +59,11 @@ class ApplicationController < ActionController::Base
           when /faq/
             access = current_user.has_access?(:superadmin) || current_user.has_access?(:admin)
           when /score_reports/  # TODO: test this one!!!
+            journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
-              params[:answers].keys.all? { |entry| current_user.journal_ids.include? entry }
+              params[:answers].keys.all? { |entry| journal_ids.include? entry }
             else
-              current_user.journal_ids.include? id
+              journal_ids.include? id
             end
           when /scores/
             access = current_user.has_access? :superadmin

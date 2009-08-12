@@ -1,5 +1,5 @@
 class PersonInfo < ActiveRecord::Base
-  belongs_to :journal
+  belongs_to :journal, :touch => true
 
   validates_presence_of :name, :message => "Navn skal angives"
   validates_presence_of :sex, :message => "Køn skal angives"

@@ -63,10 +63,10 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     # if team is created from Center.show, then center is set to parent
     @groups = []
     if params[:id]  # center id is parameter
-      @groups += Group.find :all, :conditions => [ 'id = ?', params[:id] ]
+      @groups += Group.all(:conditions => [ 'id = ?', params[:id] ])
     else
       @groups = current_user.centers # + current_user.center  # teams can only be subgroup of center, not of teams
-      @groups.compact!.uniq  # if superadmin, center is nil
+      @groups.compact.uniq  # if superadmin, center is nil
     end
 
     @group = Team.new

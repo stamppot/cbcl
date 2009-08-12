@@ -3,19 +3,19 @@ require 'facets/dictionary'
 class Journal < Group
   belongs_to :center
   has_one :person_info, :dependent => :destroy
-  has_many :journal_entries, :order => 'created_at', :dependent => :destroy
-  has_many :users, :through => :journal_entries
-  has_many :surveys, :through => :journal_entries
+  has_many :remove_index, :order => 'created_at', :dependent => :destroy
+  has_many :users, :through => :remove_index
+  has_many :surveys, :through => :remove_index
   has_many :answered_entries,
            :class_name => 'JournalEntry',
            :include => :survey,
-           :conditions => 'journal_entries.state = 5',  # answered
-           :order => 'journal_entries.answered_at'
+           :conditions => 'remove_index.state = 5',  # answered
+           :order => 'remove_index.answered_at'
   has_many :not_answered_entries,
            :class_name => 'JournalEntry',
            :include => :survey,
-           :conditions => 'journal_entries.state != 5',  # not answered
-           :order => 'journal_entries.answered_at'
+           :conditions => 'remove_index.state != 5',  # not answered
+           :order => 'remove_index.answered_at'
                  
   delegate :name, :to        => :person_info
   delegate :sex, :to         => :person_info
@@ -23,7 +23,9 @@ class Journal < Group
   delegate :nationality, :to => :person_info
   delegate :age, :to         => :person_info
   delegate :sex_text, :to    => :person_info
-    
+  
+  after_save :expire_cache
+  
   # ID is mandatory
   validates_presence_of :code #, :message => "ID skal gives"
   validates_presence_of :name#, :message => "Navn skal angives"
@@ -40,11 +42,11 @@ class Journal < Group
   
   # TODO: validates_associated or existence_of (see Advanced Rails recipes or Rails Way)
   
-  named_scope :and_entries, :include => :journal_entries
+  named_scope :and_entries, :include => :remove_index
   named_scope :and_person_info, :include => :person_info
   named_scope :with_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
   named_scope :by_code, :order => 'code ASC'
-  # named_scope :answers_for_surveys, lambda { |survey_ids| { :joins => {:journal_entries => :survey_answer},
+  # named_scope :answers_for_surveys, lambda { |survey_ids| { :joins => {:remove_index => :survey_answer},
   #  :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
   
 
@@ -52,10 +54,15 @@ class Journal < Group
   #   unless self.code.to_s.size == Journal.find_by_code_and_center_id(self.code, self.center_id)
   #     errors.add("code", "skal være 4 cifre")
   #   end
-  # end  
-  # show all login-users for journal. Go through journal_entries
+  # end 
+  
+  def expire_cache
+    Rails.cache.delete("j_#{self.id}")
+  end
+  
+  # show all login-users for journal. Go through remove_index
   def login_users
-    self.journal_entries.collect { |entry| entry.login_user }.compact
+    self.remove_index.collect { |entry| entry.login_user }.compact
   end
   
   # can a journal belong to one or more teams?  No, just one. Or a Center!
@@ -117,13 +124,14 @@ class Journal < Group
   end
   
   # creates entries with logins
-  def create_journal_entries(surveys)
+  def create_remove_index(surveys)
     return true if surveys.empty?
     surveys.each do |survey|
       entry = JournalEntry.new({:journal => self, :survey => survey, :state => 2})
       entry.create_login_user
       entry.print_login! if entry.valid?
     end
+    Rails.cache.delete("journal_entry_ids_user_#{current_user.id}")
   rescue 
     return false
   end

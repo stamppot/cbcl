@@ -10,7 +10,9 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :disabled => false, :action => "show"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = Survey.and_questions.find(@survey_answer.survey_id)
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@survey_answer.survey_id)
+    end
     @survey.merge_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.title
     # render :text => @survey.to_s.inspect
@@ -21,7 +23,9 @@ class SurveyAnswersController < ApplicationController
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Survey.and_questions.find(@journal_entry.survey_id)
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@journal_entry.survey_id)
+    end
     @survey.merge_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.title
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
@@ -31,7 +35,9 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :show_all => true, :action => "edit"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Survey.and_questions.find(@survey_answer.survey_id)
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@survey_answer.survey_id)
+    end
     @survey.merge_answer(@survey_answer)
     @page_title = "CBCL - Ret Svar: " << @survey.title
     render :template => 'surveys/show'
@@ -41,7 +47,9 @@ class SurveyAnswersController < ApplicationController
     # render :text => "<i>Draft saved at #{Time.now}</i>" + "\n\n" + params.inspect
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey_answer = @journal_entry.survey_answer
-    survey = Survey.and_questions.find(@journal_entry.survey_id)
+    survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@journal_entry.survey_id)
+    end
     survey_answer.save_partial_answers(params, survey)
     @journal_entry.answered_at = Time.now
     @journal_entry.draft!
@@ -62,7 +70,9 @@ class SurveyAnswersController < ApplicationController
     end
     redirect_to journal_path(@journal_entry.entry) if flash[:error]
 
-    survey = Survey.and_questions.find(@journal_entry.survey_id)
+    survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+      Survey.and_questions.find(@journal_entry.survey_id)
+    end
     survey_answer = @journal_entry.make_survey_answer
 
     # if answered by other, save the textfield instead

@@ -5,7 +5,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   before_filter :center_title 
   before_filter :check_access, :except => [:index, :list, :per_page, :new, :live_search]
-  
+
   # We force users to use POST on the state changing actions.
   # verify :method       => "post",
   # :only         => [ :create, :update, :destroy ],
@@ -30,7 +30,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def show
-    @group = Journal.find(params[:id])
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
     @journal_entries = @group.journal_entries
   end
 
@@ -58,8 +58,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group.center = @group.parent && @group.parent.center
     
     if @group.save
-        flash[:notice] = 'Journalen er oprettet.'
-        redirect_to :action => 'show', :id => @group and return
+      Rails.cache.delete("journal_ids_user_#{current_user.id}")
+      flash[:notice] = 'Journalen er oprettet.'
+      redirect_to :action => 'show', :id => @group and return
     else
       @groups = Group.get_teams_or_centers(params[:id], current_user)
       @nationalities = Nationality.find(:all)
@@ -88,7 +89,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def update
     params[:person_info][:name] = params[:group][:title]    # save name in person_info too                                    
 
-    @group = Journal.find(params[:id])
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
     @group.person_info.update_attributes(params[:person_info])
     @group.update_attributes(params[:group])
     @group.center = @group.parent && @group.parent.center
@@ -110,7 +111,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # displays a "Do you really want to delete it?" form. It
   # posts to #destroy.
   def delete
-    @group = Journal.find(params[:id].to_i)
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id].to_i)
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.'
@@ -122,11 +123,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      @group = Journal.find(params[:id])
+      @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
       @group.journal_entries.each do |entry|
         # entry.remove_login! # was: User.login_users.find(entry.user_id).destroy if entry.user_id
         entry.kill! # this removes survey_answer too! # was: JournalEntry.find(entry.id).destroy
       end
+      Rails.cache.delete("journal_ids_user_#{current_user.id}")
       @group.destroy # does not delete entries and users (cascading)
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
       redirect_to :action => :list
@@ -145,7 +147,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
 
   def add_survey
-    @group = Journal.find(params[:id])
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
 
     if request.post?
       surveys = []
@@ -167,7 +169,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # removing is a bit different than adding. This should remove the entries, the entry ids should be given in the form
   # removes login-users too
   def remove_survey
-    @group = Journal.find(params[:id])
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end # Journal.find(params[:id])
     
     if request.post?
       # render :text => params.inspect
@@ -205,7 +207,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
     
     @groups = []
-    @groups = current_user.journals( :per_page => 9999999)
+    @groups = current_user.journals( :per_page => 20)
     if @phrase.blank?
       @groups = []
     else
@@ -251,7 +253,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
   def check_access
     if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
-      access = current_user.journal_ids.include? params[:id].to_i
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
+      access = journal_ids.include? params[:id].to_i
     end
   end
 

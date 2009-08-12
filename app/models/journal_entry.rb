@@ -1,7 +1,7 @@
 class JournalEntry < ActiveRecord::Base
-  belongs_to :journal
+  belongs_to :journal, :touch => true
   belongs_to :survey
-  belongs_to :survey_answer, :dependent => :destroy
+  belongs_to :survey_answer, :dependent => :destroy, :touch => true
   belongs_to :login_user, :class_name => "LoginUser", :foreign_key => "user_id", :dependent => :destroy  # TODO: rename to login_user, add type constraint
 
   validates_associated :login_user

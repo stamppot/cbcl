@@ -4,26 +4,28 @@
 
 <br>
 
-<p>List of files</p>
+<p>Filliste</p>
 
 <table class="files">
 	<% unless @files.blank? %>
 	<tr>
-		<th>Filename</th>
-		<th>Date</th>
+		<th>Filnavn</th>
+		<th>Dato</th>
 		<th>Type</th>
-		<th>External</th>
-		<th>Action</th>
+		<!-- <th>External</th> -->
+		<th>Handling</th>
 	</tr>
 	<% end %>
 <% @files.each_with_index do |file, i| %>
 	<p>
 		<tr class="file line<%= i%2 %>">
 			<td class="col" id="col0"><%= link_to h(file.filename), :action => 'download', :id => file.id, :format => 'csv' %></td>
-			<td class="col" id="col1">file.created_at.to_s(:long)</td>
-			<td class="col" id="col2"><%= file.content_type %></td>
-			<td class="col" id="col0"><%= link_to 'View', :action => 'download', :id => file.id %></td>
-			<td class="col action" id="col4"><%= link_to "Delete", export_file_path(file), :method => :delete, :confirm => "Are you sure?"   %></td>
+			<td class="col" id="col1"><%= file.created_at.to_s(:long) %></td>
+			<td class="col" id="col2"><%= case file.content_type
+				 when /excel/: img_tag_html4("icon_excel.png", :size => "20x20", :alt => "Excel-fil")
+				 else file.content_type
+				 end %></td>
+			<td class="col action" id="col4"><%= link_to "Slet", export_file_path(file), :method => :delete, :confirm => "Er du sikker??"   %></td>
 		</tr>
 	</p>
 <% end %>

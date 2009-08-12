@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class VariablesControllerTest < ActionController::TestCase
+class VariablesControllerTest < ActiveSupport::TestCase
 
   def setup
-    login_as(users(:user_superadmin))
+    self.login_as(users(:user_superadmin))
   end
   
   test "should get index" do

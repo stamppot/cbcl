@@ -9,6 +9,8 @@ ENV['RAILS_ENV'] ||= 'production'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+require 'memcache'
+
 $KCODE = 'u'
 #require 'jcode'
 
@@ -52,8 +54,6 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
 
-  # config.action_view.cache_asset_timestamps = true
-  
   config.action_controller.session = { :session_key => "_cbcl_online_session", :secret => '0001237daee31bffae5fd8dc02313d' }
 
   # Make Active Record use UTC-base instead of local time
@@ -63,12 +63,16 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
       :source => 'http://gems.github.com'
+      
 end
+
+# config.cache_store = :my_mem_cache_store
 
 require "will_paginate"
 
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
+
 
 EXPORT_FILES_STORAGE_PATH = "./files/"
 # ActionMailer::Base.server_settings = { 
@@ -79,7 +83,8 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-CACHE = MemCache.new('127.0.0.1') if false #ENV['RAILS_ENV'] == 'production'
+CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
+
 
 module Enumerable
   def foldr(o, m = nil)

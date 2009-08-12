@@ -24,11 +24,11 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     # must also remove login-user
     entry = JournalEntry.find(params[:id])
     entry.remove_login!
-
+    puts "ELEM: #{elem}"
     if entry.destroy
       render :update do |page|
-        page[elem].visual_effect :puff
-        page[elem].remove
+        page.visual_effect :puff, elem
+        page.remove elem
       end
     end
   end
@@ -94,7 +94,8 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   def check_access
     if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user)) and params[:id]
       j_id = JournalEntry.find(params[:id]).journal_id
-      access = current_user.journal_ids.include? j_id
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
+      access = journal_ids.include? j_id
     end
   end
 
