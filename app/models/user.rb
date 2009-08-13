@@ -55,29 +55,19 @@ class User < ActiveRecord::Base
   def create_user(params)
     # if user name not provided, it's same as login
     params[:name] = params[:login] if params[:name].blank?
-    puts "CREATE_USER: 1"
 
     roles  = params.delete(:roles)
     groups = params.delete(:groups)
-    puts "CREATE_USER METHOD: ROLES: #{roles.inspect}"
-    puts "CREATE_USER METHOD: GROUPS: #{groups.inspect}"
     # TODO: check parameters for SQL/HTML etc
     pw     = params.delete(:password)
     pwconf = params.delete(:password_confirmation)
-    puts "CREATE_USER: 2"
     user = User.new(params)
-    puts "CREATE_USER: 3"
     
     self.update_roles_and_groups(user, roles, groups)
-    puts "CREATE_USER: 4"
-    
     user.password_hash_type = "md5"
     user.password = pw
     user.password_confirmation = pwconf
-    puts "CREATE_USER: 5"
-    
     user.last_logged_in_at = 10.years.ago
-    puts "CREATE_USER: 6"
     
     return user
   end
@@ -116,9 +106,7 @@ class User < ActiveRecord::Base
 
   # helper method used by methods above
   def update_roles_and_groups(user, roles, groups)
-    puts "UPDATE_ROLES_AND_GROUPS: roles: #{roles.inspect}, groups: #{groups.inspect}"
     if self.access_to_roles?(roles) && self.access_to_groups?(groups)
-      puts "UPDATE_ROLES_AND_GROUPS2: roles: #{roles.inspect}, groups: #{groups.inspect}"
       roles = Role.find(roles || [])
       groups = Group.find(groups || [])
 
@@ -126,9 +114,7 @@ class User < ActiveRecord::Base
       user.groups += groups
 
       user.center = groups.first.center unless groups.empty? or user.has_role?(:superadmin)
-      # user.save
-      puts "UPDATED USER_ROLES_AND_GROUPS: user roles: #{user.roles.inspect}, user.groups: #{user.groups.inspect}  valid: #{user.valid?}"
-      puts "NEW USER ROLES&GROUPS: #{user.errors.inspect}"
+      user.save
       
       return user
     end
