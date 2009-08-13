@@ -63,7 +63,17 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
       :source => 'http://gems.github.com'
-      
+
+  mem_cache_options = {
+    :c_threshold => 10000,
+    :compression => true,
+    :debug => false,
+    :timeout => false,
+    :namespace => 'app',
+    :readonly => false,
+    :urlencode => false
+  }
+  config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options      
 end
 
 # config.cache_store = :my_mem_cache_store
