@@ -203,8 +203,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     #   @phrase.downcase
     # end
 
-    @groups = 
-    if current_user.has_role?(:superadmin)
+    @groups =
+    if @phrase.empty?
+      []
+    elsif current_user.has_role?(:superadmin)
       Journal.search(@phrase, :order => "created_at DESC", :include => :person_info)
     elsif current_user.has_role?(:centeradministrator)
       Journal.search(@phrase, :conditions => {:center_id => current_user.center_id}, :order => "created_at DESC", :include => :person_info)
@@ -212,7 +214,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       current_user.group_ids.inject([]) do |result, id|
       result += Journal.search(@phrase, :conditions => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
       end
-    end || []
+    end
+
     # @groups = current_user.journals( :per_page => 999999)
     # if @phrase.blank?
     #   @groups = []
