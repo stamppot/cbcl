@@ -26,9 +26,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @groups = current_user.journals(:page => params[:page], :per_page => per_page) || [] # TODO: Move to configuration option
   end
 
-  def list
-  end
-
   def show
     @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
     @journal_entries = @group.journal_entries
@@ -89,7 +86,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def update
     params[:person_info][:name] = params[:group][:title]    # save name in person_info too                                    
 
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
+    @group = Journal.find(params[:id], :include => :journal_entries)
     @group.person_info.update_attributes(params[:person_info])
     @group.update_attributes(params[:group])
     @group.center = @group.parent && @group.parent.center
@@ -207,7 +204,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
     
     @groups = []
-    @groups = current_user.journals( :per_page => 20)
+    @groups = current_user.journals( :per_page => 999999)
     if @phrase.blank?
       @groups = []
     else

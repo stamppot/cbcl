@@ -3,7 +3,8 @@ require 'access'
 class User < ActiveRecord::Base
   include ActiveRbacMixins::UserMixins::Core
 
-  after_save :expire_cache # delete cached roles, # groups
+  after_save    :expire_cache # delete cached roles, # groups
+  after_destroy :expire_cache
   
   belongs_to :center
   
@@ -249,25 +250,30 @@ class User < ActiveRecord::Base
   # journals a user has access to
   # behandler should only have access to journals in his teams (groups), thus excluding journals from other teams, but not the center
   def journals(options = {})
-    page     = options[:page] || 1
+    page     = (options[:page] || 1).to_i
     per_page = options[:per_page] || REGISTRY[:journals_per_page]
     journals =
     if self.has_access?(:journal_show_all)
-      # Rails.cache.fetch("journals_all_paged_#{page}_#{per_page}") do
+      if page < 5
+        Rails.cache.fetch("journals_all_paged_#{page}_#{per_page}") do
+          Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
+        end
+      else
         Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
-      # end
+      end
     elsif self.has_access?(:journal_show_centeradm)
       # Rails.cache.fetch("journals_center_#{self.center_id}_paged_#{page}_#{per_page}") do
         Journal.and_person_info.in_center(self.center).paginate(:all, :page => page, :per_page => per_page)
       # end
     elsif self.has_access?(:journal_show_member)
-      group_ids = #Rails.cache.fetch("group_ids_team_#{self.id}", :expires_in => 30.minutes) do
-        self.group_ids(options[:reload]) # get teams and center ids for this user
-      # end
-      # Rails.cache.fetch("journals_user_#{self.id}_paged_#{page}_#{per_page}", :expires_in => 30.minutes) do
-        # find journals whose parents are current_user's groups 
+      group_ids = self.group_ids(options[:reload]) # get teams and center ids for this user
+      if page < 5 # only cache first 5 pages
+        journals = Rails.cache.fetch("journals_groups_#{group_ids.join("_")}_paged_#{page}_#{per_page}") do
+          Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
+        end
+      else 
         Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
-      # end
+      end
     elsif self.has_access?(:login_user)
       entry = JournalEntry.find_by_user_id(self.id)
       [entry.journal]
