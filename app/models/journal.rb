@@ -70,7 +70,7 @@ class Journal < Group
   def expire_cache
     Rails.cache.delete("j_#{self.id}")
     # remove pagination caching for cached journal list for all teams in this center
-    Rails.cache.delete_matched(/journals_groups_#{self.center_id}/)
+    Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
   end
   
