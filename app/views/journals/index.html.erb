@@ -9,7 +9,7 @@ Tryk på en kolonne for at sortere tabellen.
 <%= render :partial => 'shared/journal_list' %>
 
 <p>
-
+<br/>
 <% if current_user.has_access? :journal_new_edit_delete %>
 <div class="commands">
 	<%= link_to 'Ny Journal', :action => :new %>
