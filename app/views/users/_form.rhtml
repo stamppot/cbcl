@@ -13,7 +13,8 @@
 
 	<dt><label for="user_email">Email</label></dt>
 	<dd><%= text_field 'user', 'email', :class => 'gray'  %></dd>
-
+	
+	<br/>
 	<%= render :partial => 'password' %>
 
 	<dt><label for="user_state">Status</label></dt>
@@ -26,7 +27,7 @@
 		<% roles = []
 			@roles.each do |role|
 			result = if @user.has_role?(role)
-				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" 	checked=\"checked\" /> "
+				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" checked=\"checked\" /> "
 			else
 				"<input id=\"user_roles_#{role.id}\" type=\"checkbox\" name=\"user[roles][]\" value=\"#{role.id}\" /> "
 			end

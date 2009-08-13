@@ -53,7 +53,6 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
 
   def create
     @user = current_user.create_user(params[:user])
-    
     # assign properties to user
     if @user.save
       flash[:notice] = 'Brugeren blev oprettet.'
@@ -61,7 +60,8 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     else
       @roles = current_user.pass_on_roles || []
       @groups = current_user.center_and_teams
-      redirect_to new_user_path
+      puts "CREATE USER ERRORS: #{@user.errors.inspect}"
+      render :action => 'new'
     end
   end
   

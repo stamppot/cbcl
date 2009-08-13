@@ -55,20 +55,30 @@ class User < ActiveRecord::Base
   def create_user(params)
     # if user name not provided, it's same as login
     params[:name] = params[:login] if params[:name].blank?
+    puts "CREATE_USER: 1"
 
     roles  = params.delete(:roles)
     groups = params.delete(:groups)
+    puts "CREATE_USER METHOD: ROLES: #{roles.inspect}"
+    puts "CREATE_USER METHOD: GROUPS: #{groups.inspect}"
     # TODO: check parameters for SQL/HTML etc
     pw     = params.delete(:password)
     pwconf = params.delete(:password_confirmation)
-    
+    puts "CREATE_USER: 2"
     user = User.new(params)
+    puts "CREATE_USER: 3"
+    
     self.update_roles_and_groups(user, roles, groups)
+    puts "CREATE_USER: 4"
     
     user.password_hash_type = "md5"
     user.password = pw
     user.password_confirmation = pwconf
+    puts "CREATE_USER: 5"
+    
     user.last_logged_in_at = 10.years.ago
+    puts "CREATE_USER: 6"
+    
     return user
   end
 
@@ -106,14 +116,20 @@ class User < ActiveRecord::Base
 
   # helper method used by methods above
   def update_roles_and_groups(user, roles, groups)
+    puts "UPDATE_ROLES_AND_GROUPS: roles: #{roles.inspect}, groups: #{groups.inspect}"
     if self.access_to_roles?(roles) && self.access_to_groups?(groups)
+      puts "UPDATE_ROLES_AND_GROUPS2: roles: #{roles.inspect}, groups: #{groups.inspect}"
       roles = Role.find(roles || [])
       groups = Group.find(groups || [])
 
       user.roles += roles
       user.groups += groups
-      user.save
+
       user.center = groups.first.center unless groups.empty? or user.has_role?(:superadmin)
+      # user.save
+      puts "UPDATED USER_ROLES_AND_GROUPS: user roles: #{user.roles.inspect}, user.groups: #{user.groups.inspect}  valid: #{user.valid?}"
+      puts "NEW USER ROLES&GROUPS: #{user.errors.inspect}"
+      
       return user
     end
     return false
@@ -262,9 +278,9 @@ class User < ActiveRecord::Base
         Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
       end
     elsif self.has_access?(:journal_show_centeradm)
-      # Rails.cache.fetch("journals_center_#{self.center_id}_paged_#{page}_#{per_page}") do
+      Rails.cache.fetch("journals_groups_#{self.center_id}_paged_#{page}_#{per_page}", :expires_in => 10.minutes) do
         Journal.and_person_info.in_center(self.center).paginate(:all, :page => page, :per_page => per_page)
-      # end
+      end
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(options[:reload]) # get teams and center ids for this user
       if page < 5 # only cache first 5 pages
@@ -356,7 +372,7 @@ class User < ActiveRecord::Base
   def login_users(options = {})
     page     = options[:page] || 1
     per_page = options[:per_page] || 100000 
-    journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
+    journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { current_user.journal_ids }
     users = User.login_users.in_journals(journal_ids).paginate(:all, :page => page, :per_page => per_page)
   end
   
@@ -377,16 +393,16 @@ class User < ActiveRecord::Base
     
   # roles a user can pass on
   def pass_on_roles
-    r = Rails.cache.fetch("roles_user_#{self.id}") do self.all_roles end
+    r = self.all_roles
     # r = self.all_roles
     if self.has_access?(:superadmin)
-      r = Role.get(Access.roles(:all_users)) #.map {|role| Rails.cache.fetch("role_#{role}") { Role.find_by_title(role) } }
+      r = Role.get(Access.roles(:all_users))
     elsif self.has_access?(:admin)
-      r = Role.get(Access.roles(:admin_roles)) #.map {|role| Role.get(role) }
+      r = Role.get(Access.roles(:admin_roles))
     elsif self.has_access?(:centeradm)
-      r = Role.get(Access.roles(:center_users)) #.map {|role| Role.get(role) }
+      r = Role.get(Access.roles(:center_users))
     end
-    return r
+    return (r.is_a?(Array) ? r : [r])
   end
   
   def status
