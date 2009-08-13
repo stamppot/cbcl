@@ -49,9 +49,17 @@ class Journal < Group
   named_scope :and_person_info, :include => :person_info
   named_scope :with_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
   named_scope :by_code, :order => 'code ASC'
-  # named_scope :answers_for_surveys, lambda { |survey_ids| { :joins => {:journal_entries => :survey_answer},
-  #  :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
   
+  define_index do
+     # fields
+     indexes title, :sortable => true
+     indexes center_id
+     indexes parent_id
+     # indexes person_info.name, :as => :person_info, :sortable => true
+
+     # attributes
+     has created_at, updated_at
+   end
 
   # def validate
   #   unless self.code.to_s.size == Journal.find_by_code_and_center_id(self.code, self.center_id)

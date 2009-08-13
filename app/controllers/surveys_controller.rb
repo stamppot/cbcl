@@ -85,7 +85,6 @@ class SurveysController < ApplicationController
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
       @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-      puts "SURVEY TYPE: #{@survey.inspect}"
       @survey.merge_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer

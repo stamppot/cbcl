@@ -191,26 +191,35 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
 
-    date = @phrase.split("-")
-    # pad with zero if date-part is one cipher
-    date.map! {|d| d.length == 1 ? "0#{d}": d }  if date.size > 1
-    @phrase = case date.size
-    when 2:  # day-month, switch order
-      date.last + "-" + date.first
-    when 3:  # day-month-year, switch order
-      date.reverse.join("-")
+    # date = @phrase.split("-")
+    # # pad with zero if date-part is one cipher
+    # date.map! {|d| d.length == 1 ? "0#{d}": d }  if date.size > 1
+    # @phrase = case date.size
+    # when 2:  # day-month, switch order
+    #   date.last + "-" + date.first
+    # when 3:  # day-month-year, switch order
+    #   date.reverse.join("-")
+    # else
+    #   @phrase.downcase
+    # end
+
+    @groups = 
+    if current_user.has_role?(:superadmin)
+      Journal.search(@phrase, :order => "created_at DESC", :include => :person_info)
+    elsif current_user.has_role?(:centeradministrator)
+      Journal.search(@phrase, :conditions => {:center_id => current_user.center_id}, :order => "created_at DESC", :include => :person_info)
     else
-      @phrase.downcase
+      current_user.group_ids.inject([]) do |result, id|
+      result += Journal.search(@phrase, :conditions => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
+      end
     end
-    
-    @groups = []
-    @groups = current_user.journals( :per_page => 999999)
-    if @phrase.blank?
-      @groups = []
-    else
-      @groups = @groups.select { |g| g.title.downcase.include?(@phrase) || g.code.to_s == @phrase || g.birthdate.to_s(:db).include?(@phrase) }
-      @groups.sort { |a, b| a.title <=> b.title }
-    end
+    # @groups = current_user.journals( :per_page => 999999)
+    # if @phrase.blank?
+    #   @groups = []
+    # else
+    #   @groups = @groups.select { |g| g.title.downcase.include?(@phrase) || g.code.to_s == @phrase || g.birthdate.to_s(:db).include?(@phrase) }
+    #   @groups.sort { |a, b| a.title <=> b.title }
+    # end
     
     respond_to do |wants|
       wants.html  { render(:template  => "journals/searchresults" )}

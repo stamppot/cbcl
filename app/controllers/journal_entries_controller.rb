@@ -24,7 +24,7 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     # must also remove login-user
     entry = JournalEntry.find(params[:id])
     entry.remove_login!
-    puts "ELEM: #{elem}"
+   
     if entry.destroy
       render :update do |page|
         page.visual_effect :puff, elem

@@ -20,7 +20,7 @@ class ExportsController < ApplicationController
     @surveys = surveys_default_selected(@surveys, params[:surveys])
     filter_surveys = @surveys.inject([]) { |col, s| col << s.id if s.selected; col }
     @survey_answers = current_user.survey_answers(params.merge({:surveys => filter_surveys})).compact
-    puts "export_controller index COUNT SAS: #{@survey_answers.size}"
+    # puts "export_controller index COUNT SAS: #{@survey_answers.size}"
   end
 
   def filter

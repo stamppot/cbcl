@@ -123,11 +123,9 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
 
   ## this is our live ajax search method
   def live_search
-    puts "PARAMS: #{params.inspect}"
     @user = current_user
     @raw_phrase = (request.raw_post.gsub("&_=", "")) || params[:id]
     @groups = Center.search_title_or_code(@raw_phrase)
-    puts "search RAW PHRASE: #{@raw_phrase}"
     respond_to do |wants|
       wants.html  { render(:template  => "centers/searchresults" )}
       wants.js    { render(:layout   =>  false, :template =>  "centers/searchresults" )}

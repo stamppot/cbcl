@@ -206,7 +206,7 @@ class CSVHelper
 
   def join_table_survey_answers_mixed(survey_ids, entries)
     t = Time.now; s_headers = survey_headers_flat(survey_ids); e = Time.now
-    puts "generate survey_headers: #{e-t}"
+    # puts "generate survey_headers: #{e-t}"
     # headers = Journal.csv_header.merge(s_headers)
     
     survey_answers = entries.map {|e| e.survey_answer_id }    # sa_id => {survey_id => vars (for this survey)} 
@@ -273,7 +273,7 @@ class CSVHelper
   
   def mixes(entries, survey_headers, grouped_answers)
     entry_hash = entries.inject(Dictionary.new) { |hash, e| hash[e.id] = e.journal_id; hash }
-    puts "entry_hash: #{entry_hash.inspect}"
+    # puts "entry_hash: #{entry_hash.inspect}"
     d = Dictionary.new
     journals = Dictionary.new
     grouped_answers.each do |entry_id, survey_hash|
