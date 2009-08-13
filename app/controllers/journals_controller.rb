@@ -212,7 +212,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       current_user.group_ids.inject([]) do |result, id|
       result += Journal.search(@phrase, :conditions => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
       end
-    end
+    end || []
     # @groups = current_user.journals( :per_page => 999999)
     # if @phrase.blank?
     #   @groups = []
