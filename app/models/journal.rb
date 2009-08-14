@@ -54,7 +54,7 @@ class Journal < Group
      # fields
      indexes :title, :sortable => true
      indexes :code, :sortable => true
-     indexes person_info.cpr, :as => :cpr
+     indexes person_info.cpr, :as => :cprnr
      # attributes
      has created_at, updated_at
    end
