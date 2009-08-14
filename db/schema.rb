@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090812211935) do
+ActiveRecord::Schema.define(:version => 20090814161656) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -134,7 +134,10 @@ ActiveRecord::Schema.define(:version => 20090812211935) do
     t.integer "sex",         :default => 0,  :null => false
     t.date    "birthdate",                   :null => false
     t.string  "nationality", :default => "", :null => false
+    t.string  "cpr"
   end
+
+  add_index "person_infos", ["cpr"], :name => "index_person_infos_on_cpr"
 
   create_table "plugin_schema_info", :id => false, :force => true do |t|
     t.string  "plugin_name"

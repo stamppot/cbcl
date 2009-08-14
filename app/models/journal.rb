@@ -52,12 +52,9 @@ class Journal < Group
   
   define_index do
      # fields
-     indexes title, :sortable => true
-     # indexes center_id
-     # indexes parent_id
-     indexes code, :sortable => true
-     # indexes person_info.name, :as => :person_info, :sortable => true
-
+     indexes :title, :sortable => true
+     indexes :code, :sortable => true
+     indexes person_info.cpr, :as => :cpr
      # attributes
      has created_at, updated_at
    end

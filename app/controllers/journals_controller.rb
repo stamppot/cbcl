@@ -194,6 +194,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
 
+    puts "PHRASE: #{@phrase}"
+    if @phrase.to_i > 0  # cpr.nr. søgning. Reverse
+      @phrase = @phrase.split("-").reverse.join
+      puts "SEARCH CPR: #{@phrase}"
+    end
+
     @groups =
     if @phrase.empty?
       []

@@ -54,27 +54,16 @@ class JournalEntry < ActiveRecord::Base
   def create_login_user
     params = LoginUser.login_name_params(:prefix => self.journal.center.title)
     self.build_login_user(params)
-    # puts "CREATE_LOGIN_USER 2 - built login user: #{self.login_user.inspect}    journal_entry: #{self.inspect}"
     self.login_user.center = self.journal.center
-    # puts "CREATE_LOGIN_USER 3 - set center login_user: #{self.login_user.inspect}"
     Rails.cache.delete("role_behandler")
     self.login_user.roles << Role.get(:login_bruger)
-    # puts "CREATE_LOGIN_USER 4 - adding role: #{self.login_user.inspect}"
     self.login_user.groups << self.journal
     # set password explicitly, it's protected
     pw = PasswordService.generate_password
     self.login_user.password, self.login_user.password_confirmation = pw.values
-    # puts "CREATE_LOGIN_USER 7 - set password: #{self.login_user.inspect}"
     self.login_user.password_hash_type = "md5"
     self.login_user.last_logged_in_at = 10.years.ago
-    # puts "CREATE_LOGIN_USER 8 - last: #{self.login_user.inspect} "
-    # self.login_user.save # REMOVE
-    # get clear password before saving&encrypting password
-    # self.login_user.save!
-    # puts "CREATE_LOGIN_USER 8.5 - SAVED login_user"
     self.password = pw[:password]
-    # puts "CREATE_LOGIN_USER 9 - valid?: #{self.login_user.valid?} new_record? #{self.login_user.new_record?}"
-    # self.save
     puts "CREATE_LOGIN_USER 9 - entry valid?: #{self.valid?}   errors: #{self.errors.inspect}"
     return self.login_user
     
