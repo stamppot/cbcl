@@ -5,6 +5,6 @@ production:
     searchd_file_path: "/var/www/cbcl/shared/sphinx"
     searchd_log_file: "RAILS_ROOT/log/searchd.log"
     query_log_file: "RAILS_ROOT/log/searchd.query.log"
-    pid_file: "RAILS_ROOT/log/searchd.ENVIRONMENT.pid"
+    pid_file: "/var/www/cbcl/shared/searchd.ENVIRONMENT.pid"
 test:
     min_prefix_len: 3
