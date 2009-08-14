@@ -13,7 +13,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}        
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :create, params
       }
   
@@ -35,7 +35,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}       
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :create, params
       }
   
@@ -56,7 +56,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}       
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :create, params
       }
   
@@ -77,7 +77,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}        
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :update, params
       end
 
@@ -98,7 +98,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :update, params
       }
   
@@ -118,7 +118,7 @@ class UsersControllerTest < ActiveSupport::TestCase
             "login"=>"test behandler", "state"=>"2", "email"=>"test@behandler",
             "password_confirmation"=>"testpassword", "password"=>"testpassword"
           }}
-        @controller = ActiveRbac::UserController.new
+        @controller = UserController.new
         post :update, params
       }
   

@@ -52,18 +52,34 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def create_login_user
-    self.build_login_user(User.create_login_params)
+    params = LoginUser.login_name_params(:prefix => self.journal.center.title)
+    self.build_login_user(params)
+    # puts "CREATE_LOGIN_USER 2 - built login user: #{self.login_user.inspect}    journal_entry: #{self.inspect}"
+    self.login_user.center = self.journal.center
+    # puts "CREATE_LOGIN_USER 3 - set center login_user: #{self.login_user.inspect}"
+    Rails.cache.delete("role_behandler")
     self.login_user.roles << Role.get(:login_bruger)
+    # puts "CREATE_LOGIN_USER 4 - adding role: #{self.login_user.inspect}"
     self.login_user.groups << self.journal
-    self.login_user.center_id = self.journal.center.id
-    self.login_user.login_user = true
     # set password explicitly, it's protected
-    self.login_user.password, self.login_user.password_confirmation = PasswordService.generate_password.values
+    pw = PasswordService.generate_password
+    self.login_user.password, self.login_user.password_confirmation = pw.values
+    # puts "CREATE_LOGIN_USER 7 - set password: #{self.login_user.inspect}"
     self.login_user.password_hash_type = "md5"
     self.login_user.last_logged_in_at = 10.years.ago
+    # puts "CREATE_LOGIN_USER 8 - last: #{self.login_user.inspect} "
+    # self.login_user.save # REMOVE
     # get clear password before saving&encrypting password
-    self.password = self.login_user.password
-    return self
+    # self.login_user.save!
+    # puts "CREATE_LOGIN_USER 8.5 - SAVED login_user"
+    self.password = pw[:password]
+    # puts "CREATE_LOGIN_USER 9 - valid?: #{self.login_user.valid?} new_record? #{self.login_user.new_record?}"
+    # self.save
+    puts "CREATE_LOGIN_USER 9 - entry valid?: #{self.valid?}   errors: #{self.errors.inspect}"
+    return self.login_user
+    
+  rescue => e
+    puts "journal_entry.create_login_user: #{e.inspect}"
   end
   
   def status
@@ -119,9 +135,13 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def print_login!
-    print_login
+    self.print_login
+    puts "entry.print_login!: #{self.inspect}  valid? #{self.valid?}"
     self.save!
+  rescue => e
+    puts "JournalEntry.print_login!: #{e.inspect}"
   end
+  
   # reset state unless it has been answered
   def remove_login_user!
     self.user = nil    # set to unanswered unless answered

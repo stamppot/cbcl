@@ -125,6 +125,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
         # entry.remove_login! # was: User.login_users.find(entry.user_id).destroy if entry.user_id
         entry.kill! # this removes survey_answer too! # was: JournalEntry.find(entry.id).destroy
       end
+      @group.expire
       Rails.cache.delete("journal_ids_user_#{current_user.id}")
       @group.destroy # does not delete entries and users (cascading)
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
@@ -142,20 +143,23 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     redirect_to :action => :list
   end
 
-
+  # don't cache variable that's changed
   def add_survey
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
-
+    @group = Rails.cache.fetch("j_#{params[:id]}") do 
+      Journal.find(params[:id])
+    end
     if request.post?
+      # @group.expire
       surveys = []
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
       if not @group.create_journal_entries(@surveys)
         flash[:error] = "Logins blev ikke oprettet!"
       else
+        puts "add_survey: entries: #{@group.not_answered_entries.count}"
         flash[:notice] = "Spørgeskemaer blev tilføjet journal." if @group.save
       end
-      redirect_to :action => :show, :id => @group
+      redirect_to @group
     else
       # can only add surveys in age group of person
       @surveys = @group.center.subscribed_surveys_in_age_group(@group.age)
@@ -166,13 +170,11 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # removing is a bit different than adding. This should remove the entries, the entry ids should be given in the form
   # removes login-users too
   def remove_survey
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end # Journal.find(params[:id])
+    @group = Journal.find(params[:id], :include => :journal_entries)  # 
     
     if request.post?
-      # render :text => params.inspect
       entries = params[:entry].map { |key,val| key if val.to_i == 1 }.compact
       entries = JournalEntry.find(entries, :include => [:login_user, :survey_answer])
-
       entries.each { |entry| entry.destroy } # deletes user and survey_answer too
 
       if @group.save
@@ -187,6 +189,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   ## this is our live ajax search method
+  # TODO: search ids
   def live_search
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")

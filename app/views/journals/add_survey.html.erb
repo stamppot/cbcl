@@ -4,20 +4,14 @@
 <% form_tag :action => :add_survey do %>
 
 <% if @surveys.empty? %>
-Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.
+	Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.
 
 <% else %>
-
-	
-
 	<%= render :partial => "shared/add_survey" %>
-	
 	<p>
 		<%= submit_tag "Skal besvares", :name => 'submit[update]', :class => 'btn_gray' %>
 	</p>
 <% end %>
-
-
 
 <%= link_to 'Tilbage', { :action => :show, :id => @group }, :title => 'Tilbage' %>
 

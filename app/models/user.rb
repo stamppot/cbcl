@@ -358,7 +358,7 @@ class User < ActiveRecord::Base
   def login_users(options = {})
     page     = options[:page] || 1
     per_page = options[:per_page] || 100000 
-    journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { current_user.journal_ids }
+    journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { self.journal_ids }
     users = User.login_users.in_journals(journal_ids).paginate(:all, :page => page, :per_page => per_page)
   end
   
@@ -424,36 +424,6 @@ class User < ActiveRecord::Base
     return ret
   end
 
-  # creates parameters for new login user
-  # TODO: create user names based on center name
-  def User.create_login_params(options = {})
-    # group = group.is_a?(Group) ? group : Group.find(group)
-    center_name = options[:center_name] || "abc"
-    center_name = (center_name.length < 5) ? (center_name + "-login") : center_name.to_s
-    phrase = "%" + (center_name).sub(/\=$/, "") + "%"
-    
-    # try to find a non-used user id
-    user_count = User.count(:conditions => ["users.login LIKE ?", phrase])
-    brugerid = user_count + 1
-    increment = 10
-    while User.find_by_login(center_name + "#{brugerid}") do 
-      brugerid = user_count + rand(increment)
-      increment *= 5
-    end
-      
-    # always add number to login-user   # if usercenter_name exists, add number to it
-    center_name += brugerid.to_s #if center_name.length < 5 or brugerid != "1"
-    
-    # set role params
-    role = Role.get(options[:role] || :login_user)
-
-    return { :login => center_name,
-             :name => center_name,
-             :email => "#{center_name}@center.dk",
-             :state => 2,
-             :login_user => true
-           }
-  end
 
   protected
   

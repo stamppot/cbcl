@@ -67,6 +67,10 @@ class Journal < Group
   #   end
   # end 
   
+  def expire
+    Rails.cache.delete("j_#{self.id}")
+  end
+  
   def expire_cache
     Rails.cache.delete("j_#{self.id}")
     # remove pagination caching for cached journal list for all teams in this center
@@ -140,13 +144,15 @@ class Journal < Group
   # creates entries with logins
   def create_journal_entries(surveys)
     return true if surveys.empty?
+    # TODO: make this a transaction
     surveys.each do |survey|
-      entry = JournalEntry.new({:journal => self, :survey => survey, :state => 2})
+      entry = JournalEntry.new({:survey => survey, :state => 2})
+      self.journal_entries << entry
       entry.create_login_user
       entry.print_login! if entry.valid?
     end
-    Rails.cache.delete("journal_entry_ids_user_#{current_user.id}")
-  rescue 
+  rescue => e
+    puts "EXCEPTION: #{e.inspect} in Journal.CREATE_JOURNAL_ENTRIES"
     return false
   end
 

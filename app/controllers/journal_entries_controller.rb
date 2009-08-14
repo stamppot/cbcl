@@ -45,10 +45,10 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     end
 
     # delete all answers and answer cells, delete login for journal_entry
-    if entry.kill!
+    if entry.destroy
       render :update do |page|
-        page[elem].visual_effect :puff
-        page[elem].remove
+        page.visual_effect :puff, elem
+        page.remove elem
       end
     end
   end

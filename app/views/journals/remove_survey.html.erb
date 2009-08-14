@@ -12,10 +12,10 @@
 <dl>
 	<dt><%= @subtitle || "" %></dt>
 	<dd>
-		<%= "<input id=\"group\" type=\"hidden\" name=\"group[id]\" value=\"#{@group.id}\" checked=\"checked\" /> " %>
+		<%= "<input id=\"group\" type=\"hidden\" name=\"id\" value=\"#{@group.id}\" checked=\"checked\" /> " %>
 		<% @entries.each do |entry| %>
 			<div style='background-color: #<%= entry.survey.color %>; width: 25em;'>
-				<%= check_box( :entry, entry.id) %>		
+				<%= check_box(:entry, entry.id) %>		
 				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.title}</label> <br>" %>
 			</div>
 		<% end %>
