@@ -2,5 +2,6 @@ development:
   min_prefix_len: 3
 production:
     min_prefix_len: 3
+    searchd_file_path: "/var/www/cbcl/shared/sphinx"
 test:
     min_prefix_len: 3
