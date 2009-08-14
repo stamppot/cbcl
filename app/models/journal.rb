@@ -53,8 +53,9 @@ class Journal < Group
   define_index do
      # fields
      indexes title, :sortable => true
-     indexes center_id
-     indexes parent_id
+     # indexes center_id
+     # indexes parent_id
+     indexes code, :sortable => true
      # indexes person_info.name, :as => :person_info, :sortable => true
 
      # attributes
@@ -99,9 +100,6 @@ class Journal < Group
   def birth_short
     birthdate.strftime("%d-%m-%y")  
   end
-  # def name
-  #   self.person_info.name
-  # end
 
   def sex_text
     PersonInfo.sexes.invert[self.sex]
@@ -144,7 +142,6 @@ class Journal < Group
   # creates entries with logins
   def create_journal_entries(surveys)
     return true if surveys.empty?
-    # TODO: make this a transaction
     surveys.each do |survey|
       entry = JournalEntry.new({:survey => survey, :state => 2})
       self.journal_entries << entry

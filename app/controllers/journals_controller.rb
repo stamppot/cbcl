@@ -194,18 +194,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
 
-    # date = @phrase.split("-")
-    # # pad with zero if date-part is one cipher
-    # date.map! {|d| d.length == 1 ? "0#{d}": d }  if date.size > 1
-    # @phrase = case date.size
-    # when 2:  # day-month, switch order
-    #   date.last + "-" + date.first
-    # when 3:  # day-month-year, switch order
-    #   date.reverse.join("-")
-    # else
-    #   @phrase.downcase
-    # end
-
     @groups =
     if @phrase.empty?
       []
