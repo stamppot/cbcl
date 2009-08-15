@@ -180,7 +180,7 @@ class User < ActiveRecord::Base
     elsif self.has_access? :team_show
       self.groups
     else
-      groups = self.centers #current_user.center #self.center
+      groups = self.centers
       groups.each do |center| 
         center.children.each { |team| groups << team if team.instance_of? Team }
       end
@@ -313,7 +313,7 @@ class User < ActiveRecord::Base
     options = { :select => "id", :include => [:journal_entries] }
     journals =
     if self.has_access?(:journal_show_all)
-      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}") do
+      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
         self.journal_entry_ids
       end
       Journal.and_entries.find(:all, options)
@@ -349,7 +349,7 @@ class User < ActiveRecord::Base
       # sa_ids = JournalEntry.find(self.journal_ids, :include => :survey_answer).map {|je| je.survey_answer}
       # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).all(:conditions => ['id IN (?)', sa_ids])
     else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['id IN (?)', sa_ids], :page => page, :per_page => per_page)
     end
