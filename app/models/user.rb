@@ -294,12 +294,12 @@ class User < ActiveRecord::Base
   def journal_ids
     j_ids = 
     if self.has_access?(:journal_show_all)
-      Journal.find(:all, :select => "id")
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.find(:all, :select => "id") }
     elsif self.has_access?(:journal_show_centeradm)
-      Journal.in_center(self.center).find(:all, :select => "id")
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).find(:all, :select => "id") }
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(:reload => true) # get teams and centers for this users
-      Journal.all_parents(group_ids).find(:all, :select => "id")
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).find(:all, :select => "id") }
     elsif self.has_access?(:journal_show_none)
       []
     else  # for login-user

@@ -334,6 +334,13 @@ I18n.backend.store_translations 'da-DK',
                   :invalid => "skal være på 4 cifre"
                 },
               }
+            },
+            :journal => {
+              :attributes => {
+                :code => {
+                  :taken => "er allerede i brug. Vælg andet ID."
+                }
+              }
             }
          },
           # login errors

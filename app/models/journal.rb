@@ -74,6 +74,7 @@ class Journal < Group
     # remove pagination caching for cached journal list for all teams in this center
     Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
+    Rails.cache.delete_matched(/journal_ids_user_(.*)/)
   end
   
   # show all login-users for journal. Go through journal_entries

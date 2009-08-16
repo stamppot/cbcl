@@ -15,13 +15,13 @@ class CSVHelper
     #   :navn=>"Frederik Fran Søndergaard" } }
     results = journals.inject({}) do |results, journal|
       surveys = journal.journal_entries.inject([]) do |col, entry|
-        puts "entry: #{entry.inspect}"
+        # puts "entry: #{entry.inspect}"
         if entry.login_user && entry.not_answered?
           survey_name = entry.survey.title.gsub(/\s\(.*\)/,'')
           an_entry = { :user => entry.login_user.login, :password => entry.password,
             :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
           col << an_entry
-          puts "entry #{entry.id}: #{an_entry.inspect}"
+          # puts "entry #{entry.id}: #{an_entry.inspect}"
         end
       end
 
@@ -216,7 +216,6 @@ class CSVHelper
         puts "HEHEUHUH? #{sa_obj}  #{h[sa]}"
       end
       h[sa] = sa_obj.cell_values if sa_obj
-      # h[sa.id] = Answer.all(:include => :answer_cells, :conditions => ['survey_answer_id = ?', sa], :order => 'number', :select => 'id, survey_answer_id').map {|a| a.cell_values}.flatten.foldl(:merge!)
       h
     end    # join table (hash)
 
