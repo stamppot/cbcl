@@ -144,6 +144,7 @@ class Journal < Group
       self.journal_entries << entry
       entry.create_login_user
       entry.print_login! if entry.valid?
+      entry.expire_cache # expire journal_entry_ids
     end
   rescue => e
     puts "EXCEPTION: #{e.inspect} in Journal.CREATE_JOURNAL_ENTRIES"

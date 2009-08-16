@@ -1,12 +1,13 @@
 <h2>Liste af Brugere</h2>
 
 <div class="commands">
-<%= link_to 'Ny bruger', :action => :new, :title => 'Opret ny bruger' %>
+<%= link_to 'Ny bruger', new_user_path, :title => 'Opret ny bruger' %>
 </div>
 
 <%= render :partial => 'shared/user_list' %>
 
-<br>
+<br/>
+<p>
 
 
 <div class="commands">

@@ -156,7 +156,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       if not @group.create_journal_entries(@surveys)
         flash[:error] = "Logins blev ikke oprettet!"
       else
-        puts "add_survey: entries: #{@group.not_answered_entries.count}"
         flash[:notice] = "Spørgeskemaer blev tilføjet journal." if @group.save
       end
       redirect_to @group
@@ -189,15 +188,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   ## this is our live ajax search method
-  # TODO: search ids
   def live_search
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
 
-    puts "PHRASE: #{@phrase}"
     if @phrase.to_i > 0  # cpr.nr. søgning. Reverse
       @phrase = @phrase.split("-").reverse.join
-      puts "SEARCH CPR: #{@phrase}"
     end
 
     @groups =
@@ -213,14 +209,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       end
     end
 
-    # @groups = current_user.journals( :per_page => 999999)
-    # if @phrase.blank?
-    #   @groups = []
-    # else
-    #   @groups = @groups.select { |g| g.title.downcase.include?(@phrase) || g.code.to_s == @phrase || g.birthdate.to_s(:db).include?(@phrase) }
-    #   @groups.sort { |a, b| a.title <=> b.title }
-    # end
-    
     respond_to do |wants|
       wants.html  { render(:template  => "journals/searchresults" )}
       wants.js    { render(:layout   =>  false, :template =>  "journals/searchresults" )}

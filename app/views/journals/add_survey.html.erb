@@ -4,7 +4,7 @@
 <% form_tag :action => :add_survey do %>
 
 <% if @surveys.empty? %>
-	Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.
+	Centret abbonnerer ikke på nogen spørgeskemaer for denne aldersgruppe.<br/>
 
 <% else %>
 	<%= render :partial => "shared/add_survey" %>

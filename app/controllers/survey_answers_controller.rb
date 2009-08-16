@@ -127,18 +127,6 @@ class SurveyAnswersController < ApplicationController
   end  
   
 
-  # made as recipe 63. Automatically save a draft of a form
-  # 27-2-9 is this ever used?
-  # def new
-  #   if request.get?
-  #     @survey_answer = session[:survey_answer_draft] || SurveyAnswer.new
-  #   else
-  #     @survey_answer = SurveyAnswer.create(params[:survey_answer])  # params should be prepared
-  #     session[:survey_answer_draft] = nil
-  #     redirect_to :controller => :journal, :action => :show, :id => @journal_entry.journal
-  #   end
-  # end
-
   protected
   
   before_filter :check_access
@@ -147,10 +135,14 @@ class SurveyAnswersController < ApplicationController
     if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
-        current_user.surveys.map {|s| s.id }.include? id
+        current_user.surveys.map {|s| s.id }.include?(id)
+      elsif current_user.has_access?(:superadmin) # don't need to check for superadmin
+        true
       else  # show methods uses journal_entry id
         current_user.journal_entry_ids.include?(id)
       end
+    else
+      return false
     end
   end
 end

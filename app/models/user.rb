@@ -180,7 +180,7 @@ class User < ActiveRecord::Base
     elsif self.has_access? :team_show
       self.groups
     else
-      groups = self.centers
+      groups = self.centers #current_user.center #self.center
       groups.each do |center| 
         center.children.each { |team| groups << team if team.instance_of? Team }
       end
@@ -311,22 +311,24 @@ class User < ActiveRecord::Base
   # TODO: optimize query!!
   def journal_entry_ids
     options = { :select => "id", :include => [:journal_entries] }
-    journals =
     if self.has_access?(:journal_show_all)
       journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
-        self.journal_entry_ids
+        Journal.and_entries.find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
       end
-      Journal.and_entries.find(:all, options)
     elsif self.has_access?(:journal_show_centeradm)
-      Journal.and_entries.in_center(self.center).find(:all, options)
+      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+        Journal.and_entries.in_center(self.center).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
+      end
     elsif self.has_access?(:journal_show_member)
-      Journal.and_entries.all_parents(self.group_ids).find(:all, options)
+      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+        Journal.and_entries.all_parents(self.group_ids).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
+      end
     elsif self.has_access?(:journal_show_none)
       []
     else  # for login-user
       []  # or should it be the journal the login_user is connected to?
     end
-    return journals.map {|g| g.journal_entries}.flatten!.map {|e| e.id}
+    # return journals.map {|g| g.journal_entries}.flatten!.map {|e| e.id}
   end
 
   # finished survey answers, based on accessible journals

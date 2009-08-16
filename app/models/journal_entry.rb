@@ -12,6 +12,10 @@ class JournalEntry < ActiveRecord::Base
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => ["survey_id IN (?)", survey_ids] } }
   named_scope :answered, :conditions => ['state = ?', 5]
   
+  def expire_cache
+    Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
+  end
+  
   def make_survey_answer
     self.survey_answer ||= self.build_survey_answer(:survey => self.survey,
                              :sex => self.journal.sex,
@@ -52,23 +56,7 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def create_login_user
-    params = LoginUser.login_name_params(:prefix => self.journal.center.title)
-    self.build_login_user(params)
-    self.login_user.center = self.journal.center
-    Rails.cache.delete("role_behandler")
-    self.login_user.roles << Role.get(:login_bruger)
-    self.login_user.groups << self.journal
-    # set password explicitly, it's protected
-    pw = PasswordService.generate_password
-    self.login_user.password, self.login_user.password_confirmation = pw.values
-    self.login_user.password_hash_type = "md5"
-    self.login_user.last_logged_in_at = 10.years.ago
-    self.password = pw[:password]
-    puts "CREATE_LOGIN_USER 9 - entry valid?: #{self.valid?}   errors: #{self.errors.inspect}"
-    return self.login_user
-    
-  rescue => e
-    puts "journal_entry.create_login_user: #{e.inspect}"
+    self.login_user = LoginUser.build_login_user(self)
   end
   
   def status
