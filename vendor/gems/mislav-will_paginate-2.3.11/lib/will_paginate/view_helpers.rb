@@ -170,12 +170,12 @@ module WillPaginate
       
       if collection.total_pages < 2
         case collection.size
-        when 0; "No #{entry_name.pluralize} found"
-        when 1; "Displaying <b>1</b> #{entry_name}"
-        else;   "Displaying <b>all #{collection.size}</b> #{entry_name.pluralize}"
+        when 0; "Ingen #{entry_name.pluralize} fundet"
+        when 1; "Viser <b>1</b> #{entry_name}"
+        else;   "Viser <b>alle #{collection.size}</b> #{entry_name.pluralize}"
         end
       else
-        %{Displaying #{entry_name.pluralize} <b>%d&nbsp;-&nbsp;%d</b> of <b>%d</b> in total} % [
+        %{Viser <b>%d&nbsp;-&nbsp;%d</b> af <b>%d</b> i alt} % [
           collection.offset + 1,
           collection.offset + collection.length,
           collection.total_entries

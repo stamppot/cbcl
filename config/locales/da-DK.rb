@@ -1,5 +1,10 @@
 I18n.backend.store_translations 'da-DK', 
   {
+    :previous => 'Forrige',
+    :next => 'Næste',
+    :in_total => 'i alt',
+    :of => 'af',
+    
     # :domain => ENV["VIAVIA_DOMAIN"] + '.nl',
     :country => 'Danmark',
     :countries => {
@@ -19,53 +24,8 @@ I18n.backend.store_translations 'da-DK',
       ######################################
       ###### new layout localizations ######
       ######################################
-      :common => {
-        :you => "Jij",
-        :me => "Ik",
-        :email => "E-mail",
-        :password => "Password",
-        :password_confirmation => "Bekræft password",
-        :full_name => "Navn",
-        :cancel => "Afbryd",
-        :please_wait => "Een ogenblik geduld",
-        :send_a_message => "Send a message",
-        :click_here => "klik hier",
-        :posted_timex_ago => "{{timex}} geleden geplaatst",
-        :today => "Vandaag",
-        :yesterday => "Gisteren",
-        :back_to_top => "Naar boven",
-        :update => "Wijzigen",
-        :submit => "Versturen",
-        :save => "Opslaan",
-        :save_actionx => "Bewaar {{action}}",
-        :select_file => "Selecteer bestand",
-        :uploaded_file => "Geüpload bestand",
-        :review => {
-          :positive => "positief",
-          :neutral => "neutraal",
-          :negative => "negatief",
-        },
-      },
-      
-      # global navigation
-      :navigation       => {
-        :home           => "Home",
-        :place_ad       => "Plaats advertentie",
-        :my_viavia      => "Mijn viavia",
-        :sign_in        => "Inloggen",
-        :sign_out       => "Uitloggen",
-        :help           => "Help",
-        :backoffice     => "Sitebeheer",
-        :shadow_logout  => "Admin logout",
-        :register       => "Registreer",        
-      },
       
       # homepage
-      :homepage => {
-        :welcome_anonymous => "Hallo, welkom op Viavia",
-        :welcome_with_username => "Hallo {{user}}, welkom op Viavia",
-        :no => "geen",
-      },
       :login => {
         :login_on_viavia => "Login on Viavia",
         :lost_password => "Ik ben mijn wachtwoord verloren of kan niet inloggen",

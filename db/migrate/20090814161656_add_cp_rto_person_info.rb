@@ -4,7 +4,9 @@ class AddCpRtoPersonInfo < ActiveRecord::Migration
     add_index :person_infos, :cpr
     
     PersonInfo.all.each do |info|  # set cpr
-      info.cpr = info.birthdate.to_s.split("-").reverse.join
+      dato = info.birthdate.to_s.split("-")
+      dato[0] = dato[0][2..3]
+      info.cpr = dato.reverse.join
       info.save
     end
   end

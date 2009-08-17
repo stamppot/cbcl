@@ -54,6 +54,12 @@ module ApplicationHelper
     return !session[:shadow_user_id].blank?
   end
   
+  include WillPaginate::ViewHelpers 
+  def will_paginate_with_i18n(collection, options = {}) 
+  will_paginate_without_i18n(collection, options.merge(:previous_label => I18n.t(:previous), :next_label => I18n.t(:next))) 
+  end 
+
+  alias_method_chain :will_paginate, :i18n
   
   def create_cell_id(row, col)
     return "cell"+row.to_s + "_" + col.to_s
