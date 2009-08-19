@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090814161656) do
+ActiveRecord::Schema.define(:version => 20090819173518) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -77,13 +77,14 @@ ActiveRecord::Schema.define(:version => 20090814161656) do
   end
 
   create_table "groups", :force => true do |t|
-    t.timestamp "created_at",                                :null => false
-    t.timestamp "updated_at",                                :null => false
-    t.string    "title",      :limit => 200, :default => "", :null => false
+    t.timestamp "created_at",                                  :null => false
+    t.timestamp "updated_at",                                  :null => false
+    t.string    "title",      :limit => 200, :default => "",   :null => false
     t.integer   "code"
-    t.string    "type",       :limit => 16,  :default => "", :null => false
+    t.string    "type",       :limit => 16,  :default => "",   :null => false
     t.integer   "parent_id"
     t.integer   "center_id"
+    t.boolean   "delta",                     :default => true, :null => false
   end
 
   add_index "groups", ["center_id"], :name => "groups_center_id_index"

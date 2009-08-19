@@ -6,5 +6,6 @@ production:
   # searchd_log_file: "/home/cbcl/sites/cbcl/current/log/searchd.log"
   # query_log_file: "/home/cbcl/sites/cbcl/current/log/searchd.query.log"
   # pid_file: "/var/www/cbcl/shared/searchd.production.pid"
+  config_file: "/home/cbcl/sites/cbcl/config/production.sphinx.conf"
 test:
   min_prefix_len: 3
