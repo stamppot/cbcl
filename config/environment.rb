@@ -76,6 +76,8 @@ Rails::Initializer.run do |config|
   config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options      
 end
 
+ThinkingSphinx.suppress_delta_output = true
+
 # config.cache_store = :my_mem_cache_store
 
 require "will_paginate"
