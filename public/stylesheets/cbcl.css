@@ -384,13 +384,13 @@ table.list td {
 }
 
 .pagination {
-  padding: 3px;
+  padding: 2px;
   margin: 3px;
 	float: left;
 }
 .pagination a {
-  padding: 2px 5px 2px 5px;
-  margin: 2px;
+  padding: 2px 7px 2px 7px;
+  margin: 1px;
   border: 1px solid #aaaadd;
   text-decoration: none;
   color: #000099;
@@ -400,7 +400,7 @@ table.list td {
   color: #000;
 }
 .pagination span.current {
-  padding: 2px 5px 2px 5px;
+  padding: 2px 7px 2px 7px;
   margin: 2px;
   border: 1px solid #000099;
   font-weight: bold;
@@ -408,7 +408,7 @@ table.list td {
   color: #FFF;
 }
 .pagination span.disabled {
-  padding: 2px 5px 2px 5px;
+  padding: 2px 7px 2px 7px;
   margin: 2px;
   border: 1px solid #eee;
   color: #ddd;

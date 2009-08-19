@@ -57,6 +57,8 @@ class Journal < Group
      indexes person_info.cpr, :as => :person_info_cpr
      # attributes
      has created_at, updated_at
+
+     set_property :delta => true
    end
 
   # def validate
