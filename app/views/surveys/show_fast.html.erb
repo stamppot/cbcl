@@ -43,7 +43,8 @@
 	
 	<% unless @options[:action] =~ /show/ %>
 	</form>
-	<% if @options[:action] =~ /show|edit/ && !@options[:show_only] %>
+
+	<% unless @options[:action] =~ /show|edit/ && !@options[:show_only] %>
 		<%= observe_form "surveyform",
 				 :url => survey_save_draft_path(@journal_entry),
 				 :update => "draft-message",
