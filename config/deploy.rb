@@ -15,7 +15,7 @@ set :application_name, 'cbcl'
 # What is the hostname of your Rails Boxcar server?
 # Example: 
 #   set :boxcar_server, 'rc1.railsboxcar.com'
-set :boxcar_server, '198.145.115.222' # change to fx test.cbcl-sdu.dk
+set :boxcar_server, '67.214.211.55' # Planet Argon: '198.145.115.222' # change to fx test.cbcl-sdu.dk
 
 # What is the username of your Rails Boxcar user that you want
 # to deploy this application with? Note that you should use the same

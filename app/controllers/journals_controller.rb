@@ -146,9 +146,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   # don't cache variable that's changed
   def add_survey
-    @group = Rails.cache.fetch("j_#{params[:id]}") do 
-      Journal.find(params[:id])
-    end
+    @group = Journal.find(params[:id])
     if request.post?
       # @group.expire
       surveys = []

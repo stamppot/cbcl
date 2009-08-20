@@ -79,6 +79,7 @@ ActionController::Routing::Routes.draw do |map|
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
   map.new_journal 'journals/new/:id', :controller              => 'journals', :action => 'new'
   map.delete_journal '/journals/delete/:id', :controller       => 'journals', :action => 'delete'
+  map.destroy_journal '/journals/destroy/:id', :controller     => 'journals', :action => 'destroy'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
   map.journal_remove_survey '/journals/remove_survey/:id', :controller => 'journals', :action => 'remove_survey'
 

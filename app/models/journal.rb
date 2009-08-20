@@ -5,7 +5,7 @@ class Journal < Group
   has_one :person_info, :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
-  has_many :users, :through => :journal_entries
+  has_many :login_users, :through => :journal_entries, :source => :journal_entries
   has_many :surveys, :through => :journal_entries
   has_many :answered_entries,
            :class_name => 'JournalEntry',
@@ -94,7 +94,7 @@ class Journal < Group
   end
   
   def birthdate
-    self.person_info.birthdate
+    self.person_info && self.person_info.birthdate
   end
   
   def birth_short
@@ -106,11 +106,11 @@ class Journal < Group
   end
 
   def sex
-    self.person_info.sex
+    self.person_info && self.person_info.sex
   end
 
   def nationality
-    self.person_info.nationality
+    self.person_info && self.person_info.nationality
   end
   
   # sets the next journal code based on its center or current_user
