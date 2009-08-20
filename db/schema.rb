@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090819173518) do
+ActiveRecord::Schema.define(:version => 20090820095305) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -89,6 +89,8 @@ ActiveRecord::Schema.define(:version => 20090819173518) do
 
   add_index "groups", ["center_id"], :name => "groups_center_id_index"
   add_index "groups", ["center_id"], :name => "index_groups_on_center_id"
+  add_index "groups", ["code"], :name => "index_groups_on_code"
+  add_index "groups", ["delta"], :name => "index_groups_on_delta"
   add_index "groups", ["parent_id"], :name => "groups_parent_id_index"
 
   create_table "groups_roles", :id => false, :force => true do |t|
