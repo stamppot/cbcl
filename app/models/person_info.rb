@@ -6,11 +6,16 @@ class PersonInfo < ActiveRecord::Base
   validates_presence_of :nationality, :message => "Nationalitet skal angives"
 
   before_save :set_cpr_nr
+  after_update :set_parent_delta
   
-  define_index do
-     indexes cpr, :sortable => true
-     set_property :delta => true
+  def set_parent_delta
+    self.journal.update_attributes(:delta => true)
   end
+
+  # define_index do
+  #    indexes cpr, :sortable => true
+  #    set_property :delta => true
+  # end
 
   def set_cpr_nr
     dato = self.birthdate.to_s.split("-")

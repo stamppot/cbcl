@@ -56,7 +56,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     
     if @group.save
       @group.expire_cache
-      # Rails.cache.delete("journal_ids_user_#{current_user.id}")
       flash[:notice] = 'Journalen er oprettet.'
       redirect_to :action => 'show', :id => @group and return
     else
