@@ -5,6 +5,18 @@ class PersonInfo < ActiveRecord::Base
   validates_presence_of :sex, :message => "Køn skal angives"
   validates_presence_of :nationality, :message => "Nationalitet skal angives"
 
+  before_save :set_cpr_nr
+  
+  define_index do
+     indexes cpr, :sortable => true
+     set_property :delta => true
+  end
+
+  def set_cpr_nr
+    dato = self.birthdate.to_s.split("-")
+    dato[0] = dato[0][2..3]
+    self.cpr = dato.reverse.join
+  end
 
   def PersonInfo.sexes
     {
