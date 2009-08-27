@@ -56,7 +56,7 @@ class Journal < Group
      indexes :code, :sortable => true
      indexes person_info.cpr, :as => :person_info_cpr
      # attributes
-     has created_at, updated_at
+     has parent_id, center_id, created_at, updated_at
 
      set_property :delta => true
    end

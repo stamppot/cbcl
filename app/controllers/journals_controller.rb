@@ -193,6 +193,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     if @phrase.to_i > 0  # cpr.nr. søgning. Reverse
       @phrase = @phrase.split("-").reverse.join
     end
+    puts "Live_search: #{@phrase}"
 
     @groups =
     if @phrase.empty?
@@ -200,10 +201,11 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     elsif current_user.has_role?(:superadmin)
       Journal.search(@phrase, :order => "created_at DESC", :include => :person_info)
     elsif current_user.has_role?(:centeradministrator)
-      Journal.search(@phrase, :conditions => {:center_id => current_user.center_id}, :order => "created_at DESC", :include => :person_info)
+      Journal.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC", :include => :person_info)
     else
       current_user.group_ids.inject([]) do |result, id|
-      result += Journal.search(@phrase, :conditions => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
+        puts "searching #{@phrase} id: #{id}"
+      result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
       end
     end
 
@@ -217,7 +219,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
   #  before_filter :protect_create, :only => [ :new, :delete, :create, :edit ]
-
+  
 
   def protect_create
     if session[:rbac_user_id] and current_user.has_access? :all_users
