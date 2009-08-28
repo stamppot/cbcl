@@ -7,9 +7,11 @@
 <% if current_user.has_access? :survey_show_fast_input %>
 <div class="command">
 	<% if @options[:show_only] %>
+	<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Normal indtastning", :title => "Vis hurtig indtastning"), survey_path(entry), :title => 'Besvar med normal indtastning', :style => 'float: left; margin-right: 4px; width: 16px;' %>
 	<%=  link_to 'Normal indtastning', survey_show_only_path(@survey) %>
 	<% else %>
-	<%=  link_to 'Normal indtastning', survey_path(@journal_entry) %>
+	<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Normal indtastning", :title => "Vis hurtig indtastning"), survey_path(@journal_entry), :title => 'Besvar med normal indtastning', :style => 'float: left; margin-right: 4px; width: 16px;' %>
+	<%= link_to 'Normal indtastning', survey_path(@journal_entry) %>
 	<% end %>
 </div>
 <% end %>

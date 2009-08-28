@@ -97,37 +97,45 @@ end
 # Thinking Sphinx
 namespace :thinking_sphinx do
   task :configure, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:configure RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:configure"
   end
   task :index, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:index RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:index"
   end
   task :start, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:start RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:start"
   end
   task :stop, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:stop RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:stop"
   end
   task :restart, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:restart RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:restart"
   end
 end
 
 # Thinking Sphinx typing shortcuts
 namespace :ts do
   task :configure, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:configure RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:configure"
   end
   task :in, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:index RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:index"
   end
   task :start, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:start RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:start"
   end
   task :stop, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:stop RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:stop"
   end
   task :restart, :roles => [:app] do
-    run "cd #{current_path}; rake thinking_sphinx:restart RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; rake thinking_sphinx:restart"
+  end
+end
+
+namespace :analyze do
+  desc 'Analyze a log file and produce a performance report.'
+
+  task :production do
+    run "cd #{current_path}; request-log-analyzer log/production.log"
   end
 end

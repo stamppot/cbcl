@@ -20,7 +20,14 @@ class ApplicationController < ActionController::Base
   #   I18n.locale = params[:locale] 
   # end
 
+  # def log_user_agent
+  #   if params[:controller] == 'login' && params[:action] == 'login' # only track when user logs in
+  #     logger.info "LOGIN #{params[:username]}: #{request.env['HTTP_USER_AGENT']}"
+  #   return true
+  # end
+      
   def center_title
+    puts #{request.env['HTTP_USER_AGENT']}"
     @center_title = if current_user && current_user.center
 			current_user.center.title
 		else

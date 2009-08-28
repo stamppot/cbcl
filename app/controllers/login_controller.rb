@@ -21,6 +21,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   
   def login
     # Check that the user is not already logged in
+    
     unless current_user.nil?
       user = User.find_with_credentials(params[:username], params[:password])
       flash[:notice] = "#{current_user.name}, du er allerede logget ind."
@@ -31,7 +32,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
         redirect_to main_path
       end
         #'active_rbac/login/already_logged_in'
-        return
+      return
     end
 
     # Set the location to redirect to in the session if it was passed in through
@@ -60,6 +61,8 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     if user.created_at == user.last_logged_in_at
       flash[:notice] = "Husk at ændre dit password"
     end
+    
+    logger.info "LOGIN #{user.name} #{user.id}: #{request.env['HTTP_USER_AGENT']}"
     
     # TODO: DRY up. Duplicate from line 27
     # if user is superadmin, redirect to login_page. Post to this method with some special parameter
