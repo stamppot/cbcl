@@ -52,7 +52,7 @@
 		<table class="sortable">
 			<tr>
 				<th>Spørgeskema</th>
-				<th>Besvar</th>
+				<th>Type</th>
 				<th>Tilføjet</th>
 				<th>Status</th>
 				<th class="nosort">Handling</th>
@@ -61,11 +61,9 @@
 			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
 					 <% survey = entry.survey %>
 					 <td style='background-color: #<%= survey.color %>;'>
-<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: left; margin-right: 4px; width: 16px;' %><%= link_to survey.title, survey_path(entry), :title => 'Besvar' %>
-						&nbsp;</td>
-					 <td><%= link_to img_tag_html4("012_small.png", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
-								survey_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => '' %>
-					<% survey.typename %></td>
+					  <%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
+            <%= link_to survey.title, survey_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
+           <td><%= survey.typename %></td>
 					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
 					 <td><%= entry.status %>
 					 </td>

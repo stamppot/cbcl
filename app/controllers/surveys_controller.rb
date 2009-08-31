@@ -49,7 +49,7 @@ class SurveysController < ApplicationController
   def show                                  # 11-2 it's fastest to preload all needed objects
     @options = {:show_all => true, :action => "create"}
     @journal_entry = JournalEntry.find(params[:id])
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     @page_title = @survey.title
@@ -59,7 +59,6 @@ class SurveysController < ApplicationController
       journal = @journal_entry.journal
       @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
-      # @survey_answer.journal_entry = @journal_entry
     else  # survey_answer already created, find draft
       @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
       @survey.merge_answer(@survey_answer)
@@ -72,7 +71,7 @@ class SurveysController < ApplicationController
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
     @journal_entry = JournalEntry.find(params[:id])
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
+    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     @page_title = @survey.title
