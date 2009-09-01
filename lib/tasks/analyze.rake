@@ -1,3 +1,4 @@
+current_path = "/home/cbcl/sites/cbcl/current"
 namespace :analyze do
   desc 'Analyze a log file and produce a performance report.'
 
