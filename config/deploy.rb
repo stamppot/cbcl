@@ -138,4 +138,8 @@ namespace :analyze do
   task :production do
     run "cd #{current_path}; request-log-analyzer log/production.log"
   end
+
+  task :browsers do
+    run "cd #{current_path} && rake analyze:browser"
+  end
 end
