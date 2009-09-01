@@ -114,18 +114,19 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   # redirects to the #show action with the selected's group's ID.
   def destroy
     @group = Center.find(params[:id])
-    if not params[:yes].nil?
+    if(not params[:yes].nil?) && @group.teams.empty?
       @group.destroy
       flash[:notice] = 'Centret er blevet slettet.'
-      redirect_to :action => :list
+      redirect_to centers_path
     else
-      flash[:notice] = 'Centret er ikke blevet slettet.'
+      flash[:notice] = 'Centret er ikke blevet slettet, da der findes underliggende teams'
+      # flash[:notice] = 'Centret er ikke blevet slettet.'
       redirect_to center_path(@group)
     end
 
-  rescue CantDeleteWithChildren
-    flash[:error] = "You have to delete or move the center's children before attempting to delete the group itself."
-    redirect_to center_path(@group)
+  # rescue CantDeleteWithChildren
+  #   flash[:error] = "You have to delete or move the center's children before attempting to delete the group itself."
+  #   redirect_to center_path(@group)
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Destroy: This center could not be found.'
     redirect_to centers_path
