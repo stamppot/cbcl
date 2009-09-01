@@ -1,6 +1,6 @@
 <h2>Redigering af team</h2>
 
-<% form_tag :action => :update, :id => @group do %>
+<% form_tag team_path(@group), :method => :put do %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Anvend', { :class => 'normal' } %>
 <% end %>

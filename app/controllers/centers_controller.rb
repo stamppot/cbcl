@@ -7,18 +7,13 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   # # layout ActiveRbacConfig.config(:controller_layout)
 
   # We force users to use POST on the state changing actions.
-  verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
-  
-  verify :method       => "post",
-         :only         => [ :create, :update ],
-         :redirect_to  => { :action => :list },
-         :add_flash    => { :error => 'You sent an invalid request!' }
-          
+  # verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
+      
   # We force users to use GET on all other methods, though.
-  verify :method       => :get,
-         :only         => [ :index, :list, :show, :delete ],
-         :redirect_to  => { :action => :list },
-         :add_flash    => { :error => 'Center: You sent an invalid request!' }
+  # verify :method       => :get,
+  #        :only         => [ :index, :list, :show, :delete ],
+  #        :redirect_to  => { :action => :list },
+  #        :add_flash    => { :error => 'Center: You sent an invalid request!' }
 
   # Simply redirects to #list
   # Displays a tree of all centers visible to user.
@@ -40,7 +35,6 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     redirect_to centers_path
   end
   
-  # replaces new, create, edit, update by using postback action (recipe 33)
   def new
     @group = Center.find_by_id(params[:id]) || Center.new #(params[:group])
     @group.build_center_info unless @group.center_info
@@ -50,20 +44,36 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
 
     @page_title = params[:id].nil? && "Nyt Center" || "Redigering af Center"
 
-    if request.post?
-      @group.update_subscriptions(params[:group].delete(:surveys) || [])
-      @group.update_attributes(params[:group])
-
-      # assign properties to group
-      if @group.save
-        flash[:notice] = 'Centeret er blevet ' + (params[:id].nil? ? 'oprettet.' : 'opdateret')
-        params[:id].nil? ? redirect_to(center_path(@group)) : redirect_to(centers_path)
-      else
-        render :action => :new
-      end
-    end
+    # if request.post?
+    #   @group.update_subscriptions(params[:group].delete(:surveys) || [])
+    #   @group.update_attributes(params[:group])
+    # 
+    #   # assign properties to group
+    #   if @group.save
+    #     flash[:notice] = 'Centeret er blevet ' + (params[:id].nil? ? 'oprettet.' : 'opdateret')
+    #     params[:id].nil? ? redirect_to(center_path(@group)) : redirect_to(centers_path)
+    #   else
+    #     render :action => :new
+    #   end
+    # end
   end
 
+  def create
+    @group = Center.new
+    @group.build_center_info unless @group.center_info
+
+    @group.update_subscriptions(params[:group].delete(:surveys) || [])
+    @group.update_attributes(params[:group])
+
+    # assign properties to group
+    if @group.save
+      flash[:notice] = 'Centeret er blevet oprettet.'
+      redirect_to center_path(@group)
+    else
+      render :action => :new
+    end
+  end
+  
   def edit
     @group = Center.find_by_id(params[:id])
     @group.build_center_info unless @group.center_info
@@ -184,7 +194,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     if session[:rbac_user_id] and current_user.has_access? :admin
       return true
     elsif !current_user.nil?
-      redirect_to "/center/list"
+      redirect_to centers_path
       flash[:notice] = "Du har ikke adgang til denne side"
       return false
     else

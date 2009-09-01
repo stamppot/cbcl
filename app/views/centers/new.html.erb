@@ -1,6 +1,8 @@
 <h2><%= @page_title %></h2>
 
-<%= render(:partial => "centers/_form", :object => @group) %>
-
+<% form_tag centers_path do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Opret Center", :class => 'btn_gray' %>
+<% end %>
 
 <%= link_to 'Tilbage', centers_url, :title => 'Tilbage' %>

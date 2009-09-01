@@ -27,7 +27,6 @@ class ApplicationController < ActionController::Base
   # end
       
   def center_title
-    puts #{request.env['HTTP_USER_AGENT']}"
     @center_title = if current_user && current_user.center
 			current_user.center.title
 		else

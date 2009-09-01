@@ -10,7 +10,7 @@ Der er ingen journaler i systemet.
 <!-- <th class="half_wide" title="Sorter efter status">Status</th> -->
 <th title="Sorter efter oprettelsesdato" class="sortcol">Oprettet</th>
 <% unless @hide_team %>
-<th class="half_wide" title="Sorter efter team">Team</th>
+<th class="half_wide" title="Sorter efter team"><%= current_user.teams.any? ? "Team" : "Center" %></th>
 <% end %>
 <th class="nosort">Handling</th>
 </tr>
