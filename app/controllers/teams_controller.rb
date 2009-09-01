@@ -4,7 +4,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   helper RbacHelper
   
   # We force users to use POST on the state changing actions.
-  verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
+  # verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
   # verify :method       => :post,
   #        :only         => [ :create, :update, :destroy ],
   #        :redirect_to  => teams_url,
@@ -145,9 +145,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     redirect_to teams_url
   end
 
-  # Loads the group specified by the :id parameters from the url fragment from
-  # the database and displays a "Do you really want to delete it?" form. It
-  # posts to #destroy.
+  # Displays a "Do you really want to delete it?" form. 
   def delete
     @group = Team.find(params[:id])
 
@@ -156,8 +154,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     redirect_to teams_url
   end
 
-  # Removes a group record from the database. +destroy+ is only accessible
-  # via POST. If the answer to the form in #delete has not been "Yes", it 
+  # If the answer to the form in #delete has not been "Yes", it 
   # redirects to the #show action with the selected's group's ID.
   # Any children are moved to the parent of this group
   def destroy

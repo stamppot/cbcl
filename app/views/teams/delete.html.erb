@@ -8,7 +8,7 @@ Journaler i teamet vil ikke blive slettet, men flyttes til centeret.<br>
  <strong>Denne handling kan ikke fortrydes</strong>.
 </p>
 
-<% form_tag :action => :destroy, :id => @group do %>
+<% form_tag team_path(@group), :method => :delete do %>
   <%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
   <%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
 <% end %>

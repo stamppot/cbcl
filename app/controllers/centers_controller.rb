@@ -70,7 +70,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       flash[:notice] = 'Centeret er blevet oprettet.'
       redirect_to center_path(@group)
     else
-      render :action => :new
+      render new_center_url(@group)
     end
   end
   
@@ -94,7 +94,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       flash[:notice] = 'Centeret er blevet opdateret'
       redirect_to(centers_path)
     else
-      render :action => :new
+      render new_center_url(@group)
     end
   end
   
