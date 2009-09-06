@@ -1,6 +1,6 @@
 current_path = "/home/cbcl/sites/cbcl/current"
 namespace :analyze do
-  desc 'Analyze a log file and produce a performance report.'
+  desc 'Analyze a log file to produce a performance report.'
 
   desc 'Analyze production log'
   task :production => :environment do

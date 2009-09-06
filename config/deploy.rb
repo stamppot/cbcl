@@ -140,6 +140,6 @@ namespace :analyze do
   end
 
   task :browsers do
-    run "cd #{current_path} && rake analyze:browser"
+    run "cd #{current_path} && rake analyze:production 2>&1 | grep LOGIN"
   end
 end
