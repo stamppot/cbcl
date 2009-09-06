@@ -4,11 +4,11 @@ namespace :analyze do
 
   desc 'Analyze production log'
   task :production => :environment do
-    run "cd #{current_path}; request-log-analyzer log/production.log"
+    run "cd #{current_path} && request-log-analyzer log/production.log"
   end
   
   task :development do
-    run "cd #{current_path}; request-log-analyzer log/development.log"
+    run "cd #{current_path} && request-log-analyzer log/development.log"
   end
 end
 
