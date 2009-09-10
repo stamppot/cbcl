@@ -11,7 +11,7 @@
 <div id="debug">
 </div>
 
-<% form_tag :action => :save_question, :id => @survey do %>
+<% form_tag save_question_survey_builder_path(@survey) do %>
 
 <%- row_no = 1  # used by after choice examples
     col_no = 1 %>
@@ -40,11 +40,11 @@ Question no: <%= text_field("question" , :number, { :value => @survey.new_questi
 </table>
 
 <div id="actions">
-	<%= link_to_remote "Tilføj række", :url => { :action => :add_question_row} %>
-    <%= link_to_remote "Slet række", :url => { :action => :delete_question_row} %>
+	<%= link_to_remote "Tilføj række", :url => add_question_row_path %>
+    <%= link_to_remote "Slet række", :url => delete_question_row_path %>
 	<br>
-	<%= link_to_remote "Tilføj kolonne", { :url => { :action => "add_question_column" } }, { :class => "ie_action" } %>
-    <%= link_to_remote "Slet kolonne", { :url => { :action => "delete_question_column" } }, { :class => "ie_action" } %>
+	<%= link_to_remote "Tilføj kolonne", { :url => add_question_column_path }, { :class => "ie_action" } %>
+  <%= link_to_remote "Slet kolonne", { :url => delete_question_column_path }, { :class => "ie_action" } %>
 </div>
 
 <br>
@@ -53,8 +53,8 @@ Question no: <%= text_field("question" , :number, { :value => @survey.new_questi
   <%= submit_tag 'Tilføj spørgsmål', :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to "Gå tilbage", :controller => :survey, :action => :index %>
-<%= link_to "Vis", :controller => :survey, :action => :show_only, :id => @survey %>
+<%= link_to "Gå tilbage", surveys_path %>
+<%= link_to "Vis", survey_show_only_path(@survey) %>
 
 <p>
 <p>

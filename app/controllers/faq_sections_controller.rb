@@ -91,7 +91,7 @@ class FaqSectionsController < ApplicationController
     @sections = FaqSection.find(:all)
       
     flash[:notice] = "Nyt afsnit er oprettet."
-    redirect_to new_faq_section_path
+    redirect_to faq_section_path
   end
   
   def edit
@@ -111,7 +111,7 @@ class FaqSectionsController < ApplicationController
     @section.destroy
     flash[:notice] = "Afsnittet er slettet."
     
-    redirect_to :action => 'index'
+    redirect_to faqs_path
   end
   
   def show

@@ -154,9 +154,19 @@ ActionController::Routing::Routes.draw do |map|
 
   # survey builder
   map.edit_survey_builder 'survey_builders/show_edit/:id', :controller => 'survey_builders', :action => 'show_edit'
+  map.save_question_survey_builder 'survey_builders/save_question/:id', :controller => 'survey_builders', :action => 'save_question'
   map.add_question_survey_builder 'survey_builders/add_question/:id', :controller => 'survey_builders', :action => 'add_question'
   map.edit_survey_builder 'survey_builders/edit/:id', :controller => 'survey_builders', :action => 'edit'
   map.new_survey_builder 'survey_builders/new', :controller => 'survey_builders', :action => 'new'
+
+  map.add_question_row 'survey_builders/add_question_row', :controller => 'survey_builders', :action => 'add_question_row'
+  map.delete_question_row 'survey_builders/delete_question_row', :controller => 'survey_builders', :action => 'delete_question_row'
+  map.add_question_column 'survey_builders/add_question_column', :controller => 'survey_builders', :action => 'add_question_column'
+  map.delete_question_column 'survey_builders/delete_question_column', :controller => 'survey_builders', :action => 'delete_question_column'
+
+  map.change_form 'survey_builders/change_form/:id', :controller => 'survey_builders', :action => 'change_form'
+  map.change_back_form 'survey_builders/change_back_form/:id', :controller => 'survey_builders', :action => 'change_back_form'
+  
   # map.destroy_survey_builder 'survey_builder/destroy', :controller => 'survey_builder', :action => 'destroy', :method => 'delete'
 
   map.connect '/register/confirm/:user/:token',

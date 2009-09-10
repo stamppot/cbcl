@@ -1,14 +1,20 @@
 <h3><%= 'Rediger afsnit' %></h3>
 
+<h1>Opret nyt afsnit</h1>
+
 <% form_for(@section, :html => {:id => 'faq_section_form'}, :method => :put) do |f| %>
+
 <div>
   <div>
-    <div>
+		<div class="form-row">
       <%= f.label(:title, "Afsnitstitel") %>
   		<%= f.text_field(:title, :class => "btn_gray") %>
     </div>
 	</div>
-	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>
+	
+	<div class="form-row">
+		<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>  | <%= link_to "afbryd", faq_section_path(@section) %>
+	</div>
 </div>
 <% end %>
 <%= link_to 'Tilbage', faqs_url, :title => 'Tilbage' %>
