@@ -1,9 +1,9 @@
 <h1>Redigering af spørgeskema</h1>
 
-<% form_tag :action => :update, :id => @survey do %>
+<% form_tag survey_builder_path(@survey), :method => :put do %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Anvend', { :class => 'normal' } %>
 <% end %>
 
-<%= link_to 'Vis', :controller => :survey, :action => :show, :id => @survey %> |
-<%= link_to 'Tilbage', :controller => :survey, :action => :list %>
+<%= link_to 'Vis', survey_path(@survey) %> |
+<%= link_to 'Tilbage', surveys_path %>

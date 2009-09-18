@@ -67,7 +67,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + @group.errors.inspect
-    redirect_to :action => :list
+    redirect_to journals_path
   end
 
   def edit
@@ -225,7 +225,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     if session[:rbac_user_id] and current_user.has_access? :all_users
       return true
     elsif !current_user.nil?
-      redirect_to :action => :list
+      redirect_to journals_path
       flash[:notice] = "Du har ikke adgang til denne side"
       return false
     else

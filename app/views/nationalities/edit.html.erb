@@ -1,9 +1,9 @@
 <h1>Rediger nationalitet</h1>
 
-<% form_tag :action => :update, :id => @nationality do %>
+<% form_tag nationality_path(@nationality), :method => :put do %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Rediger', :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Vis', :action => :show, :id => @nationality %> |
-<%= link_to 'Tilbage', :action => :list %>
+<%= link_to 'Vis', nationality_path(@nationality) %> |
+<%= link_to 'Tilbage', nationalities_path %>

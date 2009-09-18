@@ -3,15 +3,6 @@ class NationalitiesController < ApplicationController
   layout "survey"
 
   def index
-    list
-    render :action => :list
-  end
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => "post", :only => [ :destroy, :create, :update ],
-  :redirect_to => { :action => :list }
-
-  def list
     @nationalities = Nationality.paginate(:all, :page => params[:page], :per_page => 10) 
   end
 
@@ -27,9 +18,9 @@ class NationalitiesController < ApplicationController
     @nationality = Nationality.new(params[:nationality])
     if @nationality.save
       flash[:notice] = 'Nationalitet er oprettet.'
-      redirect_to :action => :list
+      redirect_to nationalities_path
     else
-      render :action => :new
+      render new_nationality_path
     end
   end
 
@@ -41,7 +32,7 @@ class NationalitiesController < ApplicationController
     @nationality = Nationality.find(params[:id])
     if @nationality.update_attributes(params[:nationality])
       flash[:notice] = 'Nationalitet er opdateret.'
-      redirect_to :action => :show, :id => @nationality
+      redirect_to nationality_path(@nationality)
     else
       render :action => :edit
     end
@@ -49,7 +40,7 @@ class NationalitiesController < ApplicationController
 
   def destroy
     Nationality.find(params[:id]).destroy
-    redirect_to :action => :list
+    redirect_to nationalities_path
   end
 
   protected
@@ -60,7 +51,7 @@ class NationalitiesController < ApplicationController
     if session[:rbac_user_id] and current_user.has_access? :admin
       return true
     elsif current_user
-      redirect_to "list"
+      redirect_to nationalities_path
       flash[:notice] = "Du har ikke adgang til denne side"
       return false
     else

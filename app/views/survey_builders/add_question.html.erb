@@ -16,7 +16,7 @@
 <%- row_no = 1  # used by after choice examples
     col_no = 1 %>
     
-Question no: <%= text_field("question" , :number, { :value => @survey.new_question_number, :size => 2 }) %>
+Spørgsmålsnummer: <%= text_field("question" , :number, { :value => @survey.new_question_number, :size => 2 }) %>
 <table class="question" border="1">
   <tbody id="questionbody">
 <%=

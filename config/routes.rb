@@ -37,15 +37,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :scores
   map.resources :score_scales
   map.resources :score_reports
+  map.resources :survey_builders
   
   map.namespace(:active_rbac) do |active_rbac|
     active_rbac.resources :roles
+    active_rbac.resources :groups
   end
   
   # map the admin stuff into '/admin/'
-  map.connect '/user/:action/:id', :controller => 'active_rbac/user'
-  map.connect '/admin/group/:action/:id', :controller => 'active_rbac/group'
-  map.connect '/admin/role/:action/:id', :controller => 'active_rbac/role'
+  # map.connect '/user/:action/:id', :controller => 'active_rbac/user'
+  map.connect '/admin/groups/:action/:id', :controller => 'active_rbac/groups'
+  map.connect '/admin/roles/:action/:id', :controller => 'active_rbac/roles'
   map.connect '/admin/static_permission/:action/:id', :controller => 'active_rbac/static_permission'
   
   # map the login and registration controller somewhere prettier

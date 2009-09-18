@@ -1,9 +1,0 @@
-<h1>Editing survey</h1>
-
-<% form_tag :action => :update, :id => @survey do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit', :class => 'btn_gray' %>
-<% end %>
-
-<%= link_to 'Show', :action => :show, :id => @survey %> |
-<%= link_to 'Back', :action => :list %>

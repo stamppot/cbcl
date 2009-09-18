@@ -1,4 +1,5 @@
-<% cache @journal_entry.cache_key do %>
+<% if @journal_entry
+ 	 	 cache @journal_entry.cache_key do %>
 <div class="survey" style='background-color: #<%= @survey.color %>;'>
 	<% if @journal_entry %>
 			<div id="survey_journal_info">
@@ -12,4 +13,7 @@
 		<div class="surveyinfo"><b>Antal spørgsmål:</b> <%= @survey.no_questions %></div>
 	</div>
 </div>
+	<% end %>
+<% else %>
+	<%= link_to "Tilbage", surveys_path %>
 <% end %>
