@@ -32,6 +32,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :faqs
   map.resources :faq_sections
   map.resources :users
+  map.resources :roles
   map.resources :login_users
   map.resources :nationalities
   map.resources :scores
