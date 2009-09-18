@@ -7,7 +7,7 @@ class PersonInfo < ActiveRecord::Base
 
   before_save :set_cpr_nr
   after_update :set_parent_delta
-  
+
   def set_parent_delta
     self.journal.update_attributes(:delta => true)
   end

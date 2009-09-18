@@ -1,6 +1,5 @@
 class Role < ActiveRecord::Base
   include ActiveRbacMixins::RoleMixins::Core
-  # include RoleHelper
   
   has_many :survey_answers
   
@@ -47,16 +46,16 @@ class Role < ActiveRecord::Base
     @permissions.any? { |perm| perm.identifier == identifier }
   end
   
-  # def prettyname
-  #   rolename = case self.title
-  #   when "parent":    "forælder"
-  #   when "youth":     "barn"
-  #     when "teacher":   "lærer"
-  #     when "pedagogue": "pædagog"
-  #     when "other":     "andet"
-  #     else self.title
-  #     end
-  # end
+  def prettyname
+    rolename = case self.title
+    when "parent":    "forælder"
+    when "youth":     "barn"
+      when "teacher":   "lærer"
+      when "pedagogue": "pædagog"
+      when "other":     "andet"
+      else self.title
+      end
+  end
   
   def Role.login_users
     r = Role.get(:login_bruger)

@@ -2,7 +2,7 @@ require 'facets/dictionary'
 
 class Journal < Group
   belongs_to :center
-  has_one :person_info, :dependent => :destroy
+  has_one :person_info #, :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :login_users, :through => :journal_entries, :source => :journal_entries
@@ -28,6 +28,8 @@ class Journal < Group
   
   after_save    :expire_cache
   after_destroy :expire_cache
+  after_destroy :destroy_journal_entries
+  after_destroy :destroy_person_info
   
   # ID is mandatory
   validates_presence_of :code #, :message => "ID skal gives"
@@ -77,6 +79,14 @@ class Journal < Group
     Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
     Rails.cache.delete_matched(/journal_ids_user_(.*)/)
+  end
+  
+  def destroy_journal_entries
+    self.journal_entries.each { |entry| entry.destroy_and_remove_answers! }
+  end
+  
+  def destroy_person_info
+    self.person_info.destroy
   end
   
   # show all login-users for journal. Go through journal_entries

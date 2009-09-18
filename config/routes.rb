@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.namespace(:active_rbac) do |active_rbac|
     active_rbac.resources :roles
-    active_rbac.resources :groups
+    # active_rbac.resources :groups
   end
   
   # map the admin stuff into '/admin/'

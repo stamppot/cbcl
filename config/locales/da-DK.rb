@@ -299,6 +299,14 @@ I18n.backend.store_translations 'da-DK',
               :attributes => {
                 :code => {
                   :taken => "er allerede i brug. Vælg andet ID."
+                },
+                :person_info => {
+                  :blank => {
+                    :Sex => "skal angives"
+                  },
+                },
+                :nationality => {
+                  :blank => "skal angives" 
                 }
               }
             }

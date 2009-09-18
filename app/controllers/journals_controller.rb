@@ -31,8 +31,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @journal_entries = @group.journal_entries
   end
 
-  # Displays a form to create a new group. Posts to the #create action.
-  # group is the parent center
   def new
     @page_title = "Opret ny journal"
     @group = Journal.new
@@ -57,7 +55,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     if @group.save
       @group.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
-      redirect_to :action => 'show', :id => @group and return
+      redirect_to journal_path(@group) and return
     else
       @groups = Group.get_teams_or_centers(params[:id], current_user)
       @nationalities = Nationality.find(:all)
@@ -80,7 +78,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Denne journal kunne ikke findes.'
-    redirect_to :action => :list
+    redirect_to journals_path
   end
 
   def update
@@ -93,16 +91,16 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
         
     if @group.save
       flash[:notice] = 'Journal er opdateret.'
-      redirect_to :action => :show, :id => @group
+      redirect_to journal_path(@group)
     else
       @nationalities = Nationality.all
       @groups = Group.get_teams_or_centers(params[:id], current_user)
-      render :action => :edit, :id => @group
+      render edit_journal_path(@group)
     end
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Du sendte en ugyldig forespørgsel.'
-    redirect_to :action => :list
+    redirect_to journals_path
   end
 
   # displays a "Do you really want to delete it?" form. It
@@ -112,7 +110,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.'
-    redirect_to :action => :list
+    redirect_to journals_path
   end
 
   # If the answer to the form in #delete has not been "Yes", it 
@@ -120,27 +118,23 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id])
-      @group.journal_entries.each do |entry|
-        # entry.remove_login! # was: User.login_users.find(entry.user_id).destroy if entry.user_id
-        entry.kill! # this removes survey_answer too! # was: JournalEntry.find(entry.id).destroy
-      end
+      @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
       @group.expire
       Rails.cache.delete("journal_ids_user_#{current_user.id}")
-      @group.destroy # does not delete entries and users (cascading)
+      @group.destroy
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
-      redirect_to :action => :list
+      redirect_to journals_path
     else
       flash[:notice] = 'Journalen blev ikke slettet.'
-      redirect_to :action => :show, :id => params[:id]
+      redirect_to journal_path(Journal.find(params[:id]))
     end
 
-  rescue CantDeleteWithChildren
-    flash[:error] = "You have to delete or move the journal's children before attempting to delete the group itself."
-    redirect_to :action => :show, :id => params[:id]
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.' << "  id: " << params[:id] << "   entry: " << @group.journal_entries.inspect
-    redirect_to :action => :list
+    redirect_to journals_path
+  rescue => e
+    flash[:error] = "Exception: #{e}"
+    redirect_to journals_path
   end
 
   # don't cache variable that's changed

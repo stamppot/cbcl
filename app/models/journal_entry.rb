@@ -31,6 +31,11 @@ class JournalEntry < ActiveRecord::Base
     return false
   end
   
+  def destroy_and_remove_answers!
+    self.remove_login!
+    self.survey_answer.destroy if self.survey_answer
+  end
+  
   def valid_for_csv?
     if survey_answer_id && survey_id && journal_id && answered?
       return self
