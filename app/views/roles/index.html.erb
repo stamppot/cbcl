@@ -9,7 +9,7 @@ Below is a complete tree of all roles known to the system.
 </div>
 
 <%= node_tree @roles do |role|
-      result = link_to(role.title, role_path(@role) + " "
+      result = link_to(role.title, role_path(@role)) + " "
       result += "[" + role.users.length.to_s + "/" + role.all_users.length.to_s + " users, " 
       result += role.groups.length.to_s + "/" + role.all_groups.length.to_s + " groups]"
       result += "(" + link_to('Vis', role_path, :title => 'Show') + " "
