@@ -82,4 +82,5 @@ module ApplicationHelper
   def survey_short(survey)
     survey.title.gsub(/\s\(.*\)/,'')
   end
+  
 end
