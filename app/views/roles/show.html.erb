@@ -1,0 +1,110 @@
+<h2>Detaljer for Rolle &quot;<%=h @role.title %>&quot;</h2>
+
+<div class="commands">
+<%= link_to 'Slet', role_path(@role)  %>
+<%= link_to 'Rediger', edit_role_path(@role) %>
+<%= link_to 'Tilbage til List', roles_path %>
+</div>
+
+<dl>
+  <dt>Navn:</dt>
+  <dd><%=h @role.title %></dd>
+
+  <dt>Parent:</dt>
+  <% if @role.parent == nil %>
+  <dd>No parent, this role is a root role</dd>
+  <% else %>
+  <dd><%= link_to @role.parent.title, role_path(@role.parent) %></dd>
+  <% end %>
+
+  <dt>Oprettet</dt>
+  <dd><%= @role.created_at.to_formatted_s(:long) %></dd>
+
+  <dt>Opdateret</dt>
+  <dd><%= @role.updated_at.to_formatted_s(:long) %></dd>
+
+  <dt>Children:</dt>
+  <% if @role.children.empty? %>
+  <dd>No Children</dd>
+  <% else %>
+  <dd><%= node_tree(@role.children) { |role| result = link_to(role.title, role_path(role)) } %></dd>
+  <% end %>
+</dl>
+
+<div class="commands">
+<%= link_to 'Slet', role_path(@role) %>
+<%= link_to 'Rediger', edit_role_path(@role) %>
+<%= link_to 'Tilbage til List', roles_path %>
+</div>
+
+<h3>Direkte tildelte brugere</h3>
+
+<% if @role.users.empty? %>
+<p>None</p>
+<% else %>
+<ul>
+  <% for user in @role.users %>
+  <li><%= link_to user.login, user_path(user) %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<h3>Alle tildelte brugere</h3>
+
+<% if @role.all_users.empty? %>
+<p>Ingen</p>
+<% else %>
+<ul>
+  <% for user in @role.all_users %>
+  <li><%= link_to user.login, user_path(user) %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<h3>Direkte tildelte grupper</h3>
+
+<% if @role.groups.empty? %>
+<p>Ingen</p>
+<% else %>
+<ul>
+  <% for group in @role.groups %>
+  <li><%= link_to group.title, g %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<h3>Alle tildelte grupper</h3>
+
+<% if @role.all_groups.empty? %>
+<p>Ingen</p>
+<% else %>
+<ul>
+  <% for group in @role.all_groups %>
+  <li><%= link_to group.title, group %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<h3>Direkte tildelte rettigheder</h3>
+
+<% if @role.static_permissions.empty? %>
+<p>Ingen rettigheder</p>
+<% else %>
+<ul>
+  <% for permission in @role.static_permissions do %>
+  <li><%= link_to permission.title, { :controller => 'static_permission', :action => :show, :id => permission }%></li>
+  <% end %>
+</ul>
+<% end %>
+
+<h3>Alle tildelte rettigheder</h3>
+
+<% if @role.all_static_permissions.empty? %>
+<p>Ingen rettigheder</p>
+<% else %>
+<ul>
+  <% for permission in @role.all_static_permissions do %>
+  <li><%= link_to permission.title, { :controller => 'static_permission', :action => :show, :id => permission }%></li>
+  <% end %>
+</ul>
+<% end %>

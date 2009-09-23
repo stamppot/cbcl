@@ -1,0 +1,23 @@
+<h2>Editing role <%= @role.title %></h2>
+<% form_for :role, @role, :method => :put do |f| %>
+<% roller = [] %>
+
+	<%= f.label :title %>
+	<%= f.text_field :title %><p>
+	
+	<%= f.label :parent %><p>
+	<%= f.radio_button(:parent, nil) + "No parent" %>
+
+	<%= node_tree @roles do |role|
+	      result = f.radio_button(:parent, role.id) + link_to(role.title, @role)
+	      result += "  [#{role.users.length}/#{role.all_users.length} users] "
+	      result += "("
+	      result += link_to('Rediger', edit_role_path(role), :title => 'Edit') + " "
+	      result += link_to('Slet', role_path(role), :method => :delete, :title => 'Delete') + ")"
+	    end %>
+
+  <%= submit_tag 'Apply Changes' %>
+<% end %>
+
+<%= link_to 'Show', @role %> |
+<%= link_to 'Back', roles_path %>
