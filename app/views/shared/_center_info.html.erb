@@ -13,19 +13,19 @@
 		<td class="p"><%=h @journal.team.title %></td>
 	</tr>
 	<tr>
-		<td class="p">ID-nr.:</td>
+		<td class="p"><%= t('id') %>:</td>
 		<td class="p"><%=h @journal.qualified_id %></td>
 	</tr>
 	<tr>
-		<td class="p">Køn:</td>
+		<td class="p"><%= t('gender') %>:</td>
 		<td class="p"><%=h @journal.sex_text.capitalize %></td>
 	</tr>
 	<tr>
-		<td class="p">Alder (år):</td>
+		<td class="p"><%= t('age') %></td>
 		<td class="p"><%=h @journal.age %></td>
 	</tr>
 	<tr>
-		<td class="p">Navn:</td>
+		<td class="p"><%= t('name') %>:</td>
 		<td class="p"><%=h @journal.name %></td>
 	</tr>
 

@@ -491,8 +491,8 @@ The +respond_to+ block handles both HTML and XML calls to this action. If you br
     <td><%=h post.name %></td>
     <td><%=h post.title %></td>
     <td><%=h post.content %></td>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
+    <td><%= link_to t('show'), post %></td>
+    <td><%= link_to t('edit'), edit_post_path(post) %></td>
     <td><%= link_to 'Destroy', post, :confirm => 'Are you sure?',
             :method => :delete %></td>
   </tr>
@@ -645,7 +645,7 @@ The +show+ action uses +Post.find+ to search for a single record in the database
 </p>
 
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to t('edit'), edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
 </erb>
 
@@ -684,7 +684,7 @@ After finding the requested post, Rails uses the +edit.html.erb+ view to display
   </p>
 <% end %>
 
-<%= link_to 'Show', @post %> |
+<%= link_to t('show'), @post %> |
 <%= link_to 'Back', posts_path %>
 </erb>
 
@@ -755,7 +755,7 @@ As you saw earlier, the scaffold-generated views for the +new+ and +edit+ action
 
 <%= render :partial => "form" %>
 
-<%= link_to 'Show', @post %> |
+<%= link_to t('show'), @post %> |
 <%= link_to 'Back', posts_path %>
 </erb>
 
@@ -1070,9 +1070,9 @@ The +views/comments/index.html.erb+ view:
   <tr>
     <td><%=h comment.commenter %></td>
     <td><%=h comment.body %></td>
-    <td><%= link_to 'Show', post_comment_path(@post, comment) %></td>
+    <td><%= link_to t('show'), post_comment_path(@post, comment) %></td>
     <td>
-        <%= link_to 'Edit', edit_post_comment_path(@post, comment) %>
+        <%= link_to t('edit'), edit_post_comment_path(@post, comment) %>
     </td>
     <td>
         <%= link_to 'Destroy', post_comment_path(@post, comment),
@@ -1127,7 +1127,7 @@ The +views/comments/show.html.erb+ view:
   <%=h @comment.body %>
 </p>
 
-<%= link_to 'Edit', edit_post_comment_path(@post, @comment) %> |
+<%= link_to t('edit'), edit_post_comment_path(@post, @comment) %> |
 <%= link_to 'Back', post_comments_path(@post) %>
 </erb>
 
@@ -1152,7 +1152,7 @@ The +views/comments/edit.html.erb+ view:
   </p>
 <% end %>
 
-<%= link_to 'Show', post_comment_path(@post, @comment) %> |
+<%= link_to t('show'), post_comment_path(@post, @comment) %> |
 <%= link_to 'Back', post_comments_path(@post) %>
 </erb>
 

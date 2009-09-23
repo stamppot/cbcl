@@ -1,19 +1,19 @@
 <table id="user_list" class="sortable list" class="users">
 	<tr>
-	<th class="wide" title="Sorter efter navn">Navn</th>
-	<th title="Sorter efter Rolle">Rolle</th>
+	<th class="wide" title=<%= t('sort.name') %>><%= t('name') %></th>
+	<th title="<%= t('sort.role') %>"><%= t('role') %></th>
 	<% if current_user.has_access?(:user_view_status) %>
-	<th title="Sorter efter status">Status</th>
+	<th title="<%= t('sort.state') %>"><%= t('state') %></th>
 	<% end %>
-	<th title="Sorter efter grupper">Grupper</th>
+	<th title="<%= t('sort.group') %>"><%= t('groups') %></th>
 	<% if current_user.has_access? :user_edit_delete %>
-	<th class="nosort" style="width: 75px;">Handling</th>
+	<th class="nosort" style="width: 75px;"><%= t('action') %></th>
 	</tr>
 	<% end %>
 
 	<% @users.each do |user| %>
 	<tr>
-		<td><%= link_to( user.name, user_path(user), :title => "Vis #{user.class.to_s}" ) %></td>
+		<td><%= link_to( user.name, user_path(user), :title => t('user.show') ) %></td>
 		<td><%= roles = user.roles.empty? ? " " : user.roles.first.title -%></td>
 		<% if current_user.has_access?(:user_view_status) %>
 		<td><%= h user.status %></td>
@@ -26,11 +26,11 @@
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.has_access? :user_edit_delete %>
 	<td>
-		<%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger bruger'), edit_user_path(user), :title => 'Rediger' -%>
-		<%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet bruger'), delete_user_path(user), :title => 'Slet' -%>
+		<%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => t('user.edit')), edit_user_path(user), :title => t('user.edit') -%>
+		<%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => t('user.delete')), delete_user_path(user), :title => t('user.delete') -%>
 		<span>&nbsp;&nbsp;</span>
 		<% if current_user.has_access?(:shadow_login) and user.id != current_user.id %>
-		<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => 'Login som denne bruger'), shadow_login_path(user), :title => 'Login som denne bruger' %>
+		<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('shadow_login_alt')), shadow_login_path(user), :title => t('shadow_login_alt') %>
 		<% end %>
 	</td>
 	<% end %>

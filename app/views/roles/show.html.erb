@@ -1,9 +1,9 @@
 <h2>Detaljer for Rolle &quot;<%=h @role.title %>&quot;</h2>
 
 <div class="commands">
-<%= link_to 'Slet', role_path(@role)  %>
-<%= link_to 'Rediger', edit_role_path(@role) %>
-<%= link_to 'Tilbage til List', roles_path %>
+<%= link_to t('delete'), role_path(@role)  %>
+<%= link_to t('edit'), edit_role_path(@role) %>
+<%= link_to t('go_back_to_list'), roles_path %>
 </div>
 
 <dl>
@@ -17,10 +17,10 @@
   <dd><%= link_to("#{@role.parent.prettyname} (#{@role.parent.title})", role_path(@role.parent)) %></dd>
   <% end %>
 
-  <dt>Oprettet</dt>
+  <dt><%= t('created') %></dt>
   <dd><%= @role.created_at.to_formatted_s(:long) %></dd>
 
-  <dt>Opdateret</dt>
+  <dt><%= t('updated') %></dt>
   <dd><%= @role.updated_at.to_formatted_s(:long) %></dd>
 
   <dt>Children:</dt>
@@ -32,9 +32,9 @@
 </dl>
 
 <div class="commands">
-<%= link_to 'Slet', role_path(@role) %>
-<%= link_to 'Rediger', edit_role_path(@role) %>
-<%= link_to 'Tilbage til List', roles_path %>
+<%= link_to t('delete'), role_path(@role) %>
+<%= link_to t('edit'), edit_role_path(@role) %>
+<%= link_to t('go_back_to_list'), roles_path %>
 </div>
 
 <h3>Direkte tildelte brugere</h3>

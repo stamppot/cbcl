@@ -3,7 +3,7 @@
 <% form_tag :action => :create, :id => @entry do %>
 <%= render :partial => 'form' %>
 
-<%= submit_tag "Opret", :name => 'submit[create]', :class => 'btn_gray' %>
+<%= submit_tag t('create'), :name => 'submit[create]', :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Tilbage', { :controller => :journal, :action => :show, :id => @group }, :title => 'Tilbage til journal' %>
+<%= link_to t('go_back'), { :controller => :journal, :action => :show, :id => @group }, :title => t('go_back_to_journal') %>

@@ -5,5 +5,5 @@
   <%= submit_tag "Rediger Center", :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Vis', center_path(@group), :title => 'Vis' %> |
-<%= link_to 'Tilbage', centers_path, :title => 'Tilbage' %>
+<%= link_to t('show'), center_path(@group), :title => t('show') %> |
+<%= link_to t('go_back'), centers_path, :title => t('go_back') %>

@@ -16,33 +16,33 @@
     <dt>ID</dt>
     <dd><%= @user.id %></dd>
 
-    <dt>Oprettet</dt>
+    <dt><%= t('created') %></dt>
     <dd><%= @user.created_at.to_formatted_s(:long) %></dd>
 
-    <dt>Opdateret</dt>
+    <dt><%= t('updated') %></dt>
     <dd><%= @user.updated_at.to_formatted_s(:long) %></dd>
 
     <dt>Sidste Login</dt>
     <dd><%= @user.last_logged_in_at.to_formatted_s(:long) %></dd>
 
-    <dt>Status</dt>
+    <dt><%= t('state') %></dt>
     <dd><%= @user.status %></dd>
 </dl>
 
-<h3>Roller</h3>
+<h3><%= t('roles') %></h3>
 
 <% if @user.roles.empty? %>
-    <p>Ingen Roller</p>
+    <p><%= t('no_roles') %></p>
 <% else %>
 	<% roller = []
 	   @roles = @user.roles %>
 	<%= render :partial => "shared/roles" %>
 <% end %>
 
-<h3>Grupper</h3>
+<h3><%= t('groups') %></h3>
 
 <% if @user.groups.empty? %>
-    <p>Ingen Grupper</p>
+    <p><%= t('no_groups') %></p>
 <% else
  		@groups = @user.groups %>
 	<%= render :partial => 'shared/show_groups' %>
@@ -53,7 +53,7 @@
     <h3>Alle tildelte roller</h3>
 	<% @roles = @user.all_roles %>
     <% if @roles.empty? %>
-        <p>Ingen Roller</p>
+        <p><%= t('no_roles') %></p>
 	<% else %>
 	<%= render :partial => "shared/roles" %>
 	<% end %>
@@ -61,7 +61,7 @@
 
 
 <% if current_user.has_access? :user_edit_delete %>
-<%= link_to 'Slet', delete_user_path(@user) %>
-<%= link_to 'Rediger', edit_user_path(@user) %>
+<%= link_to t('delete'), delete_user_path(@user) %>
+<%= link_to t('edit'), edit_user_path(@user) %>
 <% end %>
-<%= link_to 'Tilbage', users_path %>
+<%= link_to t('go_back'), users_path %>

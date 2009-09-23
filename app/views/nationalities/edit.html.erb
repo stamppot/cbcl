@@ -2,8 +2,8 @@
 
 <% form_tag nationality_path(@nationality), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Rediger', :class => 'btn_gray' %>
+  <%= submit_tag t('edit'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Vis', nationality_path(@nationality) %> |
-<%= link_to 'Tilbage', nationalities_path %>
+<%= link_to t('show'), nationality_path(@nationality) %> |
+<%= link_to t('go_back'), nationalities_path %>

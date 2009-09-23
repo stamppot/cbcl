@@ -13,8 +13,8 @@
             %></td>
     
     <td class="users" class="actions">
-      (<%= link_to 'Vis', {:action => :show, :id => user }, :title => 'Vis' %>
-       <%= link_to 'Rediger', { :action => :edit, :id => user }, :title => 'Rediger' %>
-       <%= link_to 'Slet', { :action => :delete, :id => user}, :title => 'Slet' %>)
+      (<%= link_to t('show'), {:action => :show, :id => user }, :title => t('show') %>
+       <%= link_to t('edit'), { :action => :edit, :id => user }, :title => t('edit') %>
+       <%= link_to t('delete'), { :action => :delete, :id => user}, :title => t('delete') %>)
     </td>
   </tr>

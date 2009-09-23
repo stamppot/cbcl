@@ -13,6 +13,6 @@
 
 
 <%= submit_tag "Skift", :name => 'submit[update]', :class => 'btn_gray' %>
-<%= link_to 'Tilbage', { :action => :edit, :id => @score }, :title => 'Tilbage til journal' %>
+<%= link_to t('go_back'), { :action => :edit, :id => @score }, :title => t('go_back_to_journal') %>
 
 <% end %>

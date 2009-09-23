@@ -5,7 +5,7 @@
 	<th title="Sorter efter score">Score</th>
   <th title="Sorter efter skema">Skema</th>
 	<th title="Sorter efter skala">Skala</th>
-	<th class="nosort">Handling<!-- Beregning --></th>
+	<th class="nosort"><%= t('action') %><!-- Beregning --></th>
   </tr>
   
 <% for score in @scores %>
@@ -16,9 +16,9 @@
 <!--	<td> output = score.calculation.gsub(/\r/, "</br>") </td> -->
 
 	
-    <td><%= link_to 'Vis', score_path(score) %>&nbsp;
-    <%= link_to 'Rediger', edit_score_path(score) %>&nbsp;
-    <%= link_to 'Slet', score_path(score), :confirm => 'Er du sikker?', :method => :delete %></td>
+    <td><%= link_to t('show'), score_path(score) %>&nbsp;
+    <%= link_to t('edit'), edit_score_path(score) %>&nbsp;
+    <%= link_to t('delete'), score_path(score), :confirm => 'Er du sikker?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

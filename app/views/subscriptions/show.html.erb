@@ -7,13 +7,13 @@
 	<dt>Spørgeskema:</dt>
 	<dd><%= @subscription.survey.title %><dd>
 	
-  <dt>Oprettet</dt>
+  <dt><%= t('created') %></dt>
   <dd><%= @subscription.created_at.to_formatted_s(:long) %></dd>
 
   <dt>Ændret</dt>
   <dd><%= @subscription.updated_at.to_formatted_s(:long) %></dd>
 	
-	<dt>Status</dt>
+	<dt><%= t('state') %></dt>
 	<dd><%= @subscription.states.invert[@subscription.state] %><dd>
 
 	<dt>Brugt</dt>
@@ -39,5 +39,5 @@
 		<%= link_to 'Aktiver', subscription_activate_path(@subscription), :title => 'Aktiver abonnement' %>
 	<% end %>
 <% end %>
-<%= link_to 'Tilbage til Liste', subscriptions_path, :title => 'Tilbage til liste af abonnementer' %>
+<%= link_to t('go_back_to_list'), subscriptions_path, :title => 'Tilbage til liste af abonnementer' %>
 </div>

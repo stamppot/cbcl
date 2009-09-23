@@ -12,9 +12,9 @@
 	<th class="wide" title="Sorter efter navn">Navn</th>
 	<th title="Sorter efter SKS-kode">ID</th>
 	<th title="Sorter efter antal brugere">Brugere</th>
-	<th title="Sorter efter oprettelsesdato">Oprettet</th>
+	<th title="Sorter efter oprettelsesdato"><%= t('created') %></th>
 	<% if current_user.has_access? :show_column_actions %>
-	<th class="nosort">Handling</th>
+	<th class="nosort"><%= t('action') %></th>
 	<% end %>
 	</tr>	
 	
@@ -26,8 +26,8 @@
 			<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
 		<% if current_user.has_access? :center_delete %>
 		<td>
-			<%= link_to img_tag_html4('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => 'Rediger' -%>
-			<%= link_to img_tag_html4('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => 'Slet' -%>
+			<%= link_to img_tag_html4('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
+			<%= link_to img_tag_html4('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
 		</td>
 		<% end %>
 		<tr/>

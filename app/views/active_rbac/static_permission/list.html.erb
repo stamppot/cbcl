@@ -15,9 +15,9 @@
       <td class="small"><%=h permission.title %></td>
       
       <td class="small">
-        <%= link_to 'Vis', :action => :show, :id => permission %>
-        <%= link_to 'Rediger', :action => :update, :id => permission %>
-        <%= link_to 'Slet', :action => :delete, :id => permission %></td>
+        <%= link_to t('show'), :action => :show, :id => permission %>
+        <%= link_to t('edit'), :action => :update, :id => permission %>
+        <%= link_to t('delete'), :action => :delete, :id => permission %></td>
     </tr>
     <% end %>
   </tbody>

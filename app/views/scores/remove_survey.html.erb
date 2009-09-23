@@ -9,6 +9,6 @@
 
 
 <%= submit_tag "Fjern valgte", :name => 'submit[update]', :class => 'btn_gray' %>
-<%= link_to 'Tilbage', { :action => :show, :id => @score }, :title => 'Tilbage' %>
+<%= link_to t('go_back'), { :action => :show, :id => @score }, :title => t('go_back') %>
 
 <% end %>

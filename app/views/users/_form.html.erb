@@ -17,12 +17,12 @@
 	<br/>
 	<%= render :partial => 'password' %>
 
-	<dt><label for="user_state">Status</label></dt>
+	<dt><label for="user_state"><%= t('state') %></label></dt>
 	<dd><%= select 'user', 'state', User.stateToStatus(User.states.reject { |key, value| !@user.state_transition_allowed?(@user.state, value) }) %></dd>
 
 	
 
-	<dt><label>Roller</label></dt>
+	<dt><label><%= t('roles') %></label></dt>
 	<dd>
 		<% roles = []
 			@roles.each do |role|
@@ -39,7 +39,7 @@
 
 	
 
-	<dt><label>Grupper</label></dt>
+	<dt><label><%= t('groups') %></label></dt>
 	<dd>
 		<%= node_tree(@groups) do |group|
 			result = if @user.groups.include? group

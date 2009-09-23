@@ -1,7 +1,7 @@
 <h2>Liste af Brugere</h2>
 
 <div class="commands">
-<%= link_to 'Ny bruger', new_user_path, :title => 'Opret ny bruger' %>
+<%= link_to t('user.new'), new_user_path, :title => 'Opret ny bruger' %>
 </div>
 
 <%= render :partial => 'shared/user_list' %>
@@ -12,8 +12,8 @@
 
 <div class="commands">
 <% if current_user.has_access? :user_new_in_center %>
-	<%= link_to 'Ny bruger', new_user_path(current_user.center), :title => 'Opret ny bruger i centeret' %>
+	<%= link_to t('user.new'), new_user_path(current_user.center), :title => 'Opret ny bruger i centeret' %>
 <% elsif current_user.has_access? :user_new %>
-	<%= link_to 'Ny bruger', new_user_path %>
+	<%= link_to t('user.new'), new_user_path %>
 <% end %>
 </div>

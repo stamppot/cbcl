@@ -2,7 +2,7 @@
 
 <% form_tag :action => :create do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Opret", :class => 'btn_gray' %>
+  <%= submit_tag t('create'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Tilbage', :controller => :main, :action => :index %>
+<%= link_to t('go_back'), :controller => :main, :action => :index %>

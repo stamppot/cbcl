@@ -31,7 +31,7 @@
 			<td class="p"><%=h @group.nationality %></td>
 		</tr>
 		<tr>
-			<td class="p_i">Oprettet:</td>
+			<td class="p_i"><%= t('created') %>:</td>
 			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
 		</tr>
 		<tr>
@@ -54,8 +54,8 @@
 				<th>Spørgeskema</th>
 				<th>Type</th>
 				<th>Tilføjet</th>
-				<th>Status</th>
-				<th class="nosort">Handling</th>
+				<th><%= t('state') %></th>
+				<th class="nosort"><%= t('action') %></th>
 			</tr>
 		<% for entry in @group.not_answered_entries %>
 			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
@@ -98,8 +98,8 @@
 		<% if @group.answered_entries.size > 0 %>
 			<th>Spørgeskema</th>
 			<th>Besvaret</th>
-			<th>Status</th>
-			<th class="nosort">Handling</th>
+			<th><%= t('state') %></th>
+			<th class="nosort"><%= t('action') %></th>
 			<% for @entry in @group.answered_entries %>
 		 	 	<tr id='<%= "entry_answer" + @entry.id.to_s %>'>
 					 <td class="no_border" style='background-color: #<%= @entry.survey.color %>;'>
@@ -131,8 +131,8 @@
 	<% end %>
 
 	<div class="commands">
-		<%= link_to 'Rediger', edit_journal_path(@group), :title => 'Rediger' %>
-		<%= link_to 'Tilbage', journals_path, :title => 'Tilbage til liste' %>
+		<%= link_to t('edit'), edit_journal_path(@group), :title => t('edit') %>
+		<%= link_to t('go_back'), journals_path, :title => t('go_back_to_list') %>
 	</div>
 	
 <% end %> <!-- end of cache -->

@@ -70,8 +70,8 @@
 
 <% if current_user.has_access? :team_new_edit_delete %>
 <div class="commands">
-<%= link_to 'Slet', delete_team_path(@group) %>
-<%= link_to 'Rediger', edit_team_path(@group) %>
-<%= link_to 'Tilbage til liste', teams_path %>
+<%= link_to t('delete'), delete_team_path(@group) %>
+<%= link_to t('edit'), edit_team_path(@group) %>
+<%= link_to t('go_back_to_list'), teams_path %>
 </div>
 <% end %>

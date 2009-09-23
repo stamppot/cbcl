@@ -12,8 +12,8 @@
   <% for column in ScoreGroup.content_columns %>
     <td><%=h score_group.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', :action => :show, :id => score_group %></td>
-    <td><%= link_to 'Edit', :action => :edit, :id => score_group %></td>
+    <td><%= link_to t('show'), :action => :show, :id => score_group %></td>
+    <td><%= link_to t('edit'), :action => :edit, :id => score_group %></td>
     <td><%= link_to 'Destroy', { :action => :destroy, :id => score_group }, :confirm => 'Are you sure?', :method => "post" %></td>
   </tr>
 <% end %>

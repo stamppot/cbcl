@@ -11,7 +11,7 @@
 	<% if current_user.has_access? :superadmin %>
 		<span class="small_action" style="padding-left: 3em;">
 			<%= link_to "Rediger", edit_faq_url(@question) %>
-			<%= link_to_remote 'Slet', :url => faq_path(@question), :method => :delete, :confirm => "Vil du slette spørgsmålet?" %>
+			<%= link_to_remote t('delete'), :url => faq_path(@question), :method => :delete, :confirm => "Vil du slette spørgsmålet?" %>
 		</span>
 	<% end %>
 </li>

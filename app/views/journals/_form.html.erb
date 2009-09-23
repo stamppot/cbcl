@@ -2,21 +2,20 @@
 
 <!--[form:user]-->
 
-
 <dl>
-  <dt><label for="group_code">ID</label></dt>
+  <dt><label for="group_code"><%= t('id') %></label></dt>
   <dd><%= text_field 'group', 'code', { :size => 5, :class => 'gray' }  %></dd>
 
-  <dt><label for="group_title">Navn</label></dt>
+  <dt><label for="group_title"><%= t('name') %></label></dt>
   <dd><%= text_field 'group', 'title', :class => 'gray'  %></dd>
 
-  <dt><label for="person_info_sex">Køn</label></dt>
+  <dt><label for="person_info_sex"><%= t('gender') %></label></dt>
   <dd><%= select 'person_info', 'sex', PersonInfo.sexes.to_a %></dd>
 
-  <dt><label for="person_info_birthdate">Fødselsdato</label></dt>
+  <dt><label for="person_info_birthdate"><%= t('birthdate') %></label></dt>
   <dd><%= date_select 'person_info', 'birthdate', {:start_year => Date.today.year-21, :end_year => Date.today.year, :order => [:day, :month, :year] } %></dd>
 
-  <dt><label for="person_info_nationality">Nationalitet</label></dt>
+  <dt><label for="person_info_nationality"><%= t('nationality') %></label></dt>
   <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
 
 	<br>

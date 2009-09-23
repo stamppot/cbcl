@@ -12,10 +12,10 @@
   <dt>ID</dt>
   <dd><%= @user.id %></dd>
   
-  <dt>Oprettet</dt>
+  <dt><%= t('created') %></dt>
   <dd><%= @user.created_at.to_formatted_s(:long) %></dd>
 
-  <dt>Opdateret</dt>
+  <dt><%= t('updated') %></dt>
   <dd><%= @user.updated_at.to_formatted_s(:long) %></dd>
 
   <dt>Sidste Login</dt>
@@ -25,19 +25,19 @@
   <dt>Password Hash Type</dt>
   <dd><%=h @user.password_hash_type %></dd>
 -->
-  <dt>Status</dt>
+  <dt><%= t('state') %></dt>
   <dd><%= User.states.invert[@user.state] %></dd>
 
   <dt>Rolle</dt>
   <% if @user.all_roles.empty? %>
-  <dd>Ingen Roller</dd>
+  <dd><%= t('no_roles') %></dd>
   <% else %>
   <dd><%= @user.roles.first.prettyname %></dd>
   <% end %>
 
   <dt>Journal</dt>
   <% if @user.groups.empty? %>
-  <dd>Ingen Grupper</dd>
+  <dd><%= t('no_groups') %></dd>
   <% else %>
   <dd><%= group = @user.groups.first
   link_to(group.title, { :controller => group.class.to_s.underscore, :action => :show, :id => group }, :title => "Vis #{group.class.to_s}") %></dd>
@@ -47,11 +47,11 @@
 
 
 <div class="commands">
-<%= link_to 'Rediger', { :action => :edit, :id => @user }, :title => "Slet "%>
+<%= link_to t('edit'), { :action => :edit, :id => @user }, :title => "Slet "%>
 <%= link_to "Slet", { :action => :delete, :id => @user }, :title => "Rediger" %>
 </div>
 
 <div class="commands">
 	<%= link_to 'Login-bruger liste', { :action => :list}, :title => 'Vis login-bruger liste' %>
-	<%= link_to 'Tilbage til journal', { :controller => :journal, :action => :show, :id => @user.groups.first }, :title => 'Tilbage til journal' %>
+	<%= link_to t('go_back_to_journal'), { :controller => :journal, :action => :show, :id => @user.groups.first }, :title => t('go_back_to_journal') %>
 </div>

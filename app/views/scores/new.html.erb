@@ -3,8 +3,8 @@
 <% form_tag scores_path, :method => :post do %>
   <%= render :partial => 'form' %>
 
-  <%= submit_tag "Opret", :class => 'btn_gray' %>
+  <%= submit_tag t('create'), :class => 'btn_gray' %>
 <% end %>
 
 <br>
-<%= link_to 'Tilbage til liste', scores_path %>
+<%= link_to t('go_back_to_list'), scores_path %>

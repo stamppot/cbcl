@@ -5,5 +5,5 @@
   <%= submit_tag 'Anvend', { :class => 'normal' } %>
 <% end %>
 
-<%= link_to 'Vis', survey_path(@survey) %> |
-<%= link_to 'Tilbage', surveys_path %>
+<%= link_to t('show'), survey_path(@survey) %> |
+<%= link_to t('go_back'), surveys_path %>

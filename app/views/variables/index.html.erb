@@ -20,8 +20,8 @@
     <td><%=h variable.col %></td>
     <td><%=h survey_short(variable.survey) %></td>
     <td><%=h variable.question.number.to_roman.downcase %></td>
-    <td><%= link_to 'Show', variable %></td>
-    <td><%= link_to 'Edit', edit_variable_path(variable) %></td>
+    <td><%= link_to t('show'), variable %></td>
+    <td><%= link_to t('edit'), edit_variable_path(variable) %></td>
     <td><%= link_to 'Destroy', variable, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

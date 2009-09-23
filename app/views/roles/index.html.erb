@@ -8,9 +8,9 @@
       result = link_to(role.title, role_path(role)) + " "
       result += "[" + role.users.length.to_s + "/" + role.all_users.length.to_s + " users, " 
       result += role.groups.length.to_s + "/" + role.all_groups.length.to_s + " groups]"
-      result += "(" + link_to('Vis', role_path(role), :title => 'Show') + " "
-      result += link_to('Rediger', edit_role_path(role), :title => 'Edit') + " "
-      result += link_to('Slet', role_path(role), :method => :delete, :title => 'Delete') + ")"
+      result += "(" + link_to(t('show'), role_path(role), :title => t('show')) + " "
+      result += link_to(t('edit'), edit_role_path(role), :title => t('edit')) + " "
+      result += link_to(t('delete'), role_path(role), :method => :delete, :title => 'Delete') + ")"
     end %>
 
 <div class="commands">

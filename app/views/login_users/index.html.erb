@@ -6,11 +6,11 @@
 <table class="sortable" class="users">
 <th title="Sorter efter login">Login</th>
 <th title="Sorter efter e-mail">E-mail</th>
-<th title="Sorter efter status">Status</th>
+<th title="Sorter efter status"><%= t('state') %></th>
 <th title="Sorter efter Rolle">Rolle</th>
 <th title="Sorter efter journal">Journal</th>
 <% if current_user.has_access? :show_column_actions %>
-<th class="nosort">Handling</th>
+<th class="nosort"><%= t('action') %></th>
 <% end %>
 
 Antal users <%= @users.size %>
@@ -34,8 +34,8 @@ Antal users <%= @users.size %>
        end -%>
     <td><%=h groups %>&nbsp;</td>
     <% if current_user.has_access? :login_user_new_edit_delete %>
-    <td><%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger login-bruger'), { :action => :edit, :id => user.id }, :title => 'Rediger' -%>
-      <%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet login-bruger'), { :action => :delete, :id => user.id}, :title => 'Slet' -%>
+    <td><%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger login-bruger'), { :action => :edit, :id => user.id }, :title => t('edit') -%>
+      <%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet login-bruger'), { :action => :delete, :id => user.id}, :title => t('delete') -%>
     </td>
       <% end %>
   <tr/>

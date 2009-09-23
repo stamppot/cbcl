@@ -1,8 +1,8 @@
 <h2>Details for Group &quot;<%=h @group.title %>&quot;</h2>
 
 <div class="commands">
-<%= link_to 'Delete', :action => :delete, :id => @group %>
-<%= link_to 'Edit', :action => :update, :id => @group %>
+<%= link_to t('delete'), :action => :delete, :id => @group %>
+<%= link_to t('edit'), :action => :update, :id => @group %>
 <%= link_to 'Back to List', :action => :list %>
 </div>
 
@@ -33,8 +33,8 @@
 </dl>
 
 <div class="commands">
-<%= link_to 'Delete', :action => :delete, :id => @group %>
-<%= link_to 'Edit', :action => :update, :id => @group %>
+<%= link_to t('delete'), :action => :delete, :id => @group %>
+<%= link_to t('edit'), :action => :update, :id => @group %>
 <%= link_to 'Back to List', :action => :list %>
 </div>
 

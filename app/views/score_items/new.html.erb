@@ -4,8 +4,8 @@
 
 	<%= text_field(:score_scale, :title, :class => 'btn_gray') %>
 
-  <%= submit_tag "Opret", :class => 'btn_gray' %>
+  <%= submit_tag t('create'), :class => 'btn_gray' %>
 <% end %>
 
 <br>
-<%= link_to 'Tilbage til liste', :action => 'list_scales' %>
+<%= link_to t('go_back_to_list'), :action => 'list_scales' %>

@@ -2,8 +2,8 @@
 
 <% form_tag :action => :update, :id => @score_groups do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit', :class => 'btn_gray' %>
+  <%= submit_tag t('edit'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Show', :action => :show, :id => @score_groups.first.first.score_group %> |
+<%= link_to t('show'), :action => :show, :id => @score_groups.first.first.score_group %> |
 <%= link_to 'Back', :action => :list %>

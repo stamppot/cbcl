@@ -5,7 +5,7 @@
 
 	<% render :partial => "shared/add_survey", :object => @surveys %>
 
-	<%= submit_tag "Opret", :name => 'submit[create]', :class => 'btn_gray' %>
+	<%= submit_tag t('create'), :name => 'submit[create]', :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Tilbage', journals_path, :title => 'Tilbage til liste af journaler' %>
+<%= link_to t('go_back'), journals_path, :title => 'Tilbage til liste af journaler' %>

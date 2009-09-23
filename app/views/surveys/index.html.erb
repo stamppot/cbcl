@@ -22,8 +22,8 @@ for survey in @surveys
 		<td class="survey_actions">
 			<% link_to 'Vis 2', edit_survey_builder_url(survey) %><br>
 			<%= link_to 'Tilføj spørgsmål', add_question_survey_builder_url(survey) %><br>
-			<%= link_to 'Rediger', edit_survey_builder_url(survey) %><br>
-			 <!-- link_to 'Slet', surveys_url(survey), :method => 'delete', :confirm => 'Er du sikker?' --><br>
+			<%= link_to t('edit'), edit_survey_builder_url(survey) %><br>
+			 <!-- link_to t('delete'), surveys_url(survey), :method => 'delete', :confirm => 'Er du sikker?' --><br>
 		</td>
 		<% end %>
 	</tr>

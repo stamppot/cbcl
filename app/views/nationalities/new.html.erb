@@ -2,7 +2,7 @@
 
 <% form_tag nationality_path(@nationality), :method => :post do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Opret", :class => 'btn_gray' %>
+  <%= submit_tag t('create'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to 'Tilbage', nationalities_path %>
+<%= link_to t('go_back'), nationalities_path %>

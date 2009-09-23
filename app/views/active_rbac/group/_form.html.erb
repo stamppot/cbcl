@@ -30,7 +30,7 @@
     <% unless @group.errors[:parent].nil? %></div><% end %>
   </dd>
 
-  <dt><label for="group_roles">Roller</label></dt>
+  <dt><label for="group_roles"><%= t('roles') %></label></dt>
   <dd>
     <%= node_tree(Role.find(:all)) do |role|
           result = "<input id=\"group_roles_#{role.id}\" type=\"checkbox\" name=\"group[roles][]\" value=\"#{role.id}\" checked=\"checked\" /> " if @group.roles.include? role

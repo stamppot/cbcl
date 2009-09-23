@@ -2,12 +2,12 @@
 
 <table class="sortable list">
 	<tr>
-		<th>Navn</th>
-		<th>Fødselsdato</th>
-		<th>Alder</th>
-		<th>Køn</th>
-		<th>Nationalitet</th>
-		<th>Team</th>
+		<th><%= t('name') %></th>
+		<th><%= t('birthdate') %></th>
+		<th><%= t('age') %></th>
+		<th><%= t('gender') %></th>
+		<th><%= t('Nationality') %></th>
+		<th><%= t('team.team') %></th>
 	</tr>
     <% @groups.each do |g| %>
   <tr>
@@ -20,6 +20,6 @@
   <tr/>
     <% end %>
 <% else %>
-    Ingen
+    <%= t('none') %>
 <% end %>
 </table>

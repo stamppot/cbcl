@@ -31,9 +31,9 @@
             %></td>
     
     <td class="users" class="actions">
-      (<%= link_to 'Vis', {:action => :show, :id => user }, :title => 'Show' %>
-       <%= link_to 'Rediger', { :action => :edit, :id => user }, :title => 'Edit' %>
-       <%= link_to 'Slet', { :action => :delete, :id => user}, :title => 'Delete' %>)
+      (<%= link_to t('show'), {:action => :show, :id => user }, :title => t('show') %>
+       <%= link_to t('edit'), { :action => :edit, :id => user }, :title => t('edit') %>
+       <%= link_to t('delete'), { :action => :delete, :id => user}, :title => t('delete') %>)
     </td>
   </tr>
 <% end %>
@@ -44,6 +44,6 @@
 
 
 <div class="commands">
-<%= link_to 'Ny bruger', :action => :new %>
+<%= link_to t('user.new'), :action => :new %>
 </div>
 

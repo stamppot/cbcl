@@ -4,7 +4,7 @@
   <tr>
 		<th>Nationalitet</th>
     <th>Landekode</th>
-    <th>Handling</th>
+    <th><%= t('action') %></th>
   </tr>
   
 <% for nationality in @nationalities %>
@@ -12,9 +12,9 @@
     <td><%=h nationality.country %></td>
     <td><%=h nationality.country_code %>&nbsp;</td>
     <td>
-	<%= link_to 'Vis', :action => :show, :id => nationality %>
-    <%= link_to 'Rediger', :action => :edit, :id => nationality %>
-    <%= link_to 'Slet', { :action => :destroy, :id => nationality }, :confirm => 'Er du sikker?', :method => "post" %>
+	<%= link_to t('show'), :action => :show, :id => nationality %>
+    <%= link_to t('edit'), :action => :edit, :id => nationality %>
+    <%= link_to t('delete'), { :action => :destroy, :id => nationality }, :confirm => 'Er du sikker?', :method => "post" %>
 	</td>
   </tr>
 <% end %>

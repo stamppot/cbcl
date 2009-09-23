@@ -71,9 +71,9 @@
 <p>
 
 <% if current_user.has_access? :survey_new_edit %>
-<%= link_to 'Rediger', edit_survey_path(@survey) %> |
+<%= link_to t('edit'), edit_survey_path(@survey) %> |
 <% end %>
-<%= link_to 'Tilbage', journal_path(@journal_entry.journal) %>
+<%= link_to t('go_back'), journal_path(@journal_entry.journal) %>
 
 
 
