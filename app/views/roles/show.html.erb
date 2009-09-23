@@ -8,13 +8,13 @@
 
 <dl>
   <dt>Navn:</dt>
-  <dd><%=h @role.title %></dd>
+  <dd><%=h @role.prettyname + " (#{@role.title})" %></dd>
 
   <dt>Parent:</dt>
   <% if @role.parent == nil %>
   <dd>No parent, this role is a root role</dd>
   <% else %>
-  <dd><%= link_to @role.parent.title, role_path(@role.parent) %></dd>
+  <dd><%= link_to("#{@role.parent.prettyname} (#{@role.parent.title})", role_path(@role.parent)) %></dd>
   <% end %>
 
   <dt>Oprettet</dt>
