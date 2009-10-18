@@ -17,7 +17,7 @@
 		 total_used += sub.copies_used
 		 active_total_used += sub.active_copies_used %>
 			<tr>
-				<td><%= sub.survey.nil? ? "Intet skema" : link_to sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement' %></td>
+				<td><%= sub.survey.nil? ? "Intet skema" : link_to(sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
 				<td><%= sub.note.nil? ? "&nbsp;" : split_string(sub.note) %></td>
 				<td><%= sub.states.invert[sub.state] %></td>
 				<td class="number"><%= sub.copies_used %></td>
