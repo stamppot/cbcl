@@ -22,7 +22,7 @@ total_used = 0
 	used_copies = copies.map(&:used).inject { |sum, n| sum + n }
 	total_used += used_copies %>
 	<tr>
-		<td><%= date.to_formatted_s(:short) %> - <%= end_period.to_formatted_s(:short) %></td>
+		<td><%= date.strftime("%d %b %y") %> - <%= end_period.strftime("%d %b %y") %></td>
 		<td class="number"><%= used_copies %></td>
 		<td class="number"><%= paid > 0 ? "Ja" : "Nej" %></td>
 	</tr>
