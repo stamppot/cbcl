@@ -26,8 +26,8 @@
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.has_access? :user_edit_delete %>
 	<td>
-		<%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => t('user.edit')), edit_user_path(user), :title => t('user.edit') -%>
-		<%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => t('user.delete')), delete_user_path(user), :title => t('user.delete') -%>
+		<%= link_to img_tag_html4('user_edit.png', :border => 0, :class => 'icon', :title => t('user.edit')), edit_user_path(user), :title => t('user.edit') -%>
+		<%= link_to img_tag_html4('user_delete.png', :border => 0, :class => 'icon', :title => t('user.delete')), delete_user_path(user), :title => t('user.delete') -%>
 		<span>&nbsp;&nbsp;</span>
 		<% if current_user.has_access?(:shadow_login) and user.id != current_user.id %>
 		<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('shadow_login_alt')), shadow_login_path(user), :title => t('shadow_login_alt') %>

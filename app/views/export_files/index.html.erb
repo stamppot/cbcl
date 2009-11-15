@@ -4,14 +4,14 @@
 
 <br>
 
-<p>Filliste</p>
+<p><%= t('filelist') %></p>
 
 <table class="files">
 	<% unless @files.blank? %>
 	<tr>
-		<th>Filnavn</th>
-		<th>Dato</th>
-		<th>Type</th>
+		<th><%= t('filename') %></th>
+		<th><%= t('thedate') %></th>
+		<th><%= t('type') %></th>
 		<!-- <th>External</th> -->
 		<th><%= t('action') %></th>
 	</tr>

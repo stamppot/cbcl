@@ -5,7 +5,7 @@ Nedenstående er et komplet træ af alle grupper i systemet.
 </p>
 
 <div class="commands">
-<%= link_to 'Ny gruppe', :action => :create %>
+<%= link_button 'Ny gruppe', (:action => :create), 'group_add' %>
 </div>
 
 <%= node_tree @groups do |group|
@@ -19,5 +19,5 @@ Nedenstående er et komplet træ af alle grupper i systemet.
     %>
 
 <div class="commands">
-<%= link_to 'Ny gruppe', :action => :create %>
+<%= link_button 'Ny gruppe', (:action => :create), 'group_new' %>
 </div>

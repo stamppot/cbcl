@@ -9,6 +9,6 @@ med <%= @user.roles.size == 1 ? 'rollen' : 'rollerne' %> &quot;<%= @user.roles.c
 </p>
 
 <% form_tag user_path(@user), :method => :delete do %>
-  <%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
-  <%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'button accept gray' %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'button delete gray' %>
 <% end %>

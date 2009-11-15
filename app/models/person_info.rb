@@ -4,7 +4,8 @@ class PersonInfo < ActiveRecord::Base
   validates_presence_of :name, :message => "Navn skal angives"
   validates_presence_of :sex, :message => "Køn skal angives"
   validates_presence_of :nationality, :message => "Nationalitet skal angives"
-
+  validates_presence_of :journal_id
+  
   before_save :set_cpr_nr
   after_update :set_parent_delta
 

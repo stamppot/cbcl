@@ -32,5 +32,5 @@
   </p>
 <% end %>
 
-<%= link_to t('show'), @variable %> |
-<%= link_to t('go_back'), variables_path %>
+<%= link_button t('show'), @variable, 'variable_show' %> |
+<%= link_button t('go_back'), variables_path, 'go_back' %>

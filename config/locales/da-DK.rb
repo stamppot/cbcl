@@ -5,14 +5,21 @@ I18n.backend.store_translations 'da-DK',
     :update => 'Opdater',
     :delete => 'Slet',
     :create => 'Opret',
+    :add => 'Tilføj',
+    :cancel => 'Afbryd',
+    :save => 'Gem',
     
     :login_label => 'Login',
     
+    :yes => 'Ja',
+    :no => 'Nej',
     :created => 'Oprettet',
     :updated => 'Opdateret',
+    :answered => 'Besvaret',
     :id => 'ID',
     :name => 'Navn',
     :code => 'Kode',
+    :email => 'Email',
     :address => 'Adresse',
     :phone => 'Telefon',
     :city => 'By',
@@ -65,7 +72,8 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis Center',
       :list => 'Vis Centre',
       :edit => 'Rediger Center',
-      :new  => 'Opret Center'
+      :new  => 'Opret Center', 
+      :delete => 'Slet Center'
     },
     :team => {
       :team => 'Team',
@@ -76,11 +84,17 @@ I18n.backend.store_translations 'da-DK',
       :new =>  'Opret Team'
     },
     :user => {
+      :user => 'Bruger',
+      :users => 'Brugere',
       :show => 'Vis Bruger',
       :list => 'Vis Brugere',
       :edit => 'Rediger Bruger',
       :new  => 'Opret Bruger',
-      :delete => 'Slet Bruger'
+      :new_in => "Opret bruger til ",
+      :delete => 'Slet Bruger',
+      :center => {
+        :admin => "Opret Centeradministrator"
+      }
     },
     :journal => {
       :show => 'Vis Journal',
@@ -88,20 +102,52 @@ I18n.backend.store_translations 'da-DK',
       :edit => 'Rediger Journal',
       :new  => 'Opret Journal'
     },
+    :survey => {
+      :new => 'Nyt spørgeskema',
+      :edit => 'Rediger spørgeskema',
+      :show => 'Vis spørgeskema',
+      :add_question => 'Tilføj spørgsmål',
+      :start => "Start",
+      :survey => 'Spørgeskema',
+      :answered => "Besvarede skemaer",
+      :add => 'Tilføj spørgeskemaer',
+      :remove => 'Fjern spørgeskemaer'
+    },
+    :subscription => {
+      :change => 'Ændre abonnementer',
+      :new => 'Nyt abonnement',
+      :pay_surveys => 'Sæt skemaer til betalt',
+      :undo_payment => 'Fortryd sidste betaling',
+      :list => "Liste af abonnementer",
+      :none => "Ingen abonnementer"
+    },
+    
+    :score => {
+      :calculate => 'Beregn score'
+    },
+    
+    :export => {
+      :logins => 'Eksporter login-data'
+    },
     
     :sort => {
       :name => 'Sorter efter navn',
       :role => 'Sorter efter rolle',
       :group => 'Sorter efter gruppe',
-      :state => 'Sorter efter status'
+      :state => 'Sorter efter status',
+      :age => 'Sorter efter alder'
     },
     
+    :follow_link => 'følge dette link',  # ??
+    :goto_login => "Gå til login-side",
     :login => 'Log ind',
     :shadow_login_alt => 'Login som denne bruger',
+    :last_login => 'Seneste Login',
     :logout => 'Log ud',
     :logout_alt => 'Log ud af systemet',
     :logout_shadow => 'Gå tilbage til egen bruger',
     :logout_please => 'Log venligst ud af systemet og log ind igen ved at trykke',
+    :finish => 'Afslut',
     
     :previous => 'Forrige',
     :next => 'Næste',
@@ -109,12 +155,18 @@ I18n.backend.store_translations 'da-DK',
     :of => 'af',
     :here => 'her',
     :none => 'Ingen',
+    :are_you_sure => 'Er du sikker?',
     :go_back => 'Tilbage',
     :go_back_to_list => 'Tilbage til liste',
     :go_back_to_journal => 'Tilbage til journal',
     :action => 'Handling',
     :state => 'Status',
     :total => 'Total',
+    :show_hide => "Vis/gem detaljer",
+    :filelist => 'Filliste',
+    :filename => 'Filnavn',
+    :thedate => 'Dato',
+    :type => 'Type',
     
     # :domain => ENV["VIAVIA_DOMAIN"] + '.nl',
     :country => 'Danmark',

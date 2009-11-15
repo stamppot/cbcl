@@ -26,17 +26,16 @@ class LoginUser < User
   def self.build_login_user(journal_entry)
     params = LoginUser.login_name_params(:prefix => journal_entry.journal.center.title)
     pw = PasswordService.generate_password
-
+    
     login_user = LoginUser.new(params)
     # set protected fields explicitly
-    login_user.center = journal_entry.journal.center
+    login_user.center_id = journal_entry.journal.center_id
     login_user.roles << Role.get(:login_bruger)
     login_user.groups << journal_entry.journal
     login_user.password, login_user.password_confirmation = pw.values
     login_user.password_hash_type = "md5"
     login_user.last_logged_in_at = 10.years.ago
     journal_entry.password = pw[:password]
-    puts "LOGIN_USER build: valid? #{login_user.valid?}  errors: #{login_user.errors.inspect}"
     return login_user
     
   rescue => e

@@ -5,5 +5,5 @@
   <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
 <% end %>
 
-<%= link_to t('show'), journal_url(@group), :title => t('journal.show') %> |
-<%= link_to t('go_back'), journals_url, :title => t('go_back_to_list') %>
+<%= link_button t('show'), journal_url(@group), :title => t('journal.show'), 'journal_show' %> |
+<%= link_button t('go_back'), journals_url, 'go_back' :title => t('go_back_to_list') %>

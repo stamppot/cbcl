@@ -5,5 +5,5 @@
   <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
 <% end %>
 
-<%= link_to t('show'), :action => :show, :id => @group, :title => t('show') %> |
-<%= link_to t('go_back'), {:action => :list}, :title => t('go_back_to_list') %>
+<%= link_button t('show'), group_path(@group), 'group_show' :title => t('show') %> |
+<%= link_button t('go_back'), groups_path, 'groups', :title => t('go_back_to_list') %>

@@ -50,7 +50,7 @@ class SurveysController < ApplicationController
     @options = {:show_all => true, :action => "create"}
     @journal_entry = JournalEntry.find(params[:id])
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
-      Survey.and_questions.find(@journal_entry.survey_id)
+      Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
     @page_title = @survey.title
 
@@ -60,7 +60,7 @@ class SurveysController < ApplicationController
       @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
     else  # survey_answer already created, find draft
-      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
       @survey.merge_answer(@survey_answer)
       @journal_entry.survey_answer = @survey_answer
       @journal_entry.save
@@ -70,9 +70,9 @@ class SurveysController < ApplicationController
 
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
-    @journal_entry = JournalEntry.find(params[:id])
+    @journal_entry = JournalEntry.find(params[:id]) 
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
-      Survey.and_questions.find(@journal_entry.survey_id)
+      Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     end
     @page_title = @survey.title
   
@@ -83,7 +83,7 @@ class SurveysController < ApplicationController
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry_id => @journal_entry.id)
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
-      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id) # removed .and_answers
       @survey.merge_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer

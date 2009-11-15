@@ -5,4 +5,5 @@
   <%= submit_tag t('create'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to t('go_back'), :controller => :main, :action => :index %>
+<p>
+<%= link_button t('go_back'), main_path, 'go_back' %>

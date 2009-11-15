@@ -6,6 +6,7 @@ class JournalEntry < ActiveRecord::Base
 
   validates_associated :login_user
   
+  named_scope :and_login_user, :include => :login_user
   named_scope :and_survey_answer, :include => [:survey, :survey_answer]
   named_scope :with_surveys, lambda { |survey_ids| { :joins => :survey_answer,
    :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
@@ -118,7 +119,6 @@ class JournalEntry < ActiveRecord::Base
   
   def print_login!
     self.print_login
-    puts "entry.print_login!: #{self.inspect}  valid? #{self.valid?}"
     self.save!
   rescue => e
     puts "JournalEntry.print_login!: #{e.inspect}"

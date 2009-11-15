@@ -21,6 +21,22 @@ module ApplicationHelper
 
   LINE_LENGTH = 78 unless defined? LINE_LENGTH
 
+  def link_button(text, url, btn_type = nil, options = {})
+    method = options.delete(:method) || :get
+    cssclass = options.delete(:class)
+    puts "method, class: #{method} #{cssclass}"
+    btn = content_tag(:span, text, {:class => (btn_type.blank? && 'text' || btn_type)})
+    link_to btn, url, options.merge(:class => "button #{cssclass}".rstrip, :method => method)
+  end
+
+  def link_button_to_remote(text, btn_type, url, options = {})
+    method = options.delete(:method) || :get
+    cssclass = options.delete(:class)
+    puts "method, class: #{method} #{cssclass}"
+    btn = content_tag(:span, text, {:class => (btn_type || 'text')})
+    link_to_remote(btn, url, options.merge(:class => "button #{cssclass}".rstrip))
+  end
+    
   # correctly close/open html 4.01 tags
   def stylesheet_link_tag_html4( _n )
     return stylesheet_link_tag( _n ).gsub( ' />', '>' )

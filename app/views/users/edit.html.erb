@@ -6,5 +6,5 @@
 <% end %>
 
 
-<%= link_to t('show'), @user, :title => 'Vis bruger' %> |
-<%= link_to t('go_back'), users_path, :title => t('go_back_to_list') %>
+<%= link_button t('show'), @user, 'user_show', :title => 'Vis bruger' %> |
+<%= link_button t('go_back'), users_path, 'go_back' :title => t('go_back_to_list') %>

@@ -8,6 +8,7 @@ class SurveyAnswer < ActiveRecord::Base
   has_one :score_rapport
 
   named_scope :finished, :conditions => ['done = ?', true]
+  named_scope :order_by, lambda { |column| { :order => column } }
   named_scope :and_answer_cells, :include => { :answers => :answer_cells }
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
   named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
@@ -21,24 +22,21 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def to_csv
-    # puts "survey_answer.to_csv"
-    # sleep 4
-    d = Dictionary.new
-    self.answers.each { |answer| d.merge!(answer.to_csv) }
-    d.order_by
+    self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values #.join(';')
   end
 
-  def cell_values
+  def cell_values(prefix = nil)
+    prefix ||= self.survey.prefix
     a = Dictionary.new
-    self.answers.each { |answer| a.merge!(answer.cell_values) }
+    self.answers.each { |answer| a.merge!(answer.cell_values(prefix)) }
     a.order_by
   end
   
-  def nested_cell_values
-    a = Dictionary.new
-    self.answers.each { |answer| a.merge!({answer.number => (answer.nested_cell_values) }) }
-    a
-  end
+  # def nested_cell_values
+  #   a = Dictionary.new
+  #   self.answers.each { |answer| a.merge!({answer.number => (answer.nested_cell_values) }) }
+  #   a
+  # end
   
   # cascading does not work over multiple levels, ie. answer_cells are not deleted
   def delete
@@ -57,14 +55,14 @@ class SurveyAnswer < ActiveRecord::Base
   end
   
   # check all values iteratively
-  def test_saved(survey_answer)
-    if self.id == survey_answer.id
-      check_answers = answers.zip survey_answer.answers#(true)
-      check_answers.each { |tuple| tuple.first.test_saved(tuple.last) }
-    else
-      raise RuntimeError("SurveyAnswer.test_saved: Saved value is not right!")
-    end
-  end
+  # def test_saved(survey_answer)
+  #   if self.id == survey_answer.id
+  #     check_answers = answers.zip survey_answer.answers#(true)
+  #     check_answers.each { |tuple| tuple.first.test_saved(tuple.last) }
+  #   else
+  #     raise RuntimeError("SurveyAnswer.test_saved: Saved value is not right!")
+  #   end
+  # end
   
   def sex
     PersonInfo.sexes.invert[self.sex]

@@ -7,7 +7,7 @@
 
 <tr id="create_score_item_button">
 	<td>
-	<%= link_to_remote('Opret', :url => new_score_item_path(@score), :submit => "add_new_score_item") %>&nbsp;&nbsp;
-	<%= link_to_remote('Afbryd', :url => cancel_score_item_path)%>
+	<%= link_button_to_remote t(:add), 'accept', :url => create_score_item_path(@score), :submit => "add_new_score_item" %>&nbsp;&nbsp;
+	<%= link_button_to_remote t(:cancel), 'cancel', :url => cancel_score_item_path %>
 	</td>
 </tr>

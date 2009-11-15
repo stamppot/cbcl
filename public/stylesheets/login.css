@@ -25,8 +25,8 @@ body {
 div.form {
   text-align: center;
   width: 350px;
-  margin: 100px auto;
-  margin-top: 60px;
+/*  margin: 100px auto;
+  margin-top: 60px;*/
   padding: 10px;
   border: 1px solid #999;
   background: #ff9;
@@ -40,6 +40,6 @@ form td {
 }
 
 #logout {
-	padding-left: 100px;
+/*	padding-left: 100px;
 	padding-top: 100px;
-}
+*/}

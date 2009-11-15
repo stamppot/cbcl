@@ -47,8 +47,12 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   def show
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @groups = Journal.with_parent(@group).by_code.paginate(:all, :page => params[:page], :per_page => 15) || []
-    
+    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => 15) || []
+    @users = @group.users
+    @users = WillPaginate::Collection.create(1, 10000) do |pager|
+       pager.replace(@users)
+     end
+
     if @group.kind_of?(Center)
       redirect_to center_url(@group)
     end

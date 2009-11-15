@@ -1,9 +1,9 @@
 <table id="survey_answer_list" class="sortable list" class="survey_answers">
 	<tr>
-		<th class="narrow" title="Sorter efter id">Id</th>
-		<th title="Sorter efter Rolle">Skema</th>
-		<th>Besvaret</th>
-		<th title="Sorter efter alder">Alder</th>
+		<th class="narrow" title="Sorter efter id"><%= t('id') %></th>
+		<th title="Sorter efter Rolle"><%= t 'survey' %></th>
+		<th><%= t('answered') %></th>
+		<th title="<%= t('sort.age') %>"><%= t 'age' %></th>
 	</tr>
 	
 	<% @survey_answers.each do |survey_answer| %>

@@ -12,7 +12,7 @@
     <td><%=h nationality.country %></td>
     <td><%=h nationality.country_code %>&nbsp;</td>
     <td>
-	<%= link_to t('show'), :action => :show, :id => nationality %>
+		<%= link_to t('show'), nationality %>
     <%= link_to t('edit'), :action => :edit, :id => nationality %>
     <%= link_to t('delete'), { :action => :destroy, :id => nationality }, :confirm => 'Er du sikker?', :method => "post" %>
 	</td>
@@ -30,4 +30,4 @@
 </p>
 
 
-<%= link_to 'Ny nationalitet', :action => :new %>
+<%= link_button 'Ny nationalitet', new_nationality_path, 'nationality_new' %>

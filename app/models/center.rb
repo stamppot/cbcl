@@ -57,14 +57,12 @@ class Center < Group
     
   # returns subscription for the specified survey
   def get_subscription(survey_id)
-    # self.subscriptions.detect { |sub| sub.survey_id == survey_id } # || false
     (s = self.subscriptions.by_survey(survey_id)) && s.first
   end
   
   # returns subscribed surveys
   def subscribed_surveys
     subscriptions.active.map { |sub| sub.survey }.sort_by { |s| s.position }
-    # subscriptions.map { |s| s.survey if s.active? }.compact.sort_by(&:position)
   end
   
   def subscribed_surveys_in_age_group(age)

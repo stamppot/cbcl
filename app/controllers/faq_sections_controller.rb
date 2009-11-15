@@ -106,7 +106,7 @@ class FaqSectionsController < ApplicationController
     redirect_to faqs_path
   end
   
-  def delete
+  def destroy
     @section = FaqSection.find(params[:id])
     @section.destroy
     flash[:notice] = "Afsnittet er slettet."
@@ -126,7 +126,6 @@ class FaqSectionsController < ApplicationController
   end
   
   def done_order_questions
-    # @section = FaqSection.find(params[:id])
     flash[:notice] = "Ny rækkefølge er gemt."
     render(:update) { |page| page.redirect_to faqs_path }
   end

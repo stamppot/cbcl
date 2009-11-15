@@ -31,7 +31,7 @@
 	</div>
 	<br>
 
-	<%= render :partial => "surveys/question_fast", :collection => @survey.questions.sort %>
+	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
 
 	<% unless @options[:action] =~ /show/ %>
 		<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>

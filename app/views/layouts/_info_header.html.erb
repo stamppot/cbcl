@@ -3,22 +3,21 @@
 	<div class="info">
 		<% @user = current_user %>
 		<% if current_user && current_user.has_access?(:layout_show_login_info) %>
-		Navn: <%= @user.name %><br>
-		Rolle: <%= @user.roles.first.title %>
-		<% if shadow_user? %>
-			<div class="last">
-				<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => 'Gå tilbage til egen bruger', :title => 'Log tilbage til egen bruger'), shadow_logout_path %>
-			</div>
-		<% end %>
-		<% roller = ""
-		@user.all_roles.each { |role| roller += role.title + " " } %>
-		<%= ""  %><br>
-		<% if @user.last_logged_in_at == @user.created_at %>
-			<span style="color: green; padding-left: 200px; padding-top: 100px;">Husk at skifte dit password</span>
-		<% end %>
-		<% if @user.status =~ /password/ %>
-		  <span style="color: red;">Du skal skifte dit password</span>
-		<% end %>
+			Navn: <%= @user.name %><br>
+			Rolle: <%= @user.roles.first.title %>
+			<% if shadow_user? %>
+				<div class="last">
+					<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => 'Gå tilbage til egen bruger', :title => 'Log tilbage til egen bruger'), shadow_logout_path %>
+				</div>
+			<% end %>
+			<br>
+			<% if @user.last_logged_in_at == @user.created_at %>
+				<span style="color: green; padding-left: 200px; padding-top: 100px;">Husk at skifte dit password</span>
+			<% end %>
+			<% if @user.status =~ /password/ %>
+				<span style="color: red;">Du skal skifte dit password</span>
+			<% end %>
 		<% end %>
 	</div>
 </div>
+

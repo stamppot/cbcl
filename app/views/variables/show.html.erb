@@ -29,5 +29,5 @@
 </p>
 
 
-<%= link_to t('edit'), edit_variable_path(@variable) %> |
-<%= link_to 'Back', variables_path %>
+<%= link_button t('edit'), edit_variable_path(@variable), 'edit' %> |
+<%= link_button t('go_back'), variables_path, 'go_back' %>

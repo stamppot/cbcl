@@ -1,7 +1,7 @@
-<h2>Liste af abonnementer</h2>
+<h2><%= t('subscription.list') %></h2>
 
 <% @centers.each do |@group| %>
-  <h3>Center:
+  <h3><%= t('center.center') %>:
  	<%= link_to( h(@group.title), center_path(@group) ) %></h3>
 	
 	<% if @group.subscriptions.length > 0 %>
@@ -9,22 +9,22 @@
 		<%= render :partial => "shared/subscription_summary", :object => @copies %>
 	
 	<% else %>
-	<h4>Ingen abonnementer</h4>
+	<h4><%= t('subscription.none') %></h4>
 	<% end %>
 	
 	<div class="commands">
 		<% if @group.subscriptions.length > 0 %>
 		<% if @user.has_access? :subscription_new_edit %>
-			<%= link_to 'Tilføje/ændre abonnementer', new_subscription_path(@group), :title => 'Forandr abonnementer' %>
+			<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
 		<% end %>
-		<%= link_to_function "Vis/gem detaljer", visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
+		<%= link_to_function t('show_hide'), visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
 
 		<div id="subscription_details_<%= @group.id %>" style="display: none;">
 			<%= render :partial => "shared/subscription_list", :object => @group %>
 		</div>
 		<% else %>
 			<% if @user.has_access? :subscription_new_edit %>
-				<%= link_to 'Nyt abonnement', new_subscription_path(@group), :title => 'Opret abonnement' %>
+				<%= link_button t('subscription.new'), new_subscription_path(@group), 'subscription_new', :title => t('subscription.new') %>
 			<% end %>
 		<% end %>
 	</div>

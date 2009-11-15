@@ -23,12 +23,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
   
   def index
-    @groups = current_user.journals(:page => params[:page], :per_page => per_page) || [] # TODO: Move to configuration option
+    options = { :include => :parent, :page => params[:page], :per_page => per_page }
+    @groups = current_user.journals(options) || [] # TODO: Move to configuration option
   end
 
   def show
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
-    @journal_entries = @group.journal_entries
+    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id]) end
   end
 
   def new
@@ -141,7 +141,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def add_survey
     @group = Journal.find(params[:id])
     if request.post?
-      # @group.expire
       surveys = []
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
@@ -198,8 +197,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       Journal.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC", :include => :person_info)
     else
       current_user.group_ids.inject([]) do |result, id|
-        puts "searching #{@phrase} id: #{id}"
-      result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
+        # puts "searching #{@phrase} id: #{id}"
+        result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
       end
     end
 

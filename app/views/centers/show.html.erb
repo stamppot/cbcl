@@ -53,7 +53,9 @@
   	<p>Ingen</p>
   <% end %>
 <% end %>
-<%= link_to 'Nyt team', new_team_path(@group), :title => 'Opret nyt team' %> 
+<div class="button">
+	<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => 'Opret nyt team' %> 
+</div>	
 </div>
 
 <div style="width: 80%; clear: left;"></div>
@@ -70,7 +72,7 @@
 	<p>Ingen</p>
   <% if current_user.has_access? :user_new_leader %>
     <div class="commands">
-        <%= link_to "Opret Centeradministrator", new_user_path(@group), :title => 'Opret ny bruger i centret' %><br>
+        <%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
     </div>
     <% end %>
 <% else %>
@@ -95,7 +97,9 @@
 <% end %>
 
 <div class="commands">
-    <%= link_to t('user.new'), new_user_path(@group), :title => 'Opret ny bruger i teamet' %><br>
+	<div class="button">
+    <%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => 'Opret ny bruger i teamet' %><br>
+	</div>
 </div>
 <br>
 
@@ -108,9 +112,9 @@
 		<%= render :partial => "shared/subscription_summary" %>
 	<% if current_user.has_access? :subscription_new_edit %>
 	<p>
-		<%= link_to 'Sæt skemaer til betalt', pay_subscriptions_path(@group), :title => "Sæt skemaer til betalt" %>
+		<%= link_button t('subscription.pay_surveys'), pay_subscriptions_path(@group), 'subscription_paid', :title => "Sæt skemaer til betalt" %>
 		<% if @group.paid_subscriptions? %>
-			<%= link_to 'Fortryd sidste betaling', undo_pay_subscriptions_path(@group), :title => "Fortryd betaling" %>
+			<%= link_button t('subscriptions.undo_payment'), undo_pay_subscriptions_path(@group), 'subscription_undo_payment', :title => "Fortryd betaling" %>
 		<% end %>
 	</p>
 	<% end %>
@@ -125,11 +129,17 @@
 
 <% if current_user.has_access? :subscription_new_edit %>
 <div class="commands">
-	<%= link_to 'Nyt abonnement', new_subscription_path(@group), :title => 'Opret nyt abonnement' %>
+	<div class="button">
+	<%= link_button t('subscription.new'), new_subscription_path(@group), 'subscription_new', :title => 'Opret nyt abonnement' %>
+	</div>
 </div>
 <% end %>
 
 
-
-<%= render :partial => 'commands' %>
-
+<div class="commands">
+	<% if current_user.has_access? :center_delete %>
+	<%= link_button t('delete'), { :action => :delete, :id => @group }, 'center_delete', :title => t('center.delete') %>
+	<%= link_button t('edit'), edit_center_path(@group), 'center_edit', :title => t('center.edit') %>
+	<% end %>
+	<%= link_button t('go_back_to_list'), centers_path, { :title => t('go_back_to_list') } %>
+</div>

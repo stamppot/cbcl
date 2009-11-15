@@ -17,7 +17,7 @@ class FaqsController < ApplicationController
     
   # do not use, should be for faq_section only
   def index
-    @sections = FaqSection.find(:all, :order => :position)
+    @sections = FaqSection.and_faqs.find(:all, :order => :position)
   end
   
   def show

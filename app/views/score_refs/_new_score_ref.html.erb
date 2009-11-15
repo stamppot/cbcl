@@ -8,8 +8,8 @@
 
 	<tr id="create_score_ref_button">
 		<td>
-			<%= link_to_remote('Opret', :url => new_score_ref_path(@score), :update => {  },
-				:submit => "add_new_score_ref") %>&nbsp;&nbsp;
-				<%= link_to_remote('Afbryd', :url => cancel_score_ref_path)%>
+			<%= link_button_to_remote t(:create), 'accept', :url => create_score_ref_path(@score), :update => {  },
+				:submit => "add_new_score_ref"  %>&nbsp;&nbsp;
+				<%= link_button_to_remote t(:cancel), 'cancel', :url => cancel_score_ref_path %>
 			</td>
 		</tr>

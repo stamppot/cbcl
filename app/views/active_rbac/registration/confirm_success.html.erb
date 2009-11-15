@@ -2,5 +2,5 @@
 
 <p>
 Hej <%= @user.name %>. Din brugerkonto er blevet bekræftiget. Du kan nu logge ind ved at 
-<%= link_to 'følge dette link', login_path %>.
+<%= link_button t('follow_link'), login_path, 'login' %>.
 </p>

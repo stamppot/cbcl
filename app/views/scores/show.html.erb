@@ -48,5 +48,5 @@
 	<% end %>
 
 
-<%= link_to t('edit'), edit_score_path(@score) %> |
-<%= link_to t('go_back_to_list'), scores_path %>
+<%= link_button t('edit'), edit_score_path(@score), 'score_edit' %> |
+<%= link_button t('go_back_to_list'), scores_path, 'go_back' %>

@@ -20,14 +20,15 @@ class Group < ActiveRecord::Base
   named_scope :all_parents, lambda { |parent| { :conditions => parent.is_a?(Array) ? ["parent_id IN (?)", parent] : ["parent_id = ?", parent] } }
   named_scope :center_and_teams, :conditions => ['type != ?', "Journal"]
   named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
-
+  named_scope :and_parent, :include => [:parent]
+  
   def self.this_or_parent(id)
     Group.find(:all, :conditions => [ 'id = ? OR parent_id = ?', id, id]).delete_if { |group| group.instance_of? Journal }
   end
 
   # returns Team or Center for id, or if not exists, all teams and centers of user
   def self.get_teams_or_centers(id, user)
-    group = Group.find_by_id(id)
+    group = Group.and_parent.find_by_id(id)
     (group && !group.is_a?(Journal)) && [group] || user.center_and_teams
   end
   

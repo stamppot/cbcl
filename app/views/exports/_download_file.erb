@@ -5,4 +5,4 @@ Færdig!
 <%= link_to 'Tryk her for at hente filen', file_download_path(@task.export_file) %>
 <br>
 
-<%= link_to @task.export_file.filename, file_download_path(@task.export_file) %>
+<%= link_button @task.export_file.filename, file_download_path(@task.export_file), 'download_excel_file' %>

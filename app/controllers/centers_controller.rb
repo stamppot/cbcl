@@ -31,7 +31,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     redirect_to team_path(@group) if @group.instance_of?(Team) and return
     
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = 'Vis: Centeret blev ikke fundet.'
+    flash[:error] = 'Centeret blev ikke fundet.'
     redirect_to centers_path
   end
   
@@ -43,19 +43,6 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @subscribed = Subscription.active.for_center(@group).find(:all)
 
     @page_title = params[:id].nil? && "Nyt Center" || "Redigering af Center"
-
-    # if request.post?
-    #   @group.update_subscriptions(params[:group].delete(:surveys) || [])
-    #   @group.update_attributes(params[:group])
-    # 
-    #   # assign properties to group
-    #   if @group.save
-    #     flash[:notice] = 'Centeret er blevet ' + (params[:id].nil? ? 'oprettet.' : 'opdateret')
-    #     params[:id].nil? ? redirect_to(center_path(@group)) : redirect_to(centers_path)
-    #   else
-    #     render :action => :new
-    #   end
-    # end
   end
 
   def create
@@ -201,6 +188,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     else
       redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
+      access_denied
       return false
     end
   end
@@ -211,6 +199,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     else
       redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
+      access_denied
       return false
     end
   end
@@ -218,6 +207,8 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   def check_access
     if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
       access = current_user.team_member? params[:id].to_i
+    else
+      access_denied
     end
   end
   

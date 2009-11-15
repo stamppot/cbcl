@@ -2,7 +2,7 @@
 	<% buttons = {"all" => "Alle", "active" => "Aktive", "paid" => "Betalte"} %>
 	<% buttons.each { |key, name| buttons[key] = "<strong class='highlight'>#{name}</strong>" if @options && @options[:show] == key } 	%>
 	<% buttons.each do |action, name| %>
-		<%= link_to name, :show => action %>
+		<%= link_button name, {:show => action}, "subscription_#{action}" %>
 		<% end %>
 <% end %>
 
@@ -22,9 +22,9 @@ total_used = 0
 	used_copies = copies.map(&:used).inject { |sum, n| sum + n }
 	total_used += used_copies %>
 	<tr>
-		<td><%= date.strftime("%d %b %y") %> - <%= end_period.strftime("%d %b %y") %></td>
+		<td><%= date.strftime("%e %b %y") %> - <%= end_period.strftime("%e %b %y") %></td>
 		<td class="number"><%= used_copies %></td>
-		<td class="number"><%= paid > 0 ? "Ja" : "Nej" %></td>
+		<td class="number"><%= paid > 0 ? t('yes') : t('no') %></td>
 	</tr>
 <% end %>
 

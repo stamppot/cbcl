@@ -11,7 +11,10 @@ class Survey < ActiveRecord::Base
   named_scope :and_questions, :include => {:questions => :question_cells}
   named_scope :and_q, :include => :questions
   named_scope :selected, lambda { |ids| { :conditions => (ids ? ['id IN (?)', ids] : []) } }
-   
+  # named_scope :by_question_id, lambda {|question| { :conditions => ['id = ?', question.is_a?(Question) ? question.id : question] } }
+  
+  validates_presence_of :position
+  
   attr_accessor :selected
   # includes cells
   
@@ -48,8 +51,9 @@ class Survey < ActiveRecord::Base
     return self if survey_answer.nil?
     survey_answer.answers.each do |answer|
       # find question which matches answer
+      puts "answer number & id: #{answer.number} - #{answer.id}"
       question = self.questions.detect { |question| question.id == answer.question_id }
-      question.merge_answer(answer)
+      question.merge_answer(answer) if question
     end
     return self  # return survey with questions with values (answers)
   end
@@ -58,7 +62,7 @@ class Survey < ActiveRecord::Base
     survey_answer.answers.each do |answer|
       # find question which matches answer
       question = self.questions.detect { |question| question.id == answer.question_id }
-      question.merge_answertype(answer)
+      question.merge_answertype(answer) if question
     end
     return self  # return survey with questions with values (answers)
   end
@@ -116,10 +120,15 @@ class Survey < ActiveRecord::Base
     
   def cell_variables
     d = Dictionary.new
-    self.questions.each { |question| d = d.merge!(question.cell_variables) }
+    self.questions.each { |question| d = d.merge!(question.cell_variables(self.prefix)) }
     d.order_by
   end
 
+  def csv_headers
+    s = Survey.and_questions.find(self.id)
+    s.cell_variables
+  end
+  
   # export to xml. Recurses through objects
   # add indentation when one object in the array is an array (of answers)
   def to_xml2

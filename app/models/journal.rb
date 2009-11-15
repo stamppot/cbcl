@@ -3,18 +3,19 @@ require 'facets/dictionary'
 class Journal < Group
   belongs_to :center
   has_one :person_info #, :dependent => :destroy
-  has_many :journal_entries, :order => 'created_at', :dependent => :destroy
+  # has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :login_users, :through => :journal_entries, :source => :journal_entries
   has_many :surveys, :through => :journal_entries
+  has_many :csv_answers
   has_many :answered_entries,
            :class_name => 'JournalEntry',
-           :include => :survey,
+           :include => [:survey],
            :conditions => 'journal_entries.state = 5',  # answered
            :order => 'journal_entries.answered_at'
   has_many :not_answered_entries,
            :class_name => 'JournalEntry',
-           :include => :survey,
+           :include => [:survey],
            :conditions => 'journal_entries.state != 5',  # not answered
            :order => 'journal_entries.answered_at'
   default_scope :order => 'created_at DESC'               
@@ -40,16 +41,17 @@ class Journal < Group
   validates_presence_of :parent
   validates_associated :center
   validates_presence_of :center
-  validates_presence_of :person_info
-  validates_associated :person_info
+  # validates_presence_of :person_info
+  # validates_associated :person_info
   # journal code must be unique within the same center
   validates_uniqueness_of :code, :scope => :center_id #, :message => "bruges allerede. Vælg andet ID."
   
   # TODO: validates_associated or existence_of (see Advanced Rails recipes or Rails Way)
   
   named_scope :and_entries, :include => :journal_entries
+  # named_scope :and_login_users, :include => { :journal_entries => :login_user }
   named_scope :and_person_info, :include => :person_info
-  named_scope :with_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
+  named_scope :for_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
   named_scope :by_code, :order => 'code ASC'
   
   define_index do
@@ -153,8 +155,9 @@ class Journal < Group
   def create_journal_entries(surveys)
     return true if surveys.empty?
     surveys.each do |survey|
-      entry = JournalEntry.new({:survey => survey, :state => 2})
-      self.journal_entries << entry
+      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
+      # entry.journal = self
+      # self.journal_entries.and_entries << entry
       entry.create_login_user
       entry.print_login! if entry.valid?
       entry.expire_cache # expire journal_entry_ids

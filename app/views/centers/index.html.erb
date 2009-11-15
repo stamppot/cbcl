@@ -39,6 +39,6 @@
 
 <% if current_user.has_access? :center_new %>
 	<div class="commands">
-	<%= link_to 'Nyt center', new_center_path %>
+		<%= link_button t('center.new'), new_center_path, 'center_new' %>
 	</div>
 <% end %>

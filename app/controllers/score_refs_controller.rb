@@ -2,10 +2,8 @@ class ScoreRefsController < ApplicationController
 
   layout "survey"
   
-
-  # methods for score references                                                                                          
   # show new row with score_ref initialized to values of the previous. ajax method                                        
-  def new #add_score_ref
+  def new
     @score_ref = ScoreRef.new #(params[:score_ref])                                                                       
     @score = Score.find(params[:id])
     @score_ref2 = @score.score_refs.last
@@ -18,8 +16,7 @@ class ScoreRefsController < ApplicationController
       @score_ref.age_group = @score_ref2.age_group
     end
 
-    # table_header = %w(Spørgeskema Køn Alder Mean 95% 98%).map { |h| "<th>#{h}</th>" }.join
-    @surveys = [@score.survey.title, @score.survey.id] #@score.surveys.map { |s| [s.title, s.id] }
+    @surveys = [@score.survey.title, @score.survey.id]
 
     # show score ref form in page                                                                                         
     render :update do |page|
@@ -31,7 +28,7 @@ class ScoreRefsController < ApplicationController
   end
 
 
-  def cancel #cancel_score_ref
+  def cancel
     render :update do |page|
       # page.hide 'score_refs'                                                                                            
       page.replace 'add_new_score_ref', ''  # remove both rows for new score ref and the create/cancel buttons            
@@ -51,7 +48,7 @@ class ScoreRefsController < ApplicationController
         # page.remove 'create_score_ref_button'
         page.replace 'create_score_ref_button', ''
         page.replace 'add_new_score_ref', ''
-        page.insert_html :bottom, 'score_refs', :partial => 'score_ref'
+        page.insert_html :bottom, 'score_refs', :partial => 'scores/score_ref'
         page.visual_effect :blind_down, "score_ref_#{@score_ref.id}"
         page.visual_effect :highlight, "score_ref_#{@score_ref.id}"
         page.show 'new_score_ref_button'
@@ -59,8 +56,7 @@ class ScoreRefsController < ApplicationController
     end    
   end
 
-  # deletes and updates page with ajax call
-  def destroy #remove_score_ref
+  def destroy
     elem = "score_ref_" << params[:id]
 
     if ScoreRef.destroy(params[:id])

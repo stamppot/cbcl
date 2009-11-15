@@ -3,7 +3,7 @@
 	Centret abbonnerer ikke på nogen spørgeskemaer.
 	Kontakt Det Børne- og Ungdomspsykiatriske Hus.
 	
-	<p><%= link_to "Log af", logout_path %></p>
+	<p><%= link_button t('logout'), logout_path, 'logout' %></p>
 	
 <% else %>
 <table>
@@ -21,7 +21,7 @@ for survey in @surveys
 		<% if current_user.has_access? :survey_new_edit %>
 		<td class="survey_actions">
 			<% link_to 'Vis 2', edit_survey_builder_url(survey) %><br>
-			<%= link_to 'Tilføj spørgsmål', add_question_survey_builder_url(survey) %><br>
+			<%= link_to t('survey.add_question'), add_question_survey_builder_url(survey) %><br>
 			<%= link_to t('edit'), edit_survey_builder_url(survey) %><br>
 			 <!-- link_to t('delete'), surveys_url(survey), :method => 'delete', :confirm => 'Er du sikker?' --><br>
 		</td>
@@ -35,9 +35,9 @@ for survey in @surveys
 <br>
 
 <% if current_user.has_access? :survey_finish %>
-	<%= link_to 'Afslut', logout_path, :title => 'Log ud af systemet' %>
+	<%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>
 <% end %>
 
 <% if current_user.has_access? :survey_new_edit %>
-	<%= link_to 'Nyt spørgeskema', new_survey_builder_url %>
+	<%= link_button t('survey.new'), new_survey_builder_url, 'survey_add' %>
 <% end %>

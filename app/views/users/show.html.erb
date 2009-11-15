@@ -1,19 +1,19 @@
 
-<h2>Bruger &quot;<%= h @user.login %>&quot;</h2>
+<h2><%= t('user.user') %> &quot;<%= h @user.login %>&quot;</h2>
 
 <!-- <h3>Bruger Data</h3> -->
 
 <dl>
-    <dt>Navn</dt>
+    <dt><%= t('name') %></dt>
     <dd><%= h @user.name %></dd>
 
-    <dt>Login</dt>
+    <dt><%= t('login') %></dt>
     <dd><%= h @user.login %></dd>
 
-    <dt>Email-adresse</dt>
+    <dt><%= t('email') %></dt>
     <dd><%= h @user.email %></dd>
 
-    <dt>ID</dt>
+    <dt><%= t('id') %></dt>
     <dd><%= @user.id %></dd>
 
     <dt><%= t('created') %></dt>
@@ -22,7 +22,7 @@
     <dt><%= t('updated') %></dt>
     <dd><%= @user.updated_at.to_formatted_s(:long) %></dd>
 
-    <dt>Sidste Login</dt>
+    <dt><%= t('last_login') %></dt>
     <dd><%= @user.last_logged_in_at.to_formatted_s(:long) %></dd>
 
     <dt><%= t('state') %></dt>
@@ -60,8 +60,10 @@
 <% end %>
 
 
+<div class="commands">
 <% if current_user.has_access? :user_edit_delete %>
-<%= link_to t('delete'), delete_user_path(@user) %>
-<%= link_to t('edit'), edit_user_path(@user) %>
+		<%= link_button t('delete'), delete_user_path(@user), 'user_delete' %>
+		<%= link_button t('edit'), edit_user_path(@user), 'user_edit' %>
 <% end %>
-<%= link_to t('go_back'), users_path %>
+	<%= link_button t('go_back'), users_path, 'go_back' %><br/>
+</div>

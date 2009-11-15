@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 	<title><%= @page_title %></title>
 
+	<% bundle do %>
 	<%= stylesheet_link_tag_html4 'tablekit' %>
 	<%= stylesheet_link_tag_html4 'validation' %>
 	<%= stylesheet_link_tag_html4 'login' %>
@@ -15,11 +16,12 @@
  	<%= javascript_include_tag 'scriptaculous' %>
  	<%= javascript_include_tag 'effects' %>
  	<%= javascript_include_tag 'controls', :cache => true %>
- 	<%= javascript_include_tag 'tablekit', :cache => true %>
+ 	<%= javascript_include_tag 'tablekit' %>
  	<%= javascript_include_tag 'css_browser_selector', :cache => true %>
  	<% javascript_include_tag 'validation', :cache => true %>
  	<%= javascript_include_tag 'application', :cache => true %>
-
+	<%= javascript_include_tag 'curvy-corners' %>
+  <% end %>
 </head>
 
 <body>

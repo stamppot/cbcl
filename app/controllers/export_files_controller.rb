@@ -45,6 +45,11 @@ class ExportFilesController < ApplicationController
     flash[:notice] = "Filen findes ikke"
     redirect_to export_files_path
   end
+  
+  def destroy
+    ExportFile.find(params[:id]).destroy
+    redirect_to export_files_path
+  end
 end
 
 # #### upload files ####
@@ -102,10 +107,7 @@ end
 #   redirect_to :action => 'list'
 # end    
 #   
-# def destroy
-#   ExportFile.find(params[:id]).destroy
-#   redirect_to :action => 'list'
-# end
+
 # 
 # 
 # private

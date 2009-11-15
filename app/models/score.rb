@@ -4,7 +4,8 @@ class Score < ActiveRecord::Base
 
   belongs_to :survey
   belongs_to :score_scale
-  
+
+  named_scope :with_survey_and_scale, :include => [:survey, :score_scale]
   acts_as_list :scope => :score_group
   
   validates_presence_of :title, :message => ': navn skal gives'

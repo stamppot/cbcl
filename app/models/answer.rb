@@ -8,32 +8,30 @@ class Answer < ActiveRecord::Base
   # TODO: test. added 14-6
   validates_presence_of :question_id, :survey_answer_id
 
-  def to_csv
+  def to_csv(prefix)
     cells = Dictionary.new
-    prefix = survey_answer.survey.prefix
-    survey_id = survey_answer.survey_id
+    prefix = survey_answer.survey.prefix unless prefix
+    # survey_id = survey_answer.survey_id
     q = self.question.number.to_roman.downcase
     
     self.answer_cells.each_with_index do |cell, i|
+      value = cell.value.blank? && '#NULL!' || cell.value
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
-        cells[var.var.to_sym] = cell.value || '#NULL!'
+        cells[var.var.to_sym] = value
         # puts "VAR found: #{var} cell: #{cell.inspect}" if [:ccyi, :ccyi1a, :ccyi1b, :ccyi1c, :ccyii, :ccyii1a, :ccyii1b, :ccyii1c, :ccyiii, :ccyiii1a, :ccyiii1b].include?(var)
       else  # default var name
         item = cell.item.to_s
         if (item.nil? or !(item =~ /hv$/)) && cell.answertype =~ /Comment|Text/
           item << "hv" 
-          # if item == "95hv"
-          #   puts "answer_item: idx: #{i} s_id: #{survey_answer.survey.id} sa_id: #{self.survey_answer_id} answer_id: #{cell.id} row,col: #{cell.row},#{cell.col} #{item}"
-          # end
         end
         # if "#{prefix}#{q}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
-          # puts "WARNING: sa: #{cell.answer.survey_answer_id} a: #{cell.answer_id} s: #{self.survey_answer.survey_id}  (#{cell.row},#{cell.col}) val: #{cell.value} item: #{cell.item} has (wrong?) item: " + "#{prefix}#{item}"
-        # else
         var = "#{prefix}#{q}#{item}".to_sym
-        if cell.answertype =~ /Comment|Text/
-          cells[var] = CGI.unescape(cell.value)
+
+        cells[var] = 
+        if cell.answertype =~ /ListItem|Comment|Text/ && !cell.value.blank?
+          CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
-          cells[var] = cell.value || '#NULL!'
+          value
         end
       end
     end
@@ -42,13 +40,13 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
-  def nested_cell_values
-    cells = Dictionary.new
-    self.answer_cells.map do |cell|
-      cells[cell.row] = {cell.col => cell.value }
-    end
-    return cells
-  end
+  # def nested_cell_values
+  #   cells = Dictionary.new
+  #   self.answer_cells.map do |cell|
+  #     cells[cell.row] = {cell.col => cell.value }
+  #   end
+  #   return cells
+  # end
   
 
   # input: hash with cell values
@@ -64,7 +62,7 @@ class Answer < ActiveRecord::Base
         fields[:value] = value if valid_values[:fields].include? value # only save valid value
         # end
       else
-        fields[:value] = CGI.escape(value)  # TODO: escaping of text (dangerous here!)
+        fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
       a_c = AnswerCell.create(fields)
     end
@@ -73,12 +71,11 @@ class Answer < ActiveRecord::Base
     
   # returns answer cells which are ratings
   def ratings
-    self.answer_cells.ratings #find(:all, :conditions => ["answer_id = ? AND answertype = 'Rating'", self.id])
+    self.answer_cells.ratings
   end
 
   def not_answered_ratings
     self.answer_cells.ratings.count(:conditions => ['value = ? OR value = NULL', '9'])
-    # self.answer_cells.ratings.inject(0) { |sum, r| sum += 1 if r.value.blank? or r.value == "9"; sum } #(:conditions => ["answer_id = ? AND answertype = 'Rating' AND (value = ? OR value = NULL)", self.id, 9])
   end
     
   def count_items
@@ -89,10 +86,10 @@ class Answer < ActiveRecord::Base
   # should do exactly the same as hash_rows_of_cols, and is faster too!
   def rows_of_cols
     result = self.answer_cells.inject({}) do |rows, cell|
-      rows[cell.row] = {} if rows[cell.row].nil?
+      rows[cell.row] = {} unless rows[cell.row]
       rows[cell.row][cell.col] = cell
       rows
-    end
+    end # .build_hash { |cell| [cell.row, {cell.col => cell}] }
   end
   
   # comparison based on row number
@@ -100,14 +97,14 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
   
-  def test_saved(answer)
-    if (self.id == answer.id) and (self.question_id == answer.question_id) and (self.number == answer.number)
-      check_cells = answer_cells.zip answer.answer_cells#(true)
-      check_cells.each { |tuple| tuple.first.equal(tuple.last) }
-    else
-      raise RuntimeError("Answer.test_saved: Saved value is not right!")
-    end
-  end
+  # def test_saved(answer)
+  #   if (self.id == answer.id) and (self.question_id == answer.question_id) and (self.number == answer.number)
+  #     check_cells = answer_cells.zip answer.answer_cells#(true)
+  #     check_cells.each { |tuple| tuple.first.equal(tuple.last) }
+  #   else
+  #     raise RuntimeError("Answer.test_saved: Saved value is not right!")
+  #   end
+  # end
   
   def answer_cell_exists?(col, row)
     # TODO: :select => id, row, col, value

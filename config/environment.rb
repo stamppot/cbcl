@@ -1,5 +1,6 @@
 # Be sure to restart your web server when you modify this file.
 
+
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
 ENV['RAILS_ENV'] ||= 'production'
@@ -85,7 +86,6 @@ require "will_paginate"
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
 
-
 EXPORT_FILES_STORAGE_PATH = "./files/"
 # ActionMailer::Base.server_settings = { 
 #   :address => 'cbcl-sdu.dk',
@@ -97,6 +97,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 
 CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 
+require 'error_catcher'
 
 module Enumerable
   def foldr(o, m = nil)

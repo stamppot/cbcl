@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<td class="p_i">Fødselsdato:</td>
-			<td class="p"><%= @group.birthdate.to_s(:long) %></td>
+			<td class="p"><%= @group.birthdate.to_s(:long) %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Alder (år):</td>
@@ -83,21 +83,21 @@
 	
 	
 	<div class="commands">
-		<%= link_to 'Tilføj spørgeskemaer', journal_add_survey_path(@group), :title => 'Tilføj skemaer' %>
-		<%= link_to 'Fjern spørgeskemaer', journal_remove_survey_path(@group), :title => 'Fjern skemaer' %>
+			<%= link_button t('survey.add'), journal_add_survey_path(@group), 'journal_add_surveys', :title => 'Tilføj skemaer' %>
+			<%= link_button t('survey.remove'), journal_remove_survey_path(@group), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
 	</div>
 	
 	
 	<% if @group.answered_entries.size > 0 %>
 		<br/>
 		<hr/>
-		<h4>Besvarede skemaer</h4>
+		<h4><%= t('survey.answered') %></h4>
 		<% form_tag create_score_report_path, :method => 'post' do %>
 			<%= hidden_field_tag 'journal_id', @group.id %>
 		<table class="sortable">
 		<% if @group.answered_entries.size > 0 %>
-			<th>Spørgeskema</th>
-			<th>Besvaret</th>
+			<th><%= t('survey.survey') %></th>
+			<th><%= t('answered') %></th>
 			<th><%= t('state') %></th>
 			<th class="nosort"><%= t('action') %></th>
 			<% for @entry in @group.answered_entries %>
@@ -124,15 +124,17 @@
 		<% if @group.answered_entries.size > 0 %>
 		  
 		  <div class="commands">
-			<%= submit_tag "Beregn score", :class => 'btn_gray' %>
+				<div class="button">
+					<%= submit_tag t('score.calculate'), :class => 'btn_gray' %>
+				</div>
 			<% end %>
 		</div>
 		<% end %>
 	<% end %>
 
 	<div class="commands">
-		<%= link_to t('edit'), edit_journal_path(@group), :title => t('edit') %>
-		<%= link_to t('go_back'), journals_path, :title => t('go_back_to_list') %>
+		<%= link_button t('edit'), edit_journal_path(@group), 'journal_edit', :title => t('edit') %>
+		<%= link_button t('go_back'), journals_path, 'go_back', :title => t('go_back_to_list') %>
 	</div>
 	
 <% end %> <!-- end of cache -->

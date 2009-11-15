@@ -2,13 +2,9 @@ class ScoresController < ApplicationController
 
   layout "survey"
   
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  # verify :method => "post", :only => [ :destroy, :create, :update ],
-  #        :redirect_to => { :action => :list }
-
   def index
     page = params[:page] || 1
-    @scores = Score.paginate(:all, :page => page, :per_page => per_page, :include => :survey, :order => 'survey_id, scale ASC') #.in_groups_by { |score| score.scale }
+    @scores = Score.with_survey_and_scale.all.paginate(:page => page, :per_page => per_page, :order => 'survey_id, scale ASC')
   end
 
   def show
@@ -26,11 +22,9 @@ class ScoresController < ApplicationController
 
   def create
     # render_text "params: #{params.inspect}"
-    params[:score][:survey] = Survey.find(params[:score][:survey]) unless params[:score][:survey].nil?
+    params[:score][:survey] = Survey.find(params[:score][:survey]) unless params[:score][:survey].blank?
 
     @score = Score.new(params[:score])
-    # if @score.survey.nil?
-    #   @score.errors.add("")
     @score.title = params[:score][:title]
     @score.scale = params[:score][:scale]
     @score.sum = params[:score][:sum]
@@ -42,11 +36,11 @@ class ScoresController < ApplicationController
     
     if @score.save #and @score.update_attributes(params[:score])
       flash[:notice] = 'Score er oprettet. Tilføj beregninger.'
-      redirect_to :action => :edit, :id => @score
+      redirect_to edit_score_path(@score) #:action => :edit, :id => @score
     else
-      @surveys = Survey.find(:all, :order => :position)
+      @surveys = Survey.all(:order => :position)
       @score.action = "new"
-      render :action => :new
+      render new_score_path
     end
   end
 
@@ -136,231 +130,6 @@ class ScoresController < ApplicationController
       @surveys = Survey.find(:all, :order => :position)
       @page_title = "Score-beregning #{@score.title}: Vælg spørgeskema: #{@score.inspect} -- #{params.inspect}"
       # render 'score/add_survey'
-    end
-  end
-      
-  # Deprecated: scores-surveys are not 1-many, but 1-1
-  # def add_survey
-  #   @score = Score.find(params[:id]) #, :include => :surveys)
-  # 
-  #   if request.post?
-  #     surveys = []
-  #     params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
-  #     @surveys = Survey.find(surveys)
-  #     @surveys.each { |survey| @score.surveys << survey }
-  #     if @score.save
-  #       flash[:notice] = "Spørgeskemaer blev tilføjet score-beregning."
-  #     else
-  #       flash[:error] = "Spørgeskemaer blev ikke tilføjet!" << "<br><br>Params: #{params.inspect}"
-  #     end
-  #     redirect_to :action => :edit, :id => @score
-  #   else
-  #     @surveys = Survey.find(:all)
-  #     # remove surveys which are already associated with score
-  #     @score.surveys.each { |sc_survey| @surveys.delete(sc_survey) }
-  #     @page_title = "Score-beregning #{@score.title}: Tilføj spørgeskemaer"      
-  #   end
-  # end
-
-  # Deprecated: scores-surveys are not 1-many, but 1-1
-  # removing is a bit different than adding. This should remove the entries, the entry ids should be given in the form
-  # TODO: 30-8 if any surveys for which score_items exist, remove score_items too
-  # def remove_survey
-  #   @score = Score.find(params[:id])
-  # 
-  #   if request.post?
-  #     #render_text params.inspect
-  #     surveys = []
-  #     params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
-  #     @surveys = Survey.find(surveys)
-  #     @surveys.each { |survey| @score.surveys.delete(survey) }
-  #     if @score.save
-  #       flash[:notice] = "Spørgeskemaer blev fjernet fra score-beregning."
-  #       @score.surveys(true)
-  #     else
-  #       flash[:error] = "Spørgeskemaer blev ikke fjernet!"
-  #     end
-  #     redirect_to :action => :edit, :id => @score
-  #   else   # collect surveys from unanswered entries
-  #     @surveys = @score.surveys
-  #     @page_title = "Score-beregning #{@score.title}: Fjern spørgeskemaer"      
-  #   end
-  # end
-  
-  # show new row with score_item initialized to values of the previous. ajax method
-  def add_score_item
-    # find most recent score_item by :id
-    # create html for new row, populate it with values from score_item.
-    # Survey and question must be populated with values of next unused score.surveys
-    params[:score_item] = params[:score_score_item]
-    @score_item = ScoreItem.new(params[:score_item])
-    
-    @score = Score.find(params[:id], :include => :survey)
-    @score_item2 = @score.score_items.last
-
-    if !@score.survey.nil?
-      # set values from previous score item
-      @score_item = ScoreItem.new
-      unless @score_item2.nil?
-        @score_item.items = @score_item2.items
-        @score_item.range = @score_item2.range
-        @score_item.qualifier = @score_item2.qualifier
-        @score_item.question = @score_item2.question
-      end
-
-      # set default question to one with most items
-      @score_item.question_id = @score.survey.question_with_most_items.id
-
-      # all surveys and questions for chosen survey
-      @survey = [@score.survey.title, @score.survey.id] #(true).map { |s| [s.title, s.id] } # next_survey should be selected
-      @items = @score.survey.questions.map { |q| ["Spg. #{q.number} (#{q.count_items} items)", q.id] } # was q.number
-      # table_header = %w(Skema Spørgsmål Range Kvalifikator Items).map { |h| "<th>#{h}</th>" }.join
-    end
-
-    # show score item form in page
-    render :update do |page|
-      if @score.survey.nil?
-        page.alert "Tilføj først et skema"
-      else
-        page.show 'score_items'
-        page.hide 'new_score_item_button'
-        page.insert_html :bottom, 'score_items', :partial => 'add_score_item'
-        page.visual_effect :blind_down, 'add_new_score_item', :duration => 2
-      end
-    end
-  end
-  
-  def cancel_score_item
-    render :update do |page|
-      # page.hide 'score_items'
-      page.replace 'add_new_score_item', ''  # remove both rows for new score item and the create/cancel buttons
-      page.replace 'create_score_item_button', ''
-      page.show 'new_score_item_button'
-    end  
-  end
-  
-  def create_score_item
-    @score = Score.find(params[:id])
-    q_no = Question.find(params[:score_item][:question_id]).number.to_s
-    params[:score_item][:number] = q_no
-    @score_item = ScoreItem.new(params[:score_item])
-    @score.score_items << @score_item
-    
-    if @score.save
-      render :update do |page|
-        page.replace 'create_score_item_button', ''
-        page.replace 'add_new_score_item', :partial => 'score_item'
-        # page.insert_html :after, 'score_items', :partial => 'score_item'
-        page.visual_effect :blind_down, "score_item_#{@score_item.id}"
-        page.visual_effect :highlight, "score_item_#{@score_item.id}"
-        page.show 'new_score_item_button'
-      end
-    end    
-  end
-  
-  # deletes and updates page with ajax call
-  def remove_score_item
-#    @score_item = ScoreItem.find(params[:id])
-    elem = "score_item_" << params[:id]
-
-    if ScoreItem.destroy(params[:id])
-      render :update do |page|
-        page[elem].visual_effect :blind_up
-        page[elem].remove
-      end
-    end
-  end
-  
-
-  # # updates select with score items based on which survey is chosen
-  # def update_question_items
-  #   survey = Survey.find(params[:id])
-  #   items = survey.questions.map { |q| ["Nr. #{q.number} (#{q.count_items} items)", q.number] }
-  #   question_id = 'score_item_' + (params[:score_item].nil? ? "" : (params[:score_item] + "_")) + 'question'
-  # 
-  #   render :update do |page|
-  #     page.replace_html question_id, options_for_select(items, survey.question_with_most_items.number)
-  #     page.visual_effect :highlight, question_id, :duration => 1
-  #   end
-  # end
-  #     
-  # # update form onchange
-  # def update_item_question
-  #   survey = Survey.find(params[:id]) # chosen survey
-  #   items = survey.questions.map { |q| ["Nr. #{q.number} (items: #{q.count_items})", q.id] }
-  #   # update select for (was: all) one score item
-  #   render :update do |page|
-  #     page.replace "score_item_question", (select "score_item", 'question', items, { :id => "question_items" }, { :onchange => remote_function(
-  #       :with => "'choice=' + this.value",
-  #       :url => { :action => :update_q_items, :id => "survey_items" })})
-  #       page.visual_effect :highlight, "score_item_#{@score_item.id}_question"
-  #   end
-  # end
-  
-  # methods for score references                                                                                          
-  # show new row with score_ref initialized to values of the previous. ajax method                                        
-  def add_score_ref
-    @score_ref = ScoreRef.new #(params[:score_ref])                                                                       
-    @score = Score.find(params[:id])
-    @score_ref2 = @score.score_refs.last
-
-    # set values from previous score ref                                                                                  
-    @score_ref = ScoreRef.new
-    unless @score_ref2.nil?
-      @score_ref.survey = @score_ref2.survey
-      @score_ref.gender = @score_ref2.gender % 2 + 1
-      @score_ref.age_group = @score_ref2.age_group
-    end
-
-    # table_header = %w(Spørgeskema Køn Alder Mean 95% 98%).map { |h| "<th>#{h}</th>" }.join
-    @surveys = [@score.survey.title, @score.survey.id] #@score.surveys.map { |s| [s.title, s.id] }
-
-    # show score ref form in page                                                                                         
-    render :update do |page|
-      page.show 'score_refs'
-      page.insert_html :bottom, 'score_refs', :partial => 'add_score_ref'
-      page.hide 'new_score_ref_button'
-      page.visual_effect :blind_down, 'add_new_score_ref', :duration => 2
-    end
-  end
-
-
-  def cancel_score_ref
-    render :update do |page|
-      # page.hide 'score_refs'                                                                                            
-      page.replace 'add_new_score_ref', ''  # remove both rows for new score ref and the create/cancel buttons            
-      page.replace 'create_score_ref_button', ''
-      page.show 'new_score_ref_button'
-    end
-  end
-
-
-  def create_score_ref
-    @score = Score.find(params[:id])
-    @score_ref = ScoreRef.new(params[:score_ref])
-    @score.score_refs << @score_ref
-
-    if @score.save
-      render :update do |page|
-        page.replace 'create_score_ref_button', ''
-        page.replace 'add_new_score_ref', ''
-        page.insert_html :bottom, 'score_refs', :partial => 'score_ref'
-        page.visual_effect :blind_down, "score_ref_#{@score_ref.id}"
-        page.visual_effect :highlight, "score_ref_#{@score_ref.id}"
-        page.show 'new_score_ref_button'
-      end
-    end    
-  end
-
-  # deletes and updates page with ajax call
-  def remove_score_ref
-    elem = "score_ref_" << params[:id]
-
-    if ScoreRef.destroy(params[:id])
-      render :update do |page|
-        page[elem].visual_effect :blind_up
-        page[elem].remove
-      end
     end
   end
     

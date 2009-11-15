@@ -6,5 +6,5 @@
   <%= submit_tag "Anvend", :name => 'submit[update]', { :class => 'normal' } %>
 <% end %>
 
-<%= link_to t('show'), { :action => :show, :id => @user }, :title => 'Vis bruger' %> |
-<%= link_to t('go_back'), { :action => :list }, :title => 'Liste af login-brugere' %>
+<%= link_button t('show'), @user, 'user_show' :title => 'Vis bruger' %> |
+<%= link_to t('go_back'), users_path, 'user_index' :title => 'Liste af login-brugere' %>

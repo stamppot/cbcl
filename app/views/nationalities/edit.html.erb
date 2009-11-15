@@ -5,5 +5,5 @@
   <%= submit_tag t('edit'), :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to t('show'), nationality_path(@nationality) %> |
-<%= link_to t('go_back'), nationalities_path %>
+<%= link_button t('show'), nationality_path(@nationality), 'nationality_show' %> |
+<%= link_button t('go_back'), nationalities_path, 'go_back' %>

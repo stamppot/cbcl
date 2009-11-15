@@ -1,6 +1,10 @@
 <%= error_messages_for 'user' %>
 
 <!--[form:user]-->
+<table>
+	<tbody>
+		<tr>
+			<td>
 <dl>
 	<dt><label for="user_login">Login</label></dt>
 	<dd><%= text_field 'user', 'login', :class => 'gray'  %></dd>
@@ -37,8 +41,12 @@
 		 <%= roles.join %>
 	</dd>
 
-	
+</dl>
+</td>
 
+<td rowspan="3">
+
+	<dl>
 	<dt><label><%= t('groups') %></label></dt>
 	<dd>
 		<%= node_tree(@groups) do |group|
@@ -52,5 +60,11 @@
 		end %>
 	</dd>
 </dl>
+</td>
+</tr>
+<tr></tr>
+<tr></tr>
+</tbody>
+</table>
 
 <!--[eoform:user]-->

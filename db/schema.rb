@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090820112201) do
+ActiveRecord::Schema.define(:version => 20091108110127) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -49,6 +49,22 @@ ActiveRecord::Schema.define(:version => 20090820112201) do
     t.datetime "updated_on"
     t.boolean  "active",          :default => false, :null => false
   end
+
+  create_table "csv_answers", :force => true do |t|
+    t.integer  "survey_answer_id"
+    t.integer  "survey_id"
+    t.integer  "journal_entry_id"
+    t.integer  "journal_id"
+    t.integer  "center_id"
+    t.integer  "age"
+    t.integer  "sex"
+    t.text     "answer"
+    t.datetime "created_at"
+  end
+
+  add_index "csv_answers", ["center_id"], :name => "index_csv_answers_on_center_id"
+  add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
+  add_index "csv_answers", ["survey_id"], :name => "index_csv_answers_on_survey_id"
 
   create_table "engine_schema_info", :id => false, :force => true do |t|
     t.string  "engine_name"
@@ -167,6 +183,8 @@ ActiveRecord::Schema.define(:version => 20090820112201) do
     t.string  "preferences"
     t.string  "var"
   end
+
+  add_index "question_cells", ["question_id"], :name => "index_question_cells_on_question_id"
 
   create_table "questions", :force => true do |t|
     t.integer "survey_id", :null => false

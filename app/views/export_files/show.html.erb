@@ -1,4 +1,4 @@
 <h2>Download dataudtræk:</h2>
 <p>
-	<%= link_to @export_file.filename, file_download_url(@export_file) %>
+	<%= link_button @export_file.filename, file_download_url(@export_file), 'download_excel_file' %>
 </p>

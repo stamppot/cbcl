@@ -16,3 +16,15 @@ config.cache_classes                                 = true
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+ActionController::Base.consider_all_requests_local = false
+
+# config.after_initialize do
+#   Bullet.enable = true 
+#   Bullet.alert = true
+#   Bullet.bullet_logger = true  
+#   Bullet.console = true
+#   Bullet.growl = false
+#   Bullet.rails_logger = true
+#   Bullet.disable_browser_cache = true
+# end

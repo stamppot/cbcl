@@ -17,14 +17,14 @@
 	<%= link_to_remote 'Færdig!', :url => faq_done_order_questions_path(@section) %>
 
 <% else %>
-	<%= link_to 'Reorganiser liste', faq_order_questions_path(@section) %>
+	<%= link_button 'Reorganiser liste', faq_order_questions_path(@section), 'faq_reorganize' %>
 
 	<br>
-	<%= link_to 'Nyt spørgsmål', new_faq_path(@section) %>
+	<%= link_button 'Nyt spørgsmål', new_faq_path(@section), 'faq_new_question' %>
 	<br>
 
 	<p>
-		<%= link_to 'Index', faqs_path %>
+		<%= link_button 'Index', faqs_path, 'faq_index' %>
 	</p>
 <% end %>
 

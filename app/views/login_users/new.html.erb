@@ -6,4 +6,4 @@
 <%= submit_tag t('create'), :name => 'submit[create]', :class => 'btn_gray' %>
 <% end %>
 
-<%= link_to t('go_back'), { :controller => :journal, :action => :show, :id => @group }, :title => t('go_back_to_journal') %>
+<%= link_button t('go_back'), @group, 'go_back', :title => t('go_back_to_journal') %>

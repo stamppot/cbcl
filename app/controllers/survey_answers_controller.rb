@@ -56,7 +56,7 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save
   end
   
-  def create  # was: answer
+  def create
     id = params.delete("id")
     @journal_entry = JournalEntry.find(id)
 
@@ -94,6 +94,8 @@ class SurveyAnswersController < ApplicationController
     
     if survey_answer.save # and not @journal_entry.nil?
       @journal_entry.increment_subscription_count(survey_answer)
+      # create pregenerated csv_answer
+      
       # login-users are shown the logout page
       if current_user and current_user.has_access? :all_users
         flash[:notice] = "Dit svar er blevet gemt."

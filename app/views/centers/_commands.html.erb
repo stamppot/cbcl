@@ -1,7 +1,0 @@
-<div class="commands">
-	<% if current_user.has_access? :center_delete %>
-	<%= link_to t('delete'), { :action => :delete, :id => @group }, :title => 'Slet Center' %>
-	<%= link_to t('edit'), edit_center_path(@group), { :title => t('edit') } %>
-	<% end %>
-	<%= link_to t('go_back_to_list'), centers_path, { :title => t('go_back_to_list') } %>
-</div>

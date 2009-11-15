@@ -3,4 +3,4 @@
 <p>
 Velkommen <%=h current_user.name %>, du er logget ind.
 </p>
-<%= link_to 'Klik her', :controller => '/survey', :action => :index %> for at gå videre.
+<%= link_button 'Klik her', surveys_path, 'goto_next' %> for at gå videre.

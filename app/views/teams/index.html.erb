@@ -16,6 +16,6 @@
 
 <% if current_user.has_access? :team_new_edit_delete %>
 <div class="commands">
-	<%= link_to 'Nyt Team', :action => :new %>
+	<%= link_button 'Nyt Team', new_team_path, 'team_add' %>
 </div>
 <% end %>

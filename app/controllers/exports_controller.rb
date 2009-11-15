@@ -13,13 +13,17 @@ class ExportsController < ApplicationController
     @start_age = params[:age_start] = 1
     @stop_age = params[:age_stop]  = 21
     params = filter_age(args)
-
+    
+    # clean params
+    params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
+    
     @surveys = current_user.subscribed_surveys
     
     # set default value to true unless filter is pressed
     @surveys = surveys_default_selected(@surveys, params[:surveys])
-    filter_surveys = @surveys.inject([]) { |col, s| col << s.id if s.selected; col }
-    @survey_answers = current_user.survey_answers(params.merge({:surveys => filter_surveys})).compact
+    filter_surveys = @surveys.collect_if(:selected) { |s| s.id } #inject([]) { |col, s| col << s.id if s.selected; col }
+    puts "filter_surveys: #{filter_surveys.inspect}"
+    @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
     # puts "export_controller index COUNT SAS: #{@survey_answers.size}"
   end
 
@@ -32,11 +36,11 @@ class ExportsController < ApplicationController
     
     # set default value to true unless filter is pressed
     @surveys = Survey.selected(params[:surveys].keys)
-    @survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
+    @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
     render :update do |page|
       # page.replace 'survey_answer_list', :partial => "survey_answer_list"
-      page.replace_html 'results', "Antal: #{@survey_answers.size.to_s}"
+      page.replace_html 'results', "Antal: #{@count_survey_answers.to_s}"
       # page.visual_effect :pulsate, 'results'
       page.visual_effect :shake, 'results'
       # page.visual_effect :highlight, 'survey_answer_list'
@@ -54,10 +58,11 @@ class ExportsController < ApplicationController
     
     # set default value to true unless filter is pressed
     @surveys = Survey.selected(params[:surveys].keys)
+    
     @survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    @journal_entries = @survey_answers.map {|sa| sa.journal_entry_id }
-    # puts "export_controller download COUNT SAS: #{@survey_answers.size}"
-    # puts "export_controller download COUNT JES: #{@journal_entries.size}"
+    # q = Query.new 
+    # q.do_query(q.user_journal_entries(current_user.journal_entry_ids, surveys, )
+    @journal_entries = @survey_answers.map {|sa| sa.journal_entry_id }.compact
 
     # spawns background task
     @task = Task.create(:status => "In progress")

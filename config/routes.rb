@@ -37,6 +37,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :nationalities
   map.resources :scores
   map.resources :score_scales
+  map.resources :score_items
+  map.resources :score_refs
   map.resources :score_reports
   map.resources :survey_builders
   
@@ -92,8 +94,6 @@ ActionController::Routing::Routes.draw do |map|
   map.entry_login_info 'journal_entries/login_info/:id', :controller       => 'journal_entries', :action => 'login_info'
   # map.destroy_login 'journal_entries/destroy_login/:id', :controller     => 'journal_entries', :action => 'destroy_login', :only => :post
   
-  map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
-
   map.new_user 'users/new/:id', :controller => 'users', :action => 'new'
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
   map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'
@@ -122,6 +122,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
+  map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'
@@ -132,6 +133,10 @@ ActionController::Routing::Routes.draw do |map|
   map.faq_sort 'faq_sections/sort/:id', :controller => 'faq_sections', :action => 'sort'
   map.faq_done_order 'faq_sections/done_order/:id', :controller => 'faq_sections', :action => 'done_order'
   
+  map.edit_score 'scores/edit/:id', :controller => 'scores', :action => 'edit'
+  map.create_score_item 'score_items/create/:id', :controller => 'score_items', :action => 'create', :method => :post
+  map.create_score_ref 'score_refs/create/:id', :controller => 'score_refs', :action => 'create', :method => :post
+
   # map.score_scales 'scores/list_scales', :controller => 'scores', :action => 'list_scales'
   map.scores_order 'score_scales/order_scores', :controller => 'scores', :action => 'order_scores'
   map.scores_sort 'score_scales/sort_scores', :controller => 'scores', :action => 'sort_scores'
@@ -177,24 +182,19 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '/register/:action/:id', :controller => 'active_rbac/registration'
   # map.connect '/registration/lostpassword', :controller => 'active_rbac/registration', :action => :lostpassword
 
-  map.connect '/export_logins/:action/:id', :controller => 'export_logins', :action => :team, :id => :id
   # map.connect '/exports/:action/:id', :controller => 'exports', :action => :team, :id => :id
   
   # testing
   map.connect '/myaccount/:action/:id', :controller => 'active_rbac/my_account'
-  
-  # map.with_options(:controller => 'login') do |m|
-  #   m.home '', :action => "/login"
-  # end
+
+  map.connect '/export_logins/:action/:id.:format', :controller => 'export_logins', :action => 'download'
+
   map.main '', :controller => 'main', :action => 'index'
   map.connect '', :controller => 'main', :action => 'index'
   
   # hide '/active rbac/*'
   #map.connect '/active_rbac/*foo', :controller => 'error'
   
-  # Login Routes
-  # map.connect 'login', :controller => 'login', :action => :login 
-  # map.connect 'logout', :controller => 'login', :action => :logout
   #map.connect 'signup', :controller => 'login', :action => :signup
 
   # Allow downloading Web Service WSDL as a file with an extension
@@ -205,4 +205,6 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
   
+  # error handling
+  map.connect '*path', :controller => 'application', :action => 'rescue_404' unless ::ActionController::Base.consider_all_requests_local
 end

@@ -1,9 +1,9 @@
 <h2>Details for Group &quot;<%=h @group.title %>&quot;</h2>
 
 <div class="commands">
-<%= link_to t('delete'), :action => :delete, :id => @group %>
-<%= link_to t('edit'), :action => :update, :id => @group %>
-<%= link_to 'Back to List', :action => :list %>
+	<%= link_button t('delete'), (:action => :delete, :id => @group), 'delete' %>
+	<%= link_button t('edit'), (:action => :update, :id => @group), 'edit' %>
+	<%= link_button t('go_back'), (:action => :list), 'go_back' %>
 </div>
 
 <dl>
@@ -33,9 +33,9 @@
 </dl>
 
 <div class="commands">
-<%= link_to t('delete'), :action => :delete, :id => @group %>
-<%= link_to t('edit'), :action => :update, :id => @group %>
-<%= link_to 'Back to List', :action => :list %>
+	<%= link_button t('delete'), (:action => :delete, :id => @group), 'delete' %>
+	<%= link_button t('edit'), (:action => :update, :id => @group), 'edit' %>
+	<%= link_button t('go_back'), (:action => :list), 'go_back' %>
 </div>
 
 <h3>Directly Assigned Users</h3>

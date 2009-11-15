@@ -13,6 +13,9 @@ class Subscription < ActiveRecord::Base
   named_scope :locked, :conditions => [ 'state = ?', 3 ]
   named_scope :deleted, :conditions => [ 'state = ?', 4 ]
   
+  validates_presence_of :survey
+  validates_presence_of :center
+  
   def add_fresh_copy
     self.copies << Copy.new({:active => true})
   end

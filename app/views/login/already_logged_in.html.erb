@@ -2,6 +2,6 @@
 
 <p>
 <%=h current_user.name %>, du er allerede logget ind. Du skal logge ud før du kan logge ind igen.
-<%= link_to 'Klik her', :action => :logout, :title => 'Log ud' %> for at logge ud.
+<%= link_button 'Klik her', logout_path, 'logout', :title => 'Log ud' %> for at logge ud.
 </p>
-<%= link_to 'Klik her', :controller => '/survey', :action => :index %> for at g� videre.
+<%= link_button 'Klik her', surveys_path, 'goto_text' %> for at gå videre.

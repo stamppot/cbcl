@@ -13,8 +13,8 @@
 	</div>
 	
 	<div class="form-row">
-		<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>  | <%= link_to "afbryd", faq_section_path(@section) %>
+		<%= f.submit t('save'), :name => "submit", :class => "btn_gray save" %>  | <%= link_button t('cancel'), faq_section_path(@section), 'cancel' %>
 	</div>
 </div>
 <% end %>
-<%= link_to t('go_back'), faqs_url, :title => t('go_back') %>
+<%= link_button t('go_back'), faqs_url, 'go_back' :title => t('go_back') %>

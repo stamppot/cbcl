@@ -5,7 +5,7 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.xml
   def index
-    @variables = Variable.find(:all)
+    @variables = Variable.and_survey.and_question.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb

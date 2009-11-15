@@ -1,19 +1,42 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
+class CustomNotFoundError < RuntimeError; end
+class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
+  include ExceptionNotifiable
   include ActiveRbacMixins::ApplicationControllerMixin
-  
+
+  self.rails_error_classes = { 
+    AccessDenied => "403",
+    # PageNotFound => "404",
+    # InvalidMethod => "405",
+    # ResourceGone => "410",
+    # CorruptData => "500",
+    # NotImplemented => "501",
+    # NameError => "503",
+    # TypeError => "503",
+    ActiveRecord::RecordNotFound => "400",
+    ::ActionController::UnknownController => "404",
+    ::ActionController::UnknownAction => "501",
+    ::ActionController::RoutingError => "404",
+    # ::ActionController::MissingTemplate => "404",
+    ::ActionView::TemplateError => "500"
+  }
+  self.http_error_codes = { "200" => "OK" }
+  # self.rails_error_classes = { AccessDenied => "200" }
+  self.error_layout = "login"
+
   # acts_as_current_user_container
   # session :session_key => '_cbcl_session_id'
   layout "survey"
-  
+
   before_filter :configure_charsets
   before_filter :check_access
   before_filter :center_title
-  
+
   filter_parameter_logging :password, :password_confirmation
-  
+
   # before_filter :set_locale
   # def set_locale
   #   # if this is nil then I18n.default_locale will be used
@@ -25,25 +48,58 @@ class ApplicationController < ActionController::Base
   #     logger.info "LOGIN #{params[:username]}: #{request.env['HTTP_USER_AGENT']}"
   #   return true
   # end
-      
+
   def center_title
     @center_title = if current_user && current_user.center
-			current_user.center.title
-		else
-			"Børne- og Ungdomspsykiatriske Hus"
-		end
-	end
-	
+      current_user.center.title
+    else
+      "Børne- og Ungdomspsykiatriske Hus"
+    end
+  end
+
+  def rescue_404
+    rescue_action_in_public CustomNotFoundError.new
+  end
+
+  def access_denied
+    raise AccessDenied
+  end
+
   private
 
   # def rescue_action_in_public(exception)
-  #   if response_code_for_rescue(exception) == "404 Page Not Found"
-  #     render :nothing => true, :layout => "404", :status => 404
+  #   # if response_code_for_rescue(exception) == "404 Page Not Found"
+  #   if status_code == :not_found
+  #     render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
   #   else
-  #     super
+  #     @message = exception.backtrace.join("\n") unless exception
+  #     render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
   #   end
   # end
-  
+
+
+
+  # def rescue_action_in_public(exception)
+  #   case exception
+  #     when CustomNotFoundError, ::ActionController::UnknownAction then
+  #       #render_with_layout "shared/error404", 404, "standard"
+  #       render :template => "main/error404", :layout => false, :status => "404"
+  #     when NameError
+  #     when ActiveRecord::RecordNotFound
+  #       # @message = "Fejl: " + exception.backtrace[0..10].join("\n") unless exception
+  #       # @error = "Fejl!"
+  #       render :template => "main/error404", :layout => false, :status => "404", :object => @message       
+  #     else
+  #       @message = exception.backtrace[0..10].join("\n") unless exception
+  #       @error = "Fejl!"
+  #       render :template => "main/error", :layout => "login", :status => "500"
+  #   end
+  # end
+
+  def local_request?
+    return false
+  end
+
   # Filter to send unicode header to the client
   def configure_charsets  # was: set_charset
     content_type = headers["Content-Type"] || "text/html"
@@ -51,7 +107,7 @@ class ApplicationController < ActionController::Base
       headers["Content-Type"] = "#{content_type}; charset=utf-8" 
     end
   end
-  
+
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
     # check controller
@@ -82,12 +138,13 @@ class ApplicationController < ActionController::Base
         end
       else
         puts "ACCESS FAILED: #{params.inspect}"
+        access_denied
         return false
       end
     end
     return true
   end
-  
+
   private
   def cache(key)
     unless output = CACHE.get(key)
@@ -96,8 +153,67 @@ class ApplicationController < ActionController::Base
     end
     return output
   end
-  
+
 end
+
+class Hash
+  # return Hash with nil values removed
+  def compact
+    delete_if {|k,v| !v }
+  end
+  
+  # array-style push of key-values
+  def <<(hash={})
+    merge! hash
+  end
+end
+
+#example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
+module Enumerable
+  def build_hash
+    is_hash = false
+    inject({}) do |target, element|
+        key, value = yield(element)
+        is_hash = true if !is_hash && value.is_a?(Hash)
+        if is_hash
+          target[key] = {} unless target[key]
+          target[key].merge! value
+        else
+          target[key] = [] unless target[key]
+          target[key] << value
+        end
+        target
+    end
+  end
+  
+  # creates a hash with elem as key, result of block as value
+  def to_hash
+    result = {}
+    each do |elt|
+      result[elt] = yield(elt)
+    end
+    result
+  end
+  # creates a hash with result of block as key, elem as value
+  def to_hash_with_key
+    result = {}
+    each do |elt|
+      result[yield(elt)] = elt
+    end
+    result
+  end
+end  
+
+module Enumerable
+  # @surveys.collect_if(:selected) { |s| s.id }
+  def collect_if(condition)
+    inject([]) do |target, element|
+      value = yield(element)
+      target << value if element.send(condition) #eval("element.#{condition}")
+      target
+    end
+  end
+end      
 
 # http://mspeight.blogspot.com/2007/06/better-groupby-ingroupsby-for.html
 class Array
@@ -108,14 +224,14 @@ class Array
     curr=nil.class 
     result=[]
     each do |element|
-       group=yield(element) # Get grouping value
-       result << [] if curr != group # if not same, start a new array
-       curr = group
-       result[-1] << element
+      group=yield(element) # Get grouping value
+      result << [] if curr != group # if not same, start a new array
+      curr = group
+      result[-1] << element
     end
     result
   end
-  
+
   # fill 2-d array so all rows has equal number of items
   def fill_2d(obj = nil)
     # find longest

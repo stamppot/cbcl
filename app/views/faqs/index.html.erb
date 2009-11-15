@@ -19,13 +19,13 @@
 				<% if @action == 'order' %>
 				<%= link_to_remote 'Færdig!', :url => faq_done_order(@section) %>
 				<% elsif @sections.size > 1 %>
-				<%= link_to 'Reorganiser lister', faq_order_path(@section) %><br>
+				<%= link_button 'Reorganiser lister', faq_order_path(@section), 'faq_order' %><br>
 				<% else %>
-				<%= link_to 'Index', faqs_path %><br>
+				<%= link_button 'Index', faqs_path, 'faq_index' %><br>
 				<% end %>
 
 				<% unless @action == 'order' %>
-				<%= link_to 'Nyt afsnit', new_faq_section_path %>
+				<%= link_button 'Nyt afsnit', new_faq_section_path, 'faq_new_section' %>
 				<% end %>
 			</div>
 		</div>

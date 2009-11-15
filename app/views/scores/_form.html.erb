@@ -46,19 +46,23 @@
 		<% unless @score.survey.nil? %>
 			<% if @score.score_refs.empty? %>
 				<table id="score_refs">
+					<tr>
 					<%= @score_refs_header.map { |h| "<th>#{h}</th>" }.join	%>
+					</tr>
 				</table>
 					<!-- Ingen scoreberegninger -->				
 			<% else %>
 				<table id="score_refs">
+					<tr>
 					<%= @score_refs_header.map { |h| "<th>#{h}</th>" }.join	%>
+					</tr>
 				 	<%= render :partial => "score_ref", :collection => @score.score_refs %>
 				</table>
 			<% end %>
 
 
 		<div id="new_score_ref_button">
-			<%= link_to_remote "Tilføj referenceværdi", :url => new_score_ref_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
+			<%= link_button_to_remote "Tilføj referenceværdi", 'score_add_ref', :url => new_score_ref_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
 		
 
@@ -90,7 +94,7 @@
 
 
 		<div id="new_score_item_button">
-			<%= link_to_remote "Tilføj beregning", :url => new_score_item_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
+			<%= link_button_to_remote "Tilføj beregning", 'score_add_item', :url => new_score_item_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
 		
 

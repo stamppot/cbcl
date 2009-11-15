@@ -14,7 +14,7 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
   <tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
 	<td width="80%" class="surveyname">
-		<span class="survey_title"><%= link_to "Start", { :controller => :survey, :action => :show, :id => @entry } %></span><br>
+		<span class="survey_title"><%= link_button t('survey.start'), { :controller => :survey, :action => :show, :id => @entry }, 'survey_start' %></span><br>
 		<%= h(truncate(survey.description, 80)) %>
 	</td>
   </tr>
@@ -23,4 +23,4 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
 <br>
 
-<%= link_to 'Afslut', { :controller => 'login', :action => :logout }, :title => 'Log ud af systemet' %>
+<%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>

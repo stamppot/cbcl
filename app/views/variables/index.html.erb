@@ -1,6 +1,6 @@
 <h1>Listing variables</h1>
 
-<%= link_to 'Ny variabel', new_variable_path %>
+<%= link_button 'Ny variabel', new_variable_path, 'variable_new' %>
 
 <table>
   <tr>
@@ -22,11 +22,11 @@
     <td><%=h variable.question.number.to_roman.downcase %></td>
     <td><%= link_to t('show'), variable %></td>
     <td><%= link_to t('edit'), edit_variable_path(variable) %></td>
-    <td><%= link_to 'Destroy', variable, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('destroy'), variable, :confirm => t('are_you_sure?'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br>
 
-<%= link_to 'Ny variabel', new_variable_path %>
+<%= link_button 'Ny variabel', new_variable_path, 'variable_new' %>

@@ -14,9 +14,6 @@ class User < ActiveRecord::Base
   # user must belong to a group unless he's superadmin or admin
   validates_associated :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
   validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
-
-  # This method returns true if the user is assigned the role with one of the
-  # role titles given as parameters. False otherwise.
   
   def has_access?(right)
     role_titles = Access.roles(right) # << "SuperAdmin"  # SuperAdmin has access to everything
@@ -28,12 +25,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  # Try override user.groups with a cached version
-  # def groups
-  #   Rails.cache.fetch("groups_#{self.id}") do
-  #     self.groups
-  #   end
-  # end
   named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   named_scope :users, :conditions => ['login_user = ?', false], :order => "created_at"
   named_scope :login_users, :conditions => ['login_user = ?', true]
@@ -220,9 +211,10 @@ class User < ActiveRecord::Base
   end
   
   def centers
+    options = {:include => :users}
     centers =
     if self.has_access?(:center_show_all)
-      Center.find(:all) #.delete_if { |group| group.instance_of? Journal or group.instance_of? Team }    # filtrer teams fra
+      Center.find(:all, options) #.delete_if { |group| group.instance_of? Journal or group.instance_of? Team }    # filtrer teams fra
     elsif self.has_access?(:center_show_admin)
       self.groups.delete_if { |group| group.instance_of? Journal or group.instance_of? Team }
     elsif self.has_access?(:center_show_member)
@@ -237,9 +229,10 @@ class User < ActiveRecord::Base
   
   # must reload from DB
   def teams(reload = false)
+    options = {:include => [:center, :users]}
     teams =
     if self.has_access?(:team_show_all)
-      Team.find(:all)
+      Team.find(:all, options)
     elsif self.has_access?(:team_show_admin)
       Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
     elsif self.has_access?(:team_show_member)
@@ -252,36 +245,37 @@ class User < ActiveRecord::Base
   # journals a user has access to
   # behandler should only have access to journals in his teams (groups), thus excluding journals from other teams, but not the center
   def journals(options = {})
-    page     = (options[:page] || 1).to_i
-    per_page = options[:per_page] || REGISTRY[:journals_per_page]
+    options[:page] ||= 1
+    options[:per_page] ||= REGISTRY[:journals_per_page]
+
     journals =
     if self.has_access?(:journal_show_all)
-      if page < 5
-        Rails.cache.fetch("journals_all_paged_#{page}_#{per_page}") do
-          Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
+      if options[:page] < 4 # only cache first pages, since they're used more often
+        Rails.cache.fetch("journals_all_paged_#{options[:page]}_#{options[:per_page]}") do
+          Journal.and_person_info.paginate(:all, options)
         end
       else
-        Journal.and_person_info.paginate(:all, :page => page, :per_page => per_page)
+        Journal.and_person_info.paginate(:all, options)
       end
     elsif self.has_access?(:journal_show_centeradm)
-      Rails.cache.fetch("journals_groups_#{self.center_id}_paged_#{page}_#{per_page}", :expires_in => 10.minutes) do
-        Journal.and_person_info.in_center(self.center).paginate(:all, :page => page, :per_page => per_page)
+      Rails.cache.fetch("journals_groups_#{self.center_id}_paged_#{options[:page]}_#{options[:per_page]}", :expires_in => 10.minutes) do
+        Journal.and_person_info.in_center(self.center).paginate(:all, options)
       end
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(options[:reload]) # get teams and center ids for this user
-      if page < 5 # only cache first 5 pages
-        journals = Rails.cache.fetch("journals_groups_#{group_ids.join("_")}_paged_#{page}_#{per_page}") do
-          Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
+      if options[:page] < 4 # only cache first 5 pages
+        journals = Rails.cache.fetch("journals_groups_#{group_ids.join("_")}_paged_#{options[:page]}_#{options[:per_page]}") do
+          Journal.and_person_info.all_parents(group_ids).paginate(:all, options)
         end
       else 
-        Journal.and_person_info.all_parents(group_ids).paginate(:all, :page => page, :per_page => per_page)
+        Journal.and_person_info.all_parents(group_ids).paginate(:all, options)
       end
     elsif self.has_access?(:login_user)
       entry = JournalEntry.find_by_user_id(self.id)
       [entry.journal]
     elsif self.has_access?(:journal_show_none)
       journals = []
-      journals = WillPaginate::Collection.create(page, per_page) do |pager|
+      journals = WillPaginate::Collection.create(options[:page], options[:per_page]) do |pager|
         pager.replace(journals) # inject the result array into the paginated collection:
       end
     else  # for login-user
@@ -333,8 +327,8 @@ class User < ActiveRecord::Base
 
   # finished survey answers, based on accessible journals
   def survey_answers(options = {})  # params are not safe, should only allow page/per_page
-    page       = options[:page] || 1
-    per_page   = options[:per_page] || 100000
+    page = options[:page] ||= 1
+    per_page = options[:per_page] ||= 100000
     start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
     stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
     start_age  = options.delete(:age_start) || 0
@@ -345,36 +339,67 @@ class User < ActiveRecord::Base
       self.journal_entry_ids
     end
     
+    # options[:limit] ||= 33
+    # options[:offset] ||= 0
+    # options[:conditions] ||= []
+    # puts "options conditions: #{options.inspect}"
+    
     if self.has_access?(:group_all)
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page ) #, :include => [{:journal_entry => :journal}, :survey])
-    # elsif self.has_role?(:centeradministrator)
-      # sa_ids = JournalEntry.find(self.journal_ids, :include => :survey_answer).map {|je| je.survey_answer}
-      # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).all(:conditions => ['id IN (?)', sa_ids])
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page )
+      # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).
+      # paginate(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page )) #, :include => [{:journal_entry => :journal}, :survey])
     else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['id IN (?)', sa_ids], :page => page, :per_page => per_page)
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(options.merge(:conditions => ['id IN (?)', sa_ids]))
     end
   end
   
+  def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
+    # options[:page] ||= 1
+    # options[:per_page] ||= 100000
+    start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
+    stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
+    start_age  = options.delete(:age_start) || 0
+    stop_age   = options.delete(:age_stop) || 21
+
+    surveys    = options.delete(:surveys)
+    je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+      self.journal_entry_ids
+    end
+    puts "options : #{options.inspect}"
+        
+    if self.has_access?(:group_all)
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(:conditions => ['journal_entry_id IN (?)', je_ids])
+
+      # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids]))
+    else
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+      sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['id IN (?)', sa_ids]))
+    end
+  end
+  
+  
   def login_users(options = {})
-    page     = options[:page] || 1
-    per_page = options[:per_page] || 100000 
+    options[:page] ||= 1
+    options[:per_page] ||= 100000 
     journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { self.journal_ids }
-    users = User.login_users.in_journals(journal_ids).paginate(:all, :page => page, :per_page => per_page)
+    users = User.login_users.in_journals(journal_ids).paginate(:all, options)
   end
   
   # returns users that a specific user role is allowed to see
   def get_users(options = {})
-    page     = options[:page] || 1
+    options[:include] = [:roles, :groups, :center]
+    options[:page]  ||= 1
     users = if self.has_access?(:user_show_all)  # gets all users which are not login-users
-      User.users.with_roles(Role.get_ids(Access.roles(:all_real_users))).paginate(:page => page, :per_page => per_page).uniq
+      User.users.with_roles(Role.get_ids(Access.roles(:all_real_users))).paginate(options).uniq
     elsif self.has_access?(:user_show_admins)
-      User.users.with_roles(Role.get_ids(Access.roles(:user_show_admins))).paginate(:page => page, :per_page => per_page)
+      User.users.with_roles(Role.get_ids(Access.roles(:user_show_admins))).paginate(options)
     elsif self.has_access?(:user_show)
-      User.users.in_center(self.center).paginate(:page => page, :per_page => per_page)
+      User.users.in_center(self.center).paginate(options)
     else
-      WillPaginate::Collection.new(page, per_page)
+      WillPaginate::Collection.new(options[:page], options[:per_page])
     end
     return users
   end

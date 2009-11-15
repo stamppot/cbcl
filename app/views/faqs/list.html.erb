@@ -14,7 +14,7 @@
 	<%= link_to_remote 'Færdig!', :url => faq_done_order_path(@section), :class => 'faq_action' %>
 
 <% else %>
-	<%= link_to 'Reorganiser listen', faq_order_path(@section) %>
+	<%= link_button 'Reorganiser listen', faq_order_path(@section), 'faq_order' %>
 	<br>
-	<%= link_to 'Nyt afsnit', new_fag_section_path %>
+	<%= link_button 'Nyt afsnit', new_fag_section_path, 'faq_new_section' %>
 <% end %>

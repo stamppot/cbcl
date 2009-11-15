@@ -127,39 +127,16 @@ class Question < ActiveRecord::Base
     end
   end
   
+  
   # contains only answerable cells
-  # def cell_variables
-  #   cells = Dictionary.new
-  #   prefix = survey.prefix
-  # 
-  #   q = self.number.to_roman.downcase
-  #   puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
-  #   self.question_cells.answerable.map do |cell|
-  #     var = Variable.get_by_question(id, cell.row, cell.col)
-  #     if var
-  #       cells[var.var.to_sym] = cell.value
-  #     else  # default var name
-  #       item = cell.answer_item
-  #       item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-  #       # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
-  #       #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
-  #       # else
-  #         cells["#{prefix}#{q}#{item}".to_sym] = cell.value
-  #       # end
-  #     end
-  #   end
-  #   return cells
-  # end
-
-  # contains only answerable cells
-  def cell_variables
+  def cell_variables(prefix = nil)
     cells = Dictionary.new
-    prefix = survey.prefix
+    prefix ||= survey.prefix
 
     q = self.number.to_roman.downcase
     # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
     self.question_cells.map do |cell|
-      if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
+      if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|ListItem|SelectOption|TextBox/
         var = Variable.get_by_question(id, cell.row, cell.col)
         if var
           cells[var.var.to_sym] = cell.value || "#NULL!"
@@ -169,7 +146,7 @@ class Question < ActiveRecord::Base
           # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
           #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
           # else
-          cells["#{prefix}#{q}#{item}".to_sym] = cell.value || "#NULL!" # !! default value is "", not nil
+          cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#NULL!" || cell.value # !! default value is "", not nil
           # end
         end
       end

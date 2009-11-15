@@ -6,7 +6,6 @@
 			:name => 'age[start]', :include_blank => "Vælg startalder", 
 			:onchange => remote_function(:submit => "select_age", :url => set_age_range_path("up")
 ) ) %>
-<!-- { :controller => :export, :action => :set_age_range, :id => "up" } -->
 	<br>
 	
 	<label for='stop_age'>Alder slut</label>

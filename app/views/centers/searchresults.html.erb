@@ -16,11 +16,11 @@
 				<% end %>
 
 				<% if @user.has_access? :subscription_new_edit %>
-						<%= link_to 'Ændre abonnementer', new_subscription_path(@group), :title => 'Forandr abonnementer' %>&nbsp;&nbsp;
+						<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_change', :title => 'Forandr abonnementer' %>&nbsp;&nbsp;
 					<% end %>
 
 				<% if @group.subscriptions.length > 0 %>
-						<%= link_to_function "Vis/gem detaljer", visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
+						<%= link_to_function t('show_hide'), visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
 
 						<div id="subscription_details_<%= @group.id %>" style="display: none;">
 							<%= render :partial => "shared/subscription_list", :object => @group %>
