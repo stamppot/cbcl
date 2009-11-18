@@ -9,7 +9,7 @@
 <th title="Sorter efter status"><%= t('state') %></th>
 <th title="Sorter efter Rolle">Rolle</th>
 <th title="Sorter efter journal">Journal</th>
-<% if current_user.has_access? :show_column_actions %>
+<% if current_user.access? :show_column_actions %>
 <th class="nosort"><%= t('action') %></th>
 <% end %>
 
@@ -24,7 +24,7 @@ Antal users <%= @users.size %>
 	<% groups = ""
        if !current_user.nil? and !current_user.groups.empty?
          user.groups.each { |g| groups += "\'" + g.title + "\' " }
-       elsif current_user.has_access? :admin
+       elsif current_user.access? :admin
          user.groups.each do |g| if g.instance_of? Center
                                    groups += "\'" + g.title + "\' "
                                  else
@@ -33,7 +33,7 @@ Antal users <%= @users.size %>
                           end
        end -%>
     <td><%=h groups %>&nbsp;</td>
-    <% if current_user.has_access? :login_user_new_edit_delete %>
+    <% if current_user.access? :login_user_new_edit_delete %>
     <td><%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger login-bruger'), { :action => :edit, :id => user.id }, :title => t('edit') -%>
       <%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet login-bruger'), { :action => :delete, :id => user.id}, :title => t('delete') -%>
     </td>

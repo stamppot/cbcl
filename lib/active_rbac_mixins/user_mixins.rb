@@ -164,6 +164,7 @@ module UserMixins
           # and the one he gets through his groups (inheritance is also considered)
           # here.
           def all_roles
+            return @_all_roles unless @_all_roles.blank?
             result = Array.new
 
             for role in self.roles
@@ -176,7 +177,7 @@ module UserMixins
             # end
 
             result.flatten!
-            result.uniq!
+            @_all_roles = result.uniq!
 
             return result
           end
@@ -199,7 +200,7 @@ module UserMixins
           # This method returns true if the user is assigned the role with one of the
           # role titles given as parameters. False otherwise.
           def has_role?(*role_titles)
-            roles = role_titles.map { |role| role.is_a?(Role) && role.title.to_sym || role.to_sym }
+            roles = role_titles.map { |role| role.respond_to?(:title) && role.title.to_sym || role.to_sym }
             obj = all_roles.detect do |role|
                     roles.include?(role.title.to_sym)
                   end

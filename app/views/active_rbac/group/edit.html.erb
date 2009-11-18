@@ -2,8 +2,8 @@
 
 <% form_tag :action => :update, :id => @group do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
+  <%= submit_tag t('save_changes'), { :class => 'normal' } %>
 <% end %>
 
 <%= link_button t('show'), group_path(@group), 'group_show' :title => t('show') %> |
-<%= link_button t('go_back'), groups_path, 'groups', :title => t('go_back_to_list') %>
+<%= back_button groups_path %>

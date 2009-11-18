@@ -7,6 +7,6 @@ Er du sikker på at du vil slette brugeren &quot;<%= @user.login %>?
 </p>
 
 <% form_tag destroy_login_path(@entry), :method => :delete do %>
-  <%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
-  <%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'button accept' %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'button deny' %>
 <% end %>

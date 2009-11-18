@@ -76,6 +76,9 @@ ActionController::Routing::Routes.draw do |map|
   # center
   map.delete_center '/centers/delete/:id', :controller                         => 'centers', :action => 'delete'
   map.center_search 'centers/live_search/:id', :controller                     => 'centers', :action => 'live_search'
+  map.subscriptions_new_period 'subscriptions/new_period/:id', :controller => 'centers', :action => 'new_subscription_period'
+  map.subscriptions_undo_last_period 'subscriptions/undo_new_period/:id', :controller => 'centers', :action => 'undo_new_subscription_period'
+
   map.pay_subscriptions 'centers/pay_subscriptions/:id', :controller           => 'centers', :action => 'pay_subscriptions'
   map.undo_pay_subscriptions 'centers/undo_pay_subscriptions/:id', :controller => 'centers', :action => 'undo_pay_subscriptions'
 
@@ -155,9 +158,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.create_score_report 'score_reports/create', :controller => 'score_reports', :action => 'create'
   
-  map.lostpassword 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :lostpassword
+  map.lostpassword 'registration', :controller => 'active_rbac/registration', :action => :lostpassword
   # is this used?
-  map.register 'active_rbac/registration', :controller => 'active_rbac/registration', :action => :registration
+  map.register 'registration', :controller => 'active_rbac/registration', :action => :registration
 
 
   # survey builder
@@ -202,7 +205,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/service.wsdl', :action => :wsdl
 
   # Install the default route as the lowest priority.
-  # map.connect ':controller/:action/:id'
+  map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
   
   # error handling

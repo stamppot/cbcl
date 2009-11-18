@@ -7,9 +7,9 @@
 
 <tr id='score_item_<%= score_item.id %>'>
 	<td><%= select 'score_item[]', 'question_id', items, { :id => "#{@item_id}_question" } %></td>
-	<td><%= text_field 'score_item[]', 'range', { :size => 5, :class => 'gray' } %></td>
+	<td><%= text_field 'score_item[]', 'range', { :size => 5 } %></td>
 	<td><%= select 'score_item[]', 'qualifier', @score.item_qualifiers.to_a %></td>
-	<td><%= text_field 'score_item[]', 'items', { :size => 38, :class => 'gray' } %></td>
+	<td><%= text_field 'score_item[]', 'items', { :size => 38 } %></td>
 	<td><%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 						:class => 'icon icon_delete', :title => 'Fjern score')), 
 			:update => ('score_item_'<<@score_item.id.to_s), 

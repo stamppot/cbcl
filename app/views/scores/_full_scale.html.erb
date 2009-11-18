@@ -7,7 +7,7 @@
 			<%= render :partial => "score" %>
 		<% end %>
 	</ol>
-	<% if current_user.has_access? :score_edit %>
+	<% if current_user.access? :score_edit %>
 		<%= link_to 'Organiser liste', :action => 'order_scores', :id => @scale %>
 	<% end %>
 	

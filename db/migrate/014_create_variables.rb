@@ -8,10 +8,10 @@ class CreateVariables < ActiveRecord::Migration
       t.integer :survey_id
       t.integer :question_id
       
-      add_index :variables, :survey_id
-      add_index :variables, :question_id
       t.timestamps
     end
+    add_index :variables, :survey_id
+    add_index :variables, :question_id
   end
 
   def self.down

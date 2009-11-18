@@ -13,7 +13,7 @@
 	<th title="Sorter efter SKS-kode">ID</th>
 	<th title="Sorter efter antal brugere">Brugere</th>
 	<th title="Sorter efter oprettelsesdato"><%= t('created') %></th>
-	<% if current_user.has_access? :show_column_actions %>
+	<% if current_user.access? :show_column_actions %>
 	<th class="nosort"><%= t('action') %></th>
 	<% end %>
 	</tr>	
@@ -24,7 +24,7 @@
 			<td><%= group.code %></td>
 			<td style="text-align: right;"><%= group.users.size %></td>
 			<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
-		<% if current_user.has_access? :center_delete %>
+		<% if current_user.access? :center_delete %>
 		<td>
 			<%= link_to img_tag_html4('icon_edit_group.gif', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
 			<%= link_to img_tag_html4('icon_delete_group.gif', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
@@ -37,7 +37,7 @@
 
 
 
-<% if current_user.has_access? :center_new %>
+<% if current_user.access? :center_new %>
 	<div class="commands">
 		<%= link_button t('center.new'), new_center_path, 'center_new' %>
 	</div>

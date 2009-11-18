@@ -2,8 +2,8 @@
 
 <% form_tag nationality_path(@nationality), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag t('edit'), :class => 'btn_gray' %>
+  <%= submit_tag t('save'), :class => 'button save' %>
 <% end %>
 
 <%= link_button t('show'), nationality_path(@nationality), 'nationality_show' %> |
-<%= link_button t('go_back'), nationalities_path, 'go_back' %>
+<%= back_button nationalities_path %>

@@ -4,7 +4,7 @@
 
 <div id='draft-message' style='color:red;'></div>
 
-<% if current_user.has_access? :survey_show_fast_input %>
+<% if current_user.access? :survey_show_fast_input %>
 <div class="command">
 	<% if @options[:show_only] %>
 	<%=  link_to 'Normal indtastning', survey_show_only_path(@survey) %>
@@ -70,10 +70,10 @@
 
 <p>
 
-<% if current_user.has_access? :survey_new_edit %>
-<%= link_to t('edit'), edit_survey_path(@survey) %> |
+<% if current_user.access? :survey_new_edit %>
+<%= link_button t('edit'), edit_survey_path(@survey) %> |
 <% end %>
-<%= link_to t('go_back'), journal_path(@journal_entry.journal) %>
+<%= back_button journal_path(@journal_entry.journal) %>
 
 
 

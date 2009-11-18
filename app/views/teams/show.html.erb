@@ -33,7 +33,7 @@
 
 <div class="commands">
 	<%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => t('user.new') %>
-	<% if current_user.has_access? :journal_new_edit_delete %>
+	<% if current_user.access? :journal_new_edit_delete %>
 		<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
 	<% end %>
 </div>
@@ -59,9 +59,9 @@
 
 
 <div class="commands">
-<% if current_user.has_access? :team_new_edit_delete %>
+<% if current_user.access? :team_new_edit_delete %>
 	<%= link_button t('delete'), delete_team_path(@group), 'team_delete' %>
 	<%= link_button t('edit'), edit_team_path(@group), 'team_edit' %>
 <% end %>
-	<%= link_button t('go_back'), teams_path, 'go_back' %>
+	<%= back_button teams_path %>
 </div>

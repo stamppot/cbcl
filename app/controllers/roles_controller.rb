@@ -120,7 +120,7 @@ class RolesController < ApplicationController # ActiveRbac::ComponentController
   before_filter :superadmin_access
   
   def superadmin_access
-    if session[:rbac_user_id] and current_user.has_access? :admin
+    if current_user.access? :admin
       return true
     elsif !current_user.nil?
       redirect_to surveys_path

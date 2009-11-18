@@ -1,7 +1,7 @@
 <% section_id = "section_#{@section.id}" %>
 <div>
 	<li id="section_<%= @section.id %>" class="section_title"><%= @section.title %>
-	<% if current_user.has_access? :faq_edit %>
+	<% if current_user.access? :faq_edit %>
 		<span class="small_action" style="padding-left: 2em;">
 			<%= link_button t('edit'), edit_faq_section_url(@section), 'faq_section_edit', :class => "small_action" %>
 			<%= link_button t('delete'), faq_section_url(@section), 'faq_section_delete', :confirm => 'Er du sikker?', :method => :delete, :class => "small_action" %>
@@ -14,7 +14,7 @@
 			<%= render :partial => "question" %>
 		<% end %>
 	</ol>
-	<% if current_user.has_access? :faq_edit %>
+	<% if current_user.access? :faq_edit %>
 		<%= link_button 'Nyt spørgsmål', new_faq_path(@section), 'faq_new_question' %>
 		<%= link_button 'Organiser liste', faq_order_questions_url(@section), 'faq_order' %>
 	<% end %>

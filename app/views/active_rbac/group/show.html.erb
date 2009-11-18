@@ -3,7 +3,7 @@
 <div class="commands">
 	<%= link_button t('delete'), (:action => :delete, :id => @group), 'delete' %>
 	<%= link_button t('edit'), (:action => :update, :id => @group), 'edit' %>
-	<%= link_button t('go_back'), (:action => :list), 'go_back' %>
+	<%= back_button, groups_url %>
 </div>
 
 <dl>
@@ -35,7 +35,7 @@
 <div class="commands">
 	<%= link_button t('delete'), (:action => :delete, :id => @group), 'delete' %>
 	<%= link_button t('edit'), (:action => :update, :id => @group), 'edit' %>
-	<%= link_button t('go_back'), (:action => :list), 'go_back' %>
+	<%= back_button, groups_url %>
 </div>
 
 <h3>Directly Assigned Users</h3>

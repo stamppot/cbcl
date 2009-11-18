@@ -8,7 +8,7 @@
 		<%= link_to_remote @question.title, :url => faq_answer_path(@question) %>
 	<% end %>
 	
-	<% if current_user.has_access? :superadmin %>
+	<% if current_user.access? :superadmin %>
 		<span class="small_action" style="padding-left: 3em;">
 			<%= link_to "Rediger", edit_faq_url(@question) %>
 			<%= link_to_remote t('delete'), :url => faq_path(@question), :method => :delete, :confirm => "Vil du slette spørgsmålet?" %>

@@ -82,7 +82,7 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
 
   # Admin needs access to see subscriptions.. but this controller has no views, no?  
   def user_access
-    if session[:rbac_user_id] and current_user.has_access? :all_users
+    if current_user.access? :all_users
       return true
     else
       redirect_to "/login"
@@ -92,7 +92,7 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   end
   
   def check_access
-    if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user)) and params[:id]
+    if current_user and ((current_user.access?(:all_users) || current_user.access?(:login_user))) and params[:id]
       j_id = JournalEntry.find(params[:id]).journal_id
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
       access = journal_ids.include? j_id

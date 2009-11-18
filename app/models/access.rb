@@ -1,7 +1,28 @@
 class Access
 
-  attr_accessor :rights
+  # attr_accessor :rights
 
+  # def initialize
+  #   @@rights = 
+  
+  def self.rights
+    @@rights
+  end
+
+  def self.for_user(user)
+    user.all_roles.map {|role| self.for(role.title.to_sym) }.foldl(:merge)
+  end
+  
+  def self.for(role)
+    result = {} # TODO: set global var with name of role. Speedup?
+    @@rights.each do |perm, arr|
+      if arr.include? role
+        result[perm] = role
+      end
+    end
+    result
+  end
+  
   def Access.instance
     return Access.new
   end
@@ -124,6 +145,6 @@ class Access
     :login_user                 => [:login_bruger, :parent, :teacher, :pedagogue, :youth],
     :admin                      => [:superadmin, :admin],
     :superadmin                 => [:superadmin],
-    :all_roles                  => Role.find(:all).map { |r| r.title }
+    :all_roles                  => [:superadmin, :admin, :centeradministrator, :teamadministrator, :behandler, :login_bruger, :parent, :teacher, :pedagogue, :youth ]# Role.all.map { |r| r.title }
   }
 end

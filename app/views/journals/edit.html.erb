@@ -2,8 +2,7 @@
 
 <% form_tag journal_url(@group), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
+  <%= submit_tag t('save_changes'), :class => 'button journal_edit' %>
 <% end %>
 
-<%= link_button t('show'), journal_url(@group), :title => t('journal.show'), 'journal_show' %> |
-<%= link_button t('go_back'), journals_url, 'go_back' :title => t('go_back_to_list') %>
+<%= back_button journal_url(@group) %>

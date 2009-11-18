@@ -18,7 +18,7 @@ for survey in @surveys
 			<%= h(truncate(survey.description, {:length => 80})) %>
 		</td>
 
-		<% if current_user.has_access? :survey_new_edit %>
+		<% if current_user.access? :survey_new_edit %>
 		<td class="survey_actions">
 			<% link_to 'Vis 2', edit_survey_builder_url(survey) %><br>
 			<%= link_to t('survey.add_question'), add_question_survey_builder_url(survey) %><br>
@@ -34,10 +34,10 @@ for survey in @surveys
 
 <br>
 
-<% if current_user.has_access? :survey_finish %>
+<% if current_user.access? :survey_finish %>
 	<%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>
 <% end %>
 
-<% if current_user.has_access? :survey_new_edit %>
+<% if current_user.access? :survey_new_edit %>
 	<%= link_button t('survey.new'), new_survey_builder_url, 'survey_add' %>
 <% end %>

@@ -1,14 +1,14 @@
 <% cache current_user.roles.map {|r| r.id}.join("_") do %>
-<% if @user && @user.has_access?(:layout_show_menu) %>
+<% if current_user.perms[:layout_show_menu] %>
 <div id="menu">
 
-	<% if @user && @user.has_access?(:layout_show_group_menu) %>
+	<% if current_user && current_user.perms[:layout_show_group_menu] %>
 	<div id="group_menu" class="menu_section">
 		<div class="menu_title"><%= t("menu.groups") %></div>
 
 		<% form_tag(center_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 		
-		<% if @user && @user.has_access?(:layout_show_center_search) %>
+		<% if current_user.perms[:layout_show_center_search] %>
 		<div class="searchbox">
 			<label for="search_centers"><font size="1"><b><%= t("menu.search_groups") %></b></font></label><br>
 			<%= text_field_tag_html4 :search_centers, "center", { :value => "" ,:size => 10, :class => 'search' } %>
@@ -16,7 +16,7 @@
 		</div>
 		<% end %>
 
-		<% if @user && @user.has_access?(:layout_show_center_search) %>
+		<% if current_user.perms[:layout_show_center_search] %>
 			<%= observe_field(:search_centers,
 				:frequency => 0.5,
 				:update => :content,
@@ -26,53 +26,53 @@
 			<% end %>
 		<% end %>
 
-		<%= link_to (@user && @user.has_access?(:admin) ? t("menu.centers") : t("menu.center")), centers_path, :title => t('center.list') %>
+		<%= link_to (current_user.perms[:admin] ? t("menu.centers") : t("menu.center")), centers_path, :title => t('center.list') %>
 
 		<!-- Vis ikke teams/personer til admin -->
-		<% if @user && @user.has_access?(:team_show) %>
+		<% if current_user.perms[:team_show] %>
 			<%= link_to t("menu.teams"), teams_path, :title => t('team.list') %>
 		<% end %>
 	</div>
 	<% end %>
 
-	<% if @user && @user.has_access?(:layout_show_user_menu) %>
+	<% if current_user.perms[:layout_show_user_menu] %>
 	<div id="user_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.users') %></div>
-		<% if @user.status == 'new_password' %>
-			<%= link_to t('menu.change_password'), change_password_path(@user), :title => t('menu.change_password_alt') %>
+		<% if current_user.status == 'new_password' %>
+			<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
 		<% end %>
-		<% if @user.has_access? :layout_show_users  %>
+		<% if current_user.perms[:layout_show_users]  %>
 		<%= link_to t('menu.show_users'), users_path, :title => t('user.show') %>
-			<% if @user.has_access? :user_new %>
+			<% if current_user.perms[:user_new] %>
 				<%= link_to t('menu.create_user'), new_user_path, :title => t('user.new') %>
 			<% end %>
 		<% end %>
-		<% if @user.has_access? :layout_show_login_users %>
+		<% if current_user.perms[:layout_show_login_users] %>
 		<% link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
 		<% end %>
 	</div>
 	<% end %>
 
 
-	<% if @user && @user.has_access?(:layout_show_survey_menu) %>
+	<% if current_user.perms[:layout_show_survey_menu] %>
 	<div id="survey_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.surveys') %></div>
-		<% if @user.has_access? :layout_show_only_surveys %>
+		<% if current_user.perms[:layout_show_only_surveys] %>
 		<%= link_to t('menu.show_surveys'), surveys_path, :title => 'Spørgeskema-liste' %>
 		<% end %>
-		<% if @user.has_access? :layout_show_subscriptions %>
+		<% if current_user.perms[:layout_show_subscriptions] %>
 		<%= link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
 		<% end %>
-		<% if @user.has_access? :layout_show_scores %>
+		<% if current_user.perms[:layout_show_scores] %>
 		<%= link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
 		<% end %>
-		<% if @user.has_access? :layout_show_data_export %>
+		<% if [:layout_show_data_export] %>
 		<%= link_to t("menu.data_export"), exports_path %>
 		<% end %>
 	</div>
 	<% end %>
 
-	<% if @user && @user.has_access?(:layout_show_teams_journals) %>
+	<% if current_user.perms[:layout_show_teams_journals] %>
 	<div id="journal_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.journals') %></div>
 		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
@@ -96,7 +96,7 @@
 	</div>
 	<% end %>
 
-	<% if @user && @user.has_access?(:layout_show_settings_menu) %>
+	<% if current_user.perms[:layout_show_settings_menu] %>
 	<div id="settings_menu" class="menu_section">
 		<div class="menu_title">Indstillinger</div>
 		<%= link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>

@@ -4,7 +4,7 @@
 <% id = question.id.to_s %>
 
 <div id='question_number<%= no %>'>
-	<% if current_user.has_access? :survey_edit_delete %>
+	<% if current_user.access? :survey_edit_delete %>
 		<% if no > 0 %>
 			Spørgsmål: <%= no %>
 		<% end %>

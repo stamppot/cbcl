@@ -3,12 +3,15 @@
 
 <p>
 Er du sikker på at du vil slette brugeren &quot;<%= @user.login %>&quot;
-<% if @user.roles.size > 0 %>
+<% if @user.roles.any? %>
 med <%= @user.roles.size == 1 ? 'rollen' : 'rollerne' %> &quot;<%= @user.roles.collect { |r| r.title }.join(", ") %>&quot;<% end %>?<br>
 <strong>Denne handling kan ikke fortrydes</strong>.
 </p>
 
 <% form_tag user_path(@user), :method => :delete do %>
-  <%= submit_tag 'Ja', :name => 'yes', :class => 'button accept gray' %>
-  <%= submit_tag 'Nej', :name => 'no', :class => 'button delete gray' %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'button accept', :title => 'Slet - kan ikke fortrydes' %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'button deny', :title => 'Fortryd - slet ikke' %>
+	<p>
+	<%= back_button @user %>
+
 <% end %>

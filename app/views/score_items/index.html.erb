@@ -15,7 +15,7 @@
 			<% end %>
 		</ol>
 
-		<% if current_user.has_access? :score_edit %>
+		<% if current_user.access? :score_edit %>
 		<div id="bottom-left">
 			<div class="actions">
 				<% if @action == 'order' %>

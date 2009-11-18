@@ -103,7 +103,7 @@ class ActiveRbac::StaticPermissionController < ActiveRbac::ComponentController
   before_filter :superadmin_access
   
   def superadmin_access
-    if session[:rbac_user_id] and current_user.has_access? :superadmin
+    if current_user.access? :superadmin
       return true
     elsif !current_user.nil?
       redirect_to :controller => '/survey', :action => :list

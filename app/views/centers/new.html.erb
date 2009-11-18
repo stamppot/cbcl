@@ -2,8 +2,8 @@
 
 <% form_tag centers_path do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Opret Center", :class => 'btn_gray' %>
+  <%= submit_tag "Opret Center", :class => 'button save' %>
 <% end %>
 
 <p/>
-<%= link_button t('go_back'), centers_url, 'go_back', :title => t('go_back') %>
+<%= back_button centers_url %>

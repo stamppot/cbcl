@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091108110127) do
+ActiveRecord::Schema.define(:version => 20091115221047) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -55,14 +55,12 @@ ActiveRecord::Schema.define(:version => 20091108110127) do
     t.integer  "survey_id"
     t.integer  "journal_entry_id"
     t.integer  "journal_id"
-    t.integer  "center_id"
     t.integer  "age"
     t.integer  "sex"
     t.text     "answer"
     t.datetime "created_at"
   end
 
-  add_index "csv_answers", ["center_id"], :name => "index_csv_answers_on_center_id"
   add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
   add_index "csv_answers", ["survey_id"], :name => "index_csv_answers_on_survey_id"
 
@@ -184,8 +182,6 @@ ActiveRecord::Schema.define(:version => 20091108110127) do
     t.string  "var"
   end
 
-  add_index "question_cells", ["question_id"], :name => "index_question_cells_on_question_id"
-
   create_table "questions", :force => true do |t|
     t.integer "survey_id", :null => false
     t.integer "number",    :null => false
@@ -304,12 +300,16 @@ ActiveRecord::Schema.define(:version => 20091108110127) do
   add_index "static_permissions", ["title"], :name => "static_permissions_title_index", :unique => true
 
   create_table "subscriptions", :force => true do |t|
-    t.integer  "center_id",  :default => 0, :null => false
-    t.integer  "survey_id",  :default => 0, :null => false
+    t.integer  "center_id",           :default => 0, :null => false
+    t.integer  "survey_id",           :default => 0, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state",      :default => 0, :null => false
+    t.integer  "state",               :default => 0, :null => false
     t.text     "note"
+    t.integer  "total_used"
+    t.integer  "total_paid"
+    t.integer  "active_used"
+    t.date     "most_recent_payment"
   end
 
   add_index "subscriptions", ["center_id"], :name => "index_subscriptions_on_center_id"

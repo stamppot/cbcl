@@ -45,8 +45,8 @@ function highlightCell(question, row, col) {
 }
 
 function updatePreview() {
-	prefix = survey_prefix + question_prefix + $('variable_item').value.toString() + $('variable_short').value;
+	prefix = $('variable_item').value.toString() + $('variable_short').value;
 	$('preview').innerHTML = prefix;
 	$('variable_var').value = prefix;
-	alert("Prefix: " + prefix.toString());
+	// alert("Prefix: " + prefix.toString());
 }

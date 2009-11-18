@@ -6,8 +6,6 @@ Der er ingen journaler i systemet.
 <th class="wide sortcol sortdesc" title="Sorter efter navn">Navn</th>
 <th title="Sorter efter Id" class="sortcol">Id</th>
 <th title="Sorter efter fødselsdato" class="sortcol">Fødselsdato</th>
-<!-- <th class="number" title="Sorter efter antal skemaer">Skemaer</th> -->
-<!-- <th class="half_wide" title="Sorter efter status"><%= t('state') %></th> -->
 <th title="Sorter efter oprettelsesdato" class="sortcol"><%= t('created') %></th>
 <% unless @hide_team %>
 <th class="half_wide" title="Sorter efter team"><%= current_user.teams.any? ? "Team" : "Center" %></th>

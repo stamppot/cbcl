@@ -1,13 +1,14 @@
 <tr id="add_new_score_item">
   <td><%= select("score_item", "question_id", @items)  %></td>
-  <td><%= text_field("score_item", "range", { :size => 5, :class => 'gray' }) %></td>
+  <td><%= text_field("score_item", "range", { :size => 5 }) %></td>
   <td><%= select("score_item", "qualifier", @score.item_qualifiers.to_a) %></td>
-  <td><%= text_field("score_item", "items", { :size => 42, :class => 'gray' }) %></td>
+  <td><%= text_field("score_item", "items", { :size => 42 }) %></td>
 </tr>
 
 <tr id="create_score_item_button">
 	<td>
-	<%= link_button_to_remote t(:add), 'accept', :url => create_score_item_path(@score), :submit => "add_new_score_item" %>&nbsp;&nbsp;
+	<%= link_button_to_remote t(:add), 'accept', :url => create_score_item_path(@score),
+	 :submit => "add_new_score_item" %>&nbsp;&nbsp;
 	<%= link_button_to_remote t(:cancel), 'cancel', :url => cancel_score_item_path %>
 	</td>
 </tr>

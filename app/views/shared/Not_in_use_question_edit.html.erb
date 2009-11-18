@@ -2,7 +2,7 @@
 <%- @question = question_edit %>
 <hr/>
 <div id='question_number<%= @question.number %>'>Spørgsmål:
-<% if current_user.has_access? :survey_new_edit_delete
+<% if current_user.access? :survey_new_edit_delete
 <%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 1 %>
 <div class='edit_question'>
 	<%= link_to_remote "Slet", :url => { :action => "delete_question", :id => @question.id, :number => @question.number },

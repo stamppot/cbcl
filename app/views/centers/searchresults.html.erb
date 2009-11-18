@@ -15,7 +15,7 @@
 				<h4>Ingen abonnementer</h4>
 				<% end %>
 
-				<% if @user.has_access? :subscription_new_edit %>
+				<% if current_user.access? :subscription_new_edit %>
 						<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_change', :title => 'Forandr abonnementer' %>&nbsp;&nbsp;
 					<% end %>
 

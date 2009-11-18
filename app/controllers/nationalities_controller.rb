@@ -48,7 +48,7 @@ class NationalitiesController < ApplicationController
 
   
   def admin_access
-    if session[:rbac_user_id] and current_user.has_access? :admin
+    if current_user.access? :admin
       return true
     elsif current_user
       redirect_to nationalities_path

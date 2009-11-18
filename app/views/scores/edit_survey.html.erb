@@ -12,7 +12,7 @@
 </dl>
 
 
-<%= submit_tag "Skift", :name => 'submit[update]', :class => 'btn_gray' %>
-<%= link_button t('go_back'), { :action => :edit, :id => @score }, 'go_back', :title => t('go_back_to_journal') %>
+<%= submit_tag t('change'), :name => 'submit[update]', :class => 'button save' %>
+<%= back_button edit_score_path(@score) %>
 
 <% end %>

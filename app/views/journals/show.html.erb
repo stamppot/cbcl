@@ -125,7 +125,7 @@
 		  
 		  <div class="commands">
 				<div class="button">
-					<%= submit_tag t('score.calculate'), :class => 'btn_gray' %>
+					<%= submit_tag t('score.calculate'), :class => 'button score_calculate' %>
 				</div>
 			<% end %>
 		</div>
@@ -134,7 +134,7 @@
 
 	<div class="commands">
 		<%= link_button t('edit'), edit_journal_path(@group), 'journal_edit', :title => t('edit') %>
-		<%= link_button t('go_back'), journals_path, 'go_back', :title => t('go_back_to_list') %>
+		<%= back_button journals_path %>
 	</div>
 	
 <% end %> <!-- end of cache -->

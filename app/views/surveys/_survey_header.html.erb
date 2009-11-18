@@ -8,7 +8,7 @@
 		</div>
 	<% end %>
 <% else %>
-	<%= link_button t('go_back'), surveys_path, 'go_back', 'Gå tilbage' %>
+	<%= back_button surveys_path %>
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
 			<div class="surveyname"><%= @survey.title %></div>

@@ -189,7 +189,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   before_filter :check_access, :except => [:index, :list, :per_page]
   
   def behandler_access
-    if session[:rbac_user_id] and current_user.has_access? :all_users
+    if current_user.access? :all_users
       return true
     elsif current_user
       redirect_to "/login"
@@ -203,7 +203,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   end
 
   def centerleder_access
-    if session[:rbac_user_id] and current_user.has_access? :team_new_edit_delete
+    if current_user.access? :team_new_edit_delete
       return true
     elsif current_user
       redirect_to "/team/list"
@@ -217,7 +217,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   end
   
   def check_access
-    if params[:id] and current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+    if params[:id] and current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
       access = current_user.team_member? params[:id].to_i
     elsif !params[:id]
       true

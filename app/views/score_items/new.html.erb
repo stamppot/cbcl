@@ -2,10 +2,10 @@
 
 <% form_tag :action => :create_scale do %>
 
-	<%= text_field(:score_scale, :title, :class => 'btn_gray') %>
+	<%= text_field :score_scale, :title %>
 
-  <%= submit_tag t('create'), :class => 'btn_gray' %>
+  <%= submit_tag t('create'), :class => 'button' %>
 <% end %>
 
 <br>
-<%= link_button t('go_back_to_list'), :action => 'list_scales', 'go_back' %>
+<%= back_button :action => 'list_scales' %>

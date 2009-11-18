@@ -24,7 +24,7 @@ body {
 
 div.form {
   text-align: center;
-  width: 350px;
+  width: 280px;
 /*  margin: 100px auto;
   margin-top: 60px;*/
   padding: 10px;
@@ -43,3 +43,8 @@ form td {
 /*	padding-left: 100px;
 	padding-top: 100px;
 */}
+
+.login_field {
+	font-size: 12px;
+	background-color: #fdfdfd;
+}

@@ -2,7 +2,7 @@
 
 <% form_tag :action => :create do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Opret Team", :class => 'btn_gray' %>
+  <%= submit_tag "Opret Team", :class => 'button team_add' %>
 <% end %>
 
-<%= link_button t('go_back'), users_url, 'go_back', :title => t('go_back_to_list') %>
+<%= back_button users_url %>

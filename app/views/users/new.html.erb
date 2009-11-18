@@ -3,9 +3,9 @@
 <% form_tag :action => :create do %>
 <%= render :partial => 'form' %>
 
-<%= submit_tag t('create'), :name => 'submit[create]', :class => 'btn_gray' %>
+<%= submit_tag t('create'), :name => 'submit[create]', :class => 'button user_add' %>
 <% end %>
 
 <p/>
 
-<%= link_button t('go_back'), users_url, 'go_back', :title => t('go_back') %>
+<%= back_button users_url %>

@@ -5,16 +5,16 @@
 <div>
   <div>
 		<div class="form-row">
-      <%= f.label(:title, "Afsnitstitel") %>
-  		<%= f.text_field(:title, :class => "btn_gray") %>
+      <%= f.label :title, "Afsnitstitel" %>
+  		<%= f.text_field :title %>
     </div>
 	</div>
 
 <div class="form-row">
-	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %>  
+	<%= f.submit "Gem", :name => "submit", :class => "button accept" %>  
 </div>
 </div>
 
 <% end %>
-<%= link_button t('go_back'), faqs_url, 'go_back', :title => t('go_back') %>
+<%= back_button faqs_url %>
 

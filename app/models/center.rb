@@ -110,35 +110,27 @@ class Center < Group
 
   # shows no. used questionnaires in subscriptions
   def used_subscriptions
-    self.subscriptions.inject(0) { |sub,n| sub.copies_used + n }
+    self.subscriptions.inject(0) { |memo,sub| sub.copies_used + memo;  }
   end
 
   # finds all copies for all subscriptions
   def subscription_summary(options = {})
-    copies = self.subscriptions.active.map { |sub| sub.copies }.flatten
-    if options
-      case options[:show]
-      when "active":
-        copies = copies.select(&:active?)
-      when "paid":
-        copies = copies.select(&:consolidated)
-      end
-    end
+    copies = Query.new.query_subscription_copies_for_centers(self.id).map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
     copies.group_by(&:created_on).sort_by {|key| key}  # key is date
   end
 
   # set active copies to paid. Create new copies  
   def set_active_subscriptions_paid!
-    self.subscriptions.each { |sub| sub.consolidate }
+    self.subscriptions.each { |sub| sub.pay! }
   end
 
   def undo_pay_subscriptions!
-    self.subscriptions.each { |sub| sub.undo_consolidate }
+    self.subscriptions.each { |sub| sub.undo_pay! }
   end
 
   # did center ever pay a subscription?
   def paid_subscriptions?
-    !self.subscriptions.map { |sub| sub.copies.consolidated }.flatten.empty?
+    !self.subscriptions.map { |sub| sub.copies.paid }.flatten.empty?
   end
   
   # return the next team id. Id must be highest id so far plus 1, and if doesn't exist

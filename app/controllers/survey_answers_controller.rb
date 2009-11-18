@@ -61,14 +61,18 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.find(id)
 
     @center = @journal_entry.journal.center
-    @subscription = @center.subscriptions.detect { |sub| sub.survey.id == @journal_entry.survey.id }
+    @subscription = @center.subscriptions.detect { |sub| sub.survey_id == @journal_entry.survey_id }
 
-    flash[:error] = if @subscription.nil?
-      "Centret abbonnerer ikke på dette spørgeskema."
-    elsif not @subscription.active?
-      "Dit abonnement er udløbet. Kontakt CBCL-SDU."
+    if @subscription.nil? || @subscription.inactive?
+      flash[:error] = @subscription && t('subscription.expired') || ('subscription.none_for_this_survey')
+      redirect_to journal_path(@journal_entry.entry)
     end
-    redirect_to journal_path(@journal_entry.entry) if flash[:error]
+    # flash[:error] = if @subscription.nil?
+    #   "Centret abbonnerer ikke på dette spørgeskema."
+    # elsif not @subscription.active?
+    #   "Dit abonnement er udløbet. Kontakt CBCL-SDU."
+    # end
+    # redirect_to journal_path(@journal_entry.entry) if flash[:error]
 
     survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
@@ -77,12 +81,17 @@ class SurveyAnswersController < ApplicationController
 
     # if answered by other, save the textfield instead
     # "answer"=>{"person_other"=>"fester", "person"=>"15"}
-     if params[:answer][:person].to_i == Role.get(:other).id
-      survey_answer.answered_by = params[:answer][:person_other]
-    else
-      survey_answer.answered_by = params[:answer][:person] unless params[:answer].nil?
-    end      
-    survey_answer.save   # must be saved, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
+    if (other = params[:answer][:person_other]) && (other.to_i == Role.get(:other).id)
+      survey_answer.answered_by = other #answer_by[:person_other]
+    end      # else
+    survey_answer.answered_by ||= params[:answer][:person]
+    # end      
+    # if params[:answer][:person].to_i == Role.get(:other).id
+    #   survey_answer.answered_by = params[:answer][:person_other]
+    # else
+    #   survey_answer.answered_by = params[:answer][:person] unless params[:answer].nil?
+    # end      
+    survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
     
     # save with save_draft method
     survey_answer.save_partial_answers(params, survey)
@@ -95,9 +104,10 @@ class SurveyAnswersController < ApplicationController
     if survey_answer.save # and not @journal_entry.nil?
       @journal_entry.increment_subscription_count(survey_answer)
       # create pregenerated csv_answer
+      Task.new.create_csv_answer(survey_answer)
       
       # login-users are shown the logout page
-      if current_user and current_user.has_access? :all_users
+      if current_user and current_user.access? :all_users
         flash[:notice] = "Dit svar er blevet gemt."
         redirect_to journal_path(@journal_entry.journal)
       else
@@ -134,11 +144,11 @@ class SurveyAnswersController < ApplicationController
   before_filter :check_access
   
   def check_access
-    if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include?(id)
-      elsif current_user.has_access?(:superadmin) # don't need to check for superadmin
+      elsif current_user.access? :superadmin # don't need to check for superadmin
         true
       else  # show methods uses journal_entry id
         current_user.journal_entry_ids.include?(id)

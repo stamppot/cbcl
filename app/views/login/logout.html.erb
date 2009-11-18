@@ -1,9 +1,9 @@
 <div id="logout">
-	<h3>Er du sikker på at du vil logge ud?</h3>
+	<h3><%= t('logout_question') %></h3>
 
 	<% form_tag :action => :logout do %>
-	<%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
-	<%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
+	<%= submit_tag 'Ja', :name => 'yes', :class => 'button logout' %>
+	<%= submit_tag 'Nej', :name => 'no', :class => 'button login' %>
 	<% end %>
 
 </div>

@@ -2,8 +2,8 @@
 
 <% form_tag center_path(@group), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag t('center.edit'), :class => 'btn_gray' %>
+  <%= submit_tag t('save_changes'), :class => 'button center_edit' %>
 <% end %>
 
 <%= link_button t('show'), center_path(@group), 'center_show', :title => t('show') %> |
-<%= link_button t('go_back'), centers_path, 'go_back', :title => t('go_back') %>
+<%= back_button centers_path %>

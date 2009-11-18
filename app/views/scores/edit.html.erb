@@ -2,10 +2,10 @@
 
 <% form_tag score_path(@score), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Gem ændringer', :class => 'btn_gray' %>
+  <%= submit_tag t('save_changes'), :class => 'button save' %>
 <% end %>
 
 <br>
 <%= link_button t('show'), score_path(@score), 'score_show' %> |
-<%= link_button t('go_back_to_list'), scores_path, 'go_back' %>
+<%= back_button scores_path %>
 

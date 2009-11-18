@@ -8,6 +8,6 @@ from them. <strong>This action cannot be reverted</strong>.
 </p>
 
 <% form_for :permission, :url => { :action => :delete, :id => @permission } do |form| %>
-  <%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
-  <%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
+  <%= submit_tag 'Ja', :name => 'yes' %>
+  <%= submit_tag 'Nej', :name => 'no' %>
 <% end %>

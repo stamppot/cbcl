@@ -31,7 +31,7 @@
 
 
 <div class="commands">
-<% if current_user.has_access? :subscription_new_edit %>
+<% if current_user.access? :subscription_new_edit %>
 <%= link_button 'Nulstil', subscription_reset_path(@subscription), 'subscription_reset', :title => 'Nulstil' %>
 	<% if @subscription.state == 1 %>
 		<%= link_button 'Deaktiver', subscription_deactivate_path(@subscription), 'subscription_deactivate', :title => 'Deaktiver abonnement' %>

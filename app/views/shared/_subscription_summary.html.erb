@@ -1,3 +1,5 @@
+<% @summaries = @subscription_presenter.summary_view %>
+
 <% if @options %>
 	<% buttons = {"all" => "Alle", "active" => "Aktive", "paid" => "Betalte"} %>
 	<% buttons.each { |key, name| buttons[key] = "<strong class='highlight'>#{name}</strong>" if @options && @options[:show] == key } 	%>
@@ -11,25 +13,21 @@
 		<th>Periode</th>
 		<th class="number">Brugte skemaer</th>
 		<th>Betalt</th>
+		<th>Brugt siden sidst<br/>(ikke betalt)</th>
 	</tr>
-<%
-total_used = 0
-@copies.each do |tuple|
-	date = tuple.first
-	copies = tuple.last
-	paid = copies.select(&:consolidated).size
-	end_period = copies.first.consolidated_on || Time.now.to_date
-	used_copies = copies.map(&:used).inject { |sum, n| sum + n }
-	total_used += used_copies %>
+	<% @summaries.each do |summary| %>
+	<% stopped_on = summary[:stopped_on] || Time.now.to_date %>
 	<tr>
-		<td><%= date.strftime("%e %b %y") %> - <%= end_period.strftime("%e %b %y") %></td>
-		<td class="number"><%= used_copies %></td>
-		<td class="number"><%= paid > 0 ? t('yes') : t('no') %></td>
+		<td><%= summary[:start_on].strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
+		<td class="number"><%= summary[:total_used] %></td>
+		<td class="number"><%= summary[:paid] %></td>
+		<td class="number"><%= summary[:active] %></td>
 	</tr>
-<% end %>
-
-<tr>
-	<td>Total:</td><td></td><td class="number"><%= total_used %></td>
-</tr>
-
+	<% end %>
+	<tr>
+		<td>Total:</td>
+		<td class="number"><%= @summaries.map {|s| s[:total_used]}.compact.sum %></td>
+		<td class="number"><%= @summaries.map {|s| s[:paid]}.compact.sum %></td>
+		<td class="number"><%= @summaries.map {|s| s[:active]}.compact.sum %></td>
+	</tr>
 </table>

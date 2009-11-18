@@ -1,4 +1,4 @@
-<h1>Editing variable</h1>
+<h1>Rediger variabel</h1>
 
 <% form_for(@variable, :method => :put) do |f| %>
   <%= f.error_messages %>
@@ -33,4 +33,4 @@
 <% end %>
 
 <%= link_button t('show'), @variable, 'variable_show' %> |
-<%= link_button t('go_back'), variables_path, 'go_back' %>
+<%= back_button variables_path %>

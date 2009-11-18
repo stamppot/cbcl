@@ -7,16 +7,16 @@
 			<td>
 <dl>
 	<dt><label for="user_login">Login</label></dt>
-	<dd><%= text_field 'user', 'login', :class => 'gray'  %></dd>
+	<dd><%= text_field 'user', 'login'  %></dd>
 
 	<dt><label for="user_name">Navn</label></dt>
 	<dd>
-		<%= text_field 'user', 'name', :class => 'gray'  %>
+		<%= text_field 'user', 'name'  %>
 		<div class="hint">Efterlad tom for samme navn som login</div>
 	</dd>
 
 	<dt><label for="user_email">Email</label></dt>
-	<dd><%= text_field 'user', 'email', :class => 'gray'  %></dd>
+	<dd><%= text_field 'user', 'email'  %></dd>
 	
 	<br/>
 	<%= render :partial => 'password' %>

@@ -4,6 +4,7 @@
 	<%= render :partial => "shared/subscription_new" %>
 	
 	<p>
-		<%= submit_tag "Abbonner", :class => 'btn_gray' %>
+		<%= submit_tag "Abbonner", :class => 'button subscribe' %>
+		<%= back_button center_path(@group) %>
 	</p>
 <% end %>

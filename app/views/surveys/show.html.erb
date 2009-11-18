@@ -5,7 +5,7 @@
 
 <div id='draft-message' style='color:red;'></div>
 
-<% if current_user.has_access? :survey_show_fast_input and !@options[:show_only] %>
+<% if current_user.access? :survey_show_fast_input and !@options[:show_only] %>
 <div class="command">
 	<% if @options[:answers] %>
 	<%=  link_to 'Hurtig indtastning', survey_show_fast_path(@journal_entry) %>

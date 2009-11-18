@@ -3,7 +3,7 @@
 <ul>
 	<% @roles.each do |r| 
 		roller << "<li>"
-		roller << if current_user.has_access?(:role_show) && (current_user.login =~ /jens/) 
+		roller << if current_user.access? (:role_show) && (current_user.login =~ /jens/) 
 			link_to r.title, active_rbac_role_path(r)
 	 	else 
 			r.title

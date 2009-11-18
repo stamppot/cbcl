@@ -3,10 +3,10 @@
 <!--[form:user]-->
 <dl>
   <dt><label for="user_login">Login</label></dt>
-  <dd><%= text_field 'user', 'login', :class => 'gray'  %></dd>
+  <dd><%= text_field 'user', 'login'  %></dd>
 
   <dt><label for="user_email">Email</label></dt>
-  <dd><%= text_field 'user', 'email', :class => 'gray'  %></dd>
+  <dd><%= text_field 'user', 'email'  %></dd>
 
   <%= render :partial => 'active_rbac/user/password' %>
 

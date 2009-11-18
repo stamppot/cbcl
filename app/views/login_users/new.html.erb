@@ -3,7 +3,7 @@
 <% form_tag :action => :create, :id => @entry do %>
 <%= render :partial => 'form' %>
 
-<%= submit_tag t('create'), :name => 'submit[create]', :class => 'btn_gray' %>
+<%= submit_tag t('create'), :name => 'submit[create]', :class => 'button user_create' %>
 <% end %>
 
-<%= link_button t('go_back'), @group, 'go_back', :title => t('go_back_to_journal') %>
+<%= back_button @group %>

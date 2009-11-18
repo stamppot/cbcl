@@ -31,12 +31,16 @@ class ApplicationController < ActionController::Base
   # session :session_key => '_cbcl_session_id'
   layout "survey"
 
+  before_filter :set_permissions
   before_filter :configure_charsets
   before_filter :check_access
   before_filter :center_title
 
   filter_parameter_logging :password, :password_confirmation
 
+  def set_permissions
+    current_user.perms = Access.for_user(current_user) if current_user
+  end
   # before_filter :set_locale
   # def set_locale
   #   # if this is nil then I18n.default_locale will be used
@@ -112,14 +116,14 @@ class ApplicationController < ActionController::Base
   def check_access
     # check controller
     if !params[:id].blank? and params[:controller] =~ /score|faq/
-      if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+      if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
           # puts "checking access... params: #{params.inspect}"
           case params[:controller]
           when /faq/
-            access = current_user.has_access?(:superadmin) || current_user.has_access?(:admin)
+            access = current_user.access?(:superadmin) || current_user.access?(:admin)
           when /score_reports/  # TODO: test this one!!!
             journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
@@ -128,11 +132,11 @@ class ApplicationController < ActionController::Base
               journal_ids.include? id
             end
           when /scores/
-            access = current_user.has_access? :superadmin
+            access = current_user.access? :superadmin
           when /group|role|admin/
-            access = current_user.has_access? :superadmin
+            access = current_user.access? :superadmin
           else
-            access = current_user.has_access? :superadmin
+            access = current_user.access? :superadmin
           end
           return access
         end
@@ -240,6 +244,10 @@ class Array
       row[longest-1] = obj if row.size < longest  # fill with nulls
     end
     return self
+  end
+  
+  def to_h
+    Hash[*self]
   end
 end
 

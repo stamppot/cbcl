@@ -8,7 +8,7 @@
 <%= render :partial => "shared/add_survey" %>
 
 
-<%= submit_tag "Tilføj", :name => 'submit[update]', :class => 'btn_gray' %>
-<%= link_button t('go_back'), @score, 'go_back' :title => t('go_back_to_journal') %>
+<%= submit_tag "Tilføj", :name => 'submit[update]', :class => 'button add' %>
+<%= back_button @score %>
 
 <% end %>

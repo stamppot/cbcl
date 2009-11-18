@@ -2,7 +2,7 @@
 
 <% form_for :permission, :url => { :action => :create } do |form| %>
   <%= render(:partial => 'form') %>
-  <%= submit_tag "Create New Permission" %>
+  <%= submit_tag "Create New Permission", :class => 'button add' %>
 <% end %>
 
-<%= link_button t('go_back'), (:action => :list), 'go_back' %>
+<%= back_button :action => :list %>

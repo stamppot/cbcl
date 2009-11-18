@@ -3,19 +3,6 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
   
-  # Use the configured layout.
-  # # layout ActiveRbacConfig.config(:controller_layout)
-
-  # We force users to use POST on the state changing actions.
-  # verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
-      
-  # We force users to use GET on all other methods, though.
-  # verify :method       => :get,
-  #        :only         => [ :index, :list, :show, :delete ],
-  #        :redirect_to  => { :action => :list },
-  #        :add_flash    => { :error => 'Center: You sent an invalid request!' }
-
-  # Simply redirects to #list
   # Displays a tree of all centers visible to user.
   def index
     @page_title = "CBCL - Centre"
@@ -25,8 +12,18 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   def show
     @group = Center.find(params[:id])
     @page_title = "CBCL - Center " + @group.title
-    @copies = @group.subscription_summary(params)
+    # @copies = @group.subscription_summary(params)
     @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
+
+    # puts "Count: " + @count.inspect
+    # summary
+    @subscription_presenter = SubscriptionPresenter.new(@group)
+    # @subscription_summaries = @group.subscription_summary(params)
+    # detailed list
+    @subscription_counts = Subscription.subscriptions_count(@group)
+    
+    @subscriptions = @group.subscriptions
+    @surveys = current_user.surveys.group_by {|s| s.id}
     
     redirect_to team_path(@group) if @group.instance_of?(Team) and return
     
@@ -57,7 +54,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       flash[:notice] = 'Centeret er blevet oprettet.'
       redirect_to center_path(@group)
     else
-      render new_center_url(@group)
+      render new_center_url
     end
   end
   
@@ -133,7 +130,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   # show a summary view of all subscriptions
   # def show_subscriptions  # :show => active|paid|all
   #   @group = Center.find(params[:id])
-  #   if current_user.has_access?(:subscription_show)
+  #   if current_user.access? (:subscription_show)
   #     @copies = @group.subscription_summary(:show => params[:show])
   #     render "shared/subscription_summary"
   #   else
@@ -149,7 +146,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     if request.post?
       @group.set_active_subscriptions_paid!
       flash[:notice] = "Abonnementer er betalt."
-      redirect_to center_path(@group) #:action => :show, :id => @group and return if @group.save
+      redirect_to center_path(@group)
     end
     
     rescue ActiveRecord::RecordNotFound
@@ -163,14 +160,20 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     if request.post?
       @group.undo_pay_subscriptions!
       flash[:notice] = "Sidste betaling af abonnementer er fortrudt."
-      redirect_to center_path(@group) and return if @group.save #:action => :show, :id => @group and return if @group.save
+      redirect_to center_path(@group) and return if @group.save
     else
       @copies = @group.subscription_summary(:show => params[:show])
     end
     
     rescue ActiveRecord::RecordNotFound
       flash[:error] = 'Dette abonnement kunne ikke findes.'
-      redirect_to center_path(@group) #:action => :show, :id => @group
+      redirect_to center_path(@group)
+  end
+  
+  def new_subscription_period
+  end
+  
+  def undo_new_subscription_period
   end
   
   protected
@@ -179,7 +182,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   before_filter :check_access
   
   def admin_access
-    if session[:rbac_user_id] and current_user.has_access? :admin
+    if current_user.access? :admin
       return true
     elsif !current_user.nil?
       redirect_to centers_path
@@ -194,7 +197,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
 
   def user_access
-    if session[:rbac_user_id] and current_user.has_access? :all_users
+    if current_user.access? :all_users
       return true
     else
       redirect_to "/login"
@@ -205,7 +208,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
   
   def check_access
-    if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
       access = current_user.team_member? params[:id].to_i
     else
       access_denied

@@ -1,29 +1,33 @@
 <h2><%= t('subscription.list') %></h2>
 
-<% @centers.each do |@group| %>
+<% @subscription_presenters.each do |@subscription_presenter| %>
+	
+	<% @group = @subscription_presenter.group %>
   <h3><%= t('center.center') %>:
  	<%= link_to( h(@group.title), center_path(@group) ) %></h3>
 	
+	<br/>
 	<% if @group.subscriptions.length > 0 %>
-		<% @copies = @group.subscription_summary(@options) %>
-		<%= render :partial => "shared/subscription_summary", :object => @copies %>
-	
+		<%= render :partial => "shared/subscription_summary" %>
 	<% else %>
 	<h4><%= t('subscription.none') %></h4>
 	<% end %>
 	
 	<div class="commands">
-		<% if @group.subscriptions.length > 0 %>
-		<% if @user.has_access? :subscription_new_edit %>
-			<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
-		<% end %>
-		<%= link_to_function t('show_hide'), visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
+		<% if @subscription_presenters.length > 0 %>
+			<% if current_user.access? :subscription_new_edit %>
+					<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
+			<% end %>
+			<%= link_to_function t('show_hide'), visual_effect(:toggle_blind, "subscription_details_#{@group.id}") %>
 
-		<div id="subscription_details_<%= @group.id %>" style="display: none;">
-			<%= render :partial => "shared/subscription_list", :object => @group %>
-		</div>
+			<div id="subscription_details_<%= @group.id %>" style="display: none;">
+				<%= render :partial => "shared/subscription_list_new", :object => @subscription_presenter %>
+				----- old -----
+				<%= render :partial => "shared/subscription_list", :object => @subscription_counts %>
+			</div>
+
 		<% else %>
-			<% if @user.has_access? :subscription_new_edit %>
+			<% if current_user.access? :subscription_new_edit %>
 				<%= link_button t('subscription.new'), new_subscription_path(@group), 'subscription_new', :title => t('subscription.new') %>
 			<% end %>
 		<% end %>

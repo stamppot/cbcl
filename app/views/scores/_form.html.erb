@@ -4,7 +4,7 @@
 <table class="score_info">
 	<tr>
 		<td class="t_i"><label for="score_name">Symptom:</label></td>
-		<td class="t"><%= text_field "score", "title", :class => 'gray' %></td>
+		<td class="t"><%= text_field "score", "title" %></td>
 	</tr>
 	<tr>
 		<td class="t_i">Skema:</td>
@@ -62,7 +62,7 @@
 
 
 		<div id="new_score_ref_button">
-			<%= link_button_to_remote "Tilføj referenceværdi", 'score_add_ref', :url => new_score_ref_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
+			<%= link_button_to_remote t('score.add_ref'), 'add', :url => new_score_ref_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
 		
 
@@ -94,7 +94,7 @@
 
 
 		<div id="new_score_item_button">
-			<%= link_button_to_remote "Tilføj beregning", 'score_add_item', :url => new_score_item_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
+			<%= link_button_to_remote t('score.add_item'), 'add', :url => new_score_item_path(@score), :failure => "alert('HTTP Error ' + request.status + '!')"  %>
 		</div>
 		
 
@@ -110,7 +110,7 @@
 				        Ajax.Responders.register({
 				        // log the beginning of the requests
 				        onCreate: function(request, transport) {
-				        new Insertion.Bottom('debug', '<p><strong>[' + new Date().toString() + '] current_user.has_access?ng ' + request.url + '</strong></p>')
+				        new Insertion.Bottom('debug', '<p><strong>[' + new Date().toString() + '] ifng ' + request.url + '</strong></p>')
 				        },
 
 				        // log the completion of the requests

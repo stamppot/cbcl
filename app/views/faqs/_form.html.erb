@@ -43,9 +43,9 @@
 		<div>
   		<div>
 				<% if @question.new_record? %>
-  		  	<%= f.submit "Gem", :name => "submit", :class => "btn_gray" %> | <%= link_button t('go_back'), faqs_path, 'go_back' %>
+  		  	<%= f.submit "Gem", :name => "submit", :class => "button accept" %> | <%= back_button faqs_path %>
 				<% else %>
-					<%= submit_tag "Gem", :name => "submit", :class => "btn_gray" %> | <%= link_button t('cancel'), faq_section_path(@section), 'cancel' %>
+					<%= submit_tag "Gem", :name => "submit", :class => "button accept" %> | <%= link_button t('cancel'), faq_section_path(@section), 'cancel' %>
 				<% end %>
   		</div>
 	  </div>

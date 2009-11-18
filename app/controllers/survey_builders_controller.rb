@@ -406,7 +406,7 @@ class SurveyBuildersController < ApplicationController
 
 
   def superadmin_access
-    if !current_user.nil? && current_user.has_access?(:superadmin)
+    if current_user && current_user.access?(:superadmin)
       return true
     elsif !current_user.nil?
       redirect_to "/login"

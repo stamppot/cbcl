@@ -3,7 +3,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :survey
   has_many :copies, :dependent => :delete_all
 
-  after_create :add_fresh_copy
+  after_create :new_period!
 
   named_scope :for_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   named_scope :by_survey, lambda { |survey| { :conditions => ['survey_id = ?', survey.is_a?(Survey) ? survey.id : survey] } }
@@ -16,7 +16,9 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :survey
   validates_presence_of :center
   
-  def add_fresh_copy
+  alias_method :periods, :copies
+  
+  def new_period!
     self.copies << Copy.new({:active => true})
   end
   
@@ -32,8 +34,12 @@ class Subscription < ActiveRecord::Base
     Subscription.default_states['Aktiv'] == self.state
   end
   
+  def inactive?
+    !(Subscription.default_states['Aktiv'] == self.state)
+  end
+  
   def activate!
-    self.add_fresh_copy unless self.copies.active.empty?
+    self.new_period! unless self.periods.active.empty?
     self.state = self.states['Aktiv']
     self.save
   end
@@ -43,75 +49,105 @@ class Subscription < ActiveRecord::Base
     self.save
   end
 
-  def find_active_copy
-    active_copy = self.copies.active.first
-    if active_copy.nil?
+  def find_active_period
+    active_period = self.periods.active.first
+    if active_period.nil?
       new_copy = Copy.create({:active => true})
-      self.copies << new_copy
+      self.periods << new_copy
       self.save
-      active_copy = new_copy
+      active_period = new_copy
     end
-    active_copy
+    active_period
   end
   
-  def active_copies_used
-    active_copy = self.find_active_copy
-    if active_copy.nil?
-      new_copy = Copy.create({:active => true, :used => 0})
-      self.copies << new_copy
-      self.save
-    else
-      active_copy = self.find_active_copy
-    end
-    return active_copy.used
+  def active_periods_used
+    find_active_period.used
   end
   
   # subscribed survey has been used
   def copy_used!
-    active_copy = find_active_copy
-    active_copy.copy_used
-    # self.copies_used += 1   # total count
+    find_active_period.copy_used!
+    self.total_used += 1   # total count
+    self.active_used += 1
     self.save
   end
 
   # rolls back last paid copy, sums any use counts
   def set_last_as_unpaid
-    active_copy = self.find_active_copy
-    if active_copy.nil?
+    active_period = self.find_active_period
+    old_period = self.periods[-2]
+    old_period.used += active_period.used
+    self.total_used += self.active_used
+    active_period.destroy && old_period.save && self.save
+  end
+  
+  def periods_used
+    # SELECT subscriptions.center_id, subscriptions.id, SUM(used) FROM cbcl_production.subscriptions, cbcl_production.periods
+    #where subscriptions.id = periods.subscription_id
+    #group by subscriptions.id
+    self.periods.map { |c| c.used }.sum #inject { |sum, n| sum + n }
+  end
+  
+  def inactive_used
+    self.total_used - self.find_active_period.used
+  end
+  
+  def subscriptions_count
+    result = Query.new.query_subscriptions_count(self)
+  end  
+
+  def self.subscriptions_count(center = nil, group_by = 'center_id')
+    result = Query.new.query_subscriptions_count(center)
+    result = result.group_by { |h| h[group_by].to_i } unless center
+    result
+  end
+  
+  def new_period!
+    active_period = find_active_period
+    active_period.pay!
+    # self.periods.create_copy({:active => true})
+    self.periods << Copy.create({:active => true, :subscription => self})
+  end
+
+  def undo_new_period!
+    active_period = find_active_period
+    if active_period
+      used = active_period.used
+      if second_last_copy = self.periods.inactive.paid.last
+        second_last_copy.used += used
+        second_last_copy.undo_pay!
+        active_period.destroy
+      end
     end
   end
   
-  def copies_used
-    self.copies.map { |c| c.used }.sum #inject { |sum, n| sum + n }
-  end
-  
   # consolidate active Copy obj and start new
-  def consolidate
-    active_copy = find_active_copy
-    active_copy.consolidate!
-    # self.copies.create_copy({:active => true})
-    self.copies << Copy.create({:active => true, :subscription => self})
+  def pay!
+    active_period = find_active_period
+    active_period.pay!
+    # self.periods.create_copy({:active => true})
+    self.periods << Copy.create({:active => true, :subscription => self})
     # self.save
   end
 
-  def undo_consolidate
-    active_copy = find_active_copy
-    if active_copy
-      used = active_copy.used
-      if second_last_copy = self.copies.inactive.consolidated.last
+  def undo_pay!
+    active_period = find_active_period
+    if active_period
+      used = active_period.used
+      if second_last_copy = self.periods.inactive.paid.last
         second_last_copy.used += used
-        second_last_copy.unconsolidate!
-        active_copy.destroy
+        second_last_copy.undo_pay!
+        active_period.destroy
       end
     end
   end
   
   def summary(options = {})
     results = case options[:show]
-    when "active": copies.active
-    when "paid": copies.consolidated
+    when "active": periods.active
+    when "paid": periods.paid
     else 
-      copies
+      periods
     end
     results.group_by { |c| c.created_on }
   end

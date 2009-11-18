@@ -49,7 +49,7 @@
 <% end %>
 
 
-<% if current_user.has_access? :role_show_all %>
+<% if current_user.access? :role_show_all %>
     <h3>Alle tildelte roller</h3>
 	<% @roles = @user.all_roles %>
     <% if @roles.empty? %>
@@ -61,9 +61,9 @@
 
 
 <div class="commands">
-<% if current_user.has_access? :user_edit_delete %>
+<% if current_user.access? :user_edit_delete %>
 		<%= link_button t('delete'), delete_user_path(@user), 'user_delete' %>
 		<%= link_button t('edit'), edit_user_path(@user), 'user_edit' %>
 <% end %>
-	<%= link_button t('go_back'), users_path, 'go_back' %><br/>
+	<%= back_button users_path %><br/>
 </div>

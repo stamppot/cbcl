@@ -122,7 +122,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
    
   def find_user
     if params[:id]
-      if current_user.has_access? :superadmin or current_user.has_access? :admin
+      if current_user.access?(:superadmin) or current_user.access?(:admin)
         @user = User.find(params[:id])
       else
         @user = User.in_center(current_user.center).find(params[:id])
@@ -136,7 +136,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     
     
   def login_access
-    if session[:rbac_user_id] and current_user.has_access? :all_users
+    if current_user.access? :all_users
       return true
     elsif !current_user.nil?
       redirect_to users_path
@@ -151,7 +151,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
   
   def check_access
     id = params[:id].to_i
-    if current_user.has_access?(:user_show_all)
+    if current_user.access?(:user_show_all)
       return true
     else
       access_list = current_user.get_users.map { |u| u.id } << 0

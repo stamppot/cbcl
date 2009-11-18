@@ -2,9 +2,9 @@
 
 <% form_tag @user, :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend Ændringer', { :class => 'normal' } %>
+  <%= submit_tag t('save_changes'), :class => 'button user_edit' %>
 <% end %>
 
 
 <%= link_button t('show'), @user, 'user_show', :title => 'Vis bruger' %> |
-<%= link_button t('go_back'), users_path, 'go_back' :title => t('go_back_to_list') %>
+<%= back_button users_path %>

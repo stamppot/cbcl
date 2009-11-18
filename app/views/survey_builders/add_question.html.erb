@@ -50,11 +50,11 @@ Spørgsmålsnummer: <%= text_field("question" , :number, { :value => @survey.new
 <br>
 
 <br>
-  <%= submit_tag 'Tilføj spørgsmål', :class => 'btn_gray' %>
+  <%= submit_tag 'Tilføj spørgsmål', :class => 'button add' %>
 <% end %>
 
-<%= link_to "Gå tilbage", surveys_path %>
 <%= link_to "Vis", survey_show_only_path(@survey) %>
+<%= back_button surveys_path %>
 
 <p>
 <p>
@@ -67,7 +67,7 @@ Spørgsmålsnummer: <%= text_field("question" , :number, { :value => @survey.new
         Ajax.Responders.register({
         // log the beginning of the requests
         onCreate: function(request, transport) {
-        new Insertion.Bottom('debug', '<p><strong>[' + new Date().toString() + '] current_user.has_access?ng ' + request.url + '</strong></p>')
+        new Insertion.Bottom('debug', '<p><strong>[' + new Date().toString() + '] ifng ' + request.url + '</strong></p>')
         },
 
         // log the completion of the requests

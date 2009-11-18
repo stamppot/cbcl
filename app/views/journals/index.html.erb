@@ -10,7 +10,7 @@ Tryk på en kolonne for at sortere tabellen.
 
 <p>
 <br/>
-<% if current_user.has_access? :journal_new_edit_delete %>
+<% if current_user.access? :journal_new_edit_delete %>
 <div class="commands">
 	<%= link_button 'Ny Journal', new_journal_path, 'journal_new' %>
 </div>

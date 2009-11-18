@@ -2,7 +2,7 @@
 
 <% form_tag :action => :create do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Opret Gruppe", :class => 'btn_gray' %>
+  <%= submit_tag "Opret Gruppe", :class => 'button accept' %>
 <% end %>
 
-<%= link_to 'Back', :action => :list %>
+<%= back_button, groups_path %>

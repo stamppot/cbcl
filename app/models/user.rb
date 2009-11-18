@@ -14,6 +14,12 @@ class User < ActiveRecord::Base
   # user must belong to a group unless he's superadmin or admin
   validates_associated :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
   validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
+
+  attr_accessor :perms
+  
+  def access?(permission)
+    self.perms && self.perms.include?(permission)
+  end  
   
   def has_access?(right)
     role_titles = Access.roles(right) # << "SuperAdmin"  # SuperAdmin has access to everything

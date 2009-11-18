@@ -37,11 +37,11 @@
 
 		<p>
 			<%= f.label :short, 'Variabelnavn' %><br>
-			<%= f.text_field :short, :size => 6, :class => 'gray', :onkeyup => "updatePreview()" %>
+			<%= f.text_field :short, :size => 6, :onkeyup => "updatePreview()" %>
 		</p>
 		<p>
 			<%= f.label :item %><br>
-			<%= f.text_field :item, :size => 4, :class => 'gray', :onkeyup => "updatePreview()" %>
+			<%= f.text_field :item, :size => 4, :onkeyup => "updatePreview()" %>
 		</p>
 	<p>
 			<%= f.label :row %>
@@ -60,11 +60,11 @@
 			</span>
 		</p>
 		<p>
-		<%= f.submit "Create", :class => 'gray' %>
+		<%= f.submit "Create", :class => 'button save' %>
 	</p>
 	<% end %>
 
-	<%= link_button t*('go_back'), variables_path, 'go_back' %>
+	<%= link_button t('go_back'), variables_path, 'go_back' %>
 
 </div>
 

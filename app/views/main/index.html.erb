@@ -5,7 +5,7 @@
 
 <h2>Introduktion</h2>
 
-<% if current_user && current_user.has_access?(:faq_show) %>
+<% if current_user && current_user.access?(:faq_show) %>
 	<div id="journal_help">
 		<h3>Journaler</h3>
 		<p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller (delvis) cprnr.</p>
@@ -15,7 +15,7 @@
 
 	<p><br></p>
 
-<% if current_user && current_user.has_access?(:faq_admin) %>
+<% if current_user && current_user.access?(:faq_admin) %>
 
 	<div id="center_help">
 		<h3>Centre</h3>

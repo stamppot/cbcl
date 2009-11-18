@@ -4,4 +4,4 @@
 	<%= render :partial => 'question' %>
 </ol>
 <br>
-<%= link_button t('go_back'), faq_show_section_path(@question.faq_section), 'go_back' %>
+<%= back_button, faq_show_section_path(@question.faq_section) %>

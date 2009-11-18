@@ -6,9 +6,9 @@
 <p>
 
 <div class="commands">
-<% if current_user.has_access? :user_new_in_center %>
+<% if current_user.access? :user_new_in_center %>
 	<%= link_button t('user.new'), new_user_path(current_user.center), 'user_add', :title => 'Opret ny bruger i centeret' %>
-<% elsif current_user.has_access? :user_new %>
+<% elsif current_user.access? :user_new %>
 	<%= link_button t('user.new'), new_user_path, 'user_add' %>
 <% end %>
 </div>

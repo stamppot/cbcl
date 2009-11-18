@@ -175,7 +175,7 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
   before_filter :user_access
 
   def user_access
-    if session[:rbac_user_id] and current_user.has_access? :all_users
+    if current_user.access? :all_users
       return true
     else
       redirect_to "/login"
@@ -185,7 +185,7 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
   end
   
   def check_access
-    if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
       access = current_user.journals.map {|j| j.journal_entries.map {|je| je.user_id }}.include? params[:id].to_i
     end
   end

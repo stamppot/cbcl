@@ -1,35 +1,32 @@
-<h1 id="cbcl-title">CBCL-online</h1>
+<h1 id="cbcl-title"><!-- CBCL-online --></h1>
 	<div id="subtitle"></div>
 
 <% form_tag :action => :login do %>
 
 <div title="Account login" id="loginform" class="form">
 
-    <h3>Log venligst ind:</h3>
+    <h3>CBCL-online<!-- Log venligst ind: --></h3>
     
     <table>
       <tr>
-        <td align=right width="100px"><label for="user_login">brugernavn:</label></td>
+        <td align=right width="50px"><!-- <label for="user_login">brugernavn:</label> --></td>
 
-        <td width="100px"><%= text_field_tag :username, params[:username], :size => 20, :class => "gray" %></td>
+        <td width="200px"><%= text_field_tag :username, params[:username], :size => 20, :class => "login_field" %></td>
       </tr>
       <tr> 
-        <td align=right width="100px"><label for="user_password">password:</label></td>
-        <td width="100px"><%= password_field_tag :password, params[:password], :size => 20, :class => "gray" %></td>
+        <td align=right><!-- <label for="user_password">password:</label> --></td>
+        <td width="200px"><%= password_field_tag :password, params[:password], :size => 20, :class => "login_field" %></td>
       </tr>
-      <tr> 
-        <td width="100px"></td>
-        <td><input type="submit" name="login" value="Login &#187;" class="primary gray" /></td>
-      </tr>
+      <!-- <tr> 
+        <td></td>
+        <td align="center" rowspan="2"><%= submit_tag "Login &#187;", :name => "login", :class => "button login"  %></td>
+      </tr> -->
     </table>
    <div align="center">
-<!--     <small>don't have an account? <a href="/signup">sign up</a></small><br> -->
-	
-<!--	 <br>
-     <small>Vil du bare kigge ind?  Prøv at logge ind med <em>cbcl</em></small>
-     -->
+		<%= submit_tag "Login &#187;", :name => "login", :class => "button login"  %>
+
      <br><small>
-     Har du mistet dit password? <%= link_button 'Få et nyt her.', lostpassword_url, 'password_lost' %>
+     Har du mistet dit password? <%= link_to 'Få et nyt her.', lostpassword_url %>
     </small>
      
    </div>

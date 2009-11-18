@@ -23,8 +23,8 @@
 </dl>
 
 
-<%= submit_tag "Fjern valgte", :name => 'submit[update]', :class => 'btn_gray' %>
+<%= submit_tag "Fjern valgte", :name => 'submit[update]', :class => 'button survey_remove' %>
 <% end %>
 <% end %>
-<%= link_button t('go_back'), journal_path(@group), 'go_back', :title => t('go_back_to_journal') %>
+<%= back_button journal_path(@group) %>
 

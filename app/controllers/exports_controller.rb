@@ -3,8 +3,8 @@ class ExportsController < ApplicationController
   def index
     args = params
     # set default dates
-    params[:start_date] ||= SurveyAnswer.first.created_at
-    params[:stop_date] ||= SurveyAnswer.last.created_at
+    params[:start_date] ||= (SurveyAnswer.first && SurveyAnswer.first.created_at)
+    params[:stop_date] ||= (SurveyAnswer.last && SurveyAnswer.last.created_at)
 
     params = filter_date(args)
     @start_date, @stop_date = params[:start_date], params[:stop_date]
@@ -24,7 +24,6 @@ class ExportsController < ApplicationController
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id } #inject([]) { |col, s| col << s.id if s.selected; col }
     puts "filter_surveys: #{filter_surveys.inspect}"
     @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
-    # puts "export_controller index COUNT SAS: #{@survey_answers.size}"
   end
 
   def filter

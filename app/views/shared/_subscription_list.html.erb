@@ -9,23 +9,45 @@
 <%
  total_used = 0
  active_total_used = 0
+  # @count_details = @count.group_by { |c| c['consolidated_on']}
  %>
-<% for sub in @group.subscriptions
-    if current_user.has_access? :subscription_show_inactive and sub.states.invert[sub.state] == "Inaktiv"
-      next    # do not show inactive to others than admins
-    else
-		 total_used += sub.copies_used
-		 active_total_used += sub.active_copies_used %>
+ <!-- @subscription_counts.each do |arr|
+	puts "arr: " + arr.inspect
+	# arr = arr.first
+		# {"sum"=>"67", "created_on"=>"2008-09-03", "survey_id"=>"1", "consolidated_on"=>"2009-10-18", "note"=>nil,
+		# "subscription_id"=>"1", "center_id"=>"1", "state"=>"1"}
+		active = arr["active"].to_i
+		# total_used = arr["total_used"].to_i
+		used = arr["used"].to_i
+		title = @surveys[arr["survey_id"].to_i].first.title
+		# survey = @surveys[arr['survey_id'].to_i].first
+		sum = arr['sum'].to_i
+		note = arr['note']
+		state = arr['state'].to_i
+		subscription = arr['subscription_id']
+		finish_date = (arr['consolidated_on'] || Time.now).to_date
+		total_used += sum
+		active_total_used += active # unless arr['consolidated_on'] -->
+
+<%		
+	for sub in @group.subscriptions
+		    if current_user.access? :subscription_show_inactive and sub.states.invert[sub.state] == "Inaktiv"
+		      next    # do not show inactive to others than admins
+		    else
+			 total_used += sub.total_used
+			 active_total_used += sub.active_used
+		%>
 			<tr>
-				<td><%= sub.survey.nil? ? "Intet skema" : link_to(sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
+				<td><%= link_to(sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
 				<td><%= sub.note.nil? ? "&nbsp;" : split_string(sub.note) %></td>
-				<td><%= sub.states.invert[sub.state] %></td>
-				<td class="number"><%= sub.copies_used %></td>
-				<td class="number"><%= sub.active_copies_used %></td>
+				<td><%= Subscription.states.invert[sub.state] %></td>
+				<td class="number"><%= sub.active_periods_used %></td>
+				<td class="number"><% sub.active_used %></td>
 			</tr>
  <% end %>
-<% end %>
+	<% end %>
 	<tr>
-		<td>Total:</td><td></td><td class="number"><%= total_used %></td><td class="number"><%= active_total_used %></td>
+		<td>Total:</td><td></td><td></td><td class="number"><%= total_used - active_total_used %></td><td class="number"><%= active_total_used %></td>
 	</tr>
+
 </table>

@@ -8,6 +8,6 @@ it. <strong>This action cannot be reverted</strong>.
 </p>
 
 <% form_tag :action => :delete, :id => @group do %>
-  <%= submit_tag 'Ja', :name => 'yes', :class => 'gray' %>
-  <%= submit_tag 'Nej', :name => 'no', :class => 'gray' %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'button accept' %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'button deny' %>
 <% end %>

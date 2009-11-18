@@ -26,7 +26,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
       user = User.find_with_credentials(params[:username], params[:password])
       flash[:notice] = "#{current_user.name}, du er allerede logget ind."
       
-      if session[:rbac_user_id] and current_user.has_access? :login_user
+      if current_user.access? :login_user
         redirect_to survey_start_path
       else
         redirect_to main_path
@@ -66,7 +66,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     
     # TODO: DRY up. Duplicate from line 27
     # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-    if session[:rbac_user_id] and current_user.has_access? :login_user
+    if current_user.has_access? :login_user
       redirect_to survey_start_path
     else
       redirect_to main_url

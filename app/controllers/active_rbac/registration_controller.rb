@@ -1,10 +1,10 @@
 # This controller provides actions for users to register with the system
 # and retrieve lost passwords
 class ActiveRbac::RegistrationController < ActiveRbac::ComponentController
-  layout false
+  layout 'login'
 
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
-  helper RbacHelper
+  # helper RbacHelper
 
   # Redirect to signup page
   def index

@@ -1,14 +1,14 @@
 	<tr id="add_new_score_ref">
 		<td><%= select 'score_ref', 'gender', [['Dreng', 1], ['Pige', 2]] %></td>
-		<td><%= text_field 'score_ref', 'age_group', { :size => 6, :class => 'gray' } %></td>
-		<td><%= text_field 'score_ref', 'mean', { :size => 4, :class => 'gray' } %></td>
-		<td><%= text_field 'score_ref', 'percent95', { :size => 4, :class => 'gray' } %></td>
-		<td><%= text_field 'score_ref', 'percent98', { :size => 4, :class => 'gray' } %></td>
+		<td><%= text_field 'score_ref', 'age_group', { :size => 6 } %></td>
+		<td><%= text_field 'score_ref', 'mean', { :size => 4 } %></td>
+		<td><%= text_field 'score_ref', 'percent95', { :size => 4 } %></td>
+		<td><%= text_field 'score_ref', 'percent98', { :size => 4 } %></td>
 	</tr>
 
 	<tr id="create_score_ref_button">
 		<td>
-			<%= link_button_to_remote t(:create), 'accept', :url => create_score_ref_path(@score), :update => {  },
+			<%= link_button_to_remote t(:add), 'accept', :url => create_score_ref_path(@score), :update => {  },
 				:submit => "add_new_score_ref"  %>&nbsp;&nbsp;
 				<%= link_button_to_remote t(:cancel), 'cancel', :url => cancel_score_ref_path %>
 			</td>

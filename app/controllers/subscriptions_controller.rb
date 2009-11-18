@@ -1,4 +1,4 @@
-class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentController
+class SubscriptionsController < ApplicationController
 
   in_place_edit_for :subscription, :note
   
@@ -8,21 +8,38 @@ class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentC
   def index
     @page_title = "CBCL - Abonnementer på spørgeskemaer"
     # TODO: kun surveys som der er adgang til
-    @user = current_user
+    # current_user = current_user
     @options = params
+    @surveys = current_user.surveys #.group_by {|s| s.id}
     @centers = 
-    if @user.has_access? :subscription_show_all
+    if current_user.has_access? :subscription_show_all
       Center.all
-    elsif @user.has_access? :subscription_show
-      @user.centers
+    elsif current_user.has_access? :subscription_show
+      current_user.centers
+    end 
+    
+    @subscription_presenters = @centers.map do |center|
+      sp = SubscriptionPresenter.new(center, @surveys)
     end
+
+    @subscription_counts_per_center = @centers.inject({}) {|hash, center| hash[center.id] = Subscription.subscriptions_count(center); hash }
+    @subscription_summaries_per_center = @centers.inject({}) {|hash, center| hash[center.id] = center.subscription_summary(params); hash }
   end
 
   def show
     @page_title = "CBCL - Abonnementer på spørgeskemaer"
-    # @user = current_user
+    # current_user = current_user
     @options = params  # for show options
     @subscription = Subscription.find(params[:id])
+    t0 = Time.now
+    @subscription_count = @subscription.subscriptions_count
+    @group = @subscription.center
+    t1 = Time.now
+    @subscription_presenter = SubscriptionPresenter.new(@group, @group.surveys)
+    t2 = Time.now
+    @subscription_summaries = @group.subscription_summary(params)
+    t3 = Time.now
+    puts "Presenter: #{t2-t1}. Summary: #{t3-t2}. Count (details): #{t1-t0}. Total: #{t3-t1}"
     @surveys = []
   end
 
@@ -69,13 +86,13 @@ class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentC
   # reset counter for active copy
   def reset
     @subscription = Subscription.find(params[:id])
-    if request.post?
-      active_copy = @subscription.find_active_copy
-      active_copy.used = 0
+    if request.post? && params["yes"]
+      active_period = @subscription.find_active_period
+      active_period.used = 0
+      active_period.save
       flash[:notice] = "Tæller for abonnement blev nulstillet."
-      redirect_to subscription_path(@subscription) and return if active_copy.save
     end
-
+    redirect_to subscription_path(@subscription) 
     rescue ActiveRecord::RecordNotFound
       flash[:error] = 'Dette abonnement kunne ikke findes.'
       redirect_to subscription_path(@subscription)
@@ -84,12 +101,13 @@ class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentC
   # reset counter for all copies, also paid
   def reset_all
     @subscription = Subscription.find(params[:id])
-    if request.post?
+    if request.post? && params["yes"]
       @subscription.copies.each { |copy| copy.reset! }
       flash[:notice] = "Tæller for abonnement blev nulstillet."
-      redirect_to subscription_path(@subscription) and return if @subscription.save
+      @subscription.save
     end
-
+    redirect_to subscription_path(@subscription)
+    
     rescue ActiveRecord::RecordNotFound
       flash[:error] = 'Dette abonnement kunne ikke findes.'
       redirect_to subscription_path(@subscription)
@@ -126,7 +144,7 @@ class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentC
 
   
   def admin_access
-    if session[:rbac_user_id] and current_user.has_access? :subscription_new_edit
+    if current_user.access? :subscription_new_edit
       return true
     elsif current_user
       redirect_to "list"
@@ -140,7 +158,7 @@ class SubscriptionsController < ApplicationController # < ActiveRbac::ComponentC
   end
 
   def subscription_show
-    if session[:rbac_user_id] and current_user.has_access? :subscription_show
+    if current_user.access? :subscription_show
       return true
     else
       redirect_to "list"

@@ -2,10 +2,10 @@
 <% surveys = [@score.survey.title, @score.survey.title] %>
 <tr id='score_ref_<%= score_ref.id %>'>
         <td><%= select 'score_ref[]', 'gender', @score_ref.genders.to_a %></td>
-        <td><%= text_field 'score_ref[]', 'age_group', { :size => 6, :class => 'gray' } %></td>
-        <td><%= text_field 'score_ref[]', 'mean', { :size => 4, :class => 'gray' } %></td>
-        <td><%= text_field 'score_ref[]', 'percent95', { :size => 4, :class => 'gray' } %></td>
-        <td><%= text_field 'score_ref[]', 'percent98', { :size => 4, :class => 'gray' } %></td>
+        <td><%= text_field 'score_ref[]', 'age_group', { :size => 6 } %></td>
+        <td><%= text_field 'score_ref[]', 'mean', { :size => 4 } %></td>
+        <td><%= text_field 'score_ref[]', 'percent95', { :size => 4 } %></td>
+        <td><%= text_field 'score_ref[]', 'percent98', { :size => 4 } %></td>
         <td><%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0,
                                                 :class => 'icon icon_delete', :title => 'Fjern reference værdi')),\
                         :update  => "score_ref_#{@score_ref.id}",

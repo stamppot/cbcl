@@ -146,7 +146,7 @@ class SurveysController < ApplicationController
 
 
   def superadmin_access
-    if session[:rbac_user_id] and current_user.has_access? :admin_actions
+    if current_user.access? :admin_actions
       return true
     else
       redirect_to "/main"
@@ -156,11 +156,11 @@ class SurveysController < ApplicationController
   end
   
   def check_access
-    if current_user and (current_user.has_access?(:all_users) || current_user.has_access?(:login_user))
+    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include? id
-      elsif current_user.has_access?(:superadmin) # don't do check for superadmin
+      elsif current_user.access? :superadmin # don't do check for superadmin
         true
       else
         journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
