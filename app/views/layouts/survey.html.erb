@@ -11,6 +11,7 @@
 	<%= stylesheet_link_tag_html4 'login' %>
 	<% stylesheet_link_tag_html4 'admin' %>
 	<%= stylesheet_link_tag_html4 'cbcl' %>
+	<%= stylesheet_link_tag_html4 'buttons' %>
 
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
@@ -22,20 +23,9 @@
  	<%= javascript_include_tag 'application', :cache => true %>
 	<%= javascript_include_tag 'curvy-corners' %>
   <% end %>
-	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"/>
-	<script type="text/javascript">
-		var $j = jQuery.noConflict();
-	</script>
-	<%= javascript_include_tag 'jquery.watermark', :cache => true %>
-	
-	<script type="text/javascript">
-		var $j = jQuery.noConflict();
-		$j(document).ready(function(){
-				// Place init code here instead of $(document).ready()
-			$j('#search_centers').watermark('Find centre');
-			$j('#search_journals').watermark('Find journal');
-		});
-		</script> -->
+	<%= javascript_include_tag 'livepipe/livepipe' %>
+	<%= javascript_include_tag 'livepipe/tabs' %>
+
 </head>
 
 <body>

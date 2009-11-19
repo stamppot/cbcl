@@ -48,14 +48,25 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
     @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => 15) || []
+    @journal_count = Journal.for_parent(@group).count
     @users = @group.users
+    @user_count = @users.count
     @users = WillPaginate::Collection.create(1, 10000) do |pager|
        pager.replace(@users)
      end
 
-    if @group.kind_of?(Center)
-      redirect_to center_url(@group)
-    end
+     respond_to do |format|
+       format.html #{
+       # redirect_to center_url(@group) if @group.kind_of?(Center) and return
+       # render
+       # }
+       format.js {
+         render :update do |page|
+           page.replace_html 'journals', :partial => 'shared/journal_list'
+         end
+       }
+     end
+
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Du har ikke adgang til dette team.'
@@ -223,6 +234,5 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       true
     end
   end
-  
   
 end

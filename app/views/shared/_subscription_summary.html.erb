@@ -4,7 +4,7 @@
 	<% buttons = {"all" => "Alle", "active" => "Aktive", "paid" => "Betalte"} %>
 	<% buttons.each { |key, name| buttons[key] = "<strong class='highlight'>#{name}</strong>" if @options && @options[:show] == key } 	%>
 	<% buttons.each do |action, name| %>
-		<%= link_button name, {:show => action}, "subscription_#{action}" %>
+		<% link_button name, {:show => action}, "subscription_#{action}" %>
 		<% end %>
 <% end %>
 
@@ -13,21 +13,21 @@
 		<th>Periode</th>
 		<th class="number">Brugte skemaer</th>
 		<th>Betalt</th>
-		<th>Brugt siden sidst<br/>(ikke betalt)</th>
+		<!-- <th>Brugt siden sidst<br/>(ikke betalt)</th> -->
 	</tr>
-	<% @summaries.each do |summary| %>
-	<% stopped_on = summary[:stopped_on] || Time.now.to_date %>
+	<% 
+	@summaries.each do |summary|
+		stopped_on = (summary[:stopped_on] || Time.now).to_date
+	%>
 	<tr>
-		<td><%= summary[:start_on].strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
-		<td class="number"><%= summary[:total_used] %></td>
+		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
+		<td class="number"><%= summary[:used] %></td>
 		<td class="number"><%= summary[:paid] %></td>
-		<td class="number"><%= summary[:active] %></td>
+		<!-- <td class="number"><% summary[:active] %></td> -->
 	</tr>
 	<% end %>
 	<tr>
 		<td>Total:</td>
-		<td class="number"><%= @summaries.map {|s| s[:total_used]}.compact.sum %></td>
-		<td class="number"><%= @summaries.map {|s| s[:paid]}.compact.sum %></td>
-		<td class="number"><%= @summaries.map {|s| s[:active]}.compact.sum %></td>
+		<td class="number"><%= @summaries.map {|b| b[:total_used] }.first %></td>
 	</tr>
 </table>

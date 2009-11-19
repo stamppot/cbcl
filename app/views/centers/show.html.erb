@@ -1,143 +1,172 @@
 <h2>Detaljer for Center &quot;<%=h @group.title %>&quot;</h2>
 
-<div id="left" style="float:left;">
-<table class="center_info">
-	<tr>
-		<td class="t_i"><%= t('name') %>:</td>
-		<td class="t"><%=h @group.title %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('code') %>:</td>
-		<td class="t"><%=h @group.code %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('address') %>:</td>
-		<td class="t"><%=h @group.street %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('city') %>:</td>
-		<td class="t"><%=h @group.zipcode %> <%=h @group.city %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('phone') %>:</td>
-		<td class="t"><%=h @group.telephone %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('contactperson') %>:</td>
-		<td class="t"><%=h @group.person %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('companynumber') %>:</td>
-		<td class="t"><%=h @group.ean %></td>
-	</tr>
-</table></div>
+<ul class="tabs" id="subscription_tabs" class="center_tabs">  
+	<li class="tab"><a href="#info">Info</a></li>  
+	<li class="tab"><a href="#center_teams">Teams</a></li> 
+	<li class="tab"><a href="#center_users">Brugere</a></li> 
+	<li class="tab"><a href="#center_subscriptions">Abonnementer</a></li> 
+</ul>
+<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
+	<br/>
 
-<div id="right" style="float:left;">
+	<div class="center_info" id="info">
+
+<!-- <div id="left" style="float:left;"> -->
+	<table class="center_info">
+		<tr>
+			<td class="t_i"><%= t('name') %>:</td>
+			<td class="t"><%=h @group.title %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('code') %>:</td>
+			<td class="t"><%=h @group.code %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('address') %>:</td>
+			<td class="t"><%=h @group.street %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('city') %>:</td>
+			<td class="t"><%=h @group.zipcode %> <%=h @group.city %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('phone') %>:</td>
+			<td class="t"><%=h @group.telephone %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('contactperson') %>:</td>
+			<td class="t"><%=h @group.person %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('companynumber') %>:</td>
+			<td class="t"><%=h @group.ean %></td>
+		</tr>
+	</table><!-- </div> -->
+</div>
+
+<div class="center_teams" id="center_teams">
+<!-- <div id="right" style="float:left;"> -->
 <% if current_user.access? :center_show_teams %>
 <p><strong>Teams</strong></p>
-  <% if @group.teams.size > 0 %>
-		<ul>
-  		<% @group.teams.each do |group| %>
-    		<li>
-					<%=
-						if current_user.teams.map {|g| g.id }.include?(group.id)
-							link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] "
-						else
-							group.title
-						end
-					%>
-    		</li>
-  		<% end %>
-		</ul>
-  <% elsif @group.children.empty? %>
-  	<p>Ingen</p>
-  <% end %>
+<% if @group.teams.size > 0 %>
+<ul>
+	<% @group.teams.each do |group| %>
+	<li>
+		<%=
+		if current_user.teams.map {|g| g.id }.include?(group.id)
+			link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] "
+		else
+			group.title
+		end
+		%>
+	</li>
+	<% end %>
+</ul>
+<% elsif @group.children.empty? %>
+<p>Ingen</p>
+<% end %>
 <% end %>
 <div class="button">
 	<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => 'Opret nyt team' %> 
 </div>	
-</div>
+<!-- </div> -->
 
 <div style="width: 80%; clear: left;"></div>
-
 <%= render :partial => 'commands' %>
 
-<br>
+</div>
+
+<div class="center_users" id="center_users">
 
 <% localadmins = @users.select { |u| u.has_access? :centeradm } %>
 
 <h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
 
 <% if localadmins.empty? %>
-	<p>Ingen</p>
-  <% if current_user.access? :user_new_leader %>
-    <div class="commands">
-        <%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
-    </div>
-    <% end %>
+<p>Ingen</p>
+<% if current_user.access? :user_new_leader %>
+<div class="commands">
+	<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
+</div>
+<% end %>
 <% else %>
 <ul>
-  <% for user in localadmins %>
-  <li><%= link_to user.login, user_path(user), :title => 'Vis bruger' %></li>
-  <% end %>
+	<% for user in localadmins %>
+	<li><%= link_to user.login, user_path(user), :title => 'Vis bruger' %></li>
+	<% end %>
 </ul>
 <% end %>
-<br>
+
 
 <% if current_user.access? :user_show_all %>
 <h3>Alle brugere i centeret <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "user_list", {:duration => 0.5}) %></span></h3>
 
-	<div id="user_list">
+<div id="users">
 	<% if @users.empty? %>
-		<p>Ingen</p>
+	<p>Ingen</p>
 	<% else %>
-		<%= render :partial => 'shared/user_list' %>
+	<%= render :partial => 'shared/user_list' %>
 	<% end %>
-	</div>
+</div>
 <% end %>
+<script type="text/javascript">
+document.observe("dom:loaded", function() {
+  // the element in which we will observe all clicks and capture
+  // ones originating from pagination links
+  var container = $(document.body)
 
+  if (container) {
+    var img = new Image
+    img.src = '/images/spinner.gif'
+
+    function createSpinner() {
+      return new Element('img', { src: img.src, 'class': 'spinner' })
+    }
+
+    container.observe('click', function(e) {
+      var el = e.element()
+      if (el.match('.pagination a')) {
+        el.up('.pagination').insert(createSpinner())
+        new Ajax.Request(el.href, { method: 'get' })
+        e.stop()
+      }
+    })
+  }
+})
+</script>
+
+<br/>
 <div class="commands">
 	<div class="button">
-    <%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => 'Opret ny bruger i teamet' %><br>
+		<%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => 'Opret ny bruger i teamet' %><br>
 	</div>
 </div>
-<br>
 
-<h3>Abonnementer <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "subscription_list", {:duration => 0.5}) %></span></h3></h3>
+</div>
 
-<% if @group.subscriptions.empty? %>
-<p>Ingen</p>
-<% else %>
-	<div id="subscription_list">
-		<%= render :partial => "shared/subscription_summary" %>
+
+<div class="center_subscriptions" id="center_subscriptions">
+	<%= render :partial => 'subscriptions/subscriptions' %>
 	<% if current_user.access? :subscription_new_edit %>
 	<p>
 		<%= link_button t('subscription.pay_surveys'), pay_subscriptions_path(@group), 'subscription_paid', :title => "Sæt skemaer til betalt" %>
 		<%= link_button t('subscription.new_period'), pay_subscriptions_path(@group), 'subscription_paid', :title => "Begynd ny betalingsperiode" %>
 		<% if @group.paid_subscriptions? %>
-			<%= link_button t('subscription.undo_payment'), undo_pay_subscriptions_path(@group), 'subscription_undo_payment', :title => "Fortryd betaling" %>
+		<%= link_button t('subscription.undo_payment'), undo_pay_subscriptions_path(@group), 'subscription_undo_payment', :title => "Fortryd betaling" %>
 		<% end %>
 	</p>
 	<% end %>
-	<br>
 
-	<p><strong>Detaljeret oversigt</strong>
-	<%= render :partial => "shared/subscription_list_new" %>
-	<%= render :partial => "shared/subscription_list", :object => @subscription_counts %>
-	</div>
-<% end %>
-</p>
-<br>
-
-<% if current_user.access? :subscription_new_edit %>
-<div class="commands">
-	<div class="button">
-	<%= link_button t('subscription.new'), new_subscription_path(@group), 'subscription_new', :title => 'Opret nyt abonnement' %>
-	</div>
 </div>
-<% end %>
 
+</div>
+<script type="text/javascript">
+$$('.tabs').each(function(tab_group){  
+	new Control.Tabs(tab_group);  
+});
+</script>
 
+<br/>
 <div class="commands">
 	<% if current_user.access? :center_delete %>
 	<%= link_button t('delete'), { :action => :delete, :id => @group }, 'center_delete', :title => t('center.delete') %>

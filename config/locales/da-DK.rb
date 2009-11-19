@@ -9,6 +9,7 @@ I18n.backend.store_translations 'da-DK',
     :cancel => 'Afbryd',
     :save => 'Gem',
     :save_changes => 'Gem ændringer',
+    :info => "Info",
     :change => 'Skift',
     :change_password => 'Du skal skifte dit password',
     :logout_question => 'Er du sikker på at du vil logge ud?',
@@ -104,6 +105,7 @@ I18n.backend.store_translations 'da-DK',
       }
     },
     :journal => {
+      :journals => "Journaler",
       :show => 'Vis Journal',
       :list => 'Vis Journaler',
       :edit => 'Rediger Journal',
@@ -130,7 +132,9 @@ I18n.backend.store_translations 'da-DK',
       :list => "Liste af abonnementer",
       :none => "Ingen abonnementer",
       :none_for_this_survey => "Centret abbonnerer ikke på dette spørgeskema.",
-      :expired => "Dit abonnement er udløbet. Kontakt CBCL-SDU."
+      :expired => "Dit abonnement er udløbet. Kontakt CBCL-SDU.",
+      :overview => "Oversigt",
+      :details => "Detaljer"
     },
     
     :score => {

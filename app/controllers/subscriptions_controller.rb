@@ -23,7 +23,7 @@ class SubscriptionsController < ApplicationController
     end
 
     @subscription_counts_per_center = @centers.inject({}) {|hash, center| hash[center.id] = Subscription.subscriptions_count(center); hash }
-    @subscription_summaries_per_center = @centers.inject({}) {|hash, center| hash[center.id] = center.subscription_summary(params); hash }
+    # @subscription_summaries_per_center = @centers.inject({}) {|hash, center| hash[center.id] = center.subscription_summary(params); hash }
   end
 
   def show

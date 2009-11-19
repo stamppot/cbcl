@@ -89,7 +89,7 @@ class Query
        joins << 'groups'
      end
 
-     self.select(["copies.id, subscriptions.center_id, survey_id, state, subscription_id, used, active, consolidated, consolidated_on, copies.created_on"])
+     self.select(["copies.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, consolidated as paid, consolidated_on as paid_on, copies.created_on"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
    end

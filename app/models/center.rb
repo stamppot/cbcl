@@ -115,8 +115,11 @@ class Center < Group
 
   # finds all copies for all subscriptions
   def subscription_summary(options = {})
-    copies = Query.new.query_subscription_copies_for_centers(self.id).map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
-    copies.group_by(&:created_on).sort_by {|key| key}  # key is date
+    # copies = Query.new.query_subscription_copies_for_centers(self.id).map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
+    # copies.group_by(&:created_on).sort_by {|key| key}  # key is date
+    copies = Query.new.query_subscription_copies_for_centers(self.id) #.map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
+    copies.group_by {|c| c["created_on"] }# .sort_by {|key| key}  # key is date
+    
   end
 
   # set active copies to paid. Create new copies  

@@ -1,67 +1,118 @@
 <h2>Detaljer for Team &quot;<%=h @group.title %>&quot;</h2>
 
-<table class="team_info">
-	<tr>
-		<td class="t_i"><%= t('name') %>:</td>
-		<td class="t"><%=h @group.title %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('code') %>:</td>
-		<td class="t"><%=h @group.team_code %></td>
-	</tr>
-	<tr>
-		<td class="t_i"><%= t('center.center') %>:</td>
+<ul class="tabs" id="subscription_tabs" class="team_tabs">  
+	<li class="tab"><a href="#info">Info</a></li>  
+	<li class="tab"><a href="#team_users"><%= t('user.users') %></a></li> 
+	<li class="tab"><a href="#team_journals"><%= t('journal.journals') %></a></li> 
+</ul>
+<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
+	<br/>
 
-	  <% if @group.parent.nil? %>
-	  <td class="t">Ingen overordnet, dette team er ikke tilknyttet et center (bør ikke kunne ske)</td>
-	  <% else %>
-	  <td class="t"><%= link_to @group.parent.title, center_path(@group.parent), :title => 'Vis Center' %></td>
-	  <% end %>
-	</tr>
-</table>
+	<div class="team_info" id="info">
+		<table class="team_info">
+			<tr>
+				<td class="t_i"><%= t('name') %>:</td>
+				<td class="t"><%=h @group.title %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('code') %>:</td>
+				<td class="t"><%=h @group.team_code %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('center.center') %>:</td>
+				<% if @group.parent.nil? %>
+				<td class="t">Ingen overordnet, dette team er ikke tilknyttet et center (bør ikke kunne ske)</td>
+				<% else %>
+				<td class="t"><%= link_to @group.parent.title, center_path(@group.parent), :title => 'Vis Center' %></td>
+				<% end %>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('user.users') %>:</td>
+				<td class="t"><%=h @user_count %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('journal.journals') %>:</td>
+				<td class="t"><%=h @journal_count %></td>
+			</tr>
+		</table>
+	</div>
 
 
-<h3><%= t('user.users') %> <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "user_list", {:duration => 0.5}) %></span></h3>
-<div id="user_list">
-<% if @users.empty? %>
-	<p><%= t('none') %></p>
-<% else %>
-	<%= render :partial => 'shared/user_list' %>
-<% end %>
-</div>
+	<div class="team_users" id="team_users">
 
+		<h3><%= t('user.users') %> <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "user_list", {:duration => 0.5}) %></span></h3>
+		<div id="user_list">
+		<% if @users.empty? %>
+		<p><%= t('none') %></p>
+		<% else %>
+		<%= render :partial => 'shared/user_list' %>
+		<% end %>
+	</div>
 
-<div class="commands">
-	<%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => t('user.new') %>
-	<% if current_user.access? :journal_new_edit_delete %>
+	<p/>
+	<div class="commands">
+		<%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => t('user.new') %>
+		<% if current_user.access? :journal_new_edit_delete %>
 		<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
-	<% end %>
+		<% end %>
+	</div>
 </div>
-<br/>
 
-<br>
-<h3>Journaler  <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "journal_list", {:duration => 0.5}) %></span></h3></h3>
-  <% if @groups.empty? %>
-  	Ingen
-  <% else %>
-		<% @hide_team = true %>
-		<div id="journal_list">
-  		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true} %>
-		</div>
-		<p>
+<div class="team_journals" id="team_journals">
+	<h3>Journaler  <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "journals", {:duration => 0.5}) %></span></h3>
+	<% if @groups.empty? %>
+		<%= t('none') %>
+	<% else %>
+	<% @hide_team = true %>
+	<div id="journals">
+		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true} %>
+	</div>
+	<script type="text/javascript">
+	document.observe("dom:loaded", function() {
+	  // the element in which we will observe all clicks and capture
+	  // ones originating from pagination links
+	  var container = $(document.body)
+
+	  if (container) {
+	    var img = new Image
+	    img.src = '/images/spinner.gif'
+
+	    function createSpinner() {
+	      return new Element('img', { src: img.src, 'class': 'spinner' })
+	    }
+
+	    container.observe('click', function(e) {
+	      var el = e.element()
+	      if (el.match('.pagination a')) {
+	        el.up('.pagination').insert(createSpinner())
+	        new Ajax.Request(el.href, { method: 'get' })
+	        e.stop()
+	      }
+	    })
+	  }
+	})
+	</script>
+	<p>
 		<div class="commands">
 			<%= link_button t('export.logins'), formatted_export_logins_path(@group, 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
 			<p/>
 		</div>
-		</p>
-  <% end %>
+	</p>
+	<% end %>
+</div>
 
+</div>
+<script type="text/javascript">
+	$$('.tabs').each(function(tab_group){  
+    new Control.Tabs(tab_group);  
+	});
+</script>
 
-
+<br/>
 <div class="commands">
 <% if current_user.access? :team_new_edit_delete %>
 	<%= link_button t('delete'), delete_team_path(@group), 'team_delete' %>
 	<%= link_button t('edit'), edit_team_path(@group), 'team_edit' %>
-<% end %>
+	<% end %>
 	<%= back_button teams_path %>
 </div>

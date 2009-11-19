@@ -18,14 +18,22 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     # puts "Count: " + @count.inspect
     # summary
     @subscription_presenter = SubscriptionPresenter.new(@group)
-    # @subscription_summaries = @group.subscription_summary(params)
-    # detailed list
-    @subscription_counts = Subscription.subscriptions_count(@group)
     
     @subscriptions = @group.subscriptions
     @surveys = current_user.surveys.group_by {|s| s.id}
     
-    redirect_to team_path(@group) if @group.instance_of?(Team) and return
+    
+    respond_to do |format|
+      format.html {
+        redirect_to team_path(@group) if @group.instance_of?(Team) and return
+        render
+      }
+      format.js {
+        render :update do |page|
+          page.replace_html 'users', :partial => 'shared/user_list'
+        end
+      }
+    end
     
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Centeret blev ikke fundet.'

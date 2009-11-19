@@ -36,6 +36,6 @@ Der er ingen journaler i systemet.
 <% else %>
 	<% if @groups.total_pages > 1 -%>
 		<div class="page_entries"><%= page_entries_info(@groups) -%></div>
-		<%= will_paginate @groups, :remote => {:with => 'value', :update => 'journal_list'} -%> &nbsp;&nbsp;
+		<%= will_paginate @groups, :remote => {:with => 'value', :update => 'journal_list'}  -%> &nbsp;&nbsp;
 	<% end -%>
 <% end %>
