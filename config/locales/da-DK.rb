@@ -89,7 +89,8 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis Team',
       :list => 'Vis Teams',
       :edit => 'Rediger Team',
-      :new =>  'Opret Team'
+      :new =>  'Opret Team',
+      :admins => 'Teamadministrator'
     },
     :user => {
       :user => 'Bruger',

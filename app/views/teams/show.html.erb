@@ -34,6 +34,10 @@
 				<td class="t_i"><%= t('journal.journals') %>:</td>
 				<td class="t"><%=h @journal_count %></td>
 			</tr>
+			<tr>
+				<td class="t_i"><%= t('team.admins') %>:</td>
+				<td class="t"><%=h "" %></td>
+			</tr>
 		</table>
 	</div>
 
@@ -94,6 +98,7 @@
 	</script>
 	<p>
 		<div class="commands">
+			<br/>
 			<%= link_button t('export.logins'), formatted_export_logins_path(@group, 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
 			<p/>
 		</div>

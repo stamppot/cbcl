@@ -18,6 +18,14 @@ class Survey < ActiveRecord::Base
   attr_accessor :selected
   # includes cells
   
+  def get_valid_values
+    params = {}
+    self.questions.each do |question|
+      params["Q#{question.number}"] = question.get_valid_values
+    end
+    return params
+  end
+  
   def no_questions
     Question.by_survey(self.id).count #(:conditions => ['survey_id = ?', self.id]) # self.questions.count
   end
@@ -65,14 +73,6 @@ class Survey < ActiveRecord::Base
       question.merge_answertype(answer) if question
     end
     return self  # return survey with questions with values (answers)
-  end
-
-  def valid_values
-    params = {}
-    self.questions.each do |question|
-      params["Q#{question.number}"] = question.valid_values
-    end
-    return params
   end
 
   # users that can answer a given survey

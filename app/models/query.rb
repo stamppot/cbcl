@@ -80,7 +80,7 @@ class Query
      joins = ['subscriptions', 'copies']
      conditions = { 'subscriptions.id' => 'copies.subscription_id', 'subscriptions.state' => 1}
      conditions["copies.active"] = 1 if options["active"]
-     conditions["copies.consolidated"] = 1 if options["paid"]
+     conditions["copies.paid"] = 1 if options["paid"]
      if center
        conditions["subscriptions.center_id"] = center.is_a?(Center) && center.id || center
      else
@@ -89,7 +89,7 @@ class Query
        joins << 'groups'
      end
 
-     self.select(["copies.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, consolidated as paid, consolidated_on as paid_on, copies.created_on"])
+     self.select(["copies.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, paid as paid, paid_on as paid_on, copies.created_on"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
    end
@@ -99,7 +99,7 @@ class Query
      self.do_query
    end
 
-   # select surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, consolidated_on, note, state
+   # select surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
    # FROM subscriptions, copies, surveys
    # WHERE subscriptions.id = 1
    # AND subscriptions.survey_id = surveys.id
@@ -107,12 +107,12 @@ class Query
    def one_subscription_count(subscription)
      joins = ['subscriptions', 'copies', 'surveys']
      conditions = { 'subscriptions.survey_id' => 'surveys.id', 'subscriptions.id' => (subscription.is_a?(Subscription) && subscription.id || subscription) }
-     self.select(["surveys.title, copies.subscription_id, survey_id, center_id, copies.used, sum(used) as total_used, (sum(used)-used) as active, created_on, consolidated_on, note, state"])
+     self.select(["surveys.title, copies.subscription_id, survey_id, center_id, copies.used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
    end
 
-   # select subscriptions.center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, consolidated_on, note, state
+   # select subscriptions.center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
    # FROM subscriptions, copies, surveys
    # WHERE subscriptions.id = 1 
    # and subscriptions.survey_id = surveys.id
@@ -120,7 +120,7 @@ class Query
    def all_subscription_counts
      joins = ['subscriptions', 'copies', 'surveys']
      conditions = { 'subscriptions.id' => 1, 'subscriptions.survey_id' => 'surveys.id' }
-       self.select(["center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, consolidated_on, note, state"])
+       self.select(["center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where << self.group_by('subscription_id')).join(' ')
    end
@@ -149,7 +149,7 @@ class Query
      if center.is_a? Subscription
        conditions["subscriptions.id"] = center.id
      end
-     self.select(["subscriptions.center_id, survey_id, subscriptions.id as subscription_id, SUM(used) as sum, created_on, consolidated_on, note, state"])
+     self.select(["subscriptions.center_id, survey_id, subscriptions.id as subscription_id, SUM(used) as sum, created_on, paid_on, note, state"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where << self.group_by('subscriptions.id')).join(' ')
    end

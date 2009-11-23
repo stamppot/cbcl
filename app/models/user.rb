@@ -256,7 +256,7 @@ class User < ActiveRecord::Base
 
     journals =
     if self.has_access?(:journal_show_all)
-      if options[:page] < 4 # only cache first pages, since they're used more often
+      if options[:page].to_i < 4 # only cache first pages, since they're used more often
         Rails.cache.fetch("journals_all_paged_#{options[:page]}_#{options[:per_page]}") do
           Journal.and_person_info.paginate(:all, options)
         end
@@ -269,7 +269,7 @@ class User < ActiveRecord::Base
       end
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(options[:reload]) # get teams and center ids for this user
-      if options[:page] < 4 # only cache first 5 pages
+      if options[:page].to_i < 4 # only cache first 5 pages
         journals = Rails.cache.fetch("journals_groups_#{group_ids.join("_")}_paged_#{options[:page]}_#{options[:per_page]}") do
           Journal.and_person_info.all_parents(group_ids).paginate(:all, options)
         end

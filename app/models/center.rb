@@ -3,7 +3,6 @@ class Center < Group
   has_many :journals #, :dependent => :destroy  # should never delete journals. TODO: some way to reclaim deleted/dangling journals
   has_many :subscriptions, :include => [:survey], :dependent => :destroy, :uniq => true
   has_many :surveys, :through => :subscriptions, :order => :position, :uniq => true
-  # has_many :users   # short cut instead of groups_users
   has_one  :center_info
   has_many :users,
            :class_name => 'User',
@@ -93,17 +92,13 @@ class Center < Group
   rescue ActiveRecord::RecordNotFound
     surveys.each do |survey|
       self.subscriptions << Subscription.new(self, survey, 1)
-      # sub = Subscription.new(self, survey, 1)
-      # sub.save
-      # sub.copies << Copy.new({:active => true}) 
-      # self.subscriptions << sub
     end
   end
   
   # increment subscription count - move to journal_entry, higher abstraction
   def use_subscribed(survey)
     # find subscription to increment, must be same as is journal_entry
-    subscription = self.subscriptions.by_survey(survey) #detect { |sub| sub.survey.id == survey.id }
+    subscription = self.subscriptions.by_survey(survey) 
     return false unless Subscription
     subscription.copy_used!  #  if sub.nil?  => no abbo
   end
@@ -113,12 +108,10 @@ class Center < Group
     self.subscriptions.inject(0) { |memo,sub| sub.copies_used + memo;  }
   end
 
-  # finds all copies for all subscriptions
+  # finds all periods for all subscriptions
   def subscription_summary(options = {})
-    # copies = Query.new.query_subscription_copies_for_centers(self.id).map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
-    # copies.group_by(&:created_on).sort_by {|key| key}  # key is date
-    copies = Query.new.query_subscription_copies_for_centers(self.id) #.map { |a_hash| id = a_hash.delete('id'); obj = Copy.new(a_hash); obj.id = id; obj }
-    copies.group_by {|c| c["created_on"] }# .sort_by {|key| key}  # key is date
+    copies = Query.new.query_subscription_copies_for_centers(self.id)
+    copies.group_by {|c| c["created_on"] }
     
   end
 
@@ -133,7 +126,7 @@ class Center < Group
 
   # did center ever pay a subscription?
   def paid_subscriptions?
-    !self.subscriptions.map { |sub| sub.copies.paid }.flatten.empty?
+    !self.subscriptions.map { |sub| sub.periods.paid }.flatten.empty?
   end
   
   # return the next team id. Id must be highest id so far plus 1, and if doesn't exist

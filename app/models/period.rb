@@ -1,9 +1,9 @@
-class Copy < ActiveRecord::Base
+class Period < ActiveRecord::Base
   belongs_to :subscription
 
   named_scope :active, :conditions => ['active = ?', true]
   named_scope :inactive, :conditions => ['active = ?', false]
-  named_scope :paid, :conditions => ['consolidated = ?', true], :order => 'consolidated_on DESC'
+  named_scope :paid, :conditions => ['paid = ?', true], :order => 'paid_on DESC'
 
   attr_accessor :survey_id, :center_id, :state
 
@@ -25,11 +25,11 @@ class Copy < ActiveRecord::Base
   end
 
   def stopped_on
-    self.consolidated_on
+    self.paid_on
   end
 
   def stopped_on=(val)
-    self.consolidated_on = val.to_date
+    self.paid_on = val.to_date
   end
   
   def copy_used!
@@ -42,14 +42,14 @@ class Copy < ActiveRecord::Base
   end
 
   def pay!
-    self.consolidated = true
+    self.paid = true
     self.stopped_on = Time.now
     self.active = false
-    self.save  # check that consolidated_on is updated
+    self.save  # check that paid_on is updated
   end
 
   def undo_pay!
-    self.consolidated = false
+    self.paid = false
     self.stopped_on = nil
     self.active = true
     self.save

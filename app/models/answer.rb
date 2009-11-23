@@ -40,15 +40,6 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
-  # def nested_cell_values
-  #   cells = Dictionary.new
-  #   self.answer_cells.map do |cell|
-  #     cells[cell.row] = {cell.col => cell.value }
-  #   end
-  #   return cells
-  # end
-  
-
   # input: hash with cell values
   def create_cells(cells = {}, valid_values = {})
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}

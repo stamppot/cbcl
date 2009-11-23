@@ -121,7 +121,7 @@ class SurveyAnswer < ActiveRecord::Base
     params.each_key { |question| params.delete(question) if params[question].empty? }
 
     # check valid values from survey
-    valid_values = survey.valid_values
+    valid_values = survey.get_valid_values
     
     # param_array = params.to_a
     params.each do |key, q_cells|   # one question at a time

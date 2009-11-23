@@ -78,11 +78,7 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # set current Copy obj to consolidated, and set up new Copy
-  # def consolidate
-  #   
-  # end
-  
+
   # reset counter for active copy
   def reset
     @subscription = Subscription.find(params[:id])
@@ -102,7 +98,7 @@ class SubscriptionsController < ApplicationController
   def reset_all
     @subscription = Subscription.find(params[:id])
     if request.post? && params["yes"]
-      @subscription.copies.each { |copy| copy.reset! }
+      @subscription.periods.each { |copy| copy.reset! }
       flash[:notice] = "Tæller for abonnement blev nulstillet."
       @subscription.save
     end

@@ -1,0 +1,33 @@
+	<% @group = @subscription_presenter.group %>
+	
+	<ul class="tabs" id="subscription_tabs_<%= @group.id %>" class="subsection_tabs">  
+	    <li class="tab"><a href="#summary_view_<%= @group.id %>"><%= t('subscription.overview') %></a></li>  
+	    <li class="tab"><a href="#detailed_view_<%= @group.id %>"><%= t('subscription.details') %></a></li> 
+	</ul>
+	<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
+		<br/>
+	<div class="summary_view" id="summary_view_<%= @group.id %>">
+		<% if @group.subscriptions.length > 0 %>
+			<%= render :partial => "shared/subscription_summary" %>
+		<% else %>
+			<h4><%= t('subscription.none') %></h4>
+		<% end %>
+	</div>
+	<div class="detailed_view" id="detailed_view_<%= @group.id %>">
+		<div id="subscription_details_<%= @group.id %>" style="display: normal;">
+			<%= render :partial => "shared/subscription_list_new", :object => @subscription_presenter %>
+		</div>
+	</div>
+
+	<% if current_user.access? :subscription_new_edit %>
+			<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
+		<% if @group.subscriptions.empty? %>
+			<%= link_button t('subscription.new'), new_subscription_path(@group), 'subscription_new', :title => t('subscription.new') %>
+		<% end %>
+	<% end %>
+	</div>
+	<script type="text/javascript">
+		$$('.tabs').each(function(tab_group){  
+	    new Control.Tabs(tab_group);  
+		});
+	</script>

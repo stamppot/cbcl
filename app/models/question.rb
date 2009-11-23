@@ -17,7 +17,7 @@ class Question < ActiveRecord::Base
     self.question_cells << question_cell
   end
 
-  def valid_values
+  def get_valid_values
     params = {}
     self.question_cells.each do |question_cell|
       q_cell = "q#{self.number}_#{question_cell.row}_#{question_cell.col}"
@@ -48,8 +48,6 @@ class Question < ActiveRecord::Base
   end
 
 
-  @@count_runs = 1
-  
   def merge_answertype(answer)
     # "running merge_answertype: #{answer.inspect}"
     if answer.question_id == self.id
@@ -64,7 +62,6 @@ class Question < ActiveRecord::Base
           a_cells[row][col].save
         end
       end
-      @@count_runs += 1
       return a_cells
     end
   end

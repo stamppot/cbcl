@@ -7,29 +7,9 @@
 		<th class="number" title="Brugt siden sidste betaling">Siden sidst</th>
 	</tr>
 <%
- total_used = 0
- active_total_used = 0
-  # @count_details = @count.group_by { |c| c['consolidated_on']}
- %>
- <!-- @subscription_counts.each do |arr|
-	puts "arr: " + arr.inspect
-	# arr = arr.first
-		# {"sum"=>"67", "created_on"=>"2008-09-03", "survey_id"=>"1", "consolidated_on"=>"2009-10-18", "note"=>nil,
-		# "subscription_id"=>"1", "center_id"=>"1", "state"=>"1"}
-		active = arr["active"].to_i
-		# total_used = arr["total_used"].to_i
-		used = arr["used"].to_i
-		title = @surveys[arr["survey_id"].to_i].first.title
-		# survey = @surveys[arr['survey_id'].to_i].first
-		sum = arr['sum'].to_i
-		note = arr['note']
-		state = arr['state'].to_i
-		subscription = arr['subscription_id']
-		finish_date = (arr['consolidated_on'] || Time.now).to_date
-		total_used += sum
-		active_total_used += active # unless arr['consolidated_on'] -->
+  total_used = 0
+  active_total_used = 0
 
-<%		
 	for sub in @group.subscriptions
 		    if current_user.access? :subscription_show_inactive and sub.states.invert[sub.state] == "Inaktiv"
 		      next    # do not show inactive to others than admins

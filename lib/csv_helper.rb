@@ -7,11 +7,34 @@ class CSVHelper
   
   def generate_csv_answers
     # get journal_id => journal_entries_id
-    query = "select journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex from survey_answers, journal_entries, groups
+    query = "select journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex from survey_answers, journal_entries
     where survey_answers.journal_entry_id = journal_entries.id
-    and journal_entries.journal_id = groups.id
     and survey_answers.done = 1
     and survey_answers.journal_entry_id != 0
+    order by journal_id"
+    result = ActiveRecord::Base.connection.execute(query)  # the two following are equal
+    # jj = JournalEntry.find(:all, :joins => :survey_answer, :conditions => ['survey_answers.journal_entry_id = journal_entries.id and done = 1 and journal_entry_id != 0'], :order => 'journal_id', :select => 'journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex' )
+    # sas = SurveyAnswer.finished.all(:joins => :journal_entry, :conditions => ['survey_answers.journal_entry_id = journal_entries.id and journal_entry_id != 0'], :order => 'journal_id', :select => 'journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex' )
+    result.each_hash do |c|
+        t1 = Time.now
+        csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
+          csv << csv_answer = SurveyAnswer.and_answer_cells.find(c["survey_answer_id"]).to_csv.join(";")
+        end
+        e1 = Time.now
+        csv.each do |line|
+          insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
+                  VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
+          ActiveRecord::Base.connection.execute(insert_query)
+        end
+    end
+  end
+  
+  def create_csv_answer(survey_answer)
+    query = "select journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex from survey_answers, journal_entries
+    where survey_answers.journal_entry_id = journal_entries.id
+    and survey_answers.done = 1
+    and survey_answers.journal_entry_id != 0
+    and survey_answers.id = #{survey_answer.id}
     order by journal_id"
     result = ActiveRecord::Base.connection.execute(query)
 
@@ -22,17 +45,16 @@ class CSVHelper
         end
         e1 = Time.now
         csv.each do |line|
-          insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `center_id`, `age`, `sex`, `created_at`, `answer`) 
-                  VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},NULL,#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
+          insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
+                  VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
           ActiveRecord::Base.connection.execute(insert_query)
         end
     end
   end
-  
+    
   def to_csv(entries, survey_ids)
-    puts "START CSVHELPER.TO_CSV"
-    t = Time.now
-    # s_headers = survey_headers_flat(survey_ids)
+    # puts "START CSVHELPER.TO_CSV"
+    # t = Time.now
 
     # get survey_answers
     survey_answers = entries.map {|e| e.survey_answer_id }
@@ -45,8 +67,6 @@ class CSVHelper
     # csv_headers = Journal.csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
-    # csv_answers = CsvAnswer.find_all_by_journal_id(journal_ids)
-    # csv_answers.each do |csv_answer|
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).group_by { |c| c.survey_id } # TODO: load all at once
       
       # fill missing values
@@ -65,10 +85,8 @@ class CSVHelper
       row << (journal.to_csv.join(';') << (answers.join(';') + "\n"))
     end 
     csv << row.join
-
-    e = Time.now
-    puts "STOP CSVHELPER.TO_CSV: #{e-t}"
-
+    # e = Time.now
+    # puts "STOP CSVHELPER.TO_CSV: #{e-t}"
     return csv.join 
   end
   
@@ -236,7 +254,6 @@ class CSVHelper
       
       a_s = answer_values[survey_id] # TODO use this instead of below in !if
       h_group.each do |key, rest|  # fill in blanks
-        # puts "fillcsv: key: #{key}"
         if !(a_g = answer_values[survey_id])  # fill where survey is missing
           s[key] = ""
         else

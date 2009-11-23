@@ -9,6 +9,7 @@ class CreateCsvAnswers < ActiveRecord::Migration
     add_index :csv_answers, :survey_id
     
     # fill table
+    CSVHelper.new.generate_csv_answers
   end
 
   def self.down

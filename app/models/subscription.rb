@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Base
   belongs_to :center
   belongs_to :survey
-  has_many :copies, :dependent => :delete_all
+  has_many :periods #, :dependent => :delete_all
 
   after_create :new_period!
 
@@ -16,10 +16,10 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :survey
   validates_presence_of :center
   
-  alias_method :periods, :copies
+  # alias_method :periods, :copies
   
   def new_period!
-    self.copies << Copy.new({:active => true})
+    self.periods << Period .new({:active => true})
   end
   
   def Subscription.states
@@ -52,7 +52,7 @@ class Subscription < ActiveRecord::Base
   def find_active_period
     active_period = self.periods.active.first
     if active_period.nil?
-      new_copy = Copy.create({:active => true})
+      new_copy = Period .create({:active => true})
       self.periods << new_copy
       self.save
       active_period = new_copy
@@ -106,7 +106,7 @@ class Subscription < ActiveRecord::Base
     active_period = find_active_period
     active_period.pay!
     # self.periods.create_copy({:active => true})
-    self.periods << Copy.create({:active => true, :subscription => self})
+    self.periods << Period .create({:active => true, :subscription => self})
   end
 
   def undo_new_period!
@@ -121,12 +121,12 @@ class Subscription < ActiveRecord::Base
     end
   end
   
-  # consolidate active Copy obj and start new
+  # consolidate active Period  obj and start new
   def pay!
     active_period = find_active_period
     active_period.pay!
     # self.periods.create_copy({:active => true})
-    self.periods << Copy.create({:active => true, :subscription => self})
+    self.periods << Period .create({:active => true, :subscription => self})
     # self.save
   end
 
