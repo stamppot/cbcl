@@ -129,7 +129,7 @@ class SurveyAnswer < ActiveRecord::Base
         q_id = q_cells.delete("id")
         q_number = key.split("Q").last
 
-        # find existing answer for this question or create new
+        # find existing answer or create new
         an_answer = self.answer_exists?(q_number) || Answer.create(:survey_answer_id => self.id,
           :question_id => q_id,
           :number => q_number.to_i)

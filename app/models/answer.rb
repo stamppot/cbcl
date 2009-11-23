@@ -11,7 +11,6 @@ class Answer < ActiveRecord::Base
   def to_csv(prefix)
     cells = Dictionary.new
     prefix = survey_answer.survey.prefix unless prefix
-    # survey_id = survey_answer.survey_id
     q = self.question.number.to_roman.downcase
     
     self.answer_cells.each_with_index do |cell, i|
@@ -24,7 +23,6 @@ class Answer < ActiveRecord::Base
         if (item.nil? or !(item =~ /hv$/)) && cell.answertype =~ /Comment|Text/
           item << "hv" 
         end
-        # if "#{prefix}#{q}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
         var = "#{prefix}#{q}#{item}".to_sym
 
         cells[var] = 
@@ -87,19 +85,10 @@ class Answer < ActiveRecord::Base
   def <=>(other)
     self.question <=> other.question
   end
-  
-  # def test_saved(answer)
-  #   if (self.id == answer.id) and (self.question_id == answer.question_id) and (self.number == answer.number)
-  #     check_cells = answer_cells.zip answer.answer_cells#(true)
-  #     check_cells.each { |tuple| tuple.first.equal(tuple.last) }
-  #   else
-  #     raise RuntimeError("Answer.test_saved: Saved value is not right!")
-  #   end
-  # end
-  
+
+
   def answer_cell_exists?(col, row)
-    # TODO: :select => id, row, col, value
-    a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col])
+    a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] ) # TODO:, :select => 'id, row, col, value')
     return a_cell
   end
   
