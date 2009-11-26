@@ -17,7 +17,7 @@ class Question < ActiveRecord::Base
     self.question_cells << question_cell
   end
 
-  def get_valid_values
+  def valid_values
     params = {}
     self.question_cells.each do |question_cell|
       q_cell = "q#{self.number}_#{question_cell.row}_#{question_cell.col}"
@@ -32,14 +32,10 @@ class Question < ActiveRecord::Base
   # assumes that arrays of q_cells and a_cells are symmetrical. Where no answer is relevant, a nil value occurs
   def merge_answer(answer)
     if answer.question_id == self.id
-      # puts "calling merge_answer q: #{self.id}  #{answer.inspect}"
       q_cells = self.rows_of_cols
       a_cells = answer.rows_of_cols
-      # "question.merge_answer q: #{self.id} num: #{self.number}  a #{answer.id} a.q #{answer.question.id} num #{answer.question.number}"
       a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
         cols.each_pair do |col, cell|
-          # puts "merge_answer row,col: #{q_cells[row][col].row}, #{q_cells[row][col].col}: #{q_cells[row][col].value}"
-          # puts "question.merge_answer setting value #{a_cells[row][col].value} for answer #{answer.id}"
           q_cells[row][col].value = CGI.unescape(a_cells[row][col].value || "") #if q_cells[row][col].eql_cell?(a_cells[row][col])
         end
       end

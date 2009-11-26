@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20091115221047) do
   create_table "copies", :force => true do |t|
     t.integer  "subscription_id", :default => 0,     :null => false
     t.integer  "used",            :default => 0,     :null => false
-    t.boolean  "consolidated",    :default => false
-    t.date     "consolidated_on"
+    t.boolean  "paid",            :default => false
+    t.date     "paid_on"
     t.date     "created_on"
     t.datetime "updated_on"
     t.boolean  "active",          :default => false, :null => false
@@ -143,6 +143,16 @@ ActiveRecord::Schema.define(:version => 20091115221047) do
   create_table "nationalities", :force => true do |t|
     t.string "country",      :limit => 40
     t.string "country_code", :limit => 4
+  end
+
+  create_table "periods", :force => true do |t|
+    t.integer  "subscription_id", :default => 0,     :null => false
+    t.integer  "used",            :default => 0,     :null => false
+    t.boolean  "paid",            :default => false
+    t.date     "paid_on"
+    t.date     "created_on"
+    t.datetime "updated_on"
+    t.boolean  "active",          :default => false, :null => false
   end
 
   create_table "person_infos", :force => true do |t|

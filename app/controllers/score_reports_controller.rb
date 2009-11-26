@@ -21,10 +21,11 @@ class ScoreReportsController < ApplicationController
       @journal = entries.first.journal
 
       # create survey titles row
-      @titles = [""]    # first header is empty, is in corner
-      @survey_answers.each do |survey_answer|
-        @titles << survey_answer.survey.category + " " + survey_answer.survey.age
-      end
+      # @titles = [""]    # first header is empty, is in corner
+      @titles = [""] + @survey_answers.map { |sa| "#{sa.survey.category} #{survey_answer.survey.age}" }
+      # @survey_answers.each do |survey_answer|
+      #   @titles << survey_answer.survey.category + " " + survey_answer.survey.age
+      # end
 
       # holds scores in groups of standard, latent, cross-informant
       @groups = []

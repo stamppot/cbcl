@@ -110,7 +110,7 @@ class Center < Group
 
   # finds all periods for all subscriptions
   def subscription_summary(options = {})
-    copies = Query.new.query_subscription_copies_for_centers(self.id)
+    copies = Query.new.query_subscription_periods_for_centers(self.id)
     copies.group_by {|c| c["created_on"] }
     
   end

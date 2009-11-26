@@ -5,6 +5,7 @@ class Score < ActiveRecord::Base
   belongs_to :survey
   belongs_to :score_scale
 
+  named_scope :for_survey, lambda { |survey_id| { :conditions => ["scores.survey_id = ?", survey_id] } }
   named_scope :with_survey_and_scale, :include => [:survey, :score_scale]
   acts_as_list :scope => :score_group
   
@@ -27,18 +28,38 @@ class Score < ActiveRecord::Base
   # returns score ref with the right age_group and gender
   def find_score_ref(journal)
     score_ref = self.score_refs.detect do |score_ref|
-      score_ref.age_range === journal.age && score_ref.gender == journal.sex #sex_value
+      score_ref.age_range === journal.age && score_ref.gender == journal.sex
     end
     return false if score_ref.nil?
     return score_ref
   end
   
-  #TODO: must get correct question (number), one with most items, or maybe it's mentioned in score item
   def no_unanswered(survey_answer)
     score_item = self.score_items.first
     # find answer to count values in
+    #answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
     answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
-    answer.not_answered_ratings
+    if answer
+      c = answer.not_answered_ratings
+      c2 = Query.new.not_answered(answer.id)
+      puts "#{c==c2} number: #{answer.id} a #{c}, b #{c2}"
+      # puts "#{c-c2} #{c == c2}: #{c} == #{c2}"
+      return c
+    end
+    return 0
+  end
+
+  def no_unanswered2(survey_answer)
+    score_item = self.score_items.first
+    # find answer to count values in
+    # answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
+    answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
+    if answer
+      c = Query.new.not_answered(answer.id)
+      # puts "answer.number: #{answer.number}  notanswered #{c}"
+      return c
+    end
+    return 0
   end
   
   # delegates calculation to the right score_item

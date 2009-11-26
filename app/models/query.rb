@@ -77,10 +77,10 @@ class Query
    end
    
    def subscription_copies_for_center(center = nil, options = {})
-     joins = ['subscriptions', 'copies']
-     conditions = { 'subscriptions.id' => 'copies.subscription_id', 'subscriptions.state' => 1}
-     conditions["copies.active"] = 1 if options["active"]
-     conditions["copies.paid"] = 1 if options["paid"]
+     joins = ['subscriptions', 'periods']
+     conditions = { 'subscriptions.id' => 'periods.subscription_id', 'subscriptions.state' => 1}
+     conditions["periods.active"] = 1 if options["active"]
+     conditions["periods.paid"] = 1 if options["paid"]
      if center
        conditions["subscriptions.center_id"] = center.is_a?(Center) && center.id || center
      else
@@ -89,12 +89,12 @@ class Query
        joins << 'groups'
      end
 
-     self.select(["copies.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, paid as paid, paid_on as paid_on, copies.created_on"])
+     self.select(["periods.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, paid as paid, paid_on as paid_on, periods.created_on"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
    end
 
-   def query_subscription_copies_for_centers(center = nil, options = {})
+   def query_subscription_periods_for_centers(center = nil, options = {})
      self.subscription_copies_for_center(center, options)
      self.do_query
    end
@@ -162,7 +162,7 @@ class Query
    # SELECT subscriptions.center_id, subscriptions.id, SUM(used) FROM cbcl_production.subscriptions, cbcl_production.copies
    #where subscriptions.id = copies.subscription_id
    #group by subscriptions.id
-   def copies_count(subscription = nil)
+   def periods_count(subscription = nil)
      joins = ['subscriptions', 'copies']
      conditions = { 'subscriptions.id' => 'copies.subscription_id' }
      if subscription
@@ -184,6 +184,29 @@ class Query
            age_filter(age_low, age_high) << survey_filter(surveys) << filter_entries(entries) << group_by("survey_answer_id")).join
    end
 
+   def not_answered(answer_id)
+     # use this table to make a new query an answer_cells where answer_cells.answer_id = aid from below - to get answer_cells.value
+     # todo: don't select answers, use answers.question_id
+     q_cells = do_query("SELECT question_cells.id as qid, survey_answer_id, answers.id as aid, question_cells.question_id, row, col FROM cbcl_production.answers, question_cells
+     where answers.id = #{answer_id}
+     and answers.question_id = question_cells.question_id
+     and type = 'Rating'").build_hash {|c| [c['row'], c] } #.group_by {|c| c['row']}
+     
+     # finds answer cells
+    a_cells = do_query "SELECT answer_cells.col, answer_cells.row, answer_id, value, answertype FROM answer_cells
+    where answer_cells.answer_id = #{answer_id}
+   	and (value = '9' or value = '' or value IS NULL)
+   	order by row, col"
+
+    
+    a_cells.inject(0) do |count, h| 
+      qc = q_cells[h['row']]
+      count += (qc && qc['col'] == h['col']) ? 0 : 1
+    end
+    
+    # do_query(query)
+   end
+   
    def do_query(query = nil, to_hash = false)
      mysql_result = ActiveRecord::Base.connection.execute(query || self.query).all_hashes
    end

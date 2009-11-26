@@ -159,3 +159,138 @@ class ApplicationController < ActionController::Base
   end
 
 end
+
+
+class Hash
+  # return Hash with nil values removed
+  def compact
+    delete_if {|k,v| !v }
+  end
+
+  # array-style push of key-values
+  def <<(hash={})
+    merge! hash
+  end
+end
+
+#example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
+module Enumerable
+  def foldr(o, m = nil)
+    reverse.inject(m) {|m, i| m ? i.send(o, m) : i}
+  end
+
+  def foldl(o, m = nil)
+    inject(m) {|m, i| m ? m.send(o, i) : i}
+  end
+
+  def build_hash
+    is_hash = false
+    inject({}) do |target, element|
+      key, value = yield(element)
+      is_hash = true if !is_hash && value.is_a?(Hash)
+      if is_hash
+        target[key] = {} unless target[key]
+        target[key].merge! value
+      else
+        target[key] = [] unless target[key]
+        target[key] << value
+      end
+      target
+    end
+  end
+
+  def dups
+    inject({}) {|h,v| h[v]=h[v].to_i+1; h}.reject{|k,v| v==1}.keys
+  end
+
+  # creates a hash with elem as key, result of block as value
+  def to_hash
+    result = {}
+    each do |elt|
+      result[elt] = yield(elt)
+    end
+    result
+  end
+  # creates a hash with result of block as key, elem as value
+  def to_hash_with_key
+    result = {}
+    each do |elt|
+      result[yield(elt)] = elt
+    end
+    result
+  end
+
+  def collect_if(condition)
+    inject([]) do |target, element|
+      value = yield(element)
+      target << value if element.send(condition) #eval("element.#{condition}")
+      target
+    end
+  end
+end
+
+# http://mspeight.blogspot.com/2007/06/better-groupby-ingroupsby-for.html
+class Array
+  def in_groups_by
+    # Group elements into individual array's by the result of a block
+    # Similar to the in_groups_of function.
+    # NOTE: assumes array is already ordered/sorted by group !!
+    curr=nil.class 
+    result=[]
+    each do |element|
+      group=yield(element) # Get grouping value
+      result << [] if curr != group # if not same, start a new array
+      curr = group
+      result[-1] << element
+    end
+    result
+  end
+
+  # fill 2-d array so all rows has equal number of items
+  def fill_2d(obj = nil)
+    # find longest
+    longest = self.max { |a,b| a.length <=> b.length }.size
+    self.each do |row|
+      row[longest-1] = obj if row.size < longest  # fill with nulls
+    end
+    return self
+  end
+  
+  def to_h
+    Hash[*self]
+  end
+  
+  def to_hash_flat
+    is_hash = false
+    inject({}) do |target, element|
+      key, value = yield(element)
+      target[key] = value
+      target
+    end
+  end
+  
+end
+
+class Float
+  def to_danish
+    ciphers = self.to_s.split(".")
+    return ciphers[0] + "," + ciphers[1]
+  end
+end
+
+class Fixnum
+  def to_roman
+    value = self
+    str = ""
+    (str << "C"; value = value - 100) while (value >= 100)
+    (str << "XC"; value = value - 90) while (value >= 90)
+    (str << "L"; value = value - 50) while (value >= 50)
+    (str << "XL"; value = value - 40) while (value >= 40)
+    (str << "X"; value = value - 10) while (value >= 10)
+    (str << "IX"; value = value - 9) while (value >= 9)
+    (str << "V"; value = value - 5) while (value >= 5)
+    (str << "IV"; value = value - 4) while (value >= 4)
+    (str << "I"; value = value - 1) while (value >= 1)
+    str
+  end
+end

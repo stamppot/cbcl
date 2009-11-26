@@ -57,14 +57,22 @@ class Answer < ActiveRecord::Base
     end
     return self
   end
+
+  def fill_unanswered_cells(survey_answer)
+    add_missing_cells(survey_answer.max_answer)
+  end
     
   # returns answer cells which are ratings
   def ratings
     self.answer_cells.ratings
   end
 
+  # only valid for long questions/answers with a matching score_item 
   def not_answered_ratings
-    self.answer_cells.ratings.count(:conditions => ['value = ? OR value = NULL', '9'])
+    # look in question cells to find matching
+    count = 0
+    c2 = self.answer_cells.ratings.not_answered.count
+    c2
   end
     
   def count_items
@@ -86,10 +94,39 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
 
-
   def answer_cell_exists?(col, row)
     a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] ) # TODO:, :select => 'id, row, col, value')
     return a_cell
+  end
+
+  def add_missing_cells
+    cells = self.answer_cells.ratings.map {|a| [a.row, a.col] }
+    # find missing
+    # cells = ratings.map {|a| [a.row, a.col] }
+    cell_arr = cells.first
+    return if !(cell_arr && cell_arr.size == 2) 
+
+    q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
+    missing_cells = q_cells - cells
+    # puts "Answer: #{answer.id}\nmissing cells: #{missing_cells.inspect}"
+    new_cells = []
+    missing_cells.each do |m_cell|
+      row, col = m_cell
+      find_row = row - 1 # try one before this
+      cells_away = 1 # how far the found cell is from the one to fill in
+      while((prev_item = cells.detect { |c| c.first == find_row}).nil? && find_row > 0) do
+        find_row -= 1
+        cells_away += 1
+      end
+      if prev_item && (item = prev_item.item) && find_row > 0
+        cells_away.times { item.succ! }
+        unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
+          new_cells << ac = self.answer_cells.create(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
+          puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
+        end
+      end
+    end
+    new_cells
   end
   
   def print

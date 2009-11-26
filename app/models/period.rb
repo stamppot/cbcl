@@ -1,4 +1,6 @@
 class Period < ActiveRecord::Base
+  # alias_method :paid_on, :consolidated_on
+  # alias_method :paid, :consolidated
   belongs_to :subscription
 
   named_scope :active, :conditions => ['active = ?', true]

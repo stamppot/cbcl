@@ -62,6 +62,7 @@ class SurveysController < ApplicationController
     else  # survey_answer already created, find draft
       @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
       @survey.merge_answer(@survey_answer)
+      puts "journal_entry.survey_answer: #{@journal_entry.survey_answer} - survey_answer: #{@survey_answer}"
       @journal_entry.survey_answer = @survey_answer
       @journal_entry.save
     end

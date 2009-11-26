@@ -98,15 +98,9 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 
 require 'error_catcher'
-
-module Enumerable
-  def foldr(o, m = nil)
-    reverse.inject(m) {|m, i| m ? i.send(o, m) : i}
-  end
-
-  def foldl(o, m = nil)
-    inject(m) {|m, i| m ? m.send(o, i) : i}
-  end
+if ENV['RAILS_ENV'] == 'development'
+  require 'hirb' 
+  Hirb.enable
 end
 
 class Hash
@@ -123,6 +117,14 @@ end
 
 #example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
 module Enumerable
+  def foldr(o, m = nil)
+    reverse.inject(m) {|m, i| m ? i.send(o, m) : i}
+  end
+
+  def foldl(o, m = nil)
+    inject(m) {|m, i| m ? m.send(o, i) : i}
+  end
+
   def build_hash
     is_hash = false
     inject({}) do |target, element|

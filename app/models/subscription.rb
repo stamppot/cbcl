@@ -1,7 +1,8 @@
 class Subscription < ActiveRecord::Base
   belongs_to :center
   belongs_to :survey
-  has_many :periods #, :dependent => :delete_all
+  has_many :periods, :table_name => :copies #, :dependent => :delete_all
+  # alias_method :periods, :copies
 
   after_create :new_period!
 
@@ -16,7 +17,6 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :survey
   validates_presence_of :center
   
-  # alias_method :periods, :copies
   
   def new_period!
     self.periods << Period .new({:active => true})

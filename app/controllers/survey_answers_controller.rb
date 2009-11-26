@@ -65,14 +65,8 @@ class SurveyAnswersController < ApplicationController
 
     if @subscription.nil? || @subscription.inactive?
       flash[:error] = @subscription && t('subscription.expired') || ('subscription.none_for_this_survey')
-      redirect_to journal_path(@journal_entry.entry)
+      redirect_to @journal_entry.journal and return
     end
-    # flash[:error] = if @subscription.nil?
-    #   "Centret abbonnerer ikke på dette spørgeskema."
-    # elsif not @subscription.active?
-    #   "Dit abonnement er udløbet. Kontakt CBCL-SDU."
-    # end
-    # redirect_to journal_path(@journal_entry.entry) if flash[:error]
 
     survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
@@ -83,45 +77,37 @@ class SurveyAnswersController < ApplicationController
     # "answer"=>{"person_other"=>"fester", "person"=>"15"}
     if (other = params[:answer][:person_other]) && (other.to_i == Role.get(:other).id)
       survey_answer.answered_by = other #answer_by[:person_other]
-    end      # else
+    end
     survey_answer.answered_by ||= params[:answer][:person]
-    # end      
-    # if params[:answer][:person].to_i == Role.get(:other).id
-    #   survey_answer.answered_by = params[:answer][:person_other]
-    # else
-    #   survey_answer.answered_by = params[:answer][:person] unless params[:answer].nil?
-    # end      
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    
-    # save with save_draft method
-    survey_answer.save_partial_answers(params, survey)
+    survey_answer.save_partial_answers(params, survey)     # save with save_draft method
     
     # fills in answertype of answer_cells. Do this by matching them with question_cells
-    survey.merge_answertype(survey_answer)  # 19-8 items needed to calculate score!
+    survey.merge_answertype(survey_answer)  # 19-8 items needed to calculate score! (also sets item)
     survey_answer.done = true
+    survey_answer.add_missing_cells
     answered = true
     
-    if survey_answer.save # and not @journal_entry.nil?
+    if survey_answer.save
       @journal_entry.increment_subscription_count(survey_answer)
       # create pregenerated csv_answer
       Task.new.create_csv_answer(survey_answer)
-      
+
       # login-users are shown the logout page
       if current_user and current_user.access? :all_users
         flash[:notice] = "Dit svar er blevet gemt."
-        redirect_to journal_path(@journal_entry.journal)
+        redirect_to journal_path(@journal_entry.journal) and return
       else
         flash[:notice] = "Tak for dit svar!"
-        redirect_to survey_finish_path(@journal_entry.login_user)
+        redirect_to survey_finish_path(@journal_entry.login_user) and return
       end
     else
       flash[:notice] = "Fejl! Dit svar blev ikke gemt."
-      redirect_to survey_answer_path(@journal_entry)
+      redirect_to survey_answer_path(@journal_entry) and return
     end
   rescue RuntimeError
-    # STDERR.puts survey_answer.print
     flash[:error] = survey_answer.print
-    redirect_to journal_path(@journal_entry.journal)
+    redirect_to journal_path(@journal_entry.journal) and return
   end
   
   def update  # was: save_changed_answer

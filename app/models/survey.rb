@@ -18,10 +18,10 @@ class Survey < ActiveRecord::Base
   attr_accessor :selected
   # includes cells
   
-  def get_valid_values
+  def valid_values
     params = {}
     self.questions.each do |question|
-      params["Q#{question.number}"] = question.get_valid_values
+      params["Q#{question.number}"] = question.valid_values
     end
     return params
   end

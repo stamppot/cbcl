@@ -15,6 +15,7 @@ class SurveyAnswer < ActiveRecord::Base
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
+  named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_answers.survey_id = ?", survey_id] } }
   named_scope :with_journals, :joins => "INNER JOIN `journal_entries` ON `journal_entries`.journal_id = `journal_entries`.survey_answer_id", :include => {:journal_entry => :journal}
 
   def answered_by_role
@@ -54,6 +55,9 @@ class SurveyAnswer < ActiveRecord::Base
     self.answers.max {|q,p| q.count_items <=> p.count_items }
   end
   
+  def add_missing_cells
+    self.max_answer.add_missing_cells
+  end
   # check all values iteratively
   # def test_saved(survey_answer)
   #   if self.id == survey_answer.id
@@ -121,7 +125,7 @@ class SurveyAnswer < ActiveRecord::Base
     params.each_key { |question| params.delete(question) if params[question].empty? }
 
     # check valid values from survey
-    valid_values = survey.get_valid_values
+    valid_values = survey.valid_values
     
     # param_array = params.to_a
     params.each do |key, q_cells|   # one question at a time

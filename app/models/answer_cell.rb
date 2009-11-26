@@ -3,7 +3,7 @@ class AnswerCell < ActiveRecord::Base
 
   named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
   # named_scope :in_answer, lambda { |answer| { :conditions => ['answer_id = ?', answer.is_a?(Answer) ? answer.id : answer] } }
-  named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", 9]
+  named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
   
   # attr_accessor :some_new_value
