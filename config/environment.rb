@@ -97,7 +97,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 
 CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 
-require 'error_catcher'
+# require 'error_catcher'
 if ENV['RAILS_ENV'] == 'development'
   require 'hirb' 
   Hirb.enable
