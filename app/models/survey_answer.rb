@@ -33,12 +33,6 @@ class SurveyAnswer < ActiveRecord::Base
     a.order_by
   end
   
-  # def nested_cell_values
-  #   a = Dictionary.new
-  #   self.answers.each { |answer| a.merge!({answer.number => (answer.nested_cell_values) }) }
-  #   a
-  # end
-  
   # cascading does not work over multiple levels, ie. answer_cells are not deleted
   def delete
     # better solution: iterate through answers, do cascading delete
@@ -58,24 +52,10 @@ class SurveyAnswer < ActiveRecord::Base
   def add_missing_cells
     self.max_answer.add_missing_cells
   end
-  # check all values iteratively
-  # def test_saved(survey_answer)
-  #   if self.id == survey_answer.id
-  #     check_answers = answers.zip survey_answer.answers#(true)
-  #     check_answers.each { |tuple| tuple.first.test_saved(tuple.last) }
-  #   else
-  #     raise RuntimeError("SurveyAnswer.test_saved: Saved value is not right!")
-  #   end
-  # end
   
   def sex
     PersonInfo.sexes.invert[self.sex]
   end
-  
-  # returns belonging center  
-  # def journal
-  #   self.journal_entry.journal
-  # end
   
   # get all scores related to this survey answer.
   def scores

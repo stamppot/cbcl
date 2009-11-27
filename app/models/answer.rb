@@ -100,13 +100,15 @@ class Answer < ActiveRecord::Base
   end
 
   def add_missing_cells
-    cells = self.answer_cells.ratings.map {|a| [a.row, a.col] }
+    a_cells = self.answer_cells.ratings #.map {|a| [a.row, a.col] }
+    count = 0
     # find missing
-    # cells = ratings.map {|a| [a.row, a.col] }
+    cells = a_cells.map {|a| [a.row, a.col] }
     cell_arr = cells.first
     return if !(cell_arr && cell_arr.size == 2) 
 
     q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
+    q_cells_size = q_cells.size
     missing_cells = q_cells - cells
     # puts "Answer: #{answer.id}\nmissing cells: #{missing_cells.inspect}"
     new_cells = []
@@ -114,19 +116,25 @@ class Answer < ActiveRecord::Base
       row, col = m_cell
       find_row = row - 1 # try one before this
       cells_away = 1 # how far the found cell is from the one to fill in
-      while((prev_item = cells.detect { |c| c.first == find_row}).nil? && find_row > 0) do
+      while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
         find_row -= 1
         cells_away += 1
       end
-      if prev_item && (item = prev_item.item) && find_row > 0
+      # puts "find_row: #{find_row} cells_away: #{cells_away}"
+      if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
         cells_away.times { item.succ! }
+        # puts "new item: #{item}, m_cell: #{m_cell.inspect} prev_cell: #{prev_item.inspect}"
         unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
           new_cells << ac = self.answer_cells.create(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
-          puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
+          count += 1
+          # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
         end
       end
+      row = col = find_row = cells_away = prev_item = exists = nil
     end if self.survey_answer.done
-    new_cells
+    puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
+    answer.question = nil
+    count
   end
   
   def print
