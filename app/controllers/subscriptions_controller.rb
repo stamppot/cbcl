@@ -94,7 +94,7 @@ class SubscriptionsController < ApplicationController
       redirect_to subscription_path(@subscription)
   end
   
-  # reset counter for all copies, also paid
+  # reset counter for all periods, also paid
   def reset_all
     @subscription = Subscription.find(params[:id])
     if request.post? && params["yes"]

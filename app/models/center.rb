@@ -110,15 +110,15 @@ class Center < Group
 
   # finds all periods for all subscriptions
   def subscription_summary(options = {})
-    copies = Query.new.query_subscription_periods_for_centers(self.id)
-    copies.group_by {|c| c["created_on"] }
+    periods = Query.new.query_subscription_periods_for_centers(self.id)
+    periods.group_by {|c| c["created_on"] }
   end
 
   def subscription_presenter
     SubscriptionPresenter.new(self)
   end
   
-  # set active copies to paid. Create new copies  
+  # set active periods to paid. Create new periods  
   def set_active_subscriptions_paid!
     self.subscriptions.all { |sub| sub.pay! }
   end

@@ -18,8 +18,8 @@
 
 	<dt>Brugt</dt>
 	
-	<% @copies = @subscription.summary(@options) %>
-	<dd><%= render :partial => "shared/subscription_summary", :object => @copies %></dd>
+	<% @periods = @subscription.summary(@options) %>
+	<dd><%= render :partial => "shared/subscription_summary", :object => @periods %></dd>
 
 	<dt><span id="subscription_note">Noter</span></dt>
 	<dd><%= in_place_editor_field :subscription, :note, {}, :rows => 5,

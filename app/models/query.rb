@@ -76,7 +76,7 @@ class Query
          age_filter(age_low, age_high) << survey_filter(surveys) << entries << group_by("survey_answer_id")).join
    end
    
-   def subscription_copies_for_center(center = nil, options = {})
+   def subscription_periods_for_center(center = nil, options = {})
      joins = ['subscriptions', 'periods']
      conditions = { 'subscriptions.id' => 'periods.subscription_id', 'subscriptions.state' => 1}
      conditions["periods.active"] = 1 if options["active"]
@@ -95,32 +95,32 @@ class Query
    end
 
    def query_subscription_periods_for_centers(center = nil, options = {})
-     self.subscription_copies_for_center(center, options)
+     self.subscription_periods_for_center(center, options)
      self.do_query
    end
 
-   # select surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
-   # FROM subscriptions, copies, surveys
+   # select surveys.title, periods.used, periods.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
+   # FROM subscriptions, periods, surveys
    # WHERE subscriptions.id = 1
    # AND subscriptions.survey_id = surveys.id
    # group by subscription_id;   
    def one_subscription_count(subscription)
-     joins = ['subscriptions', 'copies', 'surveys']
+     joins = ['subscriptions', 'periods', 'surveys']
      conditions = { 'subscriptions.survey_id' => 'surveys.id', 'subscriptions.id' => (subscription.is_a?(Subscription) && subscription.id || subscription) }
-     self.select(["surveys.title, copies.subscription_id, survey_id, center_id, copies.used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
+     self.select(["surveys.title, periods.subscription_id, survey_id, center_id, periods.used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
    end
 
-   # select subscriptions.center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
-   # FROM subscriptions, copies, surveys
+   # select subscriptions.center_id, surveys.title, periods.used, periods.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state
+   # FROM subscriptions, periods, surveys
    # WHERE subscriptions.id = 1 
    # and subscriptions.survey_id = surveys.id
    # group by subscription_id;
    def all_subscription_counts
-     joins = ['subscriptions', 'copies', 'surveys']
+     joins = ['subscriptions', 'periods', 'surveys']
      conditions = { 'subscriptions.id' => 1, 'subscriptions.survey_id' => 'surveys.id' }
-       self.select(["center_id, surveys.title, copies.used, copies.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
+       self.select(["center_id, surveys.title, periods.used, periods.subscription_id, used, sum(used) as total_used, (sum(used)-used) as active, created_on, paid_on, note, state"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where << self.group_by('subscription_id')).join(' ')
    end
@@ -136,13 +136,13 @@ class Query
    end
    
    # SELECT subscriptions.id as subscription_id, subscriptions.center_id, SUM(used)
-   # FROM cbcl_production.subscriptions, cbcl_production.copies
-   # where subscriptions.id = copies.subscription_id
+   # FROM cbcl_production.subscriptions, cbcl_production.periods
+   # where subscriptions.id = periods.subscription_id
    # and subscriptions.center_id = 1
    # group by subscriptions.id
    def subscriptions_count(center = nil)
-     joins = ['subscriptions', 'copies']
-     conditions = { 'subscriptions.id' => 'copies.subscription_id' }
+     joins = ['subscriptions', 'periods']
+     conditions = { 'subscriptions.id' => 'periods.subscription_id' }
      if center && center.is_a?(Center)
        conditions["subscriptions.center_id"] = center.is_a?(Center) && center.id || center
      end
@@ -159,12 +159,12 @@ class Query
      self.do_query
    end
    
-   # SELECT subscriptions.center_id, subscriptions.id, SUM(used) FROM cbcl_production.subscriptions, cbcl_production.copies
-   #where subscriptions.id = copies.subscription_id
+   # SELECT subscriptions.center_id, subscriptions.id, SUM(used) FROM cbcl_production.subscriptions, cbcl_production.periods
+   #where subscriptions.id = periods.subscription_id
    #group by subscriptions.id
    def periods_count(subscription = nil)
-     joins = ['subscriptions', 'copies']
-     conditions = { 'subscriptions.id' => 'copies.subscription_id' }
+     joins = ['subscriptions', 'periods']
+     conditions = { 'subscriptions.id' => 'periods.subscription_id' }
      if subscription
        conditions["subscriptions.id"] = subscription.is_a?(Subscription) && subscription.id || subscription
      end

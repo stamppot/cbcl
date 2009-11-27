@@ -132,18 +132,6 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     end
   end
 
-  # show a summary view of all subscriptions
-  # def show_subscriptions  # :show => active|paid|all
-  #   @group = Center.find(params[:id])
-  #   if current_user.access? (:subscription_show)
-  #     @copies = @group.subscription_summary(:show => params[:show])
-  #     render "shared/subscription_summary"
-  #   else
-  #     flash[:error] = "Du har ikke adgang til denen side."
-  #     redirect_to :action => :show, :id => @group
-  #   end
-  # end
-
   # pay all active subscriptions
   def pay_subscriptions
     @group = Center.find(params[:id])

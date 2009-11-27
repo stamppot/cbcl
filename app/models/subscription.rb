@@ -1,8 +1,7 @@
 class Subscription < ActiveRecord::Base
   belongs_to :center
   belongs_to :survey
-  has_many :periods, :table_name => :copies #, :dependent => :delete_all
-  # alias_method :periods, :copies
+  has_many :periods #, :dependent => :delete_all
 
   after_create :new_period!
 

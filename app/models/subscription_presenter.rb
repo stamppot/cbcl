@@ -1,12 +1,12 @@
 class SubscriptionPresenter
 
   # Details view: subscription (one per survey), list of total, total_active (since last payment)
-  # Summary view: periods ('copies' is a period)
+  # Summary view: periods
   # periods -> total used in period 
   attr_accessor :group, :subscriptions, :summary_view, :surveys, :periods, :detailed_view, :params
 
   def initialize(group, surveys = nil, subscriptions = nil, params = {}) # for a group
-    subscriptions ||= group.subscriptions(:include => :copies)
+    subscriptions ||= group.subscriptions(:include => :periods)
     surveys ||= group.surveys
     @group = group
     @params = params
@@ -21,7 +21,7 @@ class SubscriptionPresenter
   
   # input: group / all subscriptions for a group
 
-  def periods # needs list of copies for all subscriptions
+  def periods # needs list of periods for all subscriptions
     
   end
 
