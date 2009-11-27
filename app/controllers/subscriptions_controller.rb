@@ -50,7 +50,7 @@ class SubscriptionsController < ApplicationController
   end
 
    # TODO 31-1-9: possible to rewrite to use subscription id?
-  def create # was: subscribe
+  def create
     @group = Group.find(params[:group][:id])
     if @group.valid?
       surveys = params[:group][:surveys] || []
@@ -70,7 +70,7 @@ class SubscriptionsController < ApplicationController
         redirect_to center_path(@group)
       else
         flash[:error] = "Kunne ikke oprette abonnement: #{@group.errors.inspect}"
-        redirect_to new_subscription_path(@group) #:action => :new, :id => @group
+        redirect_to new_subscription_path(@group)
       end
     else
       flash[:error] = "Der er en fejl i centerets oplysninger. Check centerets kode (skal være 4 cifre)."
@@ -132,8 +132,8 @@ class SubscriptionsController < ApplicationController
     flash[:error] = 'Dette abonnement kunne ikke findes.'
     redirect_to subscriptions_path
   end
-
   
+    
   protected
   before_filter :admin_access, :except => [ :list, :index, :show ]
   before_filter :subscription_show, :only => [ :list, :index, :show ]

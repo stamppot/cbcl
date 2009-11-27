@@ -36,6 +36,68 @@ td {
   border: 1px #DEF solid;
 }
 
+/*************** buttons **********/
+a.button, input.button {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	line-height:29px;
+	margin-bottom:14px;
+	text-decoration:none;
+	text-indent:10px;
+	padding: 3px 15px 3px 10px;
+}
+a:hover.button {
+	padding: 3px 15px 3px 10px;
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+a:active.button {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+a .go_back {
+	background:url('/images/arrow_undo.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .survey_input {
+	background:url('/images/mouse.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .survey_fast_input {
+	background:url('/images/pencil_go.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+/* submit buttons */
+input.button {
+	background-color: #eee !important;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	text-decoration:none;
+	padding-left: 16px;
+	line-height: 19px;
+	text-indent: 20px;
+	font-size: 12px;
+}
+input.button:hover {
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+input.button:active {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+
 /* no border around input fields, especially radio buttons in IE */
 /*input {*/
 /*	border: 0;*/
@@ -675,4 +737,21 @@ a img.icon:hover {
 .btn-submit {
 	border: 1px outset #ccc;
 	background-color: #eee;
+}
+.send_form {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	line-height:29px;
+	margin-bottom:14px;
+	text-decoration:none;
+	text-indent:10px;
+	padding: 3px 15px 3px 10px;
+}
+a .send_survey {
+	background:url('/images/spinner.gif') no-repeat 0px 0px;
+	padding-left: 27px;
 }

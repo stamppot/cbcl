@@ -12,16 +12,11 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   def show
     @group = Center.find(params[:id])
     @page_title = "CBCL - Center " + @group.title
-    # @copies = @group.subscription_summary(params)
     @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
-
-    # puts "Count: " + @count.inspect
-    # summary
     @subscription_presenter = SubscriptionPresenter.new(@group)
     
     @subscriptions = @group.subscriptions
     @surveys = current_user.surveys.group_by {|s| s.id}
-    
     
     respond_to do |format|
       format.html {
@@ -129,6 +124,8 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @user = current_user
     @raw_phrase = (request.raw_post.gsub("&_=", "")) || params[:id]
     @groups = Center.search_title_or_code(@raw_phrase)
+    @subscription_presenters = @groups.map {|g| SubscriptionPresenter.new(g)}
+    
     respond_to do |wants|
       wants.html  { render(:template  => "centers/searchresults" )}
       wants.js    { render(:layout   =>  false, :template =>  "centers/searchresults" )}
@@ -150,12 +147,12 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   # pay all active subscriptions
   def pay_subscriptions
     @group = Center.find(params[:id])
-    @copies = @group.subscription_summary(:show => params[:show])
     if request.post?
-      @group.set_active_subscriptions_paid!
-      flash[:notice] = "Abonnementer er betalt."
+      flash[:notice] = "Abonnementer er betalt." if @group.set_active_subscriptions_paid!
       redirect_to center_path(@group)
     end
+    @subscription_presenter = @group.subscription_presenter
+    @options = {:hide_buttons => true}
     
     rescue ActiveRecord::RecordNotFound
       flash[:error] = 'Dette abonnement kunne ikke findes.'
@@ -170,12 +167,36 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       flash[:notice] = "Sidste betaling af abonnementer er fortrudt."
       redirect_to center_path(@group) and return if @group.save
     else
-      @copies = @group.subscription_summary(:show => params[:show])
+      @subscription_presenter = @group.subscription_presenter
+      @options = {:hide_buttons => true}
     end
     
     rescue ActiveRecord::RecordNotFound
       flash[:error] = 'Dette abonnement kunne ikke findes.'
       redirect_to center_path(@group)
+  end
+
+  def pay_periods
+    @group = Center.find params[:id]
+    @start_date = date1 = params[:start_date].to_date
+    @end_date = date2 = params[:end_date].to_date
+    puts "PAY_PERIOD: #{params.inspect}"
+    if request.post?
+      @group.subscriptions.all.each do |sub|
+        sub.pay_period!(date1, date2)
+      end
+      flash[:notice] = "Abonnementer for perioden #{date1} - #{date2} er betalt."
+      redirect_to @group, :anchor => 'center_subscriptions'
+    end
+  end
+  
+  def merge_periods
+    @group = Center.find params[:id]
+    date1 = params[:start_date]
+    date2 = params[:end_date]
+    @group.subscriptions.all.each do |sub|
+      sub.merge_periods!(date1, date2)
+    end
   end
   
   def new_subscription_period

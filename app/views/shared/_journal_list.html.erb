@@ -22,8 +22,9 @@ Der er ingen journaler i systemet.
 		<% unless @hide_team %>
     <td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
 		<% end %>
-    <td class="pj"><%= link_to img_tag_html4('icon_edit_user.gif', :border => 0, :class => 'icon', :title => 'Rediger journal'), edit_journal_path(g), :title => t('edit') -%>
-      <%= link_to img_tag_html4('icon_delete_user.gif', :border => 0, :class => 'icon', :title => 'Slet journal'), delete_journal_path(g), :title => t('delete') -%>
+    <td class="pj">
+			<%= link_to_icon 'journal_edit.png', edit_journal_url(g), :title => t('journal.edit') %>
+			<%= link_to_icon 'journal_delete.png', delete_journal_url(g), :title => t('journal.delete') %>      
     </td>
   </tr>
 <% end %>

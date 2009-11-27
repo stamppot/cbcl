@@ -2,7 +2,7 @@
 	<tr>
 	<th class="wide" title=<%= t('sort.name') %>><%= t('name') %></th>
 	<th title="<%= t('sort.role') %>"><%= t('role') %></th>
-	<% if current_user.access? (:user_view_status) %>
+	<% if current_user.access? :user_view_status %>
 	<th title="<%= t('sort.state') %>"><%= t('state') %></th>
 	<% end %>
 	<th title="<%= t('sort.group') %>"><%= t('groups') %></th>
@@ -13,12 +13,12 @@
 
 	<% @users.each do |user| %>
 	<tr>
-		<td><%= link_to( user.name, user_path(user), :title => t('user.show') ) %></td>
-		<td><%= roles = user.roles.empty? ? " " : user.roles.first.title -%></td>
-		<% if current_user.access? (:user_view_status) %>
+		<td><%= link_to user.name, user_path(user), :title => t('user.show') %></td>
+		<td><%= (roles = user.roles).any? && roles.first.title || " " -%></td>
+		<% if current_user.access? :user_view_status %>
 		<td><%= h user.status %></td>
 		<% end %>
-		<% if current_user.access? (:user_show_teams) and !(groups = user.groups.teams).empty?
+		<% if current_user.access?(:user_show_teams) and !(groups = user.groups.teams).empty?
 			   groups = groups.map { |g| g.title }.join(", ")
 			 else
 			 	 groups = user.center ? user.center.title : (user.centers.compact.empty? ? "" : user.centers.first.title)
@@ -26,12 +26,10 @@
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.access? :user_edit_delete %>
 	<td>
-		<%= link_to img_tag_html4('user_edit.png', :border => 0, :class => 'icon', :title => t('user.edit')), edit_user_path(user), :title => t('user.edit') -%>
-		<%= link_to img_tag_html4('user_delete.png', :border => 0, :class => 'icon', :title => t('user.delete')), delete_user_path(user), :title => t('user.delete') -%>
+		<%= link_to_icon 'user_edit.png', edit_user_url(user), :title => t('user.edit') %>
+		<%= link_to_icon 'user_delete.png', delete_user_url(user), :title => t('user.delete') -%>
 		<span>&nbsp;&nbsp;</span>
-		<% if current_user.access? (:shadow_login) and user.id != current_user.id %>
-		<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('shadow_login_alt')), shadow_login_path(user), :title => t('shadow_login_alt') %>
-		<% end %>
+		<%= link_to_icon 'door.png', shadow_login_url(user), {:alt => t('shadow_login_alt'), :title => t('shadow_login_alt')}, (current_user.access?(:shadow_login) and user.id != current_user.id) %>
 	</td>
 	<% end %>
 	<tr/>

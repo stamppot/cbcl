@@ -120,13 +120,36 @@ class Subscription < ActiveRecord::Base
       end
     end
   end
+
+  # use when merging periods with no used surveys
+  def merge_periods!(date1, date2)
+    p1 = self.periods.active.select { |p| p.created_on == date1 }
+    p2 = self.periods.active.select { |p| p.created_on == date2 }
+    p1, p2 = p2, p1 if date1 > date2 # merge to the earliest date
+    
+    p1.each do |p|
+      q = p2.detect {|q| q.subscription_id == p.subscription_id } # find period for same subscription
+      p.used += q.used
+      q.destroy if p.save
+    end
+  end
+
+  # pay period
+  def pay_period!(start_date, end_date = Time.now.to_date)
+    p = self.periods.detect {|p| p.created_on == start_date}
+    puts "PAYING PERIOD 1: #{p.inspect}"
+    p.pay!
+    puts "PAYING PERIOD 2: #{p.inspect}"
+    # begin new period if no active
+     begin_new_period! unless find_active_period
+  end
   
-  # consolidate active Period  obj and start new
+  # pay active period
   def pay!
     active_period = find_active_period
     active_period.pay!
     # self.periods.create_copy({:active => true})
-    self.periods << Period .create({:active => true, :subscription => self})
+    begin_new_period! #self.periods << Period.create({:active => true, :subscription => self})
     # self.save
   end
 
@@ -154,6 +177,9 @@ class Subscription < ActiveRecord::Base
   
   private
   
+    def begin_new_period!
+      self.periods << Period.create({:active => true, :subscription => self})
+    end
     # This method returns a hash which contains a mapping of user states 
     # valid by default and their description.
     def Subscription.default_states

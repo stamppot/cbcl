@@ -6,11 +6,13 @@
 
 <% if current_user.access? :survey_show_fast_input %>
 <div class="command">
-	<% if @options[:show_only] %>
-	<%=  link_to 'Normal indtastning', survey_show_only_path(@survey) %>
-	<% else %>
-	<%= link_to 'Normal indtastning', survey_path(@journal_entry) %>
-	<% end %>
+	<% url = 
+	if @options[:show_only]
+		survey_show_only_path(@survey)
+	else
+		survey_path(@journal_entry)
+	end %>
+	<%= link_button t('survey.input'), url, 'survey_input', :title => 'Besvar med normal indtastning' %>
 </div>
 <% end %>
 
@@ -34,12 +36,17 @@
 	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
 
 	<% unless @options[:action] =~ /show/ %>
-		<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
-		<div id="sending_form" style="display: none">
-			<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;
-			<img alt="busy" src="/images/spinner.gif">
+		<a class='button' id='send_form' >
+			<span onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
+		</a>
+		<div id="sending_form" style="display: none;">
+			<a class='send_form' href='#'>
+				<span class="send_survey">Sender svar...</span>
+			</a>
 		</div>
 	<% end %>
+
+	<div id="submitting" style="border: 1px solid green; padding: 8px; display: none;">Sender svar...</div>
 	
 	<% unless @options[:action] =~ /show/ %>
 	</form>
@@ -69,12 +76,8 @@
 <% end %>
 
 <p>
-
-<% if current_user.access? :survey_new_edit %>
-<%= link_button t('edit'), edit_survey_path(@survey) %> |
-<% end %>
-<%= back_button journal_path(@journal_entry.journal) %>
-
+	<%= back_button journal_path(@journal_entry.journal) %>
+</p>
 
 
 <div id="debug">

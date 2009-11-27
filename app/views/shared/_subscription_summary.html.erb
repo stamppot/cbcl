@@ -13,16 +13,40 @@
 		<th>Periode</th>
 		<th class="number">Brugte skemaer</th>
 		<th>Betalt</th>
+		<th>Betalingsdato</th>
 		<!-- <th>Brugt siden sidst<br/>(ikke betalt)</th> -->
 	</tr>
-	<% 
+	<%
+	date1 = nil 
+	date2 = nil
+	@summaries.each do |summary|
+		if date1.nil?
+			date1 = summary[:start_on].to_date if summary[:used] == 0 && !summary[:paid]
+		elsif date2.nil?
+			date2 = summary[:start_on].to_date if summary[:used] == 0 && !summary[:paid]
+			summary[:date1] = date1
+			summary[:date2] = date2
+			date1, date2 = nil
+			# date2 = nil
+		end
+	end
+	
 	@summaries.each do |summary|
 		stopped_on = (summary[:stopped_on] || Time.now).to_date
 	%>
 	<tr>
 		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
 		<td class="number"><%= summary[:used] %></td>
-		<td class="number"><%= summary[:paid] %></td>
+		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>
+		<td><% if summary[:paid_on] %>
+				<%= summary[:paid_on].to_date.strftime("%e %b %y") %>
+				<% elsif summary[:used] > 0 && current_user.access?(:subscription_new_edit) %>
+				<%= link_button t('subscription.pay'), pay_periods_url(@group, :start_date => summary[:start_on], :end_date => stopped_on), 'period_pay' %>
+				<% end %>
+				<% if summary[:date1] && summary[:date2] && current_user.access?(:subscription_new_edit) %>
+					<%= link_button t('subscription.merge_periods'), {:controller => :center, :action => 'merge_periods', :id => @group, :start_date => date1, :end_date => date2}, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
+				<% end %>
+		</td>
 		<!-- <td class="number"><% summary[:active] %></td> -->
 	</tr>
 	<% end %>

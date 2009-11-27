@@ -112,12 +112,15 @@ class Center < Group
   def subscription_summary(options = {})
     copies = Query.new.query_subscription_periods_for_centers(self.id)
     copies.group_by {|c| c["created_on"] }
-    
   end
 
+  def subscription_presenter
+    SubscriptionPresenter.new(self)
+  end
+  
   # set active copies to paid. Create new copies  
   def set_active_subscriptions_paid!
-    self.subscriptions.each { |sub| sub.pay! }
+    self.subscriptions.all { |sub| sub.pay! }
   end
 
   def undo_pay_subscriptions!

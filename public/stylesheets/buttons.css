@@ -102,6 +102,26 @@ a .subscription_paid {
 	padding-left: 27px;
 	text-decoration: normal;
 }
+a .subscription_new_period {
+	background:url('/images/date_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_merge_periods {
+	background:url('/images/merge.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_pay {
+	background:url('/images/money.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .period_pay {
+	background:url('/images/date_pay.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
 a .subscription_active {
 /*	background:url('/images/money.png') no-repeat 0px 0px;*/
 	padding-left: 0px;

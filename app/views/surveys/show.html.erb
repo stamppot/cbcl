@@ -1,4 +1,3 @@
-<%= (@journal_entry && !current_user.login_user) ? link_to("Gå tilbage", journal_path(@journal_entry.journal)) : "" %>
 <%= render :partial => 'surveys/survey_header' %>
 
 <br>
@@ -7,18 +6,15 @@
 
 <% if current_user.access? :survey_show_fast_input and !@options[:show_only] %>
 <div class="command">
-	<% if @options[:answers] %>
-	<%=  link_to 'Hurtig indtastning', survey_show_fast_path(@journal_entry) %>
-	<%=  link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
-				survey_show_fast_path(@journal_entry), :title => 'Besvar med hurtig indtastning', :style => '' %>
-	<% elsif @options[:show_only] %>
-	<%=  link_to 'Hurtig indtastning', survey_show_only_fast_path(@survey) %>
-	<%=  link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
-				survey_show_only_fast_path(@journal_entry), :title => 'Vis med hurtig indtastning', :style => '' %>
-	<% else %>
-	<%= link_to("Hurtig indtastning " + img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"),
-				survey_show_fast_path(@journal_entry), :title => 'Besvar med hurtig indtastning', :style => '') %>
-	<% end %>
+	<% url =
+		if @options[:answers]
+			survey_show_fast_path(@journal_entry)
+		elsif @options[:show_only]
+			survey_show_only_fast_path(@journal_entry)
+		else
+			survey_show_fast_path(@journal_entry)
+		end %>
+	<%= link_button t('survey.fast_input'), url, 'survey_fast_input', :title => 'Besvar med hurtig indtastning' %>
 </div>
 <% end %>
 
@@ -43,11 +39,17 @@
 <%= render :partial => "surveys/question", :collection => @survey.questions %>
 
 <% unless @options[:action] =~ /show/ %>
-	<span style="padding: 3px;" id='send_form' class="btn-submit" onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();"> Send svar </span>
-	<div id="sending_form" style="display: none">
-		<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Sender svar... &nbsp; &nbsp;</span>&nbsp;<img alt="Sender svar" src="/images/spinner.gif">
-	</div>
+<a class='button' id='send_form'>
+	<span onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
+</a>
+<div id="sending_form" style="display: none;">
+	<a class='send_form' href='#'>
+		<span class="send_survey">Sender svar...</span>
+	</a>
+</div>
 <% end %>
+
+<div id="submitting" style="border: 1px solid green; padding: 8px; display: none;">Sender svar...</div>
 
 <% unless @options[:action] =~ /show/ && !@options[:show_only] %>
 	</form>
@@ -57,3 +59,6 @@
 			 :frequency => 20 %>
 <% end %>
 
+<p>
+	<%= (@journal_entry && !current_user.login_user) && back_button(journal_path(@journal_entry.journal)) || "" %>
+</p>

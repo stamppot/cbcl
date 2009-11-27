@@ -125,7 +125,7 @@ class Answer < ActiveRecord::Base
           puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
         end
       end
-    end
+    end if self.survey_answer.done
     new_cells
   end
   

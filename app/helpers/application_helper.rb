@@ -39,6 +39,10 @@ module ApplicationHelper
     link_to_remote(btn, url, options.merge(:class => "button #{cssclass}".rstrip))
   end
   
+  def link_to_icon(icon, url, options = {}, condition = true)
+    link_to_if condition, img_tag_html4(icon, options.merge(:border => 0, :class => 'icon')), url, :title => options[:title]
+	end
+	
   # correctly close/open html 4.01 tags
   def stylesheet_link_tag_html4( _n )
     return stylesheet_link_tag( _n ).gsub( ' />', '>' )

@@ -63,23 +63,19 @@ class SubscriptionPresenter
       used = periods.inject(0) {|n, p| n + p["used"].to_i }
       active = periods.inject(0) {|n, p| n + p["active_used"].to_i }
       total = periods.inject(0) {|n, p| n + p["total_used"].to_i }
-      paid = periods.inject(0) {|n, p| n + p["paid"].to_i }
+      paid = periods.all? { |p| p['paid'].to_i > 0 && p['paid_on']} # inject(0) {|n, p| n + p["paid"].to_i }
+      paid_on = periods.detect { |p| p['paid_on'] }
+      paid_on &&= paid_on['paid_on']
       stopped_on = periods.first["paid_on"] #detect { |p| p["paid_on"] }.inspect
-      # puts "periods: #{periods.inspect}\n"
-      # puts "total:#{total}\nused:#{used}\active:#{active}\paid:#{paid}"
-      # puts "started:#{date}"
-      # puts "stopped(paid):#{stopped_on}\n------------"
       @summary_view << {
         :start_on => date, 
-        # :active => active_count,
-        # :paid => (subscription.total_used.to_i - active_count.to_i),
         :used => used,
         :active => active,
-        :paid => paid,
-        :total_used => total, #periods["total_used"].to_i, #periods.sum(&:used),
-        :created => date, #periods.first.created_on,
-        :stopped_on => stopped_on #periods.last.stopped_on#,
-        # :paid_on => (could be nil)
+        :paid => paid, # are all subscriptions paid in this period
+        :total_used => total,
+        :created => date,
+        :stopped_on => stopped_on,
+        :paid_on => paid_on
       }
     end
     # @periods = summaries

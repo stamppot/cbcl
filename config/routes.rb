@@ -81,7 +81,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.pay_subscriptions 'centers/pay_subscriptions/:id', :controller           => 'centers', :action => 'pay_subscriptions'
   map.undo_pay_subscriptions 'centers/undo_pay_subscriptions/:id', :controller => 'centers', :action => 'undo_pay_subscriptions'
-
+  map.pay_periods 'centers/pay_periods/:id', :controller => 'centers',                       :action => 'pay_periods'
+  map.merge_periods 'centers/merge_periods/:id', :controller => 'centers',                   :action => 'merge_periods'
+  
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
 
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'

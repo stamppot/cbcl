@@ -30,9 +30,9 @@ class Period < ActiveRecord::Base
     self.paid_on
   end
 
-  def stopped_on=(val)
-    self.paid_on = val.to_date
-  end
+  # def stopped_on=(val)
+  #   self.paid_on = val.to_date
+  # end
   
   def copy_used!
     if self.active?
@@ -45,14 +45,14 @@ class Period < ActiveRecord::Base
 
   def pay!
     self.paid = true
-    self.stopped_on = Time.now
+    self.paid_on = Time.now
     self.active = false
     self.save  # check that paid_on is updated
   end
 
   def undo_pay!
     self.paid = false
-    self.stopped_on = nil
+    self.paid_on = nil
     self.active = true
     self.save
   end

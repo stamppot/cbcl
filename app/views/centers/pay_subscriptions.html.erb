@@ -2,11 +2,11 @@
 <p>
 	Dette vil nulstille den aktive tæller. 
 </p>
-<p><%= render :partial => "shared/subscription_summary", :object => @copies %></p>
+<p><%= render :partial => "shared/subscription_summary" %></p>
 <p>
 Er du sikker på at abonnementer er betalt?
 
 <% form_tag :action => :pay_subscriptions, :id => @group  do %>
-<%= submit_tag 'Ja, sæt til betalt', :name => 'yes', :class => "gray" %>
-<%= submit_tag 'Nej, afbryd', :name => 'no', :class => "gray" %>
+<%= submit_tag 'Ja, sæt til betalt', :name => 'yes', :class => "button accept" %>
+<%= submit_tag 'Nej, afbryd', :name => 'no', :class => "button deny" %>
 <% end %>

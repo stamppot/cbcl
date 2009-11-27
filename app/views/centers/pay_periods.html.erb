@@ -1,0 +1,13 @@
+<h2>Betal abonnementer for perioden <%= @start_date %> - <%= @end_date %></h2>
+<p>
+	Dette vil nulstille den aktive tæller, og tælning påbegyndes for en ny periode.
+</p>
+<p>
+Er du sikker på at perioden er betalt?
+
+<% form_tag :action => :pay_periods, :id => @group  do %>
+	<%= hidden_field_tag 'start_date', @start_date %>
+	<%= hidden_field_tag 'end_date', @end_date %>
+<%= submit_tag 'Ja, sæt til betalt', :name => 'yes', :class => "button accept" %>
+<%= submit_tag 'Nej, afbryd', :name => 'no', :class => "button deny" %>
+<% end %>

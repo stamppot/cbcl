@@ -71,31 +71,9 @@
 	<div id="journals">
 		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true} %>
 	</div>
-	<script type="text/javascript">
-	document.observe("dom:loaded", function() {
-	  // the element in which we will observe all clicks and capture
-	  // ones originating from pagination links
-	  var container = $(document.body)
+	
+<%= render :partial => 'shared/ajax_pagination' %>
 
-	  if (container) {
-	    var img = new Image
-	    img.src = '/images/spinner.gif'
-
-	    function createSpinner() {
-	      return new Element('img', { src: img.src, 'class': 'spinner' })
-	    }
-
-	    container.observe('click', function(e) {
-	      var el = e.element()
-	      if (el.match('.pagination a')) {
-	        el.up('.pagination').insert(createSpinner())
-	        new Ajax.Request(el.href, { method: 'get' })
-	        e.stop()
-	      }
-	    })
-	  }
-	})
-	</script>
 	<p>
 		<div class="commands">
 			<br/>
