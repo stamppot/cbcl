@@ -10,8 +10,7 @@
 	<% end %>
 
 	<script type="text/javascript">
-	  google.setOnLoadCallback(function() {
-	    // Place init code here instead of $(document).ready()
+	  $(document).ready(function() {
 			$('#username').watermark('Brugernavn', {className: 'loginField'});
 			$('#password').watermark('Password', {className: 'loginField'});
 	  });
