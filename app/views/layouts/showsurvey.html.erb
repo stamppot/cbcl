@@ -10,11 +10,14 @@
 	<%= stylesheet_link_tag_html4 'cbcl' %>
 	<%= stylesheet_link_tag_html4 'survey' %>
 	<%= stylesheet_link_tag_html4 'validation' %>
-	
+	<% end %>
+	<% bundle do %>
 	<%= javascript_include_tag 'prototype' %>
 	<%= javascript_include_tag 'effects' %>
 	<%= javascript_include_tag 'controls' %>
 	<%= javascript_include_tag 'application' %>
+	<% end %>
+	<% bundle do %>
 	<%= javascript_include_tag 'wforms/wforms_core' %>
 	<%= javascript_include_tag 'wforms/wforms_switch' %>
 	<% javascript_include_tag 'wforms/wforms_jump' %>
