@@ -1,6 +1,6 @@
 <h1>Dataudtræk</h1>
 
-<% form_tag(csv_download_path, :onSubmit => "Element.show('spinner');") do %>
+<% form_tag(csv_download_path, :onSubmit => "Element.show('downloading');") do %>
 <h3>Besvaret mellem</h3>
 <div id='filter_fields'>
 	<label for='start_date'>Startdato</label>
@@ -33,17 +33,16 @@
 	
 <span style="padding: 3px;" id='send_form' class="btn-submit">
 	<span id='filter'>
-		<%= link_to_remote("Filtrer", :submit => "filter_fields", :url => export_filter_path) %>
+		<%= link_to_remote("Filtrer", :submit => "filter_fields", :url => export_filter_path, :class => 'button') %>
 	</span>
 </span>
 
-<img alt="spinner" id="spinner" src="/images/spinner.gif" style="display:none;" >
-
-<%= submit_tag 'Download', { :class => 'normal', :id => 'download', :onclick => "$('downloading').show();" } %>
+<%= submit_tag 'Download', { :class => 'button download', :id => 'download', :onclick => "$('downloading').show();" } %>
 
 <div id="downloading" style="display: none">
 	<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Øjeblik... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif" >
 </div
+
 <% end %>
 
 <br>

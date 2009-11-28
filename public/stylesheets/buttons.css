@@ -271,6 +271,9 @@ input.score_calculate {
 input.subscribe {
 	background:url('/images/table_add.png') no-repeat 10px 5px;
 }
+input.download {
+	background:url('/images/disk_download.png') no-repeat 10px 5px;
+}
 
 input.login {
 	background:url('/images/door_in.png') no-repeat 10px 5px;
