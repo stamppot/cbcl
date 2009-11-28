@@ -22,7 +22,7 @@ class ScoreReportsController < ApplicationController
 
       # create survey titles row
       # @titles = [""]    # first header is empty, is in corner
-      @titles = [""] + @survey_answers.map { |sa| "#{sa.survey.category} #{survey_answer.survey.age}" }
+      @titles = [""] + @survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
       # @survey_answers.each do |survey_answer|
       #   @titles << survey_answer.survey.category + " " + survey_answer.survey.age
       # end
