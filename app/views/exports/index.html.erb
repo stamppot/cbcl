@@ -33,7 +33,8 @@
 	
 <span style="padding: 3px;" id='send_form' class="btn-submit">
 	<span id='filter'>
-		<%= link_to_remote("Filtrer", :submit => "filter_fields", :url => export_filter_path, :class => 'button') %>
+		<%= link_button_to_remote("Filtrer", 'filter', :submit => "filter_fields", :url => export_filter_path) %>
+		<% link_to_remote("Filtrer", :submit => "filter_fields", :url => export_filter_path, :class => 'button') %>
 	</span>
 </span>
 
