@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   include ActiveRbacMixins::ApplicationControllerMixin
 
   # expires_in 3.hours, :public => true
-  response.headers["Expires"] = "#{1.week.ago}"
+  # response.headers["Expires"] = "#{1.week.ago}"
   
   self.rails_error_classes = { 
     AccessDenied => "403",
