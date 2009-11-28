@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 
 	<title><%= @page_title %></title>
+	<% bundle do %>
 	<%= stylesheet_link_tag_html4 'cbcl' %>
 	<%= stylesheet_link_tag_html4 'survey' %>
 	<%= stylesheet_link_tag_html4 'validation' %>
@@ -20,6 +21,7 @@
 	<%= javascript_include_tag 'validation' %>
 	<%= javascript_include_tag 'tabbing' %>
 	<%= javascript_include_tag 'css_browser_selector' %>
+	<% end %>
 </head>
 <body>
 
