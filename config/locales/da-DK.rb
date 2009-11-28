@@ -110,7 +110,8 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis Journal',
       :list => 'Vis Journaler',
       :edit => 'Rediger Journal',
-      :new  => 'Opret Journal'
+      :new  => 'Opret Journal', 
+      :delete => 'Slet Journal'
     },
     :survey => {
       :new => 'Nyt spørgeskema',

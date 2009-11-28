@@ -133,7 +133,6 @@ class Answer < ActiveRecord::Base
       row = col = find_row = cells_away = prev_item = exists = nil
     end if self.survey_answer.done
     puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
-    answer.question = nil
     count
   end
   
