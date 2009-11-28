@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
   # include ExceptionNotifiable
   include ActiveRbacMixins::ApplicationControllerMixin
 
-  expires_in 3.hours, :public => true
-
+  # expires_in 3.hours, :public => true
+  response.headers["Expires"] = "#{1.week.ago}"
+  
   self.rails_error_classes = { 
     AccessDenied => "403",
     # PageNotFound => "404",
