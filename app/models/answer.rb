@@ -47,7 +47,7 @@ class Answer < ActiveRecord::Base
       value = fields[:value]
       # validates value for rating and selectoption
       if valid_values[:type] =~ /Rating|SelectOption/
-        value = "9" if value.blank?     # only save 9 as unanswered for rating and selectoption
+        value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
         fields[:value] = value if valid_values[:fields].include? value # only save valid value
         # end
       else
