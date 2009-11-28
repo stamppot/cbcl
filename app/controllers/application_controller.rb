@@ -4,8 +4,10 @@ class CustomNotFoundError < RuntimeError; end
 class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
-  include ExceptionNotifiable
+  # include ExceptionNotifiable
   include ActiveRbacMixins::ApplicationControllerMixin
+
+  expires_in 3.hours, :public => true
 
   self.rails_error_classes = { 
     AccessDenied => "403",
