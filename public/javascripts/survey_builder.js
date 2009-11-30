@@ -23,7 +23,7 @@ function add_question_row()
 {
   var rows = $$("tr.row");
   var rowsno = rows.length+1;
-  var rowid = "row"+rows.length.toString()
+  var rowid = "row"+rows.length.toString();
   var newid = "row" + rowsno;
   var lastrow = rows.last();
   var tablerow = "<tr class='row' id='row" + rowsno + "'>";

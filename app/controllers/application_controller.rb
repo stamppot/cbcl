@@ -1,7 +1,11 @@
+# Filters added to this controller will be run for all controllers in the application.
+# Likewise, all the methods added will be available for all controllers.
 class CustomNotFoundError < RuntimeError; end
 class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
+  include ExceptionNotifiable
+  include ActiveRbacMixins::ApplicationControllerMixin
 
   layout "survey"
 
@@ -15,11 +19,6 @@ class ApplicationController < ActionController::Base
   def set_permissions
     current_user.perms = Access.for_user(current_user) if current_user
   end
-  # before_filter :set_locale
-  # def set_locale
-  #   # if this is nil then I18n.default_locale will be used
-  #   I18n.locale = params[:locale] 
-  # end
 
   def center_title
     @center_title = if current_user && current_user.center
@@ -39,6 +38,22 @@ class ApplicationController < ActionController::Base
 
   private
 
+  helper_method :current_user
+  # This method returns the User model of the currently logged in user or
+  # the anonymous user if no user has been logged in yet.
+  def current_user
+    return @current_user_cached unless @current_user_cached.nil?
+
+    @current_user_cached = 
+            if session[:rbac_user_id].nil? then
+              nil # ::AnonymousUser.instance
+            else
+              ::User.find(session[:rbac_user_id])
+            end
+
+    return @current_user_cached
+  end
+  
   def local_request?
     return false
   end
@@ -53,6 +68,7 @@ class ApplicationController < ActionController::Base
 
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
+    # check controller
     if !params[:id].blank? and params[:controller] =~ /score|faq/
       if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/

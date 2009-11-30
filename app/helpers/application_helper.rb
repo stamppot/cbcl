@@ -56,21 +56,6 @@ module ApplicationHelper
     return text_field_tag( name, value, options ).gsub( ' />', '>' )
   end
   
-  # This method returns the User model of the currently logged in user or
-  # the anonymous user if no user has been logged in yet.
-  def current_user
-    return @current_user_cached unless @current_user_cached.nil?
-
-    @current_user_cached = 
-            if session[:rbac_user_id].nil? then
-              nil # ::AnonymousUser.instance
-            else
-              ::User.find(session[:rbac_user_id])
-            end
-
-    return @current_user_cached
-  end
-  
   # is the logged in used being shadowed by an admin?
   def shadow_user?
     return !session[:shadow_user_id].blank?
