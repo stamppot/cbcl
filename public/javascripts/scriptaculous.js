@@ -45,14 +45,14 @@ var Scriptaculous = {
         Scriptaculous.REQUIRED_PROTOTYPE);
     
     $A(document.getElementsByTagName("script")).findAll( function(s) {
-      return (s.src && s.src.match(/scriptaculous\.js(\?.*)?$/))
+      return (s.src && s.src.match(/scriptaculous\.js(\?.*)?$/));
     }).each( function(s) {
       var path = s.src.replace(/scriptaculous\.js(\?.*)?$/,'');
       var includes = s.src.match(/\?.*load=([a-z,]*)/);
       (includes ? includes[1] : 'builder,effects,dragdrop,controls').split(',').each( // slider, sound removed
-       function(include) { Scriptaculous.require(path+include+'.js') });
+       function(include) { Scriptaculous.require(path+include+'.js'); });
     });
   }
-}
+};
 
 Scriptaculous.load();

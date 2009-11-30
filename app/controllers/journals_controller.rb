@@ -239,7 +239,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
   
   def check_access
-    if current_user and ((current_user.access?(:all_users) || current_user.access?(:login_user)))
+    return false unless current_user
+    if current_user.access?(:all_users) || current_user.access?(:login_user)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
       access = journal_ids.include? params[:id].to_i
     end

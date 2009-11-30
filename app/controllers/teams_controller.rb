@@ -228,9 +228,10 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   end
   
   def check_access
-    if params[:id] and current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
+    return false unless current_user
+    if params[:id] && current_user.access?(:all_users)
       access = current_user.team_member? params[:id].to_i
-    elsif !params[:id]
+    elsif !params[:id] && current_user.access?(:login_user)
       true
     end
   end

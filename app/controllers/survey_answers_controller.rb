@@ -130,7 +130,8 @@ class SurveyAnswersController < ApplicationController
   before_filter :check_access
   
   def check_access
-    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
+    return false unless current_user
+    if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include?(id)

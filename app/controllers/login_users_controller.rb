@@ -185,7 +185,8 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
   end
   
   def check_access
-    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
+    return false unless current_user
+    if current_user.access?(:all_users) || current_user.access?(:login_user)
       access = current_user.journals.map {|j| j.journal_entries.map {|je| je.user_id }}.include? params[:id].to_i
     end
   end

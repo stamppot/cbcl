@@ -136,6 +136,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     
     
   def login_access
+    return false unless current_user
     if current_user.access? :all_users
       return true
     elsif !current_user.nil?
@@ -151,6 +152,8 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
   
   def check_access
     id = params[:id].to_i
+    puts "CHECK ACCESS #{current_user.inspect}"
+    redirect_to login_path and return false unless current_user
     if current_user.access?(:user_show_all)
       return true
     else

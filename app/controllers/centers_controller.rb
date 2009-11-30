@@ -225,7 +225,8 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
   
   def check_access
-    if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
+    return false unless current_user
+    if (current_user.access?(:all_users) || current_user.access?(:login_user))
       access = current_user.team_member? params[:id].to_i
     else
       access_denied
