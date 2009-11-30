@@ -1,37 +1,8 @@
-# Filters added to this controller will be run for all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
 class CustomNotFoundError < RuntimeError; end
 class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
-  include ExceptionNotifiable
-  include ActiveRbacMixins::ApplicationControllerMixin
 
-  # expires_in 3.hours, :public => true
-  # response.headers["Expires"] = "#{1.week.ago}"
-  
-  self.rails_error_classes = { 
-    AccessDenied => "403",
-    # PageNotFound => "404",
-    # InvalidMethod => "405",
-    # ResourceGone => "410",
-    # CorruptData => "500",
-    # NotImplemented => "501",
-    # NameError => "503",
-    # TypeError => "503",
-    ActiveRecord::RecordNotFound => "400",
-    ::ActionController::UnknownController => "404",
-    ::ActionController::UnknownAction => "501",
-    ::ActionController::RoutingError => "404",
-    # ::ActionController::MissingTemplate => "404",
-    ::ActionView::TemplateError => "500"
-  }
-  self.http_error_codes = { "200" => "OK" }
-  # self.rails_error_classes = { AccessDenied => "200" }
-  self.error_layout = "login"
-
-  # acts_as_current_user_container
-  # session :session_key => '_cbcl_session_id'
   layout "survey"
 
   before_filter :set_permissions
@@ -48,12 +19,6 @@ class ApplicationController < ActionController::Base
   # def set_locale
   #   # if this is nil then I18n.default_locale will be used
   #   I18n.locale = params[:locale] 
-  # end
-
-  # def log_user_agent
-  #   if params[:controller] == 'login' && params[:action] == 'login' # only track when user logs in
-  #     logger.info "LOGIN #{params[:username]}: #{request.env['HTTP_USER_AGENT']}"
-  #   return true
   # end
 
   def center_title
@@ -74,35 +39,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # def rescue_action_in_public(exception)
-  #   # if response_code_for_rescue(exception) == "404 Page Not Found"
-  #   if status_code == :not_found
-  #     render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
-  #   else
-  #     @message = exception.backtrace.join("\n") unless exception
-  #     render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
-  #   end
-  # end
-
-
-
-  # def rescue_action_in_public(exception)
-  #   case exception
-  #     when CustomNotFoundError, ::ActionController::UnknownAction then
-  #       #render_with_layout "shared/error404", 404, "standard"
-  #       render :template => "main/error404", :layout => false, :status => "404"
-  #     when NameError
-  #     when ActiveRecord::RecordNotFound
-  #       # @message = "Fejl: " + exception.backtrace[0..10].join("\n") unless exception
-  #       # @error = "Fejl!"
-  #       render :template => "main/error404", :layout => false, :status => "404", :object => @message       
-  #     else
-  #       @message = exception.backtrace[0..10].join("\n") unless exception
-  #       @error = "Fejl!"
-  #       render :template => "main/error", :layout => "login", :status => "500"
-  #   end
-  # end
-
   def local_request?
     return false
   end
@@ -117,7 +53,6 @@ class ApplicationController < ActionController::Base
 
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
-    # check controller
     if !params[:id].blank? and params[:controller] =~ /score|faq/
       if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
