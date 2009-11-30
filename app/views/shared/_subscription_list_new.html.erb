@@ -8,8 +8,8 @@
 		<th class="number" title="Total"><%= t('total') %></th>
 	</tr>
 <%
- total_used = @subscription_presenter.detailed_view.sum {|v| v[:total]}
- active_used = @subscription_presenter.detailed_view.sum {|v| v[:active]}
+ total_used = @subscription_presenter.detailed_view.sum {|v| v[:total] || 0}
+ active_used = @subscription_presenter.detailed_view.sum {|v| v[:active] || 0}
  %>
 
 <%		
