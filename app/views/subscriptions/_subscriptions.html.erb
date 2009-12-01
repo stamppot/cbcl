@@ -18,8 +18,8 @@
 			<%= render :partial => "shared/subscription_list_new", :object => @subscription_presenter %>
 		</div>
 	</div>
-
-	<% if current_user.access?(:subscription_new_edit) && (@options && !@options[:hide_buttons] || false) %>
+	<br/>
+	<% if current_user.access?(:subscription_new_edit) || (@options && !@options[:hide_buttons] || false) %>
 			<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
 	<% end %>
 	</div>
