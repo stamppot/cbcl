@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'shoulda'
+require 'journals_controller'
 
 class JournalsControllerTest < ActiveSupport::TestCase
 
@@ -42,8 +43,7 @@ class JournalsControllerTest < ActiveSupport::TestCase
       }
 
       should_assign_to :group
-      should_change "Journal.count", :by => 1
-      should_assign_to :group, :equals => "@group"
+      should_change("Journal.count", :by => 1) { Journal.count }
 
       should_respond_with :redirect
       should_set_the_flash_to(/oprettet/i)
@@ -68,7 +68,6 @@ class JournalsControllerTest < ActiveSupport::TestCase
 
       should_respond_with :success
       should_render_template :edit
-      should_render_a_form
     end
   end
   
@@ -84,7 +83,7 @@ class JournalsControllerTest < ActiveSupport::TestCase
         post :update, params , :rbac_user_id => users(:user1_101).id
       }
 
-      should_change "Journal.count", :by => 0
+      should_not_change("number of journals") { Journal.count }
 
       should_respond_with :redirect
       should_set_the_flash_to(/opdateret/i)
@@ -105,7 +104,6 @@ class JournalsControllerTest < ActiveSupport::TestCase
 
       should_respond_with :success
       should_render_template :add_survey
-      should_render_a_form
     end
   end
   
@@ -117,9 +115,9 @@ class JournalsControllerTest < ActiveSupport::TestCase
       }
 
       should_assign_to :surveys
-      should_change "Journal.count", :by => 0
-      should_change "JournalEntry.count", :by => 2        # add two journal entries and a login_user for each
-      should_change "User.count", :by => 2
+      should_not_change("the number of journals") { Journal.count }
+      should_change("add two journal entries and a login_user for each survey", :by => 2) { JournalEntry.count }
+      should_change("add two login_users", :by => 2) { User.count }
 
       should_respond_with :redirect
       should_set_the_flash_to(/Spørgeskemaer blev tilføjet/i)
@@ -136,12 +134,11 @@ class JournalsControllerTest < ActiveSupport::TestCase
 
       should_assign_to :group
       should_assign_to :entries
-      should_not_change "JournalEntry.count"
-      should_not_change "User.count"
+      should_not_change("any journal_entries") { JournalEntry.count }
+      should_not_change("number of users") { User.count } # TODO: shouldn't this remove any login_users
 
       should_respond_with :success
       should_render_template :remove_survey
-      should_render_a_form
     end
   end
   
@@ -153,7 +150,7 @@ class JournalsControllerTest < ActiveSupport::TestCase
         post :remove_survey, { "entry"=>{"6"=>"1", "13"=>"0", "5"=>"1"}, "id"=>"12" }
       }
 
-      should_not_change "Journal.count"
+      should_not_change("the journal") { Journal.count }
       # these do not work?!
       # should_change "JournalEntry.count", :by => -2 # => 2, :to => 0
       # should_change "User.count", :by => -2 #:from => 2, :to => 0
