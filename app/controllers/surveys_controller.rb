@@ -18,7 +18,6 @@ class SurveysController < ApplicationController
       redirect_to login_path
     else
       @surveys = User.find(session[:rbac_user_id]).subscribed_surveys || [] #current_user.subscribed_surveys || []
-      render(:layout => "layouts/survey")
     end
   end
 
