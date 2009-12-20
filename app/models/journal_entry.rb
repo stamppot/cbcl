@@ -61,9 +61,9 @@ class JournalEntry < ActiveRecord::Base
     answered!    # saves objects
   end
   
-  def create_login_user
-    self.login_user = LoginUser.build_login_user(self)
-  end
+  # def create_login_user
+  #   self.login_user = LoginUser.build_login_user(self)
+  # end
   
   def status
     JournalEntry.states.invert[self.state]
@@ -140,5 +140,24 @@ class JournalEntry < ActiveRecord::Base
       'Besvaret'   => 5,    # skemaet er printet, skift til venter
 
        }
+  end
+  
+  protected
+  
+  def build_login_user #(journal_entry)
+    params = self.journal.center.login_name_params #(:prefix => self.journal.center.title)
+    pw = PasswordService.generate_password
+    
+    login_user = LoginUser.new(params)
+    # set protected fields explicitly
+    login_user.center_id = journal_entry.journal.center_id
+    login_user.roles << Role.get(:login_bruger)
+    login_user.groups << journal_entry.journal
+    login_user.password, login_user.password_confirmation = pw.values
+    login_user.password_hash_type = "md5"
+    login_user.last_logged_in_at = 10.years.ago
+    journal_entry.password = pw[:password]
+    self.login_user = login_user
+    return login_user
   end
 end

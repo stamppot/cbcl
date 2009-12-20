@@ -148,7 +148,38 @@ class Center < Group
   def journal_ids
     self.journals.collect { |pj| pj.code }
   end
-    
+
+  def login_name_params #(options = {})
+    # title = titleoptions[:prefix] || "a b c"
+    center_name = title.split.map {|w| w.first }.join.downcase
+    phrase = "%" + (login).sub(/\=$/, "") + "%"
+
+    if luser = self.login_users.last
+      login = luser.login.succ
+    else
+      login = "#{center_name}-login"
+    end
+
+    # try to find a non-used user id
+    # user_count = User.count(:conditions => ["users.login LIKE ?", phrase])
+    # userid = user_count + 1
+    # increment = 7
+    # while User.find_by_login(login + "#{userid}") do 
+    #   userid = user_count + rand(increment)
+    #   logger.info "LOGIN_USER: #{login+userid}"
+    #   puts "LOGIN_USER: #{login+userid}"
+    #   increment *= 3
+    # end
+
+    # login += userid.to_s
+    return { :login => login,
+      :name => login,
+      :email => "#{login}@#{center_name}.dk",
+      :state => 2,
+      :login_user => true
+    }
+  end
+
   protected
   
   # returns ids of all teams in center

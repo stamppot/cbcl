@@ -158,7 +158,7 @@ class Journal < Group
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
       entry.journal = self
       # self.journal_entries.and_entries << entry
-      entry.create_login_user
+      entry.build_login_user #create_login_user
       if entry.valid?
         entry.print_login!
         entry.login_user.save
