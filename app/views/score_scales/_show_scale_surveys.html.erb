@@ -1,0 +1,6 @@
+<h2>Skemaer</h2>
+
+
+<% @surveys.each do |survey| %>
+	<div style='background-color: #<%= survey.color %>;'><%= survey.description %></div>
+<% end %>

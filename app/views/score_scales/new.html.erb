@@ -1,0 +1,11 @@
+<h1>Ny scoreskala</h1>
+
+<% form_tag :action => :create_scale do %>
+
+	<%= text_field(:score_scale, :title, :class => 'btn_gray') %>
+
+  <%= submit_tag "Opret", :class => 'btn_gray' %>
+<% end %>
+
+<p/><br/>
+<%= link_to 'Tilbage til liste', :action => 'list_scales' %>

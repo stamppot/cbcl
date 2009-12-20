@@ -3,26 +3,12 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   include LoginHelper
   caches_page :index
   
-  # Displays the login form on GET and performs the login on POST. Expects the
-  # Expects the "login" and "password" parameters to be set. Displays the #login
-  # form on errors. The user must not be logged in.
-  #
-  # Checks the session entry <tt>return_to</tt> and the parameter 
-  # <tt>return_to</tt> for information of where to redirect to after the login
-  # has been performed successfully (in this order).
-  #
-  # Will write the value into the <tt>return_to</tt> session parameter if it
-  # came from parameter and clear it after the login has been performed 
-  # successfully.
-  
   def index
     redirect_to main_path and return if current_user
   end
   
   def login
     if request.post?
-      # Check that the user is not already logged in
-
       if current_user
         user = User.find_with_credentials(params[:username], params[:password])
         flash[:notice] = "#{current_user.name}, du er allerede logget ind."
@@ -32,7 +18,6 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
         else
           redirect_to main_path
         end
-        #'active_rbac/login/already_logged_in'
         return
       end
 
