@@ -22,14 +22,14 @@ class SurveysController < ApplicationController
     end
   end
 
-  # start page for login-brugere
-  def start
-    @page_title = "CBCL Spørgeskemaer" 
-    @surveys = current_user.surveys
-    @journal_entry = JournalEntry.find_by_user_id(current_user.id)
-    puts "JOURNAL_ENTRY: #{@journal_entry.inspect}"
-    @survey = @entry.survey
-  end
+  # # start page for login-brugere
+  # def start
+  #   @page_title = "CBCL Spørgeskemaer" 
+  #   @surveys = current_user.surveys
+  #   @journal_entry = JournalEntry.find_by_user_id(current_user.id)
+  #   puts "JOURNAL_ENTRY: #{@journal_entry.inspect}"
+  #   @survey = @entry.survey
+  # end
 
   # for showing surveys without being able to answer them (sort demo-mode)
   def show_only
