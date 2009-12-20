@@ -156,7 +156,7 @@ class Journal < Group
     return true if surveys.empty?
     surveys.each do |survey|
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
-      # entry.journal = self
+      entry.journal = self
       # self.journal_entries.and_entries << entry
       entry.create_login_user
       if entry.valid?
@@ -164,6 +164,8 @@ class Journal < Group
         entry.login_user.save
       end
       logger.info "CREATED2 LOGIN_USER: #{entry.login_user.inspect}   errors: #{entry.login_user.errors.inspect}"
+      logger.info "ENTRY: #{entry.valid?}   errors: #{entry.login_user.errors.inspect}"
+      
       # entry.expire_cache # expire journal_entry_ids
     end
   rescue => e
