@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
     # check controller
-    if !params[:id].blank? and params[:controller] =~ /score|faq/
+    if !params[:id].blank? and params[:controller] =~ /score|faq|group|role/
       if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
             end
           when /scores/
             access = current_user.access? :superadmin
-          when /group|role|admin/
+          when /group|role/
             access = current_user.access? :superadmin
           else
             access = current_user.access? :superadmin

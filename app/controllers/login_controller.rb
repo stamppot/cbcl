@@ -7,7 +7,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     if current_user || session[:rbac_user_id]
       redirect_to main_path and return 
     else
-      render :file => 'login/static', :layout => false
+      render :file => 'login/login_static', :layout => false
     end
   end
   
@@ -17,7 +17,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
         user = User.find_with_credentials(params[:username], params[:password])
         flash[:notice] = "#{current_user.name}, du er allerede logget ind."
 
-        if current_user.access? :login_user
+        if current_user.login_user?
           redirect_to survey_start_path
         else
           redirect_to main_path
@@ -56,7 +56,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
       if current_user.has_access? :login_user
         redirect_to survey_start_path
       else
-        redirect_to login_url
+        redirect_to main_url
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -66,7 +66,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   end
   
   def logout
-    return unless request.method == :post
+    return unless request.post?
 
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?
@@ -77,7 +77,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     self.remove_user_from_session!
 
     # Render success template.
-    flash[:notice] = "Du er blevet logget ud."
+    # flash[:notice] = "Du er blevet logget ud."
     redirect_to login_url
   end
 
