@@ -155,8 +155,8 @@ class Journal < Group
   def create_journal_entries(surveys)
     return true if surveys.empty?
     surveys.each do |survey|
-      entry.expire_cache # expire journal_entry_ids
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
+      entry.expire_cache # expire journal_entry_ids
       entry.journal = self
       # self.journal_entries.and_entries << entry
       entry.make_login_user #create_login_user
