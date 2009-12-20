@@ -17,13 +17,16 @@
 	<%= javascript_include_tag 'controls' %>
 	<%= javascript_include_tag 'application' %>
 
-
+	<% bundle do %>
 	<%= javascript_include_tag 'wforms/wforms_core' %>
 	<%= javascript_include_tag 'wforms/wforms_switch' %>
 	<% javascript_include_tag 'wforms/wforms_jump' %>
+	<% end %>
+	<% bundle do %>
 	<%= javascript_include_tag 'validation' %>
 	<%= javascript_include_tag 'tabbing' %>
 	<%= javascript_include_tag 'css_browser_selector' %>
+	<% end %>
 </head>
 <body>
 
