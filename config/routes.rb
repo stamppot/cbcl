@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Index Route
   #map.connect '', :controller => 'survey', :action => :list
+  map.connect '/score_scales/order', :controller => 'score_scales', :action => 'order'
 
   # Install the default route as the lowest priority.
   map.resources :surveys
@@ -44,7 +45,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.namespace(:active_rbac) do |active_rbac|
     active_rbac.resources :roles
-    # active_rbac.resources :groups
   end
   
   # map the admin stuff into '/admin/'
@@ -54,8 +54,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/admin/static_permission/:action/:id', :controller => 'active_rbac/static_permission'
   
   # map the login and registration controller somewhere prettier
-  map.login '/login', :controller            => 'login', :action => 'index'
-  map.logout '/logout', :controller          => 'login', :action => 'logout'
+  map.login '/login', :controller           => 'login', :action => 'index'
+  map.logout '/logout', :controller         => 'login', :action => 'logout'
   map.connect '/login', :controller         => 'login', :action => 'index'
   map.connect '/logout', :controller        => 'login', :action => 'logout'
   map.connect '/shadow_login', :controller  => 'login', :action => 'shadow_login'
@@ -141,10 +141,6 @@ ActionController::Routing::Routes.draw do |map|
   map.create_score_item 'score_items/create/:id', :controller => 'score_items', :action => 'create', :method => :post
   map.create_score_ref 'score_refs/create/:id', :controller => 'score_refs', :action => 'create', :method => :post
 
-  # map.score_scales 'scores/list_scales', :controller => 'scores', :action => 'list_scales'
-  map.scores_order 'score_scales/order_scores', :controller => 'scores', :action => 'order_scores'
-  map.scores_sort 'score_scales/sort_scores', :controller => 'scores', :action => 'sort_scores'
-  map.scores_done_order 'score_scales/done_order_scores', :controller => 'scores', :action => 'done_order_scores'
   map.scores_edit_survey 'score_scales/edit_survey', :controller => 'scores', :action => 'edit_survey'
 
   map.cancel_score_item 'score_items/cancel', :controller => 'score_items', :action => 'cancel'
@@ -152,10 +148,13 @@ ActionController::Routing::Routes.draw do |map|
   map.new_score_ref 'score_refs/new/:id', :controller => 'score_refs', :action => 'new'
   map.cancel_score_ref 'score_refs/cancel', :controller => 'score_refs', :action => 'cancel'
 
-  map.scales_order 'score_scales/order_scales', :controller => 'scores', :action => 'order_scales'
-  map.scales_sort 'score_scales/sort_scales', :controller => 'scores', :action => 'sort_scales'
-  map.scales_done_order 'score_scales/done_order_scales', :controller => 'scores', :action => 'done_order_scales'
-  map.scale_surveys 'score_scales/scale_surveys', :controller => 'scores', :action => 'scale_surveys'
+  map.scores_order 'score_scales/order_scores', :controller => 'score_scales', :action => 'order_scores'
+  map.scores_sort 'score_scales/sort_scores', :controller => 'score_scales', :action => 'sort_scores'
+  map.scores_done_order 'score_scales/done_order_scores', :controller => 'score_scales', :action => 'done_order_scores'
+  map.scales_order 'score_scales/order', :controller => 'score_scales', :action => 'order'
+  map.scales_sort 'score_scales/sort', :controller => 'score_scales', :action => 'sort'
+  map.scales_done_order 'score_scales/done_order', :controller => 'score_scales', :action => 'done_order'
+  map.scale_surveys 'score_scales/scale_surveys', :controller => 'score_scales', :action => 'scale_surveys'
 
   map.create_score_report 'score_reports/create', :controller => 'score_reports', :action => 'create'
   

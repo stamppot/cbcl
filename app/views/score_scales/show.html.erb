@@ -15,17 +15,13 @@
 			:complete => visual_effect(:highlight, 'score_list') }
 		%> 
 	</div>
-	<%= link_to_remote 'Færdig!', :url => {:action => 'done_ordering_scores', :id => @scale} %>
+	<%= link_to_remote 'Færdig!', :url => {:action => 'done_order_scores', :id => @scale} %>
 
 <% else %>
 	<%= link_to 'Reorganiser liste', :action => 'order_scores', :id => @scale %>
 
-	<br/>
-	<%= link_to 'Nyt spørgsmål', :action => 'new', :id => @scale %>
-	<br/>
-
 	<p>
-		<%= link_to 'Index', :action => 'index' %>
+		<%= link_button 'Index', score_scales_path %>
 	</p>
 <% end %>
 

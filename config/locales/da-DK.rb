@@ -149,6 +149,12 @@ I18n.backend.store_translations 'da-DK',
       :add_ref => 'Tilføj referenceværdi',
       :add_item => 'Tilføj beregning'
     },
+
+    :score_scale => {
+      :new => 'Opret ny skala',
+      :done => 'Færdig!',
+      :reorder => 'Organiser liste'
+    },
     
     :export => {
       :logins => 'Eksporter login-data'

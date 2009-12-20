@@ -19,15 +19,15 @@
 		<div id="bottom-left">
 			<div class="actions">
 				<% if @action == 'order' %>
-				<%= link_to_remote 'Færdig!', :url => {:controller => :score, :action => 'done_ordering_scales', :id => @scale} %>
+				<%= link_button_to_remote t('score_scale.done'), 'done_order', :url => {:action => 'done_order', :id => @scale} %>
 				<% elsif @scales.size > 1 %>
-				<%= link_to 'Reorganiser liste', {:controller => :score, :action => 'order_scales'} %><br/>
+				<%= link_button t('score_scale.reorder'), scales_order_path %><br/>
 				<% else %>
-				<%= link_to 'Index', {:controller => :score, :action => 'index'} %><br/>
+				<%= back_button scores_path %><br/>
 				<% end %>
 
 				<% unless @action == 'order' %>
-				<%= link_to 'Opret ny skala', {:controller => :score, :action => 'new_scale'} %>
+				<%= link_button t('score_scale.new'), new_score_scale_path %>
 				<% end %>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 
 		<% if @action == 'order' %>
 		<div id="sortable">
-			<%= sortable_element 'scale_list', :url => {:controller => :score, :action => 'sort_scales'}, 
+			<%= sortable_element 'scale_list', :url => {:controller => :scores, :action => 'sort'}, 
 			:complete => visual_effect(:highlight, 'scale_list') 
 			%> 
 		</div>
@@ -43,7 +43,7 @@
 
 		
 		<p>
-			<%= link_to 'Scoreliste', :action => :list %>
+			<%= back_button scores_path %>
 		</p>
 	</div>
 	<p>

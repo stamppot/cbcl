@@ -20,11 +20,11 @@
 		<div id="bottom-left">
 			<div class="actions">
 				<% if @action == 'order' %>
-				<%= link_to_remote 'Færdig!', :url => {:controller => :score, :action => 'done_ordering_scales', :id => @scale} %>
+				<%= link_to_remote 'Færdig!', :url => scales_done_order_path %>
 				<% elsif @scales.size > 1 %>
 				<%= link_to 'Reorganiser liste', {:controller => :score, :action => 'order_scales'} %><br/>
 				<% else %>
-				<%= link_to 'Index', {:controller => :score, :action => 'list_scales'} %><br/>
+				<%= back_button score_scales_path %><br/>
 				<% end %>
 
 				<% unless @action == 'order' %>

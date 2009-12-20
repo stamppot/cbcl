@@ -7,6 +7,10 @@ class ScoreScalesController < ApplicationController
     @scales = ScoreScale.find(:all)
   end
   
+  def show
+    @scales = [] << ScoreScale.find(params[:id])
+  end
+
   def new
     @scale = ScoreScale.new
   end
@@ -20,7 +24,7 @@ class ScoreScalesController < ApplicationController
     # update options list
     @options = @scales.map {|s| "<option value='#{s.id}' #{s.id == @scale.id ? 'selected' : ''}>#{s.title}</option>"}
     flash[:notice] = "Ny skala er oprettet."
-    redirect_to :action => 'list_scales'
+    redirect_to score_scales_path
   end
   
   def edit
@@ -32,7 +36,7 @@ class ScoreScalesController < ApplicationController
     @scale.update_attributes(params[:score_scale])
     
     flash[:notice] = "Skala er rettet."
-    render(:update) { |page| page.redirect_to :action => 'list_scales'}
+    render(:update) { |page| page.redirect_to score_scales_path }
   end
   
   def destroy
@@ -43,22 +47,17 @@ class ScoreScalesController < ApplicationController
     redirect_to :action => 'index'
   end
   
-  def show
-    @scales = [] << ScoreScale.find(params[:id])
-    render :template => 'score/scales'
-  end
-  
   def order_scores
     @scale = ScoreScale.find(params[:id])
     @scores = @scale.scores.find(:all, :group => :title)
     @action = 'order'
-    render :template => 'score/show_scale'
+    render :template => 'score_scales/show'
   end
   
   def done_order_scores
     @scale = ScoreScale.find(params[:id])
     flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to :action => 'list_scales'}
+    render(:update) { |page| page.redirect_to score_scales_path }
   end
   
   def sort_scores
@@ -77,13 +76,13 @@ class ScoreScalesController < ApplicationController
   end
   
   # order scales
-  def order_scales
-    @scales = ScoreScale.find(:all, :order => :position)
+  def order
+    @scales = ScoreScale.all(:order => :position)
     @action = 'order'
   end
 
-  def sort_scales
-    @scales = ScoreScale.find(:all) 
+  def sort
+    @scales = ScoreScale.all
     @scales.each do |scale|
       scale.position = params['scale_list'].index(scale.id.to_s)+1
     end
@@ -92,10 +91,10 @@ class ScoreScalesController < ApplicationController
     render :nothing => true 
   end
   
-  def done_order_scales
-    @scales = ScoreScale.find(:all)
+  def done_order #_scales
+    @scales = ScoreScale.all
     flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to :action => 'list_scales' }
+    render(:update) { |page| page.redirect_to score_scales_path }
   end
     
   # shows surveys for which this score applies to (or surveys for which this score has been created)
