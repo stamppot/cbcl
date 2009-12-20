@@ -158,13 +158,14 @@ class Journal < Group
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
       entry.journal = self
       # self.journal_entries.and_entries << entry
-      entry.build_login_user #create_login_user
+      entry.make_login_user #create_login_user
       if entry.valid?
         entry.print_login!
         entry.login_user.save
+      else
+        logger.info "CREATED2 LOGIN_USER: #{entry.login_user.inspect}   errors: #{entry.login_user.errors.inspect}"
+        logger.info "ENTRY: #{entry.valid?}   errors: #{entry.errors.inspect}"
       end
-      logger.info "CREATED2 LOGIN_USER: #{entry.login_user.inspect}   errors: #{entry.login_user.errors.inspect}"
-      logger.info "ENTRY: #{entry.valid?}   errors: #{entry.errors.inspect}"
       return entry
       # entry.expire_cache # expire journal_entry_ids
     end
