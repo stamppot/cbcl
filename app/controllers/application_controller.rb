@@ -50,6 +50,11 @@ class ApplicationController < ActionController::Base
     return @current_user_cached
   end
   
+  def remove_current_user
+    session[:rbac_user_id] = nil
+    @current_user_cached = nil
+  end
+  
   def local_request?
     return false
   end
