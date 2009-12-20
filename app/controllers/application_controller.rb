@@ -46,8 +46,10 @@ class ApplicationController < ActionController::Base
             else
               ::User.find(session[:rbac_user_id])
             end
-
     return @current_user_cached
+  rescue
+    remove_current_user
+    redirect_to login_path
   end
   
   def remove_current_user
