@@ -58,6 +58,7 @@ class LoginUser < User
     while User.find_by_login(center_name + "#{userid}").nil? do 
       userid = user_count + rand(increment)
       increment *= 3
+      logger.info "USERID: #{userid}"
     end
       
     login += userid.to_s
