@@ -357,7 +357,7 @@ class User < ActiveRecord::Base
     else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(options.merge(:conditions => ['id IN (?)', sa_ids]))
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).for_survey_answers(sa_ids) #.paginate(options)
     end
   end
   
@@ -377,12 +377,11 @@ class User < ActiveRecord::Base
         
     if self.has_access?(:group_all)
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(:conditions => ['journal_entry_id IN (?)', je_ids])
-
       # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids]))
     else
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['id IN (?)', sa_ids]))
+      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).for_survey_answers(sa_ids).count
     end
   end
   

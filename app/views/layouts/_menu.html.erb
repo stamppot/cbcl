@@ -3,7 +3,7 @@
 <div id="menu">
 
 	<% if current_user && current_user.perms[:layout_show_group_menu] %>
-	<div class="user_info" style="color: #eee; margin-bottom: -1.3em;">
+	<div class="user_info" style="color: #eee; margin-bottom: -1.1em;">
 		<%= current_user.name %>
 		<% if current_user.last_logged_in_at == current_user.created_at %>
 			<span style="color: green; padding-left: 200px; padding-top: 100px;">Husk at skifte dit password</span>
@@ -75,7 +75,7 @@
 		<% if current_user.perms[:layout_show_scores] %>
 		<%= link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
 		<% end %>
-		<% if [:layout_show_data_export] %>
+		<% if current_user.perms[:layout_show_data_export] %>
 		<%= link_to t("menu.data_export"), exports_path %>
 		<% end %>
 	</div>
@@ -117,7 +117,7 @@
 		<div class="menu_title"><%= t('menu.other') %></div>
 		<%= link_to t('menu.show_faq'), faqs_path, :title => t('menu.faq_alt') %>
 		<% if shadow_user? %>
-			<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
+			<%= link_to t('logout') + img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
 		<% else %>
 			<%= link_to t('logout'), logout_path, :title => t('logout_alt') %>
 		<% end %>
