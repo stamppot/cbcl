@@ -67,7 +67,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
       if current_user.has_access? :login_user
         redirect_to survey_start_path
       else
-        redirect_to main_url
+        redirect_to login_url
       end
     end
   rescue ActiveRecord::RecordNotFound
