@@ -74,6 +74,7 @@ class ApplicationController < ActionController::Base
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
     # check controller
+    params[:return_to] = request.url
     if !params[:id].blank? and params[:controller] =~ /score|faq/
       if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/

@@ -1,7 +1,7 @@
 class LoginController < ApplicationController # ActiveRbac::ComponentController
   layout 'login'
-
   include LoginHelper
+  caches_page :index
   
   # Displays the login form on GET and performs the login on POST. Expects the
   # Expects the "login" and "password" parameters to be set. Displays the #login
@@ -16,62 +16,60 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   # successfully.
   
   def index
-    redirect_to 'login'
+    redirect_to main_path and return if current_user
   end
   
   def login
-    # Check that the user is not already logged in
-    
-    unless current_user.nil?
-      user = User.find_with_credentials(params[:username], params[:password])
-      flash[:notice] = "#{current_user.name}, du er allerede logget ind."
-      
-      if current_user.access? :login_user
+    if request.post?
+      # Check that the user is not already logged in
+
+      if current_user
+        user = User.find_with_credentials(params[:username], params[:password])
+        flash[:notice] = "#{current_user.name}, du er allerede logget ind."
+
+        if current_user.access? :login_user
+          redirect_to survey_start_path
+        else
+          redirect_to main_path
+        end
+        #'active_rbac/login/already_logged_in'
+        return
+      end
+
+      # Set the location to redirect to in the session if it was passed in through
+      # a parameter and none is stored in the session.
+      if session[:return_to].nil? and params[:return_to]
+        session[:return_to] = params[:return_to] 
+      end
+
+      # Handle the login request otherwise.
+      @errors = Array.new
+
+      # If login or password is missing, we can stop processing right away.
+      raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
+
+      user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
+      raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
+      raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
+      write_user_to_session(user)    # Write the user into the session object.
+
+      flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+
+      # show message on first login
+      if user.created_at == user.last_logged_in_at
+        flash[:notice] = "Husk at ændre dit password"
+      end
+
+      logger.info "LOGIN #{user.name} #{user.id}: #{request.env['HTTP_USER_AGENT']}"
+
+      # TODO: DRY up. Duplicate from line 27
+      # if user is superadmin, redirect to login_page. Post to this method with some special parameter
+      if current_user.has_access? :login_user
         redirect_to survey_start_path
       else
-        redirect_to main_path
+        redirect_to main_url
       end
-        #'active_rbac/login/already_logged_in'
-      return
     end
-
-    # Set the location to redirect to in the session if it was passed in through
-    # a parameter and none is stored in the session.
-    if session[:return_to].nil? and !params[:return_to].nil?
-      session[:return_to] = params[:return_to] 
-    end
-    
-    # Simply render the login form on everything but POST.
-    # return unless request.method == :post
-
-    # Handle the login request otherwise.
-    @errors = Array.new
-
-    # If login or password is missing, we can stop processing right away.
-    raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
-
-    user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
-    raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
-    raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
-    write_user_to_session(user)    # Write the user into the session object.
-
-    flash[:notice] = "Velkommen #{user.name}, du er logget ind."
-
-    # show message on first login
-    if user.created_at == user.last_logged_in_at
-      flash[:notice] = "Husk at ændre dit password"
-    end
-    
-    logger.info "LOGIN #{user.name} #{user.id}: #{request.env['HTTP_USER_AGENT']}"
-    
-    # TODO: DRY up. Duplicate from line 27
-    # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-    if current_user.has_access? :login_user
-      redirect_to survey_start_path
-    else
-      redirect_to main_url
-    end
-
   rescue ActiveRecord::RecordNotFound
     # Add an error and let the action render normally.
     flash[:error] = 'Forkert brugernavn eller password' if params[:password]
@@ -90,7 +88,6 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?
       redirect_to main_url and return
-      # return
     end
 
     # Otherwise delete the user from the session
