@@ -13,7 +13,11 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
 
   def set_permissions
-    current_user.perms = Access.for_user(current_user) if current_user
+    if current_user
+      current_user.perms = Access.for_user(current_user)
+    else
+      redirect_to login_path
+    end
   end
 
   def center_title
