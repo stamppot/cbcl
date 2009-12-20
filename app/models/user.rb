@@ -344,12 +344,7 @@ class User < ActiveRecord::Base
     je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
       self.journal_entry_ids
     end
-    
-    # options[:limit] ||= 33
-    # options[:offset] ||= 0
-    # options[:conditions] ||= []
-    # puts "options conditions: #{options.inspect}"
-    
+
     if self.has_access?(:group_all)
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page )
       # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).
