@@ -156,9 +156,10 @@ class Center < Group
 
     login = 
     if luser = self.login_users.last
-      luser.login.succ
+      luser.login =~ /(\d+)/
+      "#{center_name}-login" + $1.succ
     else
-      "#{center_name}-login"
+      "#{center_name}-login1"
     end
 
     # try to find a non-used user id
