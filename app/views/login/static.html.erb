@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title>CBCL Online</title>
+
+	<link href="/stylesheets/login.css?1261329173" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/cbcl.css?1261329173" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/buttons.css?1261329173" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script src="/javascripts/cache/bundle.js?1261329190" type="text/javascript"></script>
+
+	<script type="text/javascript">
+	  $(document).ready(function() {
+			$('#username').watermark('Brugernavn', {className: 'loginField'});
+			$('#password').watermark('Password', {className: 'loginField'});
+	  });
+	</script>
+
+    <!-- stylesheet_link_merged :login -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+</head>
+
+<body id="bodylogin" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 scroll="no" style="border: 0px; overflow: hidden; margin: 0pt; margin-bottom: 200px;">
+  <table cellpadding=0 cellspacing=0 border=0 width=100% height=100%>
+  	<tr>
+    <td width=100% height=100% align=center valing=middle>
+			<h1 id="cbcl-title"><!-- CBCL-online --></h1>
+	<div id="subtitle"></div>
+
+<form action="/login/login" method="post">
+
+<div title="Account login" id="loginform" class="form">
+
+    <h3>CBCL-online<!-- Log venligst ind: --></h3>
+    
+    <table>
+      <tr>
+        <td align=right width="50px"><!-- <label for="user_login">brugernavn:</label> --></td>
+
+        <td width="200px"><input class="login_field" id="username" name="username" size="20" type="text" /></td>
+
+      </tr>
+      <tr> 
+        <td align=right><!-- <label for="user_password">password:</label> --></td>
+        <td width="200px"><input class="login_field" id="password" name="password" size="20" type="password" /></td>
+      </tr>
+      <!-- <tr> 
+        <td></td>
+        <td align="center" rowspan="2"><input class="button login" name="login" type="submit" value="Login &#187;" /></td>
+      </tr> -->
+    </table>
+   <div align="center">
+		<input class="button login" name="login" type="submit" value="Login &#187;" />
+
+     <br><small>
+     Har du mistet dit password? <a href="https://www.cbcl-sdu.dk/registration">Få et nyt her.</a>
+    </small>
+     
+   </div>
+    <p style="color: green"></p>
+	
+</div>
+
+</form>
+
+	</td>
+  </tr>
+  </table><br>
+  
+</body>
+</html>

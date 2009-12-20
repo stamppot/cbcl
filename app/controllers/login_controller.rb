@@ -4,7 +4,11 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   caches_page :index
   
   def index
-    redirect_to main_path and return if current_user
+    if current_user
+      redirect_to main_path and return 
+    else
+      render :file => 'login/static', :layout => false
+    end
   end
   
   def login
