@@ -55,7 +55,7 @@ class LoginUser < User
     user_count = User.count(:conditions => ["users.login LIKE ?", phrase])
     userid = user_count + 1
     increment = 7
-    while User.find_by_login(center_name + "#{userid}") do 
+    while User.find_by_login(center_name + "#{userid}").nil? do 
       userid = user_count + rand(increment)
       increment *= 3
     end
