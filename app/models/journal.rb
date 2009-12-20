@@ -159,8 +159,9 @@ class Journal < Group
       # entry.journal = self
       # self.journal_entries.and_entries << entry
       entry.create_login_user
+      logger.info "CREATED LOGIN_USER: #{entry.login_user.inspect}"
       entry.print_login! if entry.valid?
-      entry.expire_cache # expire journal_entry_ids
+      # entry.expire_cache # expire journal_entry_ids
     end
   rescue => e
     puts "EXCEPTION: #{e.inspect} in Journal.CREATE_JOURNAL_ENTRIES"
