@@ -148,13 +148,13 @@ class JournalEntry < ActiveRecord::Base
     puts "LOGINUSER params: #{params.inspect}"
     login_user = LoginUser.new(params)
     # set protected fields explicitly
-    login_user.center_id = journal_entry.journal.center_id
+    login_user.center_id = self.journal.center_id
     login_user.roles << Role.get(:login_bruger)
-    login_user.groups << journal_entry.journal
+    login_user.groups << self.journal
     login_user.password, login_user.password_confirmation = pw.values
     login_user.password_hash_type = "md5"
     login_user.last_logged_in_at = 10.years.ago
-    journal_entry.password = pw[:password]
+    self.password = pw[:password]
     self.login_user = login_user
     return login_user
   end
