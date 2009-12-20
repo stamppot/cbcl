@@ -106,7 +106,7 @@ class JournalEntry < ActiveRecord::Base
   
   def awaiting_answer!
     self.state = JournalEntry.states['Venter'] # 'Venter'
-    self.save!
+    self.save
   end
   
   def print_login?
@@ -128,7 +128,7 @@ class JournalEntry < ActiveRecord::Base
   def remove_login_user!
     self.user = nil    # set to unanswered unless answered
     self.state = JournalEntry.states[JournalEntry.states.invert[1]] unless self.state == JournalEntry.states[JournalEntry.states.invert[4]]
-    self.save!
+    self.save
   end
   
   def JournalEntry.states  # ikke besvaret, besvaret, venter på svar (login-user)
