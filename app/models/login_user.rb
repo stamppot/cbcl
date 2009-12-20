@@ -58,6 +58,7 @@ class LoginUser < User
     while User.find_by_login(login + "#{userid}") do 
       userid = user_count + rand(increment)
       logger.info "LOGIN_USER: #{login+userid}"
+      puts "LOGIN_USER: #{login+userid}"
       increment *= 3
     end
       
