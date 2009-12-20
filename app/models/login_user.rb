@@ -52,13 +52,13 @@ class LoginUser < User
     phrase = "%" + (login).sub(/\=$/, "") + "%"
     
     # try to find a non-used user id
-    user_count = User.count(:conditions => ["users.login LIKE ?"])
+    user_count = User.count(:conditions => ["users.login LIKE ?", phrase])
     userid = user_count + 1
     increment = 7
-    while User.find_by_login(login + "#{userid}").nil? do 
+    while User.find_by_login(login + "#{userid}") do 
       userid = user_count + rand(increment)
+      logger.info "LOGIN_USER: #{login+userid}"
       increment *= 3
-      logger.info "USERID: #{userid} login: #{login + userid}"
     end
       
     login += userid.to_s
