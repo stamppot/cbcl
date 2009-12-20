@@ -165,7 +165,7 @@ class Journal < Group
       end
       logger.info "CREATED2 LOGIN_USER: #{entry.login_user.inspect}   errors: #{entry.login_user.errors.inspect}"
       logger.info "ENTRY: #{entry.valid?}   errors: #{entry.errors.inspect}"
-      entry
+      return entry
       # entry.expire_cache # expire journal_entry_ids
     end
   rescue => e
