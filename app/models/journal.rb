@@ -169,11 +169,11 @@ class Journal < Group
         logger.info "ENTRY: #{entry.valid?}   errors: #{entry.errors.inspect}"
       end
       entry.expire_cache # expire journal_entry_ids
-      return entry
     end
-  rescue => e
-    puts "EXCEPTION: #{e.inspect} in Journal.CREATE_JOURNAL_ENTRIES"
-    return false
+    return self
+  # rescue => e
+  #   puts "EXCEPTION: #{e.inspect} in Journal.CREATE_JOURNAL_ENTRIES"
+  #   return false
   end
 
   # info on journal in array of hashes
