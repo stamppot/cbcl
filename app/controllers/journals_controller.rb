@@ -134,6 +134,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       @surveys = Survey.find(surveys)
       if not @group.create_journal_entries(@surveys)
         flash[:error] = "Logins blev ikke oprettet!"
+        flash[:error] = @group.journal_entries.map {|je |je.login_user.valid?; je.login_user.errors.inspect}.join(", ")
       else
         flash[:notice] = "Spørgeskemaer blev tilføjet journal." if @group.save
       end
