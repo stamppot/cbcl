@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   layout 'cbcl'
 
-  before_filter :set_permissions
   before_filter :configure_charsets
+  before_filter :set_permissions
   before_filter :check_access
   before_filter :center_title
 
@@ -15,8 +15,6 @@ class ApplicationController < ActionController::Base
   def set_permissions
     if current_user
       current_user.perms = Access.for_user(current_user)
-    else
-      redirect_to login_path
     end
   end
 
