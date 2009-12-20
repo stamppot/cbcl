@@ -67,7 +67,7 @@ class ExportsController < ApplicationController
     @task = Task.create(:status => "In progress")
     @task.create_export(@surveys.map(&:id), @journal_entries)
 
-    redirect_to generating_path(@task) #:action => :generating_export, :id => @task
+    redirect_to generating_path(@task)
   end
   
   # a periodic updater should check the progress of the export data generation 
