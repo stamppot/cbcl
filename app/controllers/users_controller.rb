@@ -1,5 +1,5 @@
 class UsersController < ApplicationController # ActiveRbac::ComponentController
-  layout "survey"
+  layout 'cbcl'
 
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper

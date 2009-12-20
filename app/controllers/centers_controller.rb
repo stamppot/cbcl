@@ -214,6 +214,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
 
   def user_access
+    redirect_to login_path and return unless current_user
     if current_user.access? :all_users
       return true
     else
@@ -225,7 +226,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
   
   def check_access
-    return false unless current_user
+    redirect_to login_path and return unless current_user
     if (current_user.access?(:all_users) || current_user.access?(:login_user))
       access = current_user.team_member? params[:id].to_i
     else

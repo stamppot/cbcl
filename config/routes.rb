@@ -103,14 +103,13 @@ ActionController::Routing::Routes.draw do |map|
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
   map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'
 
-  map.survey_start 'surveys/start', :controller => 'surveys', :action => 'start'
-  map.survey_finish 'surveys/finish/:id', :controller => 'surveys', :action => 'finish'      # :id is login_user
+  map.survey_start 'start', :controller => 'start', :action => 'start'
+  map.survey_finish 'finish/:id', :controller => 'surveys', :action => 'finish'      # :id is login_user
   map.survey_show_fast 'surveys/show_fast/:id', :controller => 'surveys', :action => 'show_fast' # :id is entry
   map.survey_show_only 'surveys/show_only/:id', :controller => 'surveys', :action => 'show_only' # :id is entry
   map.survey_show_only_fast 'surveys/show_only_fast/:id', :controller => 'surveys', :action => 'show_only_fast' # :id is entry
   map.survey_save_draft 'survey_answers/save_draft/:id', :controller => 'survey_answers', :action => 'save_draft' # :id is entry
   map.survey_answer_create 'survey_answers/create/:id', :controller => 'survey_answers', :action => 'create'
-  # map.survey_finish 'surveys/finish/:id', :controller => 'surveys', :action => 'finish' # :id is login_user
   
   # subscriptions
   map.new_subscription 'subscriptions/new/:id', :controller               => 'subscriptions', :action => 'new' # center id

@@ -1,6 +1,6 @@
 class SurveysController < ApplicationController
   helper SurveyHelper
-  layout "survey", :except => [ :show, :show_fast, :show_answer, :show_answer_fast, :show_answer2 ]
+  layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer_fast, :show_answer2 ]
   layout "showsurvey", :only  => [ :show, :show_fast, :show_answer, :show_answer_fast, :edit, :show_answer2, :change_answer ]
 
   # 19-2-8 TODO: replace in_place_edit with some other edit function
@@ -26,7 +26,9 @@ class SurveysController < ApplicationController
   def start
     @page_title = "CBCL Spørgeskemaer" 
     @surveys = current_user.surveys
-    @entry = JournalEntry.find_by_user_id(current_user.id)
+    @journal_entry = JournalEntry.find_by_user_id(current_user.id)
+    puts "JOURNAL_ENTRY: #{@journal_entry.inspect}"
+    @survey = @entry.survey
   end
 
   # for showing surveys without being able to answer them (sort demo-mode)
@@ -52,6 +54,9 @@ class SurveysController < ApplicationController
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
       Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
+    puts "JOURNAL_ENTRY: #{@journal_entry.inspect}"
+    puts "SURVEY: #{@survey.inspect}"
+    
     @page_title = @survey.title
 
     # create survey_answer

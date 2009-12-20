@@ -1,6 +1,6 @@
 class MainController < ApplicationController
 
-  layout "survey"
+  layout 'cbcl'
 
    # TODO: check for logged in user. Else log user out explicitly!
   def index

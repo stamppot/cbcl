@@ -1,6 +1,6 @@
 class ScoreItemsController < ApplicationController
 
-  layout "survey"
+  layout 'cbcl'
   
   # show new row with score_item initialized to values of the previous. ajax method
   def new #add_score_item

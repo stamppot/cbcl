@@ -3,7 +3,7 @@ class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
 
-  layout "survey"
+  layout 'cbcl'
 
   before_filter :set_permissions
   before_filter :configure_charsets

@@ -2,7 +2,7 @@
 
 class SurveyAnswersController < ApplicationController
 
-  layout "survey", :except => [ :show, :show_fast ]
+  layout 'cbcl', :except => [ :show, :show_fast ]
   layout "showsurvey", :only  => [ :show, :show_fast, :edit ]
 
 
@@ -75,7 +75,7 @@ class SurveyAnswersController < ApplicationController
 
     # if answered by other, save the textfield instead
     # "answer"=>{"person_other"=>"fester", "person"=>"15"}
-    if (other = params[:answer][:person_other]) && (other.to_i == Role.get(:other).id)
+    if (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
       survey_answer.answered_by = other #answer_by[:person_other]
     end
     survey_answer.answered_by ||= params[:answer][:person]

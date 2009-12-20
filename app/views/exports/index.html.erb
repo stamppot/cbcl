@@ -38,11 +38,7 @@
 	</span>
 </span>
 
-<%= submit_tag 'Download', { :class => 'button download', :id => 'download', :onclick => "$('downloading').show();" } %>
-
-<div id="downloading" style="display: none">
-	<span style="background: #0f0; padding: 4px; border: 1px solid green;">&nbsp; &nbsp; Øjeblik... &nbsp; &nbsp;</span>&nbsp;<img src="/images/spinner.gif" >
-</div
+<%= submit_tag 'Download', { :class => 'button download', :id => 'download', :onclick => "$('download').addClassName('busy').submit(); $('download').disable();return true;" } %>
 
 <% end %>
 

@@ -1,14 +1,14 @@
 <% javascript_include_tag 'prototype', :cache => true %>
 <% javascript_include_tag 'effects', :cache => true %>
 
-<% cache @group.cache_key do %>
+ cache @group.cache_key do
 
 	<h2>Journal &quot;<%=h @group.title %>&quot;</h2>
 	
 	<table class="journal_info">
 		<tr>
 			<td class="p_i">ID:</td>
-			<td class="p"><%=@group.qualified_id %></td>
+			<td class="p"><%=h @group.qualified_id %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Journalnavn:</td>
@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<td class="p_i">Fødselsdato:</td>
-			<td class="p"><%= @group.birthdate.to_s(:long) %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
+			<td class="p"><%=h @group.birthdate.to_s(:long) %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Alder (år):</td>
@@ -137,4 +137,4 @@
 		<%= back_button journals_path %>
 	</div>
 	
-<% end %> <!-- end of cache -->
+end  <!-- end of cache -->

@@ -3,7 +3,7 @@
 class SurveyBuildersController < ApplicationController
   #helper SurveyBuilderHelper
   require_dependency "survey"
-  layout "survey"
+  layout 'cbcl'
   
   def index
     redirect_to surveys_path

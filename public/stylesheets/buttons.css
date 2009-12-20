@@ -278,7 +278,9 @@ input.subscribe {
 input.download {
 	background:url('/images/disk_download.png') no-repeat 10px 5px;
 }
-
+input.download.busy {
+	background:url('/images/spinner.gif') no-repeat 10px 5px;
+}
 input.login {
 	background:url('/images/door_in.png') no-repeat 10px 5px;
 }

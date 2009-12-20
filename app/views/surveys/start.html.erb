@@ -1,6 +1,4 @@
-<h1>Spørgeskemaer</h1>
-
-<h3>Velkommen.</h3>
+<h2>Velkommen til CBCL</h2>
 <p>
 Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
@@ -13,8 +11,8 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 		odd_or_even = 1 - odd_or_even %>
 
   <tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
-	<td width="80%" class="surveyname">
-		<span class="survey_title"><%= link_button t('survey.start'), { :controller => :survey, :action => :show, :id => @entry }, 'survey_start' %></span><br>
+	<td width="90%" class="surveyname">
+		<span class="survey_title"><%= link_button t('survey.start'), survey_url(@journal_entry), 'survey_start' %></span>
 		<%= h(truncate(survey.description, 80)) %>
 	</td>
   </tr>

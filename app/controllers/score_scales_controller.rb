@@ -1,6 +1,6 @@
 class ScoreScalesController < ApplicationController
 
-  layout "survey"
+  layout 'cbcl'
   
   #### reorder scores and scales ####
   def index

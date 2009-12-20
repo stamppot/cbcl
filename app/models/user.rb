@@ -398,6 +398,7 @@ class User < ActiveRecord::Base
   def get_users(options = {})
     options[:include] = [:roles, :groups, :center]
     options[:page]  ||= 1
+    options[:per_page] ||= 20
     users = if self.has_access?(:user_show_all)  # gets all users which are not login-users
       User.users.with_roles(Role.get_ids(Access.roles(:all_real_users))).paginate(options).uniq
     elsif self.has_access?(:user_show_admins)

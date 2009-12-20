@@ -1,6 +1,6 @@
 class NationalitiesController < ApplicationController
 
-  layout "survey"
+  layout 'cbcl'
 
   def index
     @nationalities = Nationality.paginate(:all, :page => params[:page], :per_page => 10) 

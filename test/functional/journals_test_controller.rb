@@ -3,7 +3,7 @@ require 'shoulda'
 require 'journals_controller'
 
 class JournalsControllerTest < ActiveSupport::TestCase
-
+ 
   login_as(:user1_101) do
     context "on GET to :list" do
       setup { 

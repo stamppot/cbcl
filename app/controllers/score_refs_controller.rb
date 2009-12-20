@@ -1,6 +1,6 @@
 class ScoreRefsController < ApplicationController
 
-  layout "survey"
+  layout 'cbcl'
   
   # show new row with score_ref initialized to values of the previous. ajax method                                        
   def new

@@ -1,6 +1,6 @@
 class VariablesController < ApplicationController
   
-  layout "survey"
+  layout 'cbcl'
   
   # GET /variables
   # GET /variables.xml
