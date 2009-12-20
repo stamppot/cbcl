@@ -119,7 +119,7 @@ class JournalEntry < ActiveRecord::Base
   
   def print_login!
     self.print_login
-    self.save!
+    self.save
   rescue => e
     puts "JournalEntry.print_login!: #{e.inspect}"
   end
