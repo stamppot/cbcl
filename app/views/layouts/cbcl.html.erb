@@ -9,12 +9,12 @@
 	<%= stylesheet_link_tag_html4 'tablekit' %>
 	<%= stylesheet_link_tag_html4 'validation' %>
 	<%= stylesheet_link_tag_html4 'login' %>
-	<% stylesheet_link_tag_html4 'admin' %>
 	<% end %>
 	<%= stylesheet_link_tag_html4 'cbcl' %>
 	<%= stylesheet_link_tag_html4 'buttons' %>
 
 	<% if !current_user.login_user? %>
+	<% bundle do %>
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
  	<%= javascript_include_tag 'effects' %>
@@ -27,6 +27,7 @@
 	<% javascript_include_tag 'curvy-corners' %>
 	<%= javascript_include_tag 'livepipe/livepipe' %>
 	<%= javascript_include_tag 'livepipe/tabs' %>
+	<% end %>
 	<% end %>
 
 </head>
