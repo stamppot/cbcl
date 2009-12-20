@@ -3,6 +3,15 @@
 <div id="menu">
 
 	<% if current_user && current_user.perms[:layout_show_group_menu] %>
+	<div class="user_info" style="color: #eee; margin-bottom: -1.3em;">
+		<%= current_user.name %>
+		<% if current_user.last_logged_in_at == current_user.created_at %>
+			<span style="color: green; padding-left: 200px; padding-top: 100px;">Husk at skifte dit password</span>
+		<% end %>
+		<% if current_user.status =~ /password/ %>
+			<span style="color: red;"><%= link_to t('change_password'), edit_user_url(current_user), :style => "color: red;" %></span>
+		<% end %>
+		</div>
 	<div id="group_menu" class="menu_section">
 		<div class="menu_title"><%= t("menu.groups") %></div>
 
@@ -108,9 +117,9 @@
 		<div class="menu_title"><%= t('menu.other') %></div>
 		<%= link_to t('menu.show_faq'), faqs_path, :title => t('menu.faq_alt') %>
 		<% if shadow_user? %>
-		<%= link_to t('logout'), shadow_logout_path, :alt => t('logout_shadow'), :title => t('logout_shadow') %>
+			<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
 		<% else %>
-		<%= link_to t('logout'), logout_path, :title => t('logout_alt') %>
+			<%= link_to t('logout'), logout_path, :title => t('logout_alt') %>
 		<% end %>
 	</div>
 

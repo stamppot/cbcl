@@ -42,7 +42,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
       raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
 
-      flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+      # flash[:notice] = "Velkommen #{user.name}, du er logget ind."
 
       # show message on first login
       if user.created_at == user.last_logged_in_at

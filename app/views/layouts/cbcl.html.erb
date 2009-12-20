@@ -5,13 +5,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 	<title><%= @page_title %></title>
 
+	<% if !current_user.login_user? %>
 	<%= stylesheet_link_tag_html4 'tablekit' %>
 	<%= stylesheet_link_tag_html4 'validation' %>
 	<%= stylesheet_link_tag_html4 'login' %>
 	<% stylesheet_link_tag_html4 'admin' %>
+	<% end %>
 	<%= stylesheet_link_tag_html4 'cbcl' %>
 	<%= stylesheet_link_tag_html4 'buttons' %>
 
+	<% if !current_user.login_user? %>
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
  	<%= javascript_include_tag 'effects' %>
@@ -24,14 +27,18 @@
 	<% javascript_include_tag 'curvy-corners' %>
 	<%= javascript_include_tag 'livepipe/livepipe' %>
 	<%= javascript_include_tag 'livepipe/tabs' %>
+	<% end %>
 
 </head>
 
 <body>
-	<%= render :partial => 'layouts/info_header' %>
+	<div id="infoheader">
+		<div id='centertitle'><%= @center_title %></div>
+	</div>
 
-	<%= render :partial => 'layouts/menu' %>
-
+	<% if !current_user.login_user? && current_user.perms[:layout_show_menu] %>
+		<%= render :partial => 'layouts/menu' %>
+	<% end %>
 <div id="content">
 	<%= render :partial => 'layouts/error_messages' %>
 
