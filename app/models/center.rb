@@ -152,12 +152,13 @@ class Center < Group
   def login_name_params #(options = {})
     # title = titleoptions[:prefix] || "a b c"
     center_name = title.split.map {|w| w.first }.join.downcase
-    phrase = "%" + (login).sub(/\=$/, "") + "%"
+    # phrase = "%" + (login).sub(/\=$/, "") + "%"
 
+    login = 
     if luser = self.login_users.last
-      login = luser.login.succ
+      luser.login.succ
     else
-      login = "#{center_name}-login"
+      "#{center_name}-login"
     end
 
     # try to find a non-used user id
