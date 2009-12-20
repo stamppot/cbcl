@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+	<title><%= @page_title %></title>
+
+	<%= stylesheet_link_tag_html4 'tablekit' %>
+	<%= stylesheet_link_tag_html4 'validation' %>
+	<%= stylesheet_link_tag_html4 'login' %>
+	<% stylesheet_link_tag_html4 'admin' %>
+	<%= stylesheet_link_tag_html4 'cbcl' %>
+	<%= stylesheet_link_tag_html4 'buttons' %>
+
+ 	<%= javascript_include_tag 'prototype' %>
+ 	<%= javascript_include_tag 'scriptaculous' %>
+ 	<%= javascript_include_tag 'effects' %>
+ 	<%= javascript_include_tag 'controls', :cache => true %>
+ 	<%= javascript_include_tag 'tablekit' %>
+ 	<%= javascript_include_tag 'css_browser_selector', :cache => true %>
+ 	<%= javascript_include_tag 'validation', :cache => true %>
+ 	<%= javascript_include_tag 'application', :cache => true %>
+	<% javascript_include_tag 'curvy_compiled' %>
+	<% javascript_include_tag 'curvy-corners' %>
+	<%= javascript_include_tag 'livepipe/livepipe' %>
+	<%= javascript_include_tag 'livepipe/tabs' %>
+
+</head>
+
+<body>
+	<%= render :partial => 'layouts/info_header' %>
+
+	<%= render :partial => 'layouts/menu' %>
+
+<div id="content">
+	<%= render :partial => 'layouts/error_messages' %>
+
+	<%= @content_for_layout %>
+</div>
+
+</body>
+</html>
