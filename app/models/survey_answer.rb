@@ -149,9 +149,7 @@ class SurveyAnswer < ActiveRecord::Base
       # end
     end
     mass_insert_and_update!(created_cells, updated_cells)
-    transaction do 
-      updated_cells.compact.all? {|c| c.save}
-    end
+    updated_cells.compact.all? {|c| c.save}
   end
 
   private
