@@ -139,7 +139,6 @@ class SurveyAnswer < ActiveRecord::Base
         answers_to_save << an_answer
         new_cells.clear
       end
-      
       # commit/save all answer_cells
       transaction do
         answers_to_save.each do |a| 
