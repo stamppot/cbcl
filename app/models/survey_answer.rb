@@ -160,11 +160,24 @@ class SurveyAnswer < ActiveRecord::Base
     create_cells.flatten!.compact.each do |c|
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
+    # UPDATE mytable SET title = CASE
+    # WHEN id = 1 THEN 'Great Expectations';
+    # WHEN id = 2 THEN 'War and Peace';
+    # ELSE title
+    # END;
+    sql_update = "UPDATE `answer_cells` SET `value` = CASE\n"
     update_cells.compact.each do |c|
-      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}' WHERE `id` = #{c.id};" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
-    end 
+      updates.push "WHEN id = #{c.id} THEN '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+    end
     sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
-    sql_update = updates.join if updates.any?
+    sql_update += updates.join
+    if update_cells.any?
+      sql_update += "ELSE value\n END;"
+    else
+      sql_update = ""
+    end
+    inserts.clear
+    updates.clear
     # sql = sql.join
     logger.info "update: #{sql_update}"
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
