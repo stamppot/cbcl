@@ -149,6 +149,9 @@ class SurveyAnswer < ActiveRecord::Base
       # end
     end
     mass_insert_and_update!(created_cells, updated_cells)
+    transaction do 
+      updated_cells.all? {|c| c.save}
+    end
   end
 
   private
@@ -167,11 +170,11 @@ class SurveyAnswer < ActiveRecord::Base
     # END;
     # sql_update = "UPDATE `answer_cells` SET `value` = CASE\n"
     # sql_update = "UPDATE `answer_cells` SET `value` = \n"
-    update_cells.compact.each do |c|
-      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
-      ActiveRecord::Base.connection.execute "UPDATE `answer_cells` SET `value` = '#{c.value}';\n"
-    end
-    sql_update = updates.join
+    # update_cells.compact.each do |c|
+    #   updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+    #   ActiveRecord::Base.connection.execute "UPDATE `answer_cells` SET `value` = '#{c.value}';\n"
+    # end
+    # sql_update = updates.join
     # sql_update += "ELSE value\n END;" if update_cells.any?
 
     sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
