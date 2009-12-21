@@ -20,7 +20,11 @@ class AnswerCell < ActiveRecord::Base
     else  # other types
       self.value, some_value_changed = CGI.escape(new_value), true if new_value != self.value  # TODO: escape value
     end
-    return some_value_changed
+    if some_value_changed
+      return self
+    else
+      return nil
+    end
   end
   
   def change_value!(new_value, valid_values = {})

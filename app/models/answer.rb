@@ -40,6 +40,7 @@ class Answer < ActiveRecord::Base
 
   # input: hash with cell values
   def create_cells(cells = {}, valid_values = {})
+    new_cells = []
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
       fields[:answer_id] = self.id
       fields[:answertype] = valid_values[cell_id][:type].to_s
@@ -53,9 +54,9 @@ class Answer < ActiveRecord::Base
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      a_c = AnswerCell.new(fields) # was: create
+      new_cells << AnswerCell.new(fields) # was: create
     end
-    return self
+    return new_cells
   end
 
   def fill_unanswered_cells(survey_answer)
