@@ -58,6 +58,15 @@ class ApplicationController < ActionController::Base
     session[:rbac_user_id] = nil
     @current_user_cached = nil
   end
+
+  helper_method :save_draft_interval
+  def save_draft_interval
+    if current_user.login_user?
+      return 400
+    else
+      return 30
+    end
+  end
   
   def local_request?
     return false

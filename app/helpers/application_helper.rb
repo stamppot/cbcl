@@ -19,7 +19,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
-  SAVE_DRAFT_INTERVAL = 30
   LINE_LENGTH = 78 unless defined? LINE_LENGTH
 
   def back_button(url, options = {})
