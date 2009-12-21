@@ -166,6 +166,7 @@ class SurveyAnswer < ActiveRecord::Base
     sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
     sql_update = updates.join if updates.any?
     # sql = sql.join
+    logger.info "update: #{sql_update}"
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
     ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
   end
