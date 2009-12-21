@@ -53,7 +53,7 @@ class Answer < ActiveRecord::Base
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      a_c = AnswerCell.create(fields)
+      a_c = AnswerCell.new(fields) # was: create
     end
     return self
   end

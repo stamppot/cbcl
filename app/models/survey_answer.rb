@@ -107,7 +107,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     # check valid values from survey
     valid_values = survey.valid_values
-    
+    answers_to_save = []
     # param_array = params.to_a
     params.each do |key, q_cells|   # one question at a time
       if key.include? "Q"
@@ -128,7 +128,7 @@ class SurveyAnswer < ActiveRecord::Base
 
             # if answer_cell exists, just update its value
             if answer_cell = an_answer.answer_cell_exists?(a_cell[:col], a_cell[:row])
-              answer_cell.change_value!(value, valid_values[q][cell])
+              answer_cell.change_value(value, valid_values[q][cell]) # was with !
             else  # new answer_cell
               new_cells[cell] = a_cell
             end
@@ -136,7 +136,17 @@ class SurveyAnswer < ActiveRecord::Base
         end
         # create answer cells from cell hashes
         an_answer.create_cells(new_cells, valid_values[key])
+        answers_to_save << an_answer
         new_cells.clear
+      end
+      
+      # commit/save all answer_cells
+      transaction do
+        answers_to_save.each do |a| 
+          a.answer_cells.each do |ac|
+            ac.save if ac.changed?
+          end
+        end
       end
     end
   end
