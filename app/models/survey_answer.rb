@@ -159,7 +159,7 @@ class SurveyAnswer < ActiveRecord::Base
     create_cells.flatten!.compact.each do |c|
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
-    update_cells.nitems.each do |c|
+    update_cells.compact.each do |c|
       updates.push "UPDATE `answer_cells` SET `value` = #{c.value} WHERE `id` = #{c.id};\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end 
 
