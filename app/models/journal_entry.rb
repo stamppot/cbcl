@@ -145,7 +145,6 @@ class JournalEntry < ActiveRecord::Base
   def make_login_user #(journal_entry)
     params = self.journal.center.login_name_params #(:prefix => self.journal.center.title)
     pw = PasswordService.generate_password
-    puts "LOGINUSER params: #{params.inspect}"
     login_user = LoginUser.new(params)
     # set protected fields explicitly
     login_user.center_id = self.journal.center_id
