@@ -143,7 +143,7 @@ class SurveyAnswer < ActiveRecord::Base
       transaction do
         answers_to_save.each do |a| 
           a.answer_cells.each do |ac|
-            ac.save if ac.changed?
+            ac.save! if ac.new_record? || ac.changed?
           end
         end
       end
