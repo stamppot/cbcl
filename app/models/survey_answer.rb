@@ -165,7 +165,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     sql = ["INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")}"]
     sql << updates.join
-    sql = sql.join(";")
+    sql = sql.join
     ActiveRecord::Base.connection.execute sql 
   end
   
