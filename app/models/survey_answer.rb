@@ -168,7 +168,7 @@ class SurveyAnswer < ActiveRecord::Base
     # sql_update = "UPDATE `answer_cells` SET `value` = CASE\n"
     # sql_update = "UPDATE `answer_cells` SET `value` = \n"
     update_cells.compact.each do |c|
-      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}'\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end
     sql_update = updates.join
     # sql_update += "ELSE value\n END;" if update_cells.any?
