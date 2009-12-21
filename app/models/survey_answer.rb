@@ -176,7 +176,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     inserts.clear
     updates.clear
-    logger.info "update: #{sql_update}"
+    # logger.info "update: #{sql_update}"
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
     ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
   end
