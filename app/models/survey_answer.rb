@@ -106,8 +106,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     # check valid values from survey
     valid_values = survey.valid_values
-    updated_cells = []
-    created_cells = []
+    
     # param_array = params.to_a
     params.each do |key, q_cells|   # one question at a time
       if key.include? "Q"
@@ -120,6 +119,7 @@ class SurveyAnswer < ActiveRecord::Base
           :number => q_number.to_i)
 
         new_cells = {}
+
         q_cells.each do |cell, value|
           if cell =~ /q(\d+)_(\d+)_(\d+)/      # match col, row
             q = "Q#{$1}"
@@ -127,30 +127,19 @@ class SurveyAnswer < ActiveRecord::Base
 
             # if answer_cell exists, just update its value
             if answer_cell = an_answer.answer_cell_exists?(a_cell[:col], a_cell[:row])
-              updated_cells << answer_cell.change_value(value, valid_values[q][cell]) # was with !
+              answer_cell.change_value!(value, valid_values[q][cell])
             else  # new answer_cell
               new_cells[cell] = a_cell
             end
           end
         end
         # create answer cells from cell hashes
-        created_cells << an_answer.create_cells(new_cells, valid_values[key])
-        # answers_to_save << an_answer
+        an_answer.create_cells(new_cells, valid_values[key])
         new_cells.clear
       end
-      # commit/save all answer_cells
-      # transaction do
-      #   answers_to_save.each do |a| 
-      #     a.answer_cells.each do |ac|
-      #       ac.save! if ac.new_record? || ac.changed?
-      #     end
-      #   end
-      # end
     end
-    mass_insert_and_update!(created_cells, updated_cells)
-    updated_cells.compact.all? {|c| c.save}
   end
-
+  
   private
   
   def mass_insert_and_update!(create_cells, update_cells)

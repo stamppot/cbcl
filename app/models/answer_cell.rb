@@ -7,8 +7,7 @@ class AnswerCell < ActiveRecord::Base
   named_scope :items, :conditions => ["item != ? ", ""]
   
   # attr_accessor :some_new_value
-  
-  # edit existing cells
+
   def change_value(new_value, valid_values = {})
     new_value = new_value || ""
     some_value_changed = false
@@ -20,12 +19,27 @@ class AnswerCell < ActiveRecord::Base
     else  # other types
       self.value, some_value_changed = CGI.escape(new_value), true if new_value != self.value  # TODO: escape value
     end
-    if some_value_changed
-      return self
-    else
-      return nil
-    end
+    return some_value_changed
   end
+  
+  # edit existing cells
+  # def change_value(new_value, valid_values = {})
+  #   new_value = new_value || ""
+  #   some_value_changed = false
+  #   if valid_values[:type].to_s =~ /Rating|SelectOption/   # if not valid, keep existing value
+  #     new_value = "9" if new_value.blank?
+  #     if new_value != self.value && valid_values[:values].include?(new_value)
+  #       self.value, some_value_changed = new_value, true
+  #     end
+  #   else  # other types
+  #     self.value, some_value_changed = CGI.escape(new_value), true if new_value != self.value  # TODO: escape value
+  #   end
+  #   if some_value_changed
+  #     return self
+  #   else
+  #     return nil
+  #   end
+  # end
   
   def change_value!(new_value, valid_values = {})
     self.save if change_value(new_value, valid_values)

@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   helper_method :save_draft_interval
   def save_draft_interval
     if current_user.login_user?
-      return 400
+      return 900
     else
       return 30
     end
@@ -84,8 +84,11 @@ class ApplicationController < ActionController::Base
   def check_access
     # check controller
 <<<<<<< HEAD
+<<<<<<< HEAD
     if !params[:id].blank? and params[:controller] =~ /score|faq|group|role/
 =======
+=======
+>>>>>>> 34a0312... fixed data export, also for centeradmins
     params[:return_to] = request.url
     if !params[:id].blank? and params[:controller] =~ /score|faq/
 >>>>>>> 34a0312... fixed data export, also for centeradmins

@@ -38,9 +38,7 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
-  # input: hash with cell values
   def create_cells(cells = {}, valid_values = {})
-    new_cells = []
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
       fields[:answer_id] = self.id
       fields[:answertype] = valid_values[cell_id][:type].to_s
@@ -54,10 +52,31 @@ class Answer < ActiveRecord::Base
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      new_cells << AnswerCell.new(fields) # was: create
+      a_c = AnswerCell.create(fields)
     end
-    return new_cells
+    return self
   end
+
+  # input: hash with cell values
+  # def create_cells(cells = {}, valid_values = {})
+  #   new_cells = []
+  #   cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
+  #     fields[:answer_id] = self.id
+  #     fields[:answertype] = valid_values[cell_id][:type].to_s
+  # 
+  #     value = fields[:value]
+  #     # validates value for rating and selectoption
+  #     if valid_values[:type] =~ /Rating|SelectOption/
+  #       value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
+  #       fields[:value] = value if valid_values[:fields].include? value # only save valid value
+  #       # end
+  #     else
+  #       fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+  #     end
+  #     new_cells << AnswerCell.new(fields) # was: create
+  #   end
+  #   return new_cells
+  # end
 
   def fill_unanswered_cells(survey_answer)
     add_missing_cells(survey_answer.max_answer)
