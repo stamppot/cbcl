@@ -156,7 +156,7 @@ class SurveyAnswer < ActiveRecord::Base
   def mass_insert_and_update!(create_cells, update_cells)
     inserts = []
     updates = []
-    update_cells = update_cells.compact.reject {|c| c.value == '9'}
+    # update_cells = update_cells.compact.reject {|c| c.value == '9'}
     create_cells.flatten!.compact.each do |c|
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
@@ -169,16 +169,13 @@ class SurveyAnswer < ActiveRecord::Base
     update_cells.compact.each do |c|
       updates.push "WHEN id = #{c.id} THEN '#{c.value}' \n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end
-    sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
     sql_update += updates.join
-    if update_cells.any?
-      sql_update += "ELSE value\n END;"
-    else
-      sql_update = ""
-    end
+    sql_update += "ELSE value\n END;" if update_cells.any?
+
+    sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
+
     inserts.clear
     updates.clear
-    # sql = sql.join
     logger.info "update: #{sql_update}"
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
     ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
