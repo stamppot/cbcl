@@ -163,7 +163,7 @@ class SurveyAnswer < ActiveRecord::Base
       updates.push "UPDATE `answer_cells` SET `value` = #{c.value} WHERE `id` = #{c.id};\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end 
 
-    sql = ["INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")}"]
+    sql = ["INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n"]
     sql << updates.join
     sql = sql.join
     ActiveRecord::Base.connection.execute sql 
