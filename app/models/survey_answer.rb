@@ -163,7 +163,7 @@ class SurveyAnswer < ActiveRecord::Base
       updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}' WHERE `id` = #{c.id}" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end 
     sql_insert = ["INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n"] if inserts.any?
-    sql_update [updates.join("; ")] if updates.any?
+    sql_update = [updates.join("; ")] if updates.any?
     # sql = sql.join
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
     ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
