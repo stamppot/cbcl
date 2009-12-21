@@ -169,6 +169,7 @@ class SurveyAnswer < ActiveRecord::Base
     # sql_update = "UPDATE `answer_cells` SET `value` = \n"
     update_cells.compact.each do |c|
       updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+      ActiveRecord::Base.connection.execute "UPDATE `answer_cells` SET `value` = '#{c.value}';\n"
     end
     sql_update = updates.join
     # sql_update += "ELSE value\n END;" if update_cells.any?
@@ -179,7 +180,7 @@ class SurveyAnswer < ActiveRecord::Base
     updates.clear
     # logger.info "update: #{sql_update}"
     ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
-    ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
+    # ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
   end
   
 end
