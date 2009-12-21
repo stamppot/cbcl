@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     if current_user.login_user?
       return 900
     else
-      return 30
+      return 60
     end
   end
   
