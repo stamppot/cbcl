@@ -161,7 +161,7 @@ class SurveyAnswer < ActiveRecord::Base
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
     update_cells.compact.each do |c|
-      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}' WHERE `id` = #{c.id};\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+      updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}' WHERE `id` = #{c.id}\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end 
     sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
     sql_update = updates.join if updates.any?
