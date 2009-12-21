@@ -156,10 +156,10 @@ class SurveyAnswer < ActiveRecord::Base
   def mass_insert_and_update!(create_cells, update_cells)
     inserts = []
     updates = []
-    create_cells.flatten!.each do |c|
+    create_cells.flatten!.nitems.each do |c|
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
-    update_cells.each do |c|
+    update_cells.nitems.each do |c|
       updates.push "UPDATE `answer_cells` SET `value` = #{c.value} WHERE `id` = #{c.id};\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
     end 
 

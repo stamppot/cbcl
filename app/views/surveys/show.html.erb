@@ -56,7 +56,7 @@
 	<%= observe_form "surveyform",
 			 :url => survey_save_draft_path(@journal_entry),
 			 :update => "draft-message",
-			 :frequency => 20 %>
+			 :frequency => SAVE_DRAFT_INTERVAL %>
 <% end %>
 
 <p>
