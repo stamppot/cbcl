@@ -70,16 +70,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   # user's authentication state is clear. If it is not the case, the use will
   # be redirected to '/'. User must be logged in
   def logout
-<<<<<<< HEAD
-<<<<<<< HEAD
     return unless request.post?
-=======
-=======
->>>>>>> 34a0312... fixed data export, also for centeradmins
-    # Note: The check for the user to be logged in is in a verify above.
-    # Simply render the login form on everything but POST.
-    return unless request.method == :post
->>>>>>> 34a0312... fixed data export, also for centeradmins
 
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?
