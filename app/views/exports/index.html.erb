@@ -38,7 +38,11 @@
 	</span>
 </span>
 
+<<<<<<< HEAD
 <%= submit_tag 'Download', { :class => 'button download', :id => 'download', :onclick => "$('download').addClassName('busy'); return true;" } %>
+=======
+<%= submit_tag 'Download', { :class => 'button download', :id => 'download', :onclick => "$('download').addClassName('busy').submit(); $('download').disable();return true;" } %>
+>>>>>>> 34a0312... fixed data export, also for centeradmins
 
 <% end %>
 

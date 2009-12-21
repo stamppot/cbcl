@@ -4,7 +4,7 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
   caches_page :index
   
   def index
-    if current_user || session[:rbac_user_id]
+    if current_user
       redirect_to main_path and return 
     else
       render :file => 'login/login_static', :layout => false
@@ -65,8 +65,18 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
     @errors << 'Ugyldigt brugernavn eller password!'
   end
   
+  # Displays the logout confirmation form on GET and performs the logout on 
+  # POST. Expects the "yes" parameter to be set. If this is the case, the 
+  # user's authentication state is clear. If it is not the case, the use will
+  # be redirected to '/'. User must be logged in
   def logout
+<<<<<<< HEAD
     return unless request.post?
+=======
+    # Note: The check for the user to be logged in is in a verify above.
+    # Simply render the login form on everything but POST.
+    return unless request.method == :post
+>>>>>>> 34a0312... fixed data export, also for centeradmins
 
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?
@@ -107,7 +117,6 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
 
   def remove_user_from_session!
     session[:rbac_user_id] = nil
-    @current_user_cached = nil
   end
 
   # Redirects to the location stored in the <tt>return_to</tt> session 

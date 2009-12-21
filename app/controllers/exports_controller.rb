@@ -22,7 +22,7 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     @surveys = surveys_default_selected(@surveys, params[:surveys])
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id } #inject([]) { |col, s| col << s.id if s.selected; col }
-    # puts "filter_surveys: #{filter_surveys.inspect}"
+    puts "filter_surveys: #{filter_surveys.inspect}"
     @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
   end
 

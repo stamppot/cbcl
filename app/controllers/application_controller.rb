@@ -83,7 +83,12 @@ class ApplicationController < ActionController::Base
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
     # check controller
+<<<<<<< HEAD
     if !params[:id].blank? and params[:controller] =~ /score|faq|group|role/
+=======
+    params[:return_to] = request.url
+    if !params[:id].blank? and params[:controller] =~ /score|faq/
+>>>>>>> 34a0312... fixed data export, also for centeradmins
       if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
@@ -111,8 +116,7 @@ class ApplicationController < ActionController::Base
       else
         puts "ACCESS FAILED: #{params.inspect}"
         access_denied
-        params[:return_to] = request.url
-        redirect_to login_path and return false
+        return false
       end
     end
     return true
