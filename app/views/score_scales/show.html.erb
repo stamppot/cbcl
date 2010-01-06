@@ -15,7 +15,7 @@
 			:complete => visual_effect(:highlight, 'score_list') }
 		%> 
 	</div>
-	<%= link_to_remote 'Færdig!', :url => {:action => 'done_order_scores', :id => @scale} %>
+	<%= back_button t('go_back') %>
 
 <% else %>
 	<%= link_to 'Reorganiser liste', :action => 'order_scores', :id => @scale %>

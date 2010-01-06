@@ -44,7 +44,7 @@ class ScoreScalesController < ApplicationController
     @scale.destroy
     flash[:notice] = "Skala er slettet."
     
-    redirect_to :action => 'index'
+    redirect_to score_scales_path #:action => 'index'
   end
   
   def order_scores
@@ -53,27 +53,17 @@ class ScoreScalesController < ApplicationController
     @action = 'order'
     render :template => 'score_scales/show'
   end
-  
-  def done_order_scores
-    @scale = ScoreScale.find(params[:id])
-    flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to score_scales_path }
-  end
-  
+
   def sort_scores
     @scale = ScoreScale.find(params[:id]) 
     params['score_list'].each do |score_id|
-      # find score with this id, and other scores with same title. Set to same position
-      score = Score.find(score_id)
+      score = Score.find(score_id) # find score with this id, and other scores with same title. Set to same position
       position = params['score_list'].index(score.id.to_s) + 1 
       scores = @scale.scores.find_all_by_title(score.title)
-      scores.each do |score|
-        score.position = position
-        score.save 
-      end
+      scores.each { |score| score.position = position; score.save }
     end 
     render :nothing => true 
-  end
+  end  
   
   # order scales
   def order
@@ -91,8 +81,7 @@ class ScoreScalesController < ApplicationController
     render :nothing => true 
   end
   
-  def done_order #_scales
-    @scales = ScoreScale.all
+  def done_order
     flash[:notice] = "Ny rækkefølge er gemt."
     render(:update) { |page| page.redirect_to score_scales_path }
   end
@@ -104,7 +93,6 @@ class ScoreScalesController < ApplicationController
     render :update do |page|
       page.replace_html 'right', :partial => 'show_scale_surveys', :object => @surveys
     end
-    
   end
   
   protected

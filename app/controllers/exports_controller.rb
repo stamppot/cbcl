@@ -12,7 +12,7 @@ class ExportsController < ApplicationController
     # filter age
     @start_age = params[:age_start] = 1
     @stop_age = params[:age_stop]  = 21
-    params = filter_age(args)
+    params = Query.filter_age(args)
     
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
@@ -21,7 +21,7 @@ class ExportsController < ApplicationController
     
     # set default value to true unless filter is pressed
     @surveys = surveys_default_selected(@surveys, params[:surveys])
-    filter_surveys = @surveys.collect_if(:selected) { |s| s.id } #inject([]) { |col, s| col << s.id if s.selected; col }
+    filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
     puts "filter_surveys: #{filter_surveys.inspect}"
     @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
   end
@@ -51,7 +51,7 @@ class ExportsController < ApplicationController
   def download
     args = params
     params = filter_date(args)
-    params = filter_age(params)
+    params = Query.filter_age(params)
 
     @surveys = current_user.subscribed_surveys
     
@@ -123,40 +123,41 @@ class ExportsController < ApplicationController
       stop  = args.delete(:stop_date)
     end
     
-    if start.is_a?(Time) and stop.is_a?(Time)
-      args[:start_date] = start
-      args[:stop_date] = stop
-    elsif start.is_a?(Date) and stop.is_a?(Date)
-      args[:start_date] = start.to_time
-      args[:stop_date] = stop.to_time
-    else
-      {:start_date => start, :stop_date => stop}.each_pair do |key, date|
-        unless date.blank?
-          y = date[:year].to_i
-          m = date[:month].to_i
-          d = date[:day].to_i
-          args[key] = Date.new(y, m, d).to_time
-        end
-      end
-    end
-    return args
+    Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
+    # if start.is_a?(Time) and stop.is_a?(Time)
+    #   args[:start_date] = start
+    #   args[:stop_date] = stop
+    # elsif start.is_a?(Date) and stop.is_a?(Date)
+    #   args[:start_date] = start.to_time
+    #   args[:stop_date] = stop.to_time
+    # else
+    #   {:start_date => start, :stop_date => stop}.each_pair do |key, date|
+    #     unless date.blank?
+    #       y = date[:year].to_i
+    #       m = date[:month].to_i
+    #       d = date[:day].to_i
+    #       args[key] = Date.new(y, m, d).to_time
+    #     end
+    #   end
+    # end
+    # return args
   end
   
-  def filter_age(args)
-    args[:age_start] ||= 1
-    args[:age_stop] ||= 21
-
-    if args[:age] && (start_age = args[:age][:start].to_i) && (stop_age = args[:age][:stop].to_i)
-      if start_age <= stop_age
-        args[:age_start] = start_age
-        args[:age_stop] = stop_age
-      else
-        args[:age_start] = stop_age
-        args[:age_stop] = start_age
-      end
-    end
-    return args
-  end
+  # def filter_age(args)
+  #   args[:age_start] ||= 1
+  #   args[:age_stop] ||= 21
+  # 
+  #   if args[:age] && (start_age = args[:age][:start].to_i) && (stop_age = args[:age][:stop].to_i)
+  #     if start_age <= stop_age
+  #       args[:age_start] = start_age
+  #       args[:age_stop] = stop_age
+  #     else
+  #       args[:age_start] = stop_age
+  #       args[:age_stop] = start_age
+  #     end
+  #   end
+  #   return args
+  # end
   
   def surveys_default_selected(surveys, params)
     if selected = params

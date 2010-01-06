@@ -22,13 +22,13 @@
 				<% if @action == 'order' %>
 				<%= link_to_remote 'Færdig!', :url => scales_done_order_path %>
 				<% elsif @scales.size > 1 %>
-				<%= link_to 'Reorganiser liste', {:controller => :score, :action => 'order_scales'} %><br/>
+				<%= link_to 'Reorganiser liste', :action => 'order' %><br/>
 				<% else %>
 				<%= back_button score_scales_path %><br/>
 				<% end %>
 
 				<% unless @action == 'order' %>
-				<%= link_to 'Opret ny skala', {:controller => :score, :action => 'new_scale'} %>
+				<%= link_to 'Opret ny skala', :action => 'new' %>
 				<% end %>
 			</div>
 		</div>
@@ -36,9 +36,7 @@
 
 		<% if @action == 'order' %>
 		<div id="sortable">
-			<%= sortable_element 'scale_list', :url => {:controller => :score, :action => 'sort_scales'}, 
-			:complete => visual_effect(:highlight, 'scale_list') 
-			%> 
+			<%= sortable_element 'scale_list', :url => {:action => 'sort'}, :complete => visual_effect(:highlight, 'scale_list') %> 
 		</div>
 		<% end %>
 

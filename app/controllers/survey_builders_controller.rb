@@ -9,9 +9,6 @@ class SurveyBuildersController < ApplicationController
     redirect_to surveys_path
   end
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  # verify :method => "post", :only => [ :destroy, :create, :update, :answer ]
-  
   def show
     redirect_to survey_path(Survey.find(params[:id]))
   end
@@ -113,7 +110,7 @@ class SurveyBuildersController < ApplicationController
     # "cell1_1"=>{"rating0_3label_0"=>"0", "rating0_3label_1"=>"1", "rating0_3label_2"=>"2"}, 
     # "cell1_2"=>{"rating2"=>"0", "rating0_2"=>"2"}
     values.each do |cell, val|  # "cell1_1"=>{"rating0_3label_0"=>"0" # cell => { val => i_val}
-      RAILS_DEFAULT_LOGGER.debug "sanitize: cell: #{cell.inspect} val: #{val.inspect}"
+      # RAILS_DEFAULT_LOGGER.debug "sanitize: cell: #{cell.inspect} val: #{val.inspect}"
       if cell.match(/cell(\d+)_\d/)   # match on row number (more ciphers than 1!)
         row = $1   # set row to current
         ncell = Hash.new
@@ -213,13 +210,9 @@ class SurveyBuildersController < ApplicationController
             ncell["answeritem"] = answeritem[row]
           end
         end
-        # listitemcount = 0
         ncell["items"].shift if ncell["items"][0].nil?  # 1-indexed, except for select option with text label
-        #puts "Filtered cells\n" << cells.to_a.join(" => ").to_s
        end
      end
-     #puts "answeritems: " << answeritem.inspect << "  set: " << answer_item_set.inspect
-     #puts "admin::sanitize_params: " << cells.inspect
      return cells
    end
 
@@ -249,10 +242,7 @@ class SurveyBuildersController < ApplicationController
       @q_cell.preferences = ""  # preferences should be set somewhere. Should be included in sanitized_params
       @q_cell.save
     end
-    # @survey.questions << @question
-    # @question.survey = @survey
-    @question.save
-    @survey.save
+    @question.save && @survey.save
 
     flash[:notice] = "Spørgsmålet blev tilføjet."
     redirect_to add_question_survey_builder_path(@survey)
@@ -268,7 +258,7 @@ class SurveyBuildersController < ApplicationController
 
     render :update do |page|
       # 2-pass rating forms are done here
-      if questionitem =~ /Rating(\d)_(\d)/  # 3rd pass for ratings, choose final
+      if questionitem =~ /Rating(\d)_(\d)/  # 3rd pass for ratings, choose final # TODO: use a case statement instead of if
         index = $1.to_i
         n = questionitem.scan(/[0-9]+/).last # rating_n  # index of rating values
         if fast_ratings
@@ -289,7 +279,6 @@ class SurveyBuildersController < ApplicationController
       elsif questionitem =~ /Description/
         updated_form = description_form(questionitem, args[:row], args[:col])
       else # 1st pass or 2nd pass rating doing add labels
-        
         # add properties link
         property_options = "<span class='options'>" +
         "<a class='action' href='javascript:toggleElem(&quot;#{args[:cell] + '_props'}&quot;)'>" +
@@ -351,9 +340,7 @@ class SurveyBuildersController < ApplicationController
     html_options = { :class => "action" }
     questionitem = params[:choice]
     updated_form = ""
-    #puts "next_answer_item" << params.inspect
     render :update do |page|
-      
     end
   end
   
@@ -366,7 +353,6 @@ class SurveyBuildersController < ApplicationController
   # fix by calling page.call with argument which is output of q_item
   def add_question_column
     render :update do |page|
-#      page.select("tr.row").each do |element, index|
       page.call 'add_question_column'
     end
   end

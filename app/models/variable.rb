@@ -35,26 +35,6 @@ class Variable < ActiveRecord::Base
       vars.build_hash { |var| [var.survey_id, {var.row => {var.col => var}}]}
     end
   end
-
-  # backup
-  # def self.all_in_hash_old
-  #   vars = self.all(:order => "survey_id, row")
-  #   result = {}
-  #   vars.each do |var|
-  #     if !result[var.survey_id]
-  #       result[var.survey_id] = {var.survey_id => {}}
-  #     else
-  #       result[var.survey_id]
-  #     end
-  #     first_level = result[var.survey_id]
-  #     if row = first_level[var.row]
-  #       row[var.col] = var
-  #     else
-  #       first_level[var.row] = {var.col => var}
-  #     end
-  #   end
-  #   result
-  # end
   
   def self.get_by_question(question, row, col)
     @@question_hash ||= self.all_in_hash({:by => 'question_id'})
