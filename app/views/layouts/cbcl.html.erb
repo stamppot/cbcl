@@ -14,13 +14,12 @@
 	<%= stylesheet_link_tag_html4 'buttons' %>
 
 	<% if !current_user.login_user? %>
-	<% bundle do %>
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
  	<%= javascript_include_tag 'effects' %>
  	<%= javascript_include_tag 'controls', :cache => true %>
  	<%= javascript_include_tag 'tablekit' %>
-	<% end %>
+
  	<%= javascript_include_tag 'css_browser_selector', :cache => true %>
  	<%= javascript_include_tag 'validation', :cache => true %>
  	<%= javascript_include_tag 'application', :cache => true %>

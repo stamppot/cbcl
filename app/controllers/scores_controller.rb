@@ -57,13 +57,14 @@ class ScoresController < ApplicationController
     # params contains a new score_item that has not been created yet (happens when return is pressed)
     if params[:score_item] && params[:score_item].keys.map(&:to_i).select {|i| i==0}.size > 1 # contains new score_item
       # find curr to be updated, remove from params to new score_item
-      new_score_item_params = {}
-      new_score_item_params[:items] = params[:score_item].delete("items")
-      new_score_item_params[:question_id] = params[:score_item].delete("question_id")
-      new_score_item_params[:qualifier] = params[:score_item].delete("qualifier")
-      new_score_item_params[:range] = params[:score_item].delete("range")
-      new_score_item_params[:score_id] = @score.id
-      new_score_item = ScoreItem.new(new_score_item_params)
+      # new_score_item_params = {}
+      # new_score_item_params[:items] = params[:score_item].delete("items")
+      # new_score_item_params[:question_id] = params[:score_item].delete("question_id")
+      # new_score_item_params[:qualifier] = params[:score_item].delete("qualifier")
+      # new_score_item_params[:range] = params[:score_item].delete("range")
+      # new_score_item_params[:score_id] = @score.id
+      new_score_item_params = params[:score_item].slice(%w(items question_id qualifier range))
+      new_score_item = @score.score_items.new(new_score_item_params)
       new_score_item.number = Question.find(new_score_item.question_id).number
       new_score_item.save
 
