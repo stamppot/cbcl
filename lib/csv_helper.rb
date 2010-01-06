@@ -13,21 +13,6 @@ class CSVHelper
     and survey_answers.journal_entry_id != 0
     order by journal_id"
     generate_csv_from_query_data(query)
-    # result = ActiveRecord::Base.connection.execute(query)  # the two following are equal
-    # # jj = JournalEntry.find(:all, :joins => :survey_answer, :conditions => ['survey_answers.journal_entry_id = journal_entries.id and done = 1 and journal_entry_id != 0'], :order => 'journal_id', :select => 'journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex' )
-    # # sas = SurveyAnswer.finished.all(:joins => :journal_entry, :conditions => ['survey_answers.journal_entry_id = journal_entries.id and journal_entry_id != 0'], :order => 'journal_id', :select => 'journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex' )
-    # result.each_hash do |c|
-    #     t1 = Time.now
-    #     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-    #       csv << csv_answer = SurveyAnswer.and_answer_cells.find(c["survey_answer_id"]).to_csv.join(";")
-    #     end
-    #     e1 = Time.now
-    #     csv.each do |line|
-    #       insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
-    #               VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
-    #       ActiveRecord::Base.connection.execute(insert_query)
-    #     end
-    # end
   end
   
   def create_csv_answer(survey_answer)
@@ -38,20 +23,6 @@ class CSVHelper
     and survey_answers.id = #{survey_answer.id}
     order by journal_id"
     generate_csv_from_query_data(query)
-    # result = ActiveRecord::Base.connection.execute(query)
-    # 
-    # result.each_hash do |c|
-    #     t1 = Time.now
-    #     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-    #       csv << csv_answer = SurveyAnswer.and_answer_cells.find(c["survey_answer_id"]).to_csv.join(";")
-    #     end
-    #     e1 = Time.now
-    #     csv.each do |line|
-    #       insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
-    #               VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
-    #       ActiveRecord::Base.connection.execute(insert_query)
-    #     end
-    # end
   end
   
   def generate_csv_from_query_data(query)
