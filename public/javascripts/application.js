@@ -16,6 +16,38 @@ Inspector = {
     inspectArray: function(array) {
         array.each(this.inspect);
     }
+};
+
+// call a method that updates the dynamic parts of a survey 
+function get_dynamic_fragments(url, arg) {
+ // alert ("Loading: " + url + "  args: " + arg );
+ //new Ajax.Updater('draft-message', '/survey_answers/save_draft/3158', {asynchronous:true, evalScripts:true, parameters:value})})
+     new Ajax.Request( url, {
+            // method: 'get', // default is post
+						parameters: arg,
+            onSuccess: function(transport) {
+                // alert( transport.responseText );
+                 },
+            onFailure: function() {
+                //alert( "Unable to raise request" );
+                }
+            }
+        );
+};
+
+function changeAction(formid, actionvalue) {
+ 	document.getElementById(formid).action = actionvalue;
+}
+
+function setFormStatusInWindow(result, form) {
+	if(!result) {
+		window.status = "Der er manglende eller forkerte værdier i besvarelsen";
+		return false;
+	}
+	if(result) { 
+		window.status = "Sender besvarelsen...";
+	}
+	return true;
 }
 
 function getElementValue(formElement)

@@ -42,12 +42,14 @@ class SurveysController < ApplicationController
   def show                                  # 11-2 it's fastest to preload all needed objects
     @options = {:show_all => true, :action => "create"}
     @journal_entry = JournalEntry.find(params[:id])
+    
+    # if cached_page = Rails.cache.read("survey_#{@journal_entry.survey_id}")
+    #   render :text => cached_page, :layout => true
+    # end
+    
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
       Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
-    puts "JOURNAL_ENTRY: #{@journal_entry.inspect}"
-    puts "SURVEY: #{@survey.inspect}"
-    
     @page_title = @survey.title
 
     # create survey_answer
@@ -58,10 +60,13 @@ class SurveysController < ApplicationController
     else  # survey_answer already created, find draft
       @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
       @survey.merge_answer(@survey_answer)
-      puts "journal_entry.survey_answer: #{@journal_entry.survey_answer} - survey_answer: #{@survey_answer}"
       @journal_entry.survey_answer = @survey_answer
       @journal_entry.save
     end
+    # my_page = Rails.cache.fetch("survey_#{@survey.id}") do
+    # Rails.cache.write("survey_#{@survey.id}", render )# :text)
+    # end
+    # render :text => my_page
     rescue ActiveRecord::RecordNotFound
   end
 

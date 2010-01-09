@@ -43,6 +43,30 @@ class SurveyAnswersController < ApplicationController
     render :template => 'surveys/show'
   end
 
+  # updates survey page with dynamic data. Consider moving to separate JavascriptsController
+  def dynamic_data
+    @journal_entry = JournalEntry.find(params[:id], :include => {:journal => :person_info})
+    save_interval = current_user.login_user && 30 || 20 # change to 900, 60
+    save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
+    
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.replace_html 'centertitle', @journal_entry.journal.center.title
+          page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+          page.insert_html :bottom, 'submit_button', :partial => 'surveys/fancy_submit_form_button'
+          if !current_user.login_user
+            page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
+            page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button_journal'
+            page << ('new Form.Observer(\'surveyform\', ' + save_interval.to_s + 
+                  ', function(element, value) {new Ajax.Updater(\'draft-message\', ' + save_draft_url + 
+                  ', {asynchronous:true, evalScripts:true, parameters:value})})')
+          end
+        end
+      }
+    end
+  end
+  
   def save_draft
     # render :text => "<i>Draft saved at #{Time.now}</i>" + "\n\n" + params.inspect
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
@@ -127,7 +151,7 @@ class SurveyAnswersController < ApplicationController
 
   protected
   
-  before_filter :check_access
+  before_filter :check_access# , :except => [:dynamic_data]
   
   def check_access
     return false unless current_user

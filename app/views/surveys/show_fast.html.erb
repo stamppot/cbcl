@@ -1,5 +1,6 @@
-<%= render :partial => 'surveys/survey_header' %>
-
+<div id="survey_header">
+	<%= render :partial => 'surveys/survey_header' %>
+</div>
 <br>
 
 <div id='draft-message' style='color:red;'></div>
@@ -35,44 +36,22 @@
 
 	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
 
-	<% unless @options[:action] =~ /show/ %>
-		<a class='button' id='send_form' >
-			<span onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
-		</a>
-		<div id="sending_form" style="display: none;">
-			<a class='send_form' href='#'>
-				<span class="send_survey">Sender svar...</span>
-			</a>
-		</div>
-	<% end %>
-
-	<div id="submitting" style="border: 1px solid green; padding: 8px; display: none;">Sender svar...</div>
+	<%= render :partial => 'fancy_submit_form_button' %>
 	
 	<% unless @options[:action] =~ /show/ %>
 	</form>
 
+	<!-- Put before validation.add -->
+	<script type='text/javascript'>
+		var valid = new Validation('surveyform', {immediate : true, stopOnFirst : true, onFormValidate : setFormStatusInWindow});
+	</script>
+	
 	<% unless @options[:action] =~ /show|edit/ && !@options[:show_only] %>
 		<%= observe_form "surveyform",
 				 :url => survey_save_draft_path(@journal_entry),
 				 :update => "draft-message",
 				 :frequency => save_draft_interval %>
 	<% end %>
-
-	<!-- Put before validation.add -->
-	<script type='text/javascript'>
-
-		function formCallback(result, form) {
-			if(!result) {
-				window.status = "Der er manglende eller forkerte værdier i besvarelsen";
-				return false;
-			}
-			if(result) { 
-				window.status = "Sender besvarelsen...";
-			}
-			return true;
-		}
-		var valid = new Validation('surveyform', {immediate : true, stopOnFirst : true, onFormValidate : formCallback});
-	</script>
 <% end %>
 
 <p>

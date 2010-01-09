@@ -1,64 +1,58 @@
-<%= render :partial => 'surveys/survey_header' %>
-
-<br>
+<% cache :key => "survey_#{@journal_entry.survey_id}" do %>
+<div id="survey_header">
+	<%= render :partial => 'surveys/survey_header' %>
+</div>
+<br/>
 
 <div id='draft-message' style='color:red;'></div>
-
-<% if current_user.access? :survey_show_fast_input and !@options[:show_only] %>
-<div class="command">
-	<% url =
-		if @options[:answers]
-			survey_show_fast_path(@journal_entry)
-		elsif @options[:show_only]
-			survey_show_only_fast_path(@journal_entry)
-		else
-			survey_show_fast_path(@journal_entry)
-		end %>
-	<%= link_button t('survey.fast_input'), url, 'survey_fast_input', :title => 'Besvar med hurtig indtastning' %>
-</div>
-<% end %>
-
-<br>
+<div id="survey_fast_input" class="command"></div>
+<br/>
 
 
-<% unless @options[:action] =~ /show/ %>
-		<form action="/survey_answers/create/<%= @journal_entry.id %>" id="surveyform" method="post" >
+<form action="/survey_answers/create/" id="surveyform" method="post" >
+	<!-- Put before validation.add -->
+	<script type='text/javascript'>
+	   new Validation('surveyform', {immediate : true, stopOnFirst : true });
+	</script>
+	<div><%= render :partial => "surveys/answer_by" %></div>
+	<br/>
+	<%= render :partial => "surveys/question", :collection => @survey.questions %>
+	<div id="submit_button"></div>
+</form>
 
-			<!-- Put before validation.add -->
-		<script type='text/javascript'>
-	    new Validation('surveyform', {immediate : true, stopOnFirst : true });
-		</script>
-<% end %>
-
-<div>
-	<%= render :partial => "surveys/answer_by" %>
-</div>
-
-<br>
-
-<%= render :partial => "surveys/question", :collection => @survey.questions %>
-
-<% unless @options[:action] =~ /show/ %>
-<a class='button' id='send_form'>
-	<span onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
-</a>
-<div id="sending_form" style="display: none;">
-	<a class='send_form' href='#'>
-		<span class="send_survey">Sender svar...</span>
-	</a>
-</div>
-<% end %>
-
-<div id="submitting" style="border: 1px solid green; padding: 8px; display: none;">Sender svar...</div>
-
-<% unless @options[:action] =~ /show/ && !@options[:show_only] %>
-	</form>
-	<%= observe_form "surveyform",
-			 :url => survey_save_draft_path(@journal_entry),
-			 :update => "draft-message",
-			 :frequency => save_draft_interval %>
-<% end %>
-
-<p>
-	<%= (@journal_entry && !current_user.login_user) && back_button(journal_path(@journal_entry.journal)) || "" %>
+<p> <!-- dynamic -->
+	<div id="back_button"></div>
 </p>
+
+<script type="text/javascript">
+Event.observe(window, 'load', function() {
+	// do not add submit button when it's show only
+	var doNotCall = document.location.href.match(/show_only/);
+	if(doNotCall == null) {
+		var val = /([0-9]+)$/;
+  	var matches = document.location.href.match(val);
+		var params = {};
+		params['id'] = matches[1];
+		// var param = '"journal_entry": \"' + matches[1] + '\"';
+		get_dynamic_fragments("/survey_answers/dynamic_data", params);
+		
+		// set form action to this journal_entry
+		changeAction('surveyform', 'survey_answers/create/' + matches[1]);
+		
+		// add save_draft
+		//<![CDATA[
+		var save_draft_url = '/survey_answers/save_draft/' + matches[1];
+		new Form.Observer('surveyform', 60, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
+		//]]>
+  	}
+});
+</script>
+<%# dynamic @journal_entry %>
+<!-- <div id="save_draft"> -->
+	<%# observe_form "surveyform",
+		 	:url => survey_save_draft_path(@journal_entry),
+		 	:update => "draft-message",
+		 	:frequency => save_draft_interval %>
+<!-- </div> -->
+
+<% end %>

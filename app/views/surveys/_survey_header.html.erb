@@ -1,14 +1,11 @@
-<% if @journal_entry
-	cache @journal_entry.cache_key do %>
+<%- if @journal_entry %>
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
-			ID: <%= @journal_entry.journal.qualified_id %><br>
-			Navn: <%= @journal_entry.journal.name %><br>
-			F&oslash;dselsdato: <%= @journal_entry.journal.birth_short %><br>
+			<% render :partial => 'survey_header_info' %>
 		</div>
+		<div class="surveyname"><%= @survey.title %></div>
 	</div>
-	<% end %>
-<% else %>
+<%- else %>
 	<%= back_button surveys_path %>
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
@@ -16,4 +13,4 @@
 			<div class="surveyinfo"><b>Antal sp&oslash;rgsm&aring;l:</b> <%= @survey.no_questions %></div>
 		</div>
 	</div>
-<% end %>
+<%- end %>
