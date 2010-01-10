@@ -20,9 +20,9 @@ class PasswordService
     "gul", "gips", "tog", "jern", "guld", "blik", "blok", "pop", "pap", "bold", "arm", "kage", "seng", "klub",
     "vogn", "knap", "pen", "snip", "fin", "fon", "snap", "fan", "snup", "fun", "snep", "vest", "nord", "syd",
     "nest", "test", "gast", "gust", "hep", "hop", "hip", "pip", "hap", "pep", "hup", "hyp", "snyt", "snit", "tit",
-    "fut", "tut", "rat", "rut", "ret", "tast", "sub    til", "told", "tran", "fup", "prop", "top", "tap", "stop",
+    "fut", "tut", "rat", "rut", "ret", "tast", "sub", "til", "told", "tran", "fup", "prop", "top", "tap", "stop",
     "stub", "stil", "stip", "spol", "spul", "brak", "nok", "kok", "kik", "ting", "tom", "bat", "bot", "bit",
     "nat", "dag", "hov", "hof", "bim", "bam", "bom", "bob", "bib", "bip", "pift", "fif", "nip", "nap", "nop",
-    "nup", "flip", "flap", "flop"]
+    "nup", "flip", "flap", "flop", "sne", "slud", "vind", "vejr", "vip", "vap" ]
 
 end

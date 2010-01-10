@@ -71,6 +71,9 @@ height:49px; /* the correct height */
 	font-size: 16pt;
 }
 
+.survey_journal_info {
+	float: right;
+}
 .ListTitle a {
   text-decoration: none;
 }
