@@ -1,8 +1,8 @@
 class SurveysController < ApplicationController
   helper SurveyHelper
-  layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer_fast, :show_answer2 ]
+  layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
   layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
-  layout "survey_fast", :only  => [ :show_fast, :show_answer_fast ]
+  # layout "survey_fast", :only  => [ :show_fast, :show_answer_fast ]
 
   # caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last;
   #         # puts entry
@@ -34,14 +34,14 @@ class SurveysController < ApplicationController
     @survey = Survey.and_questions.find(params[:id])
     @page_title = @survey.title
     flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
-    render :template => 'surveys/show', :layout => "layouts/showsurvey"
+    render :template => 'surveys/show', :layout => "layouts/survey"
   end
   
   def show_only_fast
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
     @survey = Survey.and_questions.find(params[:id])
     @page_title = @survey.title
-    render :template => 'surveys/show_fast', :layout => "layouts/showsurvey"
+    render :template => 'surveys/show_fast', :layout => "layouts/survey_fast"
   end
   
   # 25-2 Changed to use params[:id] for journal_entry. Survey is found here. This means that survey can only be shown thru journal_entries
@@ -67,14 +67,8 @@ class SurveysController < ApplicationController
     else  # survey_answer already created, find draft
       @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
       @survey.merge_answer(@survey_answer)
-      # @journal_entry.survey_answer = @survey_answer
-      # @journal_entry.save
     end
-    # my_page = Rails.cache.fetch("survey_#{@survey.id}") do
     Rails.cache.write("survey_#{@survey.id}", render )# :text)
-    
-    # end
-    # render :text => my_page
     rescue ActiveRecord::RecordNotFound
   end
 
@@ -100,6 +94,7 @@ class SurveysController < ApplicationController
       @journal_entry.survey_answer = @survey_answer
       @journal_entry.save
     end
+    render :layout => "layouts/survey_fast"
     
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Kunne ikke finde skema for journal."
