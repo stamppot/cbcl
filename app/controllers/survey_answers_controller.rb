@@ -66,7 +66,6 @@ class SurveyAnswersController < ApplicationController
             page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
             page.show 'submit_button'
-            page.show 'back_button'
           end
         }
       else # login users
