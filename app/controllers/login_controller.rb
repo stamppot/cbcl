@@ -2,6 +2,7 @@ class LoginController < ApplicationController
   caches_page :index, :logout
   
   def index
+    redirect_to survey_start_path and return if current_user && current_user.login_user
     redirect_to main_path and return if current_user
   end
   
