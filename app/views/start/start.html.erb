@@ -2,9 +2,9 @@
 <p>
 Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
-<div style=' width: 600px; padding: 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
+<div style=' width: 700px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
 	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start' %></span>
-	<%= @survey.description %>
+	<span style="font-size: 14pt;"><%= @survey.description %></span>
 </div>
 
 <br>
