@@ -68,11 +68,11 @@ class SurveyAnswersController < ApplicationController
             page.show 'back_button'
           end
         }
-      else
+      else # login users
         format.js {
           render :update do |page|
             page.replace_html 'centertitle', @journal_entry.journal.center.title
-            page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+            page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
             page.show 'submit_button'
           end
         }
