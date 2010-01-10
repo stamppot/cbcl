@@ -64,6 +64,7 @@ class SurveyAnswersController < ApplicationController
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
             page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
+            page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
             page.show 'submit_button'
             page.show 'back_button'
           end
