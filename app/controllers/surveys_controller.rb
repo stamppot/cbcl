@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer_fast, :show_answer2 ]
   layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
-  layout "survey_fast", :only  => [ :show_fast, :show_answer_fast,  ]
+  layout "survey_fast", :only  => [ :show_fast, :show_answer_fast ]
 
   caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last;
           # puts entry
