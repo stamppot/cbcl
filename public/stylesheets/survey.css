@@ -38,6 +38,33 @@ a:visited { color: #666; }
 	border: 1px #DDD solid;
 }
 
+#infoheader {
+	margin:30px 0px 10px 0px;
+	padding:10px 0px 0px 20px;
+	/* For IE5/Win's benefit height = [correct height] + [top padding] + [top and bottom border widths] */
+	height:61px; /* 49px + 10px + 2px = 61px */
+	border-style:solid;
+	border-color:black;
+	border-width:1px 0px; /* top and bottom borders: 1px; left and right borders: 0px */
+	line-height:12px;
+	background-color:#eee;
+
+voice-family: "\"}\"";
+voice-family:inherit;
+height:49px; /* the correct height */
+}
+
+#centertitle {
+	position:absolute;
+	top:46px;
+	margin-left: 24%;
+	height: 20pt;
+	font-size: 20pt;
+	color: black;
+	border: 0px solid red;
+	padding: 5px;
+}
+
 .surveyname {
   padding: 0.5em;
 	float: left;
