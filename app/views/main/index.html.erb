@@ -1,4 +1,5 @@
 <% if current_user %>
+<% cache "main" do %>
 <h1>Velkommen til CBCL-Online</h1>
 
 <p><br></p>
@@ -29,6 +30,7 @@
 		<h3>Scoreberegninger</h3>
 		<p>Du kan oprette scoreberegninger til spørgeskemaer under menupunktet 'Scores'</p>
 	</div>
+<% end %>
 <% end %>
 
 <% else %>

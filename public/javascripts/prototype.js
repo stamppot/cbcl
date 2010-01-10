@@ -1282,7 +1282,8 @@ Ajax.Request = Class.create(Ajax.Base, {
     }
 
     for (var name in headers)
-      this.transport.setRequestHeader(name, headers[name]);
+			if (typeof headers[name] != 'function')
+      	this.transport.setRequestHeader(name, headers[name]);
   },
 
   success: function() {

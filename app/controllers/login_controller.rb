@@ -1,21 +1,15 @@
-class LoginController < ApplicationController # ActiveRbac::ComponentController
-  layout 'login'
-  include LoginHelper
-  caches_page :index
+class LoginController < ApplicationController
+  caches_page :index, :logout
   
   def index
-    if current_user
-      redirect_to main_path and return 
-    else
-      render :file => 'login/login_static', :layout => false
-    end
+    redirect_to main_path and return if current_user
   end
   
   def login
     if request.post?
-      if current_user
-        user = User.find_with_credentials(params[:username], params[:password])
-        flash[:notice] = "#{current_user.name}, du er allerede logget ind."
+      if current_user && current_user.login == params[:username]
+        # user = User.find_with_credentials(params[:username], params[:password])
+        # flash[:notice] = "#{current_user.name}, du er allerede logget ind."
 
         if current_user.login_user?
           redirect_to survey_start_path
@@ -41,11 +35,13 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
       raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
       raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
-
+      if user.login_user
+        cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id
+      end
       # flash[:notice] = "Velkommen #{user.name}, du er logget ind."
 
       # show message on first login
-      if user.created_at == user.last_logged_in_at
+      if user.created_at == user.last_logged_in_at && !user.login_user
         flash[:notice] = "Husk at ændre dit password"
       end
 
@@ -74,12 +70,14 @@ class LoginController < ApplicationController # ActiveRbac::ComponentController
 
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?
+      redirect_to survey_start_url and return if current_user.login_user
       redirect_to main_url and return
     end
 
     # Otherwise delete the user from the session
     self.remove_user_from_session!
-
+    cookies.delete :journal_entry
+    
     # Render success template.
     # flash[:notice] = "Du er blevet logget ud."
     redirect_to login_url

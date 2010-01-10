@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091219170813) do
+ActiveRecord::Schema.define(:version => 20100110115623) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(:version => 20091219170813) do
     t.integer "survey_answer_id", :default => 0, :null => false
     t.integer "number",           :default => 0, :null => false
     t.integer "question_id",      :default => 0, :null => false
-    t.text    "answer_cells"
   end
 
   add_index "answers", ["survey_answer_id"], :name => "index_answers_on_survey_answer_id"
@@ -140,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20091219170813) do
   add_index "journal_entries", ["journal_id"], :name => "index_journal_entries_on_journal_id"
   add_index "journal_entries", ["survey_answer_id"], :name => "index_journal_entries_on_survey_answer_id"
   add_index "journal_entries", ["survey_id"], :name => "index_journal_entries_on_survey_id"
+  add_index "journal_entries", ["user_id"], :name => "index_journal_entries_on_user_id"
 
   create_table "nationalities", :force => true do |t|
     t.string "country",      :limit => 40

@@ -1,7 +1,4 @@
- # require 'pp'
-
 class SurveyAnswersController < ApplicationController
-
   layout 'cbcl', :except => [ :show, :show_fast ]
   layout "showsurvey", :only  => [ :show, :show_fast, :edit ]
 
@@ -46,24 +43,40 @@ class SurveyAnswersController < ApplicationController
   # updates survey page with dynamic data. Consider moving to separate JavascriptsController
   def dynamic_data
     @journal_entry = JournalEntry.find(params[:id], :include => {:journal => :person_info})
-    save_interval = current_user.login_user && 30 || 20 # change to 900, 60
+    save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
     
     respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html 'centertitle', @journal_entry.journal.center.title
-          page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
-          page.insert_html :bottom, 'submit_button', :partial => 'surveys/fancy_submit_form_button'
-          if !current_user.login_user
-            page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
-            page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button_journal'
-            page << ('new Form.Observer(\'surveyform\', ' + save_interval.to_s + 
-                  ', function(element, value) {new Ajax.Updater(\'draft-message\', ' + save_draft_url + 
-                  ', {asynchronous:true, evalScripts:true, parameters:value})})')
+      if current_user.nil?
+        format.js {
+          render :update do |page|
+            page.replace_html 'centertitle', "Du er ikke logget ind"
+            page.visual_effect :pulsate, 'centertitle'
+            page.visual_effect :blind_up, 'content_survey', :duration => 6
+            page.visual_effect :fade, 'surveyform', :duration => 6
+            page.alert "Du bliver sendt til login-siden."
+            page.redirect_to login_path
           end
-        end
-      }
+        }
+      elsif current_user && !current_user.login_user
+        format.js {
+          render :update do |page|
+            page.replace_html 'centertitle', @journal_entry.journal.center.title
+            page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+            page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
+            page.show 'submit_button'
+            page.show 'back_button'
+          end
+        }
+      else
+        format.js {
+          render :update do |page|
+            page.replace_html 'centertitle', @journal_entry.journal.center.title
+            page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+            page.show 'submit_button'
+          end
+        }
+      end
     end
   end
   
@@ -71,7 +84,7 @@ class SurveyAnswersController < ApplicationController
     # render :text => "<i>Draft saved at #{Time.now}</i>" + "\n\n" + params.inspect
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey_answer = @journal_entry.survey_answer
-    survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     survey_answer.save_partial_answers(params, survey)
@@ -92,7 +105,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to @journal_entry.journal and return
     end
 
-    survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 20.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     survey_answer = @journal_entry.make_survey_answer
@@ -123,6 +136,7 @@ class SurveyAnswersController < ApplicationController
         redirect_to journal_path(@journal_entry.journal) and return
       else
         flash[:notice] = "Tak for dit svar!"
+        cookies.delete :journal_entry #cookies[:journal_entry] = nil
         redirect_to survey_finish_path(@journal_entry.login_user) and return
       end
     else

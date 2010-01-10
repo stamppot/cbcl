@@ -1,4 +1,4 @@
-require 'facets/dictionary'
+# require 'facets/dictionary'
 
 class Answer < ActiveRecord::Base
   belongs_to :survey_answer

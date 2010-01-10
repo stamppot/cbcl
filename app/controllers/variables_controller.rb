@@ -74,7 +74,7 @@ class VariablesController < ApplicationController
             page.visual_effect :highlight, 'status'
           end
         }
-        format.html { render :action => "new" }
+        format.html { render :new }
         format.xml  { render :xml => @variable.errors, :status => :unprocessable_entity }
       end
     end

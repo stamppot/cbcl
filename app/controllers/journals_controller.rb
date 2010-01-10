@@ -3,7 +3,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
 
-  before_filter :center_title 
   before_filter :check_access, :except => [:index, :list, :per_page, :new, :live_search]
 
   def per_page
@@ -16,7 +15,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def show
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id]) end
+    @group = Rails.cache.fetch("j_#{params[:id]}") do
+      Journal.find(params[:id], :include => {:journal_entries => :login_user})
+    end
   end
 
   def new
@@ -30,7 +31,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
-
 
   def create
     @group = Journal.new
@@ -48,7 +48,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       @groups = Group.get_teams_or_centers(params[:id], current_user)
       @nationalities = Nationality.find(:all)
       @surveys = current_user.subscribed_surveys
-      render :action => 'new'
+      render :new
     end
 
   rescue ActiveRecord::RecordNotFound

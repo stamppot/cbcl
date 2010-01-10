@@ -1,7 +1,4 @@
-<% javascript_include_tag 'prototype', :cache => true %>
-<% javascript_include_tag 'effects', :cache => true %>
-
-<%  cache @group.cache_key do  %>
+<% cache @group.cache_key do  %>
 	<h2>Journal &quot;<%=h @group.title %>&quot;</h2>
 	
 	<table class="journal_info">
@@ -45,8 +42,8 @@
 		</tr>
 	</table>
 	
-	
-	<% if @group.not_answered_entries.size > 0 %>
+	<% not_answered_entries = @group.not_answered_entries %>
+	<% if not_answered_entries.size > 0 %>
 		<h4>Skemaer der skal besvares</h4>
 		<table class="sortable">
 			<tr>
@@ -56,7 +53,7 @@
 				<th><%= t('state') %></th>
 				<th class="nosort"><%= t('action') %></th>
 			</tr>
-		<% for entry in @group.not_answered_entries %>
+		<% not_answered_entries.each do |entry| %>
 			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
 					 <% survey = entry.survey %>
 					 <td style='background-color: #<%= survey.color %>;'>
@@ -68,8 +65,8 @@
 					 </td>
 					 <td>
 					
-					<%= entry.login_user.nil? ? "&nbsp;" : link_to((img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
-										:class => 'icon', :title => 'Vis login-info')), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
+					<%= entry.login_user.nil? ? "&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
+										:class => 'icon', :title => 'Vis login-info'), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 
 							:update => ('entry'<<entry.id.to_s), 
@@ -86,33 +83,33 @@
 			<%= link_button t('survey.remove'), journal_remove_survey_path(@group), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
 	</div>
 	
-	
-	<% if @group.answered_entries.size > 0 %>
+	<% answered_entries = @group.answered_entries %>
+	<% if answered_count = answered_entries.size > 0 %>
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
 		<% form_tag create_score_report_path, :method => 'post' do %>
 			<%= hidden_field_tag 'journal_id', @group.id %>
 		<table class="sortable">
-		<% if @group.answered_entries.size > 0 %>
+		<% if answered_count %>
 			<th><%= t('survey.survey') %></th>
 			<th><%= t('answered') %></th>
 			<th><%= t('state') %></th>
 			<th class="nosort"><%= t('action') %></th>
-			<% for @entry in @group.answered_entries %>
-		 	 	<tr id='<%= "entry_answer" + @entry.id.to_s %>'>
-					 <td class="no_border" style='background-color: #<%= @entry.survey.color %>;'>
-						<%= check_box "answers", @entry.id, { :class => 'no_border'} %>
-						<%= link_to @entry.survey.title, survey_answer_path(@entry), :title => 'Vis Besvarelse' %></td>
-					 <td><%= @entry.answered_at.strftime "%d-%m-%Y" %> </td>
-					 <td><%= @entry.status %></td>
-					 <td><%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(@entry), :title => 'Ret besvarelse' %>
-					
-							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
+			<% @group.answered_entries.each do |entry| %>
+		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
+					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
+						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
+						<%= link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
+					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
+					 <td><%= entry.status %></td>
+					 <td><%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ),
+									edit_survey_answer_path(entry), :title => 'Ret besvarelse' %>
+ 							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
-							:update => ('entry_answer' << @entry.id.to_s), 
-							:confirm => "Vil du fjerne besvarelsen '#{@entry.survey.title}'\n fra journalen #{@group.title}?",
-					 		:url => entry_remove_answer_path(@entry)) %>      
+							:update => ('entry_answer' << entry.id.to_s), 
+							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.title}'\n fra journalen #{@group.title}?",
+					 		:url => entry_remove_answer_path(entry)) %>      
 						</td>
 	
 			<% end %>
@@ -120,8 +117,7 @@
 		   Ingen
 		<% end %>
 		</table>
-		<% if @group.answered_entries.size > 0 %>
-		  
+		<% if answered_count %>
 		  <div class="commands">
 				<div class="button">
 					<%= submit_tag t('score.calculate'), :class => 'button score_calculate' %>

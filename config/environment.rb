@@ -82,6 +82,7 @@ ThinkingSphinx.suppress_delta_output = true
 # config.cache_store = :my_mem_cache_store
 
 require "will_paginate"
+require 'facets/dictionary'
 
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'

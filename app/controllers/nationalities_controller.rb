@@ -34,7 +34,7 @@ class NationalitiesController < ApplicationController
       flash[:notice] = 'Nationalitet er opdateret.'
       redirect_to nationality_path(@nationality)
     else
-      render :action => :edit
+      render :edit
     end
   end
 

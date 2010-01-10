@@ -1,5 +1,3 @@
-require 'facets/dictionary'
-
 class Survey < ActiveRecord::Base
   has_many :questions, :dependent => :destroy, :include => [ :question_cells ], :order => 'number ASC'
   has_many :subscriptions  # this not needed?

@@ -1,4 +1,4 @@
-require 'facets/dictionary'
+# require 'facets/dictionary'
 
 class Journal < Group
   belongs_to :center
@@ -168,39 +168,6 @@ class Journal < Group
     return self
   end
 
-  # info on journal in array of hashes
-  def info
-    # h = []
-    c = Dictionary.new # ActiveSupport::OrderedHash.new
-    c["ssghafd"] = self.parent.group_code
-    c["ssghnavn"] = self.center.title
-    c["safdnavn"] = self.team.title
-    c["pid"] = self.code
-    c["pkoen"] = self.sex
-    c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
-    c["pnation"] = self.nationality
-    c["dagsdato"] = self.created_at.strftime("%d-%b-%Y")
-    c["pfoedt"] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
-    c
-  end
-
-  def to_csv
-    info.values
-  end
-  
-  def self.csv_header
-    c = Dictionary.new
-    c["ssghafd"] = nil
-    c["ssghnavn"] = nil
-    c["safdnavn"] = nil
-    c["pid"] = nil
-    c["pkoen"] = nil
-    c["palder"] = nil
-    c["pnation"] = nil
-    c["dagsdato"] = nil
-    c["pfoedt"] = nil
-    c
-  end
   
   def header_data
     data = to_csv

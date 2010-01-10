@@ -1,26 +1,22 @@
 <h1 id="cbcl-title"><!-- CBCL-online --></h1>
 	<div id="subtitle"></div>
 
-<% form_tag :action => :login do %>
+<%- form_tag :action => :login do %>
 
 <div title="Account login" id="loginform" class="form">
 
-    <h3>CBCL-online<!-- Log venligst ind: --></h3>
+    <h3>CBCL-online</h3>
     
     <table>
       <tr>
-        <td align=right width="50px"><!-- <label for="user_login">brugernavn:</label> --></td>
+        <td align=right width="50px"></td>
 
         <td width="200px"><%= text_field_tag :username, params[:username], :size => 20, :class => "login_field" %></td>
       </tr>
       <tr> 
-        <td align=right><!-- <label for="user_password">password:</label> --></td>
+        <td align=right></td>
         <td width="200px"><%= password_field_tag :password, params[:password], :size => 20, :class => "login_field" %></td>
       </tr>
-      <!-- <tr> 
-        <td></td>
-        <td align="center" rowspan="2"><%= submit_tag "Login &#187;", :name => "login", :class => "button login"  %></td>
-      </tr> -->
     </table>
    <div align="center">
 		<%= submit_tag "Login &#187;", :name => "login", :class => "button login"  %>
@@ -31,9 +27,8 @@
      
    </div>
     <p style="color: green"><%= flash[:notice] %></p>
-	<% if flash[:error] -%>
+	<%- if flash[:error] -%>
 	<p style="color: red"><%= flash[:error] %></p>
-	<% end %>
+	<%- end %>
 </div>
-
-<% end %>
+<%- end %>

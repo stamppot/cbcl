@@ -15,6 +15,29 @@ pre {
 
 a { color: #000; }
 a:visited { color: #666; }
+
+
+.survey {
+  border: 1px black solid;
+  width: auto;
+  padding: 3px;
+	height: 60px;
+}
+
+
+#content_survey {
+	margin:0px 50px 20px 20px;
+	padding:10px;
+	border: 1px #DDD solid;
+}
+
+.surveyname {
+  padding: 0.5em;
+	float: left;
+	font-size: 16pt;
+}
+
+
 #menu a:hover, dd a:hover, .commands a:hover { color: #fff; background-color:#444;
 	padding-left: 6px;
 }
@@ -506,6 +529,353 @@ input.no_border {
 .small_action {
 	font-size: 10px;
 	font-weight: normal;
+}
+
+/***** default button styles *****/
+
+/*************** buttons **********/
+a.button, input.button {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	line-height:29px;
+	margin-bottom:14px;
+	text-decoration:none;
+	text-indent:10px;
+	padding: 3px 15px 3px 10px;
+}
+a:hover.button {
+	padding: 3px 15px 3px 10px;
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+a:active.button {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+a .go_back {
+	background:url('/images/arrow_undo.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+/* submit buttons */
+input.button {
+	background-color: #eee !important;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	text-decoration:none;
+	padding-left: 16px;
+	line-height: 19px;
+	text-indent: 20px;
+	font-size: 12px;
+}
+input.button:hover {
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+input.button:active {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+a .collapse {
+	background:url('/images/collapse.gif') no-repeat 0px 0px;
+	padding: 2 9px 2 4px;
+}
+a .expand {
+	background:url('/images/expand.gif') no-repeat 0px 0px;
+	padding: 2px 9px 2px 4px;
+}
+
+a .add {
+	background:url('/images/add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .remove {
+	background:url('/images/delete2.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .delete {
+	background:url('/images/delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .edit {
+	background:url('/images/edit.gif') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .accept {
+	background:url('/images/accept.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .cancel {
+	background:url('/images/stop.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .text {
+}
+
+a .center_delete {
+	background:url('/images/delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .user_add {
+	background:url('/images/user_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .user_edit {
+	background:url('/images/user_edit.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .user_delete {
+	background:url('/images/user_delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .center_admin_new {
+	background:url('/images/user_suit.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .team_add {
+	background:url('/images/team_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .team_edit {
+	background:url('/images/team_edit.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .team_delete {
+	background:url('/images/team_delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .journal_add {
+	background:url('/images/journal_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .journal_edit {
+	background:url('/images/journal_edit.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .journal_delete {
+	background:url('/images/journal_delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .journal_add_surveys {
+	background:url('/images/table_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .journal_remove_surveys {
+	background:url('/images/table_delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+} 
+a .survey_add {
+	background:url('/images/table_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .subscription_edit {
+/*	background:url('/images/edit.png') no-repeat 0px 0px;*/
+	padding-left: 0px;
+	text-decoration: normal;
+}
+a .subscription_paid {
+	background:url('/images/money.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_new_period {
+	background:url('/images/date_add.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_merge_periods {
+	background:url('/images/merge.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_pay {
+	background:url('/images/money.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .period_pay {
+	background:url('/images/date_pay.png') no-repeat 0px 0px;
+	padding-left: 27px;
+	text-decoration: normal;
+}
+a .subscription_active {
+/*	background:url('/images/money.png') no-repeat 0px 0px;*/
+	padding-left: 0px;
+	text-decoration: normal;
+}
+a .subscription_all {
+/*	background:url('/images/money.png') no-repeat 0px 0px;*/
+	padding-left: 0px;
+	text-decoration: normal;
+}
+a .subscription_undo_payment {
+	background:url('/images/money_delete.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .filter {
+	background:url('/images/cog.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .export_logins {
+	background:url('/images/page_excel.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .download_excel_file {
+	background:url('/images/page_excel.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .go_back {
+	background:url('/images/arrow_undo.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .login {
+	background:url('/images/door_in.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .logout {
+	background:url('/images/door_out.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .goto_next, a .goto_login {
+	background:url('/images/arrow_right.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+a .password {
+	background:url('/images/password.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+/* link buttons */
+a.button, input.button {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	line-height:29px;
+	margin-bottom:14px;
+	text-decoration:none;
+	text-indent:10px;
+	padding: 3px 15px 3px 10px;
+}
+a:hover.button {
+	padding: 3px 15px 3px 10px;
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+a:active.button {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+/* submit buttons */
+input.button {
+	background-color: #eee !important;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	text-decoration:none;
+	padding-left: 16px;
+	line-height: 19px;
+	text-indent: 20px;
+	font-size: 12px;
+}
+input.button:hover {
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+input.button:active {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+input.add {
+	background:url('/images/add.png') no-repeat 10px 5px;
+}
+input.accept {
+	background:url('/images/accept.png') no-repeat 10px 5px;
+}
+input.deny {
+	background:url('/images/stop.png') no-repeat 10px 5px;
+}
+input.save {
+	background:url('/images/disk.png') no-repeat 10px 5px;
+}
+input.edit {
+	background:url('/images/stop.disk') no-repeat 10px 5px;
+}
+input.user_add {
+	background:url('/images/user_add.png') no-repeat 10px 5px;
+}
+input.user_edit {
+	background:url('/images/user_edit.png') no-repeat 10px 5px;
+}
+input.center_add {
+	background:url('/images/accept.png') no-repeat 10px 5px;
+}
+input.center_edit {
+	background:url('/images/accept.png') no-repeat 10px 5px;
+}
+input.team_add {
+	background:url('/images/accept.png') no-repeat 10px 5px;
+}
+input.team_edit {
+	background:url('/images/edit.png') no-repeat 10px 5px;
+}
+input.journal_add {
+	background:url('/images/journal_add.png') no-repeat 10px 5px;
+}
+input.journal_edit {
+	background:url('/images/journal_edit.png') no-repeat 10px 5px;
+}
+input.journal_delete {
+	background:url('/images/journal_delete.png') no-repeat 10px 5px;
+}
+
+input.survey_add {
+	background:url('/images/table_add.png') no-repeat 10px 5px;
+}
+input.survey_remove {
+	background:url('/images/table_delete.png') no-repeat 10px 5px;
+}
+
+input.score_calculate {
+	background:url('/images/table.png') no-repeat 10px 5px;
+}
+input.subscribe {
+	background:url('/images/table_add.png') no-repeat 10px 5px;
+}
+input.download {
+	background:url('/images/disk_download.png') no-repeat 10px 5px;
+}
+input.download.busy {
+	background:url('/images/spinner.gif') no-repeat 10px 5px;
+}
+input.login {
+	background:url('/images/door_in.png') no-repeat 10px 5px;
+}
+input.logout {
+	background:url('/images/door_out.png') no-repeat 10px 5px;
+}
+input.password_mail {
+	background:url('/images/email_go.png') no-repeat 10px 5px;
 }
 
 /***** tabs *****/

@@ -1,5 +1,5 @@
 require 'fastercsv'
-require 'facets/dictionary'
+# require 'facets/dictionary'
 
 class CSVHelper
 
@@ -54,7 +54,7 @@ class CSVHelper
     csv_headers = survey_headers(survey_ids)
     csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') } #null! values
     
-    # csv_headers = Journal.csv_header.merge
+    # csv_headers = journal_csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).group_by { |c| c.survey_id } # TODO: load all at once
@@ -67,12 +67,12 @@ class CSVHelper
     end
 
     csv = []
-    csv << ((Journal.csv_header.keys + survey_headers_flat(survey_ids).keys).join(';') + "\n")
+    csv << ((journal_csv_header.keys + survey_headers_flat(survey_ids).keys).join(';') + "\n")
     row = []
     # add journal info # todo: prefetch wanted journals
     result.each do |j, answers|
       journal = Journal.find(j)
-      row << (journal.to_csv.join(';') << (answers.join(';') + "\n"))
+      row << (journal_to_csv(journal).join(';') << (answers.join(';') + "\n"))
     end 
     csv << row.join
     # e = Time.now
@@ -208,7 +208,7 @@ class CSVHelper
     journals = Rails.cache.fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
       Journal.find(table_journals_sas.keys).to_hash_with_key { |j| j.id } #.inject({}) { |col, j| col[j.id] = j; col }
     end
-    headers = Journal.csv_header.merge(s_headers)
+    headers = journal_csv_header.merge(s_headers)
   
     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
       csv << headers.keys
@@ -259,7 +259,7 @@ class CSVHelper
     t = Time.now
     survey_ids = entries.map {|e| e.survey_id}.uniq
     s_headers = survey_headers(survey_ids)
-    headers = Journal.csv_header.merge(s_headers)
+    headers = journal_csv_header.merge(s_headers)
     e = Time.now
     puts "generate survey_headers: #{e-t}"
     # by journal, get all survey_answers, grouped by entry_id
@@ -287,5 +287,38 @@ class CSVHelper
     # puts "Count fill_csv_answer: #{count_fill}"
     rows
   end
-        
+  
+  def journal_csv_header
+    c = Dictionary.new
+    c["ssghafd"] = nil
+    c["ssghnavn"] = nil
+    c["safdnavn"] = nil
+    c["pid"] = nil
+    c["pkoen"] = nil
+    c["palder"] = nil
+    c["pnation"] = nil
+    c["dagsdato"] = nil
+    c["pfoedt"] = nil
+    c
+  end
+
+  def journal_to_csv(journal)
+    info(journal).values
+  end
+  
+  # info on journal in array of hashes
+  def info(journal)
+    # h = []
+    c = Dictionary.new # ActiveSupport::OrderedHash.new
+    c["ssghafd"] = journal.parent.group_code
+    c["ssghnavn"] = journal.center.title
+    c["safdnavn"] = journal.team.title
+    c["pid"] = journal.code
+    c["pkoen"] = journal.sex
+    c["palder"] = journal.age  # TODO: alder skal være alder på besvarelsesdatoen
+    c["pnation"] = journal.nationality
+    c["dagsdato"] = journal.created_at.strftime("%d-%b-%Y")
+    c["pfoedt"] = journal.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
+    c
+  end
 end

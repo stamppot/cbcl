@@ -1,24 +1,3 @@
-
-.survey {
-  border: 1px black solid;
-  width: auto;
-  padding: 3px;
-	height: 60px;
-}
-
-
-#content_survey {
-	margin:0px 50px 20px 20px;
-	padding:10px;
-	border: 1px #DDD solid;
-}
-
-.surveyname {
-  padding: 0.5em;
-	float: left;
-	font-size: 16pt;
-}
-
 .ListTitle a {
   text-decoration: none;
 }

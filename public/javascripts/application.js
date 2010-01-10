@@ -18,21 +18,35 @@ Inspector = {
     }
 };
 
+// cookies.js
+var Document = {
+  cookies: function(document){
+    return $A(document.cookie.split("; ")).inject($H({}), function(memo, pair){
+      pair = pair.split('=');
+      memo.set(pair[0], pair[1]);
+      return memo;
+    });
+  }
+};
+Object.extend(document, { cookies: Document.cookies.methodize() });
+
+function get_journal_entry_id() {
+  if(document.cookies().get('journal_entry') == "true"){
+    $('login_box').show();
+  }
+}
+// document.observe("dom:loaded", handle_login_box);
+
+
 // call a method that updates the dynamic parts of a survey 
-function get_dynamic_fragments(url, arg) {
- // alert ("Loading: " + url + "  args: " + arg );
- //new Ajax.Updater('draft-message', '/survey_answers/save_draft/3158', {asynchronous:true, evalScripts:true, parameters:value})})
-     new Ajax.Request( url, {
-            // method: 'get', // default is post
-						parameters: arg,
-            onSuccess: function(transport) {
-                // alert( transport.responseText );
-                 },
-            onFailure: function() {
-                //alert( "Unable to raise request" );
-                }
-            }
-        );
+function get_dynamic_fragments(url, opt) {
+ // alert ("Loading: " + url + "  args: " + opt );
+	new Ajax.Request( url, {
+	// method: 'post', // default is post
+		parameters: opt,
+		onSuccess: function(transport) { /* alert( transport.responseText ); */ },
+		onFailure: function() { /* alert( "Unable to raise request" ); */ }
+	});
 };
 
 function changeAction(formid, actionvalue) {

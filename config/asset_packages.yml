@@ -4,7 +4,7 @@ javascripts:
   - tablekit
   - css_browser_selector
   - application
-- user: 
+- cbcl: 
   - prototype
   - scriptaculous
   - effects
@@ -15,8 +15,9 @@ javascripts:
 - survey:
   - prototype
   # - scriptaculous
-  # - effects
-  # - controls
+  - effects
+  - controls
+  - application
   - wforms_core
   - wforms_switch
 #  - wforms_jump

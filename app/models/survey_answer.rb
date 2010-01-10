@@ -1,5 +1,4 @@
-require 'facets/dictionary'
-
+# require 'facets/dictionary'
 class SurveyAnswer < ActiveRecord::Base
   has_many :answers, :dependent => :destroy, :include => [ :answer_cells ], :order => :number
   #belongs_to :journal_entry

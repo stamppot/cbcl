@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   layout 'cbcl'
 
   before_filter :configure_charsets
-  before_filter :set_permissions, :except => [:dynamic_data]
+  before_filter :set_permissions, :except => [:dynamic_data, :logout]
   before_filter :check_access, :except => [:dynamic_data]
-  before_filter :center_title, :except => [:dynamic_data]
+  before_filter :center_title, :except => [:dynamic_data, :logout, :login]
 
   filter_parameter_logging :password, :password_confirmation
 
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   # This method returns the User model of the currently logged in user or
   # the anonymous user if no user has been logged in yet.
   def current_user
-    return @current_user_cached unless @current_user_cached.nil?
+    return @current_user_cached unless @current_user_cached.blank?
 
     @current_user_cached = 
             if session[:rbac_user_id].nil? then

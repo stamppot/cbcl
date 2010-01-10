@@ -3,6 +3,11 @@ class SurveysController < ApplicationController
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer_fast, :show_answer2 ]
   layout "showsurvey", :only  => [ :show, :show_fast, :show_answer, :show_answer_fast, :edit, :show_answer2, :change_answer ]
 
+  caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last;
+          # puts entry
+          entry =~ /journal_entry=(\d+)/
+          }
+  
   # 19-2-8 TODO: replace in_place_edit with some other edit function
   # in_place_edit_for :question, :number
   
@@ -41,13 +46,12 @@ class SurveysController < ApplicationController
   # 25-2 Changed to use params[:id] for journal_entry. Survey is found here. This means that survey can only be shown thru journal_entries
   def show                                  # 11-2 it's fastest to preload all needed objects
     @options = {:show_all => true, :action => "create"}
+    if current_user.login_user && (journal_entry = cookies[:journal_entry])
+      params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+    end
     @journal_entry = JournalEntry.find(params[:id])
     
-    # if cached_page = Rails.cache.read("survey_#{@journal_entry.survey_id}")
-    #   render :text => cached_page, :layout => true
-    # end
-    
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
+    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
       Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
     @page_title = @survey.title
@@ -57,14 +61,17 @@ class SurveysController < ApplicationController
       journal = @journal_entry.journal
       @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
+      @journal_entry.survey_answer = @survey_answer
+      @journal_entry.save
     else  # survey_answer already created, find draft
       @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
       @survey.merge_answer(@survey_answer)
-      @journal_entry.survey_answer = @survey_answer
-      @journal_entry.save
+      # @journal_entry.survey_answer = @survey_answer
+      # @journal_entry.save
     end
     # my_page = Rails.cache.fetch("survey_#{@survey.id}") do
-    # Rails.cache.write("survey_#{@survey.id}", render )# :text)
+    Rails.cache.write("survey_#{@survey.id}", render )# :text)
+    
     # end
     # render :text => my_page
     rescue ActiveRecord::RecordNotFound
@@ -73,7 +80,7 @@ class SurveysController < ApplicationController
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
     @journal_entry = JournalEntry.find(params[:id]) 
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}") do
+    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     end
     @page_title = @survey.title
@@ -126,11 +133,13 @@ class SurveysController < ApplicationController
   
   def update
     @survey = Survey.find(params[:id])
+    expire_page :action => :show, :id => @survey
+
     if @survey.update_attributes(params[:survey])
       flash[:notice] = 'Spørgeskemaet er opdateret.'
       redirect_to surveys_path
     else
-      render :action => :edit
+      render :edit
     end
   end
 
@@ -158,7 +167,7 @@ class SurveysController < ApplicationController
   end
   
   def check_access
-    return false unless current_user
+    redirect_to login_path and return false unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/

@@ -129,7 +129,7 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
       flash[:notice] = 'Brugeren er opdateret.'
       redirect_to :action => :show, :id => @user
     else
-      render :action => :edit
+      render :edit
     end
 
   rescue ActiveRecord::RecordNotFound

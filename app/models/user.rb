@@ -82,7 +82,10 @@ class User < ActiveRecord::Base
     groups.all? { |group| owner_groups.include?(group) }
   end
 
-  # TODO: this belongs to refactored version. Copy to other project
+  def highest_role
+    self.all_roles.sort_by {|r| r.id}.first
+  end
+
   def update_user(user, params) # user is the user who is being updated
     roles  = params.delete(:roles) || []
     groups = params.delete(:groups) || []

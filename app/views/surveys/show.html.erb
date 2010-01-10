@@ -1,4 +1,3 @@
-<% cache :key => "survey_#{@journal_entry.survey_id}" do %>
 <div id="survey_header">
 	<%= render :partial => 'surveys/survey_header' %>
 </div>
@@ -17,11 +16,15 @@
 	<div><%= render :partial => "surveys/answer_by" %></div>
 	<br/>
 	<%= render :partial => "surveys/question", :collection => @survey.questions %>
-	<div id="submit_button"></div>
+	<div id="submit_button" style="display:none;">
+		<%= render :partial => 'surveys/fancy_submit_button' %>
+	</div>
 </form>
 
 <p> <!-- dynamic -->
-	<div id="back_button"></div>
+	<div id="back_button" style="display:none;">
+		<%= back_button(journal_path(@journal_entry.journal)) %>
+	</div>
 </p>
 
 <script type="text/javascript">
@@ -33,26 +36,33 @@ Event.observe(window, 'load', function() {
   	var matches = document.location.href.match(val);
 		var params = {};
 		params['id'] = matches[1];
-		// var param = '"journal_entry": \"' + matches[1] + '\"';
+		var save_interval = 60;
+		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
+		var journal_entry = document.cookies().get('journal_entry');
+		if(!(typeof(journal_entry) == "undefined")) {
+			params['id'] = journal_entry;
+			// alert("Only for login user: " + params['id']);
+			save_interval = 300;
+		}
+		else { // no save_draft for login users 
+			//<![CDATA[
+			var save_draft_url = '/survey_answers/save_draft/' + params['id'];
+			new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
+			//]]>
+		}
 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
 		
 		// set form action to this journal_entry
-		changeAction('surveyform', 'survey_answers/create/' + matches[1]);
+		changeAction('surveyform', 'survey_answers/create/' + params['id']);//matches[1]);
 		
-		// add save_draft
-		//<![CDATA[
-		var save_draft_url = '/survey_answers/save_draft/' + matches[1];
-		new Form.Observer('surveyform', 60, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
-		//]]>
+		// //<![CDATA[
+		// var save_draft_url = '/survey_answers/save_draft/' + params['id'];
+		// new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
+		// //]]>
   	}
 });
 </script>
 <%# dynamic @journal_entry %>
 <!-- <div id="save_draft"> -->
-	<%# observe_form "surveyform",
-		 	:url => survey_save_draft_path(@journal_entry),
-		 	:update => "draft-message",
-		 	:frequency => save_draft_interval %>
+	<%# observe_form "surveyform", :url => survey_save_draft_path(@journal_entry), :update => "draft-message", :frequency => save_draft_interval %>
 <!-- </div> -->
-
-<% end %>

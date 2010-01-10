@@ -2,23 +2,10 @@
 <p>
 Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
-
-<table>
-<%	
-	odd_or_even = 0
-	
-	for survey in @surveys
-		odd_or_even = 1 - odd_or_even %>
-
-  <tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
-	<td width="90%" class="surveyname">
-		<span class="survey_title"><%= link_button t('survey.start'), survey_url(@journal_entry), 'survey_start' %></span>
-		<%= h(truncate(survey.description, 80)) %>
-	</td>
-  </tr>
-	<% end %>
-</table>
+<div style=' width: 800px; padding: 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
+	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start' %></span>
+	<%= @survey.description %>
+</div>
 
 <br>
-
 <%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>
