@@ -57,9 +57,10 @@ class LoginController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
+    redirect_to login_path and return 
     # Add an error and let the action render normally.
-    flash[:error] = 'Forkert brugernavn eller password' if params[:password]
-    @errors << 'Ugyldigt brugernavn eller password!'
+    # flash[:error] = 'Forkert brugernavn eller password' if params[:password]
+    # @errors << 'Ugyldigt brugernavn eller password!' # TODO: fix with cookie flash
   end
   
   # Displays the logout confirmation form on GET and performs the logout on 
