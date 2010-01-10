@@ -94,6 +94,10 @@ class SurveyAnswersController < ApplicationController
   end
   
   def create
+    if current_user.login_user && (journal_entry = cookies[:journal_entry])
+      params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+    end
+    
     id = params.delete("id")
     @journal_entry = JournalEntry.find(id)
 
