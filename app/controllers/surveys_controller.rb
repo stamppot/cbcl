@@ -100,13 +100,13 @@ class SurveysController < ApplicationController
   def finish
     if current_user.login_user && (journal_entry = cookies[:journal_entry])  # TODO: put in helper method
       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+      entry = JournalEntry.find(params[:id])
+      entry.login_user.destroy if current_user.login_user
     end
-    entry = JournalEntry.find(params[:id])
-    entry.login_user.destroy if current_user.login_user
     # login_user = LoginUser.find_by_id(params[:id])
     # login_user.destroy if login_user
-    
-    flash[:notice] = 'Du vil nu blive logget ud.'
+    redirect_to login_path and return
+    # flash[:notice] = 'Du vil nu blive logget ud.'
   end
 
   def new

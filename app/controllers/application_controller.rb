@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   layout 'cbcl'
 
   before_filter :configure_charsets
-  before_filter :set_permissions, :except => [:dynamic_data, :logout]
-  before_filter :check_access, :except => [:dynamic_data]
-  before_filter :center_title, :except => [:dynamic_data, :logout, :login]
+  before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
+  before_filter :check_access, :except => [:dynamic_data, :finish]
+  before_filter :center_title, :except => [:dynamic_data, :logout, :login, :finish]
 
   filter_parameter_logging :password, :password_confirmation
 
