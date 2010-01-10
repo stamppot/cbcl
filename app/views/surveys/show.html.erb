@@ -51,7 +51,7 @@ Event.observe(window, 'load', function() {
 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
 		
 		// set form action to this journal_entry
-		changeAction('surveyform', 'survey_answers/create/' + params['id']);//matches[1]);
+		changeAction('surveyform', '/survey_answers/create/' + params['id']);//matches[1]);
 		
 		// //<![CDATA[
 		// var save_draft_url = '/survey_answers/save_draft/' + params['id'];
