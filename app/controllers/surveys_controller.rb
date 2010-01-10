@@ -4,10 +4,10 @@ class SurveysController < ApplicationController
   layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
   layout "survey_fast", :only  => [ :show_fast, :show_answer_fast ]
 
-  caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last;
-          # puts entry
-          entry =~ /journal_entry=(\d+)/
-          }
+  # caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last;
+  #         # puts entry
+  #         entry =~ /journal_entry=(\d+)/
+  #         }
   
   # 19-2-8 TODO: replace in_place_edit with some other edit function
   # in_place_edit_for :question, :number
