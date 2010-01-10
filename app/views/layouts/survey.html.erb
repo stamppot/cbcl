@@ -6,17 +6,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 
 	<title><%= @page_title %></title>
-	<%= stylesheet_link_tag 'cbcl' %>
-	<%= stylesheet_link_tag 'survey' %>
-	<% stylesheet_link_tag 'validation' %>
+	<%= stylesheet_link_tag 'cbcl', :cache => true %>
+	<%= stylesheet_link_tag 'survey', :cache => true %>
+	<%# stylesheet_link_tag 'validation' %>
 
-	<%= javascript_include_tag 'prototype' %>
-	<% javascript_include_tag 'effects' %>
-	<% javascript_include_tag 'controls' %>
-	<%= javascript_include_tag 'application' %>
+	<%# javascript_include_tag 'effects' %>
+	<%# javascript_include_tag 'controls' %>
 
-	<%= javascript_include_tag 'validation_compiled' %>
-	<% javascript_include_tag 'css_browser_selector' %>
+	<%= javascript_include_tag 'prototype', :cache => true %>
+	<%= javascript_include_tag 'application', :cache => true %>
+
+	<%= javascript_include_tag 'validation_compiled', :cache => true %>
+	<%# javascript_include_tag 'css_browser_selector' %>
 </head>
 <body>
 
