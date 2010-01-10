@@ -1,3 +1,49 @@
+body { background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+	font-family: tacoma, verdana, arial, helvetica, sans-serif;
+	font: small Tacoma, "Lucida Grande", Lucida, Verdana, sans-serif;
+	font-size:   13px;
+	line-height: 18px;
+}
+
+pre {
+	background-color: #eee;
+	padding: 10px;
+	font-size: 11px;
+}
+
+a { color: #000; }
+a:visited { color: #666; }
+
+
+.survey {
+  border: 1px black solid;
+  width: auto;
+  padding: 3px;
+	height: 60px;
+}
+
+#content {
+	margin: 0px 50px 500px 200px;
+	padding:10px;
+	border: 1px #DDD solid;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+#content_survey {
+	margin:0px 50px 20px 20px;
+	padding:10px;
+	border: 1px #DDD solid;
+}
+
+.surveyname {
+  padding: 0.5em;
+	float: left;
+	font-size: 16pt;
+}
+
 .ListTitle a {
   text-decoration: none;
 }
