@@ -643,7 +643,7 @@ td.description7lab4 {
 }
 
 .listitemtext {  /* without predefined text */
-  width: 175px;
+  width: 250px;/*175px;*/
 }
 
 .listitem1 {  /* without predefined text */

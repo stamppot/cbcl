@@ -17,12 +17,9 @@
 </div>
 <% end %>
 
-
 <br>
 
 <a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
-
-
 
 <!-- DO NOT TOUCH THIS! -->
 <% unless @options[:action] =~ /show/ %>
@@ -53,9 +50,8 @@
 	<% end %>
 <% end %>
 
-<p>
+<p/>
 	<%= back_button journal_path(@journal_entry.journal) %>
-</p>
 
 
 <div id="debug">
