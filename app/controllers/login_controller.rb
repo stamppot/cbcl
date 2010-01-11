@@ -109,9 +109,9 @@ class LoginController < ApplicationController
     session[:rbac_user_id] = user.id
   end
 
-  def remove_user_from_session!
-    session[:rbac_user_id] = nil
-  end
+  # def remove_user_from_session!
+  #   session[:rbac_user_id] = nil
+  # end
 
   # Redirects to the location stored in the <tt>return_to</tt> session 
   # entry and clears it if it is set or renders the template at the given

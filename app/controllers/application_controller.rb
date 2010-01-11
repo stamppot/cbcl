@@ -34,6 +34,10 @@ class ApplicationController < ActionController::Base
     raise AccessDenied
   end
 
+  def remove_user_from_session!
+    session[:rbac_user_id] = nil
+  end
+
   private
 
   helper_method :current_user
