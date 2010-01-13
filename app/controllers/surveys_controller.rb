@@ -53,18 +53,25 @@ class SurveysController < ApplicationController
     end
     @page_title = @survey.title
 
-    # create survey_answer
-    if @journal_entry.survey_answer.nil?  # survey_answer not created before
-      journal = @journal_entry.journal
-      @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
-          :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
-      @journal_entry.survey_answer = @survey_answer
-      @journal_entry.save
-    else  # survey_answer already created, find draft
-      @survey_answer = SurveyAnswer.find(@journal_entry.survey_answer_id) # 28/10 removed: .and_answer_cells
-      @survey.merge_answer(@survey_answer)
+    # show survey with existing answers
+    # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
+    if survey_answer = @journal_entry.survey_answer 
+      @survey.merge_answer(survey_answer)
     end
-    Rails.cache.write("survey_#{@survey.id}", render )# :text)
+    # create survey_answer for behandlere (where save_draft is enabled)
+    # if @journal_entry.survey_answer.nil?  # survey_answer not created before
+    #   journal = @journal_entry.journal
+    #   # TODO: why create survey answer here?
+    #   @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
+    #       :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
+    #   @journal_entry.survey_answer = @survey_answer
+    #   @journal_entry.save
+    # else  # survey_answer already created, find draft
+    #   # @survey_answer = @journal_entry.survey_answer # 28/10 removed: .and_answer_cells
+    #   # @survey.merge_answer(@survey_answer) if @survey_answer
+    #   @survey.merge_answer(@journal_entry.survey_answer) if @journal_entry.survey_answer
+    # end
+    # Rails.cache.write("survey_#{@survey.id}", render )
     rescue ActiveRecord::RecordNotFound
   end
 

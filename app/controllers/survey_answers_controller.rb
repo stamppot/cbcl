@@ -81,8 +81,12 @@ class SurveyAnswersController < ApplicationController
   end
   
   def save_draft
-    # render :text => "<i>Draft saved at #{Time.now}</i>" + "\n\n" + params.inspect
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    if @journal_entry.survey_answer.nil?
+      journal = @journal_entry.journal
+      @journal_entry.survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
+            :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
+    end
     survey_answer = @journal_entry.survey_answer
     survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
@@ -120,12 +124,21 @@ class SurveyAnswersController < ApplicationController
     end
     survey_answer.answered_by ||= params[:answer][:person]
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    survey_answer.save_partial_answers(params, survey)     # save with save_draft method
-    
+    # puts "Merging answertype"  # merge_answertype merges the answer cell hashes, not cells! (this is good, no need to update cells)
     # fills in answertype of answer_cells. Do this by matching them with question_cells
-    survey.merge_answertype(survey_answer)  # 19-8 items needed to calculate score! (also sets item)
+    # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count # 19-8 items needed to calculate score! (also sets item)
+    if current_user.login_user
+      puts "Saving all answer cells for login_user"
+      t = Time.now
+      survey_answer.save_all_answers(params, survey)
+      e = Time.now
+      puts "Saved all answer cells for login_user: #{e-t}"
+    else
+      puts "Saving partial answer cells for non-login_user"
+      survey_answer.save_partial_answers(params, survey)     # save with save_draft method
+      # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
+    end
     survey_answer.done = true
-    survey_answer.add_missing_cells
     answered = true
     
     if survey_answer.save

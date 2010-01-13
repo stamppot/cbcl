@@ -1,5 +1,4 @@
 # require 'facets/dictionary'
-
 class Answer < ActiveRecord::Base
   belongs_to :survey_answer
   has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
@@ -7,6 +6,13 @@ class Answer < ActiveRecord::Base
   
   # TODO: test. added 14-6
   validates_presence_of :question_id, :survey_answer_id
+
+  after_save :update_ratings_count
+  
+  def update_ratings_count
+    self.ratings_count = self.answer_cells.ratings.not_answered.count
+    self.save
+  end
 
   def to_csv(prefix)
     cells = Dictionary.new
@@ -57,6 +63,27 @@ class Answer < ActiveRecord::Base
     return self
   end
 
+  # returns array of cells. Sets answertype
+  def create_cells_optimized(cells = {}, valid_values = {})
+    new_cells = []
+    cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
+      fields[:answer_id] = self.id
+      fields[:answertype] = valid_values[cell_id][:type].to_s
+
+      value = fields[:value]
+      # validates value for rating and selectoption
+      if valid_values[:type] =~ /Rating|SelectOption/
+        value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
+        fields[:value] = value if valid_values[:fields].include? value # only save valid value
+        # end
+      else
+        fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+      end
+      new_cells << AnswerCell.new(fields)
+    end
+    return new_cells
+  end
+  
   # input: hash with cell values
   # def create_cells(cells = {}, valid_values = {})
   #   new_cells = []
@@ -89,15 +116,12 @@ class Answer < ActiveRecord::Base
 
   # only valid for long questions/answers with a matching score_item 
   def not_answered_ratings
-    # look in question cells to find matching
-    count = 0
-    c2 = self.answer_cells.ratings.not_answered.count
-    c2
+    self.ratings.not_answered.count
   end
     
   def count_items
     # AnswerCell.count(:conditions => ["answer_id = ? AND item != ? ", self.id, "" ])
-    self.answer_cells.items
+    self.answer_cells.items.size
   end
 
   # should do exactly the same as hash_rows_of_cols, and is faster too!
@@ -119,6 +143,43 @@ class Answer < ActiveRecord::Base
     return a_cell
   end
 
+  # returns array of cells to create
+  def add_missing_cells_optimized
+    a_cells = self.answer_cells.ratings
+    count = 0
+    # find missing
+    cells = a_cells.map {|a| [a.row, a.col] }
+    cell_arr = cells.first
+    return if !(cell_arr && cell_arr.size == 2) 
+
+    q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
+    q_cells_size = q_cells.size
+    missing_cells = q_cells - cells
+
+    new_cells = []
+    missing_cells.each do |m_cell|
+      row, col = m_cell
+      find_row = row - 1 # try one before this
+      cells_away = 1 # how far the found cell is from the one to fill in
+      while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
+        find_row -= 1
+        cells_away += 1
+      end
+      if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
+        cells_away.times { item.succ! }
+        unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
+          new_cells << self.answer_cells.build(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
+          count += 1
+          # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
+        end
+      end
+      row = col = find_row = cells_away = prev_item = exists = nil
+    end if self.survey_answer.done
+    puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
+    # count
+    new_cells
+  end
+  
   def add_missing_cells
     a_cells = self.answer_cells.ratings #.map {|a| [a.row, a.col] }
     count = 0

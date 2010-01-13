@@ -46,9 +46,9 @@
 	<% if current_user.perms[:layout_show_user_menu] %>
 	<div id="user_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.users') %></div>
-		<% if current_user.status == 'new_password' %>
-			<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
-		<% end %>
+			<div class="change_password" style="display:none;">
+				<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
+			</div>
 		<% if current_user.perms[:layout_show_users]  %>
 		<%= link_to t('menu.show_users'), users_path, :title => t('user.show') %>
 			<% if current_user.perms[:user_new] %>

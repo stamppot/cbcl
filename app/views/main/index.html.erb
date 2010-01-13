@@ -1,5 +1,5 @@
 <% if current_user %>
-<% cache "main" do %>
+<% cache "main_#{current_user.highest_role}" do %>
 <h1>Velkommen til CBCL-Online</h1>
 
 <p><br></p>
@@ -21,7 +21,7 @@
 		<p>Du kan oprette nye centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
 	</div>
 
-	<div class="score_help">
+	<div class="subscription_help">
 		<h3>Abonnementer</h3>
 		<p>Du kan oprette abonnementer til centre under menupunktet 'Abonnementer'. Her kan du også se forbruget og nulstille forbrugstælleren.</p>
 	</div>

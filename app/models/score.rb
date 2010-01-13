@@ -37,30 +37,26 @@ class Score < ActiveRecord::Base
   def no_unanswered(survey_answer)
     score_item = self.score_items.first
     # find answer to count values in
-    #answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
     answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
-    if answer
-      c = answer.not_answered_ratings
-      c2 = Query.new.not_answered(answer.id)
-      puts "#{c==c2} number: #{answer.id} a #{c}, b #{c2}"
-      # puts "#{c-c2} #{c == c2}: #{c} == #{c2}"
-      return c
-    end
+    return answer.ratings_count if answer # 11-01-10 was answer.not_answered_ratings
+    # c2 = Query.new.not_answered(answer.id)
+    # puts "#{c==c2} number: #{answer.id} a #{c}, b #{c2}"
+    # puts "#{c-c2} #{c == c2}: #{c} == #{c2}"
     return 0
   end
 
-  def no_unanswered2(survey_answer)
-    score_item = self.score_items.first
-    # find answer to count values in
-    # answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
-    answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
-    if answer
-      c = Query.new.not_answered(answer.id)
-      # puts "answer.number: #{answer.number}  notanswered #{c}"
-      return c
-    end
-    return 0
-  end
+  # def no_unanswered2(survey_answer)
+  #   score_item = self.score_items.first
+  #   # find answer to count values in
+  #   # answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
+  #   answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
+  #   if answer
+  #     c = Query.new.not_answered(answer.id)
+  #     # puts "answer.number: #{answer.number}  notanswered #{c}"
+  #     return c
+  #   end
+  #   return 0
+  # end
   
   # delegates calculation to the right score_item
   def calculate(survey_answer, journal)

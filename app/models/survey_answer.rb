@@ -47,6 +47,11 @@ class SurveyAnswer < ActiveRecord::Base
   def max_answer
     self.answers.max {|q,p| q.count_items <=> p.count_items }
   end
+
+  # returns array of cells that must be saved
+  def add_missing_cells_optimized
+    self.max_answer.add_missing_cells_optimized
+  end
   
   def add_missing_cells
     self.max_answer.add_missing_cells
@@ -93,7 +98,62 @@ class SurveyAnswer < ActiveRecord::Base
   def answer_exists?(number)
     Answer.find(:first, :conditions => ['survey_answer_id = ? and number = ?', self.id, number.to_i])
   end
-  
+
+  # only to be used when save_draft is disabled!
+  def save_all_answers(params, survey)
+    # remove empty answers
+    params.each do |key, cells|
+      if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
+          params.delete(key)
+      end
+    end
+    params.each_key { |question| params.delete(question) if params[question].empty? }
+    
+    puts "Save_all_answers: checking valid values"
+    valid_values = survey.valid_values  # check valid values from survey
+    all_cells = []
+    puts "Save all answers: going to do an answer at a time"
+    params.each do |key, q_cells|   # one question at a time
+      
+      puts "Save_all_answers: before if key.include? Q"
+      if key.include? "Q"
+        q_id = q_cells.delete("id")
+        q_number = key.split("Q").last
+        
+        puts "Save_all_answers: after key.split Q. survey_answer_id #{self.id}"
+        # find existing answer or create new
+        an_answer = Answer.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
+        
+        puts "Save_all_answers: Created answer #{an_answer.inspect}"
+        new_cells = {}
+
+        q_cells.each do |cell, value|
+          if cell =~ /q(\d+)_(\d+)_(\d+)/      # match col, row
+            q = "Q#{$1}"
+            a_cell = {:value => value, :row => $2.to_i, :col => $3.to_i}
+            new_cells[cell] = a_cell
+          end
+        end
+        # create answer cells from cell hashes
+        puts "Save_all_answers: Created #{new_cells.size} cells"
+        all_cells += an_answer.create_cells_optimized(new_cells, valid_values[key])
+        new_cells.clear
+      end
+    end
+    t = Time.now
+    new_cells_no = mass_insert!(all_cells)
+    e = Time.now
+    puts "New cells mass inserted: #{new_cells_no} in #{e-t}"
+    # survey.merge_answertype(survey_answer)  # 19-8 items needed to calculate score! (also sets item)
+    # survey_answer.done = true
+    t = Time.now
+    missing_cells = self.add_missing_cells_optimized
+    e = Time.now
+    missing_cells_no = mass_insert!(missing_cells)
+    puts "Missing cells mass inserted: #{missing_cells_no} in #{e-t}"
+    return self
+  end
+    
   def save_partial_answers(params, survey)
     # remove empty answers
     params.each do |key, cells|
@@ -141,13 +201,19 @@ class SurveyAnswer < ActiveRecord::Base
   
   private
   
-  def mass_insert_and_update!(create_cells, update_cells)
+  def mass_insert!(new_cells)
+    return if new_cells.nil?
     inserts = []
-    updates = []
+    # updates = []
     # update_cells = update_cells.compact.reject {|c| c.value == '9'}
-    create_cells.flatten!.compact.each do |c|
+    new_cells.flatten.compact.each do |c|
       inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
     end 
+    sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
+    no_cells = new_cells.size
+    inserts.clear
+    ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
+    no_cells
     # UPDATE mytable SET title = CASE
     # WHEN id = 1 THEN 'Great Expectations';
     # WHEN id = 2 THEN 'War and Peace';
@@ -161,13 +227,8 @@ class SurveyAnswer < ActiveRecord::Base
     # end
     # sql_update = updates.join
     # sql_update += "ELSE value\n END;" if update_cells.any?
-
-    sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
-
-    inserts.clear
-    updates.clear
+    # updates.clear
     # logger.info "update: #{sql_update}"
-    ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
     # ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
   end
   

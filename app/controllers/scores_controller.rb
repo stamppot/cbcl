@@ -80,12 +80,14 @@ class ScoresController < ApplicationController
     if params[:score_ref]   # if no references are input, means cannot be done. So check for nil!
       if params[:score_ref].keys.map(&:to_i).select {|i| i==0}.size > 1 # contains new score_ref
         # find curr to be updated, remove from params to new score_item
-        new_score_ref_params = {}
-        new_score_ref_params[:age_group] = params[:score_ref].delete("age_group")
-        new_score_ref_params[:mean] = params[:score_ref].delete("mean")
-        new_score_ref_params[:gender] = params[:score_ref].delete("gender")
-        new_score_ref_params[:percent95] = params[:score_ref].delete("percent95")
-        new_score_ref_params[:percent98] = params[:score_ref].delete("percent98")
+        # TODO: test this (was already broken (not this piece))
+        new_score_item_params = params[:score_item].slice(%w(age_group mean gender percent95 percent98))
+        # new_score_ref_params = {}
+        # new_score_ref_params[:age_group] = params[:score_ref].delete("age_group")
+        # new_score_ref_params[:mean] = params[:score_ref].delete("mean")
+        # new_score_ref_params[:gender] = params[:score_ref].delete("gender")
+        # new_score_ref_params[:percent95] = params[:score_ref].delete("percent95")
+        # new_score_ref_params[:percent98] = params[:score_ref].delete("percent98")
         new_score_ref_params[:score_id] = @score.id
         if new_score_ref_params[:mean] =~ /(\d+)\,(\d+)/
           new_score_ref_params[:mean] = ($1 + "." + $2).to_f

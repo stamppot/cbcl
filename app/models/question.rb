@@ -7,7 +7,13 @@ class Question < ActiveRecord::Base
   named_scope :by_survey, lambda { |survey| { :conditions => ['survey_id = ?', survey.is_a?(Survey) ? survey.id : survey] } }
   named_scope :and_question_cells, :include => :question_cells
 
-
+  after_save :update_ratings_count
+  
+  def update_ratings_count
+    self.ratings_count = self.ratings.size
+    self.save
+  end
+  
   # returns question cells which are ratings
   def ratings
     self.question_cells.ratings

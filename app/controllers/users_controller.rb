@@ -7,18 +7,6 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
   # We force users to use POST on the state changing actions.
   verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
 
-  # verify :method       => "post",
-  #        :only         => [ :create, :update ],
-  #        :redirect_to  => users_url,
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
-  # 
-  # # We force users to use GET on all other methods, though.
-  # verify :method       => :get,
-  #        :only         => [ :index, :list, :show, :new, :delete ],
-  #        :redirect_to  => users_url,
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
-
-  
   before_filter :find_user, :except => [:index, :new, :create ]
   before_filter :check_access, :except => [:index, :list]
 

@@ -8,15 +8,6 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   # We force users to use POST on the state changing actions.
   verify :method       => "post",
          :only         => [ :remove, :remove_answer, :destroy_login ]
-  #        :redirect_to  => { :action => :list },
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
-  #         
-  #        # We force users to use GET on all other methods, though.
-  #        verify :method => :get,
-  #        :only         => [ :index, :list, :show, :new, :delete ],
-  #        :redirect_to  => { :action => :list },
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
-
 
   # deletes and updates page with ajax call
   def remove
