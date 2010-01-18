@@ -68,6 +68,10 @@ class Question < ActiveRecord::Base
     end
   end
     
+  def get_answertype(row, col)
+    qc = self.question_cells.first(:conditions => ['question_id = ? AND row = ? AND col = ?', self.id, row, col])
+    return [qc.type.to_s, qc.answer_item] if qc
+  end
 
   # should do exactly the same as hash_rows_of_cols, and is faster too!
   def rows_of_cols

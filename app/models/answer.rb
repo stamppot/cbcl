@@ -1,4 +1,4 @@
-# require 'facets/dictionary'
+require 'facets/dictionary'
 class Answer < ActiveRecord::Base
   belongs_to :survey_answer
   has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
@@ -23,15 +23,17 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
         # puts "VAR found: #{var} cell: #{cell.inspect}" if [:ccyi, :ccyi1a, :ccyi1b, :ccyi1c, :ccyii, :ccyii1a, :ccyii1b, :ccyii1c, :ccyiii, :ccyiii1a, :ccyiii1b].include?(var)
-      else  # default var name
-        item = cell.item.to_s
-        if (item.nil? or !(item =~ /hv$/)) && cell.answertype =~ /Comment|Text/
+      else  # default var name  # TODO: instead of using a_cell.answertype, lookup corresponding question_cell
+        # item = cell.item.to_s
+        item, answer_type = self.question.get_answertype(cell.row, cell.col)
+        puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
+        if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
           item << "hv" 
         end
         var = "#{prefix}#{q}#{item}".to_sym
-
+        puts "var: #{var}"
         cells[var] = 
-        if cell.answertype =~ /ListItem|Comment|Text/ && !cell.value.blank?
+        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
           CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
           value
@@ -43,50 +45,47 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
-  def create_cells(cells = {}, valid_values = {})
-    cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
-      fields[:answer_id] = self.id
-      fields[:answertype] = valid_values[cell_id][:type].to_s
-
-      value = fields[:value]
-      # validates value for rating and selectoption
-      if valid_values[:type] =~ /Rating|SelectOption/
-        value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
-        fields[:value] = value if valid_values[:fields].include? value # only save valid value
-        # end
-      else
-        fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
-      end
-      a_c = AnswerCell.create(fields)
-    end
-    return self
-  end
+  # def create_cells(cells = {}, valid_values = {})
+  #   cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
+  #     fields[:answer_id] = self.id
+  #     fields[:answertype] = valid_values[cell_id][:type].to_s
+  # 
+  #     value = fields[:value]
+  #     # validates value for rating and selectoption
+  #     if valid_values[:type] =~ /Rating|SelectOption/
+  #       value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
+  #       fields[:value] = value if valid_values[:fields].include? value # only save valid value
+  #       # end
+  #     else
+  #       fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+  #     end
+  #     a_c = AnswerCell.create(fields)
+  #   end
+  #   return self
+  # end
 
   # returns array of cells. Sets answertype
-  def create_cells_optimized(answer_id, cells = {}, valid_values = {})
+  def create_cells_optimized(cells = {}, valid_values = {})
     new_cells = []
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
       value = fields[:value]
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
-      puts "cell_id: #{cell_id}"
-      # puts "create_cells_opti, cell: #{cell_id}, valid_values: #{valid_values.inspect}"
       fields[:answertype] = valid_values[cell_id][:type]  # TODO: is answertype needed to save??
 
       # validates value for rating and selectoption
       if valid_values[cell_id][:type] =~ /Rating|SelectOption/
         # only save valid values, do not save empty answer cells
-        puts "valid_values: #{valid_values[cell_id][:values].inspect}  value: #{value}"
+        # puts "valid_values: #{valid_values[cell_id][:values].inspect}  value: #{value}"
          next if !valid_values[cell_id][:values].include?(value) # skip invalid ratings & selectoptions
         # value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
         fields[:value] = value if valid_values[cell_id][:values].include? value # only save valid value
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      # new_cells << AnswerCell.new(fields)
-      puts "new_cells << fields: #{fields.inspect}"
       new_cells << [fields[:answer_id], fields[:value], fields[:row], fields[:col], fields[:answer_type]]
     end
+    # puts "create_cells_optimized: returns #{new_cells.size} new_cells for answer_id #{self.id}"
     return new_cells
   end
   
@@ -144,10 +143,10 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
 
-  def answer_cell_exists?(col, row)
-    a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] ) # TODO:, :select => 'id, row, col, value')
-    return a_cell
-  end
+  # def answer_cell_exists?(col, row)
+  #   a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] ) # TODO:, :select => 'id, row, col, value')
+  #   return a_cell
+  # end
 
   # returns array of cells to create
   def add_missing_cells_optimized

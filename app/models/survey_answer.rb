@@ -95,9 +95,9 @@ class SurveyAnswer < ActiveRecord::Base
     return output
   end
   
-  def answer_exists?(number)
-    Answer.find(:first, :conditions => ['survey_answer_id = ? and number = ?', self.id, number.to_i])
-  end
+  # def answer_exists?(number)
+  #   Answer.find(:first, :conditions => ['survey_answer_id = ? and number = ?', self.id, number.to_i])
+  # end
 
   # only to be used when save_draft is disabled!
   # but it also updates existing cells
@@ -130,8 +130,11 @@ class SurveyAnswer < ActiveRecord::Base
           end
         end
         # create answer cells from cell hashes
-        puts "Save_all_answers: Created #{new_cells.size} cells. key: #{key}"
-        # all_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
+        # puts "Save_all_answers: Created #{new_cells.size} cells. key: #{key}"
+        # t = Time.now
+        all_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
+        # e = Time.now
+        # puts "All cells: #{all_cells.size} cells. key: #{key}  #{e-t}"
         new_cells.clear
       end
     end
@@ -141,85 +144,86 @@ class SurveyAnswer < ActiveRecord::Base
     # new_cells_no = mass_insert!(all_cells)
     e = Time.now
     puts "New cells mass inserted: #{all_cells.size} in #{e-t}"
+    all_cells.clear
     return self
   end
     
-  def save_partial_answers(params, survey)
-    # remove empty answers
-    params.each do |key, cells|
-      if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
-          params.delete(key)
-      end
-    end
-    params.each_key { |question| params.delete(question) if params[question].empty? }
-
-    # check valid values from survey
-    valid_values = survey.valid_values
-    
-    # param_array = params.to_a
-    params.each do |key, q_cells|   # one question at a time
-      if key.include? "Q"
-        q_id = q_cells.delete("id")
-        q_number = key.split("Q").last
-
-        # find existing answer or create new
-        an_answer = self.answer_exists?(q_number) || Answer.create(:survey_answer_id => self.id,
-          :question_id => q_id,
-          :number => q_number.to_i)
-
-        new_cells = {}
-
-        q_cells.each do |cell, value|
-          if cell =~ /q(\d+)_(\d+)_(\d+)/      # match col, row
-            q = "Q#{$1}"
-            a_cell = {:value => value, :row => $2.to_i, :col => $3.to_i}
-
-            # if answer_cell exists, just update its value
-            if answer_cell = an_answer.answer_cell_exists?(a_cell[:col], a_cell[:row])
-              answer_cell.change_value!(value, valid_values[q][cell])
-            else  # new answer_cell
-              new_cells[cell] = a_cell
-            end
-          end
-        end
-        # create answer cells from cell hashes
-        an_answer.create_cells(new_cells, valid_values[key])
-        new_cells.clear
-      end
-    end
-  end
+  # def save_partial_answers(params, survey)
+  #   # remove empty answers
+  #   params.each do |key, cells|
+  #     if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
+  #         params.delete(key)
+  #     end
+  #   end
+  #   params.each_key { |question| params.delete(question) if params[question].empty? }
+  # 
+  #   # check valid values from survey
+  #   valid_values = survey.valid_values
+  #   
+  #   # param_array = params.to_a
+  #   params.each do |key, q_cells|   # one question at a time
+  #     if key.include? "Q"
+  #       q_id = q_cells.delete("id")
+  #       q_number = key.split("Q").last
+  # 
+  #       # find existing answer or create new
+  #       an_answer = self.answer_exists?(q_number) || Answer.create(:survey_answer_id => self.id,
+  #         :question_id => q_id,
+  #         :number => q_number.to_i)
+  # 
+  #       new_cells = {}
+  # 
+  #       q_cells.each do |cell, value|
+  #         if cell =~ /q(\d+)_(\d+)_(\d+)/      # match col, row
+  #           q = "Q#{$1}"
+  #           a_cell = {:value => value, :row => $2.to_i, :col => $3.to_i}
+  # 
+  #           # if answer_cell exists, just update its value
+  #           if answer_cell = an_answer.answer_cell_exists?(a_cell[:col], a_cell[:row])
+  #             answer_cell.change_value!(value, valid_values[q][cell])
+  #           else  # new answer_cell
+  #             new_cells[cell] = a_cell
+  #           end
+  #         end
+  #       end
+  #       # create answer cells from cell hashes
+  #       an_answer.create_cells(new_cells, valid_values[key])
+  #       new_cells.clear
+  #     end
+  #   end
+  # end
   
   private
   
-  def mass_insert!(new_cells)
-    return if new_cells.nil?
-    inserts = []
-    # updates = []
-    # update_cells = update_cells.compact.reject {|c| c.value == '9'}
-    new_cells.flatten.compact.each do |c|
-      inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
-    end 
-    sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
-    no_cells = new_cells.size
-    inserts.clear
-    ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
-    no_cells
-    # UPDATE mytable SET title = CASE
-    # WHEN id = 1 THEN 'Great Expectations';
-    # WHEN id = 2 THEN 'War and Peace';
-    # ELSE title
-    # END;
-    # sql_update = "UPDATE `answer_cells` SET `value` = CASE\n"
-    # sql_update = "UPDATE `answer_cells` SET `value` = \n"
-    # update_cells.compact.each do |c|
-    #   updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
-    #   ActiveRecord::Base.connection.execute "UPDATE `answer_cells` SET `value` = '#{c.value}';\n"
-    # end
-    # sql_update = updates.join
-    # sql_update += "ELSE value\n END;" if update_cells.any?
-    # updates.clear
-    # logger.info "update: #{sql_update}"
-    # ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
-  end
+  # def mass_insert!(new_cells)
+  #   return if new_cells.nil?
+  #   inserts = []
+  #   # updates = []
+  #   # update_cells = update_cells.compact.reject {|c| c.value == '9'}
+  #   new_cells.flatten.compact.each do |c|
+  #     inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
+  #   end 
+  #   sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
+  #   no_cells = new_cells.size
+  #   inserts.clear
+  #   ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
+  #   no_cells
+  #   # UPDATE mytable SET title = CASE
+  #   # WHEN id = 1 THEN 'Great Expectations';
+  #   # WHEN id = 2 THEN 'War and Peace';
+  #   # ELSE title
+  #   # END;
+  #   # sql_update = "UPDATE `answer_cells` SET `value` = CASE\n"
+  #   # sql_update = "UPDATE `answer_cells` SET `value` = \n"
+  #   # update_cells.compact.each do |c|
+  #   #   updates.push "UPDATE `answer_cells` SET `value` = '#{c.value}';\n" # UPDATE `answer_cells` SET `value` = '9' WHERE `id` = 480030
+  #   #   ActiveRecord::Base.connection.execute "UPDATE `answer_cells` SET `value` = '#{c.value}';\n"
+  #   # end
+  #   # sql_update = updates.join
+  #   # sql_update += "ELSE value\n END;" if update_cells.any?
+  #   # updates.clear
+  #   # logger.info "update: #{sql_update}"
+  #   # ActiveRecord::Base.connection.execute sql_update unless sql_update.blank?
+  # end
   
 end

@@ -134,9 +134,16 @@ class SurveyAnswersController < ApplicationController
     # fills in answertype of answer_cells. Do this by matching them with question_cells
     # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count # 19-8 items needed to calculate score! (also sets item)
     if current_user.login_user
+      # t = Time.now
+      # survey_answer.save_partial_answers(params, survey) 
       survey_answer.save_all_answers(params)
+      # e = Time.now
+      # puts "Saved all answer cells for login_user: #{e-t}"
     else
+      # t = Time.now
       survey_answer.save_all_answers(params)
+      # e = Time.now
+      # puts "Saved all answer cells for non-login_user: #{e-t}"
       # survey_answer.save_partial_answers(params, survey)     # save with save_draft method
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     end
