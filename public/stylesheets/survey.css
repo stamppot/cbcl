@@ -58,6 +58,7 @@ height:49px; /* the correct height */
 	position:absolute;
 	top:46px;
 	margin-left: 24%;
+	margin-bottom: 4px;
 	height: 20pt;
 	font-size: 20pt;
 	color: black;
@@ -71,7 +72,7 @@ height:49px; /* the correct height */
 	font-size: 16pt;
 }
 
-.survey_journal_info {
+#survey_journal_info {
 	float: right;
 }
 .ListTitle a {
@@ -797,6 +798,10 @@ input.validation-maybe, textarea.validation-maybe {
 	font-weight: bold;
 }
 
+.help_icon {
+	border: 0;
+	cursor: help;
+}
 
 .help_tip {
 	white-space: nowrap;
@@ -835,6 +840,7 @@ input.validation-maybe, textarea.validation-maybe {
 .btn-submit {
 	border: 1px outset #ccc;
 	background-color: #eee;
+	cursor: pointer;
 }
 .send_form {
 	background-color: #eee;

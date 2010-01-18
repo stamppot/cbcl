@@ -10,42 +10,6 @@ function tabbing(input, e) {
     }
 }
 
-function toggleComments(form) {
-    var comments = document.getElementsByClassName('comment');
-    comments.all(function(v) {
-      v.toggle(); 
-    });
-}
-
-// turns on/off comment boxes
-function toggleComment(input) {
-    var elm = $(input);
-		if(elm.disabled) {
-      elm.enable();
-			elm.show();
-     }
-    else {
-      elm.disable();
-			elm.hide();
-    }
-		return false;
-}
-
-function toggleElem(input) {
-	var elm = $(input);
-	elm.toggle();
-}
-
-function toggleElems(input) {
-  try { 
-
-		var elms = $A(document.getElementsByClassName(input)).reverse();
-		elms.each(function(elm) {
-			// Effect.toggle(elm,'blind',{});;
-			(elm.toggle());
-		});
-  } catch (e) {}
-}
 
 function disableQuestions(input, e) {
 
@@ -97,14 +61,11 @@ function getIndexPrevious(input) {
 			else i++;
 		}
 	}
-
 	index--;  // find next visible form element
 
-	//alert("binsearch index: " + index);
 	while (index < input.form.length)
 	{
 		if( !(input.form[index].type == 'hidden' || input.form[index].disabled == true)) {
-			// alert("Index count: " + index);
 			return index;
 		}
 		else index--;
@@ -205,19 +166,19 @@ function binary_search(elements, input) {  // input == value to find
 	return -1;
 }
 
-function toggleRadio(rObj) {
-	if (!rObj) return false;
-	
-	rObj.__chk = rObj.__chk ? rObj.checked = !rObj.__chk : rObj.checked;
-
-	// when a button is unchecked, the default button is checked
-	if(!rObj.checked) {
-		var def_radio = new String(rObj.id.match(/q[0-9]+_[0-9]+_[0-9]+_/));
-		def_radio = def_radio + "9";
-		$(def_radio).checked = true;
-	}
-	return true;
-}
+// function toggleRadio(rObj) {
+// 	if (!rObj) return false;
+// 	
+// 	rObj.__chk = rObj.__chk ? rObj.checked = !rObj.__chk : rObj.checked;
+// 
+// 	// when a button is unchecked, the default button is checked
+// 	if(!rObj.checked) {
+// 		var def_radio = new String(rObj.id.match(/q[0-9]+_[0-9]+_[0-9]+_/));
+// 		def_radio = def_radio + "9";
+// 		$(def_radio).checked = true;
+// 	}
+// 	return true;
+// }
 
 function tabNext(valid, input) {
 	if(valid) {

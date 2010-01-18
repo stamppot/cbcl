@@ -27,7 +27,7 @@ class Question < ActiveRecord::Base
     params = {}
     self.question_cells.each do |question_cell|
       q_cell = "q#{self.number}_#{question_cell.row}_#{question_cell.col}"
-      params[q_cell] = { :type => question_cell.class.to_s }
+      params[q_cell] = { :type => question_cell.class.to_s } # TODO: maybe not needed
       unless (values = question_cell.values).empty?
         params[q_cell][:values] = values
       end

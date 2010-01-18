@@ -12,23 +12,25 @@
 ActiveRecord::Schema.define(:version => 20100111213750) do
 
   create_table "answer_cells", :force => true do |t|
-    t.integer "answer_id",                :default => 0, :null => false
+    t.integer "answer_id",                :null => false
     t.string  "answertype", :limit => 20
-    t.integer "col",                      :default => 0, :null => false
-    t.integer "row",                      :default => 0, :null => false
+    t.integer "col",                      :null => false
+    t.integer "row",                      :null => false
     t.string  "item",       :limit => 5
     t.string  "value"
   end
 
   add_index "answer_cells", ["answer_id"], :name => "index_answer_cells_on_answer_id"
+  add_index "answer_cells", ["row"], :name => "index_answer_cells_on_row"
 
   create_table "answers", :force => true do |t|
-    t.integer "survey_answer_id", :default => 0, :null => false
-    t.integer "number",           :default => 0, :null => false
-    t.integer "question_id",      :default => 0, :null => false
+    t.integer "survey_answer_id", :null => false
+    t.integer "number",           :null => false
+    t.integer "question_id",      :null => false
     t.integer "ratings_count"
   end
 
+  add_index "answers", ["number"], :name => "index_answers_on_number"
   add_index "answers", ["survey_answer_id"], :name => "index_answers_on_survey_answer_id"
 
   create_table "center_infos", :force => true do |t|
@@ -127,14 +129,14 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   add_index "groups_users", ["user_id"], :name => "user_id"
 
   create_table "journal_entries", :force => true do |t|
-    t.integer  "journal_id",       :default => 0, :null => false
-    t.integer  "survey_id",        :default => 0, :null => false
+    t.integer  "journal_id",       :null => false
+    t.integer  "survey_id",        :null => false
     t.integer  "user_id"
     t.string   "password"
     t.integer  "survey_answer_id"
     t.datetime "created_at"
     t.datetime "answered_at"
-    t.integer  "state",            :default => 0, :null => false
+    t.integer  "state",            :null => false
   end
 
   add_index "journal_entries", ["journal_id"], :name => "index_journal_entries_on_journal_id"
@@ -148,7 +150,7 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   end
 
   create_table "periods", :force => true do |t|
-    t.integer  "subscription_id", :default => 0,     :null => false
+    t.integer  "subscription_id",                    :null => false
     t.integer  "used",            :default => 0,     :null => false
     t.boolean  "paid",            :default => false
     t.date     "paid_on"
@@ -158,11 +160,11 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   end
 
   create_table "person_infos", :force => true do |t|
-    t.integer "journal_id",  :default => 0,    :null => false
-    t.string  "name",        :default => "",   :null => false
-    t.integer "sex",         :default => 0,    :null => false
+    t.integer "journal_id",                    :null => false
+    t.string  "name",                          :null => false
+    t.integer "sex",                           :null => false
     t.date    "birthdate",                     :null => false
-    t.string  "nationality", :default => "",   :null => false
+    t.string  "nationality",                   :null => false
     t.string  "cpr"
     t.boolean "delta",       :default => true, :null => false
   end
@@ -201,7 +203,7 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string    "identifier", :limit => 50,  :default => "", :null => false
+    t.string    "identifier", :limit => 50,                  :null => false
     t.timestamp "created_at",                                :null => false
     t.timestamp "updated_at",                                :null => false
     t.string    "title",      :limit => 100, :default => "", :null => false
@@ -304,7 +306,7 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   add_index "scores_surveys", ["survey_id"], :name => "index_scores_surveys_on_survey_id"
 
   create_table "static_permissions", :force => true do |t|
-    t.string    "identifier", :limit => 50,  :default => "", :null => false
+    t.string    "identifier", :limit => 50,                  :null => false
     t.string    "title",      :limit => 200, :default => "", :null => false
     t.timestamp "created_at",                                :null => false
     t.timestamp "updated_at",                                :null => false
@@ -313,11 +315,11 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   add_index "static_permissions", ["title"], :name => "static_permissions_title_index", :unique => true
 
   create_table "subscriptions", :force => true do |t|
-    t.integer  "center_id",           :default => 0, :null => false
-    t.integer  "survey_id",           :default => 0, :null => false
+    t.integer  "center_id",           :null => false
+    t.integer  "survey_id",           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state",               :default => 0, :null => false
+    t.integer  "state",               :null => false
     t.text     "note"
     t.integer  "total_used"
     t.integer  "total_paid"
@@ -328,14 +330,14 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
   add_index "subscriptions", ["center_id"], :name => "index_subscriptions_on_center_id"
 
   create_table "survey_answers", :force => true do |t|
-    t.integer  "survey_id",                      :default => 0,     :null => false
+    t.integer  "survey_id",                                         :null => false
     t.string   "surveytype",       :limit => 15
     t.string   "answered_by",      :limit => 15
     t.datetime "created_at"
-    t.integer  "age",                            :default => 0,     :null => false
-    t.integer  "sex",                            :default => 0,     :null => false
+    t.integer  "age",                                               :null => false
+    t.integer  "sex",                                               :null => false
     t.string   "nationality",      :limit => 24
-    t.integer  "journal_entry_id",               :default => 0,     :null => false
+    t.integer  "journal_entry_id",                                  :null => false
     t.boolean  "done",                           :default => false
   end
 
@@ -399,5 +401,8 @@ ActiveRecord::Schema.define(:version => 20100111213750) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "variables", ["question_id"], :name => "index_variables_on_question_id"
+  add_index "variables", ["survey_id"], :name => "index_variables_on_survey_id"
 
 end

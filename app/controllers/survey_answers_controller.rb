@@ -74,6 +74,11 @@ class SurveyAnswersController < ApplicationController
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
             page.show 'submit_button'
+            # page << "Event.observe(window, 'beforeunload', function() {
+            #   if(!submitPressed) {
+            #     document.forms[0].submit();
+            #               }
+            # });"
           end
         }
       end
@@ -91,7 +96,8 @@ class SurveyAnswersController < ApplicationController
     survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
-    survey_answer.save_partial_answers(params, survey)
+    survey_answer.save_all_answers(params)
+    # survey_answer.save_partial_answers(params, survey)
     @journal_entry.answered_at = Time.now
     @journal_entry.draft!
     survey_answer.save
@@ -119,8 +125,8 @@ class SurveyAnswersController < ApplicationController
 
     # if answered by other, save the textfield instead
     # "answer"=>{"person_other"=>"fester", "person"=>"15"}
-    if (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
-      survey_answer.answered_by = other #answer_by[:person_other]
+    if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
+      survey_answer.answered_by = other
     end
     survey_answer.answered_by ||= params[:answer][:person]
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
@@ -128,14 +134,10 @@ class SurveyAnswersController < ApplicationController
     # fills in answertype of answer_cells. Do this by matching them with question_cells
     # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count # 19-8 items needed to calculate score! (also sets item)
     if current_user.login_user
-      puts "Saving all answer cells for login_user"
-      t = Time.now
-      survey_answer.save_all_answers(params, survey)
-      e = Time.now
-      puts "Saved all answer cells for login_user: #{e-t}"
+      survey_answer.save_all_answers(params)
     else
-      puts "Saving partial answer cells for non-login_user"
-      survey_answer.save_partial_answers(params, survey)     # save with save_draft method
+      survey_answer.save_all_answers(params)
+      # survey_answer.save_partial_answers(params, survey)     # save with save_draft method
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     end
     survey_answer.done = true

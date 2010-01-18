@@ -74,7 +74,9 @@ Rails::Initializer.run do |config|
     :readonly => false,
     :urlencode => false
   }
-  config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options      
+  config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
+  
+  config.gem 'ar-extensions'
 end
 
 ThinkingSphinx.suppress_delta_output = true

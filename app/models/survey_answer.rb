@@ -100,7 +100,8 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   # only to be used when save_draft is disabled!
-  def save_all_answers(params, survey)
+  # but it also updates existing cells
+  def save_all_answers(params) #, survey)
     # remove empty answers
     params.each do |key, cells|
       if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
@@ -108,49 +109,38 @@ class SurveyAnswer < ActiveRecord::Base
       end
     end
     params.each_key { |question| params.delete(question) if params[question].empty? }
-    
-    puts "Save_all_answers: checking valid values"
-    valid_values = survey.valid_values  # check valid values from survey
+
+    the_valid_values = Rails.cache.fetch("survey_valid_values_#{self.survey_id}") { self.survey.valid_values }
+    # the_valid_values = self.survey.valid_values  # check valid values from survey
     all_cells = []
-    puts "Save all answers: going to do an answer at a time"
     params.each do |key, q_cells|   # one question at a time
-      
-      puts "Save_all_answers: before if key.include? Q"
       if key.include? "Q"
         q_id = q_cells.delete("id")
         q_number = key.split("Q").last
-        
-        puts "Save_all_answers: after key.split Q. survey_answer_id #{self.id}"
-        # find existing answer or create new
-        an_answer = Answer.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
-        
-        puts "Save_all_answers: Created answer #{an_answer.inspect}"
-        new_cells = {}
 
+        # find existing answer or create new
+        an_answer = self.answers.find_or_create_by_survey_answer_id(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
+        # an_answer = Answer.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
+        new_cells = {}
         q_cells.each do |cell, value|
-          if cell =~ /q(\d+)_(\d+)_(\d+)/      # match col, row
+          if cell =~ /q(\d+)_(\d+)_(\d+)/   # match col, row
             q = "Q#{$1}"
-            a_cell = {:value => value, :row => $2.to_i, :col => $3.to_i}
+            a_cell = {:answer_id => an_answer.id, :value => value, :row => $2.to_i, :col => $3.to_i}
             new_cells[cell] = a_cell
           end
         end
         # create answer cells from cell hashes
-        puts "Save_all_answers: Created #{new_cells.size} cells"
-        all_cells += an_answer.create_cells_optimized(new_cells, valid_values[key])
+        puts "Save_all_answers: Created #{new_cells.size} cells. key: #{key}"
+        # all_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
         new_cells.clear
       end
     end
     t = Time.now
-    new_cells_no = mass_insert!(all_cells)
+    columns = [:answer_id, :value, :row, :col, :answertype]
+    new_cells_no = AnswerCell.import(columns, all_cells, :on_duplicate_key_update => [:value])
+    # new_cells_no = mass_insert!(all_cells)
     e = Time.now
-    puts "New cells mass inserted: #{new_cells_no} in #{e-t}"
-    # survey.merge_answertype(survey_answer)  # 19-8 items needed to calculate score! (also sets item)
-    # survey_answer.done = true
-    t = Time.now
-    missing_cells = self.add_missing_cells_optimized
-    e = Time.now
-    missing_cells_no = mass_insert!(missing_cells)
-    puts "Missing cells mass inserted: #{missing_cells_no} in #{e-t}"
+    puts "New cells mass inserted: #{all_cells.size} in #{e-t}"
     return self
   end
     

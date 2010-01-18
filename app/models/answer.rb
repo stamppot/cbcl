@@ -7,11 +7,10 @@ class Answer < ActiveRecord::Base
   # TODO: test. added 14-6
   validates_presence_of :question_id, :survey_answer_id
 
-  after_save :update_ratings_count
+  before_save :update_ratings_count
   
   def update_ratings_count
-    self.ratings_count = self.answer_cells.ratings.not_answered.count
-    self.save
+    self.ratings_count = self.answer_cells.ratings.not_answered.count unless self.answer_cells.empty?
   end
 
   def to_csv(prefix)
@@ -64,22 +63,29 @@ class Answer < ActiveRecord::Base
   end
 
   # returns array of cells. Sets answertype
-  def create_cells_optimized(cells = {}, valid_values = {})
+  def create_cells_optimized(answer_id, cells = {}, valid_values = {})
     new_cells = []
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
-      fields[:answer_id] = self.id
-      fields[:answertype] = valid_values[cell_id][:type].to_s
-
       value = fields[:value]
+      next if value.blank? # skip blanks
+      fields[:answer_id] = self.id
+      puts "cell_id: #{cell_id}"
+      # puts "create_cells_opti, cell: #{cell_id}, valid_values: #{valid_values.inspect}"
+      fields[:answertype] = valid_values[cell_id][:type]  # TODO: is answertype needed to save??
+
       # validates value for rating and selectoption
-      if valid_values[:type] =~ /Rating|SelectOption/
-        value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
-        fields[:value] = value if valid_values[:fields].include? value # only save valid value
-        # end
+      if valid_values[cell_id][:type] =~ /Rating|SelectOption/
+        # only save valid values, do not save empty answer cells
+        puts "valid_values: #{valid_values[cell_id][:values].inspect}  value: #{value}"
+         next if !valid_values[cell_id][:values].include?(value) # skip invalid ratings & selectoptions
+        # value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
+        fields[:value] = value if valid_values[cell_id][:values].include? value # only save valid value
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      new_cells << AnswerCell.new(fields)
+      # new_cells << AnswerCell.new(fields)
+      puts "new_cells << fields: #{fields.inspect}"
+      new_cells << [fields[:answer_id], fields[:value], fields[:row], fields[:col], fields[:answer_type]]
     end
     return new_cells
   end

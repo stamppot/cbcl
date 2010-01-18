@@ -1,10 +1,5 @@
-# This is the controller that provides CRUD functionality for the LoginUser model.
-class LoginUserController < ApplicationController # < ActiveRbac::ComponentController
-  # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
+class LoginUsersController < ApplicationController # < ActiveRbac::ComponentController
   helper RbacHelper
-
-  # Use the configured layout.
-  # layout ActiveRbacConfig.config(:controller_layout)
 
   # We force users to use POST on the state changing actions.
   verify :method       => "post",
@@ -26,7 +21,7 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
     @page_title = "CBCL - Liste af login-brugere"
     @user = current_user
     @users = @user.login_users({:page => params[:page], :per_page => REGISTRY[:login_users_per_page]})
-    render :template => 'active_rbac/user/list'
+    render :template => 'users/index'
   end
 
   # Show a user identified by the +:id+ path fragment in the URL.
@@ -185,6 +180,7 @@ class LoginUserController < ApplicationController # < ActiveRbac::ComponentContr
   end
   
   def check_access
+    return true if current_user.admin?
     return false unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       access = current_user.journals.map {|j| j.journal_entries.map {|je| je.user_id }}.include? params[:id].to_i

@@ -2,10 +2,13 @@
 # Do not obsolete, but use as abstraction/facade of user has role("login_bruger")
 class LoginUser < User
   
+  default_scope :order => 'id DESC'
+  
+  
   # does not work, since association is broken
-  def journal1
-    self.journal_entry.journal
-  end
+  # def journal1
+  #   self.journal_entry.journal
+  # end
   
   def journal
     self.all_groups.select { |group| group.instance_of? Journal }.first

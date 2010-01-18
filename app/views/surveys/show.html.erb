@@ -33,7 +33,7 @@ Event.observe(window, 'load', function() {
   	var matches = document.location.href.match(val);
 		var params = {};
 		params['id'] = matches[1];
-		var save_interval = 60;
+		var save_interval = 20;
 		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
 		var journal_entry = document.cookies().get('journal_entry');
 		if(!(typeof(journal_entry) == "undefined")) {
@@ -51,13 +51,9 @@ Event.observe(window, 'load', function() {
 		
 		// set form action to this journal_entry
 		changeAction('surveyform', '/survey_answers/create/' + params['id']);//matches[1]);
-		
-		// //<![CDATA[
-		// var save_draft_url = '/survey_answers/save_draft/' + params['id'];
-		// new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
-		// //]]>
-  	}
+	}
 });
+
 </script>
 <%# dynamic @journal_entry %>
 <!-- <div id="save_draft"> -->

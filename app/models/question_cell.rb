@@ -559,7 +559,7 @@ class SelectOption < QuestionCell
     newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
     (self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
     newform <<  # TODO: fix values of help not shown for q7
-      "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' border='0' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' >" << # removed />
+      "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' class='help_icon' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' >" << # removed />
       "<div id='help_#{c_id}' style='display:none;'><div class='help_tip'>#{help}</div></div>"
       
       # "<a class='#{target}' onclick='try { Element.toggle(\"help_#{c_id}\"); } catch (e) { alert(\"RJS error:\" + e.toString() + \"help_#{c_id}\"); throw e }; return false;' href='#'>" <<

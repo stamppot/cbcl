@@ -1,8 +1,11 @@
 <a class='button' id='send_form'>
-	<span onclick="document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
+	<span onclick="submitPressed = true; document.forms[0].submit(); $('send_form').hide(); $('sending_form').show();">Send svar</span>
 </a>
 <div id="sending_form" style="display: none;">
 	<a class='send_form' href='#'>
 		<span class="send_survey">Sender svar...</span>
 	</a>
 </div>
+<script type="text/javascript">
+	var submitPressed = false;
+</script>

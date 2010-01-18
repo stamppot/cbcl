@@ -2,7 +2,7 @@ class Faq < ActiveRecord::Migration
   def self.up
     create_table :faqs do |t|
       t.integer :faq_section_id, :position
-      t.string :question, :answer
+      t.string :question, :answer, :title
     end
     create_table :faq_sections do |t|
       t.string :title

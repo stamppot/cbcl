@@ -1,4 +1,4 @@
-require 'access'
+# require 'access'
 
 class User < ActiveRecord::Base
   include ActiveRbacMixins::UserMixins::Core
@@ -387,9 +387,9 @@ class User < ActiveRecord::Base
   
   def login_users(options = {})
     options[:page] ||= 1
-    options[:per_page] ||= 100000 
+    options[:per_page] ||= 100000
     journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { self.journal_ids }
-    users = User.login_users.in_journals(journal_ids).paginate(:all, options)
+    users = LoginUser.in_journals(journal_ids).paginate(:all, options)
   end
   
   # returns users that a specific user role is allowed to see

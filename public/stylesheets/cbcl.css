@@ -34,7 +34,8 @@ a:visited { color: #666; }
 .surveyname {
   padding: 0.5em;
 	float: left;
-	font-size: 16pt;
+	font-size: 12pt;
+	border: 0;
 }
 
 
@@ -201,6 +202,7 @@ height:49px; /* the correct height */
 	position:absolute;
 	top:46px;
 	margin-left: 24%;
+	margin-bottom: 4px;
 	height: 20pt;
 	font-size: 20pt;
 	color: black;

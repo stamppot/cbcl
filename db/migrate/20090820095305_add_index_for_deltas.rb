@@ -6,6 +6,6 @@ class AddIndexForDeltas < ActiveRecord::Migration
 
   def self.down
     remove_index :groups, :code
-    remove_index :groups, :column_name
+    remove_index :groups, :delta
   end
 end
