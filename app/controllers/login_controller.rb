@@ -1,6 +1,5 @@
 class LoginController < ApplicationController
   caches_page :index, :logout
-  
   # helper LoginHelper
   
   def index
@@ -38,11 +37,10 @@ class LoginController < ApplicationController
       raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
       raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
-      if user.login_user
-        cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id
-      end
-      # flash[:notice] = "Velkommen #{user.name}, du er logget ind."
-
+      cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
+      cookies[:user_name] = user.name
+      flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+      flash[:error] = nil
       # show message on first login
       if user.created_at == user.last_logged_in_at && !user.login_user
         flash[:notice] = "Husk at ændre dit password"
@@ -59,6 +57,7 @@ class LoginController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
+    flash[:error] = t('login.wrong')
     redirect_to login_path and return 
     # Add an error and let the action render normally.
     # flash[:error] = 'Forkert brugernavn eller password' if params[:password]

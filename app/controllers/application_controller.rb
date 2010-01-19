@@ -2,7 +2,7 @@ class CustomNotFoundError < RuntimeError; end
 class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
-
+  include CacheableFlash
   layout 'cbcl'
 
   before_filter :configure_charsets

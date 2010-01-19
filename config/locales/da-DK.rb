@@ -169,9 +169,14 @@ I18n.backend.store_translations 'da-DK',
       :age => 'Sorter efter alder'
     },
     
+    :login => {
+      :login => 'Log ind',
+      :wrong => 'Forkert brugernavn eller password'
+    },
+    
     :follow_link => 'følge dette link',  # ??
     :goto_login => "Gå til login-side",
-    :login => 'Log ind',
+
     :shadow_login_alt => 'Login som denne bruger',
     :last_login => 'Seneste Login',
     :logout => 'Log ud',

@@ -24,11 +24,12 @@
      <br><small>
      Har du mistet dit password? <%= link_to 'Få et nyt her.', lostpassword_url %>
     </small>
-     
    </div>
-    <p style="color: green"><%= flash[:notice] %></p>
+	  <p style="color: green"><%= flash[:notice] %></p>
+  	<%= render :partial => 'layouts/error_messages_flash' %>
 	<%#- if flash[:error] -%>
 	<p style="color: red"><%= flash[:error] %></p>
+	<br/>
 	<%#- end %>
 </div>
 <%- end %>

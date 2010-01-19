@@ -23,16 +23,16 @@
  	<%= javascript_include_tag 'css_browser_selector' %>
  	<%= javascript_include_tag 'validation' %>
  	<%= javascript_include_tag 'application' %>
-	<%# javascript_include_tag 'curvy_compiled' %>
+	<%= javascript_include_tag 'flash' %>
 	<%= javascript_include_tag 'curvy-corners' %>
 	<%= javascript_include_tag 'livepipe/livepipe' %>
 	<%= javascript_include_tag 'livepipe/tabs' %>
 	<% end %>
-
 </head>
 
 <body>
 	<div id="infoheader">
+		<div id="user_info" style='float:left;'></div>
 		<div id='centertitle'><%= @center_title %></div>
 	</div>
 
@@ -40,10 +40,21 @@
 		<%= render :partial => 'layouts/menu' %>
 	<% end %>
 <div id="content">
-	<%= render :partial => 'layouts/error_messages' %>
+	<% render :partial => 'layouts/error_messages' %>
+	<%= render :partial => 'layouts/error_messages_flash' %>
 
 	<%= @content_for_layout %>
 </div>
 
 </body>
 </html>
+<script type="text/javascript">
+Event.observe(window, 'load', function() {
+	var user_name = document.cookies().get('user_name');
+	if(!(typeof(user_name) == "undefined")) {
+		var elem = getElemns('user_info');
+		elem.innerHTML = user_name.replace(/\+/g, " ");;
+	}
+});
+
+</script>

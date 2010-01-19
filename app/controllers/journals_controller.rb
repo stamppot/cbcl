@@ -132,12 +132,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       surveys = []
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
-      if not @group.create_journal_entries(@surveys)
-        flash[:error] = "Logins blev ikke oprettet!"
-        flash[:error] = @group.journal_entries.map {|je |je.login_user.valid?; je.login_user.errors.inspect}.join(", ")
-      else
-        flash[:notice] = "Spørgeskemaer blev tilføjet journal." if @group.save
-      end
+      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys)
+      flash[:notice] = (@survey.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "blev tilføjet journal." if @group.save && valid_entries
       redirect_to @group
     else
       # can only add surveys in age group of person

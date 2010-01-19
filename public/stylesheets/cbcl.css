@@ -16,6 +16,23 @@ pre {
 a { color: #000; }
 a:visited { color: #666; }
 
+.flash_error {
+	color: darkred;
+	border: 1px solid red;
+	padding: 6px 10px 6px 10px;
+	background: #f77;
+	display: inline;
+}
+
+.flash_notice {
+	color: darkgreen;
+	border: 1px solid green;
+	padding: 6px 10px 6px 10px;
+	background: lightgreen;
+	display: inline;
+/*	float: right;*/
+}
+
 
 .survey {
   border: 1px black solid;

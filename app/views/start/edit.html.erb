@@ -1,0 +1,13 @@
+<% cache "edit_#{@survey}" do %>
+<h2>Velkommen til CBCL</h2>
+<p>
+Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
+
+<div style=' width: 750px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
+	<span class="survey_title"><%= link_button t('survey.change'), survey_url(@survey), 'survey_start' %></span>
+	<span style="font-size: 14pt;"><%= @survey.description %></span>
+</div>
+
+<br>
+<%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>
+<% end %>
