@@ -59,13 +59,9 @@ class LoginController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t('login.wrong')
     redirect_to login_path and return 
-    # Add an error and let the action render normally.
-    # flash[:error] = 'Forkert brugernavn eller password' if params[:password]
-    # @errors << 'Ugyldigt brugernavn eller password!' # TODO: fix with cookie flash
   end
   
-  # Displays the logout confirmation form on GET and performs the logout on 
-  # POST. Expects the "yes" parameter to be set. If this is the case, the 
+  # Expects the "yes" parameter to be set. If this is the case, the 
   # user's authentication state is clear. If it is not the case, the use will
   # be redirected to '/'. User must be logged in
   def logout
@@ -80,9 +76,10 @@ class LoginController < ApplicationController
     # Otherwise delete the user from the session
     self.remove_user_from_session!
     cookies.delete :journal_entry
+    cookies.delete :user_name
     
     # Render success template.
-    # flash[:notice] = "Du er blevet logget ud."
+    flash[:notice] = "Du er blevet logget ud."
     redirect_to login_url
   end
 

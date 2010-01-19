@@ -104,7 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'
 
   map.survey_start 'start', :controller => 'start', :action => 'start'
-  map.survey_finish 'finish/:id', :controller => 'surveys', :action => 'finish'      # :id is login_user
+  map.survey_finish 'finish/:id', :controller => 'start', :action => 'finish'      # :id is login_user
   map.survey_show_fast 'surveys/show_fast/:id', :controller => 'surveys', :action => 'show_fast' # :id is entry
   map.survey_show_only 'surveys/show_only/:id', :controller => 'surveys', :action => 'show_only' # :id is entry
   map.survey_show_only_fast 'surveys/show_only_fast/:id', :controller => 'surveys', :action => 'show_only_fast' # :id is entry

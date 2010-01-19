@@ -16,10 +16,23 @@ class StartController < ApplicationController
     @survey = @journal_entry.survey
   end
   
+  # def finish
+  #   login_user = LoginUser.find_by_id(params[:id])
+  #   # login_user.destroy if login_user
+  #   remove_current_user
+  # end
+
   def finish
-    login_user = LoginUser.find_by_id(params[:id])
-    # login_user.destroy if login_user
-    remove_current_user
+    if session[:rbac_user_id] && (journal_entry = cookies[:journal_entry])  # TODO: put in helper method
+      params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+      entry = JournalEntry.find(params[:id])
+      entry.login_user.destroy if current_user.login_user
+    end
+    self.remove_user_from_session!
+    cookies.delete :journal_entry
+    cookies.delete :user_name
+    redirect_to login_path and return
+    flash[:notice] = 'Du vil nu blive logget ud.'
   end
   
 end
