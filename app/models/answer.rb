@@ -22,16 +22,11 @@ class Answer < ActiveRecord::Base
       value = cell.value.blank? && '#NULL!' || cell.value
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
-        # puts "VAR found: #{var} cell: #{cell.inspect}" if [:ccyi, :ccyi1a, :ccyi1b, :ccyi1c, :ccyii, :ccyii1a, :ccyii1b, :ccyii1c, :ccyiii, :ccyiii1a, :ccyiii1b].include?(var)
-      else  # default var name  # TODO: instead of using a_cell.answertype, lookup corresponding question_cell
-        # item = cell.item.to_s
-        item, answer_type = self.question.get_answertype(cell.row, cell.col)
-        puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
-        if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
-          item << "hv" 
-        end
+      else  # default var name
+        answer_type, item = self.question.get_answertype(cell.row, cell.col)
+        # puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
+        item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
-        puts "var: #{var}"
         cells[var] = 
         if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
           CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
@@ -71,8 +66,9 @@ class Answer < ActiveRecord::Base
       value = fields[:value]
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
-      fields[:answertype] = valid_values[cell_id][:type]  # TODO: is answertype needed to save??
-
+      fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
+      fields[:item] = valid_values[cell_id][:item]
+      
       # validates value for rating and selectoption
       if valid_values[cell_id][:type] =~ /Rating|SelectOption/
         # only save valid values, do not save empty answer cells
@@ -83,7 +79,7 @@ class Answer < ActiveRecord::Base
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      new_cells << [fields[:answer_id], fields[:value], fields[:row], fields[:col], fields[:answer_type]]
+      new_cells << [fields[:answer_id], fields[:value], fields[:row], fields[:col], fields[:item], fields[:answertype]]
     end
     # puts "create_cells_optimized: returns #{new_cells.size} new_cells for answer_id #{self.id}"
     return new_cells

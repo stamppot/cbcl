@@ -130,23 +130,14 @@ class SurveyAnswersController < ApplicationController
     end
     survey_answer.answered_by ||= params[:answer][:person]
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    # puts "Merging answertype"  # merge_answertype merges the answer cell hashes, not cells! (this is good, no need to update cells)
     # fills in answertype of answer_cells. Do this by matching them with question_cells
-    # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count # 19-8 items needed to calculate score! (also sets item)
-    if current_user.login_user
-      # t = Time.now
-      # survey_answer.save_partial_answers(params, survey) 
-      survey_answer.save_all_answers(params)
-      # e = Time.now
-      # puts "Saved all answer cells for login_user: #{e-t}"
-    else
-      # t = Time.now
-      survey_answer.save_all_answers(params)
-      # e = Time.now
-      # puts "Saved all answer cells for non-login_user: #{e-t}"
-      # survey_answer.save_partial_answers(params, survey)     # save with save_draft method
+    # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count
+    # if current_user.login_user
+      # survey_answer.save_all_answers(params)
+    # else
+    survey_answer.save_all_answers(params)
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
-    end
+    # end
     survey_answer.done = true
     answered = true
     

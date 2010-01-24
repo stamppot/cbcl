@@ -139,7 +139,7 @@ class SurveyAnswer < ActiveRecord::Base
       end
     end
     t = Time.now
-    columns = [:answer_id, :value, :row, :col, :answertype]
+    columns = [:answer_id, :value, :row, :col, :item, :answertype]
     new_cells_no = AnswerCell.import(columns, all_cells, :on_duplicate_key_update => [:value])
     # new_cells_no = mass_insert!(all_cells)
     e = Time.now

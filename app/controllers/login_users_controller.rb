@@ -180,6 +180,7 @@ class LoginUsersController < ApplicationController # < ActiveRbac::ComponentCont
   end
   
   def check_access
+    redirect_to shadow_logout_path and return if session[:shadow_user_id]
     return true if current_user.admin?
     return false unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)

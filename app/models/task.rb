@@ -6,7 +6,6 @@ class Task < ActiveRecord::Base
 
     # spawn do
       entries = JournalEntry.find(entries)
-      # data = CSVHelper.new.entries_to_csv(entries, survey_ids)
       data = CSVHelper.new.to_csv(entries, survey_ids)  # TODO: add csv generation on save_answer & change_answer
       # write data
       self.export_file = ExportFile.create(:data => data,
