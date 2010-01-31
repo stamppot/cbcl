@@ -6,7 +6,7 @@ class ExportFilesController < ApplicationController
     EXPORT_FILES_STORAGE_PATH =~ /(\/files)/
     @file_path = $1 + "/"
 
-    @files = ExportFile.find(:all)
+    @files = ExportFile.all
   end
 
   def show

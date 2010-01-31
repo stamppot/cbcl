@@ -1,6 +1,6 @@
 class SurveyAnswersController < ApplicationController
   layout 'cbcl', :except => [ :show, :show_fast ]
-  layout "showsurvey", :only  => [ :show, :show_fast, :edit ]
+  layout 'survey', :only  => [ :show, :show_fast, :edit ]
 
 
   def show #_answer
@@ -147,7 +147,7 @@ class SurveyAnswersController < ApplicationController
         redirect_to journal_path(@journal_entry.journal) and return
       else
         flash[:notice] = "Tak for dit svar!"
-        cookies.delete :journal_entry #cookies[:journal_entry] = nil
+        cookies.delete :journal_entry
         redirect_to survey_finish_path(@journal_entry.login_user) and return
       end
     else
