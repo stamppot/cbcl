@@ -94,6 +94,9 @@ td {
   border: 1px #DEF solid;
 }
 
+input[type="radio"] {
+	font-size: 150%;
+}
 /*************** buttons **********/
 a.button, input.button {
 	background-color: #eee;
@@ -361,8 +364,8 @@ td.rating4 {
 
 td.rating4 .radio {
   display: inline;
-  padding-left: 15px;  /*7%;*/
-  padding-right: 15px; /*7%;*/
+  padding-left: 14px;  /*7%;*/
+  padding-right: 14px; /*7%;*/
 }
 
 /*.ie td.rating4 .radio {

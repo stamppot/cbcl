@@ -23,12 +23,13 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
-
+  
   # auto-load gems in vendor
   Dir[File.dirname(__FILE__) + "/../vendor/*"].each do |path|
     gem_name = File.basename(path.gsub(/-\d+.\d+.\d+$/, ''))
     gem_path = path + "/lib/" + gem_name + ".rb"
-    require gem_path if File.exists? gem_path
+    # puts "GEM_PATH: #{gem_name}" if gem_path.include? "ar-extensions"
+    require gem_path if File.exists?(gem_path) # && !gem_path.include?("ar-extensions")
   end
 
   # Settings in config/environments/* take precedence those specified here
@@ -76,7 +77,7 @@ Rails::Initializer.run do |config|
   }
   config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
   
-  config.gem 'ar-extensions'
+  # config.gem 'ar-extensions'
 end
 
 ThinkingSphinx.suppress_delta_output = true
@@ -85,6 +86,7 @@ ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
 require 'facets/dictionary'
+# require "ruby-debug"
 
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'

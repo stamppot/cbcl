@@ -1,4 +1,7 @@
 # require 'facets/dictionary'
+require 'ar-extensions/adapters/mysql'
+require 'ar-extensions/import/mysql'
+
 class SurveyAnswer < ActiveRecord::Base
   has_many :answers, :dependent => :destroy, :include => [ :answer_cells ], :order => :number
   #belongs_to :journal_entry
@@ -95,56 +98,43 @@ class SurveyAnswer < ActiveRecord::Base
     return output
   end
   
-  # def answer_exists?(number)
-  #   Answer.find(:first, :conditions => ['survey_answer_id = ? and number = ?', self.id, number.to_i])
-  # end
-
-  # only to be used when save_draft is disabled!
-  # but it also updates existing cells
-  def save_all_answers(params) #, survey)
-    # remove empty answers
+  def save_all_answers(params)
     params.each do |key, cells|
       if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
           params.delete(key)
       end
     end
     params.each_key { |question| params.delete(question) if params[question].empty? }
-
     the_valid_values = Rails.cache.fetch("survey_valid_values_#{self.survey_id}") { self.survey.valid_values }
-    # the_valid_values = self.survey.valid_values  # check valid values from survey
-    all_cells = []
+    insert_cells = []
+    update_cells = []
+    
     params.each do |key, q_cells|   # one question at a time
-      if key.include? "Q"
-        q_id = q_cells.delete("id")
-        q_number = key.split("Q").last
-
-        # find existing answer or create new
-        an_answer = self.answers.find_or_create_by_survey_answer_id(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
-        # an_answer = Answer.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
-        new_cells = {}
-        q_cells.each do |cell, value|
-          if cell =~ /q(\d+)_(\d+)_(\d+)/   # match col, row
-            q = "Q#{$1}"
-            a_cell = {:answer_id => an_answer.id, :value => value, :row => $2.to_i, :col => $3.to_i}
-            new_cells[cell] = a_cell
+      next unless key.include? "Q"
+      q_id = q_cells.delete("id")
+      q_number = key.split("Q").last
+      an_answer = self.answers.find_or_create_by_survey_answer_id_and_number(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
+      new_cells ||= {}
+      q_cells.each do |cell, value|
+        if cell =~ /q(\d+)_(\d+)_(\d+)/   # match col, row
+          q = "Q#{$1}"
+          a_cell = {:answer_id => an_answer.id, :row => $2.to_i, :col => $3.to_i, :value => value}
+          if answer_cell = an_answer.exists?(a_cell[:row], a_cell[:col]) # update
+            update_cells << [answer_cell.id,  answer_cell.value] if answer_cell.change_value(value, the_valid_values[q][cell])
+          else
+            new_cells[cell] = a_cell  # insert
           end
         end
-        # create answer cells from cell hashes
-        # puts "Save_all_answers: Created #{new_cells.size} cells. key: #{key}"
-        # t = Time.now
-        all_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
-        # e = Time.now
-        # puts "All cells: #{all_cells.size} cells. key: #{key}  #{e-t}"
-        new_cells.clear
       end
+      insert_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
+      new_cells.clear
     end
-    t = Time.now
-    columns = [:answer_id, :value, :row, :col, :item, :answertype]
-    new_cells_no = AnswerCell.import(columns, all_cells, :on_duplicate_key_update => [:value])
-    # new_cells_no = mass_insert!(all_cells)
-    e = Time.now
-    puts "New cells mass inserted: #{all_cells.size} in #{e-t}"
-    all_cells.clear
+    columns = [:answer_id, :row, :col, :item, :answertype, :value]
+    t = Time.now; new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value]); e = Time.now
+    puts "MASS IMPORT ANSWER CELLS (#{new_cells_no.num_inserts}): #{e-t}"
+
+    t = Time.now; updated_cells_no = AnswerCell.import([:id, :value], update_cells, :on_duplicate_key_update => [:value]); e = Time.now
+    puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
     return self
   end
     
@@ -194,6 +184,7 @@ class SurveyAnswer < ActiveRecord::Base
   # end
   
   private
+  #INSERT INTO `answer_cells` (`answer_id`,`row`,`col`,`item`,`answertype`,`value`) VALUES (27656,1,2,'1','ListItem','14+%C3%A5r'),(27657,1,2,'1','Rating','2'),(27658,1,2,'1','ListItem','14+timer') ON DUPLICATE KEY UPDATE `answer_cells`.`value`=VALUES(`value`)
   
   # def mass_insert!(new_cells)
   #   return if new_cells.nil?

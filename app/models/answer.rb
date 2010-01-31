@@ -1,5 +1,8 @@
 require 'facets/dictionary'
+require 'ar-extensions/adapters/mysql'
+require 'ar-extensions/import/mysql'
 class Answer < ActiveRecord::Base
+  has_many :test_cells
   belongs_to :survey_answer
   has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
   belongs_to :question
@@ -7,11 +10,31 @@ class Answer < ActiveRecord::Base
   # TODO: test. added 14-6
   validates_presence_of :question_id, :survey_answer_id
 
-  before_save :update_ratings_count
+  # before_save :update_ratings_count
+  
+  ########## test methods for TestCell ###########
+  def test
+    a_cells = gen_test_cells(10, self.id)
+    columns = [:answer_id, :row, :col, :item, :answertype, :value]
+    new_cells_no = TestCell.import(columns, a_cells, :on_duplicate_key_update => [:value], :duplicate_columns => [:answer_id, :row, :col, :item, :answertype])
+  end
+
+  def gen_test_cells(n, answer_id)
+    cells = []
+    1.upto(n) do |i|
+      cells << [answer_id, i, 1, "item", "Rating", rand(n)]
+    end
+    cells
+  end
   
   def update_ratings_count
-    self.ratings_count = self.answer_cells.ratings.not_answered.count unless self.answer_cells.empty?
+    self.ratings_count = self.question.ratings_count - self.ratings.count
   end
+
+    def answer_cell_exists?(col, row)
+      self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
+      # return a_cell
+    end
 
   def to_csv(prefix)
     cells = Dictionary.new
@@ -40,25 +63,6 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
-  # def create_cells(cells = {}, valid_values = {})
-  #   cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
-  #     fields[:answer_id] = self.id
-  #     fields[:answertype] = valid_values[cell_id][:type].to_s
-  # 
-  #     value = fields[:value]
-  #     # validates value for rating and selectoption
-  #     if valid_values[:type] =~ /Rating|SelectOption/
-  #       value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
-  #       fields[:value] = value if valid_values[:fields].include? value # only save valid value
-  #       # end
-  #     else
-  #       fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
-  #     end
-  #     a_c = AnswerCell.create(fields)
-  #   end
-  #   return self
-  # end
-
   # returns array of cells. Sets answertype
   def create_cells_optimized(cells = {}, valid_values = {})
     new_cells = []
@@ -67,50 +71,26 @@ class Answer < ActiveRecord::Base
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
       fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
-      fields[:item] = valid_values[cell_id][:item]
+      fields[:item] = valid_values[cell_id][:item]        # save item or not
       
-      # validates value for rating and selectoption
-      if valid_values[cell_id][:type] =~ /Rating|SelectOption/
+      if valid_values[cell_id][:type] =~ /Rating|SelectOption/       # validates value for rating and selectoption
         # only save valid values, do not save empty answer cells
-        # puts "valid_values: #{valid_values[cell_id][:values].inspect}  value: #{value}"
          next if !valid_values[cell_id][:values].include?(value) # skip invalid ratings & selectoptions
         # value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
         fields[:value] = value if valid_values[cell_id][:values].include? value # only save valid value
       else
         fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
       end
-      new_cells << [fields[:answer_id], fields[:value], fields[:row], fields[:col], fields[:item], fields[:answertype]]
+      new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:answertype], fields[:value]]
     end
-    # puts "create_cells_optimized: returns #{new_cells.size} new_cells for answer_id #{self.id}"
+    # puts "create_cells: #{new_cells.size} cells"
     return new_cells
   end
-  
-  # input: hash with cell values
-  # def create_cells(cells = {}, valid_values = {})
-  #   new_cells = []
-  #   cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
-  #     fields[:answer_id] = self.id
-  #     fields[:answertype] = valid_values[cell_id][:type].to_s
-  # 
-  #     value = fields[:value]
-  #     # validates value for rating and selectoption
-  #     if valid_values[:type] =~ /Rating|SelectOption/
-  #       value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
-  #       fields[:value] = value if valid_values[:fields].include? value # only save valid value
-  #       # end
-  #     else
-  #       fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
-  #     end
-  #     new_cells << AnswerCell.new(fields) # was: create
-  #   end
-  #   return new_cells
-  # end
 
   def fill_unanswered_cells(survey_answer)
     add_missing_cells(survey_answer.max_answer)
   end
     
-  # returns answer cells which are ratings
   def ratings
     self.answer_cells.ratings
   end
@@ -125,24 +105,24 @@ class Answer < ActiveRecord::Base
     self.answer_cells.items.size
   end
 
+  def exists?(row, col)
+    @cells ||= rows_of_cols
+    @cells[row][col] if @cells[row] && @cells[row][col]
+  end
+  
   # should do exactly the same as hash_rows_of_cols, and is faster too!
   def rows_of_cols
     result = self.answer_cells.inject({}) do |rows, cell|
       rows[cell.row] = {} unless rows[cell.row]
       rows[cell.row][cell.col] = cell
       rows
-    end # .build_hash { |cell| [cell.row, {cell.col => cell}] }
+    end
   end
   
   # comparison based on row number
   def <=>(other)
     self.question <=> other.question
   end
-
-  # def answer_cell_exists?(col, row)
-  #   a_cell = self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] ) # TODO:, :select => 'id, row, col, value')
-  #   return a_cell
-  # end
 
   # returns array of cells to create
   def add_missing_cells_optimized
@@ -176,47 +156,47 @@ class Answer < ActiveRecord::Base
       end
       row = col = find_row = cells_away = prev_item = exists = nil
     end if self.survey_answer.done
-    puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
+    # puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
     # count
     new_cells
   end
   
-  def add_missing_cells
-    a_cells = self.answer_cells.ratings #.map {|a| [a.row, a.col] }
-    count = 0
-    # find missing
-    cells = a_cells.map {|a| [a.row, a.col] }
-    cell_arr = cells.first
-    return if !(cell_arr && cell_arr.size == 2) 
-
-    q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
-    q_cells_size = q_cells.size
-    missing_cells = q_cells - cells
-    # puts "Answer: #{answer.id}\nmissing cells: #{missing_cells.inspect}"
-    new_cells = []
-    missing_cells.each do |m_cell|
-      row, col = m_cell
-      find_row = row - 1 # try one before this
-      cells_away = 1 # how far the found cell is from the one to fill in
-      while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
-        find_row -= 1
-        cells_away += 1
-      end
-      # puts "find_row: #{find_row} cells_away: #{cells_away}"
-      if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
-        cells_away.times { item.succ! }
-        # puts "new item: #{item}, m_cell: #{m_cell.inspect} prev_cell: #{prev_item.inspect}"
-        unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
-          new_cells << ac = self.answer_cells.create(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
-          count += 1
-          # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
-        end
-      end
-      row = col = find_row = cells_away = prev_item = exists = nil
-    end if self.survey_answer.done
-    puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
-    count
-  end
+  # def add_missing_cells
+  #   a_cells = self.answer_cells.ratings #.map {|a| [a.row, a.col] }
+  #   count = 0
+  #   # find missing
+  #   cells = a_cells.map {|a| [a.row, a.col] }
+  #   cell_arr = cells.first
+  #   return if !(cell_arr && cell_arr.size == 2) 
+  # 
+  #   q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
+  #   q_cells_size = q_cells.size
+  #   missing_cells = q_cells - cells
+  #   # puts "Answer: #{answer.id}\nmissing cells: #{missing_cells.inspect}"
+  #   new_cells = []
+  #   missing_cells.each do |m_cell|
+  #     row, col = m_cell
+  #     find_row = row - 1 # try one before this
+  #     cells_away = 1 # how far the found cell is from the one to fill in
+  #     while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
+  #       find_row -= 1
+  #       cells_away += 1
+  #     end
+  #     # puts "find_row: #{find_row} cells_away: #{cells_away}"
+  #     if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
+  #       cells_away.times { item.succ! }
+  #       # puts "new item: #{item}, m_cell: #{m_cell.inspect} prev_cell: #{prev_item.inspect}"
+  #       unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
+  #         new_cells << ac = self.answer_cells.create(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
+  #         count += 1
+  #         # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
+  #       end
+  #     end
+  #     row = col = find_row = cells_away = prev_item = exists = nil
+  #   end if self.survey_answer.done
+  #   puts "COUNT #{count} ANswer #{self.id} q_id #{self.question_id} r,c,i: " + new_cells.map {|c| [c.row, c.col, c.item].join(', ')}.join('  ')
+  #   count
+  # end
   
   def print
     output = "Answer: #{self.number}<br>"

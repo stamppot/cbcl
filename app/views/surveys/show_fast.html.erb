@@ -21,7 +21,6 @@
 
 <a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
 
-<!-- DO NOT TOUCH THIS! -->
 <% unless @options[:action] =~ /show/ %>
 		<form action="/survey_answers/create/<%= @journal_entry.id %>" id="surveyform" method="post" onsubmit="return submitAction;" >
 <% end %>

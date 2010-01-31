@@ -1,6 +1,9 @@
+require 'ar-extensions/adapters/mysql'
+require 'ar-extensions/import/mysql'
+
 class AnswerCell < ActiveRecord::Base
   belongs_to :answer
-
+  set_primary_key "id"
   named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
   named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
@@ -9,16 +12,15 @@ class AnswerCell < ActiveRecord::Base
 
   def change_value(new_value, valid_values = {})
     new_value = new_value || ""
-    some_value_changed = false
     if valid_values[:type].to_s =~ /Rating|SelectOption/   # if not valid, keep existing value
       new_value = "9" if new_value.blank?
       if new_value != self.value && valid_values[:values].include?(new_value)
-        self.value, some_value_changed = new_value, true
+        self.value = new_value
       end
     else  # other types
-      self.value, some_value_changed = CGI.escape(new_value), true if new_value != self.value  # TODO: escape value
+      self.value = CGI.escape(new_value) if new_value != self.value  # TODO: escape value
     end
-    return some_value_changed
+    return changed?
   end
   
   def change_value!(new_value, valid_values = {})
@@ -53,11 +55,11 @@ class AnswerCell < ActiveRecord::Base
   # end
 end
 
-class RatingAnswer < AnswerCell
-end
-
-class SelectOptionAnswer < AnswerCell
-end
-
-class CheckboxAnswer < AnswerCell
-end
+# class RatingAnswer < AnswerCell
+# end
+# 
+# class SelectOptionAnswer < AnswerCell
+# end
+# 
+# class CheckboxAnswer < AnswerCell
+# end

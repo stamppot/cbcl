@@ -74,11 +74,6 @@ class SurveyAnswersController < ApplicationController
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
             page.show 'submit_button'
-            # page << "Event.observe(window, 'beforeunload', function() {
-            #   if(!submitPressed) {
-            #     document.forms[0].submit();
-            #               }
-            # });"
           end
         }
       end
@@ -86,20 +81,19 @@ class SurveyAnswersController < ApplicationController
   end
   
   def save_draft
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    if @journal_entry.survey_answer.nil?
-      journal = @journal_entry.journal
-      @journal_entry.survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
-            :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry)
+    journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
+      Survey.and_questions.find(journal_entry.survey_id)
     end
-    survey_answer = @journal_entry.survey_answer
-    survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@journal_entry.survey_id)
+    if journal_entry.survey_answer.nil?
+      journal = journal_entry.journal
+      journal_entry.survey_answer = SurveyAnswer.create(:survey => survey, :age => journal.age, :sex => journal.sex_text, 
+            :surveytype => survey.surveytype, :nationality => journal.nationality, :journal_entry => journal_entry)
     end
+    survey_answer = journal_entry.survey_answer
     survey_answer.save_all_answers(params)
-    # survey_answer.save_partial_answers(params, survey)
-    @journal_entry.answered_at = Time.now
-    @journal_entry.draft!
+    journal_entry.answered_at = Time.now
+    journal_entry.draft!
     survey_answer.save
   end
   
@@ -132,12 +126,13 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
     # fills in answertype of answer_cells. Do this by matching them with question_cells
     # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count
-    # if current_user.login_user
-      # survey_answer.save_all_answers(params)
-    # else
     survey_answer.save_all_answers(params)
+    survey_answer.answers.each { |a| a.update_ratings_count }
+    Answer.transaction do
+      survey_answer.answers.each {|a| a.save!}
+    end
+
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
-    # end
     survey_answer.done = true
     answered = true
     
@@ -148,7 +143,7 @@ class SurveyAnswersController < ApplicationController
 
       # login-users are shown the logout page
       if current_user and current_user.access? :all_users
-        flash[:notice] = "Dit svar er blevet gemt."
+        flash[:notice] = "Dit svar er gemt."
         redirect_to journal_path(@journal_entry.journal) and return
       else
         flash[:notice] = "Tak for dit svar!"

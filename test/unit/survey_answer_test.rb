@@ -27,6 +27,10 @@ class SurveyAnswerTest < ActiveSupport::TestCase #ActiveSupport::TestCase
         assert @survey_answer.answers.size == 10
         assert @survey_answer.answers.map {|a| a.answer_cells }.flatten.size > 120
       end
+      
+      should "create csv_answers" do
+        Task.new.create_csv_answer(@survey_answer)
+      end
     end
   end
 end
