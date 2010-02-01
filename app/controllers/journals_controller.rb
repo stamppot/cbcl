@@ -224,7 +224,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       journal.save
     end
     flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
-    redirect_to team and return
+    redirect_to select_journals(team) and return
   end
   
   protected
