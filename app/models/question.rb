@@ -11,7 +11,6 @@ class Question < ActiveRecord::Base
   
   def update_ratings_count
     self.ratings_count = self.ratings.size
-    self.save
   end
   
   # returns question cells which are ratings
