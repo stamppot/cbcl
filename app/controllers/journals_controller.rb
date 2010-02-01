@@ -163,7 +163,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
   end
 
-  ## this is our live ajax search method
   def live_search
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
@@ -182,7 +181,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       Journal.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC", :include => :person_info)
     else
       current_user.group_ids.inject([]) do |result, id|
-        # puts "searching #{@phrase} id: #{id}"
         result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
       end
     end
@@ -193,7 +191,42 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
   end
   
-     
+  def select # nb. :id is Team id!
+    @group = Team.find(params[:id])
+    @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
+    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
+    @teams = current_user.teams
+    @journal_count = Journal.for_parent(@group).count
+
+     respond_to do |format|
+       format.html
+       format.js {
+         render :update do |page|
+           page.replace_html 'journals', :partial => 'shared/select_journals'
+         end
+       }
+     end
+
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = 'Du har ikke adgang til dette team.'
+    redirect_to teams_url
+  end
+  
+  def move
+    team = Team.find(params[:id])
+    flash[:error] = 'Ingen journaler er valgt' if params[:journals].blank?
+    redirect_to team if flash[:error]
+    
+    dest_team = Team.find params[:team]
+    journals = Journal.find(params[:journals])
+    journals.each do |journal|
+      journal.parent = dest_team
+      journal.save
+    end
+    flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
+    redirect_to team and return
+  end
+  
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
   #  before_filter :protect_create, :only => [ :new, :delete, :create, :edit ]
@@ -203,28 +236,23 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     if current_user.access? :all_users
       return true
     elsif !current_user.nil?
+      flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to journals_path
-      flash[:notice] = "Du har ikke adgang til denne side"
-      return false
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
 
   def user_access
-    if current_user.access? :journal_new_edit_delete
-      return true
-    else
-      redirect_to "/login"
+    if !current_user.access?(:journal_new_edit_delete)
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
   
   def check_access
-    return false unless current_user
+    redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
       access = journal_ids.include? params[:id].to_i

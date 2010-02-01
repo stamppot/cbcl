@@ -110,7 +110,7 @@ class ActiveRbac::StaticPermissionController < ActiveRbac::ComponentController
       flash[:error] = "Du har ikke adgang til denne side"
       return false
     else
-      redirect_to "/login"
+      redirect_to login_path
       flash[:error] = "Du har ikke adgang til denne side"
       return false
     end

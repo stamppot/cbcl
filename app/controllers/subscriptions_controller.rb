@@ -143,23 +143,17 @@ class SubscriptionsController < ApplicationController
     if current_user && current_user.access?(:subscription_new_edit)
       return true
     elsif current_user
-      redirect_to main_path
       flash[:error] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to main_path
     else
       redirect_to login_path
-      flash[:error] = "Du har ikke adgang til denne side"
-      return false
     end
   end
 
   def subscription_show
-    if current_user && current_user.access?(:subscription_show)
-      return true
-    else
-      redirect_to main_path
+    if !(current_user && current_user.access?(:subscription_show))
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to main_path
     end
   end
   

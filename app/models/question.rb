@@ -3,7 +3,7 @@ class Question < ActiveRecord::Base
   has_many :question_cells, :dependent => :destroy, :order => 'row, col ASC'  # order by row, col
   has_many :answers
   has_many :score_items
-
+  has_many :variables
   named_scope :by_survey, lambda { |survey| { :conditions => ['survey_id = ?', survey.is_a?(Survey) ? survey.id : survey] } }
   named_scope :and_question_cells, :include => :question_cells
 

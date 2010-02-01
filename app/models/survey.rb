@@ -5,7 +5,8 @@ class Survey < ActiveRecord::Base
   has_many :survey_answers, :through => :journal_entries
   has_many :journals, :through => :journal_entries
   has_many :scores
-
+  has_many :variables # not needed
+  
   named_scope :and_questions, :include => {:questions => :question_cells}
   named_scope :and_q, :include => :questions
   named_scope :selected, lambda { |ids| { :conditions => (ids ? ['id IN (?)', ids] : []) } }

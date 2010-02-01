@@ -66,10 +66,14 @@ class ApplicationController < ActionController::Base
   helper_method :save_draft_interval
   def save_draft_interval
     if current_user.login_user?
-      return 900
+      return 900 # TODO: put in configuration
     else
-      return 40
+      return 60
     end
+  end
+  
+  def journals_per_page
+    20
   end
   
   def local_request?
@@ -115,7 +119,8 @@ class ApplicationController < ActionController::Base
       else
         puts "ACCESS FAILED: #{params.inspect}"
         access_denied
-        return false
+        params.clear
+        redirect_to login_path
       end
     end
     return true

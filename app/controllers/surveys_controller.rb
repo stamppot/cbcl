@@ -72,7 +72,7 @@ class SurveysController < ApplicationController
     @survey_answer = nil
     if @journal_entry.survey_answer.nil?  # survey_answer not created before
       journal = @journal_entry.journal
-      @survey_answer = SurveyAnswer.create(:survey => @survey, :age => journal.age, :sex => journal.sex_text, 
+      @survey_answer = SurveyAnswer.create(:survey_id => @survey.id, :age => journal.age, :sex => journal.sex_text, 
           :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry_id => @journal_entry.id)
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
@@ -135,17 +135,14 @@ class SurveysController < ApplicationController
 
 
   def superadmin_access
-    if current_user.access? :admin_actions
-      return true
-    else
-      redirect_to "/main"
+    if !(current_user.access? :admin_actions)
       flash[:error] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to main_path
     end
   end
   
   def check_access
-    redirect_to login_path and return false unless current_user
+    redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/

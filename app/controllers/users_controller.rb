@@ -124,17 +124,15 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     
     
   def login_access
-    return false unless current_user
+    redirect_to login_path and return unless current_user
     if current_user.access? :all_users
       return true
     elsif !current_user.nil?
-      redirect_to users_path
       flash[:error] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to users_path
     else
-      redirect_to "/login"
-      flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      flash[:error] = "Du har ikke adgang til denne side"
+      redirect_to login_path
     end
   end
   
@@ -148,7 +146,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
       access_list = current_user.get_users.map { |u| u.id } << 0
       unless access_list.include? id
         RAILS_DEFAULT_LOGGER.error("[ACCESS VIOLATION] current_user (#{current_user.id}) tried to access user #{id} #{params.inspect}}. Allowed list: #{access_list.inspect}")
-        return false
+        redirect_to login_path
       end
     end
     return true

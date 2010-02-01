@@ -51,13 +51,11 @@ class NationalitiesController < ApplicationController
     if current_user.access? :admin
       return true
     elsif current_user
+      flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to nationalities_path
-      flash[:notice] = "Du har ikke adgang til denne side"
-      return false
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
 

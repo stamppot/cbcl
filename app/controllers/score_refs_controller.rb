@@ -79,12 +79,9 @@ class ScoreRefsController < ApplicationController
 
   
   def admin_access
-    if current_user.access? :admin
-      return true
-    else
-      redirect_to "/login"
+    if !current_user.access?(:admin)
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
   

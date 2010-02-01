@@ -4,7 +4,7 @@ class Task < ActiveRecord::Base
   def create_export(survey_ids, entries)
     self.save
 
-    spawn do
+    # spawn do
       entries = JournalEntry.find(entries)
       data = CSVHelper.new.to_csv(entries, survey_ids)  # TODO: add csv generation on save_answer & change_answer
       # write data
@@ -14,7 +14,7 @@ class Task < ActiveRecord::Base
 
       self.status = "Completed"
       self.save
-    end
+    # end
   end
 
   def create_csv_answer(survey_answer)

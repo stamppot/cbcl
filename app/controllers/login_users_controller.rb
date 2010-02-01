@@ -173,16 +173,16 @@ class LoginUsersController < ApplicationController # < ActiveRbac::ComponentCont
     if current_user.access? :all_users
       return true
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
+      
     end
   end
   
   def check_access
-    redirect_to shadow_logout_path and return if session[:shadow_user_id]
+    redirect_to shadow_logout_path if session[:shadow_user_id]
+    redirect_to login_path and return unless current_user
     return true if current_user.admin?
-    return false unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       access = current_user.journals.map {|j| j.journal_entries.map {|je| je.user_id }}.include? params[:id].to_i
     end

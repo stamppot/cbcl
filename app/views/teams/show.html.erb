@@ -78,6 +78,7 @@
 		<div class="commands">
 			<br/>
 			<%= link_button t('export.logins'), formatted_export_logins_path(@group, 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+			<%= link_button t('team.move'), select_journals_path(@group), 'journal_move', :title => t('team.move') %>
 			<p/>
 		</div>
 	</p>

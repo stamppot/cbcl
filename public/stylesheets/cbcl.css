@@ -681,6 +681,10 @@ a .journal_delete {
 	background:url('/images/journal_delete.png') no-repeat 0px 0px;
 	padding-left: 27px;
 }
+a .journal_move {
+	background:url('/images/journal_move.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
 a .journal_add_surveys {
 	background:url('/images/table_add.png') no-repeat 0px 0px;
 	padding-left: 27px;
@@ -860,6 +864,9 @@ input.journal_edit {
 }
 input.journal_delete {
 	background:url('/images/journal_delete.png') no-repeat 10px 5px;
+}
+input.journal_move {
+	background:url('/images/journal_move.png') no-repeat 10px 5px;
 }
 
 input.survey_add {

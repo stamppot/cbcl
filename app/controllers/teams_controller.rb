@@ -47,7 +47,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   def show
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => 15) || []
+    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
     @journal_count = Journal.for_parent(@group).count
     @users = @group.users
     @user_count = @users.count
@@ -56,17 +56,13 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
      end
 
      respond_to do |format|
-       format.html #{
-       # redirect_to center_url(@group) if @group.kind_of?(Center) and return
-       # render
-       # }
+       format.html
        format.js {
          render :update do |page|
            page.replace_html 'journals', :partial => 'shared/journal_list'
          end
        }
      end
-
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Du har ikke adgang til dette team.'
@@ -194,22 +190,16 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     redirect_to teams_url
   end
   
+    
   protected
   before_filter :behandler_access, :only => [ :list, :index, :show ]
   before_filter :centerleder_access, :except => [ :list, :index, :show ]
   before_filter :check_access, :except => [:index, :list, :per_page]
   
   def behandler_access
-    if current_user.access? :all_users
-      return true
-    elsif current_user
-      redirect_to "/login"
+    if !current_user
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
-    else
-      redirect_to "/login"
-      flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
 
@@ -217,18 +207,16 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     if current_user.access? :team_new_edit_delete
       return true
     elsif current_user
-      redirect_to "/team/list"
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to teams_path
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
   
   def check_access
-    return false unless current_user
+    redirect_to login_path and return unless current_user
     if params[:id] && current_user.access?(:all_users)
       access = current_user.team_member? params[:id].to_i
     elsif !params[:id] && current_user.access?(:login_user)

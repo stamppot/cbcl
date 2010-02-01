@@ -90,7 +90,8 @@ I18n.backend.store_translations 'da-DK',
       :list => 'Vis Teams',
       :edit => 'Rediger Team',
       :new =>  'Opret Team',
-      :admins => 'Teamadministrator'
+      :admins => 'Teamadministrator',
+      :move => 'Flyt journaler'
     },
     :user => {
       :user => 'Bruger',
@@ -111,7 +112,8 @@ I18n.backend.store_translations 'da-DK',
       :list => 'Vis Journaler',
       :edit => 'Rediger Journal',
       :new  => 'Opret Journal', 
-      :delete => 'Slet Journal'
+      :delete => 'Slet Journal',
+      :move => 'Flyt til team'
     },
     :survey => {
       :new => 'Nyt spørgeskema',

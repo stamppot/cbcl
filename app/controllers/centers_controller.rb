@@ -202,14 +202,12 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     if current_user.access? :admin
       return true
     elsif !current_user.nil?
-      redirect_to centers_path
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to centers_path
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
       access_denied
-      return false
+      redirect_to login_path
     end
   end
 
@@ -218,10 +216,9 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     if current_user.access? :all_users
       return true
     else
-      redirect_to "/login"
       flash[:notice] = "Du har ikke adgang til denne side"
+      redirect_to login_path
       access_denied
-      return false
     end
   end
   
@@ -234,4 +231,4 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     end
   end
   
-end
+end_date

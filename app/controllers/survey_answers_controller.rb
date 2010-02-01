@@ -122,10 +122,8 @@ class SurveyAnswersController < ApplicationController
     if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
       survey_answer.answered_by = other
     end
-    survey_answer.answered_by ||= params[:answer][:person]
+    survey_answer.answered_by = params[:answer] && params[:answer][:person] || ""
     survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    # fills in answertype of answer_cells. Do this by matching them with question_cells
-    # survey.merge_answertype(survey_answer) # 11-01-10 not needed with ratings_count
     survey_answer.save_all_answers(params)
     survey_answer.answers.each { |a| a.update_ratings_count }
     Answer.transaction do
@@ -179,18 +177,16 @@ class SurveyAnswersController < ApplicationController
   before_filter :check_access# , :except => [:dynamic_data]
   
   def check_access
-    return false unless current_user
+    redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include?(id)
-      elsif current_user.access? :superadmin # don't need to check for superadmin
-        true
       else  # show methods uses journal_entry id
         current_user.journal_entry_ids.include?(id)
       end
     else
-      return false
+      redirect_to login_path
     end
   end
 end

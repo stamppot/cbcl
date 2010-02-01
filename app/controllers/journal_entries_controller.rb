@@ -73,12 +73,9 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
 
   # Admin needs access to see subscriptions.. but this controller has no views, no?  
   def user_access
-    if current_user.access? :all_users
-      return true
-    else
-      redirect_to "/login"
+    if !current_user.access?(:all_users)
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
   

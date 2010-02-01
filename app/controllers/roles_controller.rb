@@ -123,13 +123,11 @@ class RolesController < ApplicationController # ActiveRbac::ComponentController
     if current_user.access? :admin
       return true
     elsif !current_user.nil?
-      redirect_to surveys_path
       flash[:error] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to main_path
     else
-      redirect_to login_path
       flash[:notice] = "Du har ikke adgang til denne side"
-      return false
+      redirect_to login_path
     end
   end
 end
