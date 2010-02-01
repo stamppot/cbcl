@@ -1,12 +1,5 @@
 <h2>Detaljer for Team &quot;<%=h @group.title %>&quot;</h2>
 
-<ul class="tabs" id="subscription_tabs" class="team_tabs">  
-	<li class="tab"><a href="#team_journals"><%= t('journal.journals') %></a></li> 
-</ul>
-<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
-	<br/>
-</div>
-
 <% form_tag(move_journals_url(@group), :class => 'form', :method => :post) do %>
 <div class="teams" id="teams" style="float:right;">
 	<p/>
