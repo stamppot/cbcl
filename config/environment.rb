@@ -77,6 +77,7 @@ Rails::Initializer.run do |config|
   }
   config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
   
+  config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
 end
 
