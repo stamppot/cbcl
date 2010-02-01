@@ -21,7 +21,7 @@ class AddNoRatingsCaching < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :answers, :ratings_count
     remove_column :questions, :ratings_count
+    remove_column :answers, :ratings_count
   end
 end

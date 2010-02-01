@@ -230,5 +230,4 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       access_denied
     end
   end
-  
-end_date
+end
