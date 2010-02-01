@@ -194,7 +194,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def select # nb. :id is Team id!
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2) || []
+    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
     @teams = current_user.teams
     @journal_count = Journal.for_parent(@group).count
 
