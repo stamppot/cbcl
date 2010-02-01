@@ -16,7 +16,7 @@ class Role < ActiveRecord::Base
   def self.get(*roles)
     roles = roles.shift if roles.first.is_a?(Array)
     result = Role.get_all(roles)
-    return result.first if result.count == 1
+    return result.first if result.is_a?(Array) && result.count == 1
     roles
   end
   
