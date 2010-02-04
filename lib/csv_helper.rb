@@ -76,7 +76,7 @@ class CSVHelper
     # add journal info # todo: prefetch wanted journals
     result.each do |j, answers|
       journal = Journal.find(j)
-      row << (journal_to_csv(journal).join(';') << (answers.join(';') + "\n"))
+      row << (journal_to_csv(journal).join(';') << ";" << (answers.join(';').gsub(/^\".*\"$/, "") + "\n"))
     end 
     csv << row.join
     # e = Time.now

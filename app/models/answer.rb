@@ -29,8 +29,9 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
       else  # default var name
+        # answer_type = cell.answertype
+        # item = "" if cell.item.blank?
         answer_type, item = self.question.get_answertype(cell.row, cell.col)
-        # puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
         item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
         cells[var] = 
