@@ -29,13 +29,12 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
       else  # default var name
-        item = cell.item
-        # answer_type, item = #self.question.get_answertype(cell.row, cell.col)
+        answer_type, item = self.question.get_answertype(cell.row, cell.col)
         # puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
-        item << "hv" if (cell.item.nil? or !(cell.item =~ /hv$/)) && cell.answertype =~ /Comment|Text/
+        item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
         cells[var] = 
-        if cell.answertype =~ /ListItem|Comment|Text/ && !cell.value.blank?
+        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
           CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
           value
