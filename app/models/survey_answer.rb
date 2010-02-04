@@ -8,7 +8,8 @@ class SurveyAnswer < ActiveRecord::Base
   has_one :journal_entry
   belongs_to :survey
   has_one :score_rapport
-
+  has_one :csv_answer
+  
   named_scope :finished, :conditions => ['done = ?', true]
   named_scope :order_by, lambda { |column| { :order => column } }
   named_scope :and_answer_cells, :include => { :answers => :answer_cells }
@@ -28,6 +29,31 @@ class SurveyAnswer < ActiveRecord::Base
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values #.join(';')
   end
 
+  def save_all(params)
+    # if answered by other, save the textfield instead
+    # "answer"=>{"person_other"=>"fester", "person"=>"15"}
+    if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
+      self.answered_by = other
+    end
+    self.answered_by = params[:answer] && params[:answer][:person] || ""
+    self.done = true
+    self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
+    self.save_all_answers(params)
+    self.answers.each { |a| a.update_ratings_count }
+    Answer.transaction do
+      answers.each {|a| a.save!}
+    end
+      # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
+    self.create_csv_answer
+    self.save
+  end
+  
+  def create_csv_answer
+    spawn do
+      CSVHelper.new.create_csv_answer(self)
+    end
+  end
+  
   def cell_values(prefix = nil)
     prefix ||= self.survey.prefix
     a = Dictionary.new

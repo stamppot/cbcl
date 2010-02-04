@@ -17,7 +17,6 @@ class Answer < ActiveRecord::Base
 
   def answer_cell_exists?(col, row)
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
-    # return a_cell
   end
 
   def to_csv(prefix)
@@ -30,12 +29,13 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
       else  # default var name
-        answer_type, item = self.question.get_answertype(cell.row, cell.col)
+        item = cell.item
+        # answer_type, item = #self.question.get_answertype(cell.row, cell.col)
         # puts "answertype: #{answer_type}  item: #{item}    cell.value #{cell.value}  value: #{value}"
-        item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
+        item << "hv" if (cell.item.nil? or !(cell.item =~ /hv$/)) && cell.answertype =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
         cells[var] = 
-        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+        if cell.answertype =~ /ListItem|Comment|Text/ && !cell.value.blank?
           CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
           value

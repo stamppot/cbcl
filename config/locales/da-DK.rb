@@ -163,6 +163,12 @@ I18n.backend.store_translations 'da-DK',
       :logins => 'Eksporter login-data'
     },
     
+    :variable => {
+      :new => 'Ny variabel',
+      :create  => 'Opret',
+      :show => 'Vis'
+    },
+    
     :sort => {
       :name => 'Sorter efter navn',
       :role => 'Sorter efter rolle',

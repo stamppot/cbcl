@@ -16,6 +16,7 @@ development:
   username: jens
   password: hestehund
   host: localhost
+  reconnect: true
 #  encoding: latin1
 
 # Warning: The database defined as 'test' will be erased and
@@ -35,4 +36,5 @@ production:
   username: jens
   password: hestehund
   host: localhost
+  reconnect: true
 #  encoding: utf8

@@ -5,7 +5,7 @@ class VariablesController < ApplicationController
   # GET /variables
   # GET /variables.xml
   def index
-    @variables = Variable.and_survey.and_question.find(:all)
+    @variables = Variable.and_survey.and_question.find(:all, :order => 'survey_id, question_id, row, col, item')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,6 +22,18 @@ class VariablesController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @variable }
     end
+  end
+
+  def show_question
+    q = Question.find params[:id]
+    @variables = Variable.and_survey.and_question.find(:all, :conditions => ['question_id = ?', q.id], :order => 'row, col, item')
+    render :index
+  end
+
+  def show_survey
+    s = Survey.find params[:id]
+    @variables = Variable.and_survey.and_question.find(:all, :conditions => ['survey_id = ?', s.id], :order => 'question_id, row, col, item')
+    render :index
   end
 
   # GET /variables/new
@@ -56,7 +68,7 @@ class VariablesController < ApplicationController
     
     respond_to do |format|
       if @variable.save
-        flash[:notice] = 'Variable was successfully created.'
+        flash[:notice] = 'Variabel er oprettet.'
         format.js   { 
           render :update do |page|
             page.visual_effect :highlight, 'status'
@@ -87,7 +99,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable.update_attributes(params[:variable])
-        flash[:notice] = 'Variable was successfully updated.'
+        flash[:notice] = 'Variabel er rettet.'
         format.html { redirect_to(@variable) }
         format.xml  { head :ok }
       else

@@ -375,7 +375,6 @@ class User < ActiveRecord::Base
         
     if self.has_access?(:group_all)
       SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(:conditions => ['journal_entry_id IN (?)', je_ids])
-
       # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids]))
     else
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
@@ -412,7 +411,6 @@ class User < ActiveRecord::Base
   # roles a user can pass on
   def pass_on_roles
     r = self.all_roles
-    # r = self.all_roles
     if self.has_access?(:superadmin)
       r = Role.get(Access.roles(:all_users))
     elsif self.has_access?(:admin)

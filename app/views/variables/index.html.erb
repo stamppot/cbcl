@@ -1,6 +1,6 @@
-<h1>Listing variables</h1>
+<h1>Alle variabler</h1>
 
-<%= link_button 'Ny variabel', new_variable_path, 'variable_new' %>
+<%= link_button t('variable.new'), new_variable_path, 'variable_new' %>
 
 <table>
   <tr>
@@ -14,19 +14,19 @@
 
 <% for variable in @variables %>
   <tr>
-    <td><%=h variable.var %></td>
-    <td><%=h variable.item %></td>
-    <td><%=h variable.row %></td>
-    <td><%=h variable.col %></td>
-    <td><%=h survey_short(variable.survey) %></td>
-    <td><%=h variable.question.number.to_roman.downcase %></td>
+    <td><%= variable.var %></td>
+    <td><%= variable.item %></td>
+    <td><%= variable.row %></td>
+    <td><%= variable.col %></td>
+    <td><%= link_to(survey_short(variable.survey), {:action => 'show_survey', :id => variable.survey_id}, :style => 'text-decoration:underline;' ) %></td>
+    <td><%= link_to(variable.question.number.to_roman.downcase, {:action => 'show_question', :id => variable.question_id}, :style => 'text-decoration:underline;') %></td>
     <td><%= link_to t('show'), variable %></td>
     <td><%= link_to t('edit'), edit_variable_path(variable) %></td>
-    <td><%= link_to t('destroy'), variable, :confirm => t('are_you_sure?'), :method => :delete %></td>
+    <td><%= link_to t('delete'), variable, :confirm => t('are_you_sure?'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br>
 
-<%= link_button 'Ny variabel', new_variable_path, 'variable_new' %>
+<%= link_button t('variable.new'), new_variable_path, 'variable_new' %>

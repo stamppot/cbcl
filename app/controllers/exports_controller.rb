@@ -51,13 +51,10 @@ class ExportsController < ApplicationController
     params = Query.filter_age(params)
 
     @surveys = current_user.subscribed_surveys
-    
     # set default value to true unless filter is pressed
     @surveys = Survey.selected(params[:surveys].keys)
     
     @survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    # q = Query.new 
-    # q.do_query(q.user_journal_entries(current_user.journal_entry_ids, surveys, )
     @journal_entries = @survey_answers.map {|sa| sa.journal_entry_id }.compact
 
     # spawns background task

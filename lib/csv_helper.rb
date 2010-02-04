@@ -34,20 +34,22 @@ class CSVHelper
         csv << csv_answer = SurveyAnswer.and_answer_cells.find(c["survey_answer_id"]).to_csv.join(";")
       end
       e1 = Time.now
-      puts "CSV size: #{csv.size}"
       csv.each do |line|
-        puts "CSV: #{line}"
-        insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
-        VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)}',#{line})"
-        ActiveRecord::Base.connection.execute(insert_query)
+        # puts "CSV: #{line}"
+        csv_answer = CsvAnswer.find_by_survey_answer_id(c['survey_answer_id'])
+        if csv_answer
+          csv_answer.answer = line
+          csv_answer.save
+        else
+          insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
+          VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)};',#{line})"
+          ActiveRecord::Base.connection.execute(insert_query)
+        end
       end
     end
   end
 
   def to_csv(entries, survey_ids)
-    # puts "START CSVHELPER.TO_CSV"
-    # t = Time.now
-
     # get survey_answers
     survey_answers = entries.map {|e| e.survey_answer_id }
     journal_ids = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }

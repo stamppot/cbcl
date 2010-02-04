@@ -30,9 +30,19 @@ class Variable < ActiveRecord::Base
     vars = self.all(:order => "#{by_id}, row")    
 
     if by_id == 'question_id'
-      vars.build_hash { |var| [var.question_id, {var.row => {var.col => var}}]}
+      vars.inject({}) do |h, elem|
+        h[elem.question_id] = { elem.row => { elem.col => elem } } if !h.key? elem.question_id
+        h[elem.question_id][elem.row] = { elem.col => elem } if !h[elem.question_id].key? elem.row
+        h[elem.question_id][elem.row].merge!({ elem.col => elem })
+        h
+      end
     else
-      vars.build_hash { |var| [var.survey_id, {var.row => {var.col => var}}]}
+      vars.inject({}) do |h, elem|
+        h[elem.survey_id] = { elem.row => { elem.col => elem } } if !h.key? elem.survey_id
+        h[elem.survey_id][elem.row] = { elem.col => elem.var } if !h[elem.survey_id].key? elem.row
+        h[elem.survey_id][elem.row].merge!({ elem.col => elem })
+        h
+      end
     end
   end
   

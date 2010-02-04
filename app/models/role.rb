@@ -17,7 +17,7 @@ class Role < ActiveRecord::Base
     roles = roles.shift if roles.first.is_a?(Array)
     result = Role.get_all(roles)
     return result.first if result.is_a?(Array) && result.size == 1
-    roles
+    result
   end
   
   # def self.get_ids(*roles)

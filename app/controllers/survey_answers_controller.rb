@@ -116,28 +116,9 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     survey_answer = @journal_entry.make_survey_answer
-
-    # if answered by other, save the textfield instead
-    # "answer"=>{"person_other"=>"fester", "person"=>"15"}
-    if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
-      survey_answer.answered_by = other
-    end
-    survey_answer.answered_by = params[:answer] && params[:answer][:person] || ""
-    survey_answer.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    survey_answer.save_all_answers(params)
-    survey_answer.answers.each { |a| a.update_ratings_count }
-    Answer.transaction do
-      survey_answer.answers.each {|a| a.save!}
-    end
-
-      # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
-    survey_answer.done = true
-    answered = true
     
-    if survey_answer.save
+    if survey_answer.save_all(params)
       @journal_entry.increment_subscription_count(survey_answer)
-      # create pregenerated csv_answer
-      Task.new.create_csv_answer(survey_answer)
 
       # login-users are shown the logout page
       if current_user and current_user.access? :all_users
@@ -157,14 +138,14 @@ class SurveyAnswersController < ApplicationController
     redirect_to journal_path(@journal_entry.journal) and return
   end
   
-  def update  # was: save_changed_answer
-    #render :text => "<i>Draft saved at #{Time.now}</i>"
+  def update
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey_answer = @journal_entry.survey_answer
     survey = survey_answer.survey
     survey_answer.save_partial_answers(params, survey)
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
+      Task.new.create_csv_answer(survey_answer)
       redirect_to journal_path(@journal_entry.journal)
     else  # not answered
       flash[:notice] = "Dit svar blev ikke gemt."

@@ -33,4 +33,5 @@ class Task < ActiveRecord::Base
     self.status = "Completed"
     self.save
   end
+  
 end

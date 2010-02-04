@@ -50,7 +50,6 @@ class Question < ActiveRecord::Base
 
 
   def merge_answertype(answer)
-    # "running merge_answertype: #{answer.inspect}"
     if answer.question_id == self.id
       q_cells = self.rows_of_cols
       a_cells = answer.rows_of_cols
@@ -67,10 +66,10 @@ class Question < ActiveRecord::Base
     end
   end
     
-  def get_answertype(row, col)
-    qc = self.question_cells.first(:conditions => ['question_id = ? AND row = ? AND col = ?', self.id, row, col])
-    return [qc.type.to_s, qc.answer_item] if qc
-  end
+  # def get_answertype(row, col)
+  #   qc = self.question_cells.first(:conditions => ['question_id = ? AND row = ? AND col = ?', self.id, row, col])
+  #   return [qc.type.to_s, qc.answer_item] if qc
+  # end
 
   # should do exactly the same as hash_rows_of_cols, and is faster too!
   def rows_of_cols
@@ -149,6 +148,31 @@ class Question < ActiveRecord::Base
           #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
           # else
           cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#NULL!" || cell.value # !! default value is "", not nil
+          # end
+        end
+      end
+    end
+    return cells
+  end
+
+  def test_variables(prefix = nil)
+    cells = Dictionary.new
+    prefix ||= survey.prefix
+
+    q = self.number.to_roman.downcase
+    # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
+    self.question_cells.map do |cell|
+      if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|ListItem|SelectOption|TextBox/
+        var = Variable.get_by_question(id, cell.row, cell.col)
+        if var
+          cells[var.var.to_sym] = var.var + ":" + (cell.value || "#NULL!")
+        else  # default var name
+          item = cell.answer_item
+          item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
+          # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
+          #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
+          # else
+          cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#{prefix}#{q}#{item}:" + ("#NULL!" || cell.value) # !! default value is "", not nil
           # end
         end
       end
