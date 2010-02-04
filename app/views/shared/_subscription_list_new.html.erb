@@ -14,7 +14,6 @@
 
 <%		
 	for view in @subscription_presenter.detailed_view
-		# puts "view: #{view.inspect}"
 			state = Subscription.states.invert[view[:state]]
 			# do not show inactive to others than admins
 			next if current_user.access? :subscription_show_inactive and state == "Inaktiv"

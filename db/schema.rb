@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100130222337) do
+ActiveRecord::Schema.define(:version => 20100204153251) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -157,6 +157,8 @@ ActiveRecord::Schema.define(:version => 20100130222337) do
     t.boolean  "active",          :default => false, :null => false
   end
 
+  add_index "periods", ["subscription_id"], :name => "index_periods_on_subscription_id"
+
   create_table "person_infos", :force => true do |t|
     t.integer "journal_id",  :default => 0,    :null => false
     t.string  "name",        :default => "",   :null => false
@@ -169,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20100130222337) do
 
   add_index "person_infos", ["cpr"], :name => "index_person_infos_on_cpr"
   add_index "person_infos", ["delta"], :name => "index_person_infos_on_delta"
+  add_index "person_infos", ["journal_id"], :name => "index_person_infos_on_journal_id"
 
   create_table "plugin_schema_info", :id => false, :force => true do |t|
     t.string  "plugin_name"
@@ -357,15 +360,6 @@ ActiveRecord::Schema.define(:version => 20100130222337) do
     t.integer  "export_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "test_cells", :id => false, :force => true do |t|
-    t.integer "answer_id"
-    t.integer "col"
-    t.integer "row"
-    t.string  "answertype"
-    t.string  "item"
-    t.string  "value"
   end
 
   create_table "user_registrations", :force => true do |t|

@@ -96,15 +96,16 @@ class Subscription < ActiveRecord::Base
   end  
 
   def self.subscriptions_count(center = nil, group_by = 'center_id')
-    result = Query.new.query_subscriptions_count(center)
-    result = result.group_by { |h| h[group_by].to_i } unless center
+    result = Rails.cache.fetch("subscriptions_count_#{center.id}", :expires_in => 10.minutes) do
+      result = Query.new.query_subscriptions_count(center)
+      result = result.group_by { |h| h[group_by].to_i } unless center
+    end
     result
   end
   
   def new_period!
     active_period = find_active_period
     active_period.pay!
-    # self.periods.create_copy({:active => true})
     self.periods << Period .create({:active => true, :subscription => self})
   end
 

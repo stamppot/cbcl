@@ -6,12 +6,7 @@
 <span id="progress">Genererer</span>
 
 <script type="text/javascript">
-  //<![CDATA[
     generating_export = true;
-		// function stopPolling() {
-		// 	generating_export = false;
-		// }
-  //]]>
 </script>
 
 <%= periodically_call_remote(:url => {:action => :generating_export, :id => @task},

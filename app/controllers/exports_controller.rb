@@ -31,18 +31,15 @@ class ExportsController < ApplicationController
     params = filter_date(args)
     @start_date, @stop_date = params[:start_date], params[:stop_date]
     @surveys = current_user.subscribed_surveys
-    params = filter_age(params)
+    params = Query.filter_age(params)
     
     # set default value to true unless filter is pressed
     @surveys = Survey.selected(params[:surveys].keys)
     @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
     render :update do |page|
-      # page.replace 'survey_answer_list', :partial => "survey_answer_list"
       page.replace_html 'results', "Antal: #{@count_survey_answers.to_s}"
-      # page.visual_effect :pulsate, 'results'
       page.visual_effect :shake, 'results'
-      # page.visual_effect :highlight, 'survey_answer_list'
     end
   end
 
@@ -77,19 +74,11 @@ class ExportsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          if @task.completed? #:controller => 'export_file', :action => :show, :id => @task.export_file
-            page.redirect_to export_file_path(@task.export_file) #, :content_type => 'application/javascript'
-          else
-            # page.update_progress
-          end
+          page.redirect_to export_file_path(@task.export_file) and return if @task.completed? #, :content_type => 'application/javascript'
         end
       }
       format.html do
-        if @task.completed?
-          redirect_to export_file_path(@task.export_file) #:controller => 'export_file', :action => :show, :id => @task.export_file
-        else
-          render
-        end
+        redirect_to export_file_path(@task.export_file) and return if @task.completed?
       end
     end
   end
@@ -168,4 +157,9 @@ class ExportsController < ApplicationController
     return surveys
   end
   
+  def check_access
+    if !current_user || current_user.login_user
+      redirect_to login_path
+    end
+  end
 end
