@@ -161,6 +161,11 @@ class SurveyAnswer < ActiveRecord::Base
 
     t = Time.now; updated_cells_no = AnswerCell.import([:id, :value], update_cells, :on_duplicate_key_update => [:value]); e = Time.now
     puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
+    # if is_done
+    #   missing_cells = self.add_missing_cells_optimized
+    #   puts "MISSING: #{missing_cells.inspect}"
+    # # AnswerCell.import(columns, missing_cells, :on_duplicate_key_update => [:value])
+    # end
     return self
   end
   

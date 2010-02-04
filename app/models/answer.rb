@@ -55,7 +55,7 @@ class Answer < ActiveRecord::Base
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
       fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
-      fields[:item] = valid_values[cell_id][:item]        # save item or not
+      # fields[:item] = valid_values[cell_id][:item]        # save item or not
       
       if valid_values[cell_id][:type] =~ /Rating|SelectOption/       # validates value for rating and selectoption
         # only save valid values, do not save empty answer cells
