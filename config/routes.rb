@@ -121,7 +121,7 @@ ActionController::Routing::Routes.draw do |map|
   map.subscription_deactivate 'subscriptions/deactivate/:id', :controller => 'subscriptions', :action => 'deactivate'
   map.set_subscription_not 'subscriptions/set_subscription_note/:id', :controller => 'subscriptions', :action => 'set_subscription_note'
   
-  map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
+  map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'
   map.export_filter 'exports/filter', :controller => 'exports', :action => 'filter'
   map.generating 'exports/generating_export/:id', :controller => 'exports', :action => 'generating_export'

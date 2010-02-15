@@ -742,6 +742,10 @@ a .subscription_undo_payment {
 	padding-left: 27px;
 }
 
+a .export_center {
+	background:url('/images/page_excel.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
 a .filter {
 	background:url('/images/cog.png') no-repeat 0px 0px;
 	padding-left: 27px;

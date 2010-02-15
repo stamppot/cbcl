@@ -1,8 +1,15 @@
 <h1>Dataudtræk</h1>
 
 <% form_tag(csv_download_path, :onSubmit => "Element.show('downloading');") do %>
-<h3>Besvaret mellem</h3>
+
+
 <div id='filter_fields'>
+
+<h3>Center</h3>
+	<%= select(@center, 'center', Center.all.map{|c| [c.title, c.id]}, :include_blank => true) %>
+<br/>
+
+<h3>Besvaret mellem</h3>
 	<label for='start_date'>Startdato</label>
 	<%= select_date(@start_date, :prefix => 'start_date', :order => [:day, :month, :year], :start_year => (@start_date.year), :end_year => @stop_date.year ) %>
 	<br>

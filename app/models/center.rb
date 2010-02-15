@@ -166,6 +166,7 @@ class Center < Group
       :login_user => true
     }
   end
+  
 
   protected
   

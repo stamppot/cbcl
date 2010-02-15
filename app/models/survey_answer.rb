@@ -20,6 +20,7 @@ class SurveyAnswer < ActiveRecord::Base
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
   named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_answers.survey_id = ?", survey_id] } }
   named_scope :with_journals, :joins => "INNER JOIN `journal_entries` ON `journal_entries`.journal_id = `journal_entries`.survey_answer_id", :include => {:journal_entry => :journal}
+  named_scope :for_entries, lambda { |entry_ids| { :conditions => ["survey_answers.journal_entry_id IN (?)", entry_ids] } }
 
   def answered_by_role
     return Role.get(self.answered_by)

@@ -67,6 +67,7 @@ class Access
     :center_show_member         => [:behandler],
     :center_show_all            => [:superadmin, :admin],
     :center_show_teams          => [:superadmin, :centeradministrator, :behandler],
+    :center_export_data         => [:superadmin, :centeradministrator],
     # :team_member_access         => [:behandler],
     # :team_access_all            => [:centeradministrator],
     :team_show                  => [:superadmin, :centeradministrator, :teamadministrator, :behandler],

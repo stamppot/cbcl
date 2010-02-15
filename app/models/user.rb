@@ -336,26 +336,18 @@ class User < ActiveRecord::Base
 
   # finished survey answers, based on accessible journals
   def survey_answers(options = {})  # params are not safe, should only allow page/per_page
-    page = options[:page] ||= 1
-    per_page = options[:per_page] ||= 100000
+    page       = options[:page] ||= 1
+    per_page   = options[:per_page] ||= 100000
     start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
     stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
     start_age  = options.delete(:age_start) || 0
     stop_age   = options.delete(:age_stop) || 21
-
     surveys    = options.delete(:surveys)
-  
     je_ids     = options.delete(:journal_entry_ids)
-    if je_ids.blank?    
-      je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
-        self.journal_entry_ids
-      end
-    end
+    je_ids ||= Rails.cache.fetch("journal_entry_ids_user_#{self.id}") { self.journal_entry_ids }
 
     if self.has_access?(:group_all)
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page )
-      # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).
-      # paginate(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids], :page => page, :per_page => per_page )) #, :include => [{:journal_entry => :journal}, :survey])
+      SurveyAnswer.for_entries(je_ids).for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:page => page, :per_page => per_page )
     else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
@@ -370,16 +362,13 @@ class User < ActiveRecord::Base
     stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
     start_age  = options.delete(:age_start) || 0
     stop_age   = options.delete(:age_stop) || 21
-
     surveys    = options.delete(:surveys)
-    je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
-      self.journal_entry_ids
-    end
-    puts "options : #{options.inspect}"
+    je_ids     = options.delete(:journal_entry_ids)
+    # puts "survey_answers: je_ids: #{je_ids.inspect}"
+    je_ids ||= Rails.cache.fetch("journal_entry_ids_user_#{self.id}") { self.journal_entry_ids }
         
     if self.has_access?(:group_all)
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(:conditions => ['journal_entry_id IN (?)', je_ids])
-      # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['journal_entry_id IN (?)', je_ids]))
+      SurveyAnswer.for_entries(je_ids).for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count #(:conditions => ['journal_entry_id IN (?)', je_ids])
     else
       journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
       sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }

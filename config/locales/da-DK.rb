@@ -160,7 +160,8 @@ I18n.backend.store_translations 'da-DK',
     },
     
     :export => {
-      :logins => 'Eksporter login-data'
+      :logins => 'Eksporter login-data',
+      :data => 'Dataudtræk'
     },
     
     :variable => {
