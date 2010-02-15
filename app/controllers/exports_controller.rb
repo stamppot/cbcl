@@ -108,12 +108,13 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     @surveys = Survey.selected(params[:surveys].keys)
 
-    if params[:id]
-      center = Center.find(params.delete(:id))
-      je_ids = center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
+    @center = Center.find params[:center] if params[:center]
+
+    if @center
+      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
       params[:journal_entry_ids] = je_ids
-      @journal_entries = JournalEntry.find(je_ids)
     end
+
     survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
     @journal_entries ||= survey_answers.map {|sa| sa.journal_entry_id }.compact
     
