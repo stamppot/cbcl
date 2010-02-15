@@ -26,7 +26,7 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def to_csv
-    self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values #.join(';')
+    self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
 
   def save_all(params)
@@ -104,8 +104,17 @@ class SurveyAnswer < ActiveRecord::Base
     scores.each do |score|
       score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, rapport.id])
       
-      args = { :title => score.title, :score_id => score.id, :scale => score.scale, :survey => self.survey,
-            :result => score.result(self, journal), :percentile => score.percentile(self, journal), :score_rapport => rapport, :position => score.position }
+      args = { 
+        :title => score.title, 
+        :score_id => score.id, 
+        :scale => score.scale, 
+        :survey => self.survey,
+        :result => score.result(self, journal), 
+        :percentile => score.percentile(self, journal), 
+        :score_rapport => rapport, 
+        :position => score.position
+      }
+
       if score_result
         score_result.update_attributes(args)
       else
@@ -161,11 +170,6 @@ class SurveyAnswer < ActiveRecord::Base
 
     t = Time.now; updated_cells_no = AnswerCell.import([:id, :value], update_cells, :on_duplicate_key_update => [:value]); e = Time.now
     puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
-    # if is_done
-    #   missing_cells = self.add_missing_cells_optimized
-    #   puts "MISSING: #{missing_cells.inspect}"
-    # # AnswerCell.import(columns, missing_cells, :on_duplicate_key_update => [:value])
-    # end
     return self
   end
   

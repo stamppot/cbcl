@@ -344,8 +344,12 @@ class User < ActiveRecord::Base
     stop_age   = options.delete(:age_stop) || 21
 
     surveys    = options.delete(:surveys)
-    je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
-      self.journal_entry_ids
+  
+    je_ids     = options.delete(:journal_entry_ids)
+    if je_ids.blank?    
+      je_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+        self.journal_entry_ids
+      end
     end
 
     if self.has_access?(:group_all)

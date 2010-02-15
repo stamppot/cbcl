@@ -43,6 +43,29 @@ class ExportsController < ApplicationController
     end
   end
 
+  # TODO: DRY up parameter processing (filtering)
+  def center_export
+    center = Center.find(params.delete(:id))
+    je_ids = center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
+    args = params
+    params = filter_date(args)
+    params = Query.filter_age(params)
+
+    params[:journal_entry_ids] = je_ids
+    
+    @surveys = current_user.subscribed_surveys
+    # set default value to true unless filter is pressed
+    @surveys = Survey.selected(params[:surveys].keys)
+    
+    @survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
+    @journal_entries = @survey_answers.map {|sa| sa.journal_entry_id }.compact
+
+    # spawns background task
+    @task = Task.create(:status => "In progress")
+    @task.create_export(@surveys.map(&:id), @journal_entries)
+
+    redirect_to generating_path(@task)
+  end
 
   # TODO: DRY up parameter processing (filtering)
   def download

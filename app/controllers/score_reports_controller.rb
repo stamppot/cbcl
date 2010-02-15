@@ -15,6 +15,7 @@ class ScoreReportsController < ApplicationController
       @survey_answers = entries.map { |entry| entry.survey_answer }.sort_by {|sa| sa.survey.position }
 
       # store score_rapport in model
+      # debugger
       @survey_answers.each { |sa| sa.calculate_score }
 
       # must show journal info

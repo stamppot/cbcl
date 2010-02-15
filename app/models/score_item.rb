@@ -36,7 +36,6 @@ class ScoreItem < ActiveRecord::Base
     def qualified_cells(answer)
       score_items = []
       cells = []
-      
       found_cells = []
       
       # count only ratings
@@ -46,7 +45,7 @@ class ScoreItem < ActiveRecord::Base
         score_items = self.items.gsub(/\s+/, "").split(',')  # only numbers, no cells
         score_items.each do |s_item|
           found_cell = a_cells.detect { |a_cell| a_cell.item.to_s == s_item }
-          found_cells << found_cell unless found_cell.nil?
+          found_cells << found_cell if found_cell
         end
       else # self.item_qualifier == "alle"                   # both options needs to find all cells
         found_cells = a_cells                                # get all items

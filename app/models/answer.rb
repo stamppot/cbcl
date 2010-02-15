@@ -55,7 +55,7 @@ class Answer < ActiveRecord::Base
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
       fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
-      # fields[:item] = valid_values[cell_id][:item]        # save item or not
+      fields[:item] = valid_values[cell_id][:item]        # save item, used to calculate score
       
       if valid_values[cell_id][:type] =~ /Rating|SelectOption/       # validates value for rating and selectoption
         # only save valid values, do not save empty answer cells
@@ -158,4 +158,26 @@ class Answer < ActiveRecord::Base
     xml << "</answer>"
   end
   
+  def set_missing_items
+    q_cells = Rails.cache.fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
+    counter = 0
+    a_cells = self.answer_cells.find(:all, :conditions => ['item IS NULL'])
+    a_cells.each do |a_cell|
+      q_cell = q_cells[a_cell.row][a_cell.col]
+      if q_cell && q_cell.answer_item
+        a_cell.item = q_cell.answer_item
+        a_cell.answertype = q_cell.type unless a_cell.answertype
+        a_cell.save
+        a_cell = nil
+        counter += 1
+        puts "set another 100 a_cells" if counter % 100 == 0
+      end
+    end
+    a_cells.clear
+    a_cells = nil
+  end
+  
+  def self.set_missing_items
+    self.find_in_batches { |answers| answers.each { |answer| answer.set_missing_items } }
+  end
 end
