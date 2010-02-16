@@ -10,7 +10,7 @@ class SurveyAnswersController < ApplicationController
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
     end
-    @survey.merge_answer(@survey_answer)
+    @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.title
     # render :text => @survey.to_s.inspect
     render :template => 'surveys/show' #, :layout => "layouts/showsurvey"
@@ -23,7 +23,7 @@ class SurveyAnswersController < ApplicationController
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
-    @survey.merge_answer(@survey_answer)
+    @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.title
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
   end
@@ -35,7 +35,7 @@ class SurveyAnswersController < ApplicationController
     @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
     end
-    @survey.merge_answer(@survey_answer)
+    @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Ret Svar: " << @survey.title
     render :template => 'surveys/show'
   end
@@ -91,7 +91,7 @@ class SurveyAnswersController < ApplicationController
             :surveytype => survey.surveytype, :nationality => journal.nationality, :journal_entry => journal_entry)
     end
     survey_answer = journal_entry.survey_answer
-    survey_answer.save_all_answers(params)
+    survey_answer.save_answers(params)
     journal_entry.answered_at = Time.now
     journal_entry.draft!
     survey_answer.save
@@ -142,7 +142,7 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey_answer = @journal_entry.survey_answer
     survey = survey_answer.survey
-    survey_answer.save_partial_answers(params, survey)
+    survey_answer.save_answers(params)
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
       Task.new.create_csv_answer(survey_answer)

@@ -245,7 +245,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def user_access
-    if !current_user.access?(:journal_new_edit_delete)
+    redirect_to login_path and return unless current_user
+    if current_user && !current_user.access?(:journal_new_edit_delete)
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to login_path
     end

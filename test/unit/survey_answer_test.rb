@@ -23,7 +23,7 @@ class SurveyAnswerTest < ActiveSupport::TestCase #ActiveSupport::TestCase
         @survey_answer = SurveyAnswer.create(:survey => Survey.find(2))
       end
       should "save survey_answers and cells" do
-        assert @survey_answer.save_all_answers(@params)
+        assert @survey_answer.save_answers(@params)
         assert @survey_answer.answers.size == 10
         assert @survey_answer.answers.map {|a| a.answer_cells }.flatten.size > 120
       end

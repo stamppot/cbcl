@@ -39,7 +39,7 @@ class SurveyAnswer < ActiveRecord::Base
     self.answered_by = params[:answer] && params[:answer][:person] || ""
     self.done = true
     self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    self.save_all_answers(params)
+    self.save_answers(params)
     self.answers.each { |a| a.update_ratings_count }
     Answer.transaction do
       answers.each {|a| a.save!}
@@ -134,7 +134,7 @@ class SurveyAnswer < ActiveRecord::Base
     return output
   end
   
-  def save_all_answers(params)
+  def save_answers(params)
     params.each do |key, cells|
       if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
           params.delete(key)

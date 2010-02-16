@@ -85,6 +85,7 @@ class ExportsController < ApplicationController
     params = Query.filter_age(params)
     
     # set default value to true unless filter is pressed
+    params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
     if @center
       je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
@@ -106,6 +107,7 @@ class ExportsController < ApplicationController
 
     @surveys = current_user.subscribed_surveys
     # set default value to true unless filter is pressed
+    params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
 
     @center = Center.find params[:center] if params[:center]

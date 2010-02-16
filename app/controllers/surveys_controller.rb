@@ -56,7 +56,7 @@ class SurveysController < ApplicationController
     # show survey with existing answers
     # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
     if survey_answer = @journal_entry.survey_answer 
-      @survey.merge_answer(survey_answer)
+      @survey.merge_survey_answer(survey_answer)
     end
     rescue ActiveRecord::RecordNotFound
   end
@@ -77,7 +77,7 @@ class SurveysController < ApplicationController
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
       @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id) # removed .and_answers
-      @survey.merge_answer(@survey_answer)  # insert existing answers
+      @survey.merge_survey_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer
       @journal_entry.survey_answer = @survey_answer

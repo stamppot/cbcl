@@ -54,11 +54,11 @@ class Survey < ActiveRecord::Base
 	  end
   end
   
-  def merge_answer(survey_answer)
+  def merge_survey_answer(survey_answer)
     return self if survey_answer.nil?
     survey_answer.answers.each do |answer|
       # find question which matches answer
-      puts "answer number & id: #{answer.number} - #{answer.id}"
+      # puts "answer number & id: #{answer.number} - #{answer.id}"
       question = self.questions.detect { |question| question.id == answer.question_id }
       question.merge_answer(answer) if question
     end
