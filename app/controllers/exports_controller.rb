@@ -77,7 +77,7 @@ class ExportsController < ApplicationController
   # end
   
   def filter
-    @center = Center.find params[:center] if params[:center]
+    @center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
     @start_date, @stop_date = params[:start_date], params[:stop_date]
@@ -110,7 +110,7 @@ class ExportsController < ApplicationController
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
 
-    @center = Center.find params[:center] if params[:center]
+    @center = Center.find params[:center] unless params[:center].blank?
 
     if @center
       je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids

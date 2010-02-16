@@ -45,14 +45,14 @@ class SurveyAnswer < ActiveRecord::Base
       answers.each {|a| a.save!}
     end
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
-    self.create_csv_answer
+    spawn do
+      self.create_csv_answer
+    end
     self.save
   end
   
   def create_csv_answer
-    spawn do
-      CSVHelper.new.create_csv_answer(self)
-    end
+    CSVHelper.new.create_csv_answer(self)
   end
   
   def cell_values(prefix = nil)
