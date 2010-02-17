@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100216220433) do
+ActiveRecord::Schema.define(:version => 20100217173657) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -344,9 +344,11 @@ ActiveRecord::Schema.define(:version => 20100216220433) do
     t.integer  "journal_entry_id",               :default => 0,     :null => false
     t.boolean  "done",                           :default => false
     t.datetime "updated_at"
+    t.integer  "journal_id"
   end
 
   add_index "survey_answers", ["journal_entry_id"], :name => "index_survey_answers_on_journal_entry_id"
+  add_index "survey_answers", ["journal_id"], :name => "index_survey_answers_on_journal_id"
   add_index "survey_answers", ["survey_id"], :name => "index_survey_answers_on_survey_id"
 
   create_table "surveys", :force => true do |t|
