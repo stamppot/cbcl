@@ -392,7 +392,7 @@ class SurveyBuildersController < ApplicationController
 
 
   def superadmin_access
-    if (current_user || current_user.access?(:superadmin))
+    unless (current_user && current_user.access?(:superadmin))
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to login_path
     end

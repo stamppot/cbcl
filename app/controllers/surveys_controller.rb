@@ -135,7 +135,7 @@ class SurveysController < ApplicationController
 
 
   def superadmin_access
-    if !(current_user.access? :admin_actions)
+    unless current_user.access? :superadmin
       flash[:error] = "Du har ikke adgang til denne side"
       redirect_to main_path
     end

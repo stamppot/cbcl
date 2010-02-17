@@ -2,18 +2,18 @@ class FaqsController < ApplicationController
 
   layout 'survey'
   
-  uses_tiny_mce(:options => {:theme => 'advanced',
-    :browsers => %w{msie gecko safari},
-    :theme_advanced_toolbar_location => "top",
-    :theme_advanced_toolbar_align => "left",
-    :theme_advanced_resizing => true,
-    :theme_advanced_resize_horizontal => false,
-    :paste_auto_cleanup_on_paste => true,
-    :theme_advanced_buttons1 => %w{bold italic underline separator bullist numlist separator link unlink image undo redo},
-    :theme_advanced_buttons2 => [],
-    :theme_advanced_buttons3 => [],
-    :convert_newlines_to_brs => true,
-    :plugins => %w{contextmenu paste}})
+  # uses_tiny_mce(:options => {:theme => 'advanced',
+  #   :browsers => %w{msie gecko safari},
+  #   :theme_advanced_toolbar_location => "top",
+  #   :theme_advanced_toolbar_align => "left",
+  #   :theme_advanced_resizing => true,
+  #   :theme_advanced_resize_horizontal => false,
+  #   :paste_auto_cleanup_on_paste => true,
+  #   :theme_advanced_buttons1 => %w{bold italic underline separator bullist numlist separator link unlink image undo redo},
+  #   :theme_advanced_buttons2 => [],
+  #   :theme_advanced_buttons3 => [],
+  #   :convert_newlines_to_brs => true,
+  #   :plugins => %w{contextmenu paste}})
     
   # do not use, should be for faq_section only
   def index
