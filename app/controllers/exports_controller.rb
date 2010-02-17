@@ -1,5 +1,5 @@
 class ExportsController < ApplicationController
-
+  
   def index
     @center = Center.find(params[:id]) if params[:id]
     args = params
@@ -28,53 +28,8 @@ class ExportsController < ApplicationController
       @journal_entries = JournalEntry.find(je_ids)
     end
     
-    puts "filter_surveys: #{filter_surveys.inspect}"
     @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
   end
-
-  # def show
-  #   center = Center.find params[:center]
-  #   
-  #   if params[:center]
-  #     center = Center.find(params.delete(:center))
-  #     je_ids = center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-  #     params[:journal_entry_ids] = je_ids
-  #     @journal_entries = JournalEntry.find(je_ids)
-  #   end
-  #   
-  #   args = params
-  #   # set default dates
-  #   params[:start_date] ||= (SurveyAnswer.first && SurveyAnswer.first.created_at)
-  #   params[:stop_date] ||= (SurveyAnswer.last && SurveyAnswer.last.created_at)
-  # 
-  #   params = filter_date(args)
-  #   @start_date, @stop_date = params[:start_date], params[:stop_date]
-  # 
-  #   # filter age
-  #   @start_age = params[:age_start] = 1
-  #   @stop_age = params[:age_stop]  = 21
-  #   params = Query.filter_age(args)
-  #   
-  #   # clean params
-  #   params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
-  #   
-  #   @surveys = current_user.subscribed_surveys
-  #   
-  #   # set default value to true unless filter is pressed
-  #   @surveys = surveys_default_selected(@surveys, params[:surveys])
-  #   filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
-  #   puts "filter_surveys: #{filter_surveys.inspect}"
-  #   
-  #   survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-  #   @journal_entries ||= survey_answers.map {|sa| sa.journal_entry_id }.compact
-  #   
-  #   je_ids = center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-  #   params[:journal_entry_ids] = je_ids
-  # 
-  #   # @journal_entries = JournalEntry.find(je_ids)
-  #   @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
-  #   render :index
-  # end
   
   def filter
     @center = Center.find params[:center] unless params[:center].blank?
@@ -123,7 +78,8 @@ class ExportsController < ApplicationController
     # spawns background task
     @task = Task.create(:status => "In progress")
     @task.create_export(@surveys.map(&:id), @journal_entries)
-
+    
+    # response.headers["Content-Type"] = 'application/javascript'
     redirect_to generating_path(@task)
   end
   
@@ -134,7 +90,12 @@ class ExportsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          page.redirect_to export_file_path(@task.export_file) and return if @task.completed? #, :content_type => 'application/javascript'
+          if @task.completed?
+            page.redirect_to export_file_path(@task.export_file) and return  #, :content_type => 'application/javascript'
+          # else
+            # render false
+          end
+          page.visual_effect :pulse, 'progress'
         end
       }
       format.html do
@@ -165,7 +126,14 @@ class ExportsController < ApplicationController
 
   
   protected
+
   
+  before_filter :header_javascript, :only => [:generating_export]
+
+  def header_javascript
+    response.headers['Content-type'] = 'text/javascript; charset=utf-8'
+  end
+
   def filter_date(args)
     if args[:start_date] && args[:stop_date]
       start = args.delete(:start_date)

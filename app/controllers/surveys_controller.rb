@@ -128,10 +128,9 @@ class SurveysController < ApplicationController
   end
 
   
-  protected                                # 'list' only allowed for some users
+  protected
+  
   before_filter :superadmin_access, :only => [ :new, :edit, :update, :create, :delete, :destroy ]
-  # before_filter :user_access, :except => [ :new, :edit, :update, :create, :destroy, :delete, :index, :list, :start, :show, :show_fast, :show_only, :answer, :end]
-  # before_filter :login_access, :only => [ :index, :list, :start, :show, :show_fast, :show_only, :answer, :end ]
 
 
   def superadmin_access

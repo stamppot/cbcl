@@ -61,8 +61,8 @@ class CSVHelper
     # csv_headers = journal_csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
-      csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).group_by { |c| c.survey_id } # TODO: load all at once
-      
+      # csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).group_by { |c| c.survey_id } # TODO: load all at on
+      csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.gsub!(/^\"|\"$/, ""); ca}.group_by { |c| c.survey_id }
       # fill missing values
       csv_headers.each do |s_id, empty_vals|
         csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer || empty_vals 
@@ -70,18 +70,23 @@ class CSVHelper
       result[j] = csv_answers.values
     end
 
+    # debugger
     csv = []
-    csv << ((journal_csv_header.keys + survey_headers_flat(survey_ids).keys).join(';') + "\n")
+    csv << ((journal_csv_header.keys + survey_headers_flat(survey_ids).keys).join(';')) # + "\n")
     row = []
     # add journal info # todo: prefetch wanted journals
     result.each do |j, answers|
       journal = Journal.find(j)
-      row << (journal_to_csv(journal).join(';') << ";" << (answers.join(';').gsub(/^\".*\"$/, "") + "\n"))
+      # debugger
+      row << ((journal_to_csv(journal) + answers).join(';') + "\n")    #.join(';') << ";" << (answers.join(';') #.gsub(/^\".*\"$/, "") + "\n"))
     end 
-    csv << row.join
+    csv << [row] #.join
     # e = Time.now
     # puts "STOP CSVHELPER.TO_CSV: #{e-t}"
-    return csv.join 
+    output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
+      csv.each { |line| csv_output << line }
+    end
+    return output #csv.join('\n')
   end
   
   
