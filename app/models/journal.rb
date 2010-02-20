@@ -7,7 +7,9 @@ class Journal < Group
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :login_users, :through => :journal_entries, :source => :journal_entries
   has_many :surveys, :through => :journal_entries
+  has_many :survey_answers
   has_many :csv_answers
+  
   has_many :answered_entries,
            :class_name => 'JournalEntry',
            :include => [:survey],

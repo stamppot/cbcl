@@ -20,17 +20,12 @@ Antal brugere <%= @users.size %>
         :title => "Vis #{user.class.to_s}" ) %></td>
     <td><%= user.email %></td>
     <td><%= user.status %></td>
-	<td><%= roles = user.roles.empty? ? " " : user.roles.first.prettyname -%></td>
+	<td><%= roles = user.roles.empty? ? " " : t("role.#{user.roles.first.title)}" -%></td>
 	<% groups = ""
        if !current_user.nil? and !current_user.groups.empty?
          user.groups.each { |g| groups += "\'" + g.title + "\' " }
        elsif current_user.access? :admin
-         user.groups.each do |g| if g.instance_of? Center
-                                   groups += "\'" + g.title + "\' "
-                                 else
-                                   groups += "\'" + g.parent.title + "\' "
-                                 end
-                          end
+         user.groups.each { |g| g.instance_of?(Center) && groups += "\'" + g.title + "\' " || groups += "\'" + g.parent.title + "\' " }
        end -%>
     <td><%=h groups %>&nbsp;</td>
     <% if current_user.access? :login_user_new_edit_delete %>

@@ -2,9 +2,6 @@
 	<tr>
 	<th class="wide" title=<%= t('sort.name') %>><%= t('name') %></th>
 	<th title="<%= t('sort.role') %>"><%= t('role') %></th>
-	<% if current_user.access? :user_view_status %>
-	<th title="<%= t('sort.state') %>"><%= t('state') %></th>
-	<% end %>
 	<th title="<%= t('sort.group') %>"><%= t('groups') %></th>
 	<% if current_user.access? :user_edit_delete %>
 	<th class="nosort" style="width: 75px;"><%= t('action') %></th>
@@ -13,11 +10,8 @@
 
 	<% @users.each do |user| %>
 	<tr>
-		<td><%= link_to user.name, user_path(user), :title => t('user.show') %></td>
-		<td><%= (roles = user.roles).any? && roles.first.title || " " -%></td>
-		<% if current_user.access? :user_view_status %>
-		<td><%= h user.status %></td>
-		<% end %>
+		<td><%= link_to user.name, user_path(user), :title => t('user.show'), :class => (user.state != 2) && 'unconfirmed' || '' %></td>
+		<td><%= (roles = user.roles).any? && t("roles.#{roles.first.title}").capitalize || " " -%></td>
 		<% if current_user.access?(:user_show_teams) and !(groups = user.groups.teams).empty?
 			   groups = groups.map { |g| g.title }.join(", ")
 			 else

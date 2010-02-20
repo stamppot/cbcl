@@ -1,64 +1,86 @@
-
 <h2><%= t('user.user') %> &quot;<%= h @user.login %>&quot;</h2>
 
-<!-- <h3>Bruger Data</h3> -->
+<ul class="tabs" id="subscription_tabs" class="center_tabs">  
+	<li class="tab"><a href="#info">Info</a></li>  
+	<li class="tab"><a href="#user_teams">Teams</a></li> 
+</ul>
+<div class="tab_canvas" id="tab_canvas_<%= @user.id %>">
+	<br/>
 
-<dl>
-    <dt><%= t('name') %></dt>
-    <dd><%= h @user.name %></dd>
+<div class="user_info" id="info">
+	<table class="user_info">
+		<tr>
+			<td class="u_i"><%= t('name') %>:</td>
+			<td class="u"><%= @user.name %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('user.Login') %>:</td>
+			<td class="u"><%= @user.login %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('email') %>:</td>
+			<td class="u"><%= @user.email  %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('user.id') %>:</td>
+			<td class="u"><%= @user.id %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('created') %>:</td>
+			<td class="u"><%= @user.created_at.to_formatted_s(:long) %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('user.last_login') %>:</td>
+			<td class="u"><%= @user.last_logged_in_at.to_formatted_s(:long) %></td>
+		</tr>
+		<tr>
+			<td class="u_i"><%= t('user.State') %>:</td>
+			<td class="u"><%= @user.state != 2 && @user.status.upcase || @user.status.capitalize %></td>
+		</tr>
+	</table>
 
-    <dt><%= t('login.login') %></dt>
-    <dd><%= h @user.login %></dd>
+	<h3><%= t('roles.Roles') %></h3>
 
-    <dt><%= t('email') %></dt>
-    <dd><%= h @user.email %></dd>
+	<% if @user.roles.empty? %>
+	    <p><%= t('no_roles') %></p>
+	<% else %>
+		<% roller = []
+		   @roles = @user.roles %>
+		<%= render :partial => "shared/roles" %>
+	<% end %>
 
-    <dt><%= t('id') %></dt>
-    <dd><%= @user.id %></dd>
 
-    <dt><%= t('created') %></dt>
-    <dd><%= @user.created_at.to_formatted_s(:long) %></dd>
+	<% if current_user.access? :role_show_all %>
+	    <h3>Alle tildelte roller</h3>
+		<% @roles = @user.all_roles %>
+	    <% if @roles.empty? %>
+	        <p><%= t('no_roles') %></p>
+		<% else %>
+		<%= render :partial => "shared/roles" %>
+		<% end %>
+	<% end %>
+</div>
 
-    <dt><%= t('updated') %></dt>
-    <dd><%= @user.updated_at.to_formatted_s(:long) %></dd>
 
-    <dt><%= t('last_login') %></dt>
-    <dd><%= @user.last_logged_in_at.to_formatted_s(:long) %></dd>
+<div class="user_teams" id="user_teams">
 
-    <dt><%= t('state') %></dt>
-    <dd><%= @user.status %></dd>
-</dl>
-
-<h3><%= t('roles') %></h3>
-
-<% if @user.roles.empty? %>
-    <p><%= t('no_roles') %></p>
-<% else %>
-	<% roller = []
-	   @roles = @user.roles %>
-	<%= render :partial => "shared/roles" %>
-<% end %>
-
-<h3><%= t('groups') %></h3>
-
+<h3><%= t('team.teams') %></h3>
 <% if @user.groups.empty? %>
     <p><%= t('no_groups') %></p>
 <% else
  		@groups = @user.groups %>
-	<%= render :partial => 'shared/show_groups' %>
+		<%= render :partial => "shared/group_list" %>
 <% end %>
+<p/>
+</div>
 
 
-<% if current_user.access? :role_show_all %>
-    <h3>Alle tildelte roller</h3>
-	<% @roles = @user.all_roles %>
-    <% if @roles.empty? %>
-        <p><%= t('no_roles') %></p>
-	<% else %>
-	<%= render :partial => "shared/roles" %>
-	<% end %>
-<% end %>
 
+<script type="text/javascript">
+$$('.tabs').each(function(tab_group){  
+	new Control.Tabs(tab_group);  
+});
+</script>
 
 <div class="commands">
 <% if current_user.access? :user_edit_delete %>

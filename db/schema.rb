@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100217173657) do
+ActiveRecord::Schema.define(:version => 20100220142911) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -52,14 +52,13 @@ ActiveRecord::Schema.define(:version => 20100217173657) do
   end
 
   create_table "csv_answers", :force => true do |t|
-    t.integer  "survey_answer_id"
-    t.integer  "survey_id"
-    t.integer  "journal_entry_id"
-    t.integer  "journal_id"
-    t.integer  "age"
-    t.integer  "sex"
-    t.text     "answer"
-    t.datetime "created_at"
+    t.integer "survey_answer_id"
+    t.integer "survey_id"
+    t.integer "journal_entry_id"
+    t.integer "journal_id"
+    t.integer "age"
+    t.integer "sex"
+    t.text    "answer"
   end
 
   add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"

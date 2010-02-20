@@ -167,9 +167,10 @@ module UserMixins
             return @_all_roles unless @_all_roles.blank?
             result = Array.new
 
-            for role in self.roles
-              result << role.ancestors_and_self
-            end
+            result = self.roles.map { |role| role.ancestors_and_self }
+            # for role in self.roles
+            #   result << role.ancestors_and_self
+            # end
 
             # Group roles are not used!
             # for group in self.groups

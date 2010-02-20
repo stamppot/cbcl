@@ -35,7 +35,7 @@ class LoginController < ApplicationController
 
       user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
       raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
-      raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
+      # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
       cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
       cookies[:user_name] = user.name

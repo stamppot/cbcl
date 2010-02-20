@@ -88,7 +88,7 @@ class SurveyAnswersController < ApplicationController
     if journal_entry.survey_answer.nil?
       journal = journal_entry.journal
       journal_entry.survey_answer = SurveyAnswer.create(:survey => survey, :age => journal.age, :sex => journal.sex_text, 
-            :surveytype => survey.surveytype, :nationality => journal.nationality, :journal_entry => journal_entry)
+            :surveytype => survey.surveytype, :nationality => journal.nationality, :journal_entry_id => journal_entry.id)
     end
     survey_answer = journal_entry.survey_answer
     survey_answer.save_answers(params)

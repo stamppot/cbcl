@@ -32,7 +32,7 @@
   <% if @user.all_roles.empty? %>
   <dd><%= t('no_roles') %></dd>
   <% else %>
-  <dd><%= @user.roles.first.prettyname %></dd>
+  <dd><%= t("roles.#{@user.roles.first.title}") %></dd>
   <% end %>
 
   <dt>Journal</dt>

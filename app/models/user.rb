@@ -297,12 +297,12 @@ class User < ActiveRecord::Base
   def journal_ids
     j_ids = 
     if self.has_access?(:journal_show_all)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.find(:all, :select => "id") }
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all(:select => "id") }
     elsif self.has_access?(:journal_show_centeradm)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).find(:all, :select => "id") }
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).all(:select => "id") }
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(:reload => true) # get teams and centers for this users
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).find(:all, :select => "id") }
+      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).all(:select => "id") }
     elsif self.has_access?(:journal_show_none)
       []
     else  # for login-user
@@ -415,23 +415,24 @@ class User < ActiveRecord::Base
   end
   
   def status
-    case self.state
-    when 1: 'ubekræftet'
-    when 2: 'bekræftet'
-    when 3: 'låst'
-    when 4: 'slettet'
-    when 5: 'retrieved_password'
-      # The user has just retrieved his password and he must now
-      # it. The user cannot anything in this state but change his
-      # password after having logged in and retrieve another one.
-    when 6: 'retrieved_password'
-    when 'ubekræftet': 1
-    when 'bekræftet': 2
-    when 'låst': 3
-    when 'slettet': 4
-    when 'new_password': 5
-    when 'retrieved_password': 6
-    end
+    I18n.translate("user.states.#{state}")
+    # case self.state
+    # when 1: 'ubekræftet'
+    # when 2: 'bekræftet'
+    # when 3: 'låst'
+    # when 4: 'slettet'
+    # when 5: 'retrieved_password'
+    #   # The user has just retrieved his password and he must now
+    #   # it. The user cannot anything in this state but change his
+    #   # password after having logged in and retrieve another one.
+    # when 6: 'retrieved_password'
+    # when 'ubekræftet': 1
+    # when 'bekræftet': 2
+    # when 'låst': 3
+    # when 'slettet': 4
+    # when 'new_password': 5
+    # when 'retrieved_password': 6
+    # end
   end
 
   def User.stateToStatus(hash)

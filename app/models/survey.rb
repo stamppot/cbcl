@@ -84,7 +84,7 @@ class Survey < ActiveRecord::Base
     when "pedagogue": roles << Role.get(:teacher)
     end
     roles << Role.get(:other)
-    roles = roles.map { |r| [r.prettyname, r.id] }
+    roles = roles.map { |r| [I18n.translate("roles.#{r.title}"), r.id] }
   end
   
   def question_with_most_items
@@ -118,9 +118,11 @@ class Survey < ActiveRecord::Base
   end
     
   def cell_variables
-    d = Dictionary.new
-    self.questions.each { |question| d = d.merge!(question.cell_variables(self.prefix)) }
-    d.order_by
+    result = Rails.cache.fetch("survey_#{self.id}_cell_variables") do
+      d = Dictionary.new
+      self.questions.each { |question| d = d.merge!(question.cell_variables(self.prefix)) }
+      d.order_by
+    end
   end
 
   def csv_headers

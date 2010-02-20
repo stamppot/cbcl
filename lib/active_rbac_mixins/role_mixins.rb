@@ -59,13 +59,19 @@ module ActiveRbacMixins
           # This method returns the whole inheritance tree upwards, i.e. this role
           # and all parents as a list.
           def ancestors_and_self
+            # result = [self]
+            # 
+            # if parent != nil
+            #   result << parent.ancestors_and_self
+            # end
             result = [self]
-
-            if parent != nil
-              result << parent.ancestors_and_self
+            current_role = self
+            while current_role.parent
+              current_role = parent
+              result << current_role
             end
 
-            result.flatten!
+            # result.flatten!
             result.uniq!
 
             return result
@@ -75,11 +81,8 @@ module ActiveRbacMixins
           # in a flat list.
           def descendants_and_self
             result = [self]
-
             children.each { |child| result << child.descendants_and_self }
-            
             result.flatten!
-
             return result
           end
 

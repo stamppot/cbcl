@@ -347,6 +347,11 @@ th {
 	border-left: 1px solid #def;
 }
 
+.unconfirmed {
+	border: 1px solid red;
+	background: #f99;
+}
+
 .list td { border-color: #def; }
 .list.sortable td { border-color: #def; }
 
@@ -368,11 +373,11 @@ table#add_new_score_item td {
 	background: #ff8;
 	}}
 
-	td.t_i, td.p_i {
+	td.t_i, td.p_i, td.u_i {
 		width: 120px;
 	}
 
-	td.p, td.t, td.t_i, td.p_i {
+	td.p, td.t, td.t_i, td.p_i, td.u, td.u_i {
 		border: 0;
 	}
 

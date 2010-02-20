@@ -5,50 +5,94 @@ class CSVHelper
 
   DEBUG = false
   
-  def generate_csv_answers
+  def csv_answers_query
     # get journal_id => journal_entries_id
-    query = "select journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex from survey_answers, journal_entries
-    where survey_answers.journal_entry_id = journal_entries.id
-    and survey_answers.done = 1
+    query = "select journal_id, journal_entry_id, id, survey_id, age, sex from survey_answers
+    where survey_answers.done = 1
     and survey_answers.journal_entry_id != 0
     order by journal_id"
-    generate_csv_from_query_data(query)
+    csv_from_query_data(query)
   end
   
   def create_csv_answer(survey_answer)
-    query = "select journal_id, journal_entry_id, survey_answer_id, survey_answers.survey_id, age, sex from survey_answers, journal_entries
-    where survey_answers.journal_entry_id = journal_entries.id
-    and survey_answers.done = 1
-    and survey_answers.journal_entry_id != 0
-    and survey_answers.id = #{survey_answer.id}
-    order by journal_id"
-    generate_csv_from_query_data(query)
+    query = "select journal_id, journal_entry_id, id, survey_id, age, sex from survey_answers
+        where survey_answers.done = 1
+        and survey_answers.journal_entry_id != 0
+        and survey_answers.id = #{survey_answer.id}
+        order by journal_id"
+    csv_from_query_data(query)
   end
   
-  def generate_csv_from_query_data(query)
+  # for one survey_answer
+  def generate_csv_answer_line(query)
     result = ActiveRecord::Base.connection.execute(query)
 
-    result.each_hash do |c|
-      t1 = Time.now
-      csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-        csv << csv_answer = SurveyAnswer.and_answer_cells.find(c["survey_answer_id"]).to_csv.join(";")
-      end
-      e1 = Time.now
-      csv.each do |line|
-        # puts "CSV: #{line}"
-        csv_answer = CsvAnswer.find_by_survey_answer_id(c['survey_answer_id'])
-        if csv_answer
-          csv_answer.answer = line
-          csv_answer.save
-        else
-          insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
-          VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)};',#{line})"
-          ActiveRecord::Base.connection.execute(insert_query)
-        end
-      end
+    result.each_hash do |c|  # survey_answer attributes
+      values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
+      answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto)
     end
   end
+      
+  def csv_from_query_data(query)
+    result = ActiveRecord::Base.connection.execute(query)
 
+    csv_answers = {}  # generate csv_answer strings
+    result.each_hash do |c|
+      # t1 = Time.now
+      values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
+      answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto)
+      csv_answers[c["id"]] = [c['id'], c['survey_id'], c['journal_entry_id'], c['journal_id'], c['age'], c['sex'], answer]
+      # e1 = Time.now
+    end
+    return csv_answers
+  end
+  
+  def generate_csv_answers(csv_answers)  # hash with survey_answer_id => csv_answer string
+    # now we go for the insert or update
+    update_answers = CsvAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
+    insert_survey_answer_ids = csv_answers.keys - update_answers.map {|sa| sa.survey_answer_id.to_s}
+    # get all new survey_answers from csv_answers
+    created_at = Time.now.to_s(:db)
+    insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact
+    
+    # insert
+    columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
+    t = Time.now
+    insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer])
+    e = Time.now
+    puts "Time to insert #{insert_ca_o.size} survey_answers: #{e-t}"
+    # update
+    t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
+    puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
+
+      # csv.each do |line|
+      #   # puts "CSV: #{line}"
+      #   csv_answer = CsvAnswer.find_by_survey_answer_id(c['survey_answer_id'])
+      #   if csv_answer
+      #     csv_answer.answer = line
+      #     csv_answer.save
+      #   else
+      #     insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
+      #     VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)};',#{line})"
+      #     ActiveRecord::Base.connection.execute(insert_query)
+      #   end
+      # end
+  end
+  
+  def survey_answer_values_csv(survey_answer)
+    create_csv_answer(survey_answer)
+  end
+  
+  def create_survey_answer_csv(survey_answer)
+    generate_csv_answers(create_csv_answer(survey_answer))
+  end
+  
+  def generate_all_csv_answers
+    generate_csv_answers(csv_answers_query)
+  end
+
+
+  # merged pregenerated csv_answer string with header and journal information
   def to_csv(entries, survey_ids)
     # get survey_answers
     survey_answers = entries.map {|e| e.survey_answer_id }
@@ -73,20 +117,18 @@ class CSVHelper
     # debugger
     csv = []
     csv << ((journal_csv_header.keys + survey_headers_flat(survey_ids).keys).join(';')) # + "\n")
-    row = []
+    rows = []
     # add journal info # todo: prefetch wanted journals
     result.each do |j, answers|
       journal = Journal.find(j)
       # debugger
-      row << ((journal_to_csv(journal) + answers).join(';') + "\n")    #.join(';') << ";" << (answers.join(';') #.gsub(/^\".*\"$/, "") + "\n"))
+      rows << ((journal_to_csv(journal) + answers))
     end 
-    csv << [row] #.join
-    # e = Time.now
-    # puts "STOP CSVHELPER.TO_CSV: #{e-t}"
+    csv << [rows]
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
-      csv.each { |line| csv_output << line }
+      csv.push(rows) { |line| csv_output << line }
     end
-    return output #csv.join('\n')
+    return output
   end
   
   

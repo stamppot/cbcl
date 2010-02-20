@@ -9,6 +9,7 @@ class SurveyAnswer < ActiveRecord::Base
   belongs_to :survey
   has_one :score_rapport
   has_one :csv_answer
+  belongs_to :journal
   
   named_scope :finished, :conditions => ['done = ?', true]
   named_scope :order_by, lambda { |column| { :order => column } }

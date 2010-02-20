@@ -5,11 +5,11 @@
 	<%= f.label :title %>
 	<%= f.text_field :title %><p>
 	
-	<%= f.label :parent %><p>
-	<%= f.radio_button(:parent, nil) + "No parent" %>
+
+	<%= f.radio_button(:parent, nil) %>	<%= f.label :parent %>
 
 	<%= node_tree @roles do |role|
-	      result = f.radio_button(:parent, role.id) + link_to(role.title, @role)
+	      result = f.radio_button(:parent, role.id) + t("roles.#{role.title}")
 	      result += "  [#{role.users.length}/#{role.all_users.length} users] "
 	      result += "("
 	      result += link_to(t('edit'), edit_role_path(role), :title => t('edit')) + " "

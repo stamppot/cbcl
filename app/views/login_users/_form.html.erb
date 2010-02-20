@@ -19,7 +19,7 @@
   <dd>    <%= node_tree(@roles) do |role|
           result = "<input id=\"user_roles_#{role.id}\" type=\"hidden\" name=\"user[roles][]\" value=\"#{role.id}\" checked=\"checked\" /> " if @user.roles.include? role
           result = "<input id=\"user_roles_#{role.id}\" type=\"hidden\" name=\"user[roles][]\" value=\"#{role.id}\" /> " unless @user.roles.include? role
-          result += "<label for=\"user_roles_#{role.id}\">#{role.prettyname}</label> "
+          result += "<label for=\"user_roles_#{role.id}\">#{t('role.title')}</label> "
           result
   		#end
         end %>

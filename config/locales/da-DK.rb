@@ -38,7 +38,7 @@ I18n.backend.store_translations 'da-DK',
     :gender => 'Køn',
     :nationality => 'Nationalitet',
     
-    :roles => 'Roller',
+    :Roles => 'Roller',
     :role => 'Rolle',
     :no_roles => 'Ingen Roller',
     :groups => 'Grupper',
@@ -102,6 +102,21 @@ I18n.backend.store_translations 'da-DK',
       :new  => 'Opret Bruger',
       :new_in => "Opret bruger til ",
       :delete => 'Slet Bruger',
+      :Login => 'Loginnavn',
+      :last_login => 'Seneste Login',
+      :State => 'Status',
+      :id => 'ID',
+      :states => {
+        '1' => 'ubekræftet',
+        '2' => 'bekræftet',
+        '3' => 'låst',
+        '4' => 'slettet',
+        '5' => 'retrieved_password',
+          # The user has just retrieved his password and he must now
+          # it. The user cannot anything in this state but change his
+          # password after having logged in and retrieve another one.
+        '6' => 'retrieved_password',
+      },
       :center => {
         :admin => "Opret Centeradministrator"
       }
@@ -215,46 +230,33 @@ I18n.backend.store_translations 'da-DK',
     
     # :domain => ENV["VIAVIA_DOMAIN"] + '.nl',
     :country => 'Danmark',
-    :countries => {
-      "The Netherlands" => "Holland",
-      "Great Britain"   => "Storbritannien",
-      "Denmark"         => "Danmark"  
-    },
     :access => {
       :error => "Du har ikke adgang til denne side."
     },
+
+    :roles => {
+      :roles =>     "roller",
+      :Roles =>     "Roller",
+      :superadmin => "superadmin",
+      :admin => "admin",
+      :centeradministrator => "centeradministrator",
+      :teamadministrator => "teamadministrator",
+      :behandler => "behandler",
+      :login_bruger => "login_bruger",
+      :parent =>    "forælder",
+      :youth =>     "barn",
+      :teacher =>   "lærer",
+      :pedagogue => "pædagog",
+      :other =>     "andet"
+    },
+
     :site => {
-      :test => {
-        :lipsum_short => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ante eros, consectetur a, condimentum sit amet, eleifend vitae, arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et lectus ac eros auctor imperdiet. Donec a ante. In hac habitasse platea dictumst.",
-        :lipsum => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ante eros, consectetur a, condimentum sit amet, eleifend vitae, arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et lectus ac eros auctor imperdiet. Donec a ante. In hac habitasse platea dictumst. Maecenas faucibus neque et odio. Cras pharetra arcu. Suspendisse ante. Mauris pellentesque enim vehicula ipsum placerat aliquam. Praesent sollicitudin purus nec est bibendum suscipit. Mauris sapien. Aenean tempus, purus lobortis volutpat consequat, felis eros rutrum pede, vitae hendrerit tellus pede ut eros. ",
-      },
-      
+    
       ######################################
       ###### new layout localizations ######
       ######################################
       
       # homepage
-      :login => {
-        :login_on_viavia => "Login on Viavia",
-        :lost_password => "Ik ben mijn wachtwoord verloren of kan niet inloggen",
-        :login => "Inloggen",
-        :retrieve_password => "Wachtwoord vergeten",
-        :create_new_password => "Kies een nieuw wachtwoord voor ViaVia",
-        :logged_out => "U bent nu uitgelogd",
-        :login_successful => "Succesvol ingelogd",
-        :invalid_activation_token => "Jouw account activatie token is niet geldig",
-        :account_activated => "Jouw account is gëactiveerd",
-        :expired_token => "Your lost password token has expired. Please apply for a new, and create a new password within 3 hours",
-        :password_strength => "Wachtwoord sterkte",
-        :password_weak => "Wachtwoord is onveilig",
-        :tip => {
-          :tips => "Hints: ",
-          :password_too_short => "Password is too short",
-          :password_add_number => "Add number",
-          :password_add_uppercase => "Add uppercase letter",
-          :password_add_symbol => "Add symbol"
-        }
-      },
       :dashboard => {
         :edit_profile => {
           :change_profile => "Profiel wijzigen",
@@ -287,36 +289,12 @@ I18n.backend.store_translations 'da-DK',
       :user => {
         :activity_new => "{{time_in_words}} geleden geregistreerd",
       },
-      
-      ##### Classified Message Related #######
-      :classified_messages => {
-        :your_response_was_posted => "Je bericht is verstuurd naar {{full_name}}",
-        :your_response_was_posted_and_account_created => "Je bericht is verstuurd naar {{full_name}}, er is automatisch een account voor je aangemaakt",
-        :see_all_responses => "Bekijk alle berichten",
-      },
-      
-      ######## Registration Related ##########
-      :registration => {
-        :registration_succesful => "Je bent nu geregisteerd, bedankt!",
-      },
-      
-      ######### Classified Related ###########
-      :classified => {
-        :best_price => "Beste Prijs",
-        :free => "Gratis",
-      },
-      
-      :pagination => {
-        "page current_pagex of total_pagesx" => "side {{current_page}} af {{total_pages}}",
-        "previous" => "forrige",
-        "next" => "næste"
-        },
-      },
+    },
   
    #start default rails translations  
    :support => {
      :array => {
-       :sentence_connector => 'en'
+       :sentence_connector => 'og'
      }
    },
    :time => {
@@ -343,14 +321,14 @@ I18n.backend.store_translations 'da-DK',
    },
    :datetime => {
      :distance_in_words => {
-       :half_a_minute => 'halve minuut',
+       :half_a_minute => 'halvt minut',
        :less_than_x_seconds => {
-         :one => 'korter dan 1 seconden',
-         :other => 'korter dan {{count}} seconden',
+         :one => 'mindre end 1 sekund',
+         :other => 'mindre end {{count}} sekunder',
        },
        :x_seconds => {
-         :one => '1 seconde',
-         :other => '{{count}} seconden',
+         :one => '1 sekund',
+         :other => '{{count}} sekunder',
        },
        :less_than_x_minutes => {
          :one => 'minder dan 1 minuut',
@@ -409,9 +387,9 @@ I18n.backend.store_translations 'da-DK',
    },
    :active_record => {
      :error_messages => {
-       :inclusion => "komt niet voor in de lijst",
-       :exclusion => "is gereserveerd",
-       :invalid => "is ongeldig",
+       :inclusion => "findes ikke i listen",
+       :exclusion => "er reserveret",
+       :invalid => "er ugyldig",
        :confirmation => "komt niet overeen met de bevestiging",
        :accepted  => "meot worden geaccepteerd",
        :empty => "kan niet leeg zijn",

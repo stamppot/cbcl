@@ -19,7 +19,7 @@ class Answer < ActiveRecord::Base
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
   end
 
-  def to_csv(prefix)
+  def to_csv(prefix = nil)
     cells = Dictionary.new
     prefix = survey_answer.survey.prefix unless prefix
     q = self.question.number.to_roman.downcase
