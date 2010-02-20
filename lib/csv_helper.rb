@@ -48,12 +48,17 @@ class CSVHelper
   end
   
   def generate_csv_answers(csv_answers)  # hash with survey_answer_id => csv_answer string
+    puts "args csv_answers: #{csv_answers.inspect}"
     # now we go for the insert or update
     update_answers = CsvAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
+    puts "UPDATE answers: #{update_answers.inspect}"
     insert_survey_answer_ids = csv_answers.keys - update_answers.map {|sa| sa.survey_answer_id.to_s}
     # get all new survey_answers from csv_answers
     created_at = Time.now.to_s(:db)
     insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact
+    # update_answers must be updated with new values
+    update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_s].last }
+    
     
     # insert
     columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
@@ -64,19 +69,6 @@ class CSVHelper
     # update
     t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
     puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
-
-      # csv.each do |line|
-      #   # puts "CSV: #{line}"
-      #   csv_answer = CsvAnswer.find_by_survey_answer_id(c['survey_answer_id'])
-      #   if csv_answer
-      #     csv_answer.answer = line
-      #     csv_answer.save
-      #   else
-      #     insert_query = "INSERT INTO `csv_answers` (`survey_answer_id`,`survey_id`, `journal_entry_id`, `journal_id`, `age`, `sex`, `created_at`, `answer`) 
-      #     VALUES(#{c['survey_answer_id']},#{c['survey_id']},#{c['journal_entry_id']},#{c['journal_id']},#{c['age']},#{c['sex']},'#{Time.now.utc.to_s(:db)};',#{line})"
-      #     ActiveRecord::Base.connection.execute(insert_query)
-      #   end
-      # end
   end
   
   def survey_answer_values_csv(survey_answer)
