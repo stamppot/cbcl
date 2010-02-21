@@ -59,11 +59,15 @@ class CSVHelper
     
     # insert
     columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
-    t = Time.now; insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer]); e = Time.now
-    puts "Time to insert #{insert_ca_o.size} survey_answers: #{e-t}"
+    if insert_survey_answers.any?
+      t = Time.now; insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer]); e = Time.now
+      puts "Time to insert #{insert_ca_o.size} survey_answers: #{e-t}"
+    end
     # update
-    t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
-    puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
+    if update_answers.any?
+      t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
+      puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
+    end
   end
   
   def create_survey_answer_csv(survey_answer)

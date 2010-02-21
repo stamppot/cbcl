@@ -1,7 +1,6 @@
 <h1>Dataudtræk</h1>
 
-<% form_tag(csv_download_path, :onSubmit => "Element.show('downloading');") do %>
-
+<% form_tag(csv_download_path) do %>
 
 <div id='filter_fields'>
 
@@ -20,9 +19,7 @@
 <h3>Alder</h3>
 	<%= render :partial => 'select_age' %>
 	
-	<p>
-		<h3>Vælg skemaer</h3>
-	</p>
+	<p><h3>Vælg skemaer</h3></p>
 	<% @surveys.each do |survey| %>
 		<div style='background-color: #<%= survey.color %>; width: 25em;'>
 			<%= check_box_tag("surveys[#{survey.id}]", "1", survey.selected, { :class => 'no_border'}) %>		
@@ -48,4 +45,4 @@
 	<%= submit_tag 'Download', { :class => 'button download', :id => 'download' } %>
 <% end %>
 
-<br>
+<br/>
