@@ -15,19 +15,20 @@ class ExportFilesController < ApplicationController
 
   def download
     @file = ExportFile.find(params[:id])
-
+    response.headers["Content-Type"] = @file.content_type
+    
     send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
     :disposition => 'attachment',
     :encoding => 'utf8', 
     :type => @file.content_type,
     :filename => URI.encode(@file.filename))
 
-    send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
-      :disposition => 'attachment',
-      :encoding => 'utf8', 
-      :type => @file.content_type,
-      :filename => URI.encode(@file.filename))
-
+    # send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
+    #       :disposition => 'attachment',
+    #       :encoding => 'utf8', 
+    #       :type => @file.content_type,
+    #       :filename => URI.encode(@file.filename))
+    
     
     # respond_to do |wants|
     #   wants.html { render :text => @file.filename
