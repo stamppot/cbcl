@@ -59,20 +59,6 @@ module RbacHelper
     return result
   end
 
-  # This method returns the User model of the currently logged in user or
-  # the anonymous user if no user has been logged in yet.
-  # def current_user
-  #   return @current_user_cached unless @current_user_cached.nil?
-  # 
-  #   @current_user_cached = 
-  #           if session[:rbac_user_id].nil? then
-  #             nil #::AnonymousUser.instance
-  #           else
-  #             ::User.find(session[:rbac_user_id])
-  #           end
-  # 
-  #   return @current_user_cached
-  # end
   
   protected
     def node_tree_help(children, nodes, printed_nodes, &block) # :nodoc:

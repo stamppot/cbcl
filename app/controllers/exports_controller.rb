@@ -43,8 +43,9 @@ class ExportsController < ApplicationController
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
     if @center
-      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      params[:journal_entry_ids] = je_ids
+      params[:center] = @center
+      # je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
+      # params[:journal_entry_ids] = je_ids
     end
     @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
@@ -65,10 +66,10 @@ class ExportsController < ApplicationController
     @surveys = Survey.selected(params[:surveys].keys)
     @center = Center.find params[:center] unless params[:center].blank?
 
-    if @center
-      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      params[:journal_entry_ids] = je_ids
-    end
+    params[:center] = @center if @center
+      # j_ids = @center.journal_ids #.map {|j| j.id}  #{|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
+      # params[:journal_entry_ids] = je_ids
+    # end
 
     survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
     @journal_entries ||= survey_answers.map {|sa| sa.journal_entry_id }.compact
@@ -136,25 +137,7 @@ class ExportsController < ApplicationController
       start = args.delete(:start_date)
       stop  = args.delete(:stop_date)
     end
-    
     Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
-    # if start.is_a?(Time) and stop.is_a?(Time)
-    #   args[:start_date] = start
-    #   args[:stop_date] = stop
-    # elsif start.is_a?(Date) and stop.is_a?(Date)
-    #   args[:start_date] = start.to_time
-    #   args[:stop_date] = stop.to_time
-    # else
-    #   {:start_date => start, :stop_date => stop}.each_pair do |key, date|
-    #     unless date.blank?
-    #       y = date[:year].to_i
-    #       m = date[:month].to_i
-    #       d = date[:day].to_i
-    #       args[key] = Date.new(y, m, d).to_time
-    #     end
-    #   end
-    # end
-    # return args
   end
   
   # def filter_age(args)

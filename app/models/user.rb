@@ -338,44 +338,34 @@ class User < ActiveRecord::Base
   def survey_answers(options = {})  # params are not safe, should only allow page/per_page
     page       = options[:page] ||= 1
     per_page   = options[:per_page] ||= 100000
-    start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
-    stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
-    start_age  = options.delete(:age_start) || 0
-    stop_age   = options.delete(:age_stop) || 21
-    surveys    = options.delete(:surveys)
-    je_ids     = options.delete(:journal_entry_ids)
-    je_ids ||= Rails.cache.fetch("journal_entry_ids_user_#{self.id}") { self.journal_entry_ids }
+    # start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
+    # stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
+    # start_age  = options.delete(:age_start) || 0
+    # stop_age   = options.delete(:age_stop) || 21
+    # surveys    = options.delete(:surveys) || Survey.all.map {|s| s.id}
+    # center     = options.delete(:center)
+    # j_ids      = center.journal_ids if center 
+    # j_ids    ||= options.delete(:journal_ids) || Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+    o = survey_answer_params(options)
+    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(:conditions => ['journal_id IN (?)', o[:journal_ids]])
+    # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_id IN (?)', j_ids])
+  end
 
-    if self.has_access?(:group_all)
-      SurveyAnswer.for_entries(je_ids).for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:page => page, :per_page => per_page )
-    else #if self.has_role?(:teamadministrator) or self.has_role(:behandler)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
-      sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(options.merge(:conditions => ['id IN (?)', sa_ids]))
-    end
-  end
-  
   def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
-    # options[:page] ||= 1
-    # options[:per_page] ||= 100000
-    start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
-    stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
-    start_age  = options.delete(:age_start) || 0
-    stop_age   = options.delete(:age_stop) || 21
-    surveys    = options.delete(:surveys)
-    je_ids     = options.delete(:journal_entry_ids)
-    # puts "survey_answers: je_ids: #{je_ids.inspect}"
-    je_ids ||= Rails.cache.fetch("journal_entry_ids_user_#{self.id}") { self.journal_entry_ids }
-        
-    if self.has_access?(:group_all)
-      SurveyAnswer.for_entries(je_ids).for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count #(:conditions => ['journal_entry_id IN (?)', je_ids])
-    else
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
-      sa_ids = JournalEntry.answered.for_surveys(surveys).all(:conditions => ['id in (?)', journal_ids]).map {|je| je.survey_answer_id }
-      SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).count(options.merge(:conditions => ['id IN (?)', sa_ids]))
-    end
+    o = survey_answer_params(options)
+    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(:conditions => ['journal_id IN (?)', o[:journal_ids]])
   end
-  
+
+  def survey_answer_params(options = {})
+    options[:start_date]  ||= SurveyAnswer.first.created_at
+    options[:stop_date]   ||= SurveyAnswer.last.created_at
+    options[:start_age]   ||= 0
+    options[:stop_age]    ||= 21
+    options[:surveys]     ||= Survey.all.map {|s| s.id}
+    options[:journal_ids]   = options[:center].journal_ids if options[:center] && !options[:journal_ids]
+    options[:journal_ids] ||= Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+    options
+  end
   
   def login_users(options = {})
     options[:page] ||= 1

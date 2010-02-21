@@ -144,9 +144,9 @@ class Center < Group
     id.nil? ? 1 : id + 1
   end
 
-  # returns ids of all journals in center
-  def journal_ids
-    self.journals.collect { |pj| pj.code }
+  # returns id codes of all journals in center
+  def journal_codes
+    self.journals.collect { |j| j.code }
   end
 
   def login_name_params #(options = {})

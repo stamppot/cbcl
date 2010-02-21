@@ -18,10 +18,10 @@ class SurveyAnswer < ActiveRecord::Base
   named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
-  named_scope :for_surveys, lambda { |survey_ids| { :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
+  named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
   named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_answers.survey_id = ?", survey_id] } }
   named_scope :with_journals, :joins => "INNER JOIN `journal_entries` ON `journal_entries`.journal_id = `journal_entries`.survey_answer_id", :include => {:journal_entry => :journal}
-  named_scope :for_entries, lambda { |entry_ids| { :conditions => ["survey_answers.journal_entry_id IN (?)", entry_ids] } }
+  named_scope :for_entries, lambda { |entry_ids| { :conditions => { :journal_entry_id => entry_ids } } } # ["survey_answers.journal_entry_id IN (?)", 
 
   def answered_by_role
     return Role.get(self.answered_by)
@@ -164,10 +164,10 @@ class SurveyAnswer < ActiveRecord::Base
     end
     columns = [:answer_id, :row, :col, :item, :answertype, :value]
     t = Time.now; new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value]); e = Time.now
-    puts "MASS IMPORT ANSWER CELLS (#{new_cells_no.num_inserts}): #{e-t}"
+    # puts "MASS IMPORT ANSWER CELLS (#{new_cells_no.num_inserts}): #{e-t}"
 
     t = Time.now; updated_cells_no = AnswerCell.import([:id, :value], update_cells, :on_duplicate_key_update => [:value]); e = Time.now
-    puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
+    # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
     return self
   end
   
