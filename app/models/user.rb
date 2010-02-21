@@ -352,7 +352,9 @@ class User < ActiveRecord::Base
     options[:start_age]   ||= 0
     options[:stop_age]    ||= 21
     options[:surveys]     ||= Survey.all.map {|s| s.id}
-    options[:journal_ids]   = options[:center].journal_ids if options[:center] && !options[:journal_ids]
+    if !options[:center].blank?
+      options[:journal_ids]   = options[:center].journal_ids if options[:center] && !options[:journal_ids]
+    end
     options[:journal_ids] ||= Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
     options
   end

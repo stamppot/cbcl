@@ -108,7 +108,7 @@ class CSVHelper
 
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
       csv_output << (journal_csv_header.keys + survey_headers_flat(survey_ids).keys)  # header
-      rows.each { |line| csv_output << line}
+      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "") }
     end
   end
   
