@@ -37,6 +37,7 @@ class SurveyAnswer < ActiveRecord::Base
     if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
       self.answered_by = other
     end
+    self.journal_entry_id = self.journal_entry.id if journal_entry_id == 0
     self.answered_by = params[:answer] && params[:answer][:person] || ""
     self.done = true
     self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id

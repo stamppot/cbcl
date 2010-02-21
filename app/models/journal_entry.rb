@@ -22,7 +22,8 @@ class JournalEntry < ActiveRecord::Base
                              :sex => self.journal.sex,
                              :age => self.journal.sex,
                              :nationality => self.journal.nationality,
-                             :journal_entry_id => self.id)
+                             :journal_entry_id => self.id,
+                             :surveytype => self.survey.surveytype)
     self.survey_answer
   end
   

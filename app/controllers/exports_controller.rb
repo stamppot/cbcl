@@ -42,11 +42,7 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
-    if @center
-      params[:center] = @center
-      # je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      # params[:journal_entry_ids] = je_ids
-    end
+    params[:center] = @center if @center
     @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
     render :update do |page|
@@ -65,11 +61,7 @@ class ExportsController < ApplicationController
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
     @center = Center.find params[:center] unless params[:center].blank?
-
     params[:center] = @center if @center
-      # j_ids = @center.journal_ids #.map {|j| j.id}  #{|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      # params[:journal_entry_ids] = je_ids
-    # end
 
     survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
     @journal_entries ||= survey_answers.map {|sa| sa.journal_entry_id }.compact
@@ -88,7 +80,7 @@ class ExportsController < ApplicationController
         render :update do |page|
           if @task.completed?
             page.visual_effect :blind_up, 'content', :duration => 1
-            page.redirect_to export_file_path(@task.export_file) #and return  #, :content_type => 'application/javascript'
+            page.redirect_to export_file_path(@task.export_file) and return  #, :content_type => 'application/javascript'
           else
             page.insert_html(:after, 'progress', '.')
             page.visual_effect :pulsate, 'progress', :duration => 1

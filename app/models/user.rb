@@ -338,17 +338,9 @@ class User < ActiveRecord::Base
   def survey_answers(options = {})  # params are not safe, should only allow page/per_page
     page       = options[:page] ||= 1
     per_page   = options[:per_page] ||= 100000
-    # start_date = options.delete(:start_date) || SurveyAnswer.first.created_at
-    # stop_date  = options.delete(:stop_date) || SurveyAnswer.last.created_at
-    # start_age  = options.delete(:age_start) || 0
-    # stop_age   = options.delete(:age_stop) || 21
-    # surveys    = options.delete(:surveys) || Survey.all.map {|s| s.id}
-    # center     = options.delete(:center)
-    # j_ids      = center.journal_ids if center 
-    # j_ids    ||= options.delete(:journal_ids) || Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
     o = survey_answer_params(options)
-    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(:conditions => ['journal_id IN (?)', o[:journal_ids]])
-    # SurveyAnswer.for_surveys(surveys).finished.between(start_date, stop_date).aged_between(start_age, stop_age).paginate(:conditions => ['journal_id IN (?)', j_ids])
+    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).
+      paginate(:page => page, :per_page => per_page, :conditions => ['journal_id IN (?)', o[:journal_ids]])
   end
 
   def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
