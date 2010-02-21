@@ -54,7 +54,6 @@ class ExportsController < ApplicationController
     end
   end
 
-  # TODO: DRY up parameter processing (filtering)
   def download
     args = params
     params = filter_date(args)
@@ -64,7 +63,6 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
-
     @center = Center.find params[:center] unless params[:center].blank?
 
     if @center
@@ -78,26 +76,22 @@ class ExportsController < ApplicationController
     # spawns background task
     @task = Task.create(:status => "In progress")
     @task.create_export(@surveys.map(&:id), @journal_entries)
-    
-    # response.headers["Content-Type"] = 'application/javascript'
-    # redirect_to generating_path(@task)
   end
   
-  # a periodic updater should check the progress of the export data generation 
+  # a periodic updater checks the progress of the export data generation 
   def generating_export
     @task = Task.find(params[:id])
     
     respond_to do |format|
       format.js {
-        puts "GENERATING_EXPORT. FORMAT: JS"
         render :update do |page|
           if @task.completed?
-            puts "GENERATING_EXPORT. TASK COMPLETED"
+            page.visual_effect :blind_up, 'content', :duration => 1
             page.redirect_to export_file_path(@task.export_file) #and return  #, :content_type => 'application/javascript'
           else
-            page.replace_html('progress', page[progress] + '.')
+            page.insert_html(:after, 'progress', '.')
             page.visual_effect :pulsate, 'progress', :duration => 1
-            page.visual_effect :highlight, 'progress', :duration => 1
+            page.visual_effect :highlight, 'progress'
           end
         end
       }

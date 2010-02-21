@@ -55,7 +55,7 @@ class CSVHelper
     update_answers = CsvAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
     insert_survey_answer_ids = csv_answers.keys - update_answers.map {|sa| sa.survey_answer_id.to_s}
     insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact # new survey answers    
-    update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_sq].last } # add answer string
+    update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_s].last } # add answer string
     
     # insert
     columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
