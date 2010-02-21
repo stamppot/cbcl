@@ -4,9 +4,11 @@
 
 <div id='filter_fields'>
 
-<h3>Center</h3>
-	<%= select(@center, 'center', Center.all.map{|c| [c.title, c.id]}, :include_blank => true) %>
-<br/>
+  <% if current_user.centers.size > 1 %>
+		<h3>Center</h3>
+		<%= select(@center, 'center', Center.all.map{|c| [c.title, c.id]}, :include_blank => true) %>
+		<br/>
+	<% end %>
 
 <h3>Besvaret mellem</h3>
 	<label for='start_date'>Startdato</label>

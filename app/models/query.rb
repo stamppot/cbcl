@@ -213,22 +213,6 @@ class Query
    
    def filter_date(start, stop)
      args = self.set_time_args(start, stop)
-     # if start.is_a?(Time) and stop.is_a?(Time)
-     #   args[:start_date] = start
-     #   args[:stop_date] = stop
-     # elsif start.is_a?(Date) and stop.is_a?(Date)
-     #   args[:start_date] = start.to_time
-     #   args[:stop_date] = stop.to_time
-     # else
-     #   {:start_date => start, :stop_date => stop}.each_pair do |key, date|
-     #     unless date.blank?
-     #       y = date[:year].to_i
-     #       m = date[:month].to_i
-     #       d = date[:day].to_i
-     #       args[key] = Date.new(y, m, d).to_time
-     #     end
-     #   end
-     # end
      args[:start_date] = args[:start_date].to_s(:db)
      args[:stop_date] = args[:stop_date].to_s(:db)
      return args
@@ -253,10 +237,10 @@ class Query
    def self.set_time_args(start, stop, args = {})
      if start.is_a?(Time) and stop.is_a?(Time)
        args[:start_date] = start
-       args[:stop_date] = stop
+       args[:stop_date] = stop.end_of_day
      elsif start.is_a?(Date) and stop.is_a?(Date)
        args[:start_date] = start.to_time
-       args[:stop_date] = stop.to_time
+       args[:stop_date] = stop.to_time.end_of_day
      else
        {:start_date => start, :stop_date => stop}.each_pair do |key, date|
          unless date.blank?

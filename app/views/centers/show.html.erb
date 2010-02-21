@@ -77,8 +77,6 @@
 <% localadmins = @users.select { |u| u.has_access? :centeradm } %>
 <h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
 
-<% puts "user_new_leader: #{current_user.access? :user_new_leader}" %>
-
 <% if localadmins.empty? %>
 <p>Ingen</p>
 	<% if current_user.access? :user_new_leader %>

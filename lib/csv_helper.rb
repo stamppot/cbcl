@@ -36,6 +36,7 @@ class CSVHelper
       values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
       answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto)
     end
+    result.gsub!(/\n$/,'')
   end
       
   def csv_from_query(query)
@@ -44,7 +45,7 @@ class CSVHelper
     csv_answers = {}  # generate csv_answer strings
     result.each_hash do |c|
       values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
-      answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto)
+      answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto).gsub!(/\n$/,'').chomp
       csv_answers[c["id"]] = [c['id'], c['survey_id'], c['journal_entry_id'], c['journal_id'], c['age'], c['sex'], answer]
     end
     return csv_answers
@@ -87,22 +88,22 @@ class CSVHelper
     
     # create csv headers
     csv_headers = survey_headers(survey_ids)
-    csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') + "\n" } #null! values
+    csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') } #null! values
     
     # csv_headers = journal_csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
-      csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.gsub!(/^\"|\"$/, ""); ca}.group_by { |c| c.survey_id }
+      csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.chomp.gsub!(/^\"|\n"$/, ""); ca}.group_by { |c| c.survey_id }
       csv_headers.each do |s_id, empty_vals|       # fill missing values for surveys not answered for this journal
-        csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer || empty_vals 
+        csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer.chomp || empty_vals 
       end
-      result[j] = csv_answers.values
+      result[j] = [csv_answers.values.join(';')]
     end
 
     # add journal info # todo: prefetch wanted journals
     rows = result.map do |j, answers|
       journal = Journal.find(j)
-      ((journal_to_csv(journal) + answers))
+      ((journal_to_csv(journal) + answers)).join(';')
     end 
 
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|

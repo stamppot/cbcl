@@ -2,10 +2,10 @@ class Task < ActiveRecord::Base
   belongs_to :export_file
 
   def create_export(survey_ids, entries)
-    self.save
+    # self.save
 
-    spawn do
-      entries = JournalEntry.find(entries)
+    # spawn do
+      entries = JournalEntry.find(entries) unless entries.first.is_a? JournalEntry
       data = CSVHelper.new.to_csv(entries, survey_ids)  # TODO: add csv generation on save_answer & change_answer
       # write data
       self.export_file = ExportFile.create(:data => data,
@@ -14,7 +14,7 @@ class Task < ActiveRecord::Base
 
       self.status = "Completed"
       self.save
-    end
+    # end
   end
 
   def create_csv_answer(survey_answer)

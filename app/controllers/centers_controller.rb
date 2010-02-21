@@ -202,22 +202,8 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
       redirect_to centers_path
     end
   end
-
-  # def user_access
-  #   redirect_to login_path and return unless current_user
-  #   unless current_user.access? :all_users
-  #     flash[:notice] = "Du har ikke adgang til denne side"
-  #     redirect_to login_path
-  #   end
-  # end
   
   def check_access
-    puts "centers check_access"
     redirect_to login_path unless current_user
-    puts "centers check_access 2"
-    # if !current_user.access?(:admin_actions) && !current_user.team_member?(params[:id].to_i)
-    #   flash[:notice] = "Du har ikke adgang til denne side"
-    #   redirect_to main_path
-    # end
   end
 end

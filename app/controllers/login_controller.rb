@@ -97,6 +97,7 @@ class LoginController < ApplicationController
 
     if to_user.login_user
       cookies[:journal_entry] = JournalEntry.find_by_user_id(to_user.id).id
+      cookies[:user_name] = user.name
     end
     flash[:notice] = "Logget ind som en anden bruger"
     redirect_to survey_start_url and return if current_user.login_user

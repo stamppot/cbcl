@@ -1,6 +1,7 @@
 class ExportsController < ApplicationController
   
   def index
+    @center = current_user.center unless current_user.access? :admin
     @center = Center.find(params[:id]) if params[:id]
     args = params
     # set default dates
@@ -64,11 +65,11 @@ class ExportsController < ApplicationController
     params[:center] = @center if @center
 
     survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    @journal_entries ||= survey_answers.map {|sa| sa.journal_entry_id }.compact
+    journal_entries = survey_answers.map {|sa| sa.journal_entry }.compact
     
     # spawns background task
     @task = Task.create(:status => "In progress")
-    @task.create_export(@surveys.map(&:id), @journal_entries)
+    @task.create_export(@surveys.map(&:id), journal_entries)
   end
   
   # a periodic updater checks the progress of the export data generation 
@@ -77,18 +78,20 @@ class ExportsController < ApplicationController
     
     respond_to do |format|
       format.js {
+        puts "GENERATING JS"
         render :update do |page|
           if @task.completed?
-            page.visual_effect :blind_up, 'content', :duration => 1
-            page.redirect_to export_file_path(@task.export_file) and return  #, :content_type => 'application/javascript'
+            page.visual_effect :blind_up, 'content'
+            page.redirect_to export_file_path(@task.export_file) # and return  #, :content_type => 'application/javascript'
           else
-            page.insert_html(:after, 'progress', '.')
-            page.visual_effect :pulsate, 'progress', :duration => 1
+            page.insert_html :after, 'progress', '.'
+            page.visual_effect :pulsate, 'progress'
             page.visual_effect :highlight, 'progress'
           end
         end
       }
       format.html do
+        puts "GENERATING HTML"
         redirect_to export_file_path(@task.export_file) and return if @task.completed?
       end
     end
@@ -119,7 +122,7 @@ class ExportsController < ApplicationController
 
   
   before_filter :header_javascript, :only => [:generating_export]
-
+  
   def header_javascript
     response.headers['Content-type'] = 'text/javascript; charset=utf-8'
   end
