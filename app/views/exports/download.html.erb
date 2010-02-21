@@ -1,0 +1,11 @@
+<h2>Genererer dataudtræk</h2>
+<h3>Dette kan tage et stykke tid</h3>
+
+<span id="progress">Genererer</span>
+
+<script type="text/javascript">
+    generating_export = true;
+</script>
+
+<%= periodically_call_remote(:url => {:action => :generating_export, :id => @task},
+     :frequency => 3.0, :condition => "generating_export == true" ) -%>
