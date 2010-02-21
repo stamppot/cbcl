@@ -117,18 +117,23 @@ class Survey < ActiveRecord::Base
     d.order_by
   end
     
-  def cell_variables
-    result = Rails.cache.fetch("survey_#{self.id}_cell_variables") do
-      d = Dictionary.new
-      self.questions.each { |question| d = d.merge!(question.cell_variables(self.prefix)) }
-      d.order_by
-    end
+  def cell_variables # do not cache, coz the cells are merged with answer cells
+    d = Dictionary.new
+    self.questions.each { |question| d = d.merge!(question.cell_variables(self.prefix)) }
+    d.order_by
   end
 
   def csv_headers
     s = Survey.and_questions.find(self.id)
-    s.cell_variables
+    s.cell_variables.keys
   end
+  
+  # def self.get(survey_ids)
+  #   ss = survey_ids.map do |s_id|
+  #     s = Rails.cache.fetch("survey_#{s_id}", :expires_in => 15.minutes) { Survey.and_questions.find(s_id) }
+  #   end
+  # end
+    
   
   # export to xml. Recurses through objects
   # add indentation when one object in the array is an array (of answers)

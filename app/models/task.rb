@@ -20,7 +20,7 @@ class Task < ActiveRecord::Base
   def create_csv_answer(survey_answer)
     spawn do
       puts "Generating CSVAnswer for SurveyAnswer #{survey_answer.id}"
-      CSVHelper.new.create_csv_answer(survey_answer)
+      survey_answer.create_csv_answer!
       puts "Generated " + CsvAnswer.find_by_survey_answer_id(survey_answer.id).inspect
     end
   end

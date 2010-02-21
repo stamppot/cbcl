@@ -5,24 +5,29 @@ class CSVHelper
 
   DEBUG = false
   
-  def csv_answers_query
-    # get journal_id => journal_entries_id
-    query = "select journal_id, journal_entry_id, id, survey_id, age, sex from survey_answers
-    where survey_answers.done = 1
-    and survey_answers.journal_entry_id != 0
-    order by journal_id"
-    csv_from_query_data(query)
-  end
-  
-  def create_csv_answer(survey_answer)
+  def survey_answer_csv_query(survey_answer)
     query = "select journal_id, journal_entry_id, id, survey_id, age, sex from survey_answers
         where survey_answers.done = 1
         and survey_answers.journal_entry_id != 0
         and survey_answers.id = #{survey_answer.id}
-        order by journal_id"
-    csv_from_query_data(query)
+        order by journal_id"    
+  end
+
+  def survey_answers_csv_query
+    query = "select journal_id, journal_entry_id, id, survey_id, age, sex from survey_answers
+    where survey_answers.done = 1
+    and survey_answers.journal_entry_id != 0
+    order by journal_id"
+  end
+    
+  def csv_answers_values
+    csv_from_query(survey_answers_csv_query)
   end
   
+  def csv_answer_values(survey_answer)
+    csv_from_query(survey_answer_csv_query(survey_answer))
+  end
+    
   # for one survey_answer
   def generate_csv_answer_line(query)
     result = ActiveRecord::Base.connection.execute(query)
@@ -33,54 +38,40 @@ class CSVHelper
     end
   end
       
-  def csv_from_query_data(query)
+  def csv_from_query(query)
     result = ActiveRecord::Base.connection.execute(query)
 
     csv_answers = {}  # generate csv_answer strings
     result.each_hash do |c|
-      # t1 = Time.now
       values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
       answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto)
       csv_answers[c["id"]] = [c['id'], c['survey_id'], c['journal_entry_id'], c['journal_id'], c['age'], c['sex'], answer]
-      # e1 = Time.now
     end
     return csv_answers
   end
   
   def generate_csv_answers(csv_answers)  # hash with survey_answer_id => csv_answer string
-    puts "args csv_answers: #{csv_answers.inspect}"
-    # now we go for the insert or update
+    # partition into insert and update 
     update_answers = CsvAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
-    puts "UPDATE answers: #{update_answers.inspect}"
     insert_survey_answer_ids = csv_answers.keys - update_answers.map {|sa| sa.survey_answer_id.to_s}
-    # get all new survey_answers from csv_answers
-    created_at = Time.now.to_s(:db)
-    insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact
-    # update_answers must be updated with new values
-    update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_s].last }
-    
+    insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact # new survey answers    
+    update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_sq].last } # add answer string
     
     # insert
     columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
-    t = Time.now
-    insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer])
-    e = Time.now
+    t = Time.now; insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer]); e = Time.now
     puts "Time to insert #{insert_ca_o.size} survey_answers: #{e-t}"
     # update
     t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
     puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
   end
   
-  def survey_answer_values_csv(survey_answer)
-    create_csv_answer(survey_answer)
-  end
-  
   def create_survey_answer_csv(survey_answer)
-    generate_csv_answers(create_csv_answer(survey_answer))
+    generate_csv_answers(csv_answer_values(survey_answer))
   end
   
   def generate_all_csv_answers
-    generate_csv_answers(csv_answers_query)
+    generate_csv_answers(csv_answers_values)
   end
 
 
@@ -92,35 +83,28 @@ class CSVHelper
     
     # create csv headers
     csv_headers = survey_headers(survey_ids)
-    csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') } #null! values
+    csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') + "\n" } #null! values
     
     # csv_headers = journal_csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
-      # csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).group_by { |c| c.survey_id } # TODO: load all at on
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.gsub!(/^\"|\"$/, ""); ca}.group_by { |c| c.survey_id }
-      # fill missing values
-      csv_headers.each do |s_id, empty_vals|
+      csv_headers.each do |s_id, empty_vals|       # fill missing values for surveys not answered for this journal
         csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer || empty_vals 
       end
       result[j] = csv_answers.values
     end
 
-    # debugger
-    csv = []
-    csv << ((journal_csv_header.keys + survey_headers_flat(survey_ids).keys).join(';')) # + "\n")
-    rows = []
     # add journal info # todo: prefetch wanted journals
-    result.each do |j, answers|
+    rows = result.map do |j, answers|
       journal = Journal.find(j)
-      # debugger
-      rows << ((journal_to_csv(journal) + answers))
+      ((journal_to_csv(journal) + answers))
     end 
-    csv << [rows]
+
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
-      csv.push(rows) { |line| csv_output << line }
+      csv_output << (journal_csv_header.keys + survey_headers_flat(survey_ids).keys)  # header
+      rows.each { |line| csv_output << line}
     end
-    return output
   end
   
   
@@ -186,35 +170,27 @@ class CSVHelper
     return csv
   end
   
-  def get_surveys(survey_ids)
-    ss = survey_ids.map do |s_id|
-      s = Rails.cache.fetch("survey_#{s_id}", :expires_in => 15.minutes) do
-        Survey.and_questions.find(s_id)
-      end
-      s
-    end
-  end
-  
   # header vars grouped by survey
   def survey_headers(survey_ids)
-    ss = get_surveys(survey_ids)
-    ss.inject(Dictionary.new) { |hash, s| hash[s.id] = s.cell_variables; hash }.order_by
+    # s_headers = Rails.cache.fetch("survey_headers_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
+      ss = Survey.find(survey_ids)
+      ss.inject(Dictionary.new) { |hash, s| hash[s.id] = s.cell_variables; hash }.order_by
+    # end
   end
 
   def survey_headers_flat(survey_ids)
-    ss = get_surveys(survey_ids)
-    ss.map { |s| s.cell_variables }.foldl(:merge)
+    s_headers = Rails.cache.fetch("survey_headers_flat_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
+      ss = Survey.find(survey_ids)
+      ss.map { |s| s.cell_variables }.foldl(:merge)
+    end
   end
   
   # var => val, grouped by survey
   def survey_answers_groups(survey_answers)
-    t = Time.now
     result = survey_answers.inject(Dictionary.new) do |hash, sa|
       hash[sa.survey_id] = sa.to_csv
       hash
     end
-    e = Time.now
-    # puts "survey_answer_groups: #{e-t}   for survey_answers: #{survey_answers.size}"
     result.order_by
   end
 

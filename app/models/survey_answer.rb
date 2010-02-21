@@ -47,13 +47,9 @@ class SurveyAnswer < ActiveRecord::Base
     end
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     spawn do
-      self.create_csv_answer
+      self.create_csv_answer!
     end
     self.save
-  end
-  
-  def create_csv_answer
-    CSVHelper.new.create_csv_answer(self)
   end
   
   def cell_values(prefix = nil)
@@ -175,20 +171,17 @@ class SurveyAnswer < ActiveRecord::Base
     return self
   end
   
-  private
-  #INSERT INTO `answer_cells` (`answer_id`,`row`,`col`,`item`,`answertype`,`value`) VALUES (27656,1,2,'1','ListItem','14+%C3%A5r'),(27657,1,2,'1','Rating','2'),(27658,1,2,'1','ListItem','14+timer') ON DUPLICATE KEY UPDATE `answer_cells`.`value`=VALUES(`value`)
+  def make_csv_answer
+    c = CSVHelper.new
+    c.generate_csv_answer_line(c.survey_answer_csv_query)
+  end
+    
+  def create_csv_answer!
+    CSVHelper.new.create_survey_answer_csv(self)
+  end
   
-  # def mass_insert!(new_cells)
-  #   return if new_cells.nil?
-  #   inserts = []
-  #   new_cells.flatten.compact.each do |c|
-  #     inserts.push "(#{c.col}, NULL, #{c.row}, '#{c.value}', #{c.answer_id}, '#{c.item}')" # (1, NULL, 1, '9', 27484, '1')
-  #   end 
-  #   sql_insert = "INSERT INTO `answer_cells` (`col`, `answertype`, `row`, `value`, `answer_id`, `item`) VALUES #{inserts.join(", ")};\n" if inserts.any?
-  #   no_cells = new_cells.size
-  #   inserts.clear
-  #   ActiveRecord::Base.connection.execute sql_insert unless sql_insert.blank?
-  #   # logger.info "update: #{sql_update}"
-  # end
+  def self.create_csv_answers!
+    CSVHelper.new.generate_all_csv_answers
+  end
   
 end

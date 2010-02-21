@@ -79,7 +79,7 @@ class ExportsController < ApplicationController
     @task = Task.create(:status => "In progress")
     @task.create_export(@surveys.map(&:id), @journal_entries)
     
-    # response.headers["Content-Type"] = 'application/javascript'
+    response.headers["Content-Type"] = 'application/javascript'
     redirect_to generating_path(@task)
   end
   
@@ -91,11 +91,13 @@ class ExportsController < ApplicationController
       format.js {
         render :update do |page|
           if @task.completed?
+            response.headers["Content-Type"] = 'application/javascript' # TODO: should be filetype
             page.redirect_to export_file_path(@task.export_file) and return  #, :content_type => 'application/javascript'
           # else
             # render false
+          else
+            response.headers["Content-Type"] = 'application/javascript'
           end
-          page.visual_effect :pulse, 'progress'
         end
       }
       format.html do

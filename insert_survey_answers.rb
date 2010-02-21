@@ -2,6 +2,7 @@
 
 class InsertSurveyAnswers
   
+  # loads filtered log files, containing only parameters for survey_answer/create and inserts a survey_answer for each line
   def load_file(filename)
     params = []
     File.open(filename) do |file|
@@ -52,7 +53,7 @@ class InsertSurveyAnswers
     end
     answers.each do |survey_answer|
       puts "Generating CSVAnswer for SurveyAnswer #{survey_answer.id}"
-      CSVHelper.new.create_csv_answer(survey_answer)
+      survey_answer.create_csv_answer!
     end
   end
 end
@@ -74,12 +75,3 @@ class FindMissingJournals
   end
     
 end
-
-# insert = InsertSurveyAnswers.new
-# 
-# ARGV.each do|a|
-#   puts "Processing: #{a}"
-#   lines = insert.load_file(a)
-#   
-#   puts "Lines: #{lines.inspect}"
-# end

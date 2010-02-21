@@ -29,7 +29,7 @@ class SurveyAnswerTest < ActiveSupport::TestCase #ActiveSupport::TestCase
       end
       
       should "create csv_answers" do
-        Task.new.create_csv_answer(@survey_answer)
+        @survey_answer.create_csv_answer!
       end
     end
   end
