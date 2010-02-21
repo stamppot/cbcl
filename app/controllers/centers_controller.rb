@@ -14,14 +14,12 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @page_title = "CBCL - Center " + @group.title
     @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
     @subscription_presenter = SubscriptionPresenter.new(@group)
-    
     @subscriptions = @group.subscriptions
     @surveys = current_user.surveys.group_by {|s| s.id}
     
     respond_to do |format|
       format.html {
-        redirect_to team_path(@group) if @group.instance_of?(Team) and return
-        render
+        redirect_to team_path(@group) and return if @group.instance_of?(Team)
       }
       format.js {
         render :update do |page|
@@ -194,39 +192,32 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   end
   
   protected
-  before_filter :user_access, :except => [ :new, :delete, :create, :edit ]
-  before_filter :admin_access, :only => [ :new, :delete, :create, :edit, :pay_subscriptions, :undo_pay_subscriptions ]
+  # before_filter :user_access, :except => [ :new, :delete, :create, :edit ]
   before_filter :check_access
+  before_filter :admin_access, :only => [ :new, :delete, :create, :edit, :pay_subscriptions, :undo_pay_subscriptions ]
   
   def admin_access
-    if current_user.access? :admin
-      return true
-    elsif !current_user.nil?
+    if !current_user.access?(:admin)
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to centers_path
-    else
-      flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to login_path
     end
   end
 
-  def user_access
-    redirect_to login_path and return unless current_user
-    if current_user.access? :all_users
-      return true
-    else
-      flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to login_path
-    end
-  end
+  # def user_access
+  #   redirect_to login_path and return unless current_user
+  #   unless current_user.access? :all_users
+  #     flash[:notice] = "Du har ikke adgang til denne side"
+  #     redirect_to login_path
+  #   end
+  # end
   
   def check_access
-    redirect_to login_path and return unless current_user
-    if (current_user.access?(:all_users) || current_user.access?(:login_user))
-      if !current_user.team_member?(params[:id].to_i)
-        flash[:notice] = "Du har ikke adgang til denne side"
-        redirect_to main_path
-      end
-    end
+    puts "centers check_access"
+    redirect_to login_path unless current_user
+    puts "centers check_access 2"
+    # if !current_user.access?(:admin_actions) && !current_user.team_member?(params[:id].to_i)
+    #   flash[:notice] = "Du har ikke adgang til denne side"
+    #   redirect_to main_path
+    # end
   end
 end

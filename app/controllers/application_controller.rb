@@ -30,10 +30,6 @@ class ApplicationController < ActionController::Base
     rescue_action_in_public CustomNotFoundError.new
   end
 
-  def access_denied
-    raise AccessDenied
-  end
-
   def remove_user_from_session!
     session[:rbac_user_id] = nil
   end
@@ -92,8 +88,8 @@ class ApplicationController < ActionController::Base
   def check_access
     return true if params[:controller] =~ /newrelic/
     # check controller
-    if !params[:id].blank? and params[:controller] =~ /score|faq/
-      if current_user and (current_user.access?(:all_users) || current_user.access?(:login_user))
+    if !params[:id].blank? && params[:controller] =~ /score|faq/
+      if current_user && (current_user.access?(:all_users) || current_user.access?(:login_user))
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
@@ -106,20 +102,21 @@ class ApplicationController < ActionController::Base
             access = if params[:answers]
               params[:answers].keys.all? { |entry| journal_ids.include? entry }
             else
-              journal_ids.include? id
+              access = journal_ids.include? id
             end
           when /scores/
             access = current_user.access? :superadmin
           when /group|role/
             access = current_user.access? :superadmin
           else
+            puts "APP CHECKACCESS #{params.inspect}"
+            
             access = current_user.access? :superadmin
           end
           return access
         end
       else
         puts "ACCESS FAILED: #{params.inspect}"
-        access_denied
         params.clear
         redirect_to login_path
       end

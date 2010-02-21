@@ -69,24 +69,23 @@
 </div>	
 <!-- </div> -->
 
-<div style="width: 80%; clear: left;"></div>
-<%= render :partial => 'commands' %>
-
+	<div style="width: 80%; clear: left;"></div>
+	<%= render :partial => 'commands' %>
 </div>
 
 <div class="center_users" id="center_users">
-
 <% localadmins = @users.select { |u| u.has_access? :centeradm } %>
-
 <h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
+
+<% puts "user_new_leader: #{current_user.access? :user_new_leader}" %>
 
 <% if localadmins.empty? %>
 <p>Ingen</p>
-<% if current_user.access? :user_new_leader %>
-<div class="commands">
-	<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
-</div>
-<% end %>
+	<% if current_user.access? :user_new_leader %>
+	<div class="commands">
+		<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
+	</div>
+	<% end %>
 <% else %>
 <ul>
 	<% for user in localadmins %>
