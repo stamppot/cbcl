@@ -45,16 +45,20 @@ form td {
 .flash_error {
 	color: darkred;
 	border: 1px solid red;
-	padding: 6px 10px 6px 10px;
-	background: #f77;
+	padding: 6px 10px 6px 27px;
+	background:url('/images/exclamation.png') no-repeat 5px 7px;
+	background-color: #f77;
 	display: inline;
 }
 
 .flash_notice {
 	color: darkgreen;
 	border: 1px solid green;
-	padding: 6px 10px 6px 10px;
-	background: lightgreen;
+/*	padding: 6px 10px 6px 10px;
+	background: lightgreen;*/
+	padding: 6px 10px 6px 27px;
+	background:url('/images/check.png') no-repeat 5px 5px;
+	background-color: #CAE3F4;
 	display: inline;
 /*	float: right;*/
 }

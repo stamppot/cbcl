@@ -216,7 +216,6 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   end
   
   def check_access
-    redirect_to login_path and return unless current_user
     if params[:id] && current_user.access?(:all_users)
       access = current_user.team_member? params[:id].to_i
     elsif !params[:id] && current_user.access?(:login_user)

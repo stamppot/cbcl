@@ -5,7 +5,7 @@ class Role < ActiveRecord::Base
   
   def self.get(*roles)
     roles = roles.shift if roles.first.is_a?(Array)
-    result = Role.get_all(roles)
+    result = self.get_all(roles)
     return result.first if result.is_a?(Array) && result.size == 1
     result
   end
@@ -22,9 +22,12 @@ class Role < ActiveRecord::Base
   def self.get_all(roles)
     result = []
     roles = roles.shift if roles.first.is_a?(Array)
-    roles.each do |r|
-      role = r.to_s
-      result << Rails.cache.fetch("role_#{role}") { Role.find_by_title(role) }
+    roles.each_with_index do |r,i|
+      if "production" == RAILS_ENV
+        result << Rails.cache.fetch("role_#{r}") { Role.find_by_title(r.to_s) }
+      else
+        result << Role.find_by_title(r.to_s)
+      end
     end
     return result.compact
   end

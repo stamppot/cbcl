@@ -7,11 +7,16 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_charsets
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
+  before_filter :check_logged_in, :except => [:login]
   before_filter :check_access, :except => [:dynamic_data, :finish]
   before_filter :center_title, :except => [:dynamic_data, :logout, :login, :finish]
 
   filter_parameter_logging :password, :password_confirmation
 
+  def check_logged_in
+    redirect_to login_path if !current_user && !params[:controller] =~ /login/
+  end
+  
   def set_permissions
     if current_user
       current_user.perms = Access.for_user(current_user)
@@ -86,7 +91,7 @@ class ApplicationController < ActionController::Base
 
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
-    return true if params[:controller] =~ /newrelic/
+    return true if params[:controller] =~ /newrelic|login/
     # check controller
     if !params[:id].blank? && params[:controller] =~ /score|faq/
       if current_user && (current_user.access?(:all_users) || current_user.access?(:login_user))

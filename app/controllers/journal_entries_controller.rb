@@ -4,7 +4,6 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   
   before_filter :check_access
 
-
   # We force users to use POST on the state changing actions.
   verify :method       => "post",
          :only         => [ :remove, :remove_answer, :destroy_login ]
@@ -18,7 +17,6 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
    
     if entry.destroy
       render :update do |page|
-        page.visual_effect :puff, elem
         page.remove elem
       end
     end
@@ -38,7 +36,7 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     # delete all answers and answer cells, delete login for journal_entry
     if entry.destroy
       render :update do |page|
-        page.visual_effect :puff, elem
+        page.visual_effect :slide_up, elem
         page.remove elem
       end
     end
@@ -50,34 +48,9 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     render :layout => false
   end
 
-  # deletes login-user and removes login_user from entry. :id specifies journal_entry
-  # def destroy_login
-  #   @entry = JournalEntry.find(params[:id].to_i)
-  #   if not params[:yes].nil?
-  #     @entry.remove_login!
-  #     @entry.not_answered!
-  #     flash[:notice] = 'Login-brugeren er slettet.'
-  #   else
-  #     flash[:notice] = 'Login-brugeren blev ikke fjernet fra denne journal.'
-  #   end
-  #   redirect_to journal_path(@entry.journal)
-  #   
-  # rescue ActiveRecord::RecordNotFound
-  #   flash[:error] = 'Denne login-bruger kunne ikke findes.'
-  #   redirect_to journal_path(@entry.journal)
-  # end
 
 
   protected
-  before_filter :user_access
-
-  # Admin needs access to see subscriptions.. but this controller has no views, no?  
-  def user_access
-    if !current_user.access?(:all_users)
-      flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to login_path
-    end
-  end
   
   def check_access
     if current_user and ((current_user.access?(:all_users) || current_user.access?(:login_user))) and params[:id]

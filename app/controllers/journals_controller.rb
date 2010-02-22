@@ -133,7 +133,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
       flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys)
-      flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "blev tilføjet journal." if @group.save && valid_entries
+      flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "er oprettet." if @group.save && valid_entries
       redirect_to @group
     else
       # can only add surveys in age group of person
@@ -245,7 +245,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def user_access
-    redirect_to login_path and return unless current_user
     if current_user && !current_user.access?(:journal_new_edit_delete)
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to login_path
@@ -253,7 +252,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
   
   def check_access
-    redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
       access = journal_ids.include? params[:id].to_i

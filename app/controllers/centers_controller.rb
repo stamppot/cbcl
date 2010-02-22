@@ -193,7 +193,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   
   protected
   # before_filter :user_access, :except => [ :new, :delete, :create, :edit ]
-  before_filter :check_access
+  # before_filter :check_access
   before_filter :admin_access, :only => [ :new, :delete, :create, :edit, :pay_subscriptions, :undo_pay_subscriptions ]
   
   def admin_access
@@ -203,7 +203,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     end
   end
   
-  def check_access
-    redirect_to login_path unless current_user
-  end
+  # def check_access
+  #   redirect_to login_path unless current_user
+  # end
 end

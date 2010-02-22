@@ -6,7 +6,7 @@ class SurveysControllerTest < ActiveSupport::TestCase
   login_as(:user_center1) do
     context "show CBCL 1,5-5 forældreskema on GET to :show_only successfully" do
       setup {
-        @controller = SurveyController.new
+        @controller = SurveysController.new
         get :show_only, {:id => 1}
       }
   
@@ -17,7 +17,7 @@ class SurveysControllerTest < ActiveSupport::TestCase
 
     context "show CBCL 6-16 forældreskema on GET to :show_only successfully" do
       setup {
-        @controller = SurveyController.new
+        @controller = SurveysController.new
         get :show_only, {:id => 2}
       }
   
@@ -28,7 +28,7 @@ class SurveysControllerTest < ActiveSupport::TestCase
 
     context "show C-TRF 1,5-5 lærerskema on GET to :show_only successfully" do
       setup {
-        @controller = SurveyController.new
+        @controller = SurveysController.new
         get :show_only, {:id => 3}
       }
   
@@ -39,7 +39,7 @@ class SurveysControllerTest < ActiveSupport::TestCase
 
     context "show TRF 6-16 lærerskema on GET to :show_only successfully" do
       setup {
-        @controller = SurveyController.new
+        @controller = SurveysController.new
         get :show_only, {:id => 4}
       }
   
@@ -50,7 +50,7 @@ class SurveysControllerTest < ActiveSupport::TestCase
 
     context "show YSR 6-16 ungskema on GET to :show_only successfully" do
       setup {
-        @controller = SurveyController.new
+        @controller = SurveysController.new
         get :show_only, {:id => 5}
       }
   

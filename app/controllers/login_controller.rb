@@ -111,6 +111,14 @@ class LoginController < ApplicationController
     session[:rbac_user_id] = user.id
   end
 
+  def check_access
+    if params[:action] =~ /index|login/
+      return true
+    else
+      redirect_to login_path
+    end
+  end
+  
   # Redirects to the location stored in the <tt>return_to</tt> session 
   # entry and clears it if it is set or renders the template at the given
   # path.
