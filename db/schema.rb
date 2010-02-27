@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.string  "title"
   end
 
+  add_index "faqs", ["faq_section_id"], :name => "faqs_faq_section_id_fk"
+
   create_table "groups", :force => true do |t|
     t.timestamp "created_at",                                  :null => false
     t.timestamp "updated_at",                                  :null => false
@@ -197,11 +199,15 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.string  "var"
   end
 
+  add_index "question_cells", ["question_id"], :name => "question_cells_question_id_fk"
+
   create_table "questions", :force => true do |t|
     t.integer "survey_id",     :null => false
     t.integer "number",        :null => false
     t.integer "ratings_count"
   end
+
+  add_index "questions", ["survey_id"], :name => "questions_survey_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string    "identifier", :limit => 50,  :default => "", :null => false
@@ -283,6 +289,8 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.string  "type"
     t.integer "position"
   end
+
+  add_index "score_results", ["score_rapport_id"], :name => "score_results_score_rapport_id_fk"
 
   create_table "score_scales", :force => true do |t|
     t.integer "position"

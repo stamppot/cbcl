@@ -338,12 +338,29 @@ class User < ActiveRecord::Base
     page       = options[:page] ||= 1
     per_page   = options[:per_page] ||= 100000
     o = survey_answer_params(options)
-    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(:conditions => ['journal_id IN (?)', o[:journal_ids]], :page => page, :per_page => per_page)
+    if options[:center]
+      options[:center].journals.map(&:journal_entries).flatten.map(&:survey_answer)
+    else
+      SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(:conditions => ['journal_id IN (?)', o[:journal_ids]], :page => page, :per_page => per_page)      
+    end
   end
+
+  # def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
+  #   o = survey_answer_params(options)
+  #   SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(:conditions => ['journal_id IN (?)', o[:journal_ids]])
+  # end
 
   def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
     o = survey_answer_params(options)
-    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(:conditions => ['journal_id IN (?)', o[:journal_ids]])
+    puts "ENTRIES size: #{o[:journal_ids].size}"
+    if options[:center]
+      SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(:joins => :journal, :conditions => ['center_id = ?', o[:center].id])
+      options[:center].journals.map(&:journal_entries).flatten.map(&:survey_answer).size
+      
+    else
+      #   SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(:conditions => ['journal_id IN (?)', o[:journal_ids]])
+      999
+    end
   end
 
   def survey_answer_params(options = {})

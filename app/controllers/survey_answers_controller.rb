@@ -115,6 +115,7 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     survey_answer = @journal_entry.make_survey_answer
+    survey_answer.journal_entry_id = @journal_entry.id
     
     if survey_answer.save_all(params)
       @journal_entry.increment_subscription_count(survey_answer)

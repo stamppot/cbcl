@@ -44,11 +44,15 @@ class ExportsController < ApplicationController
     params[:surveys] ||= []
     @surveys = Survey.selected(params[:surveys].keys)
     params[:center] = @center if @center
+      survey_answers = @center.journals.map(&:journal_entries).flatten.map(&:survey_answer)
+      # sas = SurveyAnswer.all(:joins => :journal, :conditions => ['center_id = ?', 1291])
+    journals = @center.journals.flatten.size # current_user.survey_answers(filter_date(params.dup).merge({:surveys => @surveys})).map(&:journal).uniq
     @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
     render :update do |page|
-      page.replace_html 'results', "Antal: #{@count_survey_answers.to_s}"
+      page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{@count_survey_answers.to_s}"
       page.visual_effect :shake, 'results'
+      page.replace_html 'centertitle', @center.title
     end
   end
 
@@ -63,9 +67,19 @@ class ExportsController < ApplicationController
     @surveys = Survey.selected(params[:surveys].keys)
     @center = Center.find params[:center] unless params[:center].blank?
     params[:center] = @center if @center
+    if @center
+      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
+      params[:journal_entry_ids] = je_ids
+      journal_entries = JournalEntry.find(je_ids)
+      survey_answers = @center.journals.map(&:journal_entries).flatten.map(&:survey_answer)
+        # sas = SurveyAnswer.all(:joins => :journal, :conditions => ['center_id = ?', 1291])
+      journals = @center.journals.flatten.size # current_user.survey_answers(filter_date(params.dup).merge({:surveys => @surveys})).map(&:journal).uniq
+      @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
+      
+    end
 
-    survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    journal_entries = survey_answers.map {|sa| sa.journal_entry }.compact
+    survey_answers ||= current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
+    # journal_entries = survey_answers.map {|sa| sa.journal_entry }.compact
     
     # spawns background task
     @task = Task.create(:status => "In progress")
