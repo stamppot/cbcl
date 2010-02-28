@@ -15,6 +15,7 @@ class Center < Group
   has_many :all_users,
            :class_name => 'User',
            :dependent => :destroy
+  has_many :survey_answers           
 
   validates_format_of :code, :with => /[0-9][0-9][0-9][0-9]/ #:is => 4 #, :message => "skal være 4 cifre"
   validates_uniqueness_of :code #, :message => "skal være unik"

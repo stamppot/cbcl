@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100220142911) do
+ActiveRecord::Schema.define(:version => 20100228120836) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -89,8 +89,6 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.string  "answer"
     t.string  "title"
   end
-
-  add_index "faqs", ["faq_section_id"], :name => "faqs_faq_section_id_fk"
 
   create_table "groups", :force => true do |t|
     t.timestamp "created_at",                                  :null => false
@@ -199,15 +197,11 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.string  "var"
   end
 
-  add_index "question_cells", ["question_id"], :name => "question_cells_question_id_fk"
-
   create_table "questions", :force => true do |t|
     t.integer "survey_id",     :null => false
     t.integer "number",        :null => false
     t.integer "ratings_count"
   end
-
-  add_index "questions", ["survey_id"], :name => "questions_survey_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string    "identifier", :limit => 50,  :default => "", :null => false
@@ -290,8 +284,6 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.integer "position"
   end
 
-  add_index "score_results", ["score_rapport_id"], :name => "score_results_score_rapport_id_fk"
-
   create_table "score_scales", :force => true do |t|
     t.integer "position"
     t.string  "title"
@@ -352,6 +344,7 @@ ActiveRecord::Schema.define(:version => 20100220142911) do
     t.boolean  "done",                           :default => false
     t.datetime "updated_at"
     t.integer  "journal_id"
+    t.integer  "center_id"
   end
 
   add_index "survey_answers", ["journal_entry_id"], :name => "index_survey_answers_on_journal_entry_id"

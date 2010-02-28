@@ -20,14 +20,11 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     @surveys = surveys_default_selected(@surveys, params[:surveys])
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
+    @center = current_user.center if current_user.centers.size == 1
+    params[:center] = @center if @center
     
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
-    if @center
-      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      params[:journal_entry_ids] = je_ids
-      @journal_entries = JournalEntry.find(je_ids)
-    end
     
     @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
   end
@@ -42,17 +39,17 @@ class ExportsController < ApplicationController
     
     # set default value to true unless filter is pressed
     params[:surveys] ||= []
-    @surveys = Survey.selected(params[:surveys].keys)
+    @surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
+    @center = current_user.center if current_user.centers.size == 1
     params[:center] = @center if @center
-      survey_answers = @center.journals.map(&:journal_entries).flatten.map(&:survey_answer)
-      # sas = SurveyAnswer.all(:joins => :journal, :conditions => ['center_id = ?', 1291])
-    journals = @center.journals.flatten.size # current_user.survey_answers(filter_date(params.dup).merge({:surveys => @surveys})).map(&:journal).uniq
+
+    journals = @center.journals.flatten.size
     @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
     
     render :update do |page|
       page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{@count_survey_answers.to_s}"
       page.visual_effect :shake, 'results'
-      page.replace_html 'centertitle', @center.title
+      page.replace_html 'centertitle', @center.title if @center
     end
   end
 
@@ -64,26 +61,17 @@ class ExportsController < ApplicationController
     @surveys = current_user.subscribed_surveys
     # set default value to true unless filter is pressed
     params[:surveys] ||= []
-    @surveys = Survey.selected(params[:surveys].keys)
+    @surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
+    @center = current_user.center if current_user.centers.size == 1
+    
     @center = Center.find params[:center] unless params[:center].blank?
     params[:center] = @center if @center
-    if @center
-      je_ids = @center.journals.map {|j| j.answered_entries }.flatten.map {|e| e.id} # get journal_entry_ids
-      params[:journal_entry_ids] = je_ids
-      journal_entries = JournalEntry.find(je_ids)
-      survey_answers = @center.journals.map(&:journal_entries).flatten.map(&:survey_answer)
-        # sas = SurveyAnswer.all(:joins => :journal, :conditions => ['center_id = ?', 1291])
-      journals = @center.journals.flatten.size # current_user.survey_answers(filter_date(params.dup).merge({:surveys => @surveys})).map(&:journal).uniq
-      @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
-      
-    end
 
-    survey_answers ||= current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    # journal_entries = survey_answers.map {|sa| sa.journal_entry }.compact
+    survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
     
     # spawns background task
     @task = Task.create(:status => "In progress")
-    @task.create_export(@surveys.map(&:id), journal_entries)
+    @task.create_export(@surveys.map(&:id), survey_answers)
   end
   
   # a periodic updater checks the progress of the export data generation 
