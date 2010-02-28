@@ -72,7 +72,7 @@ class CSVHelper
   end
   
   def create_survey_answer_csv(survey_answer)
-    generate_csv_answers(csv_answer_values(survey_answer))
+    generate_csv_answers(csv_answer_values(survey_answer)) if survey_answer.done
   end
   
   def generate_all_csv_answers
@@ -81,10 +81,9 @@ class CSVHelper
 
 
   # merged pregenerated csv_answer string with header and journal information
-  def to_csv(entries, survey_ids)
-    # get survey_answers
-    survey_answers = entries.map {|e| e.survey_answer_id }
-    journal_ids = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
+  def to_csv(survey_answers, survey_ids)
+    journal_ids = survey_answers.build_hash { |sa| [sa.journal_id, sa.survey_id] }
+    survey_ids = journal_ids.values.flatten.uniq
     
     # create csv headers
     csv_headers = survey_headers(survey_ids)
@@ -95,6 +94,8 @@ class CSVHelper
     journal_ids.each do |j, survey_ids|
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.chomp.gsub!(/^\"|\n"$/, ""); ca}.group_by { |c| c.survey_id }
       csv_headers.each do |s_id, empty_vals|       # fill missing values for surveys not answered for this journal
+        je = Journal.find(j).journal_entries.map &:survey
+        # puts "MISSING csv: j_id: #{j} code: #{Journal.find(j).code} s: #{s_id} journal has surveys: #{je.map &:title}" unless csv_answers[s_id]
         csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer.chomp || empty_vals 
       end
       result[j] = [csv_answers.values.join(';')]

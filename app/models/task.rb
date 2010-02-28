@@ -5,8 +5,8 @@ class Task < ActiveRecord::Base
     # self.save
 
     # spawn do
-      entries = survey_answers.map { |sa| sa.journal_entry }
-      data = CSVHelper.new.to_csv(entries, survey_ids)  # TODO: add csv generation on save_answer & change_answer
+      # entries = survey_answers.map { |sa| sa.journal_entry }
+      data = CSVHelper.new.to_csv(survey_answers, survey_ids)  # TODO: add csv generation on save_answer & change_answer
       # write data
       self.export_file = ExportFile.create(:data => data,
         :filename => "eksport_svar_" + Time.now.to_date.to_s + ".csv",

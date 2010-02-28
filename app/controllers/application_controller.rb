@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_filter :configure_charsets
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
   before_filter :check_logged_in, :except => [:login]
-  before_filter :check_access, :except => [:dynamic_data, :finish]
+  before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout]
   before_filter :center_title, :except => [:dynamic_data, :logout, :login, :finish]
 
   filter_parameter_logging :password, :password_confirmation
