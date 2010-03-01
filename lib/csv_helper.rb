@@ -89,7 +89,6 @@ class CSVHelper
     csv_headers = survey_headers(survey_ids)
     csv_headers.each { |s_id, hash| csv_headers[s_id] = hash.values.join(';') } #null! values
     
-    # csv_headers = journal_csv_header.merge
     result = {}
     journal_ids.each do |j, survey_ids|
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.chomp.gsub!(/^\"|\n"$/, ""); ca}.group_by { |c| c.survey_id }

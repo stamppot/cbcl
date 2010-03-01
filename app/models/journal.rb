@@ -23,7 +23,7 @@ class Journal < Group
   default_scope :order => 'created_at DESC'               
   
   delegate :name, :to        => :person_info
-  delegate :sex, :to         => :person_info
+  # delegate :sex, :to         => :person_info
   delegate :birthdate, :to   => :person_info, :allow_nil => true
   delegate :nationality, :to => :person_info
   delegate :age, :to         => :person_info
