@@ -30,26 +30,27 @@ class ExportsController < ApplicationController
   end
   
   def filter
-    @center = Center.find params[:center] unless params[:center].blank?
+    center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
-    @start_date, @stop_date = params[:start_date], params[:stop_date]
-    @surveys = current_user.subscribed_surveys
+    # start_date, stop_date = params[:start_date], params[:stop_date]
+    surveys = current_user.subscribed_surveys
     params = Query.filter_age(params)
     
     # set default value to true unless filter is pressed
     params[:surveys] ||= []
-    @surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
-    @center = current_user.center if current_user.centers.size == 1
-    params[:center] = @center if @center
+    surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
+    center = current_user.center if current_user.centers.size == 1
+    params[:center] = center if center
 
-    journals = @center.journals.flatten.size
-    @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => @surveys}))
+    journals = center && center.journals.flatten.size || Journal.count
+    count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => surveys}))
+    count_survey_answers = SurveyAnswer.finished.count if count_survey_answers == 0
     
     render :update do |page|
-      page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{@count_survey_answers.to_s}"
+      page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{count_survey_answers.to_s}"
       page.visual_effect :shake, 'results'
-      page.replace_html 'centertitle', @center.title if @center
+      page.replace_html 'centertitle', center.title if center
     end
   end
 
