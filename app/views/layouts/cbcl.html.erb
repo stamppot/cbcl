@@ -7,7 +7,7 @@
 
 	<% if !current_user.login_user? %>
 	<%= stylesheet_link_tag_html4 'tablekit' %>
-	<%= stylesheet_link_tag_html4 'validation' %>
+	<% stylesheet_link_tag_html4 'validation' %>
 	<%= stylesheet_link_tag_html4 'login' %>
 	<% end %>
 	<%= stylesheet_link_tag_html4 'cbcl' %>
@@ -21,7 +21,7 @@
  	<%= javascript_include_tag 'tablekit' %>
 
  	<%= javascript_include_tag 'css_browser_selector' %>
- 	<%= javascript_include_tag 'validation' %>
+ 	<% javascript_include_tag 'validation' %>
  	<%= javascript_include_tag 'application' %>
 	<%= javascript_include_tag 'flash' %>
 	<script type="text/javascript">
