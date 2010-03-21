@@ -103,7 +103,7 @@ class SurveyAnswer < ActiveRecord::Base
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
   end
 
-  def generate_score_report(update = true)
+  def generate_score_report(update = false)
     rapport = ScoreRapport.find_or_create_by_survey_answer_id(self.id)
     rapport.update_attributes(:survey_name => self.survey.title, :survey => self.survey, :unanswered => self.no_unanswered, :short_name => self.survey.category)
     
