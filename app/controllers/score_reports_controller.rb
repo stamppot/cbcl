@@ -1,5 +1,5 @@
 class ScoreReportsController < ApplicationController
-
+  
   def create
     @page_title = "CBCL - Scorerapport"
     answers = []
@@ -11,46 +11,36 @@ class ScoreReportsController < ApplicationController
       if entries.empty? # if no entries are chosen, show the first three
         entries = Journal.find(params[:journal_id]).answered_entries.reverse.slice(0,3)
       end
+      survey_answers = entries.map { |entry| entry.survey_answer }.sort_by {|sa| sa.survey.position }
+      
+      @journal = entries.first.journal # show journal info
+      # create survey titles row  # first header is empty, is in corner
+      @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
 
-      @survey_answers = entries.map { |entry| entry.survey_answer }.sort_by {|sa| sa.survey.position }
-
-      # store score_rapport in model
-      # debugger
-      @survey_answers.each { |sa| sa.calculate_score }
-
-      # must show journal info
-      @journal = entries.first.journal
-
-      # create survey titles row
-      # @titles = [""]    # first header is empty, is in corner
-      @titles = [""] + @survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
-      # @survey_answers.each do |survey_answer|
-      #   @titles << survey_answer.survey.category + " " + survey_answer.survey.age
-      # end
+      score_rapports = survey_answers.map { |sa| sa.score_rapport } # get pre-generated score_rapports
+      unanswered = ["Ubesvarede"]
+      score_rapports.each do |score_rapport|  # find no unanswered
+        # score = survey_answer.survey.scores.first
+        report = ScoreReport.new
+        if score_rapport.unanswered > 100  # temporary, recalculate for wrong values
+          score_rapport.unanswered = score_rapport.survey_answer.no_unanswered
+          score_rapport.save
+        end
+        report.result = score_rapport.unanswered
+        report.percentile = "&nbsp;"
+        unanswered << report
+      end
 
       # holds scores in groups of standard, latent, cross-informant
       @groups = []
-
-      @unanswered = ["Ubesvarede"]
-      @survey_answers.each do |survey_answer|
-        score = survey_answer.survey.scores.first
-          report = ScoreReport.new
-          report.result = score && score.no_unanswered(survey_answer) || "&nbsp;"
-          report.percentile = "&nbsp;"
-          @unanswered << report #ScoreReport.new({:result => score.no_unanswered(survey_answer), :percentile => "&nbsp;"})
-      end
-
       # calculate scores for all scales, for all survey answers
       @scales = ScoreScale.find(:all, :order => :position)
 
       @scales.each do |scale|
         cols = []           # holds columns of results
-        # score_names = []  # holds names of score_items
-        @survey_answers.each do |survey_answer|
-          scores = survey_answer.survey.scores.select { |s| s.score_scale_id == scale.id }.sort_by { |s| s.position }
-
-          # add columns of score results
-          cols << scores.map { |score| score.score_report(survey_answer, @journal) }
+        score_rapports.each do |score_rapport| # get scores for current scale
+          score_results = score_rapport.score_results.select { |s| s.score_scale_id == scale.id }.sort_by { |s| s.position }
+          cols << score_results.map { |result| result.to_report } # array of score_reports
         end
 
         rows = cols.fill_2d.transpose
@@ -67,11 +57,10 @@ class ScoreReportsController < ApplicationController
         @groups << rows
       end
 
-      @groups << [@unanswered] # add unanswered row
+      @groups << [unanswered] # add unanswered row
       @group_titles = ScoreScale.all.map {|scale| scale.title}
       @group_titles[0] = ""  # do not show standard title
 
-      # render 'show_report'
     else
       flash[:error] = "Kunne ikke vise scoreberegning. Er du logget ind?"
       redirect_to journals_path

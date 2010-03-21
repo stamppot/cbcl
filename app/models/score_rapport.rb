@@ -3,6 +3,5 @@ class ScoreRapport < ActiveRecord::Base
   belongs_to :journal_entry
   belongs_to :survey_answer
   belongs_to :survey
-  
-  
+
 end

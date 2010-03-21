@@ -34,72 +34,32 @@ class Score < ActiveRecord::Base
     return score_ref
   end
   
-  def no_unanswered(survey_answer)
-    score_item = self.score_items.first
-    # find answer to count values in
-    answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
-    return answer.ratings_count if answer # 11-01-10 was answer.not_answered_ratings
-    # c2 = Query.new.not_answered(answer.id)
-    # puts "#{c==c2} number: #{answer.id} a #{c}, b #{c2}"
-    # puts "#{c-c2} #{c == c2}: #{c} == #{c2}"
-    return 0
-  end
-
-  # def no_unanswered2(survey_answer)
-  #   score_item = self.score_items.first
-  #   # find answer to count values in
-  #   # answer = survey_answer.answers.detect {|answer| answer.question_id == score_item.question_id }
-  #   answer = survey_answer.answers.detect {|answer| answer.number == score_item.question.number }
-  #   if answer
-  #     c = Query.new.not_answered(answer.id)
-  #     # puts "answer.number: #{answer.number}  notanswered #{c}"
-  #     return c
-  #   end
-  #   return 0
-  # end
-  
   # delegates calculation to the right score_item
-  def calculate(survey_answer, journal)
+  def calculate(survey_answer)
     s_type = survey_answer.surveytype
     
     # find matching type in score_items, so only the score item for the type of survey is calculated
     score_item = self.score_items.first
-    score_ref  = self.find_score_ref(journal)
-
-    row_result = []
-    if score_item.nil?
-      row_result << 0 # "empty"
-    else
-      row_result << score_item.calculate(survey_answer) # other survey scores are added as columns
-    end
-
-    if score_ref
-      res = row_result.first.to_i
-      
-      percentile = if (res && score_ref && score_ref.percent98) && res >= score_ref.percent98
-        "(#{score_ref.mean.to_danish}) **"
-      elsif (res && score_ref && score_ref.percent95) && res >= score_ref.percent95
-        "(#{score_ref.mean.to_danish}) *&nbsp;"
-      else
-        score_ref.mean.to_s.empty? && "" ||
-        "(#{score_ref.mean.to_s.gsub('.', ',')}) &nbsp;&nbsp;&nbsp;"  # should all norm values
-      end
-      return [res, percentile]
-    else
-      return row_result
-    end
-  end
+    score_ref  = self.find_score_ref(survey_answer.journal)
+    mean = score_ref && score_ref.mean || 0.0
   
-  def score_report(survey_answer, journal)
-    report = ScoreReport.new
-    report.title = self.title
-    report.score = self
-    report.scale = self.score_scale.position - 1 # used to generate ids to hide score group
-    report.short_name = self.short_name
-    results = self.calculate(survey_answer, journal)
-    report.result = results[0]
-    report.percentile = results[1]
-    return report
+    row_result = [] << (score_item && score_item.calculate(survey_answer) || 0)  # other survey scores are added as columns
+        
+    return row_result << :normal << mean if !score_ref  # guard clause when no score_ref exists
+      
+    res = row_result.first.to_i
+
+    # mean_s = mean.to_danish
+    percentile = if (res && score_ref && score_ref.percent98) && res >= score_ref.percent98
+      :percentile_98
+    elsif (res && score_ref && score_ref.percent95) && res >= score_ref.percent95
+      :percentile_95
+    elsif score_ref.mean > 0.0
+      :deviation
+    else
+      :normal
+    end
+    return [res, percentile, mean]
   end
 
   def result(survey_answer, journal)
@@ -140,6 +100,21 @@ class Score < ActiveRecord::Base
 
   def to_s
     "<br>Score: #{id}" + "<br>" + title + "<br>" + "Skema: #{short_name}" + "<br>" + "Tælling: #{sum_type}" + "<br>" + "Skala: #{scale}" + "<br>"
+  end
+  
+  def score_headers(survey)
+    Score.for_survey(survey.id).map {|s| s.title }
+  end
+  
+  # used to generate score_result
+  def Score.percentile_string(percentile, mean)
+    case percentile
+    when :percentile_98: "(#{mean.to_danish}) **"  
+    when :percentile_95: "(#{mean.to_danish}) *&nbsp;"
+    when :deviation: "(#{mean.to_danish}) &nbsp;&nbsp;&nbsp;"
+    when :normal: ""
+    else ""
+    end
   end
   
   private

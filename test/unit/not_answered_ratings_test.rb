@@ -18,7 +18,7 @@ class NotAnsweredRatingsTest < ActiveSupport::TestCase
       puts "test score #{score.title} #{score.survey_id}"
       survey_answers = SurveyAnswer.for_survey(survey.id)
       survey_answers.each do |sa| 
-        a, b = score.no_unanswered(sa), score.no_unanswered2(sa)
+        a, b = sa.no_unanswered, score.no_unanswered2(sa)
         # puts "#{a==b} a:#{a} b:#{b}" 
       end
     end
@@ -31,7 +31,7 @@ class NotAnsweredRatingsTest < ActiveSupport::TestCase
       puts "test score #{score.title} #{score.survey_id}"
       survey_answers = SurveyAnswer.for_survey(survey.id)
       survey_answers.each do |sa| 
-        a, b = score.no_unanswered(sa), score.no_unanswered2(sa)
+        a, b = sa.no_unanswered, score.no_unanswered2(sa)
         # puts "#{a==b} a:#{a} b:#{b}"
       end
     end

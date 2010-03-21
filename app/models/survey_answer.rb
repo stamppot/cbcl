@@ -50,6 +50,7 @@ class SurveyAnswer < ActiveRecord::Base
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     spawn do
       self.create_csv_answer!
+      self.generate_score_report # generate score report
     end
     self.save
   end
@@ -77,6 +78,13 @@ class SurveyAnswer < ActiveRecord::Base
     self.answers.max {|q,p| q.count_items <=> p.count_items }
   end
 
+  def no_unanswered
+    # count values in largest answer
+    answer = self.max_answer # answers.detect {|answer| answer.question_id == score_item.question_id }
+    return answer.ratings_count if answer # 11-01-10 was answer.not_answered_ratings
+    return 0
+  end
+
   # returns array of cells that must be saved
   def add_missing_cells_optimized
     self.max_answer.add_missing_cells_optimized
@@ -95,30 +103,40 @@ class SurveyAnswer < ActiveRecord::Base
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
   end
 
-  def calculate_score
+  def generate_score_report
     rapport = ScoreRapport.find_or_create_by_survey_answer_id(self.id)
-    rapport.update_attributes(:survey_name => self.survey.title, :survey => self.survey)
+    rapport.update_attributes(:survey_name => self.survey.title, :survey => self.survey, :unanswered => self.no_unanswered, :short_name => self.survey.category)
     
-    journal = self.journal_entry.journal
     scores = self.survey.scores
     scores.each do |score|
       score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, rapport.id])
       
-      args = { 
-        :title => score.title, 
-        :score_id => score.id, 
-        :scale => score.scale, 
-        :survey => self.survey,
-        :result => score.result(self, journal), 
-        :percentile => score.percentile(self, journal), 
-        :score_rapport => rapport, 
-        :position => score.position
-      }
-
-      if score_result
-        score_result.update_attributes(args)
+      # everything is calculated already
+      if (sr = score_result) && !sr.title && !sr.scale && !sr.result && !sr.percentile && !sr.percentile_98 && !sr.percentile_95 && !sr.deviation 
+        next
       else
-        score_result = ScoreResult.create(args)
+        result, percentile, mean = score.calculate(self)
+        args = { 
+          :title => score.title, 
+          :score_id => score.id, 
+          :scale => score.scale, 
+          :survey => self.survey,
+          :result => result, 
+          :percentile => Score.percentile_string(percentile, mean),
+          :percentile_98 => (percentile == :percentile_98),
+          :percentile_95 => (percentile == :percentile_95),
+          :deviation => (percentile == :deviation),
+          :score_rapport => rapport, 
+          :mean => mean,
+          :position => score.position,
+          :score_scale_id => score.score_scale_id
+        }
+        
+        if score_result
+          score_result.update_attributes(args)
+        else
+          score_result = ScoreResult.create(args)
+        end
       end
       rapport.short_name = score.short_name
     end

@@ -128,13 +128,6 @@ class Survey < ActiveRecord::Base
     s.cell_variables.keys
   end
   
-  # def self.get(survey_ids)
-  #   ss = survey_ids.map do |s_id|
-  #     s = Rails.cache.fetch("survey_#{s_id}", :expires_in => 15.minutes) { Survey.and_questions.find(s_id) }
-  #   end
-  # end
-    
-  
   # export to xml. Recurses through objects
   # add indentation when one object in the array is an array (of answers)
   def to_xml2

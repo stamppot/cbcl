@@ -12,6 +12,19 @@ class ScoreReport
     @percentile = ""
     @description = ""
   end
+
+  def self.build(survey_answer)
+    rapport = survey_answer.score_rapport
+    report = ScoreReport.new
+    report.title = self.title
+    report.score = self
+    report.scale = self.score_scale.position - 1 # used to generate ids to hide score group
+    report.short_name = self.short_name
+    results = self.calculate(survey_answer)
+    report.result = results[0]
+    report.percentile = Score.percentile_string(results[1], results[2])
+    return report
+  end
   
   def to_s
     if @score.nil?
