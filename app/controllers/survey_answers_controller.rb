@@ -117,21 +117,21 @@ class SurveyAnswersController < ApplicationController
     survey_answer = @journal_entry.make_survey_answer
     survey_answer.journal_entry_id = @journal_entry.id
     
-    if survey_answer.save_all(params)
-      @journal_entry.increment_subscription_count(survey_answer)
-
-      # login-users are shown the logout page
-      if current_user and current_user.access? :all_users
-        flash[:notice] = "Dit svar er gemt."
-        redirect_to journal_path(@journal_entry.journal) and return
-      else
-        flash[:notice] = "Tak for dit svar!"
-        cookies.delete :journal_entry
-        redirect_to survey_finish_path(@journal_entry.login_user) and return
-      end
-    else
+    if !survey_answer.save_all(params)
       flash[:notice] = "Fejl! Dit svar blev ikke gemt."
       redirect_to survey_answer_path(@journal_entry) and return
+    end
+    
+    @journal_entry.increment_subscription_count(survey_answer)
+
+    # login-users are shown the logout page
+    if current_user and current_user.access? :all_users
+      flash[:notice] = "Dit svar er gemt."
+      redirect_to journal_path(@journal_entry.journal) and return
+    else
+      flash[:notice] = "Tak for dit svar!"
+      cookies.delete :journal_entry
+      redirect_to survey_finish_path(@journal_entry.login_user) and return
     end
   rescue RuntimeError
     flash[:error] = survey_answer.print
@@ -146,6 +146,7 @@ class SurveyAnswersController < ApplicationController
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
       Task.new.create_csv_answer(survey_answer)
+      survey_answer.generate_score_report(update = true)
       redirect_to journal_path(@journal_entry.journal)
     else  # not answered
       flash[:notice] = "Dit svar blev ikke gemt."

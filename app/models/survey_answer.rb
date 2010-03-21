@@ -103,7 +103,7 @@ class SurveyAnswer < ActiveRecord::Base
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
   end
 
-  def generate_score_report
+  def generate_score_report(update = true)
     rapport = ScoreRapport.find_or_create_by_survey_answer_id(self.id)
     rapport.update_attributes(:survey_name => self.survey.title, :survey => self.survey, :unanswered => self.no_unanswered, :short_name => self.survey.category)
     
@@ -112,7 +112,7 @@ class SurveyAnswer < ActiveRecord::Base
       score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, rapport.id])
       
       # everything is calculated already
-      if (sr = score_result) && !sr.title && !sr.scale && !sr.result && !sr.percentile && !sr.percentile_98 && !sr.percentile_95 && !sr.deviation 
+      if !update && (sr = score_result) && !sr.title && !sr.scale && !sr.result && !sr.percentile && !sr.percentile_98 && !sr.percentile_95 && !sr.deviation 
         next
       else
         result, percentile, mean = score.calculate(self)
