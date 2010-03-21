@@ -1,4 +1,4 @@
-class AddScoreResultsScoreScale < ActiveRecord::Migration
+class AddScoreResultsScale < ActiveRecord::Migration
   def self.up
     add_column :score_results, :score_scale_id, :integer
     ScoreResults.all.each do |result|
