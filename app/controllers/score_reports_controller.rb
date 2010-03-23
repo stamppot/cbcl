@@ -16,11 +16,10 @@ class ScoreReportsController < ApplicationController
       @journal = entries.first.journal # show journal info
       # create survey titles row  # first header is empty, is in corner
       @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
-
-      score_rapports = survey_answers.map { |sa| sa.score_rapport } # get pre-generated score_rapports
+      # find or create score_rapport
+      score_rapports = survey_answers.map { |sa| sa.score_rapport ||= sa.generate_score_report }
       unanswered = ["Ubesvarede"]
       score_rapports.each do |score_rapport|  # find no unanswered
-        # score = survey_answer.survey.scores.first
         report = ScoreReport.new
         if score_rapport.unanswered > 100  # temporary, recalculate for wrong values
           score_rapport.unanswered = score_rapport.survey_answer.no_unanswered
@@ -40,7 +39,7 @@ class ScoreReportsController < ApplicationController
         cols = []           # holds columns of results
         score_rapports.each do |score_rapport| # get scores for current scale
           score_results = score_rapport.score_results.select { |s| s.score_scale_id == scale.id }.sort_by { |s| s.position }
-          cols << score_results.map { |result| result.to_report } # array of score_reports
+          cols << score_results.map { |result| result.to_report }
         end
 
         rows = cols.fill_2d.transpose
