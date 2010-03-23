@@ -43,7 +43,8 @@
 				<%= link_button t('subscription.pay'), pay_periods_url(@group, :start_date => summary[:start_on], :end_date => stopped_on), 'period_pay' %>
 				<% end %>
 				<% if summary[:date1] && summary[:date2] && current_user.access?(:subscription_new_edit) %>
-					<%= link_button t('subscription.merge_periods'), {:controller => :center, :action => 'merge_periods', :id => @group, :start_date => date1, :end_date => date2}, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
+					<%= link_button t('subscription.merge_periods'), {:controller => :centers, :action => 'merge_periods', :id => @group,
+						:start_date => summary[:date1], :end_date => summary[:date2] }, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
 				<% end %>
 		</td>
 		<!-- <td class="number"><% summary[:active] %></td> -->

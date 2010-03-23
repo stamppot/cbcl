@@ -183,6 +183,7 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @group.subscriptions.all.each do |sub|
       sub.merge_periods!(date1, date2)
     end
+    redirect_to subscriptions_path
   end
   
   def new_subscription_period
