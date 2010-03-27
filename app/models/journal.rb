@@ -135,22 +135,13 @@ class Journal < Group
 
   # returns full id, qualified with center and team ids
   def qualified_id
-    team_id = if team.instance_of? Center
-      "000"
-    else
-      team.code.to_s.rjust(3, "0")
-    end
-    center.code.to_s.rjust(4, "0") + "-" + team_id + "-" + self.code.to_s.rjust(4, "0")
+    qualified_code + "-" + "%04d" % self.code
   end
   
   # code of center and team
   def qualified_code
-    team_id = if team.instance_of? Center
-      "000"
-    else
-      team.code.to_s.rjust(3, "0")
-    end
-    center.code.to_s.rjust(4, "0") + "-" + team_id
+    team_id = team.code unless team.instance_of? Center
+    "%04d" % center.code + "-" + "%04d" % team_id #  team.code.to_s.rjust(3, "0")
   end
   
   # creates entries with logins
