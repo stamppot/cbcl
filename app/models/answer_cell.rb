@@ -40,7 +40,10 @@ class AnswerCell < ActiveRecord::Base
   return (id = cell.id) && (answer_id == cell.answer_id) && (col == cell.col) && (row == cell.row) &&
     (item = cell.item) && (value = cell.value)
   end
-  
+  # 
+  # def to_xml
+  #   r = []
+  #   
   # def to_xml
   #   t.column :answertype, :string, :limit => 20
   #   t.column :col, :int, :null => false

@@ -62,6 +62,14 @@ class SurveyAnswer < ActiveRecord::Base
     a.order_by
   end
   
+  def cell_vals(prefix = nil)
+    prefix ||= self.survey.prefix
+    a = []
+    self.answers.each { |answer| a << (answer.cell_vals(prefix)) }
+    a
+    # a.order_by
+  end
+  
   # cascading does not work over multiple levels, ie. answer_cells are not deleted
   def delete
     # better solution: iterate through answers, do cascading delete
@@ -95,7 +103,7 @@ class SurveyAnswer < ActiveRecord::Base
   end
   
   def sex
-    PersonInfo.sexes.invert[self.sex]
+    PersonInfo.sexes.invert[self[:sex]]
   end
   
   # get all scores related to this survey answer.
@@ -202,6 +210,31 @@ class SurveyAnswer < ActiveRecord::Base
   
   def self.create_csv_answers!
     CSVHelper.new.generate_all_csv_answers
+  end
+  
+  
+
+  def to_xml(options = {})
+    if options[:builder]
+      build_xml(options[:builder])
+    else
+      xml = Builder::XmlMarkup.new
+      xml.__send__(:survey_answer, {:created => self.created_at}) do
+        xml.answers do
+          # self.rapports.map(&:score_rapports).each do |rapport|
+          self.cell_vals.each do |answer_vals|
+            xml.__send__(:answer, {:number => answer_vals[:number]}) do
+              xml.cells do
+                answer_vals[:cells].each do |cell_h|
+                  attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
+                  xml.__send__(:cell, attrs)
+                end
+              end
+            end
+          end
+        end
+      end
+    end
   end
   
 end

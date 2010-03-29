@@ -47,6 +47,46 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
+  def cell_vals(prefix = nil)
+    answer = Dictionary.new
+    prefix = survey_answer.survey.prefix unless prefix
+    q = self.question.number.to_roman.downcase
+    answer[:number] = self.question.number
+    cells = []
+    
+    self.answer_cells.each_with_index do |cell, i|
+      c = {}
+      type = :Integer
+      # value = cell.value.blank? && '#NULL!' || cell.value
+      if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
+        c[:var] = var.var.to_sym
+      else  # default var name
+        # answer_type = cell.answertype
+        # item = "" if cell.item.blank?
+        answer_type, item = self.question.get_answertype(cell.row, cell.col)
+        if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
+          item << "hv" 
+          type = :String
+        end
+        var = "#{prefix}#{q}#{item}".to_sym
+        c[:var] = var
+        # cs[var] = 
+        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+          type = "String"
+          cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
+        end
+        value = cell.value.to_i if type == :Integer
+        c[:type] = type
+        c[:v] = value
+        puts c.inspect
+        cells << c
+      end
+    end
+    answer[:cells] = cells
+    return answer
+  end
+  
+
   # returns array of cells. Sets answertype
   def create_cells_optimized(cells = {}, valid_values = {})
     new_cells = []
@@ -153,7 +193,13 @@ class Answer < ActiveRecord::Base
     xml = []
     xml << "<answer question='#{self.number.to_s}' question_id='#{self.question_id.to_s}' >"
     xml << "  <answer_cells>"
-    xml << self.answer_cells.collect { |answer_cell| answer_cell.to_xml }
+    if self == self.parent_max_answer
+      self.parent.cell_values.each do |var, val|
+        "<v >"
+      end
+    else
+      xml << self.answer_cells.collect { |answer_cell| answer_cell.to_xml }
+    end
     xml << "  </answer_cells>"
     xml << "</answer>"
   end

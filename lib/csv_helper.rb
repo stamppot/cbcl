@@ -327,22 +327,7 @@ class CSVHelper
   end
 
   def journal_to_csv(journal)
-    info(journal).values
+    journal.info.values
   end
   
-  # info on journal in array of hashes
-  def info(journal)
-    # h = []
-    c = Dictionary.new # ActiveSupport::OrderedHash.new
-    c["ssghafd"] = journal.parent.group_code
-    c["ssghnavn"] = journal.center.title
-    c["safdnavn"] = journal.team.title
-    c["pid"] = journal.code
-    c["pkoen"] = journal.sex
-    c["palder"] = journal.age  # TODO: alder skal være alder på besvarelsesdatoen
-    c["pnation"] = journal.nationality
-    c["dagsdato"] = journal.created_at.strftime("%d-%b-%Y")
-    c["pfoedt"] = journal.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
-    c
-  end
 end

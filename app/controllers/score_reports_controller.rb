@@ -66,4 +66,12 @@ class ScoreReportsController < ApplicationController
     end
   end
 
+   # show xml
+  def show
+    @score_report = ScoreRapport.find params[:id]
+    
+    respond_to do |format|
+      format.xml
+    end
+  end
 end
