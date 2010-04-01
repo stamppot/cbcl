@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100321123311) do
+ActiveRecord::Schema.define(:version => 20100401203646) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -278,7 +278,6 @@ ActiveRecord::Schema.define(:version => 20100321123311) do
     t.integer "survey_id"
     t.integer "score_id"
     t.integer "result"
-    t.string  "percentile"
     t.integer "scale"
     t.string  "title"
     t.integer "position"
@@ -287,7 +286,14 @@ ActiveRecord::Schema.define(:version => 20100321123311) do
     t.boolean "percentile_98"
     t.boolean "percentile_95"
     t.integer "score_scale_id"
+    t.integer "gender",                                       :null => false
+    t.string  "age_group",        :limit => 5,                :null => false
+    t.integer "missing",                       :default => 0
   end
+
+  add_index "score_results", ["score_id", "score_rapport_id"], :name => "index_score_results_on_score_id_and_score_rapport_id"
+  add_index "score_results", ["score_id"], :name => "index_score_results_on_score_id"
+  add_index "score_results", ["score_rapport_id"], :name => "index_score_results_on_score_rapport_id"
 
   create_table "score_scales", :force => true do |t|
     t.integer "position"

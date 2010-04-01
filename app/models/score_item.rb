@@ -15,20 +15,24 @@ class ScoreItem < ActiveRecord::Base
       points = 0
 
       # extract items to work on
-      if answer
-        s_items = self.qualified_cells(answer)   # chosen cells from answer
-        surveytype = self.score.survey.surveytype
+      return nil unless answer  # guard clause
+      
+      s_items = self.qualified_cells(answer)   # chosen cells from answer
+      surveytype = self.score.survey.surveytype
+      hits = s_items.sort.size        
+      missing = 0
 
-        hits = s_items.sort.size        
-        if self.score.sum_type == "normal"     # normal
-          s_items.each { |item| points += item.value.to_i if ((1..8) === item.value.to_i) } # and (item.class == Rating)
-        elsif self.score.sum_type == "dicotomi"  # dicotomi
-          s_items.each { |item| points += 1 if (1..8) === item.value.to_i } # do not count '9' or '88' values
-        end
+      if !self.items.blank?
+        missing = self.items.split(',').count - hits
       else
-        0
+        missing = self.range.gsub("0-", "").to_i - (s_items.count *2)
       end
-      return points
+      if self.score.sum_type == "normal"     # normal
+        s_items.each { |item| points += item.value.to_i if ((1..8) === item.value.to_i) } # and (item.class == Rating)
+      elsif self.score.sum_type == "dicotomi"  # dicotomi
+        s_items.each { |item| points += 1 if (1..8) === item.value.to_i } # do not count '9' or '88' values
+      end
+      return [points, missing]
     end
 
 

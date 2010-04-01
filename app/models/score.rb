@@ -41,25 +41,26 @@ class Score < ActiveRecord::Base
     # find matching type in score_items, so only the score item for the type of survey is calculated
     score_item = self.score_items.first
     score_ref  = self.find_score_ref(survey_answer.journal)
+    
     mean = score_ref && score_ref.mean || 0.0
-  
-    row_result = [] << (score_item && score_item.calculate(survey_answer) || 0)  # other survey scores are added as columns
-        
-    return row_result << :normal << mean if !score_ref  # guard clause when no score_ref exists
+    missing = 0
+    result = 0
+    result, missing = score_item.calculate(survey_answer) if score_item
+    row_result = [result]  # other survey scores are added as columns
+    return row_result << :normal << mean << missing << 
+      (score_ref && score_ref.age_group || "0-0") unless score_ref  # guard clause when no score_ref exists
       
-    res = row_result.first.to_i
-
-    # mean_s = mean.to_danish
-    percentile = if (res && score_ref && score_ref.percent98) && res >= score_ref.percent98
+    # res = row_result.first.to_i
+    percentile = if (result && score_ref && score_ref.percent98) && result >= score_ref.percent98
       :percentile_98
-    elsif (res && score_ref && score_ref.percent95) && res >= score_ref.percent95
+    elsif (result && score_ref && score_ref.percent95) && result >= score_ref.percent95
       :percentile_95
     elsif score_ref.mean > 0.0
       :deviation
     else
       :normal
     end
-    return [res, percentile, mean]
+    return [result, percentile, mean, missing, score_ref.age_group] # TODO: make some collection object (struct)
   end
 
   def result(survey_answer, journal)

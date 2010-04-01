@@ -123,21 +123,24 @@ class SurveyAnswer < ActiveRecord::Base
       if !update && (sr = score_result) && !sr.title && !sr.scale && !sr.result && !sr.percentile && !sr.percentile_98 && !sr.percentile_95 && !sr.deviation 
         next
       else
-        result, percentile, mean = score.calculate(self)
+        result, percentile, mean, missing, age_group = score.calculate(self)
+        score_ref = score.find_score_ref(self.journal)
         args = { 
           :title => score.title, 
           :score_id => score.id, 
           :scale => score.scale, 
           :survey => self.survey,
           :result => result, 
-          :percentile => Score.percentile_string(percentile, mean),
+          # :percentile => Score.percentile_string(percentile, mean),
           :percentile_98 => (percentile == :percentile_98),
           :percentile_95 => (percentile == :percentile_95),
           :deviation => (percentile == :deviation),
           :score_rapport => rapport, 
           :mean => mean,
           :position => score.position,
-          :score_scale_id => score.score_scale_id
+          :score_scale_id => score.score_scale_id,
+          :age_group => age_group,
+          :gender => self.journal.person_info.sex
         }
         
         if score_result
