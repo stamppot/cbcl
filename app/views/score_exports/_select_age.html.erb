@@ -1,0 +1,15 @@
+	<div id="select_age">
+		<label for='start_age'>Alder start</label>
+		
+		
+		<%= select_tag('start_age', options_for_select((1..21), selected_value = @start_age), 
+			:name => 'age[start]', :include_blank => "Vælg startalder", 
+			:onchange => remote_function(:submit => "select_age", :url => set_age_range_path("up")
+) ) %>
+	<br>
+	
+	<label for='stop_age'>Alder slut</label>
+	<%= select_tag('stop_age', options_for_select((1..21), selected_value = @stop_age), 
+	:name => 'age[stop]', :value => @stop_age, :include_blank => "Vælg slutalder", 
+	:onchange => remote_function(:submit => "select_age", :url => set_age_range_path("down")) ) %>
+	</div>

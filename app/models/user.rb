@@ -344,7 +344,7 @@ class User < ActiveRecord::Base
 
   def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
     o = survey_answer_params(options)
-    params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
+    params = options[:center] && {:conditions => ['center_id = ?', o[:center].is_a?(Center) ? o[:center].id : o[:center]]} || {}
     SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(params)
   end
 

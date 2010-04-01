@@ -1,0 +1,25 @@
+<h2>Sumscores</h2>
+
+<table>
+
+	<tr>
+		<th>Score</th>
+		<th>n</th>
+		<th>mean</th>	
+		<th>Standardafvigelse</th>	
+		<th>z_scores</th>	
+		<th>q_scores</th>	
+	</tr>
+	
+	<%= @sumscores.size %>
+	<% @sumscores.each do |sumscore| %>
+	<tr>
+		<td><%= sumscore.score %></td>
+		<td><%= sumscore.values.n %></td>
+		<td><%= sumscore.mean %></td>
+		<td><%= sumscore.deviation %></td>
+		<td><%= sumscore.z_scores.inspect %></td>
+		<td><%= sumscore.q_scores.inspect %></td>
+	</tr>
+	<% end %>
+</table>

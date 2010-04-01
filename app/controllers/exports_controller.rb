@@ -138,22 +138,6 @@ class ExportsController < ApplicationController
     Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
   end
   
-  # def filter_age(args)
-  #   args[:age_start] ||= 1
-  #   args[:age_stop] ||= 21
-  # 
-  #   if args[:age] && (start_age = args[:age][:start].to_i) && (stop_age = args[:age][:stop].to_i)
-  #     if start_age <= stop_age
-  #       args[:age_start] = start_age
-  #       args[:age_stop] = stop_age
-  #     else
-  #       args[:age_start] = stop_age
-  #       args[:age_stop] = start_age
-  #     end
-  #   end
-  #   return args
-  # end
-  
   def surveys_default_selected(surveys, params)
     if selected = params
       surveys.each { |s| s.selected = (selected["#{s.id}"] == "1") }

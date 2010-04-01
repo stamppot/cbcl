@@ -3,6 +3,8 @@ class ScoreResult < ActiveRecord::Base
   belongs_to :survey
   belongs_to :score_scale
   belongs_to :score
+
+  attr_accessor :standard_deviation
   
   def to_report
     report = ScoreReport.new
