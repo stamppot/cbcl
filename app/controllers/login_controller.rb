@@ -38,8 +38,10 @@ class LoginController < ApplicationController
       # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
       cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
-      cookies[:user_name] = user.name
-      flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+      unless user.login_user?
+        cookies[:user_name] = user.name
+        flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+      end
       flash[:error] = nil
       # show message on first login
       if user.created_at == user.last_logged_in_at && !user.login_user

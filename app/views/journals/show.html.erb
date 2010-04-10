@@ -65,7 +65,7 @@
 					 </td>
 					 <td>
 					
-					<%= entry.login_user.nil? ? "&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
+					<%= entry.login_user.nil? ? "&nbsp;&nbsp;&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
 										:class => 'icon', :title => 'Vis login-info'), entry_login_info_path(entry), :popup => ['new_window, height=300,width=600']) %>
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 

@@ -124,6 +124,7 @@ class SurveyAnswersController < ApplicationController
     
     @journal_entry.increment_subscription_count(survey_answer)
 
+    cookies.delete :user_name
     # login-users are shown the logout page
     if current_user and current_user.access? :all_users
       flash[:notice] = "Dit svar er gemt."

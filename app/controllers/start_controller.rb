@@ -6,7 +6,7 @@ class StartController < ApplicationController
     @journal_entry = JournalEntry.find_by_user_id(current_user.id)
     redirect_to login_path and return if @journal_entry.nil?
     @survey = @journal_entry.survey
-    render :edit if @journal_entry.survey_answer
+    # render :edit if @journal_entry.survey_answer
   end
   
   def edit
