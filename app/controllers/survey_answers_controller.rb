@@ -146,8 +146,8 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save_answers(params)
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
-      Task.new.create_csv_answer(survey_answer)
       survey_answer.generate_score_report(update = true)
+      Task.new.create_csv_answer(survey_answer)
       redirect_to journal_path(@journal_entry.journal)
     else  # not answered
       flash[:notice] = "Dit svar blev ikke gemt."
