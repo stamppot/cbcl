@@ -125,7 +125,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     redirect_to journals_path
   end
 
-  # don't cache variable that's changed
   def add_survey
     @group = Journal.find(params[:id])
     if request.post?

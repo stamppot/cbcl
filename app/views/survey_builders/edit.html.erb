@@ -2,7 +2,7 @@
 
 <% form_tag survey_builder_path(@survey), :method => :put do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend', { :class => 'normal' } %>
+  <%= submit_tag 'Anvend', :class => 'button survey_edit' %>
 <% end %>
 
 <%= link_button t('show'), survey_path(@survey), 'survey_show' %> |

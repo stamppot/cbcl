@@ -120,7 +120,9 @@ class SurveyAnswer < ActiveRecord::Base
       score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, rapport.id])
       
       # everything is calculated already
-      if !update && (sr = score_result) && !sr.title && !sr.scale && !sr.result && !sr.percentile && !sr.percentile_98 && !sr.percentile_95 && !sr.deviation 
+      if !update && (score_result.age_group && score_result.age_group == "0.0") && score_result.gender == 0 && !score_result.title && 
+        !score_result.scale && !score_result.result && !score_result.percentile && !score_result.percentile_98 && 
+        !score_result.percentile_95 && !score_result.deviation 
         next
       else
         result, percentile, mean, missing, age_group = score.calculate(self)

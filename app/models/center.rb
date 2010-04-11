@@ -67,7 +67,9 @@ class Center < Group
   
   def subscribed_surveys_in_age_group(age)
     subscribed_surveys.select do |survey|
-      survey.age_group === age or survey.age_group === (age-1) or survey.age_group === (age+1)
+      # be a bit flexible in which surveys can be used for which age groups, fx 11-16 can be used up to 18 years
+      age_flex = (survey.age =~ /16|17|18/) && 2 || 1
+      survey.age_group === age or survey.age_group === (age-1) or survey.age_group === (age+age_flex)
     end
   end
   

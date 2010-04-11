@@ -46,6 +46,8 @@ class SumScore
   ROUND_FLOAT = 0.0000001 # 6 decimals
 
   def z_scores # calculate all z-scores
+    
+    
     self.deviation ||= values.sd
     self.mean ||= values.mean
     z_scores = values.map { |v| (v-mean)/deviation }
