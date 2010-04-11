@@ -23,7 +23,7 @@ class ScoreItem < ActiveRecord::Base
       missing = 0
 
       if !self.items.blank?
-        missing = self.items.split(',').count - hits
+        missing = self.items.split(',').size - hits
       else
         missing = self.range.gsub("0-", "").to_i - (s_items.count *2)
       end
