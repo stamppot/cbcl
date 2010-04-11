@@ -129,6 +129,15 @@ class QuestionCell < ActiveRecord::Base
   end
   alias :required :required?
 
+  def set_default_value=(value)
+    self.preferences ||= Hash.new
+    self.preferences[:value] = value
+  end
+
+  def default_value
+    self.preferences && self.preferences[:value]
+  end
+  
   def set_validation(validation)
     self.preferences ||= Hash.new
     self.preferences[:validation] = validation
@@ -255,7 +264,7 @@ class QuestionCell < ActiveRecord::Base
   def svar_item
     if self.answer_item.nil? or self.answer_item.empty?
       ""
-    elsif self.answer_item.match(/\d+([a-z]+)/)
+    elsif self.answer_item.match(/\d+([a-z]+)/)  # cut off number prefix (fx 1.)
       "\t" + $1 + ". "
     else self.answer_item + ". "
     end
@@ -401,7 +410,7 @@ class Information < QuestionCell
     form_template()
   end
 
-  # cell with inline editing
+  # cell with inline editing Cdisabled!)
   def edit_form
     item_text = question_items.first.text #in_place_editor_field :question_cell, :items, {}, :rows => 3
     div_item(item_text, "iteminformation")
@@ -442,23 +451,21 @@ class ListItem < QuestionCell
     
     newform = []
     question_no = "Q" + no
-    answer_item_set = false
 
-    self.question_items.each do |item|
+    self.question_items.each_with_index do |item, i|
       item_text = edit ? item.text : item.text
-      field = (answer_item_set ? "" : self.svar_item); answer_item_set = true  # set answer_item
+      field = (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
       if(item_text.nil? || item_text.empty?)     # listitem without predefined text
         if(disabled and value)      # show answer value
           field << value
-        else                        # show text field
+        else                        # show text field, possibly with value
           field << "<input id='#{c_id}' name='#{question_no}[#{cell_id(no)}]' type='text' size='20'" +
           (item.value ? " value='#{item.value}'" : "") + " >"
         end
         newform << div_item(field, "listitemfield")
-      else
+      else  # show text in item (no input field)
         newform << div_item(field + item_text, "listitemtext")
       end
-      answer_item_set = true;
     end
     # newform << "<input id='#{cell_id}_item' name='#{question_no}[#{cell}][item]' type='hidden' value='#{self.answer_item}' />" unless self.answer_item.nil?
     newform.join
@@ -494,11 +501,11 @@ class SelectOption < QuestionCell
   def form_template(options = {})
     disabled      = options[:disabled] ? "disabled" : nil
     show_all      = options[:show_all].nil? || options[:show_all]
-    edit          = options[:edit] ? true : false
+    #edit          = options[:edit] ? true : false
     no            = options[:number].to_s || self.question.number.to_s
     switch_off    = options[:switch_off]
     c_id          = cell_id(no)
-    q_no          = "Q" + no
+    q_no          = "Q#{no}"
     do_validation = self.validation && self.validation || ""
     
     newform = []
@@ -518,14 +525,8 @@ class SelectOption < QuestionCell
     end
     if disabled # and !value.nil?  # disabled means show answer
       # find text for this value answer
-      answer_vals = qitems.detect { |item| item[1].to_s == value.to_s }
-      if answer_vals
-        newform << answer_vals[2]
-      elsif value == "0"
-        newform << "ikke besvaret"
-      else
-        newform << "ingen værdi"
-      end
+      answer_vals = qitems.detect { |item| item[1].to_s == value.to_s } # item array: index 1 -> value, index 2 -> værdi?
+      newform >> (answer_vals && answer_vals[2] || (value == "0" && "ikke besvaret" || "ingen værdi"))
     else # 10-7 removed #{self.validation} before disabled
       newform << "<select id='#{c_id}' name='#{q_no}[#{c_id}]' #{disabled} >" + sel_options.join + "\n</select>"
     end
@@ -558,16 +559,15 @@ class SelectOption < QuestionCell
 
     newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
     (self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
-    newform <<  # TODO: fix values of help not shown for q7
-      "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' class='help_icon' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{c_id}\");' >" << # removed />
-      "<div id='help_#{c_id}' style='display:none;'><div class='help_tip'>#{help}</div></div>"
+    newform << help_div(c_id, help)  # TODO: fix values of help not shown for q7
       
-      # "<a class='#{target}' onclick='try { Element.toggle(\"help_#{c_id}\"); } catch (e) { alert(\"RJS error:\" + e.toString() + \"help_#{c_id}\"); throw e }; return false;' href='#'>" <<
-      # "<img border='0' title='hjælp' src='/images/icon_comment.gif'/>" <<
-      # "</a>"
-
     newform << self.add_validation(options) unless disabled
     newform.join
+  end
+
+  def help_div(cell_id, help_message)
+    "&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' class='help_icon' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{cell_id}\");' >" <<
+    "<div id='help_#{cell_id}' style='display:none;'><div class='help_tip'>#{help_message}</div></div>"
   end
 
   def values  # valid values
@@ -600,14 +600,6 @@ class SelectOption < QuestionCell
    script.join
   end
   
-  # def popup_selectoption
-  #   text = question_items.map {|item| item.text + " = " + item.value }.join("<br>")
-  #   #script = "<SCRIPT language=javascript>\n<!--\n"
-  #   link = "window.open(\"hest\",\"#{@controller.class.name}\",\"width=20,height=600,resizable,scrollbars=yes\");\n"
-  #   #yield script
-  #   #script << "-->\n</SCRIPT>"
-  #   return link
-  # end
 end
 
 class Checkbox < QuestionCell
@@ -629,7 +621,7 @@ class Checkbox < QuestionCell
     self.question_items.each do |item|
       label = "<label for='#{c_id}'>#{item.text}</label>"
       checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
-      checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' >" : ">" # removed />
+      checkbox += ((self.default_value || item.value).to_s == "1") ? "checked='checked' >" : ">" # removed />
       checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
       newform << div_item(checkbox + label, "checkbox")
     end

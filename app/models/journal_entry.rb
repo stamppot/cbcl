@@ -20,11 +20,12 @@ class JournalEntry < ActiveRecord::Base
   def make_survey_answer
     self.survey_answer ||= self.build_survey_answer(:survey => self.survey,
                              :sex => self.journal.sex,
-                             :age => self.journal.sex,
+                             :age => self.journal.age,
                              :nationality => self.journal.nationality,
                              :journal_entry_id => self.id,
+                             :journal_id => self.journal_id,
                              :surveytype => self.survey.surveytype,
-                             :center_id => self.journal.center_id)
+                             :center_id => self.journal.center_id)                             
     self.survey_answer
   end
   

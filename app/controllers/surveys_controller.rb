@@ -46,8 +46,9 @@ class SurveysController < ApplicationController
     if current_user.login_user && (journal_entry = cookies[:journal_entry])
       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
     end
-    @journal_entry = JournalEntry.find(params[:id])
+    cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
     
+    @journal_entry = JournalEntry.find(params[:id])
     @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
       Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
