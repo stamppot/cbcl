@@ -112,8 +112,15 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def generate_score_report(update = false)
-    rapport = ScoreRapport.find_or_create_by_survey_answer_id(self.id)
-    rapport.update_attributes(:survey_name => self.survey.title, :survey => self.survey, :unanswered => self.no_unanswered, :short_name => self.survey.category)
+    rapport = ScoreRapport.find_or_create_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
+    rapport.update_attributes(:survey_name => self.survey.title,
+                              :survey => self.survey,
+                              :unanswered => self.no_unanswered,
+                              :short_name => self.survey.category,
+                              :age => self.survey_answer.journal.person_info.age,
+                              :gender => self.survey_answer.journal.person_info.sex,
+                              :age_group => self.survey.age
+                              )
     
     scores = self.survey.scores
     scores.each do |score|

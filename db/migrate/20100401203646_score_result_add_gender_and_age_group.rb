@@ -1,15 +1,15 @@
 class ScoreResultAddGenderAndAgeGroup < ActiveRecord::Migration
   def self.up
-    add_column :score_results, :gender, :integer, :null => false
-    add_column :score_results, :age_group, :string, :limit => 5, :null => false
+    add_column :score_rapports, :gender, :integer, :null => false
+    add_column :score_rapports, :age_group, :string, :limit => 5, :null => false
     add_column :score_results, :missing, :integer, :default => 0
-    remove_column :score_results, :percentile
-    
-    ScoreResult.all(:include => :score_rapport)
+    # remove_column :score_results, :percentile
+    # 
+    ScoreRapport.find_each {|sr| s = sr.score_results.first; sr.gender = s.gender; sr.age_group = s.age_group; sr.save}
   end
 
   def self.down
-    remove_column :score_results, :missing
+    # remove_column :score_results, :missing
     remove_column :score_results, :age_group
     remove_column :score_results, :gender
   end

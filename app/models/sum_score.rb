@@ -37,6 +37,7 @@ class SumScore
   attr_accessor :values  # all results for a given score
   attr_accessor :score  # score objs
   attr_accessor :z_scores
+  attr_accessor :t_scores
   attr_accessor :q_scores
   attr_accessor :mean, :deviation, :variance
 
@@ -46,11 +47,11 @@ class SumScore
   ROUND_FLOAT = 0.0000001 # 6 decimals
 
   def z_scores # calculate all z-scores
-    
-    
     self.deviation ||= values.sd
     self.mean ||= values.mean
     z_scores = values.map { |v| (v-mean)/deviation }
+    self.t_scores = z_scores.map { |z| 10*z + 50 }
+    z_scores
     # q_scores = z_scores.map { |z| calc_q_from_z(z) }
   end
 

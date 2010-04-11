@@ -28,4 +28,15 @@ class ScoreResult < ActiveRecord::Base
     return report
   end
   
+  # partition in groups of gender and age_group
+  def self.partition_groups(score_results)
+    # partition in male/female groups
+    m,f = score_results.partition {|sr| sr.gender == 1}
+    # remove non-female (errors) from female group
+    f = f.detect {|f| f.gender == 2}
+    
+    # group male/female groups by age group
+    
+    
+  end
 end
