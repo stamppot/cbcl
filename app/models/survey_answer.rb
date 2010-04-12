@@ -113,14 +113,14 @@ class SurveyAnswer < ActiveRecord::Base
 
   def generate_score_report(update = false)
     rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
-    args = (:survey_name => self.survey.title,
+    args = {:survey_name => self.survey.title,
                               :survey => self.survey,
                               :unanswered => self.no_unanswered,
                               :short_name => self.survey.category,
                               :age => self.survey_answer.journal.person_info.age,
                               :gender => self.survey_answer.journal.person_info.sex,
                               :age_group => self.survey.age
-                              )
+                            }
     rapport = ScoreRapport.create(args) unless rapport
     rapport.update_attributes(args) unless score_rapport.new_record?
     
