@@ -122,7 +122,7 @@ class SurveyAnswer < ActiveRecord::Base
                               :age_group => self.survey.age
                             }
     rapport = ScoreRapport.create(args) unless rapport
-    rapport.update_attributes(args) unless score_rapport.new_record?
+    rapport.update_attributes(args) unless rapport.new_record?
     
     scores = self.survey.scores
     scores.each do |score|
