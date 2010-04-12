@@ -149,8 +149,8 @@ class SurveyAnswer < ActiveRecord::Base
           :mean => mean,
           :position => score.position,
           :score_scale_id => score.score_scale_id,
-          :age_group => age_group,
-          :gender => self.journal.person_info.sex
+          # :age_group => age_group,
+          # :gender => self.journal.person_info.sex
         }
         
         if score_result
