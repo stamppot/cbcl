@@ -5,6 +5,7 @@ class ScoreResultAddGenderAndAgeGroup < ActiveRecord::Migration
     add_column :score_rapports, :age, :integer
     
     ScoreRapport.find_each(:include => [{:survey_answer => {:journal => :person_info} }]) do |sr|
+      next if sr.age
       s = sr.score_results.first; sr.gender = s.gender; sr.age_group = s.age_group
       sr.age = sr.survey_answer.journal.person_info.age; sr.save
     end
