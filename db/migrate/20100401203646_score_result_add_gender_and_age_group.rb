@@ -1,8 +1,8 @@
 class ScoreResultAddGenderAndAgeGroup < ActiveRecord::Migration
   def self.up
-    # add_column :score_rapports, :gender, :integer, :null => false
-    # add_column :score_rapports, :age_group, :string, :limit => 5, :null => false
-    # add_column :score_rapports, :age, :integer
+    add_column :score_rapports, :gender, :integer, :null => false
+    add_column :score_rapports, :age_group, :string, :limit => 5, :null => false
+    add_column :score_rapports, :age, :integer
     # 
     # ScoreRapport.find_each(:include => [{:survey_answer => {:journal => :person_info} }]) do |sr|
     #   next if sr.age
@@ -16,8 +16,9 @@ class ScoreResultAddGenderAndAgeGroup < ActiveRecord::Migration
   end
 
   def self.down
-    # remove_column :score_results, :missing
-    # remove_column :score_results, :age_group
-    # remove_column :score_results, :gender
+    # remove_column :score_rapports, :missing
+    remove_column :score_rapports, :age_group
+    remove_column :score_rapports, :age
+    remove_column :score_rapports, :gender
   end
 end
