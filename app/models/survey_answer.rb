@@ -117,8 +117,8 @@ class SurveyAnswer < ActiveRecord::Base
                               :survey => self.survey,
                               :unanswered => self.no_unanswered,
                               :short_name => self.survey.category,
-                              :age => self.survey_answer.journal.person_info.age,
-                              :gender => self.survey_answer.journal.person_info.sex,
+                              :age => self.journal.person_info.age,
+                              :gender => self.journal.person_info.sex,
                               :age_group => self.survey.age
                             }
     rapport = ScoreRapport.create(args) unless rapport
