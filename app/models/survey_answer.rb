@@ -141,7 +141,6 @@ class SurveyAnswer < ActiveRecord::Base
           :scale => score.scale, 
           :survey => self.survey,
           :result => result, 
-          # :percentile => Score.percentile_string(percentile, mean),
           :percentile_98 => (percentile == :percentile_98),
           :percentile_95 => (percentile == :percentile_95),
           :deviation => (percentile == :deviation),

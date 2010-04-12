@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100411224114) do
+ActiveRecord::Schema.define(:version => 20100412152831) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -260,9 +260,9 @@ ActiveRecord::Schema.define(:version => 20100411224114) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unanswered"
-    t.integer  "age"
     t.integer  "gender",                        :null => false
     t.string   "age_group",        :limit => 5, :null => false
+    t.integer  "age"
   end
 
   create_table "score_refs", :force => true do |t|
@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(:version => 20100411224114) do
     t.boolean "percentile_98"
     t.boolean "percentile_95"
     t.integer "score_scale_id"
+    t.integer "missing",          :default => 0
   end
 
   add_index "score_results", ["score_id", "score_rapport_id"], :name => "index_score_results_on_score_id_and_score_rapport_id"
