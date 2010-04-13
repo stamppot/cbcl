@@ -19,7 +19,8 @@ class ScoreItem < ActiveRecord::Base
       
       s_items = self.qualified_cells(answer)   # chosen cells from answer
       surveytype = self.score.survey.surveytype
-      hits = s_items.sort.size        
+      hits = s_items.size
+      answered_items = s_items.join(",")
       missing = self.score.items_count - hits
 
       if self.score.sum_type == "normal"     # normal
@@ -27,7 +28,7 @@ class ScoreItem < ActiveRecord::Base
       elsif self.score.sum_type == "dicotomi"  # dicotomi
         s_items.each { |item| points += 1 if (1..8) === item.value.to_i } # do not count '9' or '88' values
       end
-      return [points, missing]
+      return [points, missing, hits, answered_items]
     end
 
 

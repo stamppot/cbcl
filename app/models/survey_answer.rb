@@ -133,7 +133,7 @@ class SurveyAnswer < ActiveRecord::Base
         !score_result.percentile_95 && !score_result.deviation 
         next
       else
-        result, percentile, mean, missing, age_group = score.calculate(self)
+        result, percentile, mean, missing, hits, answered_items, age_group = score.calculate(self)
         score_ref = score.find_score_ref(self.journal)
         args = { 
           :title => score.title, 
@@ -148,9 +148,10 @@ class SurveyAnswer < ActiveRecord::Base
           :mean => mean,
           :position => score.position,
           :score_scale_id => score.score_scale_id,
-          :missing => missing
-          # :age_group => age_group,
-          # :gender => self.journal.person_info.sex
+          :answered_items => answered_items,
+          :hits => hits,
+          :missing => missing,
+          :missing_percentage => ((missing.to_f / score.items_count.to_f) * 100.0).round(2)
         }
         
         if score_result
