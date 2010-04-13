@@ -91,6 +91,20 @@ class Score < ActiveRecord::Base
     Score.default_qualifiers
   end
 
+  # all, specified, or except items
+  def set_items_count
+    item = self.score_items.first  # there's only one score_item per score
+    if Score.default_qualifiers.invert[item.qualifier] == 'valgte'  # count items
+      self.items_count = item.items.split(',').count
+    elsif Score.default_qualifiers.invert[item.qualifier] == 'alle' # get ratings_count from survey
+      self.items_count = self.survey.question_with_most_items.ratings_count
+    elsif Score.default_qualifiers.invert[item.qualifier] == 'undtaget' # difference with survey ratings_count 
+      self.items_count = self.survey.question_with_most_items.ratings_count - item.items.split(',').count
+    end
+    self.save
+    self.items_count
+  end
+  
   def <=>(other)
     if self.short_name == other.short_name
       self.scale <=> other.scale

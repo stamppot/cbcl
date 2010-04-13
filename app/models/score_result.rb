@@ -34,9 +34,6 @@ class ScoreResult < ActiveRecord::Base
     m,f = score_results.partition {|sr| sr.gender == 1}
     # remove non-female (errors) from female group
     f = f.detect {|f| f.gender == 2}
-    
     # group male/female groups by age group
-    
-    
   end
 end

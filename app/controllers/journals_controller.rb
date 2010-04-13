@@ -231,17 +231,17 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   #  before_filter :protect_create, :only => [ :new, :delete, :create, :edit ]
   
 
-  def protect_create
-    if current_user.access? :all_users
-      return true
-    elsif !current_user.nil?
-      flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to journals_path
-    else
-      flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to login_path
-    end
-  end
+  # def protect_create
+  #   if current_user.access? :all_users
+  #     return true
+  #   elsif !current_user.nil?
+  #     flash[:notice] = "Du har ikke adgang til denne side"
+  #     redirect_to journals_path
+  #   else
+  #     flash[:notice] = "Du har ikke adgang til denne side"
+  #     redirect_to login_path
+  #   end
+  # end
 
   def user_access
     if current_user && !current_user.access?(:journal_new_edit_delete)

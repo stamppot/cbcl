@@ -46,20 +46,20 @@ class SumScore
   Z_MAX = 6
   ROUND_FLOAT = 0.0000001 # 6 decimals
 
-  def z_scores # calculate all z-scores
+  def calc_z_scores # calculate all z-scores
     self.deviation ||= values.sd
     self.mean ||= values.mean
-    z_scores = values.map { |v| (v-mean)/deviation }
-    self.t_scores = z_scores.map { |z| 10*z + 50 }
-    z_scores
+    self.z_scores = values.map { |v| (v-mean)/deviation }
+    self.t_scores = self.z_scores.map { |z| 10*z + 50 }
+    self.z_scores
     # q_scores = z_scores.map { |z| calc_q_from_z(z) }
   end
 
-  def q_scores # calculate all z-scores
+  def calc_q_scores # calculate all z-scores
     self.deviation ||= values.sd
     self.mean ||= values.mean
-    z_scores ||= values.map { |v| (v-mean)/deviation }
-    q_scores = z_scores.map { |z| calc_q_from_z(z) }
+    self.z_scores ||= self.values.map { |v| (v-mean)/deviation }
+    self.q_scores = self.z_scores.map { |z| calc_q_from_z(z) }
   end
 
 
