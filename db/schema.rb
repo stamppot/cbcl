@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100412152831) do
+ActiveRecord::Schema.define(:version => 20100413130022) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -310,6 +310,7 @@ ActiveRecord::Schema.define(:version => 20100412152831) do
     t.integer "scale"
     t.integer "position"
     t.integer "score_scale_id"
+    t.integer "items_count"
   end
 
   create_table "scores_surveys", :id => false, :force => true do |t|

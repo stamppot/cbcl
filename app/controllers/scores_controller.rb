@@ -35,6 +35,7 @@ class ScoresController < ApplicationController
     end
     
     if @score.save #and @score.update_attributes(params[:score])
+      @score.set_items_count
       flash[:notice] = 'Score er oprettet. Tilføj beregninger.'
       redirect_to edit_score_path(@score) #:action => :edit, :id => @score
     else
@@ -105,6 +106,7 @@ class ScoresController < ApplicationController
     end
 
     if @score.update_attributes(params[:score])
+      @score.set_items_count
       flash[:notice] = 'Score er opdateret.'
       redirect_to @score #:action => :show, :id => @score
     else

@@ -3,6 +3,7 @@ class ScoreResultAddGenderAndAgeGroup < ActiveRecord::Migration
     add_column :score_rapports, :gender, :integer, :null => false
     add_column :score_rapports, :age_group, :string, :limit => 5, :null => false
     add_column :score_rapports, :age, :integer
+
     # 
     # ScoreRapport.find_each(:include => [{:survey_answer => {:journal => :person_info} }]) do |sr|
     #   next if sr.age

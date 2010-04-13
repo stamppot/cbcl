@@ -5,6 +5,7 @@ class AddItemNoToScores < ActiveRecord::Migration
   end
 
   def self.down
+    remove_column :score_results, :missing_percentage
     remove_column :scores, :items_count
   end
 end
