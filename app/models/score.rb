@@ -95,11 +95,11 @@ class Score < ActiveRecord::Base
   def set_items_count
     item = self.score_items.first  # there's only one score_item per score
     if Score.default_qualifiers.invert[item.qualifier] == 'valgte'  # count items
-      self.items_count = item.items.split(',').count
+      self.items_count = item.items.split(',').size
     elsif Score.default_qualifiers.invert[item.qualifier] == 'alle' # get ratings_count from survey
       self.items_count = self.survey.question_with_most_items.ratings_count
     elsif Score.default_qualifiers.invert[item.qualifier] == 'undtaget' # difference with survey ratings_count 
-      self.items_count = self.survey.question_with_most_items.ratings_count - item.items.split(',').count
+      self.items_count = self.survey.question_with_most_items.ratings_count - item.items.split(',').size
     end
     self.save
     self.items_count
