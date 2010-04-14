@@ -73,7 +73,7 @@ class ScoreExportsController < ApplicationController
     params[:center] = @center if @center
 
     # TODO: put this in separate task
-    find_options = filter_date(params).merge({:surveys => @surveys, :include => [:score_results, :score_scale]})).compact
+    find_options = filter_date(params).merge({:surveys => @surveys, :include => [:score_results, :score_scale]}).compact
     puts "SCORE_RAPPORTS find_options: #{find_options.inspect}"
 
     # spawns background task
