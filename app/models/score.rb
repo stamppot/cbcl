@@ -94,6 +94,7 @@ class Score < ActiveRecord::Base
   # all, specified, or except items
   def set_items_count
     item = self.score_items.first  # there's only one score_item per score
+    return unless item
     if Score.default_qualifiers.invert[item.qualifier] == 'valgte'  # count items
       self.items_count = item.items.split(',').size
     elsif Score.default_qualifiers.invert[item.qualifier] == 'alle' # get ratings_count from survey
