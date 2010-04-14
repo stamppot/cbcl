@@ -18,7 +18,7 @@
 	<%= select_date(@stop_date, :prefix => 'stop_date', :order => [:day, :month, :year], :start_year => (@stop_date.year), :end_year => @start_date.year ) %>
 	<br>
 	
-<h3>Alder</h3>
+<h3>Aldersgrupper</h3>
 	<%= render :partial => 'select_age' %>
 	
 	<p><h3>Vælg skemaer</h3></p>
@@ -33,7 +33,7 @@
 
 	<div>
 		<img alt="spinner" id="filter_spinner" src="/images/spinner.gif" style="display:none;" >
-		<span id="results">Antal: <%= @count_survey_answers %></span>
+		<span id="results">Antal: <%= @count_score_rapports %></span>
 	</div>
 	<br>
 	

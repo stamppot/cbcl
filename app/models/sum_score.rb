@@ -44,13 +44,15 @@ class SumScore
   alias_method :sd, :deviation
 
   Z_MAX = 6
-  ROUND_FLOAT = 0.0000001 # 6 decimals
+  # ROUND_FLOAT = 0.0000001 # 6 decimals
 
   def calc_z_scores # calculate all z-scores
     self.deviation ||= values.sd
     self.mean ||= values.mean
-    self.z_scores = values.map { |v| (v-mean)/deviation }
+    self.z_scores = values.map { |v| ((v-mean)/deviation).round(4) }
     self.t_scores = self.z_scores.map { |z| 10*z + 50 }
+    self.deviation = self.deviation.round(4) # round after using more precise number for calculation
+    self.mean = self.mean.round(4)
     self.z_scores
     # q_scores = z_scores.map { |z| calc_q_from_z(z) }
   end
@@ -59,6 +61,8 @@ class SumScore
     self.deviation ||= values.sd
     self.mean ||= values.mean
     self.z_scores ||= self.values.map { |v| (v-mean)/deviation }
+    self.deviation = self.deviation.round(4) # round after using more precise number for calculation
+    self.mean = self.mean.round(4)
     self.q_scores = self.z_scores.map { |z| calc_q_from_z(z) }
   end
 

@@ -1,25 +1,11 @@
-<h2>Sumscores</h2>
+<h2>Genererer sumscores dataudtræk</h2>
+<h3>Dette kan tage ret lang tid</h3>
 
-<table>
+<span id="progress">Genererer</span>
 
-	<tr>
-		<th>Score</th>
-		<th>n</th>
-		<th>mean</th>	
-		<th>Standardafvigelse</th>	
-		<th>z_scores</th>	
-		<th>q_scores</th>	
-	</tr>
-	
-	<%= @sumscores.size %>
-	<% @sumscores.each do |sumscore| %>
-	<tr>
-		<td><%= sumscore.score %></td>
-		<td><%= sumscore.values.n %></td>
-		<td><%= sumscore.mean %></td>
-		<td><%= sumscore.deviation %></td>
-		<td><%= sumscore.z_scores.inspect %></td>
-		<td><%= sumscore.q_scores.inspect %></td>
-	</tr>
-	<% end %>
-</table>
+<script type="text/javascript">
+    generating_export = true;
+</script>
+
+<%= periodically_call_remote(:url => {:action => :generating_export, :id => @task},
+     :frequency => 3.0, :condition => "generating_export == true" ) -%>

@@ -13,8 +13,7 @@ class ScoreExportsController < ApplicationController
     @start_date, @stop_date = params[:start_date], params[:stop_date]
 
     # filter age
-    @start_age = params[:age_start] = 1
-    @stop_age = params[:age_stop]  = 21
+    @age_groups = Survey.all.map {|s| s.age}.uniq
     params = Query.filter_age(args)
 
     @surveys = current_user.subscribed_surveys
@@ -26,15 +25,14 @@ class ScoreExportsController < ApplicationController
     
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
-    
-    @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
+    params[:user] = current_user.id
+    @count_score_rapports = ScoreRapport.count_with_options(params.merge({:surveys => filter_surveys}))
   end
   
   def filter
     center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
-    # start_date, stop_date = params[:start_date], params[:stop_date]
     surveys = current_user.subscribed_surveys
     params = Query.filter_age(params)
     
@@ -43,15 +41,16 @@ class ScoreExportsController < ApplicationController
     surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
     center = current_user.center if current_user.centers.size == 1
     params[:center] = center if center
-
-    journals = center && center.journals.flatten.size || Journal.count
-    @count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => surveys}))
-    @count_survey_answers = SurveyAnswer.finished.count if @count_survey_answers == 0
+    params[:user] = current_user.id
     
-    puts "COUNT SURVEY_ANSWERS: #{@count_survey_answers}"
+    journals = center && center.journals.flatten.size || Journal.count
+    @count_score_rapports = ScoreRapport.count_with_options(filter_date(params).merge({:surveys => surveys}))
+    @count_score_rapports = ScoreRapport.count if @count_score_rapports == 0
+    
+    puts "COUNT SCORE_RAPPORTS: #{@count_score_rapports}"
     
     render :update do |page|
-      page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{@count_survey_answers.to_s}"
+      page.replace_html 'results', "Journaler: #{journals}  Scorerapporter: #{@count_score_rapports.to_s}"
       page.visual_effect :shake, 'results'
       page.replace_html 'centertitle', center.title if center
     end
@@ -73,19 +72,39 @@ class ScoreExportsController < ApplicationController
     @center = Center.find params[:center] unless params[:center].blank?
     params[:center] = @center if @center
 
-    puts "SURVEYS: #{@surveys.size}"
-    survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
-    puts "SURVEY_ANSWERS: #{survey_answers.size}"
-    # from survey_answers to score_results
-    score_rapports = ScoreRapport.all(:conditions => ['survey_answer_id IN (?)', survey_answers.map {|sa| sa.id}], :include => :score_results)
-    score_results = score_rapports.map {|sr| sr.score_results}.flatten
+    # TODO: put this in separate task
+    find_options = filter_date(params).merge({:surveys => @surveys, :include => [:score_results, :score_scale]})).compact
+    puts "SCORE_RAPPORTS find_options: #{find_options.inspect}"
 
-    sumscore_groups = SumScoreGroups.new
-    puts "SCORE_RESULTS: #{score_results.size}"
-    sumscore_groups.read_values(score_results)
-    @sumscores = sumscore_groups.calculate_scores
+    # spawns background task
+    @task = Task.create(:status => "In progress")
+    @task.create_sumscore_sexport(find_options)
   end
+   
+  # a periodic updater checks the progress of the export data generation 
+  def generating_export
+    @task = Task.find(params[:id])
     
+    respond_to do |format|
+      format.js {
+        puts "GENERATING JS"
+        render :update do |page|
+          if @task.completed?
+            page.visual_effect :blind_up, 'content'
+            page.redirect_to export_file_path(@task.export_file) # and return  #, :content_type => 'application/javascript'
+          else
+            page.insert_html :after, 'progress', '.'
+            page.visual_effect :pulsate, 'progress'
+            page.visual_effect :highlight, 'progress'
+          end
+        end
+      }
+      format.html do
+        puts "GENERATING HTML"
+        redirect_to export_file_path(@task.export_file) and return if @task.completed?
+      end
+    end
+  end 
     
     
   protected

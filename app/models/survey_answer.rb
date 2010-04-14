@@ -113,28 +113,40 @@ class SurveyAnswer < ActiveRecord::Base
 
   def generate_score_report(update = false)
     rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
-    args = {:survey_name => self.survey.title,
-                              :survey => self.survey,
-                              :unanswered => self.no_unanswered,
-                              :short_name => self.survey.category,
-                              :age => self.journal.person_info.age,
-                              :gender => self.journal.person_info.sex,
-                              :age_group => self.survey.age
-                            }
+    args = { :survey_name => self.survey.title,
+                  :survey => self.survey,
+              :unanswered => self.no_unanswered,
+              :short_name => self.survey.category,
+                     :age => self.journal.person_info.age,
+                  :gender => self.journal.person_info.sex,
+               :age_group => self.survey.age,
+              :created_at => self.created_at,  # set to date of survey_answer
+               :center_id => self.center_id
+            }
+            
     rapport = ScoreRapport.create(args) unless rapport
-    rapport.update_attributes(args) unless rapport.new_record?
+    rapport.update_attributes(args) if update && !rapport.new_record?
     
     scores = self.survey.scores
     scores.each do |score|
       score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, rapport.id])
       
       # everything is calculated already
-      if !update && score_result && !score_result.title && !score_result.scale && !score_result.result && !score_result.percentile && !score_result.percentile_98 && 
+      if !update && score_result && score_result.valid_percentage && !score_result.title && !score_result.scale && !score_result.result && !score_result.percentile && !score_result.percentile_98 && 
         !score_result.percentile_95 && !score_result.deviation 
         next
       else
-        result, percentile, mean, missing, hits, answered_items, age_group = score.calculate(self)
+        result, percentile, mean, missing, hits, age_group = score.calculate(self)
         score_ref = score.find_score_ref(self.journal)
+        # ADHD score (id: 57 has no items)
+        missing_percentage = if score.items_count.blank? or score.items_count == 0
+          99.99
+        else
+          ((missing.to_f / score.items_count.to_f) * 100.0).round(2)
+        end          
+        # puts "sc: #{score.title} items: #{score.items_count} sr: #{score_result.id} miss: #{missing}  score: #{score.id} sa_id: #{self.id}"
+        # puts "perc: #{missing_percentage} "
+        
         args = { 
           :title => score.title, 
           :score_id => score.id, 
@@ -148,10 +160,10 @@ class SurveyAnswer < ActiveRecord::Base
           :mean => mean,
           :position => score.position,
           :score_scale_id => score.score_scale_id,
-          :answered_items => answered_items,
           :hits => hits,
           :missing => missing,
-          :missing_percentage => ((missing.to_f / score.items_count.to_f) * 100.0).round(2)
+          :missing_percentage => missing_percentage, 
+          :valid_percentage => (missing_percentage <= 10.0)
         }
         
         if score_result

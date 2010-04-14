@@ -9,14 +9,14 @@
     
     <table>
       <tr>
-        <td align=right width="50px"></td>
-
-        <td width="200px"><%= text_field_tag :username, params[:username], :size => 20, :class => "login_field" %></td>
-      </tr>
-      <tr> 
-        <td align=right></td>
-        <td width="200px"><%= password_field_tag :password, params[:password], :size => 20, :class => "login_field" %></td>
-      </tr>
+	      <tr>
+	        <td align=right width="50px"></td>
+	        <td width="200px"><input class="login_field" id="username" name="username" size="20" type="text" autocomplete="off" /></td>
+	      </tr>
+	      <tr> 
+	        <td align=right></td>
+	        <td width="200px"><input class="login_field" id="password" name="password" size="20" type="password" autocomplete="off" /></td>
+	      </tr>
     </table>
    <div align="center">
 		<%= submit_tag "Login &#187;", :name => "login", :class => "button login"  %>

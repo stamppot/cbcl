@@ -765,6 +765,10 @@ a .download_excel_file {
 	background:url('/images/page_excel.png') no-repeat 0px 0px;
 	padding-left: 27px;
 }
+a .download_xml_file {
+	background:url('/images/icon_xml.gif') no-repeat 0px 0px;
+	padding-left: 27px;
+}
 a .go_back {
 	background:url('/images/arrow_undo.png') no-repeat 0px 0px;
 	padding-left: 27px;

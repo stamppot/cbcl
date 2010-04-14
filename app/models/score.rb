@@ -47,7 +47,7 @@ class Score < ActiveRecord::Base
     result = 0
     result, missing, hits, answered_items = score_item.calculate(survey_answer) if score_item
     row_result = [result]  # other survey scores are added as columns
-    return row_result << :normal << mean << missing << hits, answered_items <<
+    return row_result << :normal << mean << missing << hits << 
       (survey_answer.survey.age) unless score_ref  # guard clause when no score_ref exists
       
     # res = row_result.first.to_i
@@ -60,7 +60,7 @@ class Score < ActiveRecord::Base
     else
       :normal
     end
-    return [result, percentile, mean, missing, hits, answered_items, survey_answer.survey.age] # TODO: make some collection object (struct)
+    return [result, percentile, mean, missing, hits, survey_answer.survey.age]
   end
 
   def result(survey_answer, journal)

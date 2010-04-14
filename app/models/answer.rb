@@ -75,7 +75,7 @@ class Answer < ActiveRecord::Base
           type = "String"
           cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         end
-        value = cell.value.to_i if type == :Integer
+        value = cell.value.to_i if type == :Integer && ! cell.value.blank?
         c[:type] = type
         c[:v] = value
         puts c.inspect

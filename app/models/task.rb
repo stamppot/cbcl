@@ -14,6 +14,21 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def create_sumscores_export(find_options)
+    spawn do
+      score_rapports = ScoreRapport.find_with_options(find_options)
+      # write data
+      t = Time.now
+      self.export_file = ExportFile.create(:data => ZScoreGroup.to_xml(score_rapports.map {|sr| sr.score_results}).flatten,
+        :filename => "sumscores_eksport" + Time.now.to_date.to_s + ".xml",
+        :content_type => "text/xml")
+      e = Time.now
+      puts "create_sumscores_export: #{e-t}"
+      self.status = "Completed"
+      self.save
+    end
+  end
+
   def create_csv_answer(survey_answer)
     spawn do
       survey_answer.create_csv_answer!

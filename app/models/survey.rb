@@ -90,6 +90,7 @@ class Survey < ActiveRecord::Base
   def question_with_most_items
     self.questions.max {|q,p| q.count_items <=> p.count_items }
   end
+  alias :max_question :question_with_most_items
   
   # return range of valid ages
   # age is fx "4-10"

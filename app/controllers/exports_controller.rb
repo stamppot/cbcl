@@ -33,7 +33,6 @@ class ExportsController < ApplicationController
     center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
-    # start_date, stop_date = params[:start_date], params[:stop_date]
     surveys = current_user.subscribed_surveys
     params = Query.filter_age(params)
     
