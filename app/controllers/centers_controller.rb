@@ -178,10 +178,10 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   
   def merge_periods
     @group = Center.find params[:id]
-    date1 = params[:start_date]
-    date2 = params[:end_date]
+    @group.set_same_date_on_subscriptions!
     @group.subscriptions.all.each do |sub|
-      sub.merge_periods!(date1, date2)
+      sub.created_on
+      sub.merge_periods! #(date1, date2)
     end
     redirect_to subscriptions_path
   end

@@ -124,16 +124,19 @@ class Subscription < ActiveRecord::Base
   end
 
   # use when merging periods with no used surveys
-  def merge_periods!(date1, date2)
-    p1 = self.periods.active.select { |p| p.created_on == date1 }
-    p2 = self.periods.active.select { |p| p.created_on == date2 }
-    p1, p2 = p2, p1 if date1 > date2 # merge to the earliest date
-    
-    p1.each do |p|
-      q = p2.detect {|q| q.subscription_id == p.subscription_id } # find period for same subscription
-      p.used += q.used
-      q.destroy if p.save
-    end
+  def merge_periods! #(date1, date2)
+    active_periods = self.periods.active
+    return if active_periods.size == 1 # nothing to do
+
+    first_period = active_periods.shift
+    puts "first period: #{first_period.inspect}"
+    # copy subsequent periods to first active
+    active_periods.each_with_index do |period, i|
+      # puts "#{i} period: #{period.inspect}"
+       first_period.used += period.used
+     end
+    active_periods.each { |p| p.destroy } if first_period.save
+    puts "Done first period: #{first_period.inspect}"
   end
 
   # pay period

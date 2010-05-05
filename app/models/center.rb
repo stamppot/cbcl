@@ -135,6 +135,13 @@ class Center < Group
     !self.subscriptions.map { |sub| sub.periods.paid }.flatten.empty?
   end
   
+  def set_same_date_on_subscriptions!
+    first_period = self.subscriptions.map {|s| s.periods}.flatten.sort_by(&:created_on).first
+    self.subscriptions.each do |sub|
+      sub.periods.each { |p| p.created_on = first_period.created_on; p.save }
+    end
+  end
+  
   # return the next team id. Id must be highest id so far plus 1, and if doesn't exist
   def next_team_id
     id = team_ids.max { |p,q| p <=> q }
