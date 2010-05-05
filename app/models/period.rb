@@ -36,6 +36,7 @@ class Period < ActiveRecord::Base
   
   def copy_used!
     if self.active?
+      self.used = 0 unless self.used
       self.used += 1
       self.save
     else

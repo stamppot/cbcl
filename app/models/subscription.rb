@@ -66,6 +66,8 @@ class Subscription < ActiveRecord::Base
   # subscribed survey has been used
   def copy_used!
     find_active_period.copy_used!
+    self.total_used = 0 unless self.total_used
+    self.active_used = 0 unless self.active_used
     self.total_used += 1   # total count
     self.active_used += 1
     self.save
