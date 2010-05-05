@@ -166,7 +166,6 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
     @group = Center.find params[:id]
     @start_date = date1 = params[:start_date].to_date
     @end_date = date2 = params[:end_date].to_date
-    puts "PAY_PERIOD: #{params.inspect}"
     if request.post?
       @group.subscriptions.all.each do |sub|
         sub.pay_period!(date1, date2)
@@ -178,11 +177,10 @@ class CentersController < ApplicationController # < ActiveRbac::ComponentControl
   
   def merge_periods
     @group = Center.find params[:id]
-    @group.set_same_date_on_subscriptions!
     @group.subscriptions.all.each do |sub|
-      sub.created_on
-      sub.merge_periods! #(date1, date2)
+      sub.merge_periods!
     end
+    @group.set_same_date_on_subscriptions!
     redirect_to subscriptions_path
   end
   
