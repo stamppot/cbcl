@@ -45,7 +45,7 @@
 	<% not_answered_entries = @group.not_answered_entries %>
 	<% if not_answered_entries.size > 0 %>
 		<h4>Skemaer der skal besvares</h4>
-		<table class="sortable list" id="not_answered" class="surveys">
+		<table id="not_answered" class="surveys">
 			<tr>
 				<th>Spørgeskema</th>
 				<th>Type</th>
@@ -90,7 +90,7 @@
 		<h4><%= t('survey.answered') %></h4>
 		<% form_tag create_score_report_path, :method => 'post' do %>
 			<%= hidden_field_tag 'journal_id', @group.id %>
-		<table class="sortable list" id="answered" class="surveys">
+		<table id="answered" class="surveys">
 		<% if answered_count %>
 			<th><%= t('survey.survey') %></th>
 			<th><%= t('answered') %></th>
