@@ -339,6 +339,15 @@ th {
 	border-left: none;
 }
 
+#letter_list td, .sortable.list td {
+	border-left: none;
+	border-color: #def;
+}
+
+#letter_list td:first-child, .sortable.list td:first-child {
+	border-left: 1px solid #def;
+}
+
 #user_list td, .sortable.list td {
 	border-left: none;
 	border-color: #def;

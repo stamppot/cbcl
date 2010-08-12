@@ -1,7 +1,25 @@
+<table class="letter_info">
+	<tr>
+		<td class="t_i"><label for="letter_name">Navn:</label></td>
+		<td class="t"><%= @letter.name %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><label for="letter_group">Gruppe:</label></td>
+		<% link = if(@letter.group && @letter.group.is_a?(Center))
+			 	link_to(@letter.group.title, center_path(@letter.group))
+			 else 
+			 	link_to(@letter.group.title, team_path(@letter.group))
+			 end %>
+		<td class="t"><%= @letter.group.nil? && "Alle centre" || link %></td>
+	</tr>
+	<tr>
+		<td class="t_i">Indhold:</td>
+		<td><%= @letter.letter %></td>
+	</tr>
+</table>
 
 <div class="button">
-	<%= link_button t('letter.new'), new_letter_path(@group), 'letter_new', :title => 'Opret nyt brev' %> 
+	<%= link_button t('letter.edit'), edit_letter_url(@letter), 'letter', :title => 'Rediger brev' %> 
 </div>	
 
-<%= back_button, letters_path %>
-<%= link_to 'Back', letters_path %>
+<%= back_button letters_path %>

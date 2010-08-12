@@ -1,0 +1,39 @@
+<% localadmins = @users.select { |u| u.has_access? :centeradm } %>
+<h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
+
+<% if localadmins.empty? %>
+<p>Ingen</p>
+	<% if current_user.access? :user_new_leader %>
+	<div class="commands">
+		<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => 'Opret ny bruger i centret' %><br>
+	</div>
+	<% end %>
+<% else %>
+<ul>
+	<% for user in localadmins %>
+	<li><%= link_to user.login, user_path(user), :title => 'Vis bruger' %></li>
+	<% end %>
+</ul>
+<% end %>
+
+
+<% if current_user.access? :user_show_all %>
+<h3>Alle brugere i centeret <span style="font-size: 11px;"><%= link_to_function "(Vis/gem)", visual_effect(:toggle_blind, "user_list", {:duration => 0.5}) %></span></h3>
+
+<div id="users">
+	<% if @users.empty? %>
+	<p>Ingen</p>
+	<% else %>
+	<%= render :partial => 'shared/user_list' %>
+	<% end %>
+</div>
+<% end %>
+
+<%= render :partial => 'shared/ajax_pagination' %>
+
+<br/>
+<div class="commands">
+	<div class="button">
+		<%= link_button t('user.new'), new_user_path(@group), 'user_add', :title => 'Opret ny bruger i teamet' %><br>
+	</div>
+</div>

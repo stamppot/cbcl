@@ -101,7 +101,7 @@ ActionController::Routing::Routes.draw do |map|
   # journal entries
   map.entry_remove 'journal_entries/remove/:id', :controller               => 'journal_entries', :action => 'remove', :only => :post
   map.entry_remove_answer 'journal_entries/remove_answer/:id', :controller => 'journal_entries', :action => 'remove_answer', :only => :post
-  map.entry_login_info 'journal_entries/login_info/:id', :controller       => 'journal_entries', :action => 'login_info'
+  map.entry_login_letter 'letters/show_login/:id', :controller             => 'letters', :action => 'show_login'
   # map.destroy_login 'journal_entries/destroy_login/:id', :controller     => 'journal_entries', :action => 'destroy_login', :only => :post
   
   map.new_user 'users/new/:id', :controller => 'users', :action => 'new'

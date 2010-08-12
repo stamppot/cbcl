@@ -1,4 +1,4 @@
-<h1>Editing letter</h1>
+<h1>Rediger brev</h1>
 
 <% form_for(@letter) do |f| %>
   <%= f.error_messages %>
@@ -6,10 +6,9 @@
 	<%= render :partial => 'form' %>
 
   <p>
-    <%= f.submit 'Create', :class => 'button letter' %>
+    <%= f.submit t('update'), :class => 'button save' %>
   </p>
 
 <% end %>
 
-<%= link_to 'Show', @letter %> |
-<%= link_to 'Back', letters_path %>
+<%= back_button letters_path %>

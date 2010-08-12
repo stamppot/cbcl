@@ -6,12 +6,14 @@
 	<title><%= @page_title %></title>
 
 	<%= stylesheet_link_tag_html4 'cbcl' %>
+	<%= stylesheet_link_tag_html4 'tablekit' %>
 
 	<% if !current_user.login_user? %>
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
  	<%= javascript_include_tag 'effects' %>
  	<%= javascript_include_tag 'controls' %>
+ 	<%= javascript_include_tag 'tablekit' %>
 
  	<%= init_tinymce_hammer_if_required %>
 

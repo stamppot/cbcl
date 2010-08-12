@@ -1,0 +1,9 @@
+	<%= render :partial => 'subscriptions/subscriptions' %>
+	<% if current_user.access? :subscription_new_edit %>
+	<p>
+		<%= link_button t('subscription.pay_surveys'), pay_subscriptions_path(@group), 'subscription_paid', :title => "Sæt skemaer til betalt" %>
+		<% if @group.paid_subscriptions? %>
+		<%= link_button t('subscription.undo_payment'), undo_pay_subscriptions_path(@group), 'subscription_undo_payment', :title => "Fortryd betaling" %>
+		<% end %>
+	</p>
+	<% end %>

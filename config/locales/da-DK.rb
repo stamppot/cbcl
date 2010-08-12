@@ -68,6 +68,7 @@ I18n.backend.store_translations 'da-DK',
       :settings => 'Indstillinger', # nationaliteter og skemavariabler
       :nationalities => 'Nationaliteter',
       :variables => 'Skemavariabler',
+      :letters => 'Breve',
       :other => 'Andet',
       :faq_alt => 'Spørgsmål & Svar',
       :show_faq => 'Hjælp',
@@ -148,7 +149,8 @@ I18n.backend.store_translations 'da-DK',
       :new => 'Opret brev',
       :edit => 'Ret brev',
       :show => 'Vis brev',
-      :remove => 'Fjern brev'
+      :remove => 'Fjern brev',
+      :login => 'Loginbrev'
     },
     :subscription => {
       :subscribe => 'Abonner',

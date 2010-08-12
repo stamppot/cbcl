@@ -1,0 +1,41 @@
+	<table class="center_info">
+		<tr>
+			<td class="t_i"><%= t('name') %>:</td>
+			<td class="t"><%=h @group.title %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('code') %>:</td>
+			<td class="t"><%=h @group.code %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('address') %>:</td>
+			<td class="t"><%=h @group.street %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('city') %>:</td>
+			<td class="t"><%=h @group.zipcode %> <%=h @group.city %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('phone') %>:</td>
+			<td class="t"><%=h @group.telephone %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('contactperson') %>:</td>
+			<td class="t"><%=h @group.person %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('companynumber') %>:</td>
+			<td class="t"><%=h @group.ean %></td>
+		</tr>
+		<tr>
+			<td class="t_i"><%= t('letter.login') %>:</td>
+			<td class="t"><% letter = @group.letter || Letter.find_default %>
+				<% if @group.letter %>
+					<%= link_to letter.name, letter_path(letter) %>
+					<%= link_button t('letter.edit'), edit_letter_url(@group.letter), 'letter', :title => 'Rediger brev' %>
+				<% else %>
+					<%= link_button t('letter.new'), new_letter_url(@letter), 'letter', :title => 'Opret brev' %>
+				<% end %>
+			</td>
+		</tr>
+	</table>

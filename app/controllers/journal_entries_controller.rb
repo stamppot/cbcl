@@ -42,12 +42,6 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     end
   end
 
-  def login_info
-    @entry = JournalEntry.find(params[:id], :include => :login_user)
-    @login_user = @entry.login_user
-    render :layout => false
-  end
-
 
 
   protected
