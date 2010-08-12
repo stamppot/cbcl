@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100414153320) do
+ActiveRecord::Schema.define(:version => 20100413140118) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(:version => 20100414153320) do
   add_index "journal_entries", ["survey_id"], :name => "index_journal_entries_on_survey_id"
   add_index "journal_entries", ["user_id"], :name => "index_journal_entries_on_user_id"
 
+  create_table "letters", :force => true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.text     "letter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "nationalities", :force => true do |t|
     t.string "country",      :limit => 40
     t.string "country_code", :limit => 4
@@ -263,7 +271,6 @@ ActiveRecord::Schema.define(:version => 20100414153320) do
     t.integer  "gender",                        :null => false
     t.string   "age_group",        :limit => 5, :null => false
     t.integer  "age"
-    t.integer  "center_id"
   end
 
   create_table "score_refs", :force => true do |t|
@@ -292,7 +299,6 @@ ActiveRecord::Schema.define(:version => 20100414153320) do
     t.integer "score_scale_id"
     t.integer "missing",            :default => 0
     t.float   "missing_percentage"
-    t.string  "answered_items"
     t.integer "hits"
     t.boolean "valid_percentage"
   end

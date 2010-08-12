@@ -748,6 +748,21 @@ a .subscription_undo_payment {
 	padding-left: 27px;
 }
 
+a .letter {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .letter_new {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .letter_edit {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
 a .export_center {
 	background:url('/images/page_excel.png') no-repeat 0px 0px;
 	padding-left: 27px;
@@ -910,6 +925,9 @@ input.logout {
 }
 input.password_mail {
 	background:url('/images/email_go.png') no-repeat 10px 5px;
+}
+input.letter {
+	background:url('/images/letter.png') no-repeat 10px 5px;
 }
 
 /***** tabs *****/

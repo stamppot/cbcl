@@ -1,0 +1,16 @@
+<h1>Opret brev</h1>
+
+<% form_for(@letter) do |f| %>
+  <%= f.error_messages %>
+
+	<%= render :partial => 'form' %>
+
+	<p><br>
+
+  <p>
+    <%= f.submit 'Create', :class => 'button letter' %>
+  </p>
+<% end %>
+
+
+<%= back_button letters_path %>

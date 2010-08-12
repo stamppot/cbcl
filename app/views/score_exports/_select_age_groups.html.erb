@@ -1,0 +1,7 @@
+	<div id="select_age_groups">
+		<% @age_groups.each do |age_group| %>
+			<%= check_box_tag "age_groups", age_group, { :class => 'no_border'} %>
+			<label for="age_groups[<%= age_group %>]"><%= age_group %></label>
+			<br>
+		<% end %>
+	</div>

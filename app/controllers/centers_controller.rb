@@ -1,5 +1,5 @@
 # This is the controller that provides CRUD functionality for the Center model.
-class CentersController < ApplicationController # < ActiveRbac::ComponentController
+class CentersController < ApplicationController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
   

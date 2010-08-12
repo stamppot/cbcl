@@ -137,6 +137,21 @@ a .subscription_undo_payment {
 	padding-left: 27px;
 }
 
+a .letter {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .letter_add {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
+a .letter_edit {
+	background:url('/images/letter.png') no-repeat 0px 0px;
+	padding-left: 27px;
+}
+
 a .filter {
 	background:url('/images/cog.png') no-repeat 0px 0px;
 	padding-left: 27px;

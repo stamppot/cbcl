@@ -1,0 +1,8 @@
+
+Færdig!
+<br>
+
+<%= link_to 'Tryk her for at hente filen', file_download_path(@task.export_file) %>
+<br>
+
+<%= link_button @task.export_file.filename, file_download_path(@task.export_file), 'download_xml_file' %>

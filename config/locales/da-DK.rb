@@ -144,6 +144,12 @@ I18n.backend.store_translations 'da-DK',
       :input => 'Normal indtastning',
       :fast_input => 'Hurtig indtastning'
     },
+    :letter => {
+      :new => 'Opret brev',
+      :edit => 'Ret brev',
+      :show => 'Vis brev',
+      :remove => 'Fjern brev'
+    },
     :subscription => {
       :subscribe => 'Abonner',
       :change => 'Ændre abonnementer',
