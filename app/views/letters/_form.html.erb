@@ -5,10 +5,12 @@
 		</tr>
 		<tr>
 			<td class="t_i"><label for="letter_group">Gruppe:</label></td>
-			<td class="t_i"><%= select :letter, :group_id, @groups %></td>
+			<td class="t_i"><%= select :letter, :group_id, @groups, :selected => @group %></td>
 		</tr>
 		<tr>
 			<td class="t_i">Indhold:</td>
 			<td class="t"><%= tinymce(:letter, :letter) %></td>
 		</tr>
 	</table>
+	
+	<div class="help">Brug {{login}} for at indsætte brugernavn, og {{password}} for at indsætte kodeord.</div>

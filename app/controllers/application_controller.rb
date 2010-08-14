@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
 
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
-    return true if params[:controller] =~ /newrelic|login|javascripts|tinymce/
+    return true if params[:controller] =~ /newrelic|login/
     # check controller
     if !params[:id].blank? && params[:controller] =~ /score|faq/
       if current_user && (current_user.access?(:all_users) || current_user.access?(:login_user))
