@@ -2,38 +2,61 @@
 
 <ul class="tabs" id="subscription_tabs" class="center_tabs">  
 	<li class="tab"><a href="#info">Info</a></li>  
-	<li class="tab"><a href="#center_teams">Teams</a></li> 
-	<li class="tab"><a href="#center_users">Brugere</a></li> 
-	<li class="tab"><a href="#center_subscriptions">Abonnementer</a></li>
+	<li class="tab"><a href="#center_teams"><%= t('menu.teams') %></a></li> 
+	<li class="tab"><a href="#center_users"><%= t('menu.users') %></a></li> 
+	<% if show_journals? %>
+	<li class="tab"><a href="#center_journals"><%= t('menu.journals') %></a>
+	<% end %>
+	<li class="tab"><a href="#center_subscriptions"><%= t('menu.subscriptions') %></a></li>
 </ul>
 <div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
 	<br/>
 
-<div class="center_info" id="info">
-	<%= render :partial => 'info' %>
-</div>
-
-<div class="center_teams" id="center_teams">
-	<% if current_user.access? :center_show_teams %>
-		<%= render :partial => 'teams' %>
+	<div class="center_info" id="info">
+		<%= render :partial => 'info' %>
+	</div>
+	
+	<div class="center_teams" id="center_teams">
+		<% if current_user.access? :center_show_teams %>
+			<%= render :partial => 'teams' %>
+			<% end %>
+		<div class="button">
+			<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => t('team.new') %> 
+		</div>	
+		
+		<%= render :partial => 'commands' %>
+	</div>
+	
+	<div class="center_users" id="center_users">
+		<% localadmins = @users.select { |u| u.has_access? :centeradm } %>
+		<h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
+	
+		<% if localadmins.empty? %>
+		<p>Ingen</p>
+			<% if current_user.access? :user_new_leader %>
+			<div class="commands">
+				<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => t('user.new') %><br>
+			</div>
+			<% end %>
+		<% else %>
+		<ul>
+			<% for user in localadmins %>
+			<li><%= link_to user.login, user_path(user), :title => t('user.show') %></li>
+			<% end %>
+		</ul>
 		<% end %>
-	<div class="button">
-		<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => 'Opret nyt team' %> 
-	</div>	
+		<%= render :partial => 'shared/users' %>
+	</div>
+	
+	<% if show_journals? %>
+	<div class="center_journals" id="center_journals">
+		<%= render :partial => 'shared/journals' %>
+	</div>
+	<% end %>
 
-	<div style="width: 80%; clear: left;"></div>
-	<%= render :partial => 'commands' %>
-</div>
-
-<div class="center_users" id="center_users">
-	<%= render :partial => 'users' %>
-</div>
-
-
-<div class="center_subscriptions" id="center_subscriptions">
-<%= render :partial => 'subscriptions' %>
-
-</div>
+	<div class="center_subscriptions" id="center_subscriptions">
+		<%= render :partial => 'subscriptions' %>
+	</div>
 
 
 </div>

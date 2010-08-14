@@ -1,0 +1,40 @@
+		<table class="team_info">
+			<tr>
+				<td class="t_i"><%= t('name') %>:</td>
+				<td class="t"><%=h @group.title %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('code') %>:</td>
+				<td class="t"><%=h @group.team_code %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('center.center') %>:</td>
+				<% if @group.parent.nil? %>
+				<td class="t">Ingen overordnet, dette team er ikke tilknyttet et center (bør ikke kunne ske)</td>
+				<% else %>
+				<td class="t"><%= link_to @group.parent.title, center_path(@group.parent), :title => t('center.show') %></td>
+				<% end %>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('user.users') %>:</td>
+				<td class="t"><%=h @user_count %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('journal.journals') %>:</td>
+				<td class="t"><%=h @journal_count %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('team.admins') %>:</td>
+				<td class="t"><%=h "" %></td>
+			</tr>
+			<tr>
+				<td class="t_i"><%= t('letter.login') %>:</td>
+				<td class="t"><% letter = @group.letter || Letter.find_default %>
+					<% if @group.letter %>
+						<%= link_to letter.name, letter_path(letter) %>
+					<% else %>
+						<%= link_button t('letter.new'), new_letter_url(@letter), 'letter', :title => t('letter.new') %>
+					<% end %>
+				</td>
+			</tr>
+		</table>

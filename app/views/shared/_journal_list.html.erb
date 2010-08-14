@@ -8,7 +8,7 @@ Der er ingen journaler i systemet.
 <th title="Sorter efter fødselsdato" class="sortcol">Fødselsdato</th>
 <th title="Sorter efter oprettelsesdato" class="sortcol"><%= t('created') %></th>
 <% unless @hide_team %>
-<th class="half_wide" title="Sorter efter team"><%= current_user.teams.any? ? "Team" : "Center" %></th>
+<th class="half_wide" title="Sorter efter team"><%= any_teams_text %></th>
 <% end %>
 <th class="nosort"><%= t('action') %></th>
 </tr>

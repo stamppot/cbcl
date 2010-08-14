@@ -1,0 +1,25 @@
+	<h3>Journaler  <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "journals", {:duration => 0.5}) %></span></h3>
+	<% if @groups.empty? %>
+		<%= t('none') %>
+	<% else %>
+	<% @hide_team = true %>
+	<div id="journals">
+		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true} %>
+	</div>
+	
+	<%= render :partial => 'shared/ajax_pagination' %>
+
+	<p>
+		<div class="commands">
+			<br/>
+			<% if current_user.access? :journal_new_edit_delete %>
+			<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
+			<% end %>
+			<%= link_button t('export.logins'), formatted_export_logins_path(@group, 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+			<% if @group.parent && @group.parent.teams.size > 1 %>
+			<%= link_button t('team.move'), select_journals_path(@group), 'journal_move', :title => t('team.move') %>
+			<% end %>
+			<p/>
+		</div>
+	</p>
+	<% end %>

@@ -32,9 +32,8 @@
 			<td class="t"><% letter = @group.letter || Letter.find_default %>
 				<% if @group.letter %>
 					<%= link_to letter.name, letter_path(letter) %>
-					<%= link_button t('letter.edit'), edit_letter_url(@group.letter), 'letter', :title => 'Rediger brev' %>
 				<% else %>
-					<%= link_button t('letter.new'), new_letter_url(@letter), 'letter', :title => 'Opret brev' %>
+					<%= link_button t('letter.new'), new_letter_url(@group), 'letter', :title => t('letter.new') %>
 				<% end %>
 			</td>
 		</tr>

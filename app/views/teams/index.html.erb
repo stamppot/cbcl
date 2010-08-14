@@ -1,13 +1,12 @@
-<h2>Liste af Teams</h2>
+<h2>Teams</h2>
 
 <% @groups.each do |center, teams| %>
-    <%= "Center: " + link_to(center.title, center_path(center), :title => 'Vis Center') %>
+    <%= "Center: " + link_to(center.title, center_path(center), :title => t('center.show')) %>
 		<% if teams.any? %>
 			<ul>
     		<% teams.each do |group| %>
 	    	<li>
-					<%= link_to( group.title, group, :title => (group.is_a?(Team) ? "Vis team" : "Vis center") ) %>
-         	 <%= "[" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] " %>
+					<%=	link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] " %>
 	    	</li>
     		<% end %>
 			</ul>
@@ -16,6 +15,6 @@
 
 <% if current_user.access? :team_new_edit_delete %>
 <div class="commands">
-	<%= link_button 'Nyt Team', new_team_path, 'team_add' %>
+	<%= link_button t('team.new'), new_team_path, 'team_add' %>
 </div>
 <% end %>

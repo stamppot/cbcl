@@ -46,6 +46,7 @@ I18n.backend.store_translations 'da-DK',
     :no_groups => 'Ingen Grupper',
     
     :menu => {
+      :info => 'Info',
       :groups => 'Grupper',
       :search_groups => 'Søg:',
       :center => 'Center',
@@ -149,8 +150,10 @@ I18n.backend.store_translations 'da-DK',
       :new => 'Opret brev',
       :edit => 'Ret brev',
       :show => 'Vis brev',
-      :remove => 'Fjern brev',
-      :login => 'Loginbrev'
+      :delete => 'Slet brev',
+      :login => 'Loginbrev',
+      :all_centers => 'Alle centre',
+      :confirm => 'Er du sikker på, at du vil slette brevet?'
     },
     :subscription => {
       :subscribe => 'Abonner',

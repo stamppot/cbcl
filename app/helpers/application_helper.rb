@@ -26,10 +26,11 @@ module ApplicationHelper
   end
   
   def link_button(text, url, btn_type = nil, options = {})
-    method = options.delete(:method) || :get
+    method = options.delete(:method)
+    confirm = options.delete(:confirm)
     cssclass = options.delete(:class)
     btn = content_tag(:span, text, {:class => (btn_type.blank? && 'text' || btn_type)})
-    link_to btn, url, options.merge(:class => "button #{cssclass}".rstrip, :method => method)
+    link_to btn, url, options.merge(:class => "button #{cssclass}".rstrip, :method => method, :confirm => confirm)
   end
 
   def link_button_to_remote(text, btn_type, url, options = {})
@@ -40,7 +41,12 @@ module ApplicationHelper
   end
   
   def link_to_icon(icon, url, options = {}, condition = true)
-    link_to_if condition, img_tag_html4(icon, options.merge(:border => 0, :class => 'icon')), url, :title => options[:title]
+    method = options.delete(:method)
+    confirm = options.delete(:confirm)
+    link_to_if condition, img_tag_html4(icon, options.merge(:border => 0, :class => 'icon')), url,
+      :title => options[:title],
+      :method => method,
+      :confirm => confirm
 	end
 	
   # correctly close/open html 4.01 tags
@@ -99,5 +105,33 @@ module ApplicationHelper
     content_for :tinymce_init do
       javascript_include_tag "mce_editor"
     end
+  end
+  
+  def center_or_team_text(group)
+    group.is_a?(Team) ? "Team" : "Center"
+  end
+
+  def center_or_team_url(group)
+    if group.is_a? Team
+      link_to group.title, team_path(group)
+    else 
+      link_to group.title, center_path(group)
+    end
+  end
+
+  def center_or_team_link(group)
+    if group.is_a? Team
+      team_path(group)
+    else 
+      center_path(group)
+    end
+  end
+  
+  def show_journals?
+    @group.teams.size == 0
+  end
+
+	def any_teams_text
+	  current_user.teams.any? ? "Team" : "Center"
   end
 end

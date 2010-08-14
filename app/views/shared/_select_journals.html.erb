@@ -8,7 +8,7 @@ Der er ingen journaler i systemet.
 <th class="wide sortcol sortdesc" title="Sorter efter navn">Navn</th>
 <th title="Sorter efter Id" class="sortcol">Id</th>
 <th title="Sorter efter fødselsdato" class="sortcol">Fødselsdato</th>
-<th class="small" title="Sorter efter team"><%= current_user.teams.any? ? "Team" : "Center" %></th>
+<th class="small" title="Sorter efter team"><%= any_teams_text %></th>
 </tr>
 
 <% @groups.each do |g| %>

@@ -4,13 +4,13 @@
 		<td class="t"><%= @letter.name %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><label for="letter_group">Gruppe:</label></td>
-		<% link = if(@letter.group && @letter.group.is_a?(Center))
-			 	link_to(@letter.group.title, center_path(@letter.group))
-			 else 
-			 	link_to(@letter.group.title, team_path(@letter.group))
+		<td class="t_i"><label for="letter_group"><%= center_or_team_text(@letter.group) %>:</label></td>
+		<% link = if @letter.group.nil?
+			 	 t('letter.all_centers')
+			 else @letter.group
+				 center_or_team_url(@letter.group)
 			 end %>
-		<td class="t"><%= @letter.group.nil? && "Alle centre" || link %></td>
+		<td class="t"><%= link %></td>
 	</tr>
 	<tr>
 		<td class="t_i">Indhold:</td>
@@ -20,6 +20,8 @@
 
 <div class="button">
 	<%= link_button t('letter.edit'), edit_letter_url(@letter), 'letter', :title => 'Rediger brev' %> 
+	<%= link_button t('letter.delete'), letter_url(@letter), 'remove', :method => :delete, :confirm => t('letter.confirm'), :title => 'Slet brev' %> 
 </div>	
 
-<%= back_button letters_path %>
+<p>
+<%= back_button center_or_team_link(@letter.group) %>

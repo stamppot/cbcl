@@ -28,17 +28,12 @@ class LettersController < ApplicationController
   # GET /letters/new.xml
   def new
     @letter = Letter.new
-    @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
-    group_ids = Letter.all.map { |l| l.group_id }
-    @groups.delete_if {|g| group_ids.include? g.last }
-
-    if current_user.admin?
-      @groups.unshift ["Alle grupper", nil]
-    end
-    
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @letter }
+    @groups = if params[:id]
+      Group.find([params[:id]]).map { |g| [g.title, g.id] }
+    elsif Letter.first(:conditions => ['group_id IS NULL']).nil? && current_user.admin? # no letters
+      ["Alle grupper", nil]
+    else
+      (current_user.center_and_teams - Letter.all.map(&:group)).map {|g| [g.title, g.id] }
     end
   end
 
@@ -46,14 +41,7 @@ class LettersController < ApplicationController
   def edit
     @letter = Letter.find(params[:id])
     @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
-    group_ids = Letter.all.map { |l| l.group_id }
-    @groups.delete_if {|g| group_ids.include? g.last }
-
-    if current_user.admin?
-      @groups.unshift ["Alle grupper", nil]
-    end
-    
-    @groups.map { |g| puts "#{g}"}
+    @groups.unshift ["Alle grupper", nil] if current_user.admin?
   end
 
   # POST /letters

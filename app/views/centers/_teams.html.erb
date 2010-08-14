@@ -1,15 +1,9 @@
 <p><strong>Teams</strong></p>
-<% if @group.teams.size > 0 %>
+<% if @group.teams.any? %>
 <ul>
 	<% @group.teams.each do |group| %>
 	<li>
-		<%=
-		if current_user.teams.map {|g| g.id }.include?(group.id)
-			link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] "
-		else
-			group.title
-		end
-		%>
+		<%=	link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] " %>
 	</li>
 	<% end %>
 </ul>

@@ -9,9 +9,11 @@
 
 <% @letters.each do |letter| %>
   <tr>
-		<td><%= letter.name %></td>
+		<td><%= link_to letter.name, letter_path(letter) %></td>
 		<td><%= letter.group.nil? && "Alle centre" || letter.group.title %></td>
-    <td><%= link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %></td>
+    <td><%= link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %>
+				<span>&nbsp;&nbsp;</span>
+				<%= link_to_icon 'delete2.png', letter_path(letter), :method => :delete, :confirm => t('letter.confirm') %></td>
   </tr>
 <% end %>
 </table>
