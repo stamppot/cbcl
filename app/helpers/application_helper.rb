@@ -120,6 +120,7 @@ module ApplicationHelper
   end
 
   def center_or_team_link(group)
+    return "Alle centre" if group.nil?
     if group.is_a? Team
       team_path(group)
     else 
