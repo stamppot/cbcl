@@ -3,6 +3,7 @@ module Tinymce::Hammer::ViewHelpers
   # If you call this method in your document head two script tags will be
   # inserted when tinymce is required, otherwise nothing will be inserted.
   def init_tinymce_hammer_if_required
+    puts "init tinymce hammer if required"
     if tinymce_hammer_required?
       tinymce_hammer_javascript_tags
     else
