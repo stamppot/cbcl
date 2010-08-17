@@ -148,7 +148,7 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save_answers(params)
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
-      survey_answer.generate_score_report(update = true)
+      survey_answer.generate_score_rapport(update = true)
       Task.new.create_csv_answer(survey_answer)
       redirect_to journal_path(@journal_entry.journal)
     else  # not answered

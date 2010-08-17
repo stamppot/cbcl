@@ -160,12 +160,23 @@ function toggleElems(input) {
   } catch (e) {}
 }
 
-function togglePdfAction(formid) {
-	var input = document.getElementById(formid).action;
+function toggleActionFormat(formid, element) {
+	var format = $(element).value;
+	var input = $(formid).action;
+	// alert("input before: " + input);
+	if(input.lastIndexOf('http') > -1) {
+		input = input.replace(/(http|https).\/\//, "");
+		input = input.replace(/.3000/, "");
+		input = input.replace(/(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]*)?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z0-9]|[a-zA-Z])[.]?)/, "");
+		// alert("input after: " + input);
+	}
+	input = input.replace('.html', '');
 	var output = "";
 	if(input.lastIndexOf('.') === -1)
-		output = input + '.pdf';
+		output = input + '.' + format;
 	else 
 		output = input.substr(0, input.lastIndexOf('.')) || input;
+
+	// alert("output: " + output);
 	document.getElementById(formid).action = output;
 }

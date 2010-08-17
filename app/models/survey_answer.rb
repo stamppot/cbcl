@@ -49,7 +49,7 @@ class SurveyAnswer < ActiveRecord::Base
     end
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     spawn do
-      self.generate_score_report(update = true) # generate score report
+      self.generate_score_rapport(update = true) # generate score report
       self.create_csv_answer!
     end
     self.save
@@ -111,7 +111,7 @@ class SurveyAnswer < ActiveRecord::Base
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
   end
 
-  def generate_score_report(update = false)
+  def generate_score_rapport(update = false)
     rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
     args = { :survey_name => self.survey.title,
                   :survey => self.survey,

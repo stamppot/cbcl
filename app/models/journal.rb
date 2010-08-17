@@ -232,7 +232,7 @@ class Journal < Group
     end
   end
 
-  protected
+  # protected
   
   # validates_presence_of   :parent,
   #                         :message => ': overordnet gruppe skal vælges',

@@ -24,7 +24,7 @@ Rails::Initializer.run do |config|
   # load vendored gems
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
-  end
+  end << "#{RAILS_ROOT}/app/sweepers"
   
   # auto-load gems in vendor
   Dir[File.dirname(__FILE__) + "/../vendor/*"].each do |path|
