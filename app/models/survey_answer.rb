@@ -126,8 +126,6 @@ class SurveyAnswer < ActiveRecord::Base
             }
             
     rapport = ScoreRapport.create(args) unless rapport
-      
-
     rapport.update_attributes(args) if update && !rapport.new_record?
     
     scores = self.survey.scores

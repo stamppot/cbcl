@@ -48,9 +48,6 @@ class ScoreReport
         score_rapport.unanswered = score_rapport.survey_answer.no_unanswered
         score_rapport.save
       end
-      # if Score.last_updated > score_rapport.updated_at
-      #   score_rapport.regenerate
-      # end
       report = ScoreReport.new
       report.result = score_rapport.unanswered
       report.percentile = "&nbsp;"

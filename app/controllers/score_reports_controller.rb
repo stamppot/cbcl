@@ -17,7 +17,7 @@ class ScoreReportsController < ApplicationController
       # create survey titles row  # first header is empty, is in corner
       @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
       # find or create score_rapport
-      score_rapports = survey_answers.map { |sa| sa.score_rapport ||= sa.generate_score_report }
+      score_rapports = survey_answers.map { |sa| sa.regenerate; sa.score_rapport ||= sa.generate_score_report }
 
       @groups = ScoreReport.scores_in_rows(score_rapports)
       @groups << [ScoreReport.row_unanswered(score_rapports)]
