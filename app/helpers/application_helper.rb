@@ -50,8 +50,8 @@ module ApplicationHelper
 	end
 	
   # correctly close/open html 4.01 tags
-  def stylesheet_link_tag_html4( _n )
-    return stylesheet_link_tag( _n ).gsub( ' />', '>' )
+  def stylesheet_link_tag_html4( _n, options = {} )
+    return stylesheet_link_tag( _n, options ).gsub( ' />', '>' )
   end  
 
   def img_tag_html4( a, b )

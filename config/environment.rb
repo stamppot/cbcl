@@ -15,6 +15,8 @@ require 'memcache'
 $KCODE = 'u'
 #require 'jcode'
 
+require 'pdfkit'
+
 # Rails.backtrace_cleaner.remove_silencers!   
 
 Rails::Initializer.run do |config|
@@ -79,6 +81,9 @@ Rails::Initializer.run do |config|
   
   config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
+  
+  config.middleware.use PDFKit::Middleware, :print_media_type => true
+  Mime::Type.register 'application/pdf',:pdf
 end
 
 ThinkingSphinx.suppress_delta_output = true

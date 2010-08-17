@@ -40,4 +40,39 @@ class ScoreReport
     self.scores = row.map { |cell| cell.score }
     return [self]
   end
+  
+  def self.row_unanswered(score_rapports)
+    unanswered = ["Ubesvarede"]
+    score_rapports.each do |score_rapport|
+      if score_rapport.unanswered > 100  # temporary, recalculate for wrong values
+        score_rapport.unanswered = score_rapport.survey_answer.no_unanswered
+        score_rapport.save
+      end
+      # if Score.last_updated > score_rapport.updated_at
+      #   score_rapport.regenerate
+      # end
+      report = ScoreReport.new
+      report.result = score_rapport.unanswered
+      report.percentile = "&nbsp;"
+      unanswered << report
+    end
+    unanswered
+  end
+  
+  def self.scores_in_rows(score_rapports)
+    scales = ScoreScale.find(:all, :order => :position)
+    scales.map do |scale|
+      # get result columns
+      cols = score_rapports.map do |score_rapport| # get scores for current scale
+        score_results = score_rapport.score_results.select { |s| s.score_scale_id == scale.id }.sort_by { |s| s.position }
+        score_results.map { |result| result.to_report }
+      end
+
+      rows = cols.fill_2d.transpose
+      # add header and left column of score titles
+      score_names = rows.map { |row| row.detect {|r| r}.title }
+      # insert score title (from first of each column)
+      rows.each { |row| row.insert(0, score_names.shift) }  # insert score_item names in first column
+    end
+  end
 end

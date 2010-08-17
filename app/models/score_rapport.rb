@@ -43,6 +43,13 @@ class ScoreRapport < ActiveRecord::Base
     options
   end
 
+  def regenerate
+    survey_answer_id = self.survey_answer_id
+    self.score_results.map &:destroy
+    self.destroy
+    survey_answer = SurveyAnswer.find survey_answer_id
+    sr = survey_answer.generate_score_report
+  end
 
   def to_xml(options = {})
     if options[:builder]

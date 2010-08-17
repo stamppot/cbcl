@@ -6,11 +6,11 @@
 	<title><%= @page_title %></title>
 
 	<% if !current_user.login_user? %>
-	<%= stylesheet_link_tag_html4 'tablekit' %>
+	<%= stylesheet_link_tag_html4 'tablekit', :media => 'all' %>
 	<% stylesheet_link_tag_html4 'validation' %>
-	<%= stylesheet_link_tag_html4 'login' %>
+	<%= stylesheet_link_tag_html4 'login', :media => 'all' %>
 	<% end %>
-	<%= stylesheet_link_tag_html4 'cbcl' %>
+	<%= stylesheet_link_tag_html4 'cbcl', :media => 'all' %>
 	<% stylesheet_link_tag_html4 'buttons' %>
 
 	<% if !current_user.login_user? %>

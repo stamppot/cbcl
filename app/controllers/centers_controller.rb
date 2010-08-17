@@ -21,9 +21,7 @@ class CentersController < ApplicationController
     @surveys = current_user.surveys.group_by {|s| s.id}
     
     respond_to do |format|
-      format.html {
-        redirect_to team_path(@group) and return if @group.instance_of?(Team)
-      }
+      format.html { redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.js {
         render :update do |page|
           page.replace_html 'users', :partial => 'shared/user_list'

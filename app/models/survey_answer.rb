@@ -121,10 +121,13 @@ class SurveyAnswer < ActiveRecord::Base
                   :gender => self.journal.person_info.sex,
                :age_group => self.survey.age,
               :created_at => self.created_at,  # set to date of survey_answer
-               :center_id => self.center_id
+               :center_id => self.center_id,
+        :survey_answer_id => self.id
             }
             
     rapport = ScoreRapport.create(args) unless rapport
+      
+
     rapport.update_attributes(args) if update && !rapport.new_record?
     
     scores = self.survey.scores

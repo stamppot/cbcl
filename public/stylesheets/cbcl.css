@@ -160,14 +160,14 @@ a:hover {
 }
 
 .surveyentry h3 {
-	font: larger bold;
+/*	font: larger bold;*/
 	color: #282;
 	margin-top: 0ex;
 	margin-bottom: 0.5ex;
 }
 
 .surveyentry p {
-	font: smaller sans-serif;
+/*	font: smaller sans-serif;*/
 	margin-bottom: 0.5ex;
 }
 
@@ -602,7 +602,7 @@ input.button {
 	padding-left: 16px;
 	line-height: 19px;
 	text-indent: 20px;
-	font-size: 12px;
+/*	font-size: 12px;*/
 }
 input.button:hover {
 	color:#0066CC;
@@ -973,4 +973,28 @@ li.tab a.active {
 	-webkit-border-radius:5px;
 	padding: 0px 15px 5px 5px;
 	padding-left: 20px;
+}
+
+@media print {  
+    body { background-color: #FFF; }
+		body, p, ol, ul, td { font-size: 9px; }
+		#infoheader {	margin:0px; padding:5px 0px 0px 0px; height: 32px; width: 100%; border-top: 1px solid black; border-bottom: 1px solid black; }
+		
+		#centertitle { font-family: tacoma; font-size: 16px; top: 16px; height: 20pt; }
+		#menu { display: normal; top:60px; left: 8px; width: 85px; font-size: 8px; height: 580px; min-height: 500px; }
+		.menu_section { width: 80px;}
+		.menu_section a { font-size: 8px; }
+		.menu_title { font-size: 9px; }
+		.searchbox { font-size: 7px; width: 60px;}
+		td.small { font-size: 7px;}
+		input.button, input.no_border, input[type=checkbox] { line-height: 10px;	text-indent: 20px; font-size: 8px; }
+		table.surveys td {	font-size: 8px; }
+  #content {  
+        width: auto;  
+        margin: 0;  
+        padding: 0;  
+        border: none;  
+				margin: 0px 0px 0px 130px;
+    }  
+
 }

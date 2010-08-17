@@ -159,3 +159,13 @@ function toggleElems(input) {
 		});
   } catch (e) {}
 }
+
+function togglePdfAction(formid) {
+	var input = document.getElementById(formid).action;
+	var output = "";
+	if(input.lastIndexOf('.') === -1)
+		output = input + '.pdf';
+	else 
+		output = input.substr(0, input.lastIndexOf('.')) || input;
+	document.getElementById(formid).action = output;
+}

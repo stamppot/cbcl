@@ -132,6 +132,10 @@ class Score < ActiveRecord::Base
     else ""
     end
   end
+
+  def self.last_updated
+    Score.first(:order => 'updated_at desc', :select => :updated_at).updated_at
+  end
   
   private
 

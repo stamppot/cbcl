@@ -7,7 +7,6 @@ class CreateLetters < ActiveRecord::Migration
       t.timestamps
     end
     add_index :group_id
-
   end
 
   def self.down

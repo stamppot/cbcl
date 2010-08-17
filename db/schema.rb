@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100413140118) do
+ActiveRecord::Schema.define(:version => 20100815084726) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",                :default => 0, :null => false
@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(:version => 20100413140118) do
     t.integer  "gender",                        :null => false
     t.string   "age_group",        :limit => 5, :null => false
     t.integer  "age"
+    t.integer  "center_id"
   end
 
   create_table "score_refs", :force => true do |t|
@@ -313,15 +314,17 @@ ActiveRecord::Schema.define(:version => 20100413140118) do
   end
 
   create_table "scores", :force => true do |t|
-    t.integer "score_group_id"
-    t.integer "survey_id"
-    t.string  "title"
-    t.string  "short_name"
-    t.integer "sum"
-    t.integer "scale"
-    t.integer "position"
-    t.integer "score_scale_id"
-    t.integer "items_count"
+    t.integer  "score_group_id"
+    t.integer  "survey_id"
+    t.string   "title"
+    t.string   "short_name"
+    t.integer  "sum"
+    t.integer  "scale"
+    t.integer  "position"
+    t.integer  "score_scale_id"
+    t.integer  "items_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "scores_surveys", :id => false, :force => true do |t|

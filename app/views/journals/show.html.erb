@@ -64,7 +64,7 @@
 					 <td><%= entry.status %>
 					 </td>
 					 <td>
-					
+					<% @entry = entry %>
 					<%= entry.login_user.nil? ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
 										:class => 'icon', :title => 'Vis login-info'), login_letter_path(entry), :popup => ['new_window, height=800,width=700']) %>
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
@@ -88,8 +88,10 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<% form_tag create_score_report_path, :method => 'post' do %>
+		<form action="/score_reports/create" id="show_score_rapports" method="post">
+		<%# form_tag create_score_report_path(:format => 'pdf'), :method => 'post', :format => 'pdf' do %>
 			<%= hidden_field_tag 'journal_id', @group.id %>
+		<div id="answered_surveys">
 		<table id="answered" class="surveys">
 		<% if answered_count %>
 			<th><%= t('survey.survey') %></th>
@@ -117,14 +119,20 @@
 		   Ingen
 		<% end %>
 		</table>
+		</div>
 		<% if answered_count %>
 		  <div class="commands">
 				<div class="button">
-					<%= submit_tag t('score.calculate'), :class => 'button score_calculate' %>
+					<%= submit_tag t('score.calculate'), :class => 'button score_calculate', :format => 'pdf' %>
+					<select autocomplete="off" name="format" onchange="togglePdfAction('show_score_rapports')">
+						<option value="browser">HTML</option>
+						<option value="pdf">PDF</option>
+					</select>
 				</div>
 			<% end %>
 		</div>
-		<% end %>
+		</form>
+		<%# end %>
 	<% end %>
 
 	<div class="commands">

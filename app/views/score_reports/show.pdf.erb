@@ -1,9 +1,40 @@
 <h1 class="score_report">CBCL-Rapport</h1>
 <hr>
 
-<%= render :partial => "shared/center_info", :object => @journal %>
+<div id="centerlabel" style="margin-right: 15px;">&nbsp;
+</div>
 
+<table class="center_info">
+	<tr>
+		<td class="p">Sygehusafd-/institutionskode:</td>
+		<td class="p"><%=h @journal.qualified_code %></td>
+	</tr>
+	<tr>
+		<td class="p">Team/Projekt:</td>
+		<td class="p"><%=h @journal.team.title %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('id') %>:</td>
+		<td class="p"><%=h @journal.qualified_id %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('gender') %>:</td>
+		<td class="p"><%=h @journal.sex_text.capitalize %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('age') %></td>
+		<td class="p"><%=h @journal.age %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('name') %>:</td>
+		<td class="p"><%=h @journal.name %></td>
+	</tr>
+</table>
 <br/>
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <hr>
 
 <table class="outer">
@@ -23,12 +54,11 @@
 		</tr>
 	<% end %>
 
-	<%= render :partial => "score_group", :object => group %>
+	render :partial => "score_group", :object => group
 	<%- end %>
 </table>
 
-<p class="spacing"></p>
-<br>
+<p class="spacing">&nbsp;</p>
 
 <table class='score_ref_description'>
 	<tr>
@@ -45,11 +75,10 @@
 	</tr>
 </table>
 
-<br>
-<p class="spacing2"></p>
+<br/>
+<p class="spacing2">&nbsp;</p>
 
-
-<table class='score_ref_description' style="float: bottom">
+<table class='score_ref_description'>
 	<tr>
 		<td class='no_border'><%= Date.today.strftime("%d-%m-%Y")%></td>
 		<td class='no_border'>Udskrevet af sygehus/institution <%= @journal.qualified_code %></td>
