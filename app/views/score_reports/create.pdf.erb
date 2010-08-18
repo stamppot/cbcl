@@ -1,0 +1,101 @@
+<style TYPE="text/css">
+@media print {  
+	body { height: 580px; }
+	body, p, ol, ul, td {
+		margin: 0;
+		padding: 0;
+	  font-size:   9px;
+	  line-height: 12px; /*20px*/
+	}
+	.centerlabel { margin-right: 20px; margin-bottom: 10px; }
+	h1 { line-height: 16px; }
+	
+	table.outer th { font-size: 11px;}
+	p.spacing { height: 120px; border: 0px dashed blue; clear: both;}
+	p.spacing2 { height: 50px; border: 0px dashed blue; clear: both;}
+}
+</style>
+<h1 class="score_report">CBCL-Rapport</h1>
+<hr>
+
+<div id="centerlabel" style="margin-right: 15px;">&nbsp;
+</div>
+
+<table class="center_info">
+	<tr>
+		<td class="p">Sygehusafd-/institutionskode:</td>
+		<td class="p"><%=h @journal.qualified_code %></td>
+	</tr>
+	<tr>
+		<td class="p">Team/Projekt:</td>
+		<td class="p"><%=h @journal.team.title %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('id') %>:</td>
+		<td class="p"><%=h @journal.qualified_id %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('gender') %>:</td>
+		<td class="p"><%=h @journal.sex_text.capitalize %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('age') %></td>
+		<td class="p"><%=h @journal.age %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= t('name') %>:</td>
+		<td class="p"><%=h @journal.name %></td>
+	</tr>
+</table>
+<br/>
+
+
+<hr>
+
+<table class="outer">
+	<%- @groups.each_with_index do |group, i| %>
+   <% # survey titles in top line only
+	@titles.each_with_index do |title, j|
+	 	fst_col = (j == 0) %>
+		<th class='col<%= j %>' colspan='<%= fst_col ? 1 : 2 %>'><%= (i == 0) ? title : "&nbsp;" %></th>
+	<% end %>
+	<% if (1..group.size + 1) === i && !group.empty? %>
+   		<tr class='scale_title'>
+			<td class='scale_show_hide'>
+				<a class='show_hide' HREF='javascript:toggleElems("scale_<%= i %>")'>
+					<%= @group_titles[i] %>
+				</a>
+			</td>
+		</tr>
+	<% end %>
+
+	<%= render :partial => "score_group", :object => group %>
+	<%- end %>
+</table>
+
+<p class="spacing">&nbsp;</p>
+
+<table class='score_ref_description'>
+	<tr>
+		<td class='no_border'>Råscore relateres til køns- og aldersstatificerede normalmateriale:</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;( )   middelværdi</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;&nbsp;*&nbsp; 93 percentil</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;** 97 percentil</td>
+	</tr>
+</table>
+
+<br/>
+<p class="spacing2">&nbsp;</p>
+
+<table class='score_ref_description'>
+	<tr>
+		<td class='no_border'><%= Date.today.strftime("%d-%m-%Y")%></td>
+		<td class='no_border'>Udskrevet af sygehus/institution <%= @journal.qualified_code %></td>
+	</tr>
+</table>
