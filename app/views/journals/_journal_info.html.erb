@@ -1,0 +1,40 @@
+	<table class="journal_info">
+		<tr>
+			<td class="p_i">ID:</td>
+			<td class="p"><%=h @group.qualified_id %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Journalnavn:</td>
+			<td class="p"><%=h @group.name %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Køn:</td>
+			<td class="p"><%=h @group.sex_text %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Fødselsdato:</td>
+			<td class="p"><%=h @group.birthdate.to_s(:long) %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Alder (år):</td>
+			<td class="p"><%=h @group.age %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Nationalitet:</td>
+			<td class="p"><%=h @group.nationality %></td>
+		</tr>
+		<tr>
+			<td class="p_i"><%= t('created') %>:</td>
+			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
+		</tr>
+		<tr>
+			<td class="p_i"><%= center_or_team_text(@group.parent) %>:</td>
+			<% if @group.parent != nil %>
+		  <%   group = @group.parent.class.to_s.underscore %> 
+		  <td class="p"><%= link_to h(@group.parent.title), @group.parent, :title => "Vis #{group.camelize}" %></td>
+		  <% else %>
+		  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
+		  <% end %>
+		  </td>
+		</tr>
+	</table>
