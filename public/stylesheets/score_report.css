@@ -169,7 +169,7 @@ td.report_left {
 	  font-size:   14px;
 	  line-height: 20px; /*20px*/
 	}
-	.centerlabel { margin-right: 20px; margin-bottom: 10px; }
+	#centerlabel { margin-right: 20px; margin-bottom: 10px; }
 	
 	p.spacing { height: 100px; border: 0px dashed blue; clear: both;}
 	p.spacing2 { height: 50px; border: 0px dashed blue; clear: both;}
