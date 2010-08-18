@@ -170,12 +170,13 @@ function toggleActionFormat(formid, element) {
 		input = input.replace(/(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]*)?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z0-9]|[a-zA-Z])[.]?)/, "");
 		// alert("input after: " + input);
 	}
-	input = input.replace('.html', '');
 	var output = "";
 	if(input.lastIndexOf('.') === -1)
 		output = input + '.' + format;
 	else 
 		output = input.substr(0, input.lastIndexOf('.')) || input;
+
+		output = output.replace('.html', '');
 
 	// alert("output: " + output);
 	document.getElementById(formid).action = output;

@@ -171,7 +171,7 @@ td.report_left {
 	}
 	.centerlabel { margin-right: 20px; margin-bottom: 10px; }
 	
-	p.spacing { height: 120px; border: 0px dashed blue; clear: both;}
+	p.spacing { height: 100px; border: 0px dashed blue; clear: both;}
 	p.spacing2 { height: 50px; border: 0px dashed blue; clear: both;}
 }
 	
