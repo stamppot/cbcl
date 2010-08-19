@@ -13,6 +13,10 @@
 		<td class="t"><%= link %></td>
 	</tr>
 	<tr>
+		<td class="t_i">Brev til:</td>
+		<td class="t_i"><%= t("roles.#{@letter.surveytype}") %></td>
+	</tr>
+	<tr>
 		<td class="t_i">Indhold:</td>
 		<td><%= @letter.letter %></td>
 	</tr>
@@ -24,4 +28,5 @@
 </div>	
 
 <p>
-<%= back_button center_or_team_link(@letter.group) %>
+
+<%= back_button letters_url %>

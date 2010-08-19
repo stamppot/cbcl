@@ -8,6 +8,9 @@
 			<td class="t_i"><%= select :letter, :group_id, @groups, :selected => @group %></td>
 		</tr>
 		<tr>
+			<td class="t_i"><label for="letter_surveytype">Brev til:</label></td>
+			<td class="t_i"><%= select :letter, :surveytype, @role_types %>
+		<tr>
 			<td class="t_i">Indhold:</td>
 			<td class="t"><%= tinymce(:letter, :letter) %></td>
 		</tr>

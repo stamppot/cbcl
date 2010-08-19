@@ -147,6 +147,7 @@ I18n.backend.store_translations 'da-DK',
       :fast_input => 'Hurtig indtastning'
     },
     :letter => {
+      :letters => 'Breve',
       :new => 'Opret brev',
       :edit => 'Ret brev',
       :show => 'Vis brev',

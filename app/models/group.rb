@@ -22,7 +22,7 @@ class Group < ActiveRecord::Base
   named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   named_scope :and_parent, :include => [:parent]
   
-  has_one :letter
+  has_many :letters
   
   def self.this_or_parent(id)
     Group.find(:all, :conditions => [ 'id = ? OR parent_id = ?', id, id]).delete_if { |group| group.instance_of? Journal }

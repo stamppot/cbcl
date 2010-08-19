@@ -29,9 +29,9 @@
 		</tr>
 		<tr>
 			<td class="t_i"><%= t('letter.login') %>:</td>
-			<td class="t"><% letter = @group.letter || Letter.find_default %>
-				<% if @group.letter %>
-					<%= link_to letter.name, letter_path(letter) %>
+			<td class="t">
+				<% if @group.letters.any? %>
+					<%= link_to t('letter.letters'), letters_path %>
 				<% else %>
 					<%= link_button t('letter.new'), new_letter_url(@group), 'letter', :title => t('letter.new') %>
 				<% end %>

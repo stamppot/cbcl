@@ -3,7 +3,11 @@ class LettersController < ApplicationController
   layout 'wysiwyg' #, :only => [:new, :edit]
   
   def index
-    @letters = Letter.all
+    if current_user.admin?
+      @letters = Letter.all
+    else
+      @letters = current_user.center_and_teams.map { |g| g.letters }.compact.flatten
+    end
   end
 
   def show
@@ -12,20 +16,20 @@ class LettersController < ApplicationController
 
   def new
     @letter = Letter.new
-    @tinymce_hammer_required == true
+    @role_types = Role.roller
     @groups = if params[:id]
-      Group.find([params[:id]]).map { |g| [g.title, g.id] }
-    elsif Letter.first(:conditions => ['group_id IS NULL']).nil? && current_user.admin? # no letters
-      ["Alle grupper", nil]
+      Group.find([params[:id]])
+      used_roles = Letter.find_all_by_group_id(params[:id])
+      @role_types.delete_if {|r| used_roles.include?(r.last) }
     else
-      (current_user.center_and_teams - Letter.all.map(&:group)).map {|g| [g.title, g.id] }
-    end
+      current_user.center_and_teams
+    end.map {|g| [g.title, g.id] }
+    @groups.unshift ["Alle grupper", nil] if current_user.admin?    
   end
 
-  # GET /letters/1/edit
   def edit
     @letter = Letter.find(params[:id])
-    @tinymce_hammer_required == true
+    @role_types = Role.roller
     @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
     @groups.unshift ["Alle grupper", nil] if current_user.admin?
   end
