@@ -24,7 +24,7 @@ class LettersController < ApplicationController
     else
       current_user.center_and_teams
     end
-    @groups = @groups.map {|g| [g.title, g.id] } if @groups.any?
+    @groups = @groups.map {|g| [g.title, g.id] } if @groups.size > 1
     @groups.unshift ["Alle grupper", nil] if current_user.admin?    
   end
 
