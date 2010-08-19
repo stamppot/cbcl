@@ -23,7 +23,8 @@ class LettersController < ApplicationController
       @role_types.delete_if {|r| used_roles.include?(r.last) }
     else
       current_user.center_and_teams
-    end.map {|g| [g.title, g.id] }
+    end
+    @groups = @groups.map {|g| [g.title, g.id] } if @groups.any?
     @groups.unshift ["Alle grupper", nil] if current_user.admin?    
   end
 
