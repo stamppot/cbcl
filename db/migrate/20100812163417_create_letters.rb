@@ -7,10 +7,11 @@ class CreateLetters < ActiveRecord::Migration
       t.string :surveytype
       t.timestamps
     end
-    add_index :group_id
+    add_index :letters, :group_id
   end
 
   def self.down
+    remove_index :letters, :group_id
     drop_table :letters
   end
 end
