@@ -4,6 +4,7 @@ class CreateLetters < ActiveRecord::Migration
       t.integer :group_id
       t.string :name
       t.text :letter
+      t.string :surveytype
       t.timestamps
     end
     add_index :group_id
