@@ -18,9 +18,9 @@ class LettersController < ApplicationController
     @letter = Letter.new
     @role_types = Role.roller
     @groups = if params[:id]
-      Group.find([params[:id]])
       used_roles = Letter.find_all_by_group_id(params[:id])
       @role_types.delete_if {|r| used_roles.include?(r.last) }
+      Group.find([params[:id]])
     else
       current_user.center_and_teams
     end
