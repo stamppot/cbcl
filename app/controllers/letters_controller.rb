@@ -68,7 +68,7 @@ class LettersController < ApplicationController
     # find letter for team, center, system
     @letter = Letter.find_by_group_id(@entry.journal.parent_id)
     @letter = Letter.find_by_group_id(@entry.journal.center_id) unless @letter
-    @letter = Letter.find_default unless @letter
+    @letter = Letter.find_default(@entry.survey.surveytype) unless @letter
     @letter.letter.gsub!('{{login}}', @login_user.login)
     @letter.letter.gsub!('{{password}}', @entry.password)
     render :layout => false
