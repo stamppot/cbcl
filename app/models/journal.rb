@@ -108,6 +108,10 @@ class Journal < Group
   def name
     self.title
   end
+
+  def firstname
+    self.title.split(' ').first
+  end
   
   def birthdate
     self.person_info && self.person_info.birthdate

@@ -161,17 +161,16 @@ td.report_left {
 	border: 0px;
 }
 
-@media print {  
+@media print {
 	body { height: 580px; }
 	body, p, ol, ul, td {
 		margin: 0;
 		padding: 0;
-	  font-size:   14px;
-	  line-height: 20px; /*20px*/
+		font-size:   14px;
+		line-height: 20px; /*20px*/
 	}
-	#centerlabel { margin-right: 20px; margin-bottom: 10px; }
-	
-	p.spacing { height: 100px; border: 0px dashed blue; clear: both;}
-	p.spacing2 { height: 50px; border: 0px dashed blue; clear: both;}
-}
+	#centerlabel { margin-right: 20px; margin-bottom: 10px; background-color: #EEE; border: 1px solid black; }
+
+	p.spacing { height: 90px; border: 0px dashed blue; clear: both;}
+	p.spacing2 { height: 40px; border: 0px dashed blue; clear: both;}
 	

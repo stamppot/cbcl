@@ -16,7 +16,7 @@ class LettersController < ApplicationController
 
   def new
     @letter = Letter.new
-    @role_types = Role.roller
+    @role_types = Survey.surveytypes
     @groups = if params[:id]
       used_roles = Letter.find_all_by_group_id(params[:id])
       @role_types.delete_if {|r| used_roles.include?(r.last) }
@@ -25,12 +25,12 @@ class LettersController < ApplicationController
       current_user.center_and_teams
     end
     @groups = @groups.map {|g| [g.title, g.id] } if @groups.any?
-    @groups.unshift ["Alle grupper", nil] if current_user.admin? && @groups.size > 1  
+    @groups.unshift ["Alle grupper", nil] if current_user.admin? && !params[:id] && !Letter.default_letters_exist?
   end
 
   def edit
     @letter = Letter.find(params[:id])
-    @role_types = Role.roller
+    @role_types = Survey.surveytypes
     @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
     @groups.unshift ["Alle grupper", nil] if current_user.admin?
   end
@@ -66,11 +66,14 @@ class LettersController < ApplicationController
     @entry = JournalEntry.find(params[:id], :include => :login_user)
     @login_user = @entry.login_user
     # find letter for team, center, system
-    @letter = Letter.find_by_group_id(@entry.journal.parent_id)
-    @letter = Letter.find_by_group_id(@entry.journal.center_id) unless @letter
+    @letter = Letter.find_by_surveytype(@entry.survey.surveytype, :conditions => ['group_id = ?', @entry.journal.parent_id])
+    @letter = Letter.find_by_surveytype(@entry.survey.surveytype, :conditions => ['group_id = ?', @entry.journal.center_id]) unless @letter
     @letter = Letter.find_default(@entry.survey.surveytype) unless @letter
-    @letter.letter.gsub!('{{login}}', @login_user.login)
-    @letter.letter.gsub!('{{password}}', @entry.password)
+    if @letter
+      @letter.insert_text_variables(@entry)
+    else
+      render :text => "Brugernavn: #{@entry.login_user.login}<p>Password: #{@entry.password}" and return
+    end
     render :layout => false
   end
   

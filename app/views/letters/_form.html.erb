@@ -9,11 +9,21 @@
 		</tr>
 		<tr>
 			<td class="t_i"><label for="letter_surveytype">Brev til:</label></td>
-			<td class="t_i"><%= select :letter, :surveytype, @role_types %>
+			<td class="t_i"><%= select :letter, :surveytype, @role_types.map {|role| [t("roles.#{role}"), role]} %>
 		<tr>
 			<td class="t_i">Indhold:</td>
 			<td class="t"><%= tinymce(:letter, :letter) %></td>
 		</tr>
 	</table>
 	
-	<div class="help">Brug {{login}} for at indsætte brugernavn, og {{password}} for at indsætte kodeord.</div>
+	<div class="help">
+		<p>
+			Du kan indsætte nedenstående variable, som bliver erstattet af anden tekst.
+		</p>
+		<ul>
+			<li>{{login}} for at vise brugernavn</li>
+			<li>{{password}} for at vise kodeord</li>
+			<li>{{navn}} for at vise journalens fulde navn</li>
+			<li>{{fornavn}} for at vise journalens fornavn</li>
+		</ul>
+	</div>

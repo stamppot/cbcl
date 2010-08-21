@@ -165,4 +165,7 @@ class Survey < ActiveRecord::Base
     [ ["No", "Number"], ["abc", "Letter"] ]
   end
   
+  def Survey.surveytypes
+    ["parent", "teacher", "pedagogue", "youth" ]
+  end
 end
