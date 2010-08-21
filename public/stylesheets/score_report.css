@@ -14,9 +14,11 @@ body, p, ol, ul, td {
 
 #centerlabel {
 	border: 1px solid black;
-	float: right;
-	width: 40%;
-	height: 120px;
+	position: absolute;
+	top: 80px;
+	left: 500px;
+	width: 330px;
+	height: 140px;
 	background: #eee;
 }
 
@@ -26,7 +28,7 @@ td.t_i, td.p_i {
 
 td.p, td.t, td.t_i, td.p_i {
 	border: 0 yellow;
-	padding-right: 15px;
+	padding-right: 25px;
 }
 
 table.outer {
@@ -169,8 +171,21 @@ td.report_left {
 		font-size:   14px;
 		line-height: 20px; /*20px*/
 	}
-	#centerlabel { margin-right: 20px; margin-bottom: 10px; background-color: #EEE; border: 1px solid black; }
-
+	
+	td.p, td.t, td.t_i, td.p_i {
+		padding-right: 30px;
+	}
+	
+	#centerlabel {
+		border: 1px solid black;
+		position: absolute;
+		top: 70px;
+		left: 500px;
+		width: 330px;
+		height: 140px;
+		background: #eee;
+	}
+	
 	p.spacing { height: 90px; border: 0px dashed blue; clear: both;}
 	p.spacing2 { height: 40px; border: 0px dashed blue; clear: both;}
 	
