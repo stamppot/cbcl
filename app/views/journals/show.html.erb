@@ -51,8 +51,7 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<form action="/score_reports/create" id="show_score_rapports" method="post">
-		<%# form_tag create_score_report_path(:format => 'pdf'), :method => 'post', :format => 'pdf' do %>
+		<form action="/score_reports/create.pdf" id="show_score_rapports" method="post">
 			<%= hidden_field_tag 'journal_id', @group.id %>
 		<div id="answered_surveys">
 		<table id="answered" class="surveys">
@@ -88,8 +87,8 @@
 				<div class="button">
 					<%= submit_tag t('score.calculate'), :class => 'button score_calculate', :format => 'pdf' %>
 					<select autocomplete="off" id="select_format" name="format" onchange="toggleActionFormat('show_score_rapports', 'select_format')">
-						<option value="html">HTML</option>
 						<option value="pdf">PDF</option>
+						<option value="html">HTML</option>
 					</select>
 				</div>
 			<% end %>

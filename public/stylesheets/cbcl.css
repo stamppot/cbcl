@@ -317,6 +317,7 @@ table.clear td {
 }
 
 .commands { /* used in show instutition/project/etc */
+	clear: both;
 	padding: 4px;
 }
 
