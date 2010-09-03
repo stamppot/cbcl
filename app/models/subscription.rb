@@ -155,9 +155,7 @@ class Subscription < ActiveRecord::Base
     active_period = find_active_period
     self.most_recent_payment = DateTime.now.to_date.to_s(:db)
     active_period.pay!
-    # self.periods.create_copy({:active => true})
-    begin_new_period! #self.periods << Period.create({:active => true, :subscription => self})
-    # self.save
+    begin_new_period!
   end
 
   def undo_pay!

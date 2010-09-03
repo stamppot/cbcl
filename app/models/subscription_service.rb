@@ -53,10 +53,5 @@ class SubscriptionService
     end
   end
   
-  # totals for all subscriptions
-  def total(subscriptions)
-    @group.subscriptions.sum { |s| s.total_used }
-  end
-  
 
 end

@@ -10,7 +10,7 @@ class SubscriptionsController < ApplicationController
     # TODO: kun surveys som der er adgang til
     # current_user = current_user
     @options = params
-    @surveys = current_user.surveys #.group_by {|s| s.id}
+    @surveys = current_user.surveys
     @centers = 
     if current_user.has_access? :subscription_show_all
       Center.all
@@ -18,9 +18,7 @@ class SubscriptionsController < ApplicationController
       current_user.centers
     end 
     
-    @subscription_presenters = @centers.map do |center|
-      sp = SubscriptionPresenter.new(center, @surveys)
-    end
+    @subscription_presenters = @centers.map { |center| center.subscription_presenter(@surveys) }
 
     @subscription_counts_per_center = @centers.inject({}) {|hash, center| hash[center.id] = Subscription.subscriptions_count(center); hash }
     # @subscription_summaries_per_center = @centers.inject({}) {|hash, center| hash[center.id] = center.subscription_summary(params); hash }
@@ -28,19 +26,12 @@ class SubscriptionsController < ApplicationController
 
   def show
     @page_title = "CBCL - Abonnementer på spørgeskemaer"
-    # current_user = current_user
     @options = params  # for show options
     @subscription = Subscription.find(params[:id])
-    t0 = Time.now
     @subscription_count = @subscription.subscriptions_count
     @group = @subscription.center
-    t1 = Time.now
     @subscription_presenter = SubscriptionPresenter.new(@group, @group.surveys)
-    t2 = Time.now
-    sub_service = SubscriptionService.new(@group)
-    @subscription_summaries = sub_service.subscription_summary(params) # @group.subscription_summary(params)
-    t3 = Time.now
-    puts "Presenter: #{t2-t1}. Summary: #{t3-t2}. Count (details): #{t1-t0}. Total: #{t3-t1}"
+    @subscription_summaries = @group.subscription_service.subscription_summary(params) # @group.subscription_summary(params)
     @surveys = []
   end
 

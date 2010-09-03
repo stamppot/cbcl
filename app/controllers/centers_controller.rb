@@ -1,9 +1,8 @@
 # This is the controller that provides CRUD functionality for the Center model.
 class CentersController < ApplicationController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
-  helper RbacHelper
+  # helper RbacHelper
   
-  # Displays a tree of all centers visible to user.
   def index
     @page_title = "CBCL - Centre"
     @groups = current_user.centers
@@ -16,7 +15,7 @@ class CentersController < ApplicationController
     if @group.teams.size == 0
       @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
     end
-    @subscription_presenter = SubscriptionPresenter.new(@group)
+    @subscription_presenter = @group.subscription_presenter
     @subscriptions = @group.subscriptions
     @surveys = current_user.surveys.group_by {|s| s.id}
     
@@ -48,8 +47,7 @@ class CentersController < ApplicationController
     @group = Center.new
     @group.build_center_info unless @group.center_info
 
-    subscription_service = SubscriptionService.new(@group)
-    subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
+    @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
     # @group.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
@@ -74,8 +72,7 @@ class CentersController < ApplicationController
     @group = Center.find_by_id(params[:id])
     @group.build_center_info unless @group.center_info
 
-    subscription_service = SubscriptionService.new(@group)
-    subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
+    @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
     # assign properties to group
@@ -126,7 +123,7 @@ class CentersController < ApplicationController
     @user = current_user
     @raw_phrase = (request.raw_post.gsub("&_=", "")) || params[:id]
     @groups = Center.search_title_or_code(@raw_phrase)
-    @subscription_presenters = @groups.map {|g| SubscriptionPresenter.new(g)}
+    @subscription_presenters = @groups.map {|g| g.subscription_presenter }
     
     respond_to do |wants|
       wants.html  { render(:template  => "centers/searchresults" )}
@@ -138,8 +135,7 @@ class CentersController < ApplicationController
   def pay_subscriptions
     @group = Center.find(params[:id])
     if request.post? && params[:name] == "yes"
-      sub_service = SubscriptionService.new(@group)
-      flash[:notice] = "Abonnementer er betalt." if sub_service.pay_active_subscriptions! # @group.set_active_subscriptions_paid!
+      flash[:notice] = "Abonnementer er betalt." if @group.subscription_service.pay_active_subscriptions! # @group.set_active_subscriptions_paid!
       redirect_to center_path(@group)
     end
     @subscription_presenter = @group.subscription_presenter
@@ -154,8 +150,7 @@ class CentersController < ApplicationController
   def undo_pay_subscriptions
     @group = Center.find(params[:id])
     if request.post?
-      sub_service = SubscriptionService.new(@group)
-      sub_service.undo_pay_subscriptions!
+      @group.subscription_service.undo_pay_subscriptions!
       flash[:notice] = "Sidste betaling af abonnementer er fortrudt."
       redirect_to center_path(@group) and return if @group.save
     else
@@ -186,8 +181,7 @@ class CentersController < ApplicationController
     @group.subscriptions.all.each do |sub|
       sub.merge_periods!
     end
-    sub_service = SubscriptionService.new(@group)
-    @group.set_same_date_on_subscriptions!
+    @group.subscription_service.set_same_date_on_subscriptions!
     redirect_to subscriptions_path
   end
   

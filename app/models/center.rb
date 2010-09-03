@@ -22,6 +22,7 @@ class Center < Group
   
   named_scope :search_title_or_code, lambda { |phrase| { :conditions => ["groups.title LIKE ? OR groups.code LIKE ?", phrase = "%" + phrase.sub(/\=$/, "") + "%", phrase] } }
   
+  attr_accessor :subscription_service, :subscription_presenter
   # def validate
   #   unless self.code.to_s.size == 4
   #     errors.add("code", "skal være 4 cifre")
@@ -72,32 +73,7 @@ class Center < Group
       survey.age_group === age or survey.age_group === (age+2) or survey.age_group === (age-age_flex)
     end
   end
-  
-  # def update_subscriptions(surveys)
-  #   subscriptions = Subscription.for_center(self)
-  #   subscriptions.each do |sub|
-  #     if surveys.include? sub.survey_id.to_s   # in survey and in db
-  #       sub.activate!
-  #     else   # not in surveys, but in db, so deactivate
-  #       sub.deactivate!
-  #     end
-  #     surveys.delete sub.survey_id.to_s   # remove already done subs
-  #   end
-  #   # elsif not exists in db, create new subscription
-  #   surveys.each do |survey|
-  #     sub = Subscription.new
-  #     sub.state = 1
-  #     sub.survey_id = survey
-  #     sub.center = self
-  #     self.subscriptions << sub
-  #   end
-  #   
-  # rescue ActiveRecord::RecordNotFound
-  #   surveys.each do |survey|
-  #     self.subscriptions << Subscription.new(self, survey, 1)
-  #   end
-  # end
-  
+    
   # increment subscription count - move to journal_entry, higher abstraction
   def use_subscribed(survey)
     # find subscription to increment, must be same as is journal_entry
@@ -111,36 +87,18 @@ class Center < Group
     self.subscriptions.inject(0) { |memo,sub| sub.copies_used + memo;  }
   end
 
-  # # finds all periods for all subscriptions
-  # def subscription_summary(options = {})
-  #   periods = Query.new.query_subscription_periods_for_centers(self.id)
-  #   periods.group_by {|c| c["created_on"] }
-  # end
-
-  def subscription_presenter
-    SubscriptionPresenter.new(self)
+  def subscription_presenter(surveys = nil)
+    @subscription_presenter ||= SubscriptionPresenter.new(self, surveys)
   end
-  
-  # # set active periods to paid. Create new periods  
-  # def set_active_subscriptions_paid!
-  #   self.subscriptions.all { |sub| sub.pay! }
-  # end
 
-  # def undo_pay_subscriptions!
-  #   self.subscriptions.each { |sub| sub.undo_pay! }
-  # end
+  def subscription_service
+    @subscription_service ||= SubscriptionService.new(self)
+  end
 
   # did center ever pay a subscription?
   def paid_subscriptions?
     !self.subscriptions.map { |sub| sub.periods.paid }.flatten.empty?
   end
-  
-  # def set_same_date_on_subscriptions!
-  #   first_period = self.subscriptions.map {|s| s.periods}.flatten.sort_by(&:created_on).first
-  #   self.subscriptions.each do |sub|
-  #     sub.periods.each { |p| p.created_on = first_period.created_on; p.save }
-  #   end
-  # end
   
   # return the next team id. Id must be highest id so far plus 1, and if doesn't exist
   def next_team_id

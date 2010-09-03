@@ -14,7 +14,6 @@
 		<th class="number">Brugte skemaer</th>
 		<th>Betalt</th>
 		<th>Betalingsdato</th>
-		<!-- <th>Brugt siden sidst<br/>(ikke betalt)</th> -->
 	</tr>
 	<%
 	date1 = nil 
@@ -35,7 +34,7 @@
 	%>
 	<tr>
 		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
-		<td class="number"><%= summary[:total_used] %></td>
+		<td class="number"><%= summary[:used] %></td>
 		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>
 		<td><% if summary[:paid_on] && summary[:paid] %>
 				<%= summary[:paid_on].to_date.strftime("%e %b %y") %>
@@ -46,7 +45,6 @@
 					<%= link_button t('subscription.merge_periods'), {:controller => :centers, :action => 'merge_periods', :id => @group }, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
 				<% end %>
 		</td>
-		<!-- <td class="number"><% summary[:active] %></td> -->
 	</tr>
 	<% end %>
 	<tr>
