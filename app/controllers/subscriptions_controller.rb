@@ -28,11 +28,11 @@ class SubscriptionsController < ApplicationController
     @page_title = "CBCL - Abonnementer på spørgeskemaer"
     @options = params  # for show options
     @subscription = Subscription.find(params[:id])
-    @subscription_count = @subscription.subscriptions_count
+    # @subscription_count = @subscription.subscriptions_count
     @group = @subscription.center
-    @subscription_presenter = SubscriptionPresenter.new(@group, @group.surveys)
+    @subscription_presenter = @group.subscription_presenter(@group.surveys)
     @subscription_summaries = @group.subscription_service.subscription_summary(params) # @group.subscription_summary(params)
-    @surveys = []
+    # @surveys = []
   end
 
   def new
