@@ -73,5 +73,5 @@ $$('.tabs').each(function(tab_group){
 	<%= link_button t('delete'), { :action => :delete, :id => @group }, 'center_delete', :title => t('center.delete') %>
 	<%= link_button t('edit'), edit_center_path(@group), 'center_edit', :title => t('center.edit') %>
 	<% end %>
-	<%= link_button t('go_back_to_list'), centers_path, 'go_back', { :title => t('go_back_to_list') } %>
+	<%= back_button centers_path %>
 </div>

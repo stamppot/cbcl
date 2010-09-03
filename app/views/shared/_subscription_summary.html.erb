@@ -1,4 +1,4 @@
-<% @summaries = @subscription_presenter.summary_view %>
+<% @summaries = @subscription_presenter.summary_view[:periods] %>
 
 <% if @options %>
 	<% buttons = {"all" => "Alle", "active" => "Aktive", "paid" => "Betalte"} %>
@@ -35,7 +35,7 @@
 	%>
 	<tr>
 		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
-		<td class="number"><%= summary[:used] %></td>
+		<td class="number"><%= summary[:total_used] %></td>
 		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>
 		<td><% if summary[:paid_on] && summary[:paid] %>
 				<%= summary[:paid_on].to_date.strftime("%e %b %y") %>
@@ -51,6 +51,6 @@
 	<% end %>
 	<tr>
 		<td>Total:</td>
-		<td class="number"><%= @summaries.map {|b| b[:total_used] }.sum %></td>
+		<td class="number"><%= @subscription_presenter.summary_view[:total_periods] %></td>
 	</tr>
 </table>

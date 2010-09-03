@@ -37,7 +37,8 @@ class SubscriptionsController < ApplicationController
     t1 = Time.now
     @subscription_presenter = SubscriptionPresenter.new(@group, @group.surveys)
     t2 = Time.now
-    @subscription_summaries = @group.subscription_summary(params)
+    sub_service = SubscriptionService.new(@group)
+    @subscription_summaries = sub_service.subscription_summary(params) # @group.subscription_summary(params)
     t3 = Time.now
     puts "Presenter: #{t2-t1}. Summary: #{t3-t2}. Count (details): #{t1-t0}. Total: #{t3-t1}"
     @surveys = []

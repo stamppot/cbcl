@@ -8,5 +8,5 @@ Er du sikker på at abonnementer er betalt?
 
 <% form_tag :action => :pay_subscriptions, :id => @group  do %>
 <%= submit_tag 'Ja, sæt til betalt', :name => 'yes', :class => "button accept" %>
-<%= submit_tag 'Nej, afbryd', :name => 'no', :class => "button deny" %>
+<%= link_button 'Nej, afbryd', center_path(@group), {:class => "button cancel"}, :onclick => 'history.go(-1)' %>
 <% end %>

@@ -22,7 +22,7 @@ module ApplicationHelper
   LINE_LENGTH = 78 unless defined? LINE_LENGTH
 
   def back_button(url, options = {})
-    link_button t('go_back'), url, 'go_back', options.merge(:title => t('go_back'))
+    link_button t('go_back'), url, 'go_back', options.merge(:title => t('go_back')).merge(:onclick => 'history.go(-1);return false;')
   end
   
   def link_button(text, url, btn_type = nil, options = {})

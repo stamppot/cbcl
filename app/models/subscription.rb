@@ -145,6 +145,7 @@ class Subscription < ActiveRecord::Base
     puts "PAYING PERIOD 1: #{p.inspect}"
     p.pay!
     puts "PAYING PERIOD 2: #{p.inspect}"
+    self.most_recent_payment = DateTime.now.to_date.to_s(:db)
     # begin new period if no active
      begin_new_period! unless find_active_period
   end
@@ -152,6 +153,7 @@ class Subscription < ActiveRecord::Base
   # pay active period
   def pay!
     active_period = find_active_period
+    self.most_recent_payment = DateTime.now.to_date.to_s(:db)
     active_period.pay!
     # self.periods.create_copy({:active => true})
     begin_new_period! #self.periods << Period.create({:active => true, :subscription => self})
@@ -165,6 +167,7 @@ class Subscription < ActiveRecord::Base
       if second_last_copy = self.periods.inactive.paid.last
         second_last_copy.used += used
         second_last_copy.undo_pay!
+        self.most_recent_payment = second_last_copy.paid_on
         active_period.destroy
       end
     end

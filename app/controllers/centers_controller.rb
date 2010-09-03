@@ -48,7 +48,9 @@ class CentersController < ApplicationController
     @group = Center.new
     @group.build_center_info unless @group.center_info
 
-    @group.update_subscriptions(params[:group].delete(:surveys) || [])
+    subscription_service = SubscriptionService.new(@group)
+    subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
+    # @group.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
     # assign properties to group
@@ -72,7 +74,8 @@ class CentersController < ApplicationController
     @group = Center.find_by_id(params[:id])
     @group.build_center_info unless @group.center_info
 
-    @group.update_subscriptions(params[:group].delete(:surveys) || [])
+    subscription_service = SubscriptionService.new(@group)
+    subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
     # assign properties to group
@@ -134,8 +137,9 @@ class CentersController < ApplicationController
   # pay all active subscriptions
   def pay_subscriptions
     @group = Center.find(params[:id])
-    if request.post?
-      flash[:notice] = "Abonnementer er betalt." if @group.set_active_subscriptions_paid!
+    if request.post? && params[:name] == "yes"
+      sub_service = SubscriptionService.new(@group)
+      flash[:notice] = "Abonnementer er betalt." if sub_service.pay_active_subscriptions! # @group.set_active_subscriptions_paid!
       redirect_to center_path(@group)
     end
     @subscription_presenter = @group.subscription_presenter
@@ -150,7 +154,8 @@ class CentersController < ApplicationController
   def undo_pay_subscriptions
     @group = Center.find(params[:id])
     if request.post?
-      @group.undo_pay_subscriptions!
+      sub_service = SubscriptionService.new(@group)
+      sub_service.undo_pay_subscriptions!
       flash[:notice] = "Sidste betaling af abonnementer er fortrudt."
       redirect_to center_path(@group) and return if @group.save
     else
@@ -181,6 +186,7 @@ class CentersController < ApplicationController
     @group.subscriptions.all.each do |sub|
       sub.merge_periods!
     end
+    sub_service = SubscriptionService.new(@group)
     @group.set_same_date_on_subscriptions!
     redirect_to subscriptions_path
   end
