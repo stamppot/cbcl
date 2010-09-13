@@ -47,7 +47,7 @@ class LettersController < ApplicationController
 
   def update
     @letter = Letter.find(params[:id])
-    params[:letter][:group_id] = nil if params[:letter][:group_id].blank?
+    # params[:letter][:group] = Group.find(params[:letter][:group]) if params[:letter][:group]
 
     if @letter.update_attributes(params[:letter])
       flash[:notice] = 'Brevet er rettet.'

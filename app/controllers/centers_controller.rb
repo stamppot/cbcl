@@ -203,7 +203,7 @@ class CentersController < ApplicationController
     end
   end
   
-  # def check_access
-  #   redirect_to login_path unless current_user
-  # end
+  def check_access
+    redirect_to login_path unless current_user
+  end
 end

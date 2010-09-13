@@ -24,6 +24,10 @@ module ApplicationHelper
   def back_button(url, options = {})
     link_button t('go_back'), url, 'go_back', options.merge(:title => t('go_back')).merge(:onclick => 'history.go(-1);return false;')
   end
+
+  def back_to_button(url, options = {})
+    link_button t('go_back'), url, 'go_back', options.merge(:title => t('go_back'))
+  end
   
   def link_button(text, url, btn_type = nil, options = {})
     method = options.delete(:method)

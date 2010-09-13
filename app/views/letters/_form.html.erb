@@ -4,12 +4,14 @@
 			<td class="t"><%= text_field "letter", "name" %></td>
 		</tr>
 		<tr>
-			<td class="t_i"><label for="letter_group">Gruppe:</label></td>
-			<td class="t_i"><%= select :letter, :group_id, @groups, :selected => @group %></td>
+			<td class="t_i"><label for="letter_surveytype">Brev til:</label></td>
+			<td class="t_i"><%= select :letter, :surveytype, @role_types.map {|role| [t("roles.#{role}"), role]} %></td>
 		</tr>
 		<tr>
-			<td class="t_i"><label for="letter_surveytype">Brev til:</label></td>
-			<td class="t_i"><%= select :letter, :surveytype, @role_types.map {|role| [t("roles.#{role}"), role]} %>
+			<td class="t_i"><label for="letter_group">Gruppe:</label></td>
+			<% group = @letter.group %>
+			<td class="t_i"><%= select :letter, :group_id, @groups %></td>
+		</tr>
 		<tr>
 			<td class="t_i">Indhold:</td>
 			<td class="t"><%= tinymce(:letter, :letter) %></td>
