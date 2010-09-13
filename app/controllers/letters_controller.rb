@@ -74,7 +74,7 @@ class LettersController < ApplicationController
     else
       render :text => "Brugernavn: #{@entry.login_user.login}<p>Password: #{@entry.password}" and return
     end
-    render
+    render :layout => 'letters'
   end
   
   def check_access
