@@ -1,6 +1,5 @@
 class LettersController < ApplicationController
-  # layout 'cbcl', :except => [:new, :edit]
-  layout 'wysiwyg' #, :only => [:new, :edit]
+  layout 'wysiwyg'
   
   def index
     if current_user.admin?
@@ -47,7 +46,6 @@ class LettersController < ApplicationController
 
   def update
     @letter = Letter.find(params[:id])
-    # params[:letter][:group] = Group.find(params[:letter][:group]) if params[:letter][:group]
 
     if @letter.update_attributes(params[:letter])
       flash[:notice] = 'Brevet er rettet.'

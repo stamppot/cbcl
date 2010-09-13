@@ -192,8 +192,6 @@ class CentersController < ApplicationController
   end
   
   protected
-  # before_filter :user_access, :except => [ :new, :delete, :create, :edit ]
-  # before_filter :check_access
   before_filter :admin_access, :only => [ :new, :delete, :create, :edit, :pay_subscriptions, :undo_pay_subscriptions ]
   
   def admin_access
