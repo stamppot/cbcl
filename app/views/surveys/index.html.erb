@@ -1,7 +1,7 @@
 <h1>Spørgeskema<%= "er" if @surveys && @surveys.size > 1 %></h1>
 <% if @surveys.nil? or @surveys.empty? %>
 	Centret abbonnerer ikke på nogen spørgeskemaer.
-	Kontakt Det Børne- og Ungdomspsykiatriske Hus.
+	Kontakt Børne- og Ungdomspsykiatrisk Afdeling Odense.
 	
 	<p><%= link_button t('logout'), logout_path, 'logout' %></p>
 	

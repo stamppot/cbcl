@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     @center_title = if current_user && current_user.center
       current_user.center.title
     else
-      "Børne- og Ungdomspsykiatriske Hus"
+      "Børne- og Ungdomspsykiatrisk Afdeling Odense"
     end
   end
 
