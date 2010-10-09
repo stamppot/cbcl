@@ -12,7 +12,9 @@ class Answer < ActiveRecord::Base
   # before_save :update_ratings_count
   
   def update_ratings_count
-    self.ratings_count = self.question.ratings_count - self.ratings.count
+		answer_ratings_count = self.ratings.count # subtract values of 9
+		answer_ratings_count -= self.ratings.select { |ac| ac.value == "9"}.size
+    self.ratings_count = self.question.ratings_count - answer_ratings_count
   end
 
   def answer_cell_exists?(col, row)
