@@ -2,9 +2,14 @@ require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 
 class AnswerCell < ActiveRecord::Base
+	def self.answer_types
+    {"Rating" => 0, "Checkbox" => 1, "ListItemComment" => 2, "SelectOption" => 3, "TextBox" => 4, "ListItem" => 5}
+  end
+	
   belongs_to :answer
   set_primary_key "id"
-  named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
+  # named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
+  named_scope :ratings, :conditions => ['cell_type = ?', AnswerCell.answer_types['Rating']]
   named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
   
@@ -12,13 +17,13 @@ class AnswerCell < ActiveRecord::Base
 
   def change_value(new_value, valid_values = {})
     new_value = new_value || ""
-    if valid_values[:type].to_s =~ /Rating|SelectOption/   # if not valid, keep existing value
+    if self.rating? || valid_values[:type].to_s == "SelectOption"   # if not valid, keep existing value
       new_value = "9" if new_value.blank?
       if new_value != self.value && valid_values[:values].include?(new_value)
         self.value = new_value
       end
     else  # other types
-      self.value = CGI.escape(new_value) if new_value != self.value  # TODO: escape value
+      self.value_text = CGI.escape(new_value) if new_value != self.value_text  # TODO: escape value
     end
     return changed?
   end
@@ -40,6 +45,28 @@ class AnswerCell < ActiveRecord::Base
   return (id = cell.id) && (answer_id == cell.answer_id) && (col == cell.col) && (row == cell.row) &&
     (item = cell.item) && (value = cell.value)
   end
+	
+	def answer_type=(a_type)  
+	  self.cell_type = AnswerCell.answer_types[a_type]  
+	end  
+
+	def answer_type  
+	  AnswerCell.answer_types.index(self.cell_type)
+	end
+	
+	def text?
+		self.text
+	end
+	
+	def rating?
+		self.rating
+	end
+	
+	def cell_value
+		self.value_text || self.value
+	end
+
+		
   # 
   # def to_xml
   #   r = []

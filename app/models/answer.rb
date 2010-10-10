@@ -2,10 +2,10 @@ require 'facets/dictionary'
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 class Answer < ActiveRecord::Base
-  has_many :test_cells
   belongs_to :survey_answer
-  has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
   belongs_to :question
+  # has_many :test_cells
+  has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
   has_many :variables
   validates_presence_of :question_id, :survey_answer_id
 
@@ -31,14 +31,18 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
         cells[var.var.to_sym] = value
       else  # default var name
-        # answer_type = cell.answertype
+        answer_type = cell.answer_type
+				item = cell.item || ""
         # item = "" if cell.item.blank?
-        answer_type, item = self.question.get_answertype(cell.row, cell.col)
-        item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
+        # answer_type, item = self.question.get_answertype(cell.row, cell.col)
+        item << "hv" if (item.nil? or !(item =~ /hv$/)) && ac.text?
+        # item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
         cells[var] = 
-        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-          CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
+        if cell.text? && !cell.value_text.blank? #answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+          CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
+        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+#          CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
           value
         end
@@ -63,9 +67,9 @@ class Answer < ActiveRecord::Base
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
         c[:var] = var.var.to_sym
       else  # default var name
-        # answer_type = cell.answertype
-        # item = "" if cell.item.blank?
-        answer_type, item = self.question.get_answertype(cell.row, cell.col)
+        answer_type = cell.answer_type
+        item = cell.item || ""
+        # answer_type, item = self.question.get_answertype(cell.row, cell.col)
         if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
           item << "hv" 
           type = :String
@@ -73,11 +77,15 @@ class Answer < ActiveRecord::Base
         var = "#{prefix}#{q}#{item}".to_sym
         c[:var] = var
         # cs[var] = 
-        if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+        #   type = "String"
+        #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
+        if cell.text? !cell.cell_value.blank?
           type = "String"
-          cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
+          cell.value_text = CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
         end
-        value = cell.value.to_i if type == :Integer && ! cell.value.blank?
+        # value = cell.value.to_i if type == :Integer && !cell.value.blank?
+        value = cell.value.to_i if !cell.text? && !cell.value.blank?
         c[:type] = type
         c[:v] = value
         puts c.inspect
@@ -92,11 +100,15 @@ class Answer < ActiveRecord::Base
   # returns array of cells. Sets answertype
   def create_cells_optimized(cells = {}, valid_values = {})
     new_cells = []
+		types = AnswerCell.answer_types
     cells.each do |cell_id, fields|  # hash is {item=>x, value=>y, qtype=>z, col=>a, row=>b}
       value = fields[:value]
       next if value.blank? # skip blanks
       fields[:answer_id] = self.id
-      fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
+      # fields[:answertype] = valid_values[cell_id][:type]  # not necessarily needed
+			fields[:cell_type] = AnswerCell.answer_types[valid_values[cell_id][:type]]
+			# 09-10-2010
+			fields[:rating] = valid_values[cell_id][:type] == "Rating"  # set boolean
       fields[:item] = valid_values[cell_id][:item]        # save item, used to calculate score
       
       if valid_values[cell_id][:type] =~ /Rating|SelectOption/       # validates value for rating and selectoption
@@ -104,10 +116,21 @@ class Answer < ActiveRecord::Base
          next if !valid_values[cell_id][:values].include?(value) # skip invalid ratings & selectoptions
         # value = "" if value.blank?     # only save 9 as unanswered for rating and selectoption
         fields[:value] = value if valid_values[cell_id][:values].include? value # only save valid value
+				fields[:text] = false
+			elsif valid_values[cell_id][:type] == "Checkbox"
+				fields[:value] = value
+				fields[:text] = false
       else
-        fields[:value] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+        fields[:value_text] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+        fields[:value] = nil
+				fields[:text] = true
       end
-      new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:answertype], fields[:value]]
+			# TODO: writes value to both columns. Later, fix it so only text values are written to value_text
+      # fields[:value_text] = fields[:value]
+			fields[:cell_type] = types[valid_values[cell_id][:type]]
+			# puts "create_cells_optimized: #{fields.inspect}"
+      new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
+      # new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:answertype], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
     end
     # puts "create_cells: #{new_cells.size} cells"
     return new_cells
@@ -150,40 +173,43 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
 
-  # returns array of cells to create
-  def add_missing_cells_optimized
-    a_cells = self.answer_cells.ratings
-    count = 0
-    # find missing
-    cells = a_cells.map {|a| [a.row, a.col] }
-    cell_arr = cells.first
-    return if !(cell_arr && cell_arr.size == 2) 
-
-    q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
-    q_cells_size = q_cells.size
-    missing_cells = q_cells - cells
-
-    new_cells = []
-    missing_cells.each do |m_cell|
-      row, col = m_cell
-      find_row = row - 1 # try one before this
-      cells_away = 1 # how far the found cell is from the one to fill in
-      while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
-        find_row -= 1
-        cells_away += 1
-      end
-      if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
-        cells_away.times { item.succ! }
-        unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
-          new_cells << self.answer_cells.build(:item => item, :row => row, :col => col, :answertype => 'Rating', :value => '')
-          count += 1
-          # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
-        end
-      end
-      row = col = find_row = cells_away = prev_item = exists = nil
-    end if self.survey_answer.done
-    new_cells
-  end
+  # # returns array of cells to create
+  # def add_missing_cells_optimized
+  #   a_cells = self.answer_cells.ratings
+  #   count = 0
+  #   # find missing
+  #   cells = a_cells.map {|a| [a.row, a.col] }
+  #   cell_arr = cells.first
+  #   return if !(cell_arr && cell_arr.size == 2) 
+  # 
+  #   q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
+  #   q_cells_size = q_cells.size
+  #   missing_cells = q_cells - cells
+  # 
+  #   new_cells = []
+  #   missing_cells.each do |m_cell|
+  #     row, col = m_cell
+  #     find_row = row - 1 # try one before this
+  #     cells_away = 1 # how far the found cell is from the one to fill in
+  #     while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
+  #       find_row -= 1
+  #       cells_away += 1
+  #     end
+  #     if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
+  #       cells_away.times { item.succ! }
+  #       unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
+  #         new_cells << self.answer_cells.build( :item => item, :row => row, :col => col,
+  #  																								:cell_type => AnswerCell.answer_types['Rating'],
+  #  																								:answertype => 'Rating',
+  #  																								:value => '')
+  #         count += 1
+  #         # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
+  #       end
+  #     end
+  #     row = col = find_row = cells_away = prev_item = exists = nil
+  #   end if self.survey_answer.done
+  #   new_cells
+  # end
   
   def print
     output = "Answer: #{self.number}<br>"
@@ -214,7 +240,7 @@ class Answer < ActiveRecord::Base
       q_cell = q_cells[a_cell.row][a_cell.col]
       if q_cell && q_cell.answer_item
         a_cell.item = q_cell.answer_item
-        a_cell.answertype = q_cell.type unless a_cell.answertype
+        a_cell.answer_type = q_cell.type unless a_cell.answer_type
         a_cell.save
         a_cell = nil
         counter += 1

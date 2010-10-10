@@ -65,14 +65,14 @@ class Survey < ActiveRecord::Base
     return self  # return survey with questions with values (answers)
   end
 
-  def merge_answertype(survey_answer)
-    survey_answer.answers.each do |answer|
-      # find question which matches answer
-      question = self.questions.detect { |question| question.id == answer.question_id }
-      question.merge_answertype(answer) if question
-    end
-    return self  # return survey with questions with values (answers)
-  end
+  # def merge_answertype(survey_answer)
+  #   survey_answer.answers.each do |answer|
+  #     # find question which matches answer
+  #     question = self.questions.detect { |question| question.id == answer.question_id }
+  #     question.merge_answertype(answer) if question
+  #   end
+  #   return self  # return survey with questions with values (answers)
+  # end
 
   # users that can answer a given survey
   def answer_by

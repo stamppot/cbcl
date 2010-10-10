@@ -826,7 +826,7 @@ class Rating < QuestionCell
     show_label = self.question_items.map { |item| item.text.to_i }.select {|i| i == 0}.size > 1
     newform = div_item((show_label ? label.join(", ") : ""), "radiolabel") <<
     div_item("<input id='#{c_id}' " <<
-    "name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value + "'")} size='2' >", "radio")  << # removed />
+    "name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value.to_s + "'")} size='2' >", "radio")  << # removed />
     "\n" << self.add_validation(options)
     return newform
   end

@@ -3,14 +3,14 @@ require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 
 class SurveyAnswer < ActiveRecord::Base
+  belongs_to :survey
+  belongs_to :journal
+  belongs_to :center
   has_many :answers, :dependent => :destroy, :include => [ :answer_cells ], :order => :number
   #belongs_to :journal_entry
   has_one :journal_entry
-  belongs_to :survey
   has_one :score_rapport
   has_one :csv_answer
-  belongs_to :journal
-  belongs_to :center
   
   named_scope :finished, :conditions => ['done = ?', true]
   named_scope :order_by, lambda { |column| { :order => column } }
@@ -19,7 +19,7 @@ class SurveyAnswer < ActiveRecord::Base
   named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
-  named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
+  named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } }
   named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_answers.survey_id = ?", survey_id] } }
   named_scope :with_journals, :joins => "INNER JOIN `journal_entries` ON `journal_entries`.journal_id = `journal_entries`.survey_answer_id", :include => {:journal_entry => :journal}
   named_scope :for_entries, lambda { |entry_ids| { :conditions => { :journal_entry_id => entry_ids } } } # ["survey_answers.journal_entry_id IN (?)", 
@@ -94,9 +94,9 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   # returns array of cells that must be saved
-  def add_missing_cells_optimized
-    self.max_answer.add_missing_cells_optimized
-  end
+  # def add_missing_cells_optimized
+  #   self.max_answer.add_missing_cells_optimized
+  # end
   
   def add_missing_cells
     self.max_answer.add_missing_cells
@@ -208,7 +208,7 @@ class SurveyAnswer < ActiveRecord::Base
           q = "Q#{$1}"
           a_cell = {:answer_id => an_answer.id, :row => $2.to_i, :col => $3.to_i, :value => value}
           if answer_cell = an_answer.exists?(a_cell[:row], a_cell[:col]) # update
-            update_cells << [answer_cell.id,  answer_cell.value] if answer_cell.change_value(value, the_valid_values[q][cell])
+            update_cells << [answer_cell.id,  answer_cell.value, answer_cell.value_text] if answer_cell.change_value(value, the_valid_values[q][cell])
           else
             new_cells[cell] = a_cell  # insert
           end
@@ -217,11 +217,12 @@ class SurveyAnswer < ActiveRecord::Base
       insert_cells += an_answer.create_cells_optimized(new_cells, the_valid_values[key])
       new_cells.clear
     end
-    columns = [:answer_id, :row, :col, :item, :answertype, :value]
-    t = Time.now; new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value]); e = Time.now
+    # columns = [:answer_id, :row, :col, :item, :answertype, :value, :rating, :text, :value_text, :cell_type]
+    columns = [:answer_id, :row, :col, :item, :value, :rating, :text, :value_text, :cell_type]
+    t = Time.now; new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
     # puts "MASS IMPORT ANSWER CELLS (#{new_cells_no.num_inserts}): #{e-t}"
 
-    t = Time.now; updated_cells_no = AnswerCell.import([:id, :value], update_cells, :on_duplicate_key_update => [:value]); e = Time.now
+    t = Time.now; updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
     # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
     return self
   end

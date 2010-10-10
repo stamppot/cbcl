@@ -45,14 +45,14 @@ class ScoreRapport < ActiveRecord::Base
 
   # if scores has been changed, regenerate score_rapport
   def regenerate(force = false)
-    if Score.last_updated > self.updated_at
+    # if Score.last_updated > self.updated_at
       survey_answer_id = self.survey_answer_id
       self.score_results.map &:destroy
       survey_answer = SurveyAnswer.find survey_answer_id
       survey_answer.generate_score_rapport
       self.updated_at = Time.now
       save
-    end
+    # end
   end
 
   def to_xml(options = {})

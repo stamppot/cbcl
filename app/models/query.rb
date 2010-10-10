@@ -184,28 +184,28 @@ class Query
            age_filter(age_low, age_high) << survey_filter(surveys) << filter_entries(entries) << group_by("survey_answer_id")).join
    end
 
-   def not_answered(answer_id)
-     # use this table to make a new query an answer_cells where answer_cells.answer_id = aid from below - to get answer_cells.value
-     # todo: don't select answers, use answers.question_id
-     q_cells = do_query("SELECT question_cells.id as qid, survey_answer_id, answers.id as aid, question_cells.question_id, row, col FROM cbcl_production.answers, question_cells
-     where answers.id = #{answer_id}
-     and answers.question_id = question_cells.question_id
-     and type = 'Rating'").build_hash {|c| [c['row'], c] } #.group_by {|c| c['row']}
-     
-     # finds answer cells
-    a_cells = do_query "SELECT answer_cells.col, answer_cells.row, answer_id, value, answertype FROM answer_cells
-    where answer_cells.answer_id = #{answer_id}
-   	and (value = '9' or value = '' or value IS NULL)
-   	order by row, col"
-
-    
-    a_cells.inject(0) do |count, h| 
-      qc = q_cells[h['row']]
-      count += (qc && qc['col'] == h['col']) ? 0 : 1
-    end
-    
-    # do_query(query)
-   end
+   # def not_answered(answer_id)
+   #   # use this table to make a new query an answer_cells where answer_cells.answer_id = aid from below - to get answer_cells.value
+   #   # todo: don't select answers, use answers.question_id
+   #   q_cells = do_query("SELECT question_cells.id as qid, survey_answer_id, answers.id as aid, question_cells.question_id, row, col FROM cbcl_production.answers, question_cells
+   #   where answers.id = #{answer_id}
+   #   and answers.question_id = question_cells.question_id
+   #   and type = 'Rating'").build_hash {|c| [c['row'], c] } #.group_by {|c| c['row']}
+   #   
+   #   # finds answer cells
+   #  a_cells = do_query "SELECT answer_cells.col, answer_cells.row, answer_id, value, cell_type, answertype FROM answer_cells
+   #  where answer_cells.answer_id = #{answer_id}
+   # 	and (value = '9' or value = '' or value IS NULL)
+   # 	order by row, col"
+   # 
+   #  
+   #  a_cells.inject(0) do |count, h| 
+   #    qc = q_cells[h['row']]
+   #    count += (qc && qc['col'] == h['col']) ? 0 : 1
+   #  end
+   #  
+   #  # do_query(query)
+   # end
    
    def do_query(query = nil, to_hash = false)
      mysql_result = ActiveRecord::Base.connection.execute(query || self.query).all_hashes

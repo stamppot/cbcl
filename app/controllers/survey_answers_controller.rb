@@ -163,6 +163,7 @@ class SurveyAnswersController < ApplicationController
   
   def check_access
     redirect_to login_path and return unless current_user
+		return true if current_user.admin?
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
       access = if params[:action] =~ /show_only/
