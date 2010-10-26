@@ -1,5 +1,6 @@
-config/sphinx.yml:
-  min_prefix_len: 3
+development:
+  # min_prefix_len: 3
+  enable_star: 0
 production:
   #min_prefix_len: 3
   enable_star: 0
@@ -9,3 +10,5 @@ production:
   pid_file: "/var/www/cbcl/shared/searchd.production.pid"
   config_file: "/var/www/cbcl/shared/config/production.sphinx.conf"
 test:
+  enable_star: 0
+  

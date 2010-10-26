@@ -1,6 +1,5 @@
 class LoginController < ApplicationController
   caches_page :index, :logout
-  # helper LoginHelper
   
   def index
     redirect_to survey_start_path and return if current_user && current_user.login_user
