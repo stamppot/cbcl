@@ -17,6 +17,10 @@ class Variable < ActiveRecord::Base
   @@question_hash = nil
   @@survey_hash = nil
   
+	def question_cell
+		question.question_cells.select { |qc| qc.row == self.row && qc.col == self.col}.first
+	end
+	
   # order in hash by hash[by][row][col], where by is by default survey_id or question_id
   def self.all_in_hash(options = {})
     by_id = options[:by] || 'survey_id'

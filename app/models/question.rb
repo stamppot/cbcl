@@ -118,22 +118,39 @@ class Question < ActiveRecord::Base
         else
           item = cell.answer_item
           item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-          # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
-          #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
-          # else
-          # puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: " + "#{prefix}#{q}#{item}"
           cell.var = "#{prefix}#{q}#{item}"
-          # puts "cell: #{cell.items} #{cell.inspect}" if cell.var =~ /ccyviiihandbe/
         end
       else
         cell.var = "" unless cell.var.nil?
-        # puts "!!! #{cell.inspect} : #{cell.items}" if cell.items =~ /radio/
-        # puts "!!! TRYING to set cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: " + "#{prefix}#{q}#{item} - WRONG TYPE: #{cell.type}"
       end
       cell.save
+			cell
     end
   end
   
+	# for codebook
+  # def codes
+  #   prefix = survey.prefix
+  # 
+  #   q = self.number.to_roman.downcase
+  #   self.question_cells.map do |cell|
+  #     if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
+  #       var = Variable.get_by_question(id, cell.row, cell.col)
+  #       if var
+  #         # puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: #{var.var}"
+  #         cell.var = var.var
+  #       else
+  #         item = cell.answer_item
+  #         item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
+  #         cell.var = "#{prefix}#{q}#{item}"
+  #       end
+  #     else
+  #       cell.var = "" unless cell.var.nil?
+  #     end
+  #     cell.save
+  # 			cell
+  #   end
+  # end
   
   # contains only answerable cells
   def cell_variables(prefix = nil)
@@ -150,41 +167,37 @@ class Question < ActiveRecord::Base
         else  # default var name
           item = cell.answer_item
           item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-          # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
-          #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
-          # else
           cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#NULL!" || cell.value # !! default value is "", not nil
-          # end
         end
       end
     end
     return cells
   end
 
-  def test_variables(prefix = nil)
-    cells = Dictionary.new
-    prefix ||= survey.prefix
-
-    q = self.number.to_roman.downcase
-    # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
-    self.question_cells.map do |cell|
-      if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|ListItem|SelectOption|TextBox/
-        var = Variable.get_by_question(id, cell.row, cell.col)
-        if var
-          cells[var.var.to_sym] = var.var + ":" + (cell.value || "#NULL!")
-        else  # default var name
-          item = cell.answer_item
-          item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-          # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
-          #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
-          # else
-          cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#{prefix}#{q}#{item}:" + ("#NULL!" || cell.value) # !! default value is "", not nil
-          # end
-        end
-      end
-    end
-    return cells
-  end
+  # def test_variables(prefix = nil)
+  #   cells = Dictionary.new
+  #   prefix ||= survey.prefix
+  # 
+  #   q = self.number.to_roman.downcase
+  #   # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
+  #   self.question_cells.map do |cell|
+  #     if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|ListItem|SelectOption|TextBox/
+  #       var = Variable.get_by_question(id, cell.row, cell.col)
+  #       if var
+  #         cells[var.var.to_sym] = var.var + ":" + (cell.value || "#NULL!")
+  #       else  # default var name
+  #         item = cell.answer_item
+  #         item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
+  #         # if "#{prefix}#{item}" =~ /^ccy$|^ccy1f$|^ccy1g$|^ccy3hv$|^ycy$|^ycy1f$|^ycy1g$/
+  #         #   puts "WARNING: #{cell.inspect} has (wrong?) item: " + "#{prefix}#{item}"
+  #         # else
+  #         cells["#{prefix}#{q}#{item}".to_sym] = cell.value.blank? && "#{prefix}#{q}#{item}:" + ("#NULL!" || cell.value) # !! default value is "", not nil
+  #         # end
+  #       end
+  #     end
+  #   end
+  #   return cells
+  # end
   
   def to_xml2
     xml = []
