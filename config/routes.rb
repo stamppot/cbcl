@@ -107,6 +107,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # map.destroy_login 'journal_entries/destroy_login/:id', :controller     => 'journal_entries', :action => 'destroy_login', :only => :post
   
+  map.user_search 'users/live_search/:id', :controller   => 'users', :action => 'live_search'
   map.new_user 'users/new/:id', :controller => 'users', :action => 'new'
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
   map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'

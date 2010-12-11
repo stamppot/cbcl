@@ -9,15 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819143344) do
+ActiveRecord::Schema.define(:version => 20101211173347) do
 
   create_table "answer_cells", :force => true do |t|
-    t.integer "answer_id",                :default => 0, :null => false
-    t.string  "answertype", :limit => 20
-    t.integer "col",                      :default => 0, :null => false
-    t.integer "row",                      :default => 0, :null => false
+    t.integer "answer_id",               :default => 0, :null => false
+    t.integer "col",                     :default => 0, :null => false
+    t.integer "row",                     :default => 0, :null => false
     t.string  "item",       :limit => 5
-    t.string  "value"
+    t.boolean "rating"
+    t.string  "value_text"
+    t.boolean "text"
+    t.integer "cell_type"
+    t.integer "value"
   end
 
   add_index "answer_cells", ["answer_id"], :name => "index_answer_cells_on_answer_id"
@@ -59,6 +62,8 @@ ActiveRecord::Schema.define(:version => 20100819143344) do
     t.integer "age"
     t.integer "sex"
     t.text    "answer"
+    t.string  "header"
+    t.string  "journal_info"
   end
 
   add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
@@ -88,6 +93,11 @@ ActiveRecord::Schema.define(:version => 20100819143344) do
     t.string  "question"
     t.string  "answer"
     t.string  "title"
+  end
+
+  create_table "group_permissions", :force => true do |t|
+    t.integer "group_id"
+    t.integer "permission_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -146,10 +156,12 @@ ActiveRecord::Schema.define(:version => 20100819143344) do
     t.integer  "group_id"
     t.string   "name"
     t.text     "letter"
+    t.string   "surveytype"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "surveytype"
   end
+
+  add_index "letters", ["group_id"], :name => "index_letters_on_group_id"
 
   create_table "nationalities", :force => true do |t|
     t.string "country",      :limit => 40
@@ -420,6 +432,7 @@ ActiveRecord::Schema.define(:version => 20100819143344) do
     t.integer   "state",                              :default => 1,            :null => false
     t.integer   "center_id"
     t.boolean   "login_user",                         :default => false
+    t.integer   "delta"
   end
 
   add_index "users", ["center_id"], :name => "users_center_id_index"

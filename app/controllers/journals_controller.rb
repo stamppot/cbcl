@@ -166,22 +166,19 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def live_search
     @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
-
-    if @phrase.to_i > 0  # cpr.nr. søgning. Reverse
-      @phrase = @phrase.split("-").reverse.join
-    end
-    puts "Live_search: #{@phrase}"
+    # cpr.nr. søgning. Reverse
+    @phrase = @phrase.split("-").reverse.join if @phrase.to_i > 0
 
     @groups =
     if @phrase.empty?
       []
     elsif current_user.has_role?(:superadmin)
-      Journal.search(@phrase, :order => "created_at DESC", :include => :person_info)
+      Journal.search(@phrase, :order => "created_at DESC", :include => :person_info, :per_page => 40)
     elsif current_user.has_role?(:centeradministrator)
-      Journal.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC", :include => :person_info)
+      Journal.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
     else
       current_user.group_ids.inject([]) do |result, id|
-        result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info)
+        result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
       end
     end
 

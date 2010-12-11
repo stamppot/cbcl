@@ -16,6 +16,14 @@ class User < ActiveRecord::Base
   validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
 
   attr_accessor :perms
+
+  define_index do
+     # fields
+     indexes :name, :sortable => true
+     # attributes
+     has center_id
+     set_property :delta => true
+   end
   
   def access?(permission)
     self.perms && self.perms.include?(permission)

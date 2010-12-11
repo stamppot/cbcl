@@ -100,7 +100,26 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
       redirect_to surveys_path
     end
   end
-    
+  
+  def live_search
+    @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
+    @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
+
+    @users =
+    if @phrase.empty?
+      []
+    elsif current_user.has_role?(:superadmin)
+      User.search(@phrase, :order => "created_at DESC")
+    else
+      User.search(@phrase, :with => { :center_id => current_user.center_id }, :order => "created_at DESC")
+    end
+
+    respond_to do |wants|
+      wants.html  { render(:template  => "users/searchresults" )}
+      wants.js    { render(:layout   =>  false, :template =>  "users/searchresults" )}
+    end
+  end
+  
   protected
   before_filter :login_access
 

@@ -66,11 +66,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :save_draft_interval
   def save_draft_interval
-    if current_user.login_user?
-      return 900 # TODO: put in configuration
-    else
-      return 60
-    end
+    current_user.login_user? && 900 || 60
   end
   
   def journals_per_page

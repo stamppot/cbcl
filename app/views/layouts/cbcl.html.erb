@@ -41,7 +41,8 @@
 	</div>
 
 	<% if !current_user.login_user? && current_user.perms[:layout_show_menu] %>
-		<%= render :partial => 'layouts/menu' %>
+	menu
+		<%= render :partial => 'shared/menu' %>
 	<% end %>
 <div id="content">
 	<% render :partial => 'layouts/error_messages' %>

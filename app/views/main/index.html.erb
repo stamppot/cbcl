@@ -1,12 +1,12 @@
 <% if current_user %>
-<% cache "main_#{current_user.highest_role}" do %>
+<%- cache "main_#{current_user.highest_role}" do %>
 <h1>Velkommen til CBCL-Online</h1>
 
 <p><br></p>
 
 <h2>Introduktion</h2>
 
-<% if current_user.access?(:faq_show) %>
+<%- if current_user.access?(:faq_show) %>
 	<div id="journal_help">
 		<h3>Journaler</h3>
 		<p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller (delvis) cprnr.</p>
@@ -15,7 +15,7 @@
 
 	<p><br></p>
 
-<% if current_user.access?(:faq_admin) %>
+<%- if current_user.access?(:faq_admin) %>
 	<div id="center_help">
 		<h3>Centre</h3>
 		<p>Du kan oprette nye centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
