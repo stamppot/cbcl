@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   
   def expire_cache
     Rails.cache.delete("user_roles_#{self.id}")
+
   end
     
   def admin?
@@ -120,8 +121,8 @@ class User < ActiveRecord::Base
       roles = Role.find(roles || [])
       groups = Group.find(groups || [])
 
-      user.roles += roles
-      user.groups += groups
+      user.roles = roles if roles.any?
+      user.groups = groups if groups.any?
 
       user.center = groups.first.center unless groups.empty? or user.has_role?(:superadmin)
       user.save
