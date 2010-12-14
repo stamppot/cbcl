@@ -9,6 +9,7 @@ production:
   query_log_file: "/var/www/cbcl/log/searchd.query.log"
   pid_file: "/var/www/cbcl/shared/searchd.production.pid"
   config_file: "/var/www/cbcl/shared/config/production.sphinx.conf"
+  address: 67.214.211.55
 test:
   enable_star: 0
   
