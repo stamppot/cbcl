@@ -73,7 +73,7 @@ class Access
     :team_show                  => [:superadmin, :centeradministrator, :teamadministrator, :behandler],
     :team_show_all              => [:superadmin],  # shows all centers too
     # :team_show_none             => [:admin],
-    :team_show_admin            => [:centeradministrator],
+    # :team_show_admin            => [:centeradministrator],
     :team_show_member           => [:superadmin, :centeradministrator, :teamadministrator, :behandler],
     :team_new_edit_delete       => [:superadmin, :centeradministrator],
     # :subscription_new           => [:superadmin, :admin],

@@ -99,6 +99,7 @@ class Journal < Group
     Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
     Rails.cache.delete_matched(/journal_ids_user_(.*)/)
+		self.team.users.map {|user| user.expire_cache}
   end
   
   def destroy_journal_entries

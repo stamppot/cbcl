@@ -194,12 +194,12 @@ class User < ActiveRecord::Base
   def center_and_teams
     if(self.has_access?(:admin))
       Group.center_and_teams #find(:all, :conditions => ['type != ?', "Journal"])
-    elsif self.has_access? :team_show_admin # self.center
-      if self.centers.size > 1 # some people have more centers
-        self.centers + self.centers.map { |c| c.teams }.flatten
-      else
-        [self.center] + self.center.teams
-      end
+    # elsif self.has_access? :team_show_admin # self.center
+    #   if self.centers.size > 1 # some people have more centers
+    #     self.centers + self.centers.map { |c| c.teams }.flatten
+    #   else
+    #     [self.center] + self.center.teams
+    #   end
     elsif self.has_access? :team_show
       self.groups
     else
@@ -265,8 +265,8 @@ class User < ActiveRecord::Base
     teams =
     if self.has_access?(:team_show_all)
       Team.find(:all, options)
-    elsif self.has_access?(:team_show_admin)
-      Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
+    # elsif self.has_access?(:team_show_admin)
+    #   Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
     elsif self.has_access?(:team_show_member)
       Team.direct_groups(self)
     else
