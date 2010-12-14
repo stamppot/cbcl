@@ -2,6 +2,16 @@ require 'riddle/client/filter'
 require 'riddle/client/message'
 require 'riddle/client/response'
 
+class Array
+	def shuffle
+		sort_by { rand }
+	end
+
+	def shuffle!
+		self.replace shuffle
+	end
+end
+
 module Riddle
   class VersionError < StandardError;  end
   class ResponseError < StandardError; end
