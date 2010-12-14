@@ -109,9 +109,9 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     if @phrase.empty?
       []
     elsif current_user.has_role?(:superadmin)
-      User.search(@phrase, :order => "created_at DESC")
+      User.search(@phrase, :order => "created_at DESC", :conditions => ['login_user = ?', false])
     else
-      User.search(@phrase, :with => { :center_id => current_user.center_id })
+      User.search(@phrase, :with => { :center_id => current_user.center_id }, :conditions => ['login_user = ?', false])
     end
 
     respond_to do |wants|
