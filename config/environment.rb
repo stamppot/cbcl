@@ -86,9 +86,7 @@ Rails::Initializer.run do |config|
   Mime::Type.register 'application/pdf',:pdf
 end
 
-ThinkingSphinx.suppress_delta_output = true
-
-# config.cache_store = :my_mem_cache_store
+# ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
 require 'facets/dictionary'
