@@ -22,6 +22,7 @@ set :boxcar_server, '67.214.211.55' # Planet Argon: '198.145.115.222' # change t
 # username and password as you use to access your repository. This is
 # due to a limitation in Capistrano.
 
+set :username, 'cbcl'
 set :boxcar_username, 'cbcl'
 
 # Where is your source code repository?
