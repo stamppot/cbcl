@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 		indexes center.title, :as => :center_title
 		indexes center.code, :as => :center_code
 		# attributes
-		has center_id, created_at, login_user
+		has center_id, created_at #, login_user
 		# set_property :delta => true
 	end
   
