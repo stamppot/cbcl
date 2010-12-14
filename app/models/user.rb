@@ -3,6 +3,7 @@
 class User < ActiveRecord::Base
   include ActiveRbacMixins::UserMixins::Core
 
+	after_create  :index_search
   after_save    :expire_cache # delete cached roles, # groups
   after_destroy :expire_cache
   
@@ -49,10 +50,18 @@ class User < ActiveRecord::Base
 
   named_scope :in_journals, lambda { |journal_ids| { :select => "users.*", :joins => "INNER JOIN journal_entries ON journal_entries.user_id = users.id",
     :conditions => ["journal_entries.journal_id IN (?)", journal_ids] } }
-  
+
+	def self.run_rake(task_name)
+		load File.join(RAILS_ROOT, 'lib', 'tasks', 'custom_task.rake')
+		Rake::Task[task_name].invoke
+	end
+
+  def index_search
+		User.run_rake("rake thinking_sphinx:reindex")
+	end
+		
   def expire_cache
     Rails.cache.delete("user_roles_#{self.id}")
-
   end
     
   def admin?

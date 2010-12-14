@@ -1,4 +1,5 @@
 # require 'facets/dictionary'
+require 'rake'
 
 class Journal < Group
   belongs_to :center
@@ -32,6 +33,7 @@ class Journal < Group
   delegate :sex_text, :to    => :person_info
   
   after_save    :expire_cache
+	after_create  :index_search
   after_destroy :expire_cache
   after_destroy :destroy_journal_entries
   after_destroy :destroy_person_info
@@ -75,7 +77,16 @@ class Journal < Group
   #     errors.add("code", "skal være 4 cifre")
   #   end
   # end 
-  
+
+  def self.run_rake(task_name)
+    load File.join(RAILS_ROOT, 'lib', 'tasks', 'custom_task.rake')
+    Rake::Task[task_name].invoke
+  end
+
+  def index_search
+		Journal.run_rake("rake thinking_sphinx:reindex")
+	end
+
   def expire
     Rails.cache.delete("j_#{self.id}")
   end
