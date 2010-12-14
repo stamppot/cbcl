@@ -33,7 +33,7 @@ class Journal < Group
   delegate :sex_text, :to    => :person_info
   
   after_save    :expire_cache
-	after_create  :index_search
+	after_create  :index_search, :expire_cache
   after_destroy :expire_cache
   after_destroy :destroy_journal_entries
   after_destroy :destroy_person_info
