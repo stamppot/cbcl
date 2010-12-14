@@ -176,7 +176,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       Journal.search(@phrase, :order => "created_at DESC", :include => :person_info, :per_page => 40)
     elsif current_user.has_role?(:centeradministrator)
 			current_user.centers.inject([]) do |result, id|
-      result + Journal.search(@phrase, :with => { :center_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+      	result + Journal.search(@phrase, :with => { :center_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+			end
     else
       current_user.group_ids.inject([]) do |result, id|
         result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
