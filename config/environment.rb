@@ -1,5 +1,13 @@
 # Be sure to restart your web server when you modify this file.
+class Array
+  def shuffle
+    sort_by { rand }
+  end
 
+  def shuffle!
+    self.replace shuffle
+  end
+end
 
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
