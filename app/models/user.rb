@@ -62,6 +62,9 @@ class User < ActiveRecord::Base
 		
   def expire_cache
     Rails.cache.delete("user_roles_#{self.id}")
+		Rails.cache.delete("journal_ids_user_#{self.id}")
+		# Rails.cache.delete("journal_entry_ids_user_#{self.id}")
+		# Rails.cache.delete_matched(/journal_ids_user_(.*)/)
   end
     
   def admin?

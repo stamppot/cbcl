@@ -89,6 +89,8 @@ class Journal < Group
 
   def expire
     Rails.cache.delete("j_#{self.id}")
+		Rails.cache.delete("journal_ids_user_#{self.id}")
+		Rails.cache.delete("journal_entry_ids_user_#{self.id}")
   end
   
   def expire_cache
