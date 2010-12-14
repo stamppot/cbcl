@@ -86,7 +86,7 @@ Rails::Initializer.run do |config|
 	
 	config.gem 'pdfkit'
   # config.middleware.use PDFKit::Middleware, :print_media_type => true
-  Mime::Type.register 'application/pdf',:pdf
+  # Mime::Type.register 'application/pdf',:pdf
 end
 
 # ThinkingSphinx.suppress_delta_output = true
