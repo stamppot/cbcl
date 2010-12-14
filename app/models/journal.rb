@@ -79,7 +79,7 @@ class Journal < Group
   # end 
 
   def self.run_rake(task_name)
-    load File.join(RAILS_ROOT, 'lib', 'tasks')
+    load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
     Rake::Task[task_name].invoke
   end
 
