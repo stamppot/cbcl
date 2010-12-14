@@ -1,6 +1,8 @@
 <% if flash[:notice] -%>
   <div id="notice" align="center"><%= flash[:notice] %></div>
 <% end -%>
+<%= @users.inspect %>
+<%= @users.map &:inspect %>
 <% if @users.any? %>
 	<h2>Fundne brugere</h2>
   	<%= render :partial => 'shared/user_list' %>

@@ -9,6 +9,8 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-load 'config/deploy'
-require 'thinking_sphinx/deploy/capistrano'
+# load 'config/deploy'
+# Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+# require 'thinking_sphinx/deploy/capistrano'
+# load('thinking-sphinx')
+# require 'thinking_sphinx/tasks'
