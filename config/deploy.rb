@@ -22,7 +22,6 @@ set :boxcar_server, '67.214.211.55' # Planet Argon: '198.145.115.222' # change t
 # username and password as you use to access your repository. This is
 # due to a limitation in Capistrano.
 
-set :username, 'cbcl'
 set :boxcar_username, 'cbcl'
 
 # Where is your source code repository?
@@ -96,47 +95,42 @@ end
 #
 
 # Thinking Sphinx
-require 'thinking_sphinx/deploy/capistrano'
-# Thinking Sphinx typing shortcuts
-namespace :ts do
-  task :conf do
-    thinking_sphinx.configure
+namespace :thinking_sphinx do
+  task :configure, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:configure"
   end
-  task :in do
-    thinking_sphinx.index
+  task :index, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:index"
   end
-  task :start do
-    thinking_sphinx.start
+  task :start, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:start"
   end
-  task :stop do
-    thinking_sphinx.stop
+  task :stop, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:stop"
   end
-  task :restart do
-    thinking_sphinx.restart
-  end
-  task :rebuild do
-    thinking_sphinx.rebuild
+  task :restart, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:restart"
   end
 end
 
-# http://github.com/jamis/capistrano/blob/master/lib/capistrano/recipes/deploy.rb
-# :default -> update, restart
-# :update  -> update_code, symlink
-namespace :deploy do
-  desc "Link up Sphinx's indexes."
-  task :symlink_sphinx_indexes, :roles => [:app] do
-    run "ln -nfs #{shared_path}/db/sphinx #{release_path}/db/sphinx"
+# Thinking Sphinx typing shortcuts
+namespace :ts do
+  task :configure, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:configure"
   end
-
-  task :activate_sphinx, :roles => [:app] do
-    symlink_sphinx_indexes
-    thinking_sphinx.configure
-    thinking_sphinx.start
+  task :in, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:index"
   end
-
-  before 'deploy:update_code', 'thinking_sphinx:stop'
-  after 'deploy:update_code', 'deploy:activate_sphinx'
-end 
+  task :start, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:start"
+  end
+  task :stop, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:stop"
+  end
+  task :restart, :roles => [:app] do
+    run "cd #{current_path}; rake thinking_sphinx:restart"
+  end
+end
 
 namespace :analyze do
   desc 'Analyze a log file and produce a performance report.'
