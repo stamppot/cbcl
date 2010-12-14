@@ -13,7 +13,7 @@ module ThinkingSphinx
     end
     
     def group_concatenate(clause, separator = ' ')
-      "GROUP_CONCAT(DISTINCT #{clause} SEPARATOR '#{separator}')"
+      "GROUP_CONCAT(DISTINCT IFNULL(#{clause}, '0') SEPARATOR '#{separator}')"
     end
     
     def cast_to_string(clause)
@@ -49,6 +49,10 @@ module ThinkingSphinx
     
     def time_difference(diff)
       "DATE_SUB(NOW(), INTERVAL #{diff} SECOND)"
+    end
+    
+    def utc_query_pre
+      "SET TIME_ZONE = '+0:00'"
     end
   end
 end

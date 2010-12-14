@@ -3,6 +3,8 @@ module ThinkingSphinx
     attr_accessor :args, :options
     
     def initialize(*args)
+      ThinkingSphinx.context.define_indexes
+      
       @options      = args.extract_options!
       @args         = args
       
@@ -42,29 +44,27 @@ module ThinkingSphinx
     end
     
     def populate
-      facet_names.each do |name|
-        search_options = facet_search_options.merge(:group_by => name)
-        add_from_results name, ThinkingSphinx.search(
-          *(args + [search_options])
-        )
-      end
+      ThinkingSphinx::Search.bundle_searches(facet_names) { |sphinx, name|
+        sphinx.search *(args + [facet_search_options(name)])
+      }.each_with_index { |search, index|
+        add_from_results facet_names[index], search
+      }
     end
     
-    def facet_search_options
-      config = ThinkingSphinx::Configuration.instance
-      max    = config.configuration.searchd.max_matches || 1000
-      
+    def facet_search_options(facet_name)
       options.merge(
         :group_function => :attr,
-        :limit          => max,
-        :max_matches    => max,
-        :page           => 1
+        :limit          => max_matches,
+        :max_matches    => max_matches,
+        :page           => 1,
+        :group_by       => facet_name,
+        :ids_only       => !translate?(facet_name)
       )
     end
     
     def facet_classes
       (
-        options[:classes] || ThinkingSphinx.indexed_models.collect { |model|
+        options[:classes] || ThinkingSphinx.context.indexed_models.collect { |model|
           model.constantize
         }
       ).select { |klass| klass.sphinx_facets.any? }
@@ -99,21 +99,34 @@ module ThinkingSphinx
       }
     end
     
-    def add_from_results(facet, results)
-      name = ThinkingSphinx::Facet.name_for(facet)
+    def translate?(name)
+      facet = facet_from_name(name)
+      facet.translate? || facet.float?
+    end
+    
+    def config
+      ThinkingSphinx::Configuration.instance
+    end
+    
+    def max_matches
+      @max_matches ||= config.configuration.searchd.max_matches || 1000
+    end
+    
+    # example: facet = country_facet; name = :country
+    def add_from_results(facet, search)
+      name  = ThinkingSphinx::Facet.name_for(facet)
+      facet = facet_from_name(facet)
       
       self[name]  ||= {}
       
-      return if results.empty?
+      return if search.empty?
       
-      facet = facet_from_object(results.first, facet) if facet.is_a?(String)
-      
-      results.each_with_groupby_and_count { |result, group, count|
-        facet_value = facet.value(result, group)
+      search.each_with_match do |result, match|
+        facet_value = facet.value(result, match[:attributes])
         
         self[name][facet_value] ||= 0
-        self[name][facet_value]  += count
-      }
+        self[name][facet_value]  += match[:attributes]["@count"]
+      end
     end
     
     def underlying_value(key, value)
@@ -128,7 +141,24 @@ module ThinkingSphinx
     end
     
     def facet_from_object(object, name)
-      object.sphinx_facets.detect { |facet| facet.attribute_name == name }
+      facet = nil
+      klass = object.class
+      
+      while klass != ::ActiveRecord::Base && facet.nil?
+        facet = klass.sphinx_facets.detect { |facet|
+          facet.attribute_name == name
+        }
+        klass = klass.superclass
+      end
+      
+      facet
+    end
+    
+    def facet_from_name(name)
+      name = ThinkingSphinx::Facet.name_for(name)
+      all_facets.detect { |facet|
+        facet.name == name
+      }
     end
   end
 end

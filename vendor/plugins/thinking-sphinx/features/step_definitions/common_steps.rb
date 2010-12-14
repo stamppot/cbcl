@@ -1,6 +1,5 @@
 Before do
   $queries_executed = []
-  ThinkingSphinx::Deltas::Job.cancel_thinking_sphinx_jobs
   
   @model      = nil
   @method     = :search
@@ -11,6 +10,8 @@ Before do
   @with_all   = {}
   @options    = {}
   @results    = nil
+  
+  Given "updates are enabled"
 end
 
 Given /^I am searching on (.+)$/ do |model|
@@ -26,9 +27,18 @@ When /^I am searching for ids$/ do
   @method = :search_for_ids
 end
 
+When /^I use index (.+)$/ do |index|
+  @results = nil
+  @options[:index] = index
+end
+
 When /^I am retrieving the result count$/ do
   @result = nil
   @method = @model ? :search_count : :count
+end
+
+When /^I search$/ do
+  @results = nil
 end
 
 When /^I search for (\w+)$/ do |query|
@@ -46,6 +56,10 @@ When /^I search for (\w+) on (\w+)$/ do |query, field|
   @conditions[field.to_sym] = query
 end
 
+When /^I output the raw result data$/ do
+  puts results.results.inspect
+end
+
 When /^I clear existing filters$/ do
   @with     = {}
   @without  = {}
@@ -55,6 +69,11 @@ end
 When /^I filter by (\w+) on (\w+)$/ do |filter, attribute|
   @results = nil
   @with[attribute.to_sym] = filter.to_i
+end
+
+When /^I filter by (\d\d\d\d)\-(\d\d)\-(\d\d) on (\w+)$/ do |y, m, d, attribute|
+  @results = nil
+  @with[attribute.to_sym] = Time.local(y.to_i, m.to_i, d.to_i).to_i
 end
 
 When /^I filter by (\d+) and (\d+) on (\w+)$/ do |value_one, value_two, attribute|
@@ -136,11 +155,15 @@ Then /^the (\w+) of each result should indicate order$/ do |attribute|
   end
 end
 
+Then /^the first result's "([^"]*)" should be "([^"]*)"$/ do |attribute, value|
+  results.first.send(attribute.to_sym).should == value
+end
+
 Then /^I can iterate by result and (\w+)$/ do |attribute|
   iteration = lambda { |result, attr_value|
     result.should be_kind_of(@model)
     unless attribute == "group" && attr_value.nil?
-      attr_value.should be_kind_of(Integer) 
+      attr_value.should be_kind_of(Integer)
     end
   }
   

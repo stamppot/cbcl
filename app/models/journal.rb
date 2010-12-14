@@ -63,6 +63,7 @@ class Journal < Group
      indexes :title, :sortable => true
      indexes :code, :sortable => true
      indexes person_info.cpr, :as => :person_info_cpr
+		 # indexes center_id
      # attributes
      has parent_id, center_id, created_at, updated_at
 

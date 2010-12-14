@@ -13,6 +13,9 @@ module ThinkingSphinx
       @alias    = options[:as]
       @faceted  = options[:facet]
       @admin    = options[:admin]
+      @sortable = options[:sortable] || false
+      
+      @alias    = @alias.to_sym unless @alias.blank?
       
       @columns.each { |col|
         @associations[col] = association_stack(col.__stack.clone).each { |assoc|
@@ -134,8 +137,14 @@ module ThinkingSphinx
           assoc.has_column?(column.__name) ?
           "#{quote_with_table(assoc.join.aliased_table_name, column.__name)}" :
           nil
-        }.compact.join(', ')
+        }.compact
       end
+    end
+    
+    def columns_with_prefixes
+      @columns.collect { |column|
+        column_with_prefix column
+      }.flatten
     end
     
     # Gets a stack of associations for a specific path.

@@ -10,18 +10,17 @@ module ThinkingSphinx
     end
     
     def concatenate(clause, separator = ' ')
-      clause.split(', ').collect { |field|
-        case field
-        when /COALESCE/, "'')"
-          field
-        else
-          "COALESCE(CAST(#{field} as varchar), '')"
-        end
-      }.join(" || '#{separator}' || ")
+      if clause[/^COALESCE/]
+        clause.split('), ').join(") || '#{separator}' || ")
+      else
+        clause.split(', ').collect { |field|
+          "CAST(COALESCE(#{field}, '') as varchar)"
+        }.join(" || '#{separator}' || ")
+      end
     end
     
     def group_concatenate(clause, separator = ' ')
-      "array_to_string(array_accum(#{clause}), '#{separator}')"
+      "array_to_string(array_accum(COALESCE(#{clause}, '0')), '#{separator}')"
     end
     
     def cast_to_string(clause)
@@ -37,8 +36,16 @@ module ThinkingSphinx
     end
     
     def convert_nulls(clause, default = '')
-      default = "'#{default}'"  if default.is_a?(String)
-      default = 'NULL'          if default.nil?
+      default = case default
+      when String
+        "'#{default}'"
+      when NilClass
+        'NULL'
+      when Fixnum
+        "#{default}::bigint"
+      else
+        default
+      end
       
       "COALESCE(#{clause}, #{default})"
     end
@@ -58,6 +65,10 @@ module ThinkingSphinx
     
     def time_difference(diff)
       "current_timestamp - interval '#{diff} seconds'"
+    end
+    
+    def utc_query_pre
+      "SET TIME ZONE 'UTC'"
     end
     
     private
@@ -108,6 +119,10 @@ module ThinkingSphinx
           DECLARE j int;
           DECLARE word_array bytea;
           BEGIN
+            IF COALESCE(word, '') = '' THEN
+              return 0;
+            END IF;
+          
             i = 0;
             tmp = 4294967295;
             word_array = decode(replace(word, E'\\\\', E'\\\\\\\\'), 'escape');
@@ -128,7 +143,7 @@ module ThinkingSphinx
             END LOOP;
             return (tmp # 4294967295);
           END
-        $$ IMMUTABLE STRICT LANGUAGE plpgsql;
+        $$ IMMUTABLE LANGUAGE plpgsql;
       SQL
       execute function, true
     end

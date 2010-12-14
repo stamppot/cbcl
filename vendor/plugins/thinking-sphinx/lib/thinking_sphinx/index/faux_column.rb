@@ -42,12 +42,20 @@ module ThinkingSphinx
         @stack
       end
       
+      def __path
+        @stack + [@name]
+      end
+      
       # Returns true if the stack is empty *and* if the name is a string -
       # which is an indication that of raw SQL, as opposed to a value from a
       # table's column.
       # 
       def is_string?
         @name.is_a?(String) && @stack.empty?
+      end
+      
+      def to_ary
+        [self]
       end
       
       # This handles any 'invalid' method calls and sets them as the name,

@@ -30,6 +30,10 @@ class Friendship < ActiveRecord::Base
     set_property :latitude_attr   => :person_id
     set_property :longitude_attr  => :person_id
   end
+  
+  sphinx_scope(:reverse) {
+    {:order => "@weight ASC"}
+  }
 end
 
 class Link < ActiveRecord::Base
@@ -92,6 +96,7 @@ end
 
 class Alpha < ActiveRecord::Base
   has_many :betas
+  has_many :thetas
   
   define_index do
     indexes :name, :sortable => true
@@ -104,6 +109,10 @@ class Alpha < ActiveRecord::Base
   
   def big_name
     name.upcase
+  end
+  
+  def sphinx_attributes
+    :existing
   end
 end
 
@@ -122,9 +131,17 @@ class Beta < ActiveRecord::Base
   def excerpts
     false
   end
+  
+  def matching_fields
+    :foo
+  end
 end
 
 class Gamma < ActiveRecord::Base
+  #
+end
+
+class Theta < ActiveRecord::Base
   #
 end
 

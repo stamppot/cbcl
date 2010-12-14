@@ -60,6 +60,24 @@ Feature: Searching on a single model
     And I filter by both 11 and 12 on dimensions
     Then I should get 1 result
   
+  Scenario: Filtering on timestamp MVAs
+    Given Sphinx is running
+    And I am searching on posts
+    When I filter by 2001-01-01 on comments_created_at
+    Then I should get 1 result
+  
+  Scenario: Searching by NULL/0 values in MVAs
+    Given Sphinx is running
+    And I am searching on boxes
+    When I filter by 0 on dimensions
+    Then I should get 1 result
+    
+    Given Sphinx is running
+    And I am searching on developers
+    When I clear existing filters
+    And I filter by 0 on tag_ids
+    Then I should get 1 result
+  
   Scenario: Searching on a MVA configured as ranged_query
     Given Sphinx is running
     And I am searching on posts
@@ -78,13 +96,6 @@ Feature: Searching on a single model
     When I order by value
     Then I should get 10 results
     And the value of each result should indicate order
-  
-  Scenario: Searching with ordering on a sortable field
-    Given Sphinx is running
-    And I am searching on people
-    And I order by first_name
-    Then I should get 20 results
-    And the first_name of each result should indicate order
   
   Scenario: Intepreting Sphinx Internal Identifiers
     Given Sphinx is running

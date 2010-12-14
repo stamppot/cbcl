@@ -17,13 +17,15 @@ class User < ActiveRecord::Base
 
   attr_accessor :perms
 
-  define_index do
-     # fields
-     indexes :name, :sortable => true
-     # attributes
-     has center_id
-     set_property :delta => true
-   end
+	define_index do
+		# fields
+		indexes :name, :sortable => true
+		indexes center.title, :as => :center_title
+		indexes center.code, :as => :center_code
+		# attributes
+		# has center_id
+		# set_property :delta => true
+	end
   
   def access?(permission)
     self.perms && self.perms.include?(permission)

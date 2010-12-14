@@ -75,7 +75,9 @@ module ThinkingSphinx
       @crc            = options[:crc]
       
       @type         ||= :multi    unless @query_source.nil?
-      @type           = :integer  if @type == :string && @crc
+      if @type == :string && @crc
+        @type = is_many? ? :multi : :integer
+      end
       
       source.attributes << self
     end
@@ -91,22 +93,25 @@ module ThinkingSphinx
       
       separator = all_ints? || all_datetimes? || @crc ? ',' : ' '
       
-      clause = @columns.collect { |column|
-        part = column_with_prefix(column)
+      clause = columns_with_prefixes.collect { |column|
         case type
         when :string
-          adapter.convert_nulls(part)
+          adapter.convert_nulls(column)
         when :datetime
-          adapter.cast_to_datetime(part)
+          adapter.cast_to_datetime(column)
+        when :multi
+          column = adapter.cast_to_datetime(column)   if is_many_datetimes?
+          column = adapter.convert_nulls(column, '0') if is_many_ints?
+          column
         else
-          part
+          column
         end
       }.join(', ')
       
-      # clause = adapter.cast_to_datetime(clause)             if type == :datetime
       clause = adapter.crc(clause)                          if @crc
       clause = adapter.concatenate(clause, separator)       if concat_ws?
       clause = adapter.group_concatenate(clause, separator) if is_many?
+      clause = adapter.downcase(clause)                     if insensitive?
       
       "#{clause} AS #{quote_column(unique_name)}"
     end
@@ -118,7 +123,8 @@ module ThinkingSphinx
         :string   => :sql_attr_str2ordinal,
         :float    => :sql_attr_float,
         :boolean  => :sql_attr_bool,
-        :integer  => :sql_attr_uint
+        :integer  => :sql_attr_uint,
+        :bigint   => :sql_attr_bigint
       }[type]
     end
     
@@ -149,8 +155,6 @@ module ThinkingSphinx
     def type
       @type ||= begin
         base_type = case
-        when is_many_datetimes?
-          :datetime
         when is_many?, is_many_ints?
           :multi
         when @associations.values.flatten.length > 1
@@ -160,11 +164,12 @@ module ThinkingSphinx
         end
         
         if base_type == :string && @crc
-          :integer
+          base_type = :integer
         else
-          @crc = false
-          base_type
+          @crc = false unless base_type == :multi && is_many_strings? && @crc
         end
+        
+        base_type
       end
     end
     
@@ -175,8 +180,12 @@ module ThinkingSphinx
     def live_value(instance)
       object = instance
       column = @columns.first
-      column.__stack.each { |method| object = object.send(method) }
-      object.send(column.__name)
+      column.__stack.each { |method|
+        object = object.send(method)
+        return sphinx_value(nil) if object.nil?
+      }
+      
+      sphinx_value object.send(column.__name)
     end
     
     def all_ints?
@@ -185,6 +194,10 @@ module ThinkingSphinx
     
     def all_datetimes?
       all_of_type?(:datetime, :date, :timestamp)
+    end
+    
+    def all_strings?
+      all_of_type?(:string, :text)
     end
     
     private
@@ -284,20 +297,16 @@ WHERE #{@source.index.delta_object.clause(model, true)})
     def is_many_datetimes?
       is_many? && all_datetimes?
     end
-       
-    def type_from_database
-      klass = @associations.values.flatten.first ? 
-        @associations.values.flatten.first.reflection.klass : @model
-      
-      column = klass.columns.detect { |col|
-        @columns.collect { |c| c.__name.to_s }.include? col.name
-      }
-      column.nil? ? nil : column.type
-    end
     
+    def is_many_strings?
+      is_many? && all_strings?
+    end
+       
     def translated_type_from_database
       case type_from_db = type_from_database
-      when :datetime, :string, :float, :boolean, :integer
+      when :integer
+        integer_type_from_db
+      when :datetime, :string, :float, :boolean
         type_from_db
       when :decimal
         :float
@@ -315,6 +324,32 @@ block:
       end
     end
     
+    def type_from_database
+      column = column_from_db
+      column.nil? ? nil : column.type
+    end
+    
+    def integer_type_from_db
+      column = column_from_db
+      return nil if column.nil?
+      
+      case column.sql_type
+      when adapter.bigint_pattern
+        :bigint
+      else
+        :integer
+      end
+    end
+    
+    def column_from_db
+      klass = @associations.values.flatten.first ? 
+        @associations.values.flatten.first.reflection.klass : @model
+      
+      klass.columns.detect { |col|
+        @columns.collect { |c| c.__name.to_s }.include? col.name
+      }
+    end
+    
     def all_of_type?(*column_types)
       @columns.all? { |col|
         klasses = @associations[col].empty? ? [@model] :
@@ -324,6 +359,27 @@ block:
           !column.nil? && column_types.include?(column.type)
         }
       }
+    end
+    
+    def sphinx_value(value)
+      case value
+      when TrueClass
+        1
+      when FalseClass, NilClass
+        0
+      when Time
+        value.to_i
+      when Date
+        value.to_time.to_i
+      when String
+        value.to_crc32
+      else
+        value
+      end
+    end
+    
+    def insensitive?
+      @sortable == :insensitive
     end
   end
 end

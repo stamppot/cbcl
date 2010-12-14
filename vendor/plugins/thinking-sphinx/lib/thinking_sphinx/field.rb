@@ -69,14 +69,12 @@ module ThinkingSphinx
     # multiple data values (has_many or has_and_belongs_to_many associations).
     # 
     def to_select_sql
-      clause = @columns.collect { |column|
-        column_with_prefix(column)
-      }.join(', ')
+      clause = columns_with_prefixes.join(', ')
       
       clause = adapter.concatenate(clause)       if concat_ws?
       clause = adapter.group_concatenate(clause) if is_many?
       
-      "#{adapter.cast_to_string clause } AS #{quote_column(unique_name)}"
+      "#{clause} AS #{quote_column(unique_name)}"
     end
   end
 end

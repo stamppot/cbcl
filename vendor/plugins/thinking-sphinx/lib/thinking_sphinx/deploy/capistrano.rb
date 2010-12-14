@@ -45,7 +45,7 @@ DESC
     
       desc "Install Thinking Sphinx as a gem from GitHub"
       task :ts do
-        run "#{try_sudo} gem install freelancing-god-thinking-sphinx --source http://gems.github.com"
+        run "#{try_sudo} gem install thinking-sphinx --source http://gemcutter.org"
       end
     end
   
@@ -93,7 +93,7 @@ DESC
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake, "rake")
       tasks.each do |t|
-        run "cd #{current_path}; #{rake} RAILS_ENV=#{rails_env} #{t}"
+        run "if [ -d #{release_path} ]; then cd #{release_path}; else cd #{current_path}; fi; #{rake} RAILS_ENV=#{rails_env} #{t}"
       end
     end
   end

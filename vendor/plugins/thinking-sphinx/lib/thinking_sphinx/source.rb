@@ -6,19 +6,22 @@ module ThinkingSphinx
     include ThinkingSphinx::Source::InternalProperties
     include ThinkingSphinx::Source::SQL
     
-    attr_accessor :model, :fields, :attributes, :conditions, :groupings,
+    attr_accessor :model, :fields, :attributes, :joins, :conditions, :groupings,
       :options
-    attr_reader :base, :index
+    attr_reader :base, :index, :database_configuration
     
     def initialize(index, options = {})
       @index        = index
       @model        = index.model
       @fields       = []
       @attributes   = []
+      @joins        = []
       @conditions   = []
       @groupings    = []
       @options      = options
       @associations = {}
+      @database_configuration = @model.connection.
+        instance_variable_get(:@config).clone
       
       @base = ::ActiveRecord::Associations::ClassMethods::JoinDependency.new(
         @model, [], nil
@@ -33,30 +36,31 @@ module ThinkingSphinx
     end
     
     def name
-      @model.name.underscore.tr(':/\\', '_')
+      index.name
     end
     
-    def to_riddle_for_core(offset, index)
+    def to_riddle_for_core(offset, position)
       source = Riddle::Configuration::SQLSource.new(
-        "#{name}_core_#{index}", adapter.sphinx_identifier
+        "#{index.core_name}_#{position}", adapter.sphinx_identifier
       )
       
       set_source_database_settings  source
       set_source_attributes         source, offset
-      set_source_sql                source, offset
       set_source_settings           source
+      set_source_sql                source, offset
       
       source
     end
     
-    def to_riddle_for_delta(offset, index)
+    def to_riddle_for_delta(offset, position)
       source = Riddle::Configuration::SQLSource.new(
-        "#{name}_delta_#{index}", adapter.sphinx_identifier
+        "#{index.delta_name}_#{position}", adapter.sphinx_identifier
       )
-      source.parent = "#{name}_core_#{index}"
+      source.parent = "#{index.core_name}_#{position}"
       
       set_source_database_settings  source
       set_source_attributes         source, offset, true
+      set_source_settings           source
       set_source_sql                source, offset, true
       
       source
@@ -79,10 +83,10 @@ module ThinkingSphinx
     end
     
     def set_source_database_settings(source)
-      config = @model.connection.instance_variable_get(:@config)
+      config = @database_configuration
       
       source.sql_host = config[:host]           || "localhost"
-      source.sql_user = config[:username]       || config[:user] || ""
+      source.sql_user = config[:username]       || config[:user] || 'root'
       source.sql_pass = (config[:password].to_s || "").gsub('#', '\#')
       source.sql_db   = config[:database]
       source.sql_port = config[:port]
@@ -107,6 +111,7 @@ module ThinkingSphinx
       end
       
       source.sql_query_pre += [adapter.utf8_query_pre].compact if utf8?
+      source.sql_query_pre << adapter.utc_query_pre
     end
     
     def set_source_settings(source)
@@ -136,7 +141,11 @@ module ThinkingSphinx
         # attribute associations
         @attributes.collect { |attrib|
           attrib.associations.values if attrib.include_as_association?
-        }.compact.flatten
+        }.compact.flatten +
+        # explicit joins
+        @joins.collect { |join|
+          join.associations
+        }.flatten
       ).uniq.collect { |assoc|
         # get ancestors as well as column-level associations
         assoc.ancestors
@@ -144,7 +153,7 @@ module ThinkingSphinx
     end
     
     def utf8?
-      @index.options[:charset_type] == "utf-8"
+      @index.options[:charset_type] =~ /utf-8|zh_cn.utf-8/
     end
   end
 end

@@ -13,7 +13,7 @@ module ThinkingSphinx
   # pid file::              log/searchd.#{environment}.pid
   # searchd files::         db/sphinx/#{environment}/
   # address::               127.0.0.1
-  # port::                  3312
+  # port::                  9312
   # allow star::            false
   # min prefix length::     1
   # min infix length::      1
@@ -49,25 +49,29 @@ module ThinkingSphinx
   class Configuration
     include Singleton
     
-    SourceOptions = %w( mysql_connect_flags sql_range_step sql_query_pre
-      sql_query_post sql_ranged_throttle sql_query_post_index )
+    SourceOptions = %w( mysql_connect_flags mysql_ssl_cert mysql_ssl_key
+      mysql_ssl_ca sql_range_step sql_query_pre sql_query_post 
+      sql_query_killlist sql_ranged_throttle sql_query_post_index unpack_zlib
+      unpack_mysqlcompress unpack_mysqlcompress_maxsize )
     
-    IndexOptions  = %w( charset_table charset_type docinfo enable_star
-      exceptions html_index_attrs html_remove_elements html_strip ignore_chars
-      min_infix_len min_prefix_len min_word_len mlock morphology ngram_chars
-      ngram_len phrase_boundary phrase_boundary_step preopen stopwords
-      wordforms )
+    IndexOptions  = %w( blend_chars charset_table charset_type charset_dictpath
+      docinfo enable_star exceptions expand_keywords hitless_words
+      html_index_attrs html_remove_elements html_strip index_exact_words
+      ignore_chars inplace_docinfo_gap inplace_enable inplace_hit_gap
+      inplace_reloc_factor inplace_write_factor min_infix_len min_prefix_len
+      min_stemming_len min_word_len mlock morphology ngram_chars ngram_len
+      ondisk_dict overshort_step phrase_boundary phrase_boundary_step preopen
+      stopwords stopwords_step wordforms )
     
     CustomOptions = %w( disable_range )
         
-    attr_accessor :config_file, :searchd_log_file, :query_log_file,
-      :pid_file, :searchd_file_path, :address, :port, :allow_star,
-      :database_yml_file, :app_root, :bin_path, :model_directories,
-      :delayed_job_priority, :searchd_binary_name, :indexer_binary_name
+    attr_accessor :searchd_file_path, :allow_star, :database_yml_file,
+      :app_root, :model_directories, :delayed_job_priority, :indexed_models
     
     attr_accessor :source_options, :index_options
+    attr_accessor :version
     
-    attr_reader :environment, :configuration
+    attr_reader :environment, :configuration, :controller
     
     # Load in the configuration settings - this will look for config/sphinx.yml
     # and parse it according to the current environment.
@@ -91,46 +95,49 @@ module ThinkingSphinx
       end
       
       @configuration = Riddle::Configuration.new
-      @configuration.searchd.address    = "127.0.0.1"
-      @configuration.searchd.port       = 3312
       @configuration.searchd.pid_file   = "#{self.app_root}/log/searchd.#{environment}.pid"
       @configuration.searchd.log        = "#{self.app_root}/log/searchd.log"
       @configuration.searchd.query_log  = "#{self.app_root}/log/searchd.query.log"
       
+      @controller = Riddle::Controller.new @configuration,
+        "#{self.app_root}/config/#{environment}.sphinx.conf"
+      
+      self.address              = "127.0.0.1"
+      self.port                 = 9312
       self.database_yml_file    = "#{self.app_root}/config/database.yml"
-      self.config_file          = "#{self.app_root}/config/#{environment}.sphinx.conf"
       self.searchd_file_path    = "#{self.app_root}/db/sphinx/#{environment}"
       self.allow_star           = false
-      self.bin_path             = ""
       self.model_directories    = ["#{app_root}/app/models/"] +
         Dir.glob("#{app_root}/vendor/plugins/*/app/models/")
       self.delayed_job_priority = 0
+      self.indexed_models       = []
       
       self.source_options  = {}
       self.index_options   = {
         :charset_type => "utf-8"
       }
       
-      self.searchd_binary_name = "searchd"
-      self.indexer_binary_name = "indexer"
-            
+      self.version = nil
       parse_config
+      self.version ||= @controller.sphinx_version
       
       self
     end
     
     def self.environment
-      @@environment ||= (
-        defined?(Merb) ? Merb.environment : ENV['RAILS_ENV']
-      ) || "development"
+      Thread.current[:thinking_sphinx_environment] ||= begin
+        if defined?(Merb)
+          Merb.environment
+        elsif defined?(RAILS_ENV)
+          RAILS_ENV
+        else
+          ENV['RAILS_ENV'] || 'development'
+        end
+      end
     end
     
     def environment
       self.class.environment
-    end
-    
-    def controller
-      @controller ||= Riddle::Controller.new(@configuration, self.config_file)
     end
     
     # Generate the config file for Sphinx by using all the settings defined and
@@ -138,13 +145,14 @@ module ThinkingSphinx
     # indexer and searchd configuration, and sources and indexes details.
     #
     def build(file_path=nil)
-      load_models
       file_path ||= "#{self.config_file}"
       
       @configuration.indexes.clear
       
-      ThinkingSphinx.indexed_models.each_with_index do |model, model_index|
-        @configuration.indexes.concat model.constantize.to_riddle(model_index)
+      ThinkingSphinx.context.indexed_models.each do |model|
+        model = model.constantize
+        model.define_indexes
+        @configuration.indexes.concat model.to_riddle
       end
       
       open(file_path, "w") do |file|
@@ -152,50 +160,21 @@ module ThinkingSphinx
       end
     end
     
-    # Make sure all models are loaded - without reloading any that
-    # ActiveRecord::Base is already aware of (otherwise we start to hit some
-    # messy dependencies issues).
-    # 
-    def load_models
-      return if defined?(Rails) &&
-        Rails.configuration.cache_classes &&
-        Rails::VERSION::STRING.to_f > 2.1
-      
-      self.model_directories.each do |base|
-        Dir["#{base}**/*.rb"].each do |file|
-          model_name = file.gsub(/^#{base}([\w_\/\\]+)\.rb/, '\1')
-        
-          next if model_name.nil?
-          next if ::ActiveRecord::Base.send(:subclasses).detect { |model|
-            model.name == model_name
-          }
-        
-          begin
-            model_name.camelize.constantize
-          rescue LoadError
-            model_name.gsub!(/.*[\/\\]/, '').nil? ? next : retry
-          rescue NameError
-            next
-          rescue StandardError
-            puts "Warning: Error loading #{file}"
-          end
-        end
-      end
-    end
-    
     def address
-      @configuration.searchd.address
+      @address
     end
     
     def address=(address)
+      @address = address
       @configuration.searchd.address = address
     end
     
     def port
-      @configuration.searchd.port
+      @port
     end
     
     def port=(port)
+      @port = port
       @configuration.searchd.port = port
     end
     
@@ -223,15 +202,50 @@ module ThinkingSphinx
       @configuration.searchd.query_log = file
     end
     
+    def config_file
+      @controller.path
+    end
+    
+    def config_file=(file)
+      @controller.path = file
+    end
+    
+    def bin_path
+      @controller.bin_path
+    end
+    
+    def bin_path=(path)
+      @controller.bin_path = path
+    end
+    
+    def searchd_binary_name
+      @controller.searchd_binary_name
+    end
+    
+    def searchd_binary_name=(name)
+      @controller.searchd_binary_name = name
+    end
+    
+    def indexer_binary_name
+      @controller.indexer_binary_name
+    end
+    
+    def indexer_binary_name=(name)
+      @controller.indexer_binary_name = name
+    end
+    
+    attr_accessor :timeout
+
     def client
       client = Riddle::Client.new address, port
       client.max_matches = configuration.searchd.max_matches || 1000
+      client.timeout = timeout || 0
       client
     end
     
     def models_by_crc
       @models_by_crc ||= begin
-        ThinkingSphinx.indexed_models.inject({}) do |hash, model|
+        ThinkingSphinx.context.indexed_models.inject({}) do |hash, model|
           hash[model.constantize.to_crc32] = model
           Object.subclasses_of(model.constantize).each { |subclass|
             hash[subclass.to_crc32] = subclass.name
