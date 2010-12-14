@@ -109,11 +109,12 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     if @phrase.empty?
       []
     elsif current_user.has_role?(:superadmin)
-      User.search(@phrase, :order => "created_at DESC", :conditions => ['login_user = ?', false])
+      User.search(@phrase, :order => "created_at DESC") # , :conditions => ['login_user = ?', false]
     else
-      User.search(@phrase, :with => { :center_id => current_user.center_id }, :conditions => ['login_user = ?', false])
+      User.search(@phrase, :with => { :center_id => current_user.center_id })
     end
-
+		@users.delete_if { |user| user.login_user }
+		
     respond_to do |wants|
       wants.html  { render(:template  => "users/searchresults" )}
       wants.js    { render(:layout   =>  false, :template =>  "users/searchresults" )}
