@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     :conditions => ["journal_entries.journal_id IN (?)", journal_ids] } }
 
 	def self.run_rake(task_name)
-		load File.join(RAILS_ROOT, 'lib', 'tasks', 'custom_task.rake')
+		load File.join(RAILS_ROOT, 'lib', 'tasks')
 		Rake::Task[task_name].invoke
 	end
 

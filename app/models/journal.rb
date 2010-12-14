@@ -79,7 +79,7 @@ class Journal < Group
   # end 
 
   def self.run_rake(task_name)
-    load File.join(RAILS_ROOT, 'lib', 'tasks', 'custom_task.rake')
+    load File.join(RAILS_ROOT, 'lib', 'tasks')
     Rake::Task[task_name].invoke
   end
 
