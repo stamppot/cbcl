@@ -93,7 +93,7 @@ Rails::Initializer.run do |config|
 	config.gem 'thinking-sphinx-allen', :version => '1.3.18.4', :lib => 'thinking_sphinx'
 	
 	config.gem 'pdfkit'
-  # config.middleware.use PDFKit::Middleware, :print_media_type => true
+  config.middleware.use PDFKit::Middleware, :print_media_type => true
   # Mime::Type.register 'application/pdf',:pdf
 end
 
