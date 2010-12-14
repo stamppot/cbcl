@@ -90,7 +90,7 @@ Rails::Initializer.run do |config|
   config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
   
-	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
+	config.gem 'thinking-sphinx-allen', :version => '1.3.18.4', :lib => 'thinking_sphinx'
 	
 	config.gem 'pdfkit'
   # config.middleware.use PDFKit::Middleware, :print_media_type => true
