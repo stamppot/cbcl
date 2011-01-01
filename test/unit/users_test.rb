@@ -72,7 +72,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     setup do
       @user = users(:user1_101)
       @behandler_role = [roles(:behandler)]
-      @teamadmin_role = [roles(:teamadministrator)] 
+      @teamadmin_role = [roles(:teamadmin)] 
       @centeradmin_role = [roles(:centeradmin)]
       @admin_role = [roles(:admin)]
       @superadmin_role = [roles(:superadmin)]
@@ -92,7 +92,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     setup do
       @user = users(:teamadmin_101)
       @behandler_role = [roles(:behandler)]
-      @teamadmin_role = [roles(:teamadministrator)] 
+      @teamadmin_role = [roles(:teamadmin)] 
       @centeradmin_role = [roles(:centeradmin)]
       @admin_role = [roles(:admin)]
       @superadmin_role = [roles(:superadmin)]
@@ -110,7 +110,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     setup do
       @user = users(:user_center1)
       @behandler_role = [roles(:behandler)]
-      @teamadmin_role = [roles(:teamadministrator)] 
+      @teamadmin_role = [roles(:teamadmin)] 
       @centeradmin_role = [roles(:centeradmin)]
       @admin_role = [roles(:admin)]
       @superadmin_role = [roles(:superadmin)]
@@ -128,7 +128,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     setup do
       @user = users(:user_admin)
       @behandler_role = [roles(:behandler)]
-      @teamadmin_role = [roles(:teamadministrator)] 
+      @teamadmin_role = [roles(:teamadmin)] 
       @centeradmin_role = [roles(:centeradmin)]
       @admin_role = [roles(:admin)]
       @superadmin_role = [roles(:superadmin)]
@@ -145,7 +145,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     setup do
       @user = users(:user_superadmin)
       @behandler_role = [roles(:behandler)]
-      @teamadmin_role = [roles(:teamadministrator)] 
+      @teamadmin_role = [roles(:teamadmin)] 
       @centeradmin_role = [roles(:centeradmin)]
       @admin_role = [roles(:admin)]
       @superadmin_role = [roles(:superadmin)]
@@ -179,7 +179,7 @@ class UsersTest < ActiveSupport::TestCase #ActiveSupport::TestCase
     assert_none @user1_101.pass_on_roles, all_other_roles
     # center user is center admin, but can pass on lower roles, too
     assert_all @user_center2.roles, [Role.get(:centeradmin)]
-    assert_all @user_center2.pass_on_roles, Role.get(:centeradmin, :teamadministrator, :behandler)
+    assert_all @user_center2.pass_on_roles, Role.get(:centeradmin, :teamadmin, :behandler)
   end
   
   # superadmins can see all users
