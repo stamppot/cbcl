@@ -2,7 +2,7 @@
 *
 * Copyright (c) 2007 Andrew Tetlaw & Millstream Web Software
 * http://www.millstream.com.au/view/code/tablekit/
-* Version: 1.2.1 2007-03-11
+* Version: 1.3b 2008-03-23
 * 
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -63,18 +63,18 @@ Object.extend(TableKit, {
 	getBodyRows : function(table) {
 		table = $(table);
 		var id = table.id;
-		if(!TableKit.rows[id]) {
-			TableKit.rows[id] = (table.tHead && table.tHead.rows.length > 0) ? $A(table.tBodies[0].rows) : $A(table.rows).without(table.rows[0]);
+		if(!TableKit.tables[id].dom.rows) {
+			TableKit.tables[id].dom.rows = (table.tHead && table.tHead.rows.length > 0) ? $A(table.tBodies[0].rows) : $A(table.rows).without(table.rows[0]);
 		}
-		return TableKit.rows[id];
+		return TableKit.tables[id].dom.rows;
 	},
 	getHeaderCells : function(table, cell) {
 		if(!table) { table = $(cell).up('table'); }
 		var id = table.id;
-		if(!TableKit.heads[id]) {
-			TableKit.heads[id] = $A((table.tHead && table.tHead.rows.length > 0) ? table.tHead.rows[table.tHead.rows.length-1].cells : table.rows[0].cells);
+		if(!TableKit.tables[id].dom.head) {
+			TableKit.tables[id].dom.head = $A((table.tHead && table.tHead.rows.length > 0) ? table.tHead.rows[table.tHead.rows.length-1].cells : table.rows[0].cells);
 		}
-		return TableKit.heads[id];
+		return TableKit.tables[id].dom.head;
 	},
 	getCellIndex : function(cell) {
 		return $A(cell.parentNode.cells).indexOf(cell);
@@ -84,30 +84,42 @@ Object.extend(TableKit, {
 	},
 	getCellText : function(cell, refresh) {
 		if(!cell) { return ""; }
-		TableKit.registerCell(cell);
-		var data = TableKit.cells[cell.id];
+		var data = TableKit.getCellData(cell);
 		if(refresh || data.refresh || !data.textContent) {
 			data.textContent = cell.textContent ? cell.textContent : cell.innerText;
 			data.refresh = false;
 		}
 		return data.textContent;
 	},
+	getCellData : function(cell) {
+	  var t = null;
+		if(!cell.id) {
+			t = $(cell).up('table');
+			cell.id = t.id + "-cell-" + TableKit._getc();
+		}
+		var tblid = t ? t.id : cell.id.match(/(.*)-cell.*/)[1];
+		if(!TableKit.tables[tblid].dom.cells[cell.id]) {
+			TableKit.tables[tblid].dom.cells[cell.id] = {textContent : '', htmlContent : '', active : false};
+		}
+		return TableKit.tables[tblid].dom.cells[cell.id];
+	},
 	register : function(table, options) {
 		if(!table.id) {
-			TableKit._tblcount += 1;
-			table.id = "tablekit-table-" + TableKit._tblcount;
+			table.id = "tablekit-table-" + TableKit._getc();
 		}
 		var id = table.id;
-		TableKit.tables[id] = TableKit.tables[id] ? Object.extend(TableKit.tables[id], options || {}) : Object.extend({sortable:false,resizable:false,editable:false}, options || {});
+		TableKit.tables[id] = TableKit.tables[id] ? 
+		                        Object.extend(TableKit.tables[id], options || {}) : 
+		                        Object.extend(
+		                          {dom : {head:null,rows:null,cells:{}},sortable:false,resizable:false,editable:false},
+		                          options || {}
+		                        );
 	},
-	registerCell : function(cell) {
-		if(!cell.id) {
-			TableKit._cellcount += 1;
-			cell.id = "tablekit-cell-" + TableKit._cellcount;
+	notify : function(eventName, table, event) {
+		if(TableKit.tables[table.id] &&  TableKit.tables[table.id].observers && TableKit.tables[table.id].observers[eventName]) {
+			TableKit.tables[table.id].observers[eventName](table, event);
 		}
-		if(!TableKit.cells[cell.id]) {
-			TableKit.cells[cell.id] = {textContent : '', htmlContent : '', active : false};
-		}
+		TableKit.options.observers[eventName](table, event)();
 	},
 	isSortable : function(table) {
 		return TableKit.tables[table.id] ? TableKit.tables[table.id].sortable : false;
@@ -138,9 +150,6 @@ Object.extend(TableKit, {
 	},
 	tables : {},
 	_opcache : {},
-	cells : {},
-	rows : {},
-	heads : {},
 	options : {
 		autoLoad : true,
 		stripe : true,
@@ -153,6 +162,7 @@ Object.extend(TableKit, {
 		columnClass : 'sortcol',
 		descendingClass : 'sortdesc',
 		ascendingClass : 'sortasc',
+		defaultSort : -1,
 		noSortClass : 'nosort',
 		sortFirstAscendingClass : 'sortfirstasc',
 		sortFirstDecendingClass : 'sortfirstdesc',
@@ -164,10 +174,77 @@ Object.extend(TableKit, {
 		formClassName : 'editable-cell-form',
 		noEditClass : 'noedit',
 		editAjaxURI : '/',
-		editAjaxOptions : {}
+		editAjaxOptions : {},
+		observers : {
+			'onSortStart' 	: function(){},
+			'onSort' 		: function(){},
+			'onSortEnd' 	: function(){},
+			'onResizeStart' : function(){},
+			'onResize' 		: function(){},
+			'onResizeEnd' 	: function(){},
+			'onEditStart' 	: function(){},
+			'onEdit' 		: function(){},
+			'onEditEnd' 	: function(){}
+		}
 	},
-	_tblcount : 0,
-	_cellcount : 0,
+	_c : 0,
+	_getc : function() {return TableKit._c += 1;},
+	unloadTable : function(table){
+	  table = $(table);
+	  if(!TableKit.tables[table.id]) {return;} //if not an existing registered table return
+		var cells = TableKit.getHeaderCells(table);
+		var op = TableKit.option('sortable resizable editable noSortClass descendingClass ascendingClass columnClass sortFirstAscendingClass sortFirstDecendingClass', table.id);
+		 //unregister all the sorting and resizing events
+		cells.each(function(c){
+			c = $(c);
+			if(op.sortable) {
+  			if(!c.hasClassName(op.noSortClass)) {
+  				Event.stopObserving(c, 'mousedown', TableKit.Sortable._sort);
+  				c.removeClassName(op.columnClass);
+  				c.removeClassName(op.sortFirstAscendingClass);
+  				c.removeClassName(op.sortFirstDecendingClass);
+  				//ensure that if table reloaded current sort is remembered via sort first class name
+  				if(c.hasClassName(op.ascendingClass)) {
+  				  c.removeClassName(op.ascendingClass);
+  				  c.addClassName(op.sortFirstAscendingClass)
+  				} else if (c.hasClassName(op.descendingClass)) {
+  				  c.removeClassName(op.descendingClass);
+  				  c.addClassName(op.sortFirstDecendingClass)
+  				}  				
+  			}
+		  }
+		  if(op.resizable) {
+  			Event.stopObserving(c, 'mouseover', TableKit.Resizable.initDetect);
+  			Event.stopObserving(c, 'mouseout', TableKit.Resizable.killDetect);
+		  }
+		});
+		//unregister the editing events and cancel any open editors
+		if(op.editable) {
+		  Event.stopObserving(table.tBodies[0], 'click', TableKit.Editable._editCell);
+		  for(var c in TableKit.tables[table.id].dom.cells) {
+		    if(TableKit.tables[table.id].dom.cells[c].active) {
+		      var cell = $(c);
+  	      var editor = TableKit.Editable.getCellEditor(cell);
+  	      editor.cancel(cell);
+		    }
+  	  }
+		}
+		//delete the cache
+		TableKit.tables[table.id].dom = {head:null,rows:null,cells:{}}; // TODO: watch this for mem leaks
+	},
+	reloadTable : function(table){
+	  table = $(table);
+	  TableKit.unloadTable(table);
+	  var op = TableKit.option('sortable resizable editable', table.id);
+	  if(op.sortable) {TableKit.Sortable.init(table);}
+	  if(op.resizable) {TableKit.Resizable.init(table);}
+	  if(op.editable) {TableKit.Editable.init(table);}
+	},
+	reload : function() {
+	  for(var k in TableKit.tables) {
+	    TableKit.reloadTable(k);
+	  }
+	},
 	load : function() {
 		if(TableKit.options.autoLoad) {
 			if(TableKit.options.sortable) {
@@ -287,15 +364,16 @@ TableKit.Sortable = {
 			table = table ? $(table) : cell.up('table');
 			index = TableKit.getCellIndex(cell);
 		}
-		var op = TableKit.option('noSortClass descendingClass ascendingClass', table.id);
+		var op = TableKit.option('noSortClass descendingClass ascendingClass defaultSort', table.id);
 		
 		if(cell.hasClassName(op.noSortClass)) {return;}	
-		
-		order = order ? order : (cell.hasClassName(op.descendingClass) ? 1 : -1);
+		//TableKit.notify('onSortStart', table);
+		order = order ? order : op.defaultSort;
 		var rows = TableKit.getBodyRows(table);
 
 		if(cell.hasClassName(op.ascendingClass) || cell.hasClassName(op.descendingClass)) {
 			rows.reverse(); // if it was already sorted we just need to reverse it.
+			order = cell.hasClassName(op.descendingClass) ? 1 : -1;
 		} else {
 			var datatype = TableKit.Sortable.getDataType(cell,index,table);
 			var tkst = TableKit.Sortable.types;
@@ -316,10 +394,8 @@ TableKit.Sortable = {
 			c.removeClassName(op.descendingClass);
 			if(index === i) {
 				if(order === 1) {
-					c.removeClassName(op.descendingClass);
 					c.addClassName(op.ascendingClass);
 				} else {
-					c.removeClassName(op.ascendingClass);
 					c.addClassName(op.descendingClass);
 				}
 			}
@@ -345,7 +421,7 @@ TableKit.Sortable = {
 			if(cell.id && TableKit.Sortable.types[cell.id]) {
 				t = cell.id;
 			}
-			t = cell.classNames().detect(function(n){ // then look for a data type classname on the heading row cell
+			t = $w(cell.classname).detect(function(n){ // then look for a data type classname on the heading row cell
 				return (TableKit.Sortable.types[n]) ? true : false;
 			});
 			if(!t) {
@@ -441,9 +517,14 @@ TableKit.Sortable.addSortType(
 			var mo_num = parseInt(r[2],10)-1;
 			var day_num = r[1];
 			var hr_num = r[4] ? r[4] : 0;
-			if(r[7] && r[7].toLowerCase().indexOf('p') !== -1) {
-				hr_num = parseInt(r[4],10) + 12;
-			}
+			if(r[7]) {
+				var chr = parseInt(r[4],10);
+				if(r[7].toLowerCase().indexOf('p') !== -1) {
+					hr_num = chr < 12 ? chr + 12 : chr;
+				} else if(r[7].toLowerCase().indexOf('a') !== -1) {
+					hr_num = chr < 12 ? chr : 0;
+				}
+			} 
 			var min_num = r[5] ? r[5] : 0;
 			var sec_num = r[6] ? r[6] : 0;
 			return new Date(yr_num, mo_num, day_num, hr_num, min_num, sec_num, 0).valueOf();
@@ -457,9 +538,14 @@ TableKit.Sortable.addSortType(
 			var mo_num = parseInt(r[1],10)-1;
 			var day_num = r[2];
 			var hr_num = r[4] ? r[4] : 0;
-			if(r[7] && r[7].toLowerCase().indexOf('p') !== -1) {
-				hr_num = parseInt(r[4],10) + 12;
-			}
+			if(r[7]) {
+				var chr = parseInt(r[4],10);
+				if(r[7].toLowerCase().indexOf('p') !== -1) {
+					hr_num = chr < 12 ? chr + 12 : chr;
+				} else if(r[7].toLowerCase().indexOf('a') !== -1) {
+					hr_num = chr < 12 ? chr : 0;
+				}
+			} 
 			var min_num = r[5] ? r[5] : 0;
 			var sec_num = r[6] ? r[6] : 0;
 			return new Date(yr_num, mo_num, day_num, hr_num, min_num, sec_num, 0).valueOf();
@@ -515,7 +601,7 @@ TableKit.Sortable.addSortType(
 			return TableKit.Sortable.Type.compare(new Date(ds + a),new Date(ds + b));
 		}}),
 	new TableKit.Sortable.Type('currency',{
-		pattern : /^[$����]/, // dollar,pound,yen,euro,generic currency symbol
+		pattern : /^[$ï¿½ï¿½ï¿½ï¿½]/, // dollar,pound,yen,euro,generic currency symbol
 		normal : function(v) {
 			return v ? parseFloat(v.replace(/[^-\d\.]/g,'')) : 0;
 		}})
@@ -589,7 +675,7 @@ TableKit.Resizable = {
 		TableKit.Resizable._tbl = table;
 		if(TableKit.option('showHandle', table.id)[0]) {
 			TableKit.Resizable._handle = $(document.createElement('div')).addClassName('resize-handle').setStyle({
-				'top' : Position.cumulativeOffset(cell)[1] + 'px',
+				'top' : cell.cumulativeOffset()[1] + 'px',
 				'left' : Event.pointerX(e) + 'px',
 				'height' : table.getDimensions().height + 'px'
 			});
@@ -602,7 +688,7 @@ TableKit.Resizable = {
 	endResize : function(e) {
 		e = TableKit.e(e);
 		var cell = TableKit.Resizable._cell;
-		TableKit.Resizable.resize(null, cell, (Event.pointerX(e) - Position.cumulativeOffset(cell)[0]));
+		TableKit.Resizable.resize(null, cell, (Event.pointerX(e) - cell.cumulativeOffset()[0]));
 		Event.stopObserving(document, 'mousemove', TableKit.Resizable.drag);
 		Event.stopObserving(document, 'mouseup', TableKit.Resizable.endResize);
 		if(TableKit.option('showHandle', TableKit.Resizable._tbl.id)[0]) {
@@ -618,7 +704,7 @@ TableKit.Resizable = {
 		e = TableKit.e(e);
 		if(TableKit.Resizable._handle === null) {
 			try {
-				TableKit.Resizable.resize(TableKit.Resizable._tbl, TableKit.Resizable._cell, (Event.pointerX(e) - Position.cumulativeOffset(TableKit.Resizable._cell)[0]));
+				TableKit.Resizable.resize(TableKit.Resizable._tbl, TableKit.Resizable._cell, (Event.pointerX(e) - TableKit.Resizable._cell.cumulativeOffset()[0]));
 			} catch(e) {}
 		} else {
 			TableKit.Resizable._handle.setStyle({'left' : Event.pointerX(e) + 'px'});
@@ -626,7 +712,7 @@ TableKit.Resizable = {
 		return false;
 	},
 	pointerPos : function(element, x, y) {
-    	var offset = Position.cumulativeOffset(element);
+    	var offset = $(element).cumulativeOffset();
 	    return (y >= offset[1] &&
 	            y <  offset[1] + element.offsetHeight &&
 	            x >= offset[0] + element.offsetWidth - 5 &&
@@ -649,9 +735,13 @@ TableKit.Editable = {
 	_editCell : function(e) {
 		e = TableKit.e(e);
 		var cell = Event.findElement(e,'td');
-		TableKit.Editable.editCell(null, cell);
+		if(cell) {
+			TableKit.Editable.editCell(null, cell, null, e);
+		} else {
+			return false;
+		}
 	},
-	editCell : function(table, index, cindex) {
+	editCell : function(table, index, cindex, event) {
 		var cell, row;
 		if(typeof index === 'number') {
 			if(!table || (table.tagName && table.tagName !== "TABLE")) {return;}
@@ -665,7 +755,7 @@ TableKit.Editable = {
 			row = $(table.tBodies[0].rows[index]);
 			cell = $(row.cells[cindex]);
 		} else {
-			cell = $(index);
+			cell = $(event ? Event.findElement(event, 'td') : index);
 			table = (table && table.tagName && table.tagName !== "TABLE") ? $(table) : cell.up('table');
 			row = cell.up('tr');
 		}
@@ -675,21 +765,25 @@ TableKit.Editable = {
 		var head = $(TableKit.getHeaderCells(table, cell)[TableKit.getCellIndex(cell)]);
 		if(head.hasClassName(op.noEditClass)) {return;}
 		
-		TableKit.registerCell(cell);
-		var data = TableKit.cells[cell.id];
+		var data = TableKit.getCellData(cell);
 		if(data.active) {return;}
 		data.htmlContent = cell.innerHTML;
-		var ftype = TableKit.Editable.types['text-input'];
+		var ftype = TableKit.Editable.getCellEditor(null,null,head);
+		ftype.edit(cell, event);
+		data.active = true;
+	},
+	getCellEditor : function(cell, table, head) {
+	  var head = head ? head : $(TableKit.getHeaderCells(table, cell)[TableKit.getCellIndex(cell)]);
+	  var ftype = TableKit.Editable.types['text-input'];
 		if(head.id && TableKit.Editable.types[head.id]) {
 			ftype = TableKit.Editable.types[head.id];
 		} else {
-			var n = head.classNames().detect(function(n){
+			var n = $w(head.classname).detect(function(n){
 					return (TableKit.Editable.types[n]) ? true : false;
 			});
 			ftype = n ? TableKit.Editable.types[n] : ftype;
 		}
-		ftype.edit(cell);
-		data.active = true;
+		return ftype;
 	},
 	types : {},
 	addCellEditor : function(o) {
@@ -781,7 +875,7 @@ TableKit.Editable.CellEditor.prototype = {
 		this.ajax = new Ajax.Updater(cell, op.ajaxURI || TableKit.option('editAjaxURI', table.id)[0], Object.extend(op.ajaxOptions || TableKit.option('editAjaxOptions', table.id)[0], {
 			postBody : s,
 			onComplete : function() {
-				var data = TableKit.cells[cell.id];
+				var data = TableKit.getCellData(cell);
 				data.active = false;
 				data.refresh = true; // mark cell cache for refreshing, in case cell contents has changed and sorting is applied
 			}
@@ -794,7 +888,7 @@ TableKit.Editable.CellEditor.prototype = {
 	},
 	cancel : function(cell) {
 		this.ajax = null;
-		var data = TableKit.cells[cell.id];
+		var data = TableKit.getCellData(cell);
 		cell.innerHTML = data.htmlContent;
 		data.htmlContent = '';
 		data.active = false;
@@ -839,8 +933,4 @@ TableKit.Bench = {
 	}
 } */
 
-if(window.FastInit) {
-	FastInit.addOnLoad(TableKit.load);
-} else {
-	Event.observe(window, 'load', TableKit.load);
-}
+document.observe("dom:loaded", TableKit.load);
