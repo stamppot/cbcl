@@ -30,7 +30,7 @@
 				:frequency => 0.5,
 				:update => :content,
 				:loading => "Element.show('center_spinner')",
-				:complete => "Element.hide('center_spinner'); reloadTable();",
+				:complete => "Element.hide('center_spinner'); TableKit.reload();",
 				:url => center_search_path ) %>
 			<% end %>
 		<% end %>
@@ -58,7 +58,7 @@
 			:frequency => 0.5,
 			:update => :content,
 			:loading => "Element.show('user_spinner')",
-			:complete => "Element.hide('user_spinner');  reloadTable();",
+			:complete => "Element.hide('user_spinner');  TableKit.reload();",
 			:url => user_search_path) %>
 			<div class="change_password" style="display:none;">
 				<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
@@ -108,7 +108,7 @@
 			:frequency => 0.5,
 			:update => :content,
 			:loading => "Element.show('journal_spinner')",
-			:complete => "Element.hide('journal_spinner'); alert('will reload table'); reloadTable();",
+			:complete => "Element.hide('journal_spinner'); alert('will reload table'); TableKit.reload();",
 			:url => journal_search_path) %>
 		
 		<%= link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
