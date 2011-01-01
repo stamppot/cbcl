@@ -151,7 +151,7 @@ class UserGroupsTest < ActiveSupport::TestCase #ActiveSupport::TestCase
   def test_center_and_teams_depend_on_role
     # for normal user, returns only teams
     assert @user1_101.has_role?(:behandler)
-    assert !@user1_101.has_role?(::centeradmin)
+    assert !@user1_101.has_role?(:centeradmin)
     assert_all @user1_101.center_and_teams, @user1_101.teams
     # for center admin, returns both teams and center
     assert_all @user_center1.center_and_teams, (@user_center1.teams << @user_center1.center)
