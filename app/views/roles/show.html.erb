@@ -17,10 +17,10 @@
   <dd><%= link_to(t("roles.#{@role.parent.title}"), role_path(@role.parent)) %></dd>
   <% end %>
 
-  <dt><%= t('created') %></dt>
+  <dt><%= t('status.created') %></dt>
   <dd><%= @role.created_at.to_formatted_s(:long) %></dd>
 
-  <dt><%= t('updated') %></dt>
+  <dt><%= t('status.updated') %></dt>
   <dd><%= @role.updated_at.to_formatted_s(:long) %></dd>
 
   <dt>Children:</dt>

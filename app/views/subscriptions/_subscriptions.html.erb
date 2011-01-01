@@ -20,7 +20,7 @@
 	</div>
 	<br/>
 	<% if current_user.access?(:subscription_new_edit) || (@options && !@options[:hide_buttons] || false) %>
-			<%= link_button t('subscription.change'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
+			<%= link_button t('subscription.change_subscription'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
 	<% end %>
 	</div>
 	<script type="text/javascript">

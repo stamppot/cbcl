@@ -10,33 +10,26 @@ I18n.backend.store_translations 'da-DK',
     :save => 'Gem',
     :save_changes => 'Gem ændringer',
     :info => "Info",
-    :change => 'Skift',
     :change_password => 'Du skal skifte dit password',
     :logout_question => 'Er du sikker på at du vil logge ud?',
     :password => {
       :suggest => "Foreslå password"
     },
-    
+    :status => {
+	    :created => 'Oprettet',
+	    :updated => 'Opdateret',
+	    :answered => 'Besvaret',
+		},
     :login_label => 'Login',
-    
     :yes => 'Ja',
     :no => 'Nej',
-    :created => 'Oprettet',
-    :updated => 'Opdateret',
-    :answered => 'Besvaret',
-    :id => 'ID',
-    :name => 'Navn',
-    :code => 'Kode',
-    :email => 'Email',
-    :address => 'Adresse',
-    :phone => 'Telefon',
-    :city => 'By',
-    :contactperson => 'Kontaktperson',
-    :companynumber => 'EAN-nr',
+    :user_id => 'ID',
+		:name => 'Navn',
+		:code => 'Kode',
+		:gender => 'Køn',
     :birthdate => 'Fødselsdato',
     :age => 'Alder',
-    :gender => 'Køn',
-    :nationality => 'Nationalitet',
+		:nationality => 'Nationalitet',
     
     :Roles => 'Roller',
     :role => 'Rolle',
@@ -84,7 +77,14 @@ I18n.backend.store_translations 'da-DK',
       :list => 'Vis Centre',
       :edit => 'Rediger Center',
       :new  => 'Opret Center', 
-      :delete => 'Slet Center'
+      :delete => 'Slet Center',
+    	:email => 'Email',
+    	:address => 'Adresse',
+    	:phone => 'Telefon',
+    	:city => 'By',
+    	:contactperson => 'Kontaktperson',
+    	:companynumber => 'EAN-nr'
+			},
     },
     :team => {
       :team => 'Team',
@@ -108,7 +108,7 @@ I18n.backend.store_translations 'da-DK',
       :Login => 'Loginnavn',
       :last_login => 'Seneste Login',
       :State => 'Status',
-      :id => 'ID',
+      :user_id => 'ID',
       :states => {
         '1' => 'ubekræftet',
         '2' => 'bekræftet',
@@ -139,7 +139,7 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis spørgeskema',
       :add_question => 'Tilføj spørgsmål',
       :start => "Start",
-      :change => "Ændre svar",
+      :change_answer => "Ændre svar",
       :survey => 'Spørgeskema',
       :answered => "Besvarede skemaer",
       :add => 'Tilføj spørgeskemaer',
@@ -159,7 +159,7 @@ I18n.backend.store_translations 'da-DK',
     },
     :subscription => {
       :subscribe => 'Abonner',
-      :change => 'Ændre abonnementer',
+      :change_subscription => 'Ændre abonnementer',
       :new => 'Nyt abonnement',
       :pay => 'Betal',
       :pay_surveys => 'Sæt skemaer til betalt',
@@ -270,37 +270,16 @@ I18n.backend.store_translations 'da-DK',
       ######################################
       
       # homepage
-      :dashboard => {
-        :edit_profile => {
-          :change_profile => "Profiel wijzigen",
-        },
-        :classified => {
-          :edit => "Bewerken",
-          :remove => "Verwijderen",
-          :sold => "Verkocht",
-        },
-      },
       :faq => {
         :create_section => "Create new section",
         :post_question => "Post your question",
-        :question => "Vraag",
-        :answer => "Antwoord",
-        :new_section => "New section",
+        :question => "Question",
+        :answer => "Svar",
+        :new_section => "Ny sektion",
         :index => "Index",
         :reorder_list => "Reorder list",
         :done_reordering => "Done!",
         :updated_section => "Updated FAQ section"
-      },
-      :admin => {
-        :back_to_admin => "U bent opnieuw ingelogd in uw admin account",
-        :logged_in_user => "You are logged in as another user",
-        :cms => {
-          "placeholder_destroyed" => 'Placeholder and Contents have successfully been deleted',
-          "placeholder_destroy_error" => "Could not destroy placeholder"
-        },
-      },
-      :user => {
-        :activity_new => "{{time_in_words}} geleden geregistreerd",
       },
     },
   
@@ -517,7 +496,6 @@ I18n.backend.store_translations 'da-DK',
         },
          :journal => {
            :attributes => {
-             # :id => 
              :name => {
                :blank => "skal angives"
              },
