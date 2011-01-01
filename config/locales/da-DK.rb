@@ -84,7 +84,6 @@ I18n.backend.store_translations 'da-DK',
     	:city => 'By',
     	:contactperson => 'Kontaktperson',
     	:companynumber => 'EAN-nr'
-			},
     },
     :team => {
       :team => 'Team',
