@@ -5,8 +5,8 @@ Der er ingen journaler i systemet.
 	<tr>
 <th class="wide sortcol sortdesc" title="Sorter efter navn">Navn</th>
 <th title="Sorter efter Id" class="sortcol">Id</th>
-<th title="Sorter efter fødselsdato" class="sortcol">Fødselsdato</th>
-<th title="Sorter efter oprettelsesdato" class="sortcol"><%= t('created') %></th>
+<th title="Sorter efter fødselsdato" class="sortcol date-eu">Fødselsdato</th>
+<th title="Sorter efter oprettelsesdato" class="sortcol date-eu"><%= t('created') %></th>
 <% unless @hide_team %>
 <th class="half_wide" title="Sorter efter team"><%= any_teams_text %></th>
 <% end %>
@@ -18,7 +18,7 @@ Der er ingen journaler i systemet.
     <td class="pj_name"><a href="<%= url_for(g) %>"><%= g.title %></a></td>
 		<td class="pj small number"><%= g.code %></td>
     <td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
-    <td class="pj small"><span class="nobr"><%= g.created_at.to_date.strftime("%d-%m-%y") %></span></td>
+    <td class="pj small"><span class="nobr"><%= g.created_at.to_date.strftime("%d-%m-%Y") %></span></td>
 		<% unless @hide_team %>
     <td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
 		<% end %>
