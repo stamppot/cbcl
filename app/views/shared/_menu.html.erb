@@ -108,7 +108,7 @@
 			:frequency => 0.5,
 			:update => :content,
 			:loading => "Element.show('journal_spinner')",
-			:complete => "Element.hide('journal_spinner'); reloadTable();",
+			:complete => "Element.hide('journal_spinner'); alert('will reload table'); reloadTable();",
 			:url => journal_search_path) %>
 		
 		<%= link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
