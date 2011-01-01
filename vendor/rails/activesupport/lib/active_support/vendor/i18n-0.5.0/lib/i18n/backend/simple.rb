@@ -37,8 +37,10 @@ module I18n
         def store_translations(locale, data, options = {})
           locale = locale.to_sym
           translations[locale] ||= {}
-          data = data.deep_symbolize_keys
-          translations[locale].deep_merge!(data)
+					if data.is_a? Hash
+          	data = data.deep_symbolize_keys
+          	translations[locale].deep_merge!(data)
+					end
         end
 
         # Get available locales from the translations hash
