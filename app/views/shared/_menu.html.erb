@@ -27,7 +27,7 @@
 
 		<% if current_user.perms[:layout_show_center_search] %>
 			<%= observe_field(:search_centers,
-				:frequency => 0.5,
+				:frequency => 1.0,
 				:update => :content,
 				:loading => "Element.show('center_spinner')",
 				:complete => "Element.hide('center_spinner'); TableKit.reload();",
@@ -55,7 +55,7 @@
 			</div>
 		<% end %>
 		<%= observe_field(:search_users,
-			:frequency => 0.5,
+			:frequency => 1.0,
 			:update => :content,
 			:loading => "Element.show('user_spinner')",
 			:complete => "Element.hide('user_spinner'); TableKit.reload();",
@@ -105,7 +105,7 @@
 			</div>
 		<% end %>
 		<%= observe_field(:search_journals,
-			:frequency => 0.5,
+			:frequency => 1.0,
 			:update => :content,
 			:loading => "Element.show('journal_spinner')",
 			:complete => "Element.hide('journal_spinner'); TableKit.reload();",
