@@ -36,40 +36,29 @@ class Role < ActiveRecord::Base
   #   @permissions.any? { |perm| perm.identifier == identifier }
   # end
   
-  def prettyname
-    rolename = case title
-    when "parent":    "forælder"
-    when "youth":     "barn"
-    when "teacher":   "lærer"
-    when "pedagogue": "pædagog"
-    when "other":     "andet"
-    else title
-    end
-  end
-  
   def Role.login_users
     r = Role.get(:login_bruger)
     return r.children
  end
  
- def Role.rolle
-   {
-     "forælder" => 1,
-	   "pædagog"  => 2,
-     "lærer"    => 3,
-     "barn"     => 4,
-	   "andet"    => 88
-   }
- end
+ # def Role.rolle
+ #   {
+ #     "forælder" => 1,
+ # 	   "pædagog"  => 2,
+ #     "lærer"    => 3,
+ #     "barn"     => 4,
+ # 	   "andet"    => 88
+ #   }
+ # end
  
- def Role.roller
-   {
-     "forælder" => "parent",
-     "lærer"    => "teacher",
-	   "pædagog"  => "pedagogue",
-     "barn"     => "youth",
-	   "andet"    => "other"
-   }
- end
+ # def Role.roller
+ #   {
+ #     "forælder" => "parent",
+ #     "lærer"    => "teacher",
+ # 	   "pædagog"  => "pedagogue",
+ #     "barn"     => "youth",
+ # 	   "andet"    => "other"
+ #   }
+ # end
 
 end

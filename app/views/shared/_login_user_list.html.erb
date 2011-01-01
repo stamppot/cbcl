@@ -2,7 +2,7 @@
  %>
   <tr>
     <td class="users"><%=h user.login %></td>
-    <td class="users"><%=h user.roles.first.prettyname unless user.roles.empty? %></td>
+    <td class="users"><%=h t("roles.#{user.roles.first.title}") unless user.roles.empty? %></td>
     <td class="users"><%=h user.email %></td>
     <td class="users"><%= case user.state
             when 1 then 'unconfirmed'

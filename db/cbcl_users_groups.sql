@@ -186,7 +186,7 @@ INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VAL
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('15','2007-01-17 18:00:16','2007-01-17 18:00:16','other','10');
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('5','2007-01-17 17:56:56','2007-01-17 17:56:56','behandler',NULL);
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('4','2007-01-17 17:56:56','2007-01-17 17:56:56','teamadministrator','5');
-INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('3','2007-01-17 17:57:11','2007-01-17 17:57:11','centeradministrator','4');
+INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('3','2007-01-17 17:57:11','2007-01-17 17:57:11',':centeradmin','4');
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('2','2007-01-17 17:57:30','2007-01-17 17:57:30','admin',NULL);
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `title`, `parent_id`) VALUES ('1','2007-01-17 17:57:40','2007-01-17 17:57:40','superadmin',NULL);
 UNLOCK TABLES;

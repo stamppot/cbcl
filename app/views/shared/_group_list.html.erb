@@ -6,7 +6,7 @@
 		<% unless @hide_team %>
 		<th class="half_wide" title="Sorter efter team"><%= any_teams_text %></th>
 		<% end %>
-		<th title="Sorter efter oprettelsesdato"><%= t('created') %></th>
+		<th title="Sorter efter oprettelsesdato"><%= t('status.created') %></th>
 		<% if current_user.access? :show_column_actions %>
 		<th class="nosort"><%= t('action') %></th>
 		<% end %>

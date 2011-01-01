@@ -42,17 +42,6 @@ class Survey < ActiveRecord::Base
     no_questions.delete(nil)
     return no_questions.max + 1
   end
- 
-  def typename
-  	rolename = case self.surveytype
-    when "parent":    "forælder"
-    when "youth":     "barn"
-	  when "teacher":   "lærer"
-	  when "pedagogue": "pædagog"
-	  when "other":     "andet"
-	  else self.surveytype
-	  end
-  end
   
   def merge_survey_answer(survey_answer)
     return self if survey_answer.nil?

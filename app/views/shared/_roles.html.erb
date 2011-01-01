@@ -4,7 +4,7 @@
 	<% @roles.each do |r| 
 		roller << "<li>"
 		roller << if current_user.access? (:role_show) && (current_user.login =~ /jens/) 
-			link_to r.title, active_rbac_role_path(r)
+			link_to t("roles.#{r.title}"), active_rbac_role_path(r)
 	 	else 
 			r.title
 		end
