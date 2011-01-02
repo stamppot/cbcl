@@ -1,8 +1,8 @@
 <table id="user_list" class="sortable list" class="users">
 	<tr>
-	<th class="wide" title=<%= t('sort.name') %>><%= t('name') %></th>
-	<th title="<%= t('sort.role') %>"><%= t('role') %></th>
-	<th title="<%= t('sort.group') %>"><%= t('groups') %></th>
+	<th class="wide sortcol sortdesc" title=<%= t('sort.name') %>><%= t('name') %></th>
+	<th class="sortcol" title="<%= t('sort.role') %>"><%= t('role') %></th>
+	<th class="sortcol" title="<%= t('sort.group') %>"><%= t('groups') %></th>
 	<% if current_user.access? :user_edit_delete %>
 	<th class="nosort" style="width: 75px;"><%= t('action') %></th>
 	</tr>
