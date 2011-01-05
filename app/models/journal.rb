@@ -195,11 +195,12 @@ class Journal < Group
   
   # info on journal in array of hashes
   def info
+		settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
     c = Dictionary.new # ActiveSupport::OrderedHash.new
     c["ssghafd"] = self.parent.group_code
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
-    c["pid"] = self.code
+    c["pid"] = settings && eval("self.#{settings.value}") || self.code
     c["pkoen"] = self.sex
     c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c["pnation"] = self.nationality

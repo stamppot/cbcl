@@ -115,9 +115,6 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     survey_answer = @journal_entry.make_survey_answer
-    # survey_answer.age = @journal_entry.journal.age
-    # survey_answer.journal_id = @journal_entry.journal_id
-    # survey_answer.journal_entry_id = @journal_entry.id
     
     if !survey_answer.save_all(params)
       flash[:notice] = "Fejl! Dit svar blev ikke gemt."

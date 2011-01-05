@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101211173347) do
+ActiveRecord::Schema.define(:version => 20110105182159) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",               :default => 0, :null => false
@@ -42,6 +42,15 @@ ActiveRecord::Schema.define(:version => 20101211173347) do
     t.string  "telephone"
     t.string  "ean"
     t.string  "person"
+  end
+
+  create_table "center_settings", :force => true do |t|
+    t.integer  "center_id"
+    t.string   "settings"
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "copies", :force => true do |t|
@@ -347,6 +356,11 @@ ActiveRecord::Schema.define(:version => 20101211173347) do
 
   add_index "scores_surveys", ["score_id"], :name => "index_scores_surveys_on_score_id"
   add_index "scores_surveys", ["survey_id"], :name => "index_scores_surveys_on_survey_id"
+
+  create_table "sph_counter", :id => false, :force => true do |t|
+    t.integer "last_id",                  :null => false
+    t.string  "table_name", :limit => 50, :null => false
+  end
 
   create_table "static_permissions", :force => true do |t|
     t.string    "identifier", :limit => 50,  :default => "", :null => false
