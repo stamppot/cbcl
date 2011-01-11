@@ -52,12 +52,12 @@ class User < ActiveRecord::Base
     :conditions => ["journal_entries.journal_id IN (?)", journal_ids] } }
 
 	def self.run_rake(task_name)
-		load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
-		Rake::Task[task_name].invoke
+		# load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
+		# Rake::Task[task_name].invoke
 	end
 
   def index_search
-		User.run_rake("rake thinking_sphinx:reindex")
+		# User.run_rake("rake thinking_sphinx:reindex")
 	end
 		
   def expire_cache

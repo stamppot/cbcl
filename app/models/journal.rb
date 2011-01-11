@@ -1,5 +1,5 @@
 # require 'facets/dictionary'
-require 'rake'
+#require 'rake'
 
 class Journal < Group
   belongs_to :center
@@ -79,12 +79,12 @@ class Journal < Group
   # end 
 
   def self.run_rake(task_name)
-    load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
-    Rake::Task[task_name].invoke
+    #load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
+    #Rake::Task[task_name].invoke
   end
 
   def index_search
-		Journal.run_rake("rake thinking_sphinx:reindex")
+		#Journal.run_rake("rake thinking_sphinx:reindex")
 	end
 
   def expire
