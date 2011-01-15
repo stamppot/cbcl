@@ -2,15 +2,16 @@
 	<tr>
 <th class="wide" title="Sorter efter navn">Center</th>
 <th title="" class="">Spørgeskema</th>
-<th title="" class="">Ubesv</th>
+<!-- <th title="" class="">Ubesv</th>
 <th title="" class="">Kladde</th>
 <th title="" class="">Papir</th>
-<th title="" class="">Login</th>
+<th title="" class="">Login</th> -->
 </tr>
 
 <% @journal_stats.each do |stats, data| %>
   <tr>
     <td class="pj_name"><a href="/journal_stats/<%= stats.center_id %>"><%= stats.center_title %></a></td>
+		<td /><td /><td /><td /><td />
 		<% stats.surveys.each do |state_per_survey| %>
 		</tr>
 		<tr>
