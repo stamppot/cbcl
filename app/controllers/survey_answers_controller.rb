@@ -90,9 +90,18 @@ class SurveyAnswersController < ApplicationController
       journal_entry.survey_answer.save
     end
     survey_answer = journal_entry.survey_answer
+		survey_answer.journal_entry_id = journal_entry.id
+		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
     journal_entry.answered_at = Time.now
-    journal_entry.draft!
+		survey_answer.center_id = journal_entry.journal.center_id
+		params[:login_user] = current_user.login_user
+		if survey_answer.all_answered?
+			survey_answer.save_final(params, false)
+			params[:login_user] && journal_entry.answered! || journal_entry.answered_paper!
+		else
+    	journal_entry.draft!
+		end
     survey_answer.save
   end
   
@@ -116,7 +125,7 @@ class SurveyAnswersController < ApplicationController
     end
     survey_answer = @journal_entry.make_survey_answer
     
-    if !survey_answer.save_all(params)
+    if !survey_answer.save_final(params)
       flash[:notice] = "Fejl! Dit svar blev ikke gemt."
       redirect_to survey_answer_path(@journal_entry) and return
     end

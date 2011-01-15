@@ -1,0 +1,25 @@
+<table id="journal_stat_list" class="list">
+	<tr>
+<th class="wide" title="Sorter efter navn">Center</th>
+<th title="" class="">Spørgeskema</th>
+<th title="" class="">Ubesv</th>
+<th title="" class="">Kladde</th>
+<th title="" class="">Papir</th>
+<th title="" class="">Login</th>
+</tr>
+
+<% @journal_stats.each do |stats, data| %>
+  <tr>
+    <td class="pj_name"><a href="/journal_stats/<%= stats.center_id %>"><%= stats.center_title %></a></td>
+		<% stats.surveys.each do |state_per_survey| %>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="pj small"><%= state_per_survey.survey_title %></td>
+		<% state_per_survey.states.each do |countperstate| %>
+    <td class="pj small"><span class="nobr"><%= countperstate.count.to_s + " #{JournalEntry.states.invert[countperstate.state]}" %></span></td>
+    <% end %>        
+		<% end %>        
+  </tr>
+<% end %>
+</table>

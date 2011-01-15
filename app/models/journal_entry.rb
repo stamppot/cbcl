@@ -8,10 +8,13 @@ class JournalEntry < ActiveRecord::Base
   
   named_scope :and_login_user, :include => :login_user
   named_scope :and_survey_answer, :include => [:survey, :survey_answer]
+	named_scope :for_center, lambda { |center_id| { :joins => :journal, :conditions => ["center_id = ?", center_id] } }
   named_scope :with_surveys, lambda { |survey_ids| { :joins => :survey_answer,
    :conditions => ["survey_answers.survey_id IN (?)", survey_ids] } }
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => ["survey_id IN (?)", survey_ids] } }
+  named_scope :unanswered, :conditions => ['state < ?', 5]
   named_scope :answered, :conditions => ['state = ?', 5]
+  named_scope :answered_by_login_user, :conditions => ['state = ?', 6]
   
   def expire_cache
     Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
@@ -25,7 +28,8 @@ class JournalEntry < ActiveRecord::Base
                              :journal_entry_id => self.id,
                              :journal_id => self.journal_id,
                              :surveytype => self.survey.surveytype,
-                             :center_id => self.journal.center_id)                             
+                             :center_id => self.journal.center_id)   
+    self.survey_answer.journal_entry = self
     self.survey_answer
   end
   
@@ -73,7 +77,7 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def answered?
-    self.state == JournalEntry.states['Besvaret']  # Besvaret
+    self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  # Besvaret
   end
   
   def answered!
@@ -81,8 +85,13 @@ class JournalEntry < ActiveRecord::Base
     self.save!
   end
 
+  def answered_paper!
+    self.state = JournalEntry.states['Besvaret (papir)']   # Besvaret
+    self.save!
+  end
+
   def not_answered?
-    self.state != JournalEntry.states['Besvaret'] # Ubesvaret
+    self.state != JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)'] # Ubesvaret
   end
   
   def not_answered!
@@ -91,7 +100,7 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def draft?
-    self.state == JournalEntry.states['Svarkladde']  # Svarkladde er påbegyndt
+    self.state == JournalEntry.states['Kladde']  # Svarkladde er påbegyndt
   end
   
   def draft!
@@ -140,8 +149,8 @@ class JournalEntry < ActiveRecord::Base
       'Sendt ud'   => 2,
       'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
       'Kladde'     => 4,
-      'Besvaret'   => 5,    # skemaet er printet, skift til venter
-
+      'Besvaret (papir)'   => 5,    # besvaret af behandler
+			'Besvaret'	 => 6,		# besvaret af login-bruger 
        }
   end
   

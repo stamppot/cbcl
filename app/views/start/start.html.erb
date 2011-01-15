@@ -1,7 +1,7 @@
 <% cache "start_#{@survey}" do %>
 <h2>Velkommen til CBCL</h2>
 <p>
-Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
+Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start. Når du er færdig skal du trykke på 'Send svar'-knappen.
 
 <div style=' width: 750px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
 	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start' %></span>

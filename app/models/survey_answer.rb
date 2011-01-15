@@ -32,18 +32,13 @@ class SurveyAnswer < ActiveRecord::Base
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
 
-  def save_all(params)
-    # if answered by other, save the textfield instead
-    # "answer"=>{"person_other"=>"fester", "person"=>"15"}
-    if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
-      self.answered_by = other
-    end
-    self.journal_entry_id = self.journal_entry.id if journal_entry_id == 0
-    self.answered_by = params[:answer] && params[:answer][:person] || ""
+  def save_final(params, save_the_answers = true)
+		set_answered_by(params)
     self.done = true
+		params[:login_user] && self.journal_entry.answered! || self.journal_entry.answered_paper!
     self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    self.save_answers(params)
-    self.answers.each { |a| a.update_ratings_count }
+    self.save_answers(params) if save_the_answers
+    # self.answers.each { |a| a.update_ratings_count }
     Answer.transaction do
       answers.each {|a| a.save!}
     end
@@ -55,6 +50,19 @@ class SurveyAnswer < ActiveRecord::Base
     self.save
   end
   
+	def set_answered_by(params = {})
+    # if answered by other, save the textfield instead    # "answer"=>{"person_other"=>"fester", "person"=>"15"}
+    if params[:answer] && (other = params[:answer][:person_other]) && !other.blank? && (other.to_i == Role.get(:other).id)
+      self.answered_by = other
+    end
+    self.journal_entry_id = self.journal_entry.id if journal_entry_id == 0
+    self.answered_by = params[:answer] && params[:answer][:person] || ""
+	end
+	
+	def all_answered?
+		self.no_unanswered == 0
+	end
+	
   def cell_values(prefix = nil)
     prefix ||= self.survey.prefix
     a = Dictionary.new
@@ -224,6 +232,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     t = Time.now; updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
     # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
+    self.answers.each { |a| a.update_ratings_count }
     return self
   end
   

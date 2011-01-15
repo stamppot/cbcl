@@ -34,7 +34,7 @@ class InsertSurveyAnswers
     survey_answer = journal_entry.survey_answer
     puts "Saved survey_answer for journal #{params['id']}"
     survey_answer.done = true
-    survey_answer.save_all(params)
+    survey_answer.save_final(params)
     return survey_answer
   rescue
     puts "id: #{params['id']}   params: #{params.inspect}"

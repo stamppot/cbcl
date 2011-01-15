@@ -19,6 +19,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = Rails.cache.fetch("j_#{params[:id]}") do
       Journal.find(params[:id], :include => {:journal_entries => :login_user})
     end
+		@answered_entries = @group.answered_entries
+		@not_answered_entries = @group.not_answered_entries
   end
 
   def new

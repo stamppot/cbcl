@@ -88,8 +88,11 @@
 		<% if current_user.perms[:layout_show_scores] %>
 		<%= link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
 		<% end %>
-		<% if [:layout_show_data_export] %>
+		<% if current_user.perms[:layout_show_data_export] %>
 		<%= link_to t("menu.data_export"), exports_path %>
+		<% end %>
+		<% if current_user.perms[:layout_show_survey_stats] %>
+		<%= link_to t("menu.survey_stats"), journal_stats_path %>
 		<% end %>
 	</div>
 	<% end %>

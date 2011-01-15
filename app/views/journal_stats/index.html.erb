@@ -1,0 +1,15 @@
+<h2>Journaler</h2>
+
+<div>Siden tæller er oprettet<br/>
+	Besvaret af personale: <%= @answered_by_login_users.to_s %><br/>
+	Besvaret af brugere: <%= @answered_by_personnel.to_s %><br/>
+</div>
+<p>
+<div>Alle besvarelser<br/>
+	Besvaret af personale: <%= @answered_by_login_users_total %><br/>
+	Besvaret af brugere: <%= @answered_by_personnel_total %><br/>
+</div>
+
+<%= render :partial => 'surveys_per_center_by_state' %>
+
+<p>

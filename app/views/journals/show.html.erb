@@ -5,8 +5,7 @@
 		<%= render :partial => 'journal_info' %>
 	<%# end %>
 	
-	<% not_answered_entries = @group.not_answered_entries %>
-	<% if not_answered_entries.size > 0 %>
+	<% if @not_answered_entries.size > 0 %>
 		<h4>Skemaer der skal besvares</h4>
 		<table id="not_answered" class="surveys">
 			<tr>
@@ -16,7 +15,7 @@
 				<th><%= t('state') %></th>
 				<th class="nosort"><%= t('action') %></th>
 			</tr>
-		<% not_answered_entries.each do |entry| %>
+		<% @not_answered_entries.each do |entry| %>
 			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
 					 <% survey = entry.survey %>
 					 <td style='background-color: #<%= survey.color %>;'>
@@ -46,8 +45,7 @@
 			<%= link_button t('survey.remove'), journal_remove_survey_path(@group), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
 	</div>
 	
-	<% answered_entries = @group.answered_entries %>
-	<% if answered_count = answered_entries.size > 0 %>
+	<% if answered_count = @answered_entries.size > 0 %>
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
@@ -60,7 +58,7 @@
 			<th><%= t('status.answered') %></th>
 			<th><%= t('state') %></th>
 			<th class="nosort"><%= t('action') %></th>
-			<% @group.answered_entries.each do |entry| %>
+			<% @answered_entries.each do |entry| %>
 		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
 					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>

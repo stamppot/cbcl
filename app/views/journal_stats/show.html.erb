@@ -1,0 +1,22 @@
+<h2>Journaler i centeret <%= @center.title %></h2>
+
+
+<div>Siden tæller er oprettet<br/>
+	Besvaret af personale: <%= @answered_by_login_users.to_s %><br/>
+	Besvaret af brugere: <%= @answered_by_personnel.to_s %><br/>
+</div>
+<p>
+<div>Alle besvarelser<br/>
+	Besvaret af personale: <%= @answered_by_login_users_total %><br/>
+	Besvaret af brugere: <%= @answered_by_personnel_total %><br/>
+</div>
+<% unless @groups.empty? %>
+
+<p>
+Tryk på en kolonne for at sortere tabellen.
+</p>
+<% end %>
+
+<%= render :partial => 'journal_stats_list' %>
+
+<p>

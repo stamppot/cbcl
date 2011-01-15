@@ -845,9 +845,10 @@ input.validation-maybe, textarea.validation-maybe {
 	background-color: #eee;
 	cursor: pointer;
 }
-.send_form {
-	background-color: #eee;
-	border: 1px solid #ccc;
+.send_form, #send_form {
+	color: #000;
+	background-color: #80FF00;
+	border: 1px solid #088A08;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	color:#555555;
@@ -856,7 +857,10 @@ input.validation-maybe, textarea.validation-maybe {
 	margin-bottom:14px;
 	text-decoration:none;
 	text-indent:10px;
-	padding: 3px 15px 3px 10px;
+	text-align: center;
+	margin-left: 400px;
+	margin-top: 4px;
+	padding: 6px 15px 6px 10px;
 }
 a .send_survey {
 	background:url('/images/spinner.gif') no-repeat 0px 0px;
