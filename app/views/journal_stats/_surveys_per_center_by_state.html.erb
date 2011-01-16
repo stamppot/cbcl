@@ -17,13 +17,13 @@
 		</td>
 		<td class="pj small"><%= state_per_survey.survey_title %></td>
 		<% 0.upto(3) do |i| %>
-			<td class="pj small">
+			<td class="pj small<%= i %>">
 		<% if state_per_survey.states.size > i
 				countperstate = state_per_survey.states[i] %>
 				<span class="nobr"><%= "#{countperstate.count} #{JournalEntry.states.invert[countperstate.state]}" %></span>
 		<% end %>
 		<%- center_shown = true %>
-		</td>
+		&nbsp;</td>
 		<%- end %>        
 	</tr>
 	<%- center_shown = false %>
