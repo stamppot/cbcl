@@ -16,9 +16,14 @@
 			<a href="/journal_stats/<%= stats.center_id %>"><%= center_shown && "" || stats.center_title %></a>
 		</td>
 		<td class="pj small"><%= state_per_survey.survey_title %></td>
-		<%- state_per_survey.states.each do |countperstate| %>
-		<td class="pj small"><span class="nobr"><%= "#{countperstate.count} #{JournalEntry.states.invert[countperstate.state]}" %></span></td>
+		<% 0.upto(3) do |i| %>
+			<td class="pj small">
+		<% if state_per_survey.states.size > i
+				countperstate = state_per_survey.states[i] %>
+				<span class="nobr"><%= "#{countperstate.count} #{JournalEntry.states.invert[countperstate.state]}" %></span>
+		<% end %>
 		<%- center_shown = true %>
+		</td>
 		<%- end %>        
 	</tr>
 	<%- center_shown = false %>
