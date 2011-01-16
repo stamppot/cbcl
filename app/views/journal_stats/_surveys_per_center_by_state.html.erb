@@ -13,9 +13,7 @@
 	<%- stats.surveys.each do |state_per_survey| %>
 	<tr>
 		<td class="pj_name">
-			<%- if center_shown %>
-			<a href="/journal_stats/<%= stats.center_id %>"><%= stats.center_title %></a>
-			<%- end %>
+			<a href="/journal_stats/<%= stats.center_id %>"><%= center_shown && "" || stats.center_title %></a>
 		</td>
 		<td class="pj small"><%= state_per_survey.survey_title %></td>
 		<%- state_per_survey.states.each do |countperstate| %>
@@ -23,7 +21,7 @@
 		<%- center_shown = true %>
 		<%- end %>        
 	</tr>
-	<%- end %>        
 	<%- center_shown = false %>
+	<%- end %>    
 	<%- end %>
 </table>
