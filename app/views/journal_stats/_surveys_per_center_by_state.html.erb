@@ -1,25 +1,29 @@
 <table id="journal_stat_list" class="list">
 	<tr>
-<th class="wide" title="Sorter efter navn">Center</th>
-<th title="" class="">Spørgeskema</th>
-<th title="" class=""></th>
-<th title="" class=""></th>
-<th title="" class=""></th>
-<th title="" class=""></th>
-</tr>
+		<th class="wide" title="Sorter efter navn">Center</th>
+		<th title="" class="">Spørgeskema</th>
+		<th title="" class=""></th>
+		<th title="" class=""></th>
+		<th title="" class=""></th>
+		<th title="" class=""></th>
+	</tr>
 
-<% @journal_stats.each do |stats| %>
-		<% center_shown = false %>
-		<% stats.surveys.each do |state_per_survey| %>
+	<%- @journal_stats.each do |stats| %>
+	<%- center_shown = false %>
+	<%- stats.surveys.each do |state_per_survey| %>
 	<tr>
-    <td class="pj_name"><a href="/journal_stats/<%= stats.center_id %>"><%= center_shown && "" || stats.center_title %></a></td>
+		<td class="pj_name">
+			<%- if center_shown %>
+			<a href="/journal_stats/<%= stats.center_id %>"><%= stats.center_title %></a>
+			<%- end %>
+		</td>
 		<td class="pj small"><%= state_per_survey.survey_title %></td>
-		<% state_per_survey.states.each do |countperstate| %>
-    	<td class="pj small"><span class="nobr"><%= countperstate.count.to_s + " #{JournalEntry.states.invert[countperstate.state]}" %></span></td>
-			<% center_shown = true %>
-    <% end %>        
-	<% end %>        
-  </tr>
-	<% center_shown = false %>
-<% end %>
+		<%- state_per_survey.states.each do |countperstate| %>
+		<td class="pj small"><span class="nobr"><%= "#{countperstate.count} #{JournalEntry.states.invert[countperstate.state]}" %></span></td>
+		<%- center_shown = true %>
+		<%- end %>        
+	</tr>
+	<%- end %>        
+	<%- center_shown = false %>
+	<%- end %>
 </table>
