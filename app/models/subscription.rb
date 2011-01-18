@@ -155,9 +155,18 @@ class Subscription < ActiveRecord::Base
     active_period = find_active_period
     self.most_recent_payment = DateTime.now.to_date.to_s(:db)
     active_period.pay!
-    begin_new_period!
+		update_used_and_total_paid
+		self.save
+	  begin_new_period!
   end
 
+	def update_used_and_total_paid
+		self.total_paid = 0 unless self.total_paid
+		self.total_paid += self.active_used
+		self.active_used = 0
+		self.total_paid
+	end
+	
   def undo_pay!
     active_period = find_active_period
     if active_period

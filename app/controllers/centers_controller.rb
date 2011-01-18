@@ -134,7 +134,7 @@ class CentersController < ApplicationController
   # pay all active subscriptions
   def pay_subscriptions
     @group = Center.find(params[:id])
-    if request.post? && params[:name] == "yes"
+    if request.post? && params[:yes]
       flash[:notice] = "Abonnementer er betalt." if @group.subscription_service.pay_active_subscriptions! # @group.set_active_subscriptions_paid!
       redirect_to center_path(@group)
     end
@@ -142,7 +142,7 @@ class CentersController < ApplicationController
     @options = {:hide_buttons => true}
     
     rescue ActiveRecord::RecordNotFound
-      flash[:error] = 'Dette abonnement kunne ikke findes.'
+      flash[:error] = 'Dette center (abonnement) kunne ikke findes.'
       redirect_to center_path(@group) #:action => :show, :id => @group
   end
   

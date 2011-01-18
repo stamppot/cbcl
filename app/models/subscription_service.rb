@@ -39,16 +39,16 @@ class SubscriptionService
   
   # set active periods to paid. Create new periods  
   def pay_active_subscriptions!
-    @group.subscriptions.all { |sub| sub.pay! }
+    @center.subscriptions.all { |sub| sub.pay! }
   end
   
   def undo_pay_subscriptions!
-    @group.subscriptions.each { |sub| sub.undo_pay! }
+    @center.subscriptions.each { |sub| sub.undo_pay! }
   end
   
   def set_same_date_on_subscriptions!
     first_period = self.subscriptions.map {|s| s.periods}.flatten.sort_by(&:created_on).first
-    @group.subscriptions.each do |sub|
+    @center.subscriptions.each do |sub|
       sub.periods.each { |p| p.created_on = first_period.created_on; p.save }
     end
   end

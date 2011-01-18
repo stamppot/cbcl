@@ -9,8 +9,7 @@ class SubscriptionSummary
     active = []
     
     periods = subscriptions.map { |sub| sub.periods }.flatten
-    @periods = periods.group_by { |c| c.created_on }
-    
+    @periods = periods.group_by { |c| c.created_on }    
   end
   
 end

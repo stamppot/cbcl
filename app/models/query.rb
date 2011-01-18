@@ -79,8 +79,8 @@ class Query
    def subscription_periods_for_center(center = nil, options = {})
      joins = ['subscriptions', 'periods']
      conditions = { 'subscriptions.id' => 'periods.subscription_id', 'subscriptions.state' => 1}
-     conditions["periods.active"] = 1 if options["active"]
-     conditions["periods.paid"] = 1 if options["paid"]
+     conditions["periods.active"] = 1 if options["active"] #options["active"]
+     conditions["periods.paid"] = 1 if options["paid"] # && 1 || 0 
      if center
        conditions["subscriptions.center_id"] = center.is_a?(Center) && center.id || center
      else
@@ -208,6 +208,7 @@ class Query
    # end
    
    def do_query(query = nil, to_hash = false)
+		 # puts "DO_QUERY: #{@query.inspect}"
      mysql_result = ActiveRecord::Base.connection.execute(query || self.query).all_hashes
    end
    

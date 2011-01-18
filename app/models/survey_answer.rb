@@ -119,7 +119,7 @@ class SurveyAnswer < ActiveRecord::Base
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
   end
 
-  def generate_score_rapport(update = false)
+  def generate_score_report(update = false)
     rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
     args = { :survey_name => self.survey.title,
                   :survey => self.survey,
