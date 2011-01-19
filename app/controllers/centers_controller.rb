@@ -6,6 +6,7 @@ class CentersController < ApplicationController
   def index
     @page_title = "CBCL - Centre"
     @groups = current_user.centers
+		redirect_to center_url(@groups.first) if @groups.size == 1
   end
 
   def show
@@ -18,7 +19,8 @@ class CentersController < ApplicationController
     @subscription_presenter = @group.subscription_presenter
     @subscriptions = @group.subscriptions
     @surveys = current_user.surveys.group_by {|s| s.id}
-    
+    @hide_team = true
+
     respond_to do |format|
       format.html { redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.js {

@@ -136,6 +136,10 @@ module ApplicationHelper
     @group.teams.size == 0
   end
 
+	def center_or_team_text(groups)
+		groups.any? && groups.first.is_a?(Center) && "Center" || "Team"
+	end
+	
 	def any_teams_text
 	  current_user.teams.any? ? "Team" : "Center"
   end

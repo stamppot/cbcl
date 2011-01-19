@@ -142,7 +142,7 @@ class Access
     :admin_roles                => [:admin],
     :center_users               => [:centeradmin, :teamadmin, :behandler ],
     :users                      => [:superadmin, :centeradmin, :teamadmin, :behandler],
-    :centeradm                  => [:superadmin, :centeradmin],
+    :centeradm				          => [:superadmin, :centeradmin],
     :teamadm                    => [:teamadmin],
     :behandler                  => [:superadmin, :behandler],
     :login_user                 => [:login_bruger, :parent, :teacher, :pedagogue, :youth],

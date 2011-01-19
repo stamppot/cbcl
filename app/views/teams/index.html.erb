@@ -1,17 +1,16 @@
 <h2>Teams</h2>
 
-<% @groups.each do |center, teams| %>
-    <%= "Center: " + link_to(center.title, center_path(center), :title => t('center.show')) %>
+<p>
+<% @teams_by_center.each do |center, teams| %>
+    <%= link_to(center.title, center_path(center), :title => t('center.show')) %>
 		<% if teams.any? %>
-			<ul>
-    		<% teams.each do |group| %>
-	    	<li>
-					<%=	link_to(group.title, group) +	" [" + group.users.length.to_s + " bruger#{'e' unless group.users.length == 1}] " %>
-	    	</li>
-    		<% end %>
-			</ul>
+			<% @groups = teams %>
+			<%= render :partial => "shared/group_list" %>
  		<% end %>
+		<p/>
+		<br/>
 <% end %>
+</p>
 
 <% if current_user.access? :team_new_edit_delete %>
 <div class="commands">

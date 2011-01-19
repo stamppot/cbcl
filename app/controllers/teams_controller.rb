@@ -41,7 +41,8 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   # Displays a tree of all projects.
   def index
     @page_title = "CBCL - Liste af teams"
-    @groups = current_user.teams.group_by { |team| team.center }
+		@hide_team = true
+    @teams_by_center = current_user.teams.group_by { |team| team.center }
   end
 
   def show

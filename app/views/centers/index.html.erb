@@ -1,4 +1,4 @@
-<h2>Liste af Centre</h2>
+<h2>Centre</h2>
 
 <% if flash[:error] -%>
 	<div id="errorExplanation"><%= flash[:error] %></div>
@@ -7,7 +7,7 @@
 	<div id="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<% @hide_team = false %>
+<% @hide_team = true %>
 <%= render :partial => 'shared/group_list' %>
 
 

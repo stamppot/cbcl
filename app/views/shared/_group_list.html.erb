@@ -1,10 +1,14 @@
+<% @groups = @group.teams if @group && @group.teams %>
 <table class="sortable list" class="groups">
 	<tr>
-		<th class="wide" title="Sorter efter navn">Navn</th>
+		<th class="wide" title="Sorter efter navn"><%= center_or_team_text(@groups) %></th>
 		<th title="Sorter efter SKS-kode">ID</th>
-		<th title="Sorter efter antal brugere">Brugere</th>
+		<th class="narrow" title="Sorter efter antal brugere"><%= t('user.users') %></th>
 		<% unless @hide_team %>
 		<th class="half_wide" title="Sorter efter team"><%= any_teams_text %></th>
+		<% end %>
+		<% unless @hide_journals %>
+		<th class="half_wide" title="Sorter efter journal"><%= t('journal.journals') %></th>
 		<% end %>
 		<th title="Sorter efter oprettelsesdato"><%= t('status.created') %></th>
 		<% if current_user.access? :show_column_actions %>
@@ -17,6 +21,9 @@
 		<td><%= link_to( group.title, center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
 		<td><%= group.code %></td>
 		<td style="text-align: right;"><%= group.users.size %></td>
+		<% unless @hide_journals %>
+    <td style="text-align: right;"><%= group.journals.count %></td>
+		<% end %>
 		<% unless @hide_team %>
     <td style="text-align: left;"><%= group.class.to_s %></td>
 		<% end %>

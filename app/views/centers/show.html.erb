@@ -18,7 +18,7 @@
 	
 	<div class="center_teams" id="center_teams">
 		<% if current_user.access? :center_show_teams %>
-			<%= render :partial => 'teams' %>
+				<%= render :partial => 'shared/group_list', :locals => {:groups => @group.teams} %>
 			<% end %>
 		<div class="button">
 			<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => t('team.new') %> 
