@@ -1,0 +1,34 @@
+<% no = question.number %>
+<% id = question.id.to_s %>
+
+<br/>
+<div class id='question_number<%= no %>'>
+
+<% if false && no > 0 %>
+	Spørgsmål: <%= no %>
+<% end %>
+
+<br>
+<table class="question_answer" id="question<%= id %>"> 
+	<tbody>
+	<%- 
+	rows = question.rows_of_cols
+	output = ["<tr>", "<td>", "<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"] # removed />
+	
+	rows.sort.each do |row, cols|
+		# puts "ROW: #{row.inspect}  cols: #{cols.inspect}"
+		output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
+		((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
+		
+		cols.each do |col, cell|
+			output << cell.to_html((@options || {:show_all => true}).merge(:number => no))
+		end
+		output << "</tr>\n"
+	end
+		%>
+<%= output.join %>
+	</tbody>
+</table>
+
+</div>
+

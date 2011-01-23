@@ -20,17 +20,14 @@ class Journal < Group
            :order => 'journal_entries.answered_at'
   has_many :answered_entries_by_login_user,
            :class_name => 'JournalEntry',
-           # :include => [:survey],
            :conditions => 'journal_entries.state = 6',  # answered
            :order => 'journal_entries.answered_at'
 	has_many :answered_entries,
 	         :class_name => 'JournalEntry',
-	         # :include => [:survey],
 	         :conditions => 'journal_entries.state >= 5',  # answered
 	         :order => 'journal_entries.answered_at'
   has_many :not_answered_entries,
            :class_name => 'JournalEntry',
-           # :include => [:survey],
            :conditions => 'journal_entries.state < 5',  # not answered
            :order => 'journal_entries.answered_at'
   default_scope :order => 'created_at DESC'               

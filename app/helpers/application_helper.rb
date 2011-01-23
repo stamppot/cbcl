@@ -137,7 +137,11 @@ module ApplicationHelper
   end
 
 	def center_or_team_text(groups)
-		groups.any? && groups.first.is_a?(Center) && "Center" || "Team"
+		if groups.respond_to? :any?
+			groups.any? && groups.first.is_a?(Center) && "Center" || "Team"
+		else
+			"Center"
+		end
 	end
 	
 	def any_teams_text

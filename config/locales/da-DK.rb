@@ -1,5 +1,6 @@
 I18n.backend.store_translations 'da-DK', 
   {
+		:id => 'Id',
     :show => 'Vis',
     :edit => 'Rediger',
     :update => 'Opdater',

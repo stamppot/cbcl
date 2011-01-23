@@ -78,6 +78,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.user_new_password     'new_password/:token',          :controller => 'user',              :action => 'new_password'
   # map.user                  'user/show/:id',                :controller => 'user',              :action => 'show'
   
+  map.print_survey_answer '/survey_answers/print/:id', :controller => 'survey_answers', :action => 'print'
+
   # center
   map.delete_center '/centers/delete/:id', :controller                         => 'centers', :action => 'delete'
   map.center_search 'centers/live_search/:id', :controller                     => 'centers', :action => 'live_search'

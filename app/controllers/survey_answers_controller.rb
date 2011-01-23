@@ -1,9 +1,9 @@
 class SurveyAnswersController < ApplicationController
   layout 'cbcl', :except => [ :show, :show_fast ]
   layout 'survey', :only  => [ :show, :show_fast, :edit ]
-
-
-  def show #_answer
+	layout 'survey_print', :only => [ :print ]
+	
+  def show
     @options = {:answers => true, :disabled => false, :action => "show"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
@@ -12,8 +12,7 @@ class SurveyAnswersController < ApplicationController
     end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.title
-    # render :text => @survey.to_s.inspect
-    render :template => 'surveys/show' #, :layout => "layouts/showsurvey"
+		render :template => 'surveys/show'
   end
   
   def show_fast # show_answer_fast
@@ -38,6 +37,17 @@ class SurveyAnswersController < ApplicationController
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Ret Svar: " << @survey.title
     render :template => 'surveys/show'
+  end
+
+  def print #_answer
+    @options = {:answers => true, :disabled => false, :action => "show"}
+    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+    @survey = #Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+      Survey.and_questions.find(@survey_answer.survey_id)
+    # end
+    @survey.merge_survey_answer(@survey_answer)
+    @page_title = "CBCL - Udskriv Svar: " << @survey.title
   end
 
   # updates survey page with dynamic data. Consider moving to separate JavascriptsController

@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag_html4 'survey_print' %>
+
+<div id="survey_header">
+	<div class="survey" style='background-color: #fff<%# @survey.color %>;'>
+		<div id="survey_journal_info">
+			ID: <%= @journal_entry.journal.qualified_id %><br>
+			Navn: <%= @journal_entry.journal.name %><br>
+			F&oslash;dselsdato: <%= @journal_entry.journal.birth_short %>
+		</div>
+		<div class="surveyname"><%= @survey.title %></div>
+	</div>
+</div>
+<br/>
+
+<br/>
+
+	<div><%= render :partial => "surveys/answer_by" %></div>
+	<br/>
+	<%= render :partial => "question", :collection => @survey.questions %>
+
+<p/>
