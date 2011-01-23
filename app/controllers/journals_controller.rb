@@ -187,8 +187,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
 
     respond_to do |wants|
-      wants.html  { puts "HTML"; render(:template => "journals/searchresults" )}
-      wants.js    { puts "JS"; render(:layout => false, :template => "journals/searchresults" )}
+      wants.html  { render(:template => "journals/searchresults" )}
+      wants.js    { render(:layout => false, :template => "journals/searchresults" )}
     end
   end
   
