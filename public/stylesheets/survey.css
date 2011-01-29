@@ -94,9 +94,6 @@ td {
   border: 1px #DEF solid;
 }
 
-input[type="radio"] {
-	font-size: 150%;
-}
 /*************** buttons **********/
 a.button, input.button {
 	background-color: #eee;
@@ -190,13 +187,10 @@ input.button:active {
 }
 
 .selectoption {
-/*	width: 150px;*/
-	display: inline;
-	width: 22px;
-	padding-left: 0px;
-	padding-right: 40px;
+	display: inline;/*
+		padding-left: 0px;
+		padding-right: 40px;*/
 }
-
 .selectlabel {
 	width: 120px;
 	display: block;
@@ -278,7 +272,7 @@ td.rating3 .radiolabel {
 td.rating3lab {  /* very short label */
 /*	border: 0;*/
   text-align: center;
-  width: 300px;
+/*  width: 150px;*/
 /*	display: inline;*/
 }
 
@@ -301,12 +295,6 @@ td.rating3lab .radiolabel {
 	display: inline;
 /*  padding-right: 1.5em;*/
 }
-
-td.rating3lab + td.listitem, td.rating3lab + td.listitemcomment {
-	background-color: pink;
-	margin-left: -50px;
-}
-
 
 td.rating3lab1 {
   padding-left: 1.5em;
@@ -349,6 +337,7 @@ td.rating3lab3 .radiolabel {
 td.rating3lab4 {
   padding-left: 1.5em;
 	display: inline;
+	white-space:nowrap;
 }
 td.rating3lab4 .radio {
   display: inline;
@@ -370,8 +359,8 @@ td.rating4 {
 
 td.rating4 .radio {
   display: inline;
-  padding-left: 14px;  /*7%;*/
-  padding-right: 14px; /*7%;*/
+  padding-left: 15px;  /*7%;*/
+  padding-right: 15px; /*7%;*/
 }
 
 /*.ie td.rating4 .radio {
@@ -442,7 +431,8 @@ td.rating4lab4 .radiolabel {
 
 td.rating5 {
   text-align: center;
-	display: inline;
+/*	display: inline;*/
+	white-space:nowrap;
 }
 td.rating5 .radio {
   display: inline;
@@ -851,22 +841,21 @@ input.validation-maybe, textarea.validation-maybe {
 	background-color: #eee;
 	cursor: pointer;
 }
-.send_form, #send_form {
-	color: #000;
-	background-color: #80FF00;
-	border: 1px solid #088A08;
+#send_form {
+	background-color: #66FF33;
+	border: 1px solid #2EB800;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
-	color:#555555;
+	color:#000;
+	margin-left: 400px;
+	margin-top: 4px;
 	font-weight:bold;
+	font-size: +1;
 	line-height:29px;
 	margin-bottom:14px;
 	text-decoration:none;
 	text-indent:10px;
-	text-align: center;
-	margin-left: 400px;
-	margin-top: 4px;
-	padding: 6px 15px 6px 10px;
+	padding: 6px 15px 6px 15px;
 }
 a .send_survey {
 	background:url('/images/spinner.gif') no-repeat 0px 0px;

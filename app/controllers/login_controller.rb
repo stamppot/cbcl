@@ -51,7 +51,8 @@ class LoginController < ApplicationController
 
       # TODO: DRY up. Duplicate from line 27
       # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-      if current_user.has_access? :login_user
+      puts "LOGIN_CONTROLLER #{session[:rbac_user_id]}"
+			if current_user.has_access? :login_user
         redirect_to survey_start_path
       else
         redirect_to main_url
@@ -74,8 +75,13 @@ class LoginController < ApplicationController
       redirect_to main_url and return
     end
 
+		# delete login_user
+    if current_user.login_user
+			journal_entry = JournalEntry.find_by_user_id(current_user.id)
+			 journal_entry.login_user.destroy
+		end
     # Otherwise delete the user from the session
-    self.remove_user_from_session!
+		self.remove_user_from_session!
     cookies.delete :journal_entry
     cookies.delete :user_name
     

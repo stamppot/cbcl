@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def remove_user_from_session!
+		puts "!!!!!!!!!!!!!!!!!!!!!!!LOGOUT!!!!!!!LOGGGGGGIIIIIING OOOOOOOOOUUUUUUUUUUUUUUUUUTTTTTTTTTTTTT"
     session[:rbac_user_id] = nil
   end
 
@@ -55,6 +56,7 @@ class ApplicationController < ActionController::Base
             end
     return @current_user_cached
   rescue
+		puts "def current_user RESCUE #{session[:rbac_user_id]}"
     remove_current_user
     redirect_to login_path
   end

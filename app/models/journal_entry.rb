@@ -52,7 +52,7 @@ class JournalEntry < ActiveRecord::Base
     end
   end
   
-  # increment subscription count, deletes login-user
+  # increment subscription count
   # 19-9 find better name
   def increment_subscription_count(survey_answer)
     self.survey_answer = survey_answer
@@ -62,9 +62,7 @@ class JournalEntry < ActiveRecord::Base
     # find subscription to increment, must be same as is journal_entry
     subscription = center.get_subscription(survey_answer.survey_id)  #s.detect { |sub| sub.survey.id == survey.id }
     return false if subscription.nil?                               # no abbo exists
-    if subscription.copy_used!
-      self.user_id = nil if (not self.user_id.nil?) && (User.destroy self.user_id)  # remove login
-    end
+    subscription.copy_used!
     answered!    # saves objects
   end
   

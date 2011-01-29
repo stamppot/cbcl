@@ -8,7 +8,6 @@ class SubscriptionsController < ApplicationController
   def index
     @page_title = "CBCL - Abonnementer på spørgeskemaer"
     # TODO: kun surveys som der er adgang til
-    # current_user = current_user
     @options = params
     @surveys = current_user.surveys
     @centers = 

@@ -43,9 +43,9 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :disabled => false, :action => "show"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = #Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
-    end
+    # end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Udskriv Svar: " << @survey.title
   end
@@ -121,7 +121,7 @@ class SurveyAnswersController < ApplicationController
     end
     id = params.delete("id")
     @journal_entry = JournalEntry.find(id)
-
+		puts "SURVEY AnSWER create #{@journal_entry.inspect}"
     @center = @journal_entry.journal.center
     @subscription = @center.subscriptions.detect { |sub| sub.survey_id == @journal_entry.survey_id }
 
@@ -142,15 +142,17 @@ class SurveyAnswersController < ApplicationController
     
     @journal_entry.increment_subscription_count(survey_answer)
 
-    cookies.delete :user_name
-    # login-users are shown the logout page
+		puts "SURVEYANSWER current_user: #{current_user.inspect}"
+		puts "SURVEY_ANSWER_CONTROLLER #{session[:rbac_user_id]}"
+    
+    # login-users are shown the finish page
     if current_user and current_user.access? :all_users
-      flash[:notice] = "Dit svar er gemt."
+      flash[:notice] = "Besvarelsen er gemt."
       redirect_to journal_path(@journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-      cookies.delete :journal_entry
-      redirect_to survey_finish_path(@journal_entry.login_user) and return
+			puts "GOING TO FINISH PAGE: #{@journal_entry.inspect}\n   current_user: #{current_user.inspect}"
+      redirect_to survey_finish_path(@journal_entry) and return
     end
   rescue RuntimeError
     flash[:error] = survey_answer.print

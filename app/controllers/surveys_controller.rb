@@ -59,6 +59,8 @@ class SurveysController < ApplicationController
     if survey_answer = @journal_entry.survey_answer 
       @survey.merge_survey_answer(survey_answer)
     end
+    puts "SURVEY_CONTROLLER #{session[:rbac_user_id]}"
+
     rescue ActiveRecord::RecordNotFound
   end
 
