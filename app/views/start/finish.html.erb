@@ -2,7 +2,8 @@ Tak fordi du besvarede spørgeskemaet.
 <p>
 	<%# unless @survey_type == "youth" %>
 Du kan udskrive besvarelsen før du logger af. <%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-					(print_survey_answer_path(@journal_entry, {}, :target => '_blank') + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
+					(print_survey_answer_path(@journal_entry,
+					 {}, :target => '_blank') + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
 	<%# end %>
 <p>
 	Du kan nu logge af systemet. <br/>
