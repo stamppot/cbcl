@@ -291,6 +291,7 @@ td.rating3lab4 {
 	border: 0;
   padding-left: 1.5em;
 	display: inline;
+	white-space:nowrap;
 }
 td.rating3lab4 .radio {
   display: inline;
@@ -393,6 +394,7 @@ td.rating5 {
 	border: 0;
   text-align: center;
 	display: inline;
+	white-space:nowrap;
 }
 td.rating5 .radio {
   display: inline;

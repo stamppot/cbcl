@@ -75,16 +75,16 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def answered?
-    self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  # Besvaret
+    self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  
   end
   
   def answered!
-    self.state = JournalEntry.states['Besvaret']   # Besvaret
+    self.state = JournalEntry.states['Besvaret']  
     self.save!
   end
 
   def answered_paper!
-    self.state = JournalEntry.states['Besvaret (papir)']   # Besvaret
+    self.state = JournalEntry.states['Besvaret (papir)']  
     self.save!
   end
 
