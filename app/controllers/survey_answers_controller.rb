@@ -121,7 +121,6 @@ class SurveyAnswersController < ApplicationController
     end
     id = params.delete("id")
     @journal_entry = JournalEntry.find(id)
-		puts "SURVEY AnSWER create #{@journal_entry.inspect}"
     @center = @journal_entry.journal.center
     @subscription = @center.subscriptions.detect { |sub| sub.survey_id == @journal_entry.survey_id }
 
@@ -142,16 +141,12 @@ class SurveyAnswersController < ApplicationController
     
     @journal_entry.increment_subscription_count(survey_answer)
 
-		puts "SURVEYANSWER current_user: #{current_user.inspect}"
-		puts "SURVEY_ANSWER_CONTROLLER #{session[:rbac_user_id]}"
-    
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
       flash[:notice] = "Besvarelsen er gemt."
       redirect_to journal_path(@journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-			puts "GOING TO FINISH PAGE: #{@journal_entry.inspect}\n   current_user: #{current_user.inspect}"
       redirect_to survey_finish_path(@journal_entry) and return
     end
   rescue RuntimeError

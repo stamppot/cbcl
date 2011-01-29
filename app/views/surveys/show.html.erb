@@ -1,3 +1,4 @@
+<% cache(:action => 'show', :action_suffix => 'survey') do %>
 <div id="survey_header">
 	<%= render :partial => 'surveys/survey_header' %>
 </div>
@@ -53,5 +54,5 @@ Event.observe(window, 'load', function() {
 		changeAction('surveyform', '/survey_answers/create/' + params['id']);//matches[1]);
 	}
 });
-
 </script>
+<% end %>

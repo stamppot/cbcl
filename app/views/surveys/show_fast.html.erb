@@ -31,7 +31,9 @@
 	<br>
 
 	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
-	<%= render :partial => 'fancy_submit_button' %>
+	<div id="submit_button" style="display:none;">
+		<%= render :partial => 'surveys/fancy_submit_button' %>
+	</div>
 	
 	<% unless @options[:action] =~ /show/ %>
 	</form>
@@ -49,9 +51,39 @@
 	<% end %>
 <% end %>
 
-<p/>
-	<%= back_button journal_path(@journal_entry.journal) %>
+<p/> <!-- dynamic -->
+	<div id="back_button" style="display:none;"></div>
 
+	<script type="text/javascript">
+	Event.observe(window, 'load', function() {
+		// do not add submit button when it's show only
+		var doNotCall = document.location.href.match(/show_only/);
+		if(doNotCall == null) {
+			var val = /([0-9]+)$/;
+	  	var matches = document.location.href.match(val);
+			var params = {};
+			params['id'] = matches[1];
+			var save_interval = 60;
+			// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
+			var journal_entry = document.cookies().get('journal_entry');
+			if(!(typeof(journal_entry) == "undefined")) {
+				params['id'] = journal_entry;
+				// alert("Only for login user: " + params['id']);
+				save_interval = 300;
+			}
+			else { // no save_draft for login users 
+				//<![CDATA[
+				var save_draft_url = '/survey_answers/save_draft/' + params['id'];
+				new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
+				//]]>
+			}
+			get_dynamic_fragments("/survey_answers/dynamic_data", params);
 
+			// set form action to this journal_entry
+			changeAction('surveyform', '/survey_answers/create/' + params['id']);//matches[1]);
+		}
+	});
+	</script>
+	
 <div id="debug">
 </div>
