@@ -90,6 +90,24 @@ class SurveyAnswersController < ApplicationController
     end
   end
   
+  def draft_data
+		puts "GET_DRAFT_DATA #{params.inspect}"
+		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+		@response = if journal_entry.survey_answer
+			journal_entry.survey_answer.answers.inject([]) {|col,a| col << a.answer_cells.map {|ac| ac.javascript_set_value(true)}; col }.flatten.join
+		else
+			""
+		end
+		puts "RESPONSE: #{@response}"
+		respond_to do |format|
+			format.js {
+				render :update do |page|
+					page << @response.to_s
+				end
+			}
+		end
+	end
+	
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do

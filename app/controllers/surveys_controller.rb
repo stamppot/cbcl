@@ -59,9 +59,9 @@ class SurveysController < ApplicationController
 
     # show survey with existing answers
     # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-    if survey_answer = journal_entry.survey_answer 
-      @survey.merge_survey_answer(survey_answer)
-    end
+    # if survey_answer = journal_entry.survey_answer 
+    #   @survey.merge_survey_answer(survey_answer)
+    # end
 
     rescue ActiveRecord::RecordNotFound
   end

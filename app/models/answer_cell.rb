@@ -65,8 +65,23 @@ class AnswerCell < ActiveRecord::Base
 	def cell_value
 		self.value_text || self.value
 	end
-
-		
+	
+	def html_value_id(fast = false)
+		if fast || rating
+			"q#{answer.number}_#{row}_#{col}_#{value}"
+		else
+			"q#{answer.number}_#{row}_#{col}"
+		end
+	end
+	
+	def javascript_set_value(fast = false)
+		return "" if fast && value == 9 || value.blank?
+		if rating || self.answer_type == "Checkbox"
+			"$('#{html_value_id(fast)}').checked = #{value != 9};"
+		else
+			"$('#{html_value_id(fast)}').value = #{value};"
+		end
+	end
   # 
   # def to_xml
   #   r = []
