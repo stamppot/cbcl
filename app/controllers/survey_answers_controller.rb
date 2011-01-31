@@ -94,7 +94,8 @@ class SurveyAnswersController < ApplicationController
 		puts "GET_DRAFT_DATA #{params.inspect}"
 		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
 		@response = if journal_entry.survey_answer
-			journal_entry.survey_answer.answers.inject([]) {|col,a| col << a.answer_cells.map {|ac| ac.javascript_set_value(true)}; col }.flatten.join
+			all_answer_cells = journal_entry.survey_answer.add_value_positions
+			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(true); col }.flatten.join
 		else
 			""
 		end

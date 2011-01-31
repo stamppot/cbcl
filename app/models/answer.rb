@@ -17,6 +17,11 @@ class Answer < ActiveRecord::Base
     self.ratings_count = self.question.ratings_count - answer_ratings_count
   end
 
+	def set_answer_cell_positions
+		q_cells = self.question.question_cells
+		
+	end
+	
   def answer_cell_exists?(col, row)
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
   end
@@ -63,7 +68,6 @@ class Answer < ActiveRecord::Base
     self.answer_cells.each_with_index do |cell, i|
       c = {}
       type = :Integer
-      # value = cell.value.blank? && '#NULL!' || cell.value
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
         c[:var] = var.var.to_sym
       else  # default var name
@@ -76,19 +80,14 @@ class Answer < ActiveRecord::Base
         end
         var = "#{prefix}#{q}#{item}".to_sym
         c[:var] = var
-        # cs[var] = 
-        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-        #   type = "String"
-        #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         if cell.text? !cell.cell_value.blank?
           type = "String"
           cell.value_text = CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
         end
-        # value = cell.value.to_i if type == :Integer && !cell.value.blank?
         value = cell.value.to_i if !cell.text? && !cell.value.blank?
         c[:type] = type
         c[:v] = value
-        puts c.inspect
+        # puts c.inspect
         cells << c
       end
     end
@@ -126,13 +125,9 @@ class Answer < ActiveRecord::Base
 				fields[:text] = true
       end
 			# TODO: writes value to both columns. Later, fix it so only text values are written to value_text
-      # fields[:value_text] = fields[:value]
 			fields[:cell_type] = types[valid_values[cell_id][:type]]
-			# puts "create_cells_optimized: #{fields.inspect}"
       new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
-      # new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:answertype], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
     end
-    # puts "create_cells: #{new_cells.size} cells"
     return new_cells
   end
 
@@ -173,6 +168,30 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
 
+	# assumes that arrays of q_cells and a_cells are symmetrical. Where no answer is relevant, a nil value occurs
+	def add_value_positions
+		q_cells = self.question.rows_of_cols
+		a_cells = self.rows_of_cols
+		puts "add_value_pos size #{a_cells.size}"
+		a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
+			cols.each_pair do |col, cell|
+				if !cell.value.blank?
+					pos_arr = q_cells[row][col].value_to_text
+					puts "q_cell.value_to_text #{q_cells[row][col].value_to_text.inspect}"
+					puts "looking for position for value: #{cell.cell_value} or #{cell.value}"
+					if cell.value != 9 && result = pos_arr.assoc(cell.cell_value.to_s)
+						pos = result.last
+						puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
+						cell.position = pos unless pos.nil?
+					end
+				end
+			end
+		end
+		all_answer_cells = []
+		a_cells.each_path { |path, value| all_answer_cells << value }
+		puts "all size: #{all_answer_cells.size}"
+		all_answer_cells
+	end
   # # returns array of cells to create
   # def add_missing_cells_optimized
   #   a_cells = self.answer_cells.ratings

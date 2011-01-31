@@ -41,6 +41,10 @@ class QuestionCell < ActiveRecord::Base
 	end
 	# private :mix, :cell_same_row
 	
+	def value_to_text
+		self.question_items.map { |item| [item.value.blank? && item.text || item.value, item.position] }
+	end
+	
 	def answer_text
 		other_cell = cell_same_row
 		mix(other_cell) if other_cell
@@ -63,7 +67,7 @@ class QuestionCell < ActiveRecord::Base
 				q_item.qtype = (fields[0].nil? ? "" : fields[0])
 				q_item.value = (fields[1].nil? ? "" : fields[1])
 				q_item.text  = (fields[2].nil? ? "" : fields[2])
-				q_item.position = i+1
+				q_item.position = i #+1
 				@question_items << q_item
 			end
 		end
