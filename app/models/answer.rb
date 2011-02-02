@@ -13,7 +13,7 @@ class Answer < ActiveRecord::Base
   
   def update_ratings_count
 		answer_ratings_count = self.ratings.count # subtract values of 9
-		answer_ratings_count -= self.ratings.select { |ac| ac.value == "9"}.size
+		answer_ratings_count -= self.ratings.select { |ac| ac.value == 9}.size
     self.ratings_count = self.question.ratings_count - answer_ratings_count
   end
 

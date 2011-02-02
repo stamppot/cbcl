@@ -71,9 +71,22 @@ class JournalEntry < ActiveRecord::Base
   # end
   
   def status
+		# if survey_answer && survey_answer.answered_by.to_i > 10
+		# 	role = Role.find survey_answer.answered_by
+		# 	return "Besvaret af #{role.title)}"
+		# end
     JournalEntry.states.invert[self.state]
   end
-  
+
+	def answered_by
+		if !survey_answer.blank? && survey_answer.answered_by.to_i > 0
+			role = Role.find survey_answer.answered_by
+			return role.title
+		# elsif survey_answer.answered_by.size > 2
+		# 	survey_answer.answered_by
+		end
+  end
+
   def answered?
     self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  
   end
@@ -86,6 +99,10 @@ class JournalEntry < ActiveRecord::Base
   def answered_paper!
     self.state = JournalEntry.states['Besvaret (papir)']  
     self.save!
+  end
+
+	def answered_paper?
+    self.state == JournalEntry.states['Besvaret (papir)']  
   end
 
   def not_answered?

@@ -64,7 +64,13 @@
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
 						<%= link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
 					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
-					 <td><%= entry.status %></td>
+					 <td>
+						<%= if entry.answered_by
+							 		"Besvaret af " + t("roles.#{entry.answered_by}")
+							  else
+								 	entry.status
+								end %>
+					 </td>
 					 <td><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
 									(print_survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
 					
