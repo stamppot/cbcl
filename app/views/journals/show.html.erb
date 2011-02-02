@@ -56,7 +56,8 @@
 		<% if answered_count %>
 			<th><%= t('survey.survey') %></th>
 			<th><%= t('status.answered') %></th>
-			<th><%= t('state') %></th>
+			<th><%= "Besvarelse" %></th>
+			<th><%= "af" %></th>
 			<th class="nosort"><%= t('action') %></th>
 			<% @answered_entries.each do |entry| %>
 		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
@@ -64,9 +65,10 @@
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
 						<%= link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
 					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
+					<td><%= entry.status %></td>
 					 <td>
 						<%= if entry.answered_by
-							 		"Besvaret af " + t("roles.#{entry.answered_by}")
+							 		t("roles.#{entry.answered_by}")
 							  else
 								 	entry.status
 								end %>

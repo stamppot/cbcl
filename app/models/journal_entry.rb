@@ -88,25 +88,25 @@ class JournalEntry < ActiveRecord::Base
   end
 
   def answered?
-    self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  
+    self.state == JournalEntry.states['Elektronisk'] || self.state != JournalEntry.states['Papir']  
   end
   
   def answered!
-    self.state = JournalEntry.states['Besvaret']  
+    self.state = JournalEntry.states['Elektronisk']  
     self.save!
   end
 
   def answered_paper!
-    self.state = JournalEntry.states['Besvaret (papir)']  
+    self.state = JournalEntry.states['Papir']  
     self.save!
   end
 
 	def answered_paper?
-    self.state == JournalEntry.states['Besvaret (papir)']  
+    self.state == JournalEntry.states['Papir']  
   end
 
   def not_answered?
-    self.state != JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)'] # Ubesvaret
+    self.state != JournalEntry.states['Elektronisk'] || self.state != JournalEntry.states['Papir'] # Ubesvaret
   end
   
   def not_answered!
@@ -164,8 +164,8 @@ class JournalEntry < ActiveRecord::Base
       'Sendt ud'   => 2,
       'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
       'Kladde'     => 4,
-      'Besvaret (papir)'   => 5,    # besvaret af behandler
-			'Besvaret'	 => 6,		# besvaret af login-bruger 
+      'Papir'   	 => 5,    # besvaret af behandler
+			'Elektronisk' => 6,		# besvaret af login-bruger 
        }
   end
   
