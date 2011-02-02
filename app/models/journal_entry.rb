@@ -63,7 +63,7 @@ class JournalEntry < ActiveRecord::Base
     subscription = center.get_subscription(survey_answer.survey_id)  #s.detect { |sub| sub.survey.id == survey.id }
     return false if subscription.nil?                               # no abbo exists
     subscription.copy_used!
-    answered!    # saves objects
+    self.save    # saves objects
   end
   
   # def create_login_user
@@ -71,10 +71,6 @@ class JournalEntry < ActiveRecord::Base
   # end
   
   def status
-		# if survey_answer && survey_answer.answered_by.to_i > 10
-		# 	role = Role.find survey_answer.answered_by
-		# 	return "Besvaret af #{role.title)}"
-		# end
     JournalEntry.states.invert[self.state]
   end
 
@@ -93,11 +89,13 @@ class JournalEntry < ActiveRecord::Base
   
   def answered!
     self.state = JournalEntry.states['Elektronisk']  
+		puts "answered! #{self.state}"
     self.save!
   end
 
   def answered_paper!
     self.state = JournalEntry.states['Papir']  
+		puts "answered_paper! #{self.state}"
     self.save!
   end
 

@@ -35,7 +35,6 @@ class SurveyAnswer < ActiveRecord::Base
   def save_final(params, save_the_answers = true)
 		set_answered_by(params)
     self.done = true
-		params[:login_user] && self.journal_entry.answered! || self.journal_entry.answered_paper!
     self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
     self.save_answers(params) if save_the_answers
     # self.answers.each { |a| a.update_ratings_count }

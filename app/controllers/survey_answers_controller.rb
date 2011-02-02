@@ -105,10 +105,10 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save_answers(params)
     journal_entry.answered_at = Time.now
 		survey_answer.center_id = journal_entry.journal.center_id
-		params[:login_user] = current_user.login_user
+		# params[:login_user] = current_user.login_user
 		if survey_answer.all_answered?
 			survey_answer.save_final(params, false)
-			params[:login_user] && journal_entry.answered! || journal_entry.answered_paper!
+			current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
 		else
     	journal_entry.draft!
 		end
@@ -120,43 +120,47 @@ class SurveyAnswersController < ApplicationController
       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
     end
     id = params.delete("id")
-    @journal_entry = JournalEntry.find(id)
-		puts "SURVEY AnSWER create #{@journal_entry.inspect}"
-    @center = @journal_entry.journal.center
-    @subscription = @center.subscriptions.detect { |sub| sub.survey_id == @journal_entry.survey_id }
+    journal_entry = JournalEntry.find(id)
+		puts "SURVEY AnSWER create #{journal_entry.inspect}"
+    center = journal_entry.journal.center
+    subscription = center.subscriptions.detect { |sub| sub.survey_id == journal_entry.survey_id }
 
-    if @subscription.nil? || @subscription.inactive?
-      flash[:error] = @subscription && t('subscription.expired') || ('subscription.none_for_this_survey')
-      redirect_to @journal_entry.journal and return
+    if subscription.nil? || subscription.inactive?
+      flash[:error] = subscription && t('subscription.expired') || ('subscription.none_for_this_survey')
+      redirect_to journal_entry.journal and return
     end
 
-    survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}", :expires_in => 20.minutes) do
-      Survey.and_questions.find(@journal_entry.survey_id)
+    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
+      Survey.and_questions.find(journal_entry.survey_id)
     end
-    survey_answer = @journal_entry.make_survey_answer
-    
+    survey_answer = journal_entry.make_survey_answer
+		if current_user.login_user?
+			journal_entry.answered! 
+		else 
+			journal_entry.answered_paper!
+		end
+		
     if !survey_answer.save_final(params)
       flash[:notice] = "Fejl! Dit svar blev ikke gemt."
-      redirect_to survey_answer_path(@journal_entry) and return
+      redirect_to survey_answer_path(journal_entry) and return
     end
     
-    @journal_entry.increment_subscription_count(survey_answer)
+    journal_entry.increment_subscription_count(survey_answer)
 
-		puts "SURVEYANSWER current_user: #{current_user.inspect}"
-		puts "SURVEY_ANSWER_CONTROLLER #{session[:rbac_user_id]}"
+		puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
     
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
       flash[:notice] = "Besvarelsen er gemt."
-      redirect_to journal_path(@journal_entry.journal) and return
+      redirect_to journal_path(journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-			puts "GOING TO FINISH PAGE: #{@journal_entry.inspect}\n   current_user: #{current_user.inspect}"
-      redirect_to survey_finish_path(@journal_entry) and return
+			puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
+      redirect_to survey_finish_path(journal_entry) and return
     end
   rescue RuntimeError
     flash[:error] = survey_answer.print
-    redirect_to journal_path(@journal_entry.journal) and return
+    redirect_to journal_path(journal_entry.journal) and return
   end
   
   def update
