@@ -93,9 +93,11 @@ class SurveyAnswersController < ApplicationController
   def draft_data
 		puts "GET_DRAFT_DATA #{params.inspect}"
 		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+		show_fast = params['fast'] || false
+		puts "SHOW FAST? #{show_fast}"
 		@response = if journal_entry.survey_answer
 			all_answer_cells = journal_entry.survey_answer.add_value_positions
-			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(true); col }.flatten.join
+			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
 		else
 			""
 		end

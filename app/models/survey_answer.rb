@@ -238,6 +238,7 @@ class SurveyAnswer < ActiveRecord::Base
   
 	# used by draft_data to get positions of values
   def add_value_positions
+	puts "SURVEY_ANSWER.add_value_positions"
     self.answers.map { |answer| answer.add_value_positions }.flatten
       # find question which matches answer
       # puts "answer number & id: #{answer.number} - #{answer.id}"

@@ -170,6 +170,7 @@ class Answer < ActiveRecord::Base
 
 	# assumes that arrays of q_cells and a_cells are symmetrical. Where no answer is relevant, a nil value occurs
 	def add_value_positions
+		puts "ANSWER.add_value_positions"
 		q_cells = self.question.rows_of_cols
 		a_cells = self.rows_of_cols
 		puts "add_value_pos size #{a_cells.size}"

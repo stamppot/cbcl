@@ -55,7 +55,7 @@ Event.observe(window, 'load', function() {
 			evalJS: true,
 		  onSuccess: function(transport) {
 				eval(transport.responseText);
-				alert("Yes, I did it!");
+				// alert("Yes, I did it!");
 		  }
 		});
 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
