@@ -38,11 +38,11 @@
 		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>
 		<td><% if summary[:paid_on] && summary[:paid] %>
 				<%= summary[:paid_on].to_date.strftime("%e %b %y") %>
-				<% elsif summary[:used] > 0 && current_user.access?(:subscription_new_edit) %>
-				<%= link_button t('subscription.pay'), pay_periods_url(@group, :start_date => summary[:start_on], :end_date => stopped_on), 'period_pay' %>
-				<% end %>
-				<% if summary[:date1] && summary[:date2] && current_user.access?(:subscription_new_edit) %>
-					<%= link_button t('subscription.merge_periods'), {:controller => :centers, :action => 'merge_periods', :id => @group }, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
+				<%# elsif summary[:used] > 0 && current_user.access?(:subscription_new_edit) %>
+				<%#= link_button t('subscription.pay'), pay_periods_url(@group, :start_date => summary[:start_on], :end_date => stopped_on), 'period_pay' %>
+				<%# end %>
+				<%# if summary[:date1] && summary[:date2] && current_user.access?(:subscription_new_edit) %>
+					<%#= link_button t('subscription.merge_periods'), {:controller => :centers, :action => 'merge_periods', :id => @group }, 'subscription_merge_periods', :title => t('subscription.merge_periods_title')  %>
 				<% end %>
 		</td>
 	</tr>

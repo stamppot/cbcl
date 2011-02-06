@@ -107,3 +107,11 @@ center1:
   center_id: 
   parent_id: 
   created_at: 2009-01-30 20:23:46
+regionnord:
+  created_at: 2010-07-20 16:07:22
+  code: "9009"
+  title: Psykiatrien i Region Nord
+  updated_at: 2010-07-20 16:07:22
+  id: "2989"
+  type: Center
+  center_id:
