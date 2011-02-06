@@ -136,7 +136,9 @@ class CentersController < ApplicationController
   # pay all active subscriptions
   def pay_subscriptions
     @group = Center.find(params[:id])
+		puts "PAY_SUBSCRIPTIONS #{params.inspect}  group:subscription_service: #{@group.subscription_service}"
     if request.post? && params[:yes]
+			# debugger
       flash[:notice] = "Abonnementer er betalt." if @group.subscription_service.pay_active_subscriptions! # @group.set_active_subscriptions_paid!
       redirect_to center_path(@group)
     end

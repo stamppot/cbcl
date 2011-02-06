@@ -15,10 +15,13 @@ class Subscription < ActiveRecord::Base
   
   validates_presence_of :survey
   validates_presence_of :center
-  
+
+  validates_presence_of :total_paid
+  validates_presence_of :total_used
+  validates_presence_of :active_used
   
   def new_period!
-    self.periods << Period .new({:active => true})
+    self.periods.build(:active => true, :used => 0)
   end
   
   def Subscription.states
@@ -51,7 +54,7 @@ class Subscription < ActiveRecord::Base
   def find_active_period
     active_period = self.periods.active.first
     if active_period.nil?
-      new_copy = Period .create({:active => true})
+      new_copy = Period .create({:active => true, :used => 0})
       self.periods << new_copy
       self.save
       active_period = new_copy
@@ -66,8 +69,8 @@ class Subscription < ActiveRecord::Base
   # subscribed survey has been used
   def copy_used!
     find_active_period.copy_used!
-    self.total_used = 0 unless self.total_used
-    self.active_used = 0 unless self.active_used
+    self.total_used ||= 0
+    self.active_used ||= 0
     self.total_used += 1   # total count
     self.active_used += 1
     self.save
@@ -83,10 +86,7 @@ class Subscription < ActiveRecord::Base
   end
   
   def periods_used
-    # SELECT subscriptions.center_id, subscriptions.id, SUM(used) FROM cbcl_production.subscriptions, cbcl_production.periods
-    #where subscriptions.id = periods.subscription_id
-    #group by subscriptions.id
-    self.periods.map { |c| c.used }.sum #inject { |sum, n| sum + n }
+    self.periods.map { |c| c.used }.sum
   end
   
   def inactive_used
@@ -108,20 +108,20 @@ class Subscription < ActiveRecord::Base
   def new_period!
     active_period = find_active_period
     active_period.pay!
-    self.periods << Period .create({:active => true, :subscription => self})
+    self.periods.create(:active => true, :subscription => self, :used => 0)
   end
 
-  def undo_new_period!
-    active_period = find_active_period
-    if active_period
-      used = active_period.used
-      if second_last_copy = self.periods.inactive.paid.last
-        second_last_copy.used += used
-        second_last_copy.undo_pay!
-        active_period.destroy
-      end
-    end
-  end
+  # def undo_new_period!
+  #   active_period = find_active_period
+  #   if active_period
+  #     used = active_period.used
+  #     if second_last_copy = self.periods.inactive.paid.last
+  #       second_last_copy.used += used
+  #       second_last_copy.undo_pay!
+  #       active_period.destroy
+  #     end
+  #   end
+  # end
 
   # use when merging periods with no used surveys
   def merge_periods! #(date1, date2)
@@ -140,31 +140,35 @@ class Subscription < ActiveRecord::Base
   end
 
   # pay period
-  def pay_period!(start_date, end_date = Time.now.to_date)
-    p = self.periods.detect {|p| p.created_on == start_date}
-    puts "PAYING PERIOD 1: #{p.inspect}"
-    p.pay!
-    puts "PAYING PERIOD 2: #{p.inspect}"
-    self.most_recent_payment = DateTime.now.to_date.to_s(:db)
-    # begin new period if no active
-     begin_new_period! unless find_active_period
-  end
+  # def pay_period!(start_date, end_date = Time.now.to_date)
+  #   p = self.periods.detect {|p| p.created_on == start_date}
+  #   puts "PAYING PERIOD 1: #{p.inspect}"
+  #   p.pay!
+  #   puts "PAYING PERIOD 2: #{p.inspect}"
+  #   self.most_recent_payment = DateTime.now.to_date.to_s(:db)
+  #   # begin new period if no active
+  #    begin_new_period! unless find_active_period
+  # end
   
   # pay active period
   def pay!
     active_period = find_active_period
-    self.most_recent_payment = DateTime.now.to_date.to_s(:db)
+		puts "Subscription: pay!  active_period: #{active_period.inspect}"
+    self.most_recent_payment = Date.today.to_s(:db)
     active_period.pay!
+		puts "Subscription: paid!  active_period: #{active_period.inspect}"
 		update_used_and_total_paid
 		self.save
 	  begin_new_period!
   end
 
 	def update_used_and_total_paid
-		self.total_paid = 0 unless self.total_paid
+		self.total_paid ||= 0
 		self.total_paid += self.active_used
 		self.active_used = 0
 		self.total_paid
+		self.most_recent_payment = Date.today
+		puts "update_used_and_total_paid: total_paid #{total_paid}  active_used: #{active_used}"
 	end
 	
   def undo_pay!
@@ -189,12 +193,13 @@ class Subscription < ActiveRecord::Base
     end
     results.group_by { |c| c.created_on }
   end
-  
-  private
-  
-    def begin_new_period!
-      self.periods << Period.create({:active => true, :subscription => self})
-    end
+   
+  def begin_new_period!
+		p = self.periods.last
+		p.active = false
+    self.periods.create(:active => true, :subscription => self, :used => 0) if p.save
+  end
+
     # This method returns a hash which contains a mapping of user states 
     # valid by default and their description.
     def Subscription.default_states

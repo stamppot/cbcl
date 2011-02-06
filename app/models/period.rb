@@ -46,9 +46,9 @@ class Period < ActiveRecord::Base
 
   def pay!
     self.paid = true
-    self.paid_on = Time.now
+    self.paid_on = DateTime.now
     self.active = false
-		puts "Period #{self.inspect} valid? #{self.valid?}"
+		puts "Period paid! #{self.inspect}"
     self.save  # check that paid_on is updated
   end
 
