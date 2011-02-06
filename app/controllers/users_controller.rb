@@ -160,10 +160,10 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     id = params[:id].to_i
     # puts "CHECK ACCESS #{current_user.inspect}"
     redirect_to login_path and return false unless current_user
-    if current_user.access?(:user_show_all)
+    if current_user.access?(:user_show_all) || params[:action] == 'new'
       return true
     else
-      access_list = current_user.get_users.map { |u| u.id } << 0
+      access_list = User.users.in_center(current_user.center).map { |u| u.id } << 0
       unless access_list.include? id
         RAILS_DEFAULT_LOGGER.error("[ACCESS VIOLATION] current_user (#{current_user.id}) tried to access user #{id} #{params.inspect}}. Allowed list: #{access_list.inspect}")
         redirect_to login_path and return
