@@ -271,7 +271,7 @@ td.rating3 .radiolabel {
 
 td.rating3lab {  /* very short label */
 /*	border: 0;*/
-  text-align: center;
+  text-align: right;
 /*  width: 150px;*/
 /*	display: inline;*/
 }

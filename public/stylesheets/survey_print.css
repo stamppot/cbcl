@@ -104,8 +104,11 @@ input[type="radio"] {
  }
 
 td.questiontext {
+/*	border: 1px solid lightgreen;*/
+	width: 280px;
 	border: 0;
 }
+
 /* limit the width */
 .itemquestiontext {
 /*  color: green; */
@@ -603,7 +606,8 @@ td.description7lab4 {
 
 .iteminformation {
   padding-left: 1em;
-	width: 1000px;
+	white-space: nowrap;
+/*	width: 1000px;*/
 }
 
 td.textbox {
@@ -611,23 +615,26 @@ td.textbox {
 }
 .itemtextbox { /* tekst med beskrivboks efter */
   display: inline;
+	font-size: 14pt;
+}
+
+td.listitem {
+  display: inline;
+	border: 0;
+	width: 250px;
+	white-space: nowrap;
+}
+td.listitemcomment {
+	width: 250px;
+  display: inline;
+	border: 0;
 }
 
 .listitemtext {  /* without predefined text */
 	border: 0;
 	display: inline;
 /*	background: yellow;*/
-  width: 250px;/*175px;*/
-}
-
-td.listitem {
-  display: inline;
-	border: 0;
-}
-td.listitemcomment {
-	width: 250px;
-  display: inline;
-	border: 0;
+  width: 250px;  /*175px;*/
 }
 
 .listitem1 {  /* without predefined text */
@@ -643,15 +650,16 @@ td.listitemcomment {
 .answer_comment {
 	width: 300px;
 	border: 1px solid #ccc;
-	font-size: 9pt;
-	font-family: courier;
+	font-size: 11pt;
+/*	font-family: courier;*/
+	width: 250px;
 }
 
 .answer_textbox {
-	width: 175px;
+	width: 250px;
 	border: 1px solid #ccc;
-	font-size: 9pt;
-	font-family: courier;
+	font-size: 11pt;
+/*	font-family: courier;*/
 }
 
 .gecko .table, .opera .table, .safari .table {
