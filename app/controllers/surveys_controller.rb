@@ -50,7 +50,7 @@ class SurveysController < ApplicationController
     
     @journal_entry = JournalEntry.find(params[:id])
     @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-      Survey.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
+      Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
     @page_title = @survey.title
 
