@@ -154,7 +154,7 @@ class CentersController < ApplicationController
   def undo_pay_subscriptions
     @group = Center.find(params[:id])
     if request.post?
-      # @group.subscription_service.undo_pay_subscriptions!
+      @group.subscription_service.undo_pay_subscriptions!
       flash[:notice] = "Denne funktion er midlertidigt ikke bruges" # "Sidste betaling af abonnementer er fortrudt."
       redirect_to center_path(@group) and return if @group.save
     else

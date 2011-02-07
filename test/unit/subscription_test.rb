@@ -24,6 +24,7 @@ class SubscriptionTest < ActiveSupport::TestCase
 		
 		# pay
 		subscription.pay!
+		subscription = Subscription.find subscription.id
 		# periods are updated
 		assert_equal 3, subscription.periods.count
 		assert !subscription.periods[0].active?
@@ -42,6 +43,28 @@ class SubscriptionTest < ActiveSupport::TestCase
 		assert_equal 1441, subscription.total_paid
 		assert_equal 0, subscription.active_used
 		assert_equal Date.today, subscription.most_recent_payment
+	end
+
+	test "undo pay subscription" do 
+		subscription = subscriptions(:subscription_2)
+		assert subscription.active?
+		assert_equal 10, subscription.total_used
+		assert_equal 10, subscription.total_paid
+		assert_equal 0, subscription.active_used
+		assert_equal 2, subscription.periods.count
+		assert !subscription.periods[0].active?
+		assert subscription.periods[1].active?
+		
+		# pay
+		subscription.undo_pay!
+		subscription = Subscription.find subscription.id
+
+		# periods are updated
+		assert_equal 1, subscription.periods.count
+		assert_equal 10, subscription.periods[0].used
+		assert subscription.periods[0].active
+		assert !subscription.periods[0].paid
+		assert subscription.periods[0].paid_on.nil?
 	end
 
 	

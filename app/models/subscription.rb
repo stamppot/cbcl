@@ -54,10 +54,8 @@ class Subscription < ActiveRecord::Base
   def find_active_period
     active_period = self.periods.active.first
     if active_period.nil?
-      new_copy = Period .create({:active => true, :used => 0})
-      self.periods << new_copy
-      self.save
-      active_period = new_copy
+      new_copy = self.periods.create({:active => true, :used => 0})
+      active_period = self.periods.last
     end
     active_period
   end
@@ -129,14 +127,14 @@ class Subscription < ActiveRecord::Base
     return if active_periods.size == 1 # nothing to do
 
     first_period = active_periods.shift
-    puts "first period: #{first_period.inspect}"
+    # puts "first period: #{first_period.inspect}"
     # copy subsequent periods to first active
     active_periods.each_with_index do |period, i|
       # puts "#{i} period: #{period.inspect}"
        first_period.used += period.used
      end
     active_periods.each { |p| p.destroy } if first_period.save
-    puts "Done first period: #{first_period.inspect}"
+    # puts "Done first period: #{first_period.inspect}"
   end
 
   # pay period
@@ -153,10 +151,8 @@ class Subscription < ActiveRecord::Base
   # pay active period
   def pay!
     active_period = find_active_period
-		puts "Subscription: pay!  active_period: #{active_period.inspect}"
     self.most_recent_payment = Date.today.to_s(:db)
     active_period.pay!
-		puts "Subscription: paid!  active_period: #{active_period.inspect}"
 		update_used_and_total_paid
 		self.save
 	  begin_new_period!
@@ -168,18 +164,20 @@ class Subscription < ActiveRecord::Base
 		self.active_used = 0
 		self.total_paid
 		self.most_recent_payment = Date.today
-		puts "update_used_and_total_paid: total_paid #{total_paid}  active_used: #{active_used}"
+		# puts "update_used_and_total_paid: total_paid #{total_paid}  active_used: #{active_used}"
 	end
 	
+	# TODO: fix
   def undo_pay!
-    active_period = find_active_period
+    active_period = self.periods.active.last # find_active_period
     if active_period
       used = active_period.used
-      if second_last_copy = self.periods.inactive.paid.last
-        second_last_copy.used += used
-        second_last_copy.undo_pay!
-        self.most_recent_payment = second_last_copy.paid_on
+      if last_paid_period = self.periods.paid.last
+        last_paid_period.used += used
+        last_paid_period.undo_pay!
+        self.most_recent_payment = last_paid_period.paid_on
         active_period.destroy
+				active_period = nil
       end
     end
   end
