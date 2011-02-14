@@ -105,14 +105,19 @@ input[type="radio"] {
 
 td.questiontext {
 /*	border: 1px solid lightgreen;*/
-	width: 280px;
+/*	width: 250px;*/
 	border: 0;
+	display: block;
 }
 
 /* limit the width */
 .itemquestiontext {
 /*  color: green; */
-  width: 20em;
+padding: 0;
+display: block;
+/*  width: 20em;*/
+	width: 250px;
+	max-width: 250px;
 }
 
 .ie .itemquestiontext {
@@ -605,7 +610,7 @@ td.description7lab4 {
 }
 
 .iteminformation {
-  padding-left: 1em;
+/*  padding-left: 1em;*/
 	white-space: nowrap;
 /*	width: 1000px;*/
 }
@@ -619,7 +624,7 @@ td.textbox {
 }
 
 td.listitem {
-  display: inline;
+  display: normal;
 	border: 0;
 	width: 250px;
 	white-space: nowrap;
