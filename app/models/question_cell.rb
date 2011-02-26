@@ -284,6 +284,11 @@ class QuestionCell < ActiveRecord::Base
 		"<div class='#{type}'>#{html}</div>"
 	end
 
+	def span_item(html, type)
+		#content_tag("div", html, { :class => type } )
+		"<span class='#{type}'>#{html}</span>"
+	end
+
 	def form_template(value = nil, disabled = false, show_all = true)
 		form = self.question_items.collect { |item| (item.text.nil? ? "" : item.text) + ": " + (item.value.nil? ? "" : item.value) }
 		form.join
