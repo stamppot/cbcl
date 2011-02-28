@@ -156,6 +156,7 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis brev',
       :delete => 'Slet brev',
       :login => 'Loginbrev',
+			:print => 'Udskriv breve',
       :all_centers => 'Alle centre',
       :confirm => 'Er du sikker på, at du vil slette brevet?'
     },

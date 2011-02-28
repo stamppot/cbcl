@@ -61,20 +61,39 @@ class LettersController < ApplicationController
   end
   
   def show_login
-    @entry = JournalEntry.find(params[:id], :include => :login_user)
-    @login_user = @entry.login_user
+    entry = JournalEntry.find(params[:id], :include => :login_user)
+    @login_user = entry.login_user
     # find letter for team, center, system
-    @letter = Letter.find_by_surveytype(@entry.survey.surveytype, :conditions => ['group_id = ?', @entry.journal.parent_id])
-    @letter = Letter.find_by_surveytype(@entry.survey.surveytype, :conditions => ['group_id = ?', @entry.journal.center_id]) unless @letter
-    @letter = Letter.find_default(@entry.survey.surveytype) unless @letter
+    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id])
+    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless @letter
+    @letter = Letter.find_default(entry.survey.surveytype) unless @letter
     if @letter
-      @letter.insert_text_variables(@entry)
+      @letter.insert_text_variables(entry)
     else
-      render :text => "Brugernavn: #{@entry.login_user.login}<p>Password: #{@entry.password}" and return
+      render :text => "Brugernavn: #{entry.login_user.login}<p>Password: #{entry.password}" and return
     end
     render :layout => 'letters'
   end
   
+  def show_logins
+    journal = Journal.find(params[:id])
+		entries = journal.not_answered_entries
+    # find letter for team, center, system
+		entry_letters = []
+		entries.each do |entry|
+    	letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id])
+    	letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
+    	letter = Letter.find_default(entry.survey.surveytype) unless letter
+			entry_letters << [entry, letter]
+		end
+		@letters = entry_letters.map do |pair|
+			letter = pair.last
+			letter.insert_text_variables(pair.first)
+			letter
+		end
+    render :layout => 'letters'
+  end
+
   def check_access
     if current_user.nil?
       redirect_to login_path and return
