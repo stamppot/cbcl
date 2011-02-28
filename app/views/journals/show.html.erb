@@ -43,7 +43,6 @@
 	<div class="commands">
 		<%= link_button t('survey.add'), journal_add_survey_path(@group), 'journal_add_surveys', :title => 'Tilføj skemaer' %>
 		<%= link_button t('survey.remove'), journal_remove_survey_path(@group), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
-		<%= link_button t('letter.print'), print_letters_path(@group) + "", 'letters_print', :title => 'Udskriv breve', :popup => ['new_window, height=800,width=800'] %>
 		<%= link_button t('letter.print'), print_letters_path(@group) + ".pdf", 'letters_print', :title => 'Udskriv breve', :popup => ['new_window, height=800,width=800'] %>
 	</div>
 	
