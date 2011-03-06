@@ -62,6 +62,12 @@ class SurveyAnswer < ActiveRecord::Base
 		self.no_unanswered == 0
 	end
 	
+	def get_variables # do not cache, coz the cells are merged with answer cells
+    d = Dictionary.new
+    self.answers.each { |answer| d = d.merge!(answer.get_variables(survey.prefix)) }
+    d.order_by
+  end
+  
   def cell_values(prefix = nil)
     prefix ||= self.survey.prefix
     a = Dictionary.new

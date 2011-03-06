@@ -53,6 +53,34 @@ class Answer < ActiveRecord::Base
 
   alias :cell_values :to_csv
 
+	# TODO: rewrite assuming all variables exists (no if statement), create new variable or set variable values (datatype)
+  def get_variables(prefix = nil)
+    cells = Dictionary.new
+    prefix ||= self.survey_answer.survey.prefix
+    q = self.number.to_roman.downcase
+    # cells[:number] = self.question.number
+
+    # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
+		self.answer_cells.map do |cell|
+			var = Variable.get_by_question(id, cell.row, cell.col)
+			if var
+				var.value = cell.value || "#NULL!"
+				var.datatype = cell.datatype
+				cells[var.var.to_sym] = var
+			else  # default var name
+				item = cell.item
+				var = Variable.new({:row => cell.row, :col => cell.col, 
+					:question_id => self.question.id, :survey_id => self.question.survey_id, 
+					:item => cell.item, :datatype => cell.datatype})
+					item << "hv" if !(item =~ /hv$/) && cell.class.to_s =~ /Comment|Text/
+					var.var = "#{prefix}#{q}#{item}"
+					var.value = cell.value.blank? && "#NULL" || cell.value
+					cells[var.var.to_sym] = var
+				end
+			end
+    return cells
+  end
+
   def cell_vals(prefix = nil)
     answer = Dictionary.new
     prefix = survey_answer.survey.prefix unless prefix
@@ -80,8 +108,8 @@ class Answer < ActiveRecord::Base
         # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
         #   type = "String"
         #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
-        if cell.text? !cell.cell_value.blank?
-          type = "String"
+        if cell.text? || !cell.cell_value.blank?
+          type = :String
           cell.value_text = CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
         end
         # value = cell.value.to_i if type == :Integer && !cell.value.blank?
@@ -128,11 +156,8 @@ class Answer < ActiveRecord::Base
 			# TODO: writes value to both columns. Later, fix it so only text values are written to value_text
       # fields[:value_text] = fields[:value]
 			fields[:cell_type] = types[valid_values[cell_id][:type]]
-			# puts "create_cells_optimized: #{fields.inspect}"
       new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
-      # new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:answertype], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
     end
-    # puts "create_cells: #{new_cells.size} cells"
     return new_cells
   end
 

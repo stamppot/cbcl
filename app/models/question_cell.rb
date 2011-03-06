@@ -7,13 +7,17 @@ class QuestionCell < ActiveRecord::Base
 
 	named_scope :ratings, :conditions => ['type = ?', 'Rating']
 	named_scope :answerable, :conditions => ['type IN (?)', ['Rating', 'Checkbox', 'ListItemComment', 'SelectOption', 'Textbox']]  # and ListItem???? TODO: check if this can be answered, otherwise answerable part should be extracted to other type
-	named_scope :unanswerable, :conditions => ['type not IN (?)', ['Rating', 'Checkbox', 'ListItemComment', 'SelectOption', 'Textbox']]
+	named_scope :unanswerable, :conditions => ['type not IN (?)', ['Rating', 'Checkbox', 'ListItemComment', 'ListItem', 'SelectOption', 'Textbox']]
 
 	def row_data
 		self.answer_text if question_text.nil?
 		data = {:item => self.answer_item, :text => self.question_text, :question => self.question.number }
 		data[:score] = item_options.size > 1 && item_options_text || "text"
 		data
+	end
+	
+	def datatype # || self.type == "Checkbox"  - for now only ratings are numeric values
+		self.is_a?(Rating) && :numeric || :string
 	end
 		
 	# def get_answer_text
@@ -513,7 +517,7 @@ class ListItem < QuestionCell
 		self.question_items.each_with_index do |item, i|
 			item_text = edit ? item.text : item.text
 			field = (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
-			if(item_text.nil? || item_text.empty?)     # listitem without predefined text
+			if(item_text.blank?)     # listitem without predefined text
 				if(disabled and value)      # show answer value
 					field << value
 				else                        # show text field, possibly with value
@@ -775,11 +779,14 @@ class ListItemComment < QuestionCell
 					"itemtextbox #{target}".rstrip)
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
 				end
-			when "listitem": newform <<
-				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text
+			when "listitem": 
+			  answer_item_set = true
+			  newform <<
+				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text	
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
 					"<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >", "listitemfield") # removed />
-				else div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
+					
+				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
 				end
 				answer_item_set = true;
 			end

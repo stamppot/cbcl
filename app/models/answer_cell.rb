@@ -32,6 +32,10 @@ class AnswerCell < ActiveRecord::Base
     self.save if change_value(new_value, valid_values)
   end
   
+	def datatype
+		cell_type < 2 && :numeric || :string
+	end
+	
   # comparison based on row first, then column
   def <=>(other)
     if self.row == other.row
