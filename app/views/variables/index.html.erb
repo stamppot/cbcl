@@ -6,6 +6,7 @@
   <tr>
     <th>Var</th>
     <th>Item</th>
+		<th>Datatype</th>
     <th>Row</th>
     <th>Col</th>
     <th>Skema</th>
@@ -16,6 +17,7 @@
   <tr>
     <td><%= variable.var %></td>
     <td><%= variable.item %></td>
+		<td><%= variable.datatype %></td>
     <td><%= variable.row %></td>
     <td><%= variable.col %></td>
     <td><%= link_to(survey_short(variable.survey), {:action => 'show_survey', :id => variable.survey_id}, :style => 'text-decoration:underline;' ) %></td>

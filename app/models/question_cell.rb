@@ -785,7 +785,6 @@ class ListItemComment < QuestionCell
 				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text	
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
 					"<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >", "listitemfield") # removed />
-					
 				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
 				end
 				answer_item_set = true;
