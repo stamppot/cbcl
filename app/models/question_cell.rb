@@ -780,7 +780,7 @@ class ListItemComment < QuestionCell
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
 				end
 			when "listitem": 
-        # answer_item_set = true
+        answer_item_set = true if self.col == 1
 			  newform <<
 				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text	
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
