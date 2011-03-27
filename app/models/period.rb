@@ -1,6 +1,4 @@
 class Period < ActiveRecord::Base
-  # alias_method :paid_on, :consolidated_on
-  # alias_method :paid, :consolidated
   belongs_to :subscription
 
   named_scope :active, :conditions => ['active = ?', true]
@@ -46,9 +44,8 @@ class Period < ActiveRecord::Base
 
   def pay!
     self.paid = true
-    self.paid_on = Time.now
+    self.paid_on = DateTime.now
     self.active = false
-		puts "Period #{self.inspect} valid? #{self.valid?}"
     self.save  # check that paid_on is updated
   end
 

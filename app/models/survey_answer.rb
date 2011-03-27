@@ -35,7 +35,6 @@ class SurveyAnswer < ActiveRecord::Base
   def save_final(params, save_the_answers = true)
 		set_answered_by(params)
     self.done = true
-		params[:login_user] && self.journal_entry.answered! || self.journal_entry.answered_paper!
     self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
     self.save_answers(params) if save_the_answers
     # self.answers.each { |a| a.update_ratings_count }
@@ -63,6 +62,12 @@ class SurveyAnswer < ActiveRecord::Base
 		self.no_unanswered == 0
 	end
 	
+	def get_variables # do not cache, coz the cells are merged with answer cells
+    d = Dictionary.new
+    self.answers.each { |answer| d = d.merge!(answer.get_variables(survey.prefix)) }
+    d.order_by
+  end
+  
   def cell_values(prefix = nil)
     prefix ||= self.survey.prefix
     a = Dictionary.new

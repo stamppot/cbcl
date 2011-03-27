@@ -63,7 +63,7 @@ class JournalEntry < ActiveRecord::Base
     subscription = center.get_subscription(survey_answer.survey_id)  #s.detect { |sub| sub.survey.id == survey.id }
     return false if subscription.nil?                               # no abbo exists
     subscription.copy_used!
-    answered!    # saves objects
+    self.save    # saves objects
   end
   
   # def create_login_user
@@ -73,23 +73,38 @@ class JournalEntry < ActiveRecord::Base
   def status
     JournalEntry.states.invert[self.state]
   end
-  
+
+	def answered_by
+		if !survey_answer.blank? && survey_answer.answered_by.to_i > 0
+			role = Role.find survey_answer.answered_by
+			return role.title
+		# elsif survey_answer.answered_by.size > 2
+		# 	survey_answer.answered_by
+		end
+  end
+
   def answered?
-    self.state == JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)']  # Besvaret
+    self.state == JournalEntry.states['Elektronisk'] || self.state != JournalEntry.states['Papir']  
   end
   
   def answered!
-    self.state = JournalEntry.states['Besvaret']   # Besvaret
+    self.state = JournalEntry.states['Elektronisk']  
+		puts "answered! #{self.state}"
     self.save!
   end
 
   def answered_paper!
-    self.state = JournalEntry.states['Besvaret (papir)']   # Besvaret
+    self.state = JournalEntry.states['Papir']  
+		puts "answered_paper! #{self.state}"
     self.save!
   end
 
+	def answered_paper?
+    self.state == JournalEntry.states['Papir']  
+  end
+
   def not_answered?
-    self.state != JournalEntry.states['Besvaret'] || self.state != JournalEntry.states['Besvaret (papir)'] # Ubesvaret
+    self.state != JournalEntry.states['Elektronisk'] || self.state != JournalEntry.states['Papir'] # Ubesvaret
   end
   
   def not_answered!
@@ -147,8 +162,8 @@ class JournalEntry < ActiveRecord::Base
       'Sendt ud'   => 2,
       'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
       'Kladde'     => 4,
-      'Besvaret (papir)'   => 5,    # besvaret af behandler
-			'Besvaret'	 => 6,		# besvaret af login-bruger 
+      'Papir'   	 => 5,    # besvaret af behandler
+			'Elektronisk' => 6,		# besvaret af login-bruger 
        }
   end
   

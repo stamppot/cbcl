@@ -156,6 +156,7 @@ I18n.backend.store_translations 'da-DK',
       :show => 'Vis brev',
       :delete => 'Slet brev',
       :login => 'Loginbrev',
+			:print => 'Udskriv breve',
       :all_centers => 'Alle centre',
       :confirm => 'Er du sikker på, at du vil slette brevet?'
     },
@@ -174,7 +175,8 @@ I18n.backend.store_translations 'da-DK',
       :none_for_this_survey => "Centret abbonnerer ikke på dette spørgeskema.",
       :expired => "Dit abonnement er udløbet. Kontakt CBCL-SDU.",
       :overview => "Oversigt",
-      :details => "Detaljer"
+      :details => "Detaljer", 
+      :total_used => "Brugte i alt"
     },
     
     :score => {
@@ -257,7 +259,8 @@ I18n.backend.store_translations 'da-DK',
       :admin => "dataudtræk",
       :centeradministrator => "centeradministrator",
       :centeradmin => "centeradministrator",
-      :teamadmininistrator => "teamadministrator",
+      :teamadministrator => "teamadministrator",
+      :teamadmin => "teamadministrator",
       :behandler => "behandler",
       :login_bruger => "login_bruger",
       :parent =>    "forælder",

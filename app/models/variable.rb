@@ -12,7 +12,7 @@ class Variable < ActiveRecord::Base
   named_scope :and_survey, :include => :survey
   named_scope :and_question, :include => :question
   
-  attr_accessor :short
+  attr_accessor :short, :value
 
   @@question_hash = nil
   @@survey_hash = nil

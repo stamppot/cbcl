@@ -3,8 +3,9 @@
 		<th>Spørgeskema</th>
 		<th>Noter</th>
 		<th><%= t('state') %></th>
-		<th class="number" title="Brugt i alt"><%= t('total') %></th>
-		<th class="number" title="Brugt siden sidste betaling">Siden sidst</th>
+		<th class="number" title="Ubetalte">Ubetalte</th>
+		<th class="number" title="Betalte">Betalte</th>
+		<th class="number" title="Total"><%= t('total') %></th>
 	</tr>
 <%
   total_used = 0
@@ -21,13 +22,15 @@
 				<td><%= link_to(sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
 				<td><%= sub.note.nil? ? "&nbsp;" : split_string(sub.note) %></td>
 				<td><%= Subscription.states.invert[sub.state] %></td>
-				<td class="number"><%= sub.active_periods_used %></td>
+				<td class="number"><%= sub.unpaid_used %></td>
 				<td class="number"><% sub.active_used %></td>
 			</tr>
  <% end %>
 	<% end %>
 	<tr>
-		<td>Total:</td><td></td><td></td><td class="number"><%= total_used - active_total_used %></td><td class="number"><%= active_total_used %></td>
+		<td>Total:</td><td></td><td></td>
+		<td class="number"><%= total_used - active_total_used %></td>
+		<td class="number"><%= active_total_used %></td>
 	</tr>
 
 </table>

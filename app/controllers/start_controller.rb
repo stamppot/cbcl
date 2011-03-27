@@ -17,16 +17,14 @@ class StartController < ApplicationController
 	end
 
 	def finish
-		puts "START_CONTROLLER #{session[:rbac_user_id]}"
-    
-		# if request.post?
 		# if session[:rbac_user_id] && (journal_entry = cookies[:journal_entry])  # TODO: put in helper method
-		params[:id] ||= cookies[:journal_entry] # login user can access survey with survey_id instead of journal_entry_id
-		puts "FINISH 2 #{params.inspect}"
+		# params[:id] ||= cookies[:journal_entry] # login user can access survey with survey_id instead of journal_entry_id
+		puts "FINISH 1 params: #{params.inspect}"
 		@journal_entry = JournalEntry.find(params[:id])
 		puts "FINISH 3: #{@journal_entry.login_user.inspect}  journal_entry: #{@journal_entry.inspect}"
 		# @journal_entry.login_user.destroy if @journal_entry.login_user
 		@survey_type = @journal_entry.survey.surveytype
+		cookies.delete "journal_entry"
 		puts "FINISH 4"
 	end
 

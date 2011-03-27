@@ -709,6 +709,12 @@ a .journal_remove_surveys {
 	background:url('/images/table_delete.png') no-repeat 0px 0px;
 	padding-left: 27px;
 } 
+
+a .letters_print {
+	background:url('/images/printer.png') no-repeat 0px 0px;
+	padding-left: 27px;
+} 
+
 a .survey_add {
 	background:url('/images/table_add.png') no-repeat 0px 0px;
 	padding-left: 27px;

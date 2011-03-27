@@ -29,8 +29,9 @@ class SubscriptionPresenter
       :title => (survey && survey.title || "Ingen titel"),
       :total => subscription.total_used,
       :note => subscription.note || "",
-      :active => subscription.active_used,
-      :paid => subscription.total_paid,
+      :active => subscription.unpaid_used,
+      :paid => subscription.paid_used,
+      # :paid => subscription.total_paid,
       :state => Subscription.states.invert[subscription.state],
       :start => subscription.created_at
     }
@@ -58,7 +59,11 @@ class SubscriptionPresenter
     summaries = @group.subscription_service.subscription_summary(@params).sort_by {|s| s.first }
     summaries.each do |summary|
       date, periods = *summary
+			puts "periods_summary: #{date.inspect} Summary: #{summary.inspect}"
       used = periods.sum {|p| p["used"].to_i }
+			# find period for date, get used amount
+			current_period = get_period_for_date(periods, date)
+			puts "Current_period: #{current_period.inspect}"
       active = periods.sum {|p| p["active_used"].to_i }
       is_paid = periods.all? { |p| p['paid'].to_i > 0 && p['paid_on']}
       paid_on = periods.detect { |p| p['paid_on'] }
@@ -66,7 +71,7 @@ class SubscriptionPresenter
       stopped_on = periods.first["paid_on"]
       @summary_view[:periods] << {
         :start_on => date, 
-        :used => used,
+        :used => used, #current_period["used"].to_i, #used,
         :active => active,
         :paid => is_paid,
         :created => date,
@@ -76,5 +81,15 @@ class SubscriptionPresenter
       @summary_view[:total_periods] += used  
     end
   end
-       
+
+	private
+	def get_period_for_date(periods, date)
+		puts "Get_period_for_date: #{date.inspect}"
+   	p = active_periods = periods.select { |p| p["created_on"] < date && p["paid_on"] > date}
+		p = active_periods.first if active_periods.size == 1
+		p = periods.last if !active_periods.any?
+		p = periods.first
+		puts "Got_period_for_date: #{p.inspect}"
+		p
+	end    
 end

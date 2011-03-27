@@ -271,7 +271,7 @@ td.rating3 .radiolabel {
 
 td.rating3lab {  /* very short label */
 /*	border: 0;*/
-  text-align: center;
+  text-align: right;
 /*  width: 150px;*/
 /*	display: inline;*/
 }
@@ -850,7 +850,7 @@ input.validation-maybe, textarea.validation-maybe {
 	margin-left: 400px;
 	margin-top: 4px;
 	font-weight:bold;
-	font-size: +1;
+	font-size: 14pt;
 	line-height:29px;
 	margin-bottom:14px;
 	text-decoration:none;

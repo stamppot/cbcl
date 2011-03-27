@@ -3,3 +3,7 @@ body {
 	font-size: 12pt;
 	
 }
+
+hr {
+	page-break-after: always;
+}
