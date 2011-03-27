@@ -5,7 +5,7 @@
 		<th><%= t('state') %></th>
 		<th class="number" title="Ubetalte">Ubetalte</th>
 		<th class="number" title="Betalte">Betalte</th>
-		<th class="number" title="Total"><%= t('total') %></th>
+		<th class="number" title="Total"><%= t('subscription.total_used') %></th>
 	</tr>
 <%
  total_used = @subscription_presenter.detailed_view.sum {|v| v[:total] || 0}
@@ -32,7 +32,7 @@
 		<td></td>
 		<td></td>
 		<td class="number"><%= active_used %></td>
-		<td class="number"><%= total_used - active_used %></td>
+		<td class="number"><%= total_used == 0 && 0 || total_used - active_used %></td>
 		<td class="number"><%= total_used %></td>
 	</tr>
 

@@ -29,8 +29,9 @@ class SubscriptionPresenter
       :title => (survey && survey.title || "Ingen titel"),
       :total => subscription.total_used,
       :note => subscription.note || "",
-      :active => subscription.active_used,
-      :paid => subscription.total_paid,
+      :active => subscription.unpaid_used,
+      :paid => subscription.paid_used,
+      # :paid => subscription.total_paid,
       :state => Subscription.states.invert[subscription.state],
       :start => subscription.created_at
     }
@@ -70,7 +71,7 @@ class SubscriptionPresenter
       stopped_on = periods.first["paid_on"]
       @summary_view[:periods] << {
         :start_on => date, 
-        :used => current_period["used"].to_i, #used,
+        :used => used, #current_period["used"].to_i, #used,
         :active => active,
         :paid => is_paid,
         :created => date,

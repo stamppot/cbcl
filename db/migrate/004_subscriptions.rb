@@ -28,7 +28,7 @@ class Subscriptions < ActiveRecord::Migration
         last_paid = sub.periods.reverse.detect(&:paid_on)
         sub.total_paid = sub.periods.paid.sum(:used)
         sub.most_recent_payment = last_paid.paid_on if last_paid
-        sub.active_used = sub.active_periods_used
+        sub.active_used = sub.unpaid_used
         sub.save
       end
   end

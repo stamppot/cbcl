@@ -60,8 +60,13 @@ class Subscription < ActiveRecord::Base
     active_period
   end
   
-  def active_periods_used
+  def unpaid_used
     find_active_period.used
+  end
+  
+  def paid_used
+    result = total_used - find_active_period.used
+    result < 0 && 0 || result
   end
   
   # subscribed survey has been used
@@ -87,9 +92,10 @@ class Subscription < ActiveRecord::Base
     self.periods.map { |c| c.used }.sum
   end
   
-  def inactive_used
-    self.total_used - self.find_active_period.used
-  end
+  # def inactive_used
+  #   used_in_total = self.total_used || 0
+  #   used_in_total - self.find_active_period.used
+  # end
   
   def subscriptions_count
     result = Query.new.query_subscriptions_count(self)

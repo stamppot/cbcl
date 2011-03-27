@@ -175,7 +175,8 @@ I18n.backend.store_translations 'da-DK',
       :none_for_this_survey => "Centret abbonnerer ikke på dette spørgeskema.",
       :expired => "Dit abonnement er udløbet. Kontakt CBCL-SDU.",
       :overview => "Oversigt",
-      :details => "Detaljer"
+      :details => "Detaljer", 
+      :total_used => "Brugte i alt"
     },
     
     :score => {
