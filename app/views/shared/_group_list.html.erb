@@ -1,4 +1,4 @@
-<% groups = @group.teams if @group && @group.teams %>
+<% @groups = @group.teams if @group && @group.teams %>
 <table class="sortable list" class="groups">
 	<tr>
 		<th class="wide" title="Sorter efter navn"><%= center_or_team_text(@groups) %></th>
@@ -16,7 +16,7 @@
 		<% end %>
 	</tr>	
 
-	<% groups.each do |group| %>
+	<% @groups.each do |group| %>
 	<tr>
 		<td><%= link_to( group.title, group.is_a?(Team) && team_path(group) || center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
 		<td><%= group.code %></td>
