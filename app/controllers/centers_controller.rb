@@ -195,6 +195,21 @@ class CentersController < ApplicationController
   def undo_new_subscription_period
   end
   
+  def next_journal_id
+    center = Center.find_by_id(params[:id])
+    center = Team.find(params[:id]).center unless center
+    next_journal_id = center.next_journal_id
+    
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page << "$('group_code').value='" + next_journal_id.to_s + "';"
+          page.visual_effect :pulsate, 'group_code'
+        end
+      }
+    end
+  end
+  
   protected
   before_filter :admin_access, :only => [ :new, :delete, :create, :edit, :pay_subscriptions, :undo_pay_subscriptions ]
   

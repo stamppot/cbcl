@@ -2,9 +2,6 @@
 
 <% form_tag journals_path do %>
 	<%= render :partial => 'form' %>
-
-	<% render :partial => "shared/add_survey", :object => @surveys %>
-
 	<%= submit_tag t('create'), :name => 'submit[create]', :class => 'button journal_add' %>
 <% end %>
 

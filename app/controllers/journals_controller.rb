@@ -230,29 +230,18 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
-  #  before_filter :protect_create, :only => [ :new, :delete, :create, :edit ]
-  
 
-  # def protect_create
-  #   if current_user.access? :all_users
-  #     return true
-  #   elsif !current_user.nil?
-  #     flash[:notice] = "Du har ikke adgang til denne side"
-  #     redirect_to journals_path
-  #   else
-  #     flash[:notice] = "Du har ikke adgang til denne side"
-  #     redirect_to login_path
-  #   end
-  # end
 
   def user_access
-    if current_user && !current_user.access?(:journal_new_edit_delete)
+    redirect_to login_path and return unless current_user
+    if current_user && !current_user.has_access?(:journal_new_edit_delete)
       flash[:notice] = "Du har ikke adgang til denne side"
-      redirect_to login_path
+      redirect_to login_path and return
     end
   end
   
   def check_access
+    puts "CHECKACCESS JOURNALCONTROLLER"
     redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
