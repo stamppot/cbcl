@@ -37,13 +37,6 @@ $$(".group_center").each(function(center){
 	center.observe('change', function(){
 		new Ajax.Updater('group_code', '/centers/next_journal_id',
 		 {asynchronous:true, evalScripts:true, parameters:'id=' + center.value});
-		// new Ajax.Request('/centers/next_journal_id', {
-		// 	method: 'get',
-		// 	parameters: { key: center.value } //,
-		// 	// onSuccess: function(res){
-		// 	// 	alert(res.inspect());
-		// 	// }
-		// });
 	});
 });
 	$('group_code').focus();
