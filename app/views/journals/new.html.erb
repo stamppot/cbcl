@@ -1,6 +1,6 @@
 <h2>Opret journal</h2>
 
-<% form_tag journals_path do %>
+<% form_tag journals_path, :name => 'journal_form' do %>
 	<%= render :partial => 'form' %>
 	<%= submit_tag t('create'), :name => 'submit[create]', :class => 'button journal_add' %>
 <% end %>
