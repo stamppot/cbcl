@@ -190,23 +190,23 @@ class User < ActiveRecord::Base
     end
   end
   
-  # TODO rewrite if user.center works
   def center_and_teams
     if(self.has_access?(:admin))
-      Group.center_and_teams #find(:all, :conditions => ['type != ?', "Journal"])
-    # elsif self.has_access? :team_show_admin # self.center
-    #   if self.centers.size > 1 # some people have more centers
-    #     self.centers + self.centers.map { |c| c.teams }.flatten
-    #   else
-    #     [self.center] + self.center.teams
-    #   end
+      Group.center_and_teams
     elsif self.has_access? :team_show
       self.groups
     else
-      groups = self.centers #current_user.center #self.center
-      groups.each do |center| 
-        center.children.each { |team| groups << team if team.instance_of? Team }
-      end
+      self.centers.inject([]) {|col, c| (col << c) << c.teams; col }.flatten
+    end
+  end
+
+  def center_and_team_ids
+    if(self.has_access?(:admin))
+      Group.center_and_teams.map {|g| g.id }
+    elsif self.has_access? :team_show
+      self.group_ids
+    else
+      self.centers.inject([]) { |col, g| (col << g.id) + g.team_ids; col }.flatten
     end
   end
     
