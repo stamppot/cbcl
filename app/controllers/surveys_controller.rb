@@ -151,15 +151,17 @@ class SurveysController < ApplicationController
     redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
-      access = if params[:action] =~ /show_only/
+      access = if params[:action] =~ /show_only|show/
         current_user.surveys.map {|s| s.id }.include? id
-      elsif current_user.access? :superadmin # don't do check for superadmin
-        true
+      #elsif current_user.access? :superadmin # don't do check for superadmin
+      #  true
       else
-        journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
-          current_user.journal_entry_ids
-        end
-        journal_entry_ids.include?(id)
+        true
+        # not using journal_entry_id anymore, so no check is needed. Instead, check call to draft_data
+        # journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
+        #   current_user.journal_entry_ids
+        # end
+        # journal_entry_ids.include?(id)
       end
     end
   end
