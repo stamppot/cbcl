@@ -22,8 +22,9 @@
   <dt><label>Vælg center/team:</label></dt>
   <dd>
     <%= node_tree(@groups) do |group|
-          result = "<input id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
-          result = "<input id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group
+					onclick = 
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group
           result += "<label for=\"group_parent_#{group.id}\">#{group.title}</label> "
           result
         end %>
@@ -32,6 +33,17 @@
 </dl>
 
 <script type="text/javascript">
+Event.observe(window, 'load', function() {
+	var selectedGroup = $$(".group_center").find(function(radio) { return radio.checked; }).value;
+	new Ajax.Updater('group_code', '/centers/next_journal_id',
+	 {asynchronous:true, evalScripts:true, parameters:'id=' + selectedGroup});
+});
+$$(".group_center").each(function(center){
+	center.observe('click', function(){
+		new Ajax.Updater('group_code', '/centers/next_journal_id',
+		 {asynchronous:true, evalScripts:true, parameters:'id=' + center.value});
+	});
+});
 	$('group_code').focus();
 </script>
 <!--[eoform:user]-->

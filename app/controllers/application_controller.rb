@@ -36,7 +36,6 @@ class ApplicationController < ActionController::Base
   end
 
   def remove_user_from_session!
-		puts "!!!!!!!!!!!!!!!!!!!!!!!LOGOUT!!!!!!!LOGGGGGGIIIIIING OOOOOOOOOUUUUUUUUUUUUUUUUUTTTTTTTTTTTTT"
     session[:rbac_user_id] = nil
   end
 
@@ -113,7 +112,6 @@ class ApplicationController < ActionController::Base
             access = current_user.access? :superadmin
           else
             puts "APP CHECKACCESS #{params.inspect}"
-            
             access = current_user.access? :superadmin
           end
           return access
