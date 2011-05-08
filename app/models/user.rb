@@ -201,13 +201,15 @@ class User < ActiveRecord::Base
   end
 
   def center_and_team_ids
-    if(self.has_access?(:admin))
-      Group.center_and_teams.map {|g| g.id }
-    elsif self.has_access? :team_show
-      self.group_ids
-    else
-      self.centers.inject([]) { |col, g| (col << g.id) + g.team_ids; col }.flatten
-    end
+    # group_ids = Rails.cache.fetch("group_ids_user_#{self.id}", :expire => 10.minutes) do 
+      if(self.has_access?(:admin))
+        Group.center_and_teams.map {|g| g.id }
+      elsif self.has_access? :team_show
+        self.group_ids
+      else
+        self.centers.inject([]) { |col, g| (col << g.id) + g.team_ids; col }.flatten
+      end
+    # end
   end
     
   def surveys

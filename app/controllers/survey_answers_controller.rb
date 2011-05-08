@@ -91,17 +91,15 @@ class SurveyAnswersController < ApplicationController
   end
   
   def draft_data
-		puts "GET_DRAFT_DATA #{params.inspect}"
+    # puts "GET_DRAFT_DATA #{params.inspect}"
 		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
 		show_fast = params['fast'] || false
-		puts "SHOW FAST? #{show_fast}"
+    # puts "SHOW FAST? #{show_fast}"
 		@response = if journal_entry.survey_answer
 			all_answer_cells = journal_entry.survey_answer.add_value_positions
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
-		else
-			""
-		end
-		puts "RESPONSE: #{@response}"
+		end || ""
+    # puts "RESPONSE: #{@response}"
 		respond_to do |format|
 			format.js {
 				render :update do |page|
@@ -142,7 +140,7 @@ class SurveyAnswersController < ApplicationController
     end
     id = params.delete("id")
     journal_entry = JournalEntry.find(id)
-		puts "SURVEY AnSWER create #{journal_entry.inspect}"
+    # puts "SURVEY AnSWER create #{journal_entry.inspect}"
     center = journal_entry.journal.center
     subscription = center.subscriptions.detect { |sub| sub.survey_id == journal_entry.survey_id }
 
@@ -168,7 +166,7 @@ class SurveyAnswersController < ApplicationController
     
     journal_entry.increment_subscription_count(survey_answer)
 
-		puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
+    # puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
     
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
@@ -176,7 +174,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_path(journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-			puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
+      # puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
       redirect_to survey_finish_path(journal_entry) and return
     end
   rescue RuntimeError

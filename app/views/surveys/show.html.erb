@@ -40,9 +40,9 @@ Event.observe(window, 'load', function() {
 		if(!(typeof(journal_entry) == "undefined")) {
 			params['id'] = journal_entry;
 			// alert("Only for login user: " + params['id']);
-			save_interval = 300;
-		}
-		else { // no save_draft for login users 
+			// save_interval = 300;
+		// }
+		// else { // no save_draft for login users 
 			//<![CDATA[
 			var save_draft_url = '/survey_answers/save_draft/' + params['id'];
 			new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});

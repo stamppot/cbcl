@@ -4,6 +4,10 @@ class Team < Group
   named_scope :with_center, :include => :center
   named_scope :with_journals, :include => {:journals => :person_info}
   
+  after_save    :expire_cache
+	after_create  :expire_cache
+  after_destroy :expire_cache
+  
   # named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
 
   # team code must be unique within the same center
@@ -13,6 +17,11 @@ class Team < Group
     end
   end
 
+  def expire_cache
+    Rails.cache.delete_matched(/group_ids_user_(.*)/)
+		self.users.map {|user| user.expire_cache}
+  end
+  
   def has_member?(user)
     self.users.include? user
   end
