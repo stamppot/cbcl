@@ -103,8 +103,9 @@ ActionController::Routing::Routes.draw do |map|
   map.journal_remove_survey '/journals/remove_survey/:id', :controller => 'journals', :action => 'remove_survey'
 
   # journal entries
-	map.entry_show 'journal_entries/show/:id', :controller => 'journal_entries', :action => 'show'
-	map.entry_show_fast 'journal_entries/show/:id/fast', :controller => 'journal_entries', :action => 'show'
+	map.entry_show 'journal_entries/show/:id', :controller                   => 'journal_entries', :action => 'show'
+	map.entry_show_fast 'journal_entries/show/:id/fast', :controller         => 'journal_entries', :action => 'show'
+  map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
   map.entry_remove 'journal_entries/remove/:id', :controller               => 'journal_entries', :action => 'remove', :only => :post
   map.entry_remove_answer 'journal_entries/remove_answer/:id', :controller => 'journal_entries', :action => 'remove_answer', :only => :post
   map.login_letter 'letters/show_login/:id', :controller                   => 'letters', :action => 'show_login'

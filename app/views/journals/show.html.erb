@@ -28,7 +28,7 @@
 					 <td><%= entry.status %>
 					 </td>
 					 <td>
-					<% @entry = entry %>
+					<%# @entry = entry %>
 					<%= entry.login_user.nil? ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
 										:class => 'icon', :title => 'Vis login-info'), login_letter_path(entry) + ".pdf", :popup => ['new_window, height=800,width=700']) %>
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
@@ -63,10 +63,13 @@
 			<th><%= "af" %></th>
 			<th class="nosort"><%= t('action') %></th>
 			<% @answered_entries.each do |entry| %>
-		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
+			  <% survey = entry.survey %>
+			 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
 					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
-						<%= link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
+						<%= survey.title %></td>
+						<%# link_to survey.title, entry_show_answer_path(entry), :title => 'Vis Besvarelse' %></td>
+						<%# link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
 					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
 					<td><%= entry.status %></td>
 					 <td>

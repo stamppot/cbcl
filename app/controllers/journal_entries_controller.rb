@@ -18,7 +18,14 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
 			redirect_to survey_path(journal_entry.survey_id) and return
 		end
 	end
-		
+
+	def show_answer
+		puts "Show Answer JournalEntriesController #{params.inspect}"
+		cookies[:journal_entry] = params[:id]
+		journal_entry = JournalEntry.find(params[:id], :include => :journal)
+		redirect_to survey_answer_path(journal_entry.survey_id)
+	end
+	
   # deletes and updates page with ajax call
   def remove
     elem = "entry" << params[:id]
