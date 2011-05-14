@@ -65,7 +65,8 @@ class Subscription < ActiveRecord::Base
   end
   
   def paid_used
-    result = total_used - find_active_period.used
+    total_used_subs = total_used || 0
+    result = total_used_subs - find_active_period.used
     result < 0 && 0 || result
   end
   
