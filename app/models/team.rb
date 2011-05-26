@@ -19,7 +19,7 @@ class Team < Group
   
   # member of center AND NOT member of team
   def only_center_has_member?(user)
-    !self.has_member? user and self.parent.all_users.include? user
+    !self.has_member?(user) and self.parent.all_users.include?(user)
   end
     
   # center (and possible team) has member

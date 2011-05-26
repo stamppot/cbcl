@@ -158,10 +158,10 @@ class Journal < Group
   # sets the next journal code based on its center or current_user
   def next_journal_code(user)
     center = self.center && self.center || user.center
-    return user.centers.map {|c| c.next_journal_id}.max if user.centers.size > 1
-    center.next_journal_id 
+    return user.centers.map {|c| c.next_journal_code}.max if user.centers.size > 1
+    center.next_journal_code
   end
-
+  
   # returns full id, qualified with center and team ids
   def qualified_id
     qualified_code + "-" + "%04d" % self.code

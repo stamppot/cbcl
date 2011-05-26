@@ -84,20 +84,16 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     @group = Team.new
     @group.parent = @groups.first if @groups.size == 1
     # set suggested team code if only one center possible
-    # if @groups.size > 1
-      # @groups = current_user.center ? [current_user.center] : current_user.centers
-    @group.code = @groups.first.next_team_id if @groups.size == 1 # for superadmin, no code is set
+    @group.code = @groups.first.next_team_code if @groups.size == 1 # for superadmin, no code is set
   end
 
-  # Creates a new group. +create+ is only accessible via POST and renders
-  # the same form as #new on validation errors.
   def create
     @group = Team.new(params[:group])
-    if params[:group][:parent].nil?
+    if !params[:group][:parent]
       flash[:error] = 'Du skal vælge et center'
       render teams_url
     else
-      @center = Group.find(params[:group][:parent]) # unless params[:group][:parent].nil?
+      @center = Group.find(params[:group][:parent])
       @group.parent = @center
       @group.center = @center
     end

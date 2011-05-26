@@ -47,7 +47,7 @@ class ScoreRapport < ActiveRecord::Base
   def regenerate(force = false)
     # if Score.last_updated > self.updated_at
       survey_answer_id = self.survey_answer_id
-      self.score_results.map &:destroy
+      self.score_results.map {|sr| sr.destroy}
       survey_answer = SurveyAnswer.find survey_answer_id
       survey_answer.generate_score_rapport
       self.updated_at = Time.now

@@ -1,7 +1,5 @@
 # This is the controller that provides CRUD functionality for the Center model.
 class CentersController < ApplicationController
-  # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
-  # helper RbacHelper
   
   def index
     @page_title = "CBCL - Centre"
@@ -50,10 +48,8 @@ class CentersController < ApplicationController
     @group.build_center_info unless @group.center_info
 
     @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
-    # @group.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
-    # assign properties to group
     if @group.save
       flash[:notice] = 'Centeret er blevet oprettet.'
       redirect_to center_path(@group)
@@ -86,9 +82,6 @@ class CentersController < ApplicationController
     end
   end
   
-  # Loads the group specified by the :id parameters from the url fragment from
-  # the database and displays a "Do you really want to delete it?" form. It
-  # posts to #destroy.
   def delete
     @group = Center.find(params[:id])
 
@@ -195,15 +188,15 @@ class CentersController < ApplicationController
   def undo_new_subscription_period
   end
   
-  def next_journal_id
+  def next_journal_code
     center = Center.find_by_id(params[:id])
     center = Team.find(params[:id]).center unless center
-    next_journal_id = center.next_journal_id
+    next_journal_code = center.next_journal_code
     
     respond_to do |format|
       format.js {
         render :update do |page|
-          page << "$('group_code').value='" + next_journal_id.to_s + "';"
+          page << "$('group_code').value='" + next_journal_code.to_s + "';"
           page.visual_effect :pulsate, 'group_code'
         end
       }

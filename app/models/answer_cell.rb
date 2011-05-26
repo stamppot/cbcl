@@ -8,12 +8,11 @@ class AnswerCell < ActiveRecord::Base
 	
   belongs_to :answer
   set_primary_key "id"
-  # named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
   named_scope :ratings, :conditions => ['cell_type = ?', AnswerCell.answer_types['Rating']]
   named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
   
-  # attr_accessor :some_new_value
+  attr_accessor :variable_name
 
   def change_value(new_value, valid_values = {})
     new_value = new_value || ""

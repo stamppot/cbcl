@@ -102,15 +102,14 @@ class Center < Group
   end
   
   # return the next team id. Id must be highest id so far plus 1, and if doesn't exist
-  def next_team_id
-    id = team_ids.max { |p,q| p <=> q }
-    id.nil? ? 1 : id + 1
+  def next_team_code
+    highest_code = Team.maximum('code', :conditions => ['center_id = ?', self.id])
+    highest_code && highest_code.succ || 1
   end
     
-  # return the next journal id. Id must be highest id so far plus 1, and if doesn't exist
-  def next_journal_id
-    id = journal_ids.max { |p,q| p <=> q }
-    id.nil? ? 1 : id + 1
+  def next_journal_code
+    highest_code = Journal.maximum('code', :conditions => ["center_id = ?", self.id])
+    highest_code && highest_code.succ || 1 # Journal.find(highest_id).code.succ || 1
   end
 
   # returns id codes of all journals in center
