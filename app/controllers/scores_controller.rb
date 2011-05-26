@@ -1,6 +1,6 @@
 class ScoresController < ApplicationController
 
-  layout 'cbcl'
+  layout 'jq_cbcl'
   
   def index
     page = params[:page] || 1

@@ -36,7 +36,7 @@ class ScoreScalesController < ApplicationController
     @scale.update_attributes(params[:score_scale])
     
     flash[:notice] = "Skala er rettet."
-    render(:update) { |page| page.redirect_to score_scales_path }
+    redirect_to score_scales_path
   end
   
   def destroy
@@ -83,7 +83,7 @@ class ScoreScalesController < ApplicationController
   
   def done_order
     flash[:notice] = "Ny rækkefølge er gemt."
-    render(:update) { |page| page.redirect_to score_scales_path }
+    redirect_to score_scales_path
   end
     
   # shows surveys for which this score applies to (or surveys for which this score has been created)

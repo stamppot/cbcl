@@ -1,5 +1,5 @@
 class MainController < ApplicationController
-  layout 'cbcl'
+  layout 'jq_cbcl'
 
   # caches_page :index
   

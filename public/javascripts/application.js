@@ -30,13 +30,20 @@ var Document = {
 };
 Object.extend(document, { cookies: Document.cookies.methodize() });
 
-function get_journal_entry_id() {
-  if(document.cookies().get('journal_entry') == "true"){
-    $('login_box').show();
-  }
-}
+// function get_journal_entry_id() {
+//   if(document.cookies().get('journal_entry') == "true"){
+//     $('login_box').show();
+//   }
+// }
 // document.observe("dom:loaded", handle_login_box);
 
+
+function jq_get_dynamic_fragments(url, opt) {
+  $.ajax({
+    url: url,
+    dataType: 'script'
+  });
+}
 
 // call a method that updates the dynamic parts of a survey 
 function get_dynamic_fragments(url, opt) {

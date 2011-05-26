@@ -3,7 +3,7 @@ class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
   include CacheableFlash
-  layout 'cbcl'
+  layout 'jq_cbcl'
 
   before_filter :configure_charsets
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]

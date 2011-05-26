@@ -49,8 +49,8 @@ class ScoreRefsController < ApplicationController
         page.replace 'create_score_ref_button', ''
         page.replace 'add_new_score_ref', ''
         page.insert_html :bottom, 'score_refs', :partial => 'scores/score_ref'
-        page.visual_effect :blind_down, "score_ref_#{@score_ref.id}"
-        page.visual_effect :highlight, "score_ref_#{@score_ref.id}"
+        # page.visual_effect :blind_down, "score_ref_#{@score_ref.id}"
+        # page.visual_effect :highlight, "score_ref_#{@score_ref.id}"
         page.show 'new_score_ref_button'
       end
     end    
