@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string  "person"
   end
 
+  add_index "center_infos", ["center_id"], :name => "index_center_infos_on_center_id"
+
   create_table "center_settings", :force => true do |t|
     t.integer  "center_id"
     t.string   "settings"
@@ -125,6 +127,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "groups", ["code"], :name => "index_groups_on_code"
   add_index "groups", ["delta"], :name => "index_groups_on_delta"
   add_index "groups", ["parent_id"], :name => "groups_parent_id_index"
+  add_index "groups", ["parent_id"], :name => "index_groups_on_parent_id"
+  add_index "groups", ["type"], :name => "index_groups_on_type"
 
   create_table "groups_roles", :id => false, :force => true do |t|
     t.integer   "group_id",   :default => 0, :null => false
@@ -157,6 +161,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   add_index "journal_entries", ["journal_id"], :name => "index_journal_entries_on_journal_id"
+  add_index "journal_entries", ["state"], :name => "index_journal_entries_on_state"
   add_index "journal_entries", ["survey_answer_id"], :name => "index_journal_entries_on_survey_answer_id"
   add_index "journal_entries", ["survey_id"], :name => "index_journal_entries_on_survey_id"
   add_index "journal_entries", ["user_id"], :name => "index_journal_entries_on_user_id"
@@ -187,6 +192,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.boolean  "active",          :default => false, :null => false
   end
 
+  add_index "periods", ["active"], :name => "index_periods_on_active"
+  add_index "periods", ["paid"], :name => "index_periods_on_paid"
   add_index "periods", ["subscription_id"], :name => "index_periods_on_subscription_id"
 
   create_table "person_infos", :force => true do |t|
@@ -385,6 +392,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   add_index "subscriptions", ["center_id"], :name => "index_subscriptions_on_center_id"
+  add_index "subscriptions", ["survey_id"], :name => "index_subscriptions_on_survey_id"
 
   create_table "survey_answers", :force => true do |t|
     t.integer  "survey_id",                      :default => 0,     :null => false
@@ -401,6 +409,9 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.integer  "center_id"
   end
 
+  add_index "survey_answers", ["age"], :name => "index_survey_answers_on_age"
+  add_index "survey_answers", ["center_id"], :name => "index_survey_answers_on_center_id"
+  add_index "survey_answers", ["done"], :name => "index_survey_answers_on_done"
   add_index "survey_answers", ["journal_entry_id"], :name => "index_survey_answers_on_journal_entry_id"
   add_index "survey_answers", ["journal_id"], :name => "index_survey_answers_on_journal_id"
   add_index "survey_answers", ["survey_id"], :name => "index_survey_answers_on_survey_id"
@@ -462,6 +473,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.integer  "question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "datatype"
   end
 
 end

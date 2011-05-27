@@ -10,6 +10,10 @@ class SurveyAnswers < ActiveRecord::Migration
       t.column :nationality, :string, :limit => 24
       t.column :journal_entry_id, :int, :null => false
       t.column :done, :boolean, :default => false
+      t.column :updated_at, :datetime
+      t.column :journal_id, :integer    
+      t.index  :journal_id
+      t.column :center_id, :integer
     end
     create_table :answers do |t|          # answers has_many answer_cells
       t.column :survey_answer_id, :int, :null => false

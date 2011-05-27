@@ -9,6 +9,6 @@
 # "ActiveRbacMixins::UserRegistrationMixin" module. This module contains the actual 
 # implementation. It is kept there so you can easily provide your own model 
 # files without having to all lines from the engine's directory.
-class UserRegistration < ActiveRecord::Base
-  include ActiveRbacMixins::UserRegistrationMixins::Core
-end
+# class UserRegistration < ActiveRecord::Base
+#   include ActiveRbacMixins::UserRegistrationMixins::Core
+# end

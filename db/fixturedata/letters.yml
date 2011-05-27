@@ -1,0 +1,340 @@
+--- 
+letters_013: 
+  surveytype: teacher
+  name: "loginbrev l\xC3\xA6rer ADHD klinik"
+  created_at: 2011-01-20 13:07:21
+  updated_at: 2011-01-20 13:07:21
+  group_id: "326"
+  id: "13"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf.&nbsp;3864 0500.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Tine Houmann <br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_002: 
+  surveytype: teacher
+  name: Standardbrev login
+  created_at: 2010-08-19 16:00:13
+  updated_at: 2010-08-23 10:06:42
+  group_id: 
+  id: "2"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrisk Afdeling Odense.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du ringe og bede om at f&aring; skemaerne tilsendt p&aring; tlf. 6311 7101.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for og lyst til at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Herefter bedes&nbsp;du indtaste jeres ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l.<br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; Send Svar. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Niels Bilenberg <br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+letters_014: 
+  surveytype: pedagogue
+  name: "loginbrev p\xC3\xA6dagog ADHD klinik"
+  created_at: 2011-01-20 13:08:29
+  updated_at: 2011-01-20 13:08:29
+  group_id: "326"
+  id: "14"
+  letter: |-
+    <p>K&aelig;re p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.:&nbsp;{{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf. 4323 3660 / 3864 0500.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Tine Houmann <br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_003: 
+  surveytype: pedagogue
+  name: Standardbrev login
+  created_at: 2010-08-19 16:00:50
+  updated_at: 2010-08-21 09:32:43
+  group_id: 
+  id: "3"
+  letter: |-
+    <p>K&aelig;re p&aelig;dagog,</p>
+    <p>&nbsp;</p>
+    <p>I forbindelse med den forest&aring;ende "forsamtale", vil vi bede p&aelig;dagogen udfylde et sp&oslash;rgeskema (CBCL-skema) om {{navn}}. Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.</p>
+    <p>Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I ringe og bede om at f&aring; skemaerne tilsendt. Har I mulighed for og lyst til at besvare skemaet elektronisk bedes I f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Herefter bedes I indtaste jeres overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l.<br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; Send Svar. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt Send Svar.</p>
+letters_015: 
+  surveytype: youth
+  name: loginbrev barn/ung ADHD klinik
+  created_at: 2011-01-20 13:10:53
+  updated_at: 2011-01-20 13:10:53
+  group_id: "326"
+  id: "15"
+  letter: |-
+    <p>K&aelig;re {{fornavn}},</p>
+    <p>Du er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup, og i den forbindelse vil vi bede dig udfylde et sp&oslash;rgeskema (YSR-skema). <br /><br /></p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf. 4323 3660 / 3864 0500.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Tine Houmann<br />Overl&aelig;ge</p>
+letters_004: 
+  surveytype: youth
+  name: Standardbrev login
+  created_at: 2010-08-19 16:01:50
+  updated_at: 2010-08-23 09:39:00
+  group_id: 
+  id: "4"
+  letter: |-
+    <p>K&aelig;re {{fornavn}},</p>
+    <p>Du er henvist til B&oslash;rne- og Ungdomspsykiatrisk Afdeling Odense og i den forbindelse vil vi bede dig udfylde et sp&oslash;rgeskema (YSR-skema). <br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis du &oslash;nsker at f&aring; tilsendt skemaerne, bedes du ringe p&aring; tlf. 63117101&nbsp;og bede om at f&aring; skemaerne tilsendt.</p>
+    <p>Har du mulighed for og lyst til at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Herefter bedes du indtaste&nbsp;dit overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l.<br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; Send Svar. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt Send Svar.</p>
+    <p>Venlig hilsen</p>
+    <p>Niels Bilenberg<br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+letters_016: 
+  surveytype: parent
+  name: "Brev Team 1 - for\xC3\xA6ldre"
+  created_at: 2011-02-02 14:16:06
+  updated_at: 2011-05-23 09:47:04
+  group_id: "55"
+  id: "16"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.<br /><br />{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrien Odense. &nbsp;<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I&nbsp;kontakte os&nbsp;p&aring; tlf. 6311 7122.<br /><br />Har I mulighed for at besvare skemaet elektronisk,&nbsp;f&oslash;lg venligst&nbsp;nedenst&aring;ende vejledning:<br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Herefter bedes I indtaste jeres ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;skemaet er udfyldt, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber&nbsp;I vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Vedlagte kuvert&nbsp; indeholder et log-in til besvarelse af sp&oslash;rgeskema (p&aelig;dagog/dagplejer),&nbsp;kuverten bedes afleveret til dagpleje eller institution.</p>
+    <p>Venlig hilsen<br /><br />Jette Asmussen<br />Overl&aelig;ge<br />Sm&aring;b&oslash;rnsteam</p>
+letters_005: 
+  surveytype: parent
+  name: "Brev Team 5- for\xC3\xA6ldre"
+  created_at: 2010-08-19 16:02:14
+  updated_at: 2011-05-27 10:20:06
+  group_id: "1"
+  id: "5"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.<br /><br />{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrien i&nbsp;Odense. &nbsp;<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I&nbsp;kontakte os&nbsp;p&aring; tlf. 6311 7101.<br /><br />Har I mulighed for at besvare skemaet elektronisk,&nbsp;f&oslash;lg venligst&nbsp;nedenst&aring;ende vejledning:<br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk">www.cbcl-sdu.dk</a>.<br />Herefter bedes I indtaste jeres overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;skemaet er udfyldt, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber&nbsp;I vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Vedlagte kuvert&nbsp; indeholder et log-in til besvarelse af sp&oslash;rgeskema (l&aelig;rerskema),&nbsp;kuverten bedes afleveret til klassel&aelig;reren.</p>
+    <p>Venlig hilsen<br /><br />Niels Bilenberg<br />Overl&aelig;ge<br /><br /><br /><br /><br /></p>
+letters_017: 
+  surveytype: pedagogue
+  name: "Brev Team 1 - p\xC3\xA6dagog/dagplejer"
+  created_at: 2011-02-02 14:20:05
+  updated_at: 2011-05-16 09:32:55
+  group_id: "55"
+  id: "17"
+  letter: |-
+    <p>K&aelig;re dagplejer/p&aelig;dagog.</p>
+    <p>Vedr:&nbsp;{{navn}}</p>
+    <p>{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiaten Odense.</p>
+    <p>Ved modtagelse af denne skrivelse har for&aelig;ldrene accepteret, at CBCL-skema udfyldes.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;barnets&nbsp;dagplejer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (CBCL-skema p&aelig;dagogversion), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne,&nbsp;bedes du kontakte os&nbsp;p&aring; tlf. 6311 7122.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for&nbsp;at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.&nbsp;<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Jette Asmussen&nbsp;<br />Overl&aelig;ge<br />Sm&aring;b&oslash;rnsteam</p>
+    <p>&nbsp;</p>
+letters_006: 
+  surveytype: teacher
+  name: "Brev Team 5 - l\xC3\xA6rer"
+  created_at: 2010-08-23 10:52:56
+  updated_at: 2011-05-27 10:20:46
+  group_id: "1"
+  id: "6"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>Ved modtagelse af denne skrivelse har for&aelig;ldrene accepteret,&nbsp;at du&nbsp;udfylder TRF-skemaet.</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrien Odense.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf. 6311 7101.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk">www.cbcl-sdu.dk</a>.<br />Indtaste&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;du er f&aelig;rdig,&nbsp;trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret 1 uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Niels Bilenberg <br />Overl&aelig;ge</p>
+letters_018: 
+  surveytype: parent
+  name: "Brev Team 4 - for\xC3\xA6ldre"
+  created_at: 2011-05-27 08:01:03
+  updated_at: 2011-05-27 10:04:00
+  group_id: "1"
+  id: "18"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.<br /><br />{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrien i Odense. &nbsp;<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I&nbsp;kontakte os&nbsp;p&aring; tlf.&nbsp;6541 1678.<br /><br />Har I mulighed for at besvare skemaet elektronisk,&nbsp;f&oslash;lg venligst&nbsp;nedenst&aring;ende vejledning:<br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Herefter bedes I indtaste jeres overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;skemaet er udfyldt, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber&nbsp;I vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Vedlagte kuvert&nbsp; indeholder et log-in til besvarelse af sp&oslash;rgeskema (l&aelig;rerskema),&nbsp;kuverten bedes afleveret til klassel&aelig;reren.</p>
+    <p>Venlig hilsen<br /><br />Kirsten H&oslash;rder<br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_007: 
+  surveytype: pedagogue
+  name: "Brev - Team 5 p\xC3\xA6dagog"
+  created_at: 2010-08-23 10:53:12
+  updated_at: 2011-05-27 10:21:21
+  group_id: "1"
+  id: "7"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrien Odense.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne,&nbsp;bedes du kontakte os&nbsp;p&aring; tlf. 6311 7101.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for&nbsp;at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.&nbsp;<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Niels Bilenberg <br />Overl&aelig;ge</p>
+letters_020: 
+  surveytype: youth
+  name: Brev Team 4 - barn
+  created_at: 2011-05-27 10:03:10
+  updated_at: 2011-05-27 10:06:27
+  group_id: "1"
+  id: "20"
+  letter: |-
+    <p>K&aelig;re {{fornavn}},</p>
+    <p>Du er henvist til B&oslash;rne- og Ungdomspsykiatrien i&nbsp;Odense og i den forbindelse vil vi bede dig udfylde et sp&oslash;rgeskema (YSR-skema). <br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis du &oslash;nsker at f&aring; tilsendt skemaerne, bedes du&nbsp;kontakte os p&aring;&nbsp;&nbsp;6541 1678.</p>
+    <p>Har du mulighed for&nbsp;at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br /><br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Kirsten H&oslash;rder<br />Overl&aelig;ge</p>
+letters_019: 
+  surveytype: teacher
+  name: "Brev Team 4 - l\xC3\xA6rer/p\xC3\xA6dagog"
+  created_at: 2011-05-27 09:59:25
+  updated_at: 2011-05-27 10:04:43
+  group_id: "1"
+  id: "19"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>Ved modtagelse af denne skrivelse har for&aelig;ldrene accepteret,&nbsp;at du&nbsp;udfylder TRF-skemaet.</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrien Odense.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf.&nbsp;6541 1678.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Indtaste&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;du er f&aelig;rdig,&nbsp;trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret 1 uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Kirsten H&oslash;rder&nbsp;<br />Overl&aelig;ge</p>
+letters_008: 
+  surveytype: youth
+  name: Brev Team 5- barn/den unge
+  created_at: 2010-08-23 10:53:38
+  updated_at: 2011-05-27 10:27:31
+  group_id: "1"
+  id: "8"
+  letter: |-
+    <p>K&aelig;re {{fornavn}},</p>
+    <p>Du er henvist til B&oslash;rne- og Ungdomspsykiatrien i&nbsp;Odense og i den forbindelse vil vi bede dig udfylde et sp&oslash;rgeskema (YSR-skema). <br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis du &oslash;nsker at f&aring; tilsendt skemaerne, bedes du&nbsp;kontakte os p&aring; &nbsp;6311 7101.</p>
+    <p>Har du mulighed for&nbsp;at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk">www.cbcl-sdu.dk</a>.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br /><br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Niels Bilenberg<br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_021: 
+  surveytype: parent
+  name: "Brev Team 3 for\xC3\xA6ldre"
+  created_at: 2011-05-27 10:11:04
+  updated_at: 2011-05-27 10:29:23
+  group_id: "1"
+  id: "21"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.<br /><br />{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrien i Odense. &nbsp;<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I&nbsp;kontakte os&nbsp;p&aring; tlf.&nbsp;6541 4414.<br /><br />Har I mulighed for at besvare skemaet elektronisk,&nbsp;f&oslash;lg venligst&nbsp;nedenst&aring;ende vejledning:<br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Herefter bedes I indtaste jeres overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;skemaet er udfyldt, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber&nbsp;I vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Vedlagte kuvert&nbsp; indeholder et log-in til besvarelse af sp&oslash;rgeskema (l&aelig;rerskema),&nbsp;kuverten bedes afleveret til klassel&aelig;reren.</p>
+    <p>Venlig hilsen<br /><br />Gitte Dehlholm<br />Overl&aelig;ge</p>
+letters_010: 
+  surveytype: teacher
+  name: "loginbrev l\xC3\xA6rer afsnit60"
+  created_at: 2011-01-20 13:02:04
+  updated_at: 2011-01-20 13:02:04
+  group_id: "326"
+  id: "10"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf. 43233660&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Tine Houmann <br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_009: 
+  surveytype: parent
+  name: "loginbrev for\xC3\xA6lder afsnit 60"
+  created_at: 2011-01-20 12:58:26
+  updated_at: 2011-01-20 13:25:43
+  group_id: "326"
+  id: "9"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.</p>
+    <p>{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup.<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;I &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;I kontakte os p&aring; tlf. 4323 3660.&nbsp;&nbsp;<br />Har&nbsp;I mulighed for at besvare skemaet elektronisk, f&oslash;lg venligst nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r skemaet er udfyldt, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p><br />Venlig hilsen<br /><br />Tine Houmann<br />Overl&aelig;ge</p>
+letters_022: 
+  surveytype: teacher
+  name: "Brev Team 3- l\xC3\xA6rer/p\xC3\xA6dagog"
+  created_at: 2011-05-27 10:13:06
+  updated_at: 2011-05-27 10:13:06
+  group_id: "1"
+  id: "22"
+  letter: |-
+    <p>K&aelig;re klassel&aelig;rer/p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.: Din elev {{navn}}</p>
+    <p>Ved modtagelse af denne skrivelse har for&aelig;ldrene accepteret,&nbsp;at du&nbsp;udfylder TRF-skemaet.</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrien Odense.</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf.&nbsp;6541 4414.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Indtaste&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br />N&aring;r&nbsp;du er f&aelig;rdig,&nbsp;trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret 1 uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Gitte Dehlholm&nbsp;<br />Overl&aelig;ge</p>
+letters_011: 
+  surveytype: pedagogue
+  name: "loginbrev p\xC3\xA6dagog afsnit60"
+  created_at: 2011-01-20 13:03:59
+  updated_at: 2011-01-20 13:03:59
+  group_id: "326"
+  id: "11"
+  letter: |-
+    <p>K&aelig;re p&aelig;dagog.</p>
+    <p>&nbsp;Vedr.:&nbsp;{{navn}}</p>
+    <p>{{navn}}&nbsp;er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup</p>
+    <p>Som led i unders&oslash;gelsen og behandlingen beder&nbsp;vi&nbsp;elevens klassel&aelig;rer eller p&aelig;dagog om at udfylde et sp&oslash;rgeskema (TRF-skema), som omhandler barnets adf&aelig;rd.&nbsp;</p>
+    <p>Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;du &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;du kontakte os p&aring; tlf. 4323 3660 / 3864 0500.&nbsp;&nbsp;<br />Har&nbsp;du mulighed for at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r du er f&aelig;rdig, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Tine Houmann <br />Overl&aelig;ge</p>
+    <p>&nbsp;</p>
+letters_023: 
+  surveytype: parent
+  name: Brev Team 3 - barn/den unge
+  created_at: 2011-05-27 10:14:51
+  updated_at: 2011-05-27 10:14:51
+  group_id: "1"
+  id: "23"
+  letter: |-
+    <p>K&aelig;re {{fornavn}},</p>
+    <p>Du er henvist til B&oslash;rne- og Ungdomspsykiatrien i&nbsp;Odense og i den forbindelse vil vi bede dig udfylde et sp&oslash;rgeskema (YSR-skema). <br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis du &oslash;nsker at f&aring; tilsendt skemaerne, bedes du&nbsp;kontakte os p&aring;&nbsp;&nbsp;6541 4114.</p>
+    <p>Har du mulighed for&nbsp;at besvare skemaet elektronisk bedes&nbsp;du f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast <a href="http://www.cbcl-sdu.dk/">www.cbcl-sdu.dk</a>.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt. <br /><br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; <strong>Send Svar</strong>. Det er ikke muligt at rette&nbsp;i skemaet, n&aring;r der er valgt <strong>Send Svar</strong>.</p>
+    <p>Skemaet bedes besvaret en uge f&oslash;r aftalt tid. <br />Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p>Venlig hilsen</p>
+    <p>Gitte Dehlholm<br />Overl&aelig;ge</p>
+letters_012: 
+  surveytype: parent
+  name: "loginbrev for\xC3\xA6lder ADHD klinik"
+  created_at: 2011-01-20 13:05:56
+  updated_at: 2011-01-20 13:05:56
+  group_id: "326"
+  id: "12"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.<br /><br />{{fornavn}} er henvist til B&oslash;rne- og Ungdomspsykiatrisk Center Glostrup.<br /><br />Som led i unders&oslash;gelsen og behandlingen vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema).<br /><br />Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis&nbsp;I &oslash;nsker at f&aring; tilsendt skemaerne, bedes&nbsp;I kontakte os p&aring; tlf.&nbsp;3864 0500.&nbsp;&nbsp;<br />Har&nbsp;I mulighed for at besvare skemaet elektronisk, f&oslash;lg venligst nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Indtast&nbsp;ovenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan et sp&oslash;rgsm&aring;l ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l. Fors&oslash;g dog at besvare alle sp&oslash;rgsm&aring;l s&aring; vidt muligt.<br />N&aring;r skemaet er udfyldt, trykkes p&aring; Send Svar. Det er ikke muligt at rette i skemaet, n&aring;r der er valgt Send Svar.</p>
+    <p>Vi h&aring;ber du vil v&aelig;re os behj&aelig;lpelig med at udfylde skemaet.</p>
+    <p><br />Venlig hilsen<br /><br />Tine Houmann<br />Overl&aelig;ge</p>
+letters_001: 
+  surveytype: parent
+  name: Standardbrev login
+  created_at: 2010-08-19 15:59:25
+  updated_at: 2010-08-23 09:59:30
+  group_id: 
+  id: "1"
+  letter: |-
+    <p>K&aelig;re for&aelig;ldre.</p>
+    <p>I forbindelse med den forest&aring;ende "forsamtale" p&aring; B&oslash;rne- og Ungdomspsykiatrisk Afdeling, vil vi bede jer for&aelig;ldre udfylde et sp&oslash;rgeskema (CBCL-skema). Besvarelsen kan foreg&aring; over nettet, men ogs&aring; i papirformat.<br />Hvis I &oslash;nsker at f&aring; tilsendt skemaerne, bedes I ringe p&aring; og bede om at f&aring; skemaerne tilsendt. Har I mulighed for og lyst til at besvare skemaet elektronisk bedes I f&oslash;lge nedenst&aring;ende vejledning:<br /><br /><br />Brugernavn: {{login}}<br />Password {{password}}<br /><br /><br />G&aring; p&aring; internettet og tast http://www.cbcl-sdu.dk.<br />Herefter bedes I indtaste jeres overenst&aring;ende brugernavn og password.<br />F&oslash;lg herefter instrukserne.<br />Kan nogle af sp&oslash;rgsm&aring;lene ikke besvares, v&aelig;lges n&aelig;ste sp&oslash;rgsm&aring;l.<br />N&aring;r alle sp&oslash;rgsm&aring;lene er besvaret, trykkes p&aring; Send Svar. Det er ikke muligt at rette svar p&aring; sp&oslash;rgsm&aring;lene, n&aring;r der er valgt Send Svar.</p>

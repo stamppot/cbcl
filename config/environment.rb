@@ -1,13 +1,4 @@
 # Be sure to restart your web server when you modify this file.
-class Array
-  def shuffle
-    sort_by { rand }
-  end
-
-  def shuffle!
-    self.replace shuffle
-  end
-end
 
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
@@ -115,7 +106,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
+CACHE = MemCache.new('127.0.0.1')
 
 class Hash
   # return Hash with nil values removed
@@ -211,7 +202,17 @@ class Array
   def to_h
     Hash[*self]
   end
+
+  def shuffle
+    sort_by { rand }
+  end
+
+  def shuffle!
+    self.replace shuffle
+  end
+
 end
+
 
 class Float
   def to_danish

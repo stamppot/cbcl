@@ -27,7 +27,7 @@ ActionController::Base.consider_all_requests_local = false
 #   Bullet.alert = true
 #   Bullet.bullet_logger = true  
 #   Bullet.console = true
-#   Bullet.growl = false
+#   Bullet.growl = true
 #   Bullet.rails_logger = true
 #   Bullet.disable_browser_cache = true
 # end

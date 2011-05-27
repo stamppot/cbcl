@@ -6,17 +6,16 @@ class CreateVariables < ActiveRecord::Migration
       t.integer :row
       t.integer :col
       t.integer :survey_id
-      t.integer :question_id
-      
+      t.integer :question_id      
       t.timestamps
+      t.string :datatype
+
+      t.index :survey_id
+      t.index :question_id
     end
-    add_index :variables, :survey_id
-    add_index :variables, :question_id
   end
 
   def self.down
-    remove_index :variables, :survey_id
-    remove_index :variables, :question_id
     drop_table :variables
   end
 end

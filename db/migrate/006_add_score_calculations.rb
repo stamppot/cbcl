@@ -1,5 +1,6 @@
 class AddScoreCalculations < ActiveRecord::Migration
   def self.up
+      
       # read the SQL script
     adapter = ActiveRecord::Base.configurations['development']['adapter']
 

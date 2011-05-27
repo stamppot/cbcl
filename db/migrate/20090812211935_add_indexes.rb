@@ -5,7 +5,6 @@ class AddIndexes < ActiveRecord::Migration
       add_index :journal_entries, :journal_id
       add_index :journal_entries, :survey_id
       add_index :journal_entries, :survey_answer_id
-      
     end
 
     def self.down
