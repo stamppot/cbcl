@@ -46,6 +46,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group.center = @group.parent && @group.parent.center
     code_exists = Journal.find_by_code(@group.code)
     
+    logger.debug("Journal code: #{@group.code}")
+    logger.debug("Journal valid? #{@group.valid?}  #{@group.errors.inspect}")
     if !code_exists && @group.save
       @group.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
