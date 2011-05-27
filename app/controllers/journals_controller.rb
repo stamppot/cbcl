@@ -29,26 +29,23 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     # if journal is created from Team.show, then team is set to parent
     @groups = Group.get_teams_or_centers(params[:id], current_user)
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
-    @group.code = @group.next_journal_code(current_user)
+    # @group.code = @group.next_journal_code(current_user)
 
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
 
   def create
-    @group = Journal.new
     # set group title to person_info name 
     parent = Group.find(params[:group][:parent])
     params[:person_info][:name] = params[:group][:title]
-    params[:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
+    params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
+    @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
-    @group.update_attributes(params[:group])
-    @group.center = @group.parent && @group.parent.center
-    code_exists = Journal.find_by_code(@group.code)
-    
-    logger.debug("Journal code: #{@group.code}")
-    logger.debug("Journal valid? #{@group.valid?}  #{@group.errors.inspect}")
-    if !code_exists && @group.save
+    # @group.update_attributes(params[:group])
+    # @group.center = @group.parent && @group.parent.center
+
+    if @group.save
       @group.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
       redirect_to journal_path(@group) and return

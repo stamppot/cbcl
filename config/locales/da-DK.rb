@@ -482,6 +482,7 @@ I18n.backend.store_translations 'da-DK',
             :journal => {
               :attributes => {
                 :code => {
+                  :blank => "skal angives.",
                   :taken => "er allerede i brug. Vælg andet ID."
                 },
                 :person_info => {
