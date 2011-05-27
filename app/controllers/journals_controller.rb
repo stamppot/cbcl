@@ -39,7 +39,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = Journal.new
     # set group title to person_info name 
     params[:person_info][:name] = params[:group][:title]
-    parent[:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
+    params[:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
     @group.person_info = @group.build_person_info(params[:person_info])
     @group.update_attributes(params[:group])
     # @group.center = @group.parent && @group.parent.center
