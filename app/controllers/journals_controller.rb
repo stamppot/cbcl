@@ -38,6 +38,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def create
     @group = Journal.new
     # set group title to person_info name 
+    parent = Group.find(params[:group][:parent])
     params[:person_info][:name] = params[:group][:title]
     params[:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
     @group.person_info = @group.build_person_info(params[:person_info])
