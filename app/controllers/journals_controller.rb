@@ -43,9 +43,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     params[:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
     @group.person_info = @group.build_person_info(params[:person_info])
     @group.update_attributes(params[:group])
-    # @group.center = @group.parent && @group.parent.center
+    @group.center = @group.parent && @group.parent.center
+    code_exists = Journal.find_by_code(@group.code)
     
-    if @group.save
+    if !code_exists && @group.save
       @group.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
       redirect_to journal_path(@group) and return
