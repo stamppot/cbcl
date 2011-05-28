@@ -1,4 +1,4 @@
-namespace :db do
+namespace :data do
   desc 'Add subscriptions to all centers
   Defaults to development database. Set RAILS_ENV to override.'
 
@@ -82,5 +82,44 @@ namespace :db do
   task :generate_csv_answers => :environment do
     puts "Generating CSV answers from survey_answers. Can take a while..."
     CSVHelper.new.generate_csv_answers
+  end
+  
+  desc "Seed fixed data: surveys, roles, scores, nationalities"
+  task :seed_fixed_data => :environment do
+    require 'lib/seed_helper'
+    puts "Seeding fixed data: surveys, roles, scores, nationalities"
+    puts "Seeding users, groups, and roles"
+    SeedFromSql.insert_data("db/cbcl_users_groups.sql")
+
+    puts "Seeding surveys, questions, and question_cells"
+    SeedFromSql.insert_data("db/cbcl_surveys.sql")
+
+    puts "Seeding scores"
+    SeedFromSql.insert_data("db/cbcl_scores.sql")
+
+    puts "Seeding nationalities..."
+    SeedFromSql.insert_data("db/cbcl_nationalities.sql")
+  end
+  
+  desc "Insert data from SQL file. Only INSERT/ALTER are executed"
+  task :seed_dynamic_data, :filename, :needs => :environment do |t, args|
+    require 'lib/seed_helper'
+    puts "Seeding user-created data: fx survey_answers, users, groups, subscriptions etc"
+    puts "Argument is: #{args}"
+    puts "No filename given: #{args}" if args.empty?
+    SeedFromSql.insert_data(args[:filename])
+  end
+  
+  desc "Update question_cells with variable name and datatype"
+  task :question_cells_add_variable_datatype => :environment do
+    puts "Adding variable name and datatype to question_cells"
+    vars = Variable.all
+    vars.each do |var|
+      puts "Fetching question_cell question_id: #{var.question_id} row: #{var.row} col: #{var.col} item: #{var.item}"
+      qc = QuestionCell.find_by_question_id_and_row_and_col(var.question_id, var.row, var.col)
+      qc.var = var.var
+      qc.datatype = var.datatype
+      qc.save
+    end
   end
 end

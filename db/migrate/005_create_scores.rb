@@ -1,6 +1,9 @@
-class CreateScores < ActiveRecord::Migration
-  def self.up
+require 'db/migration_helpers'
 
+class CreateScores < ActiveRecord::Migration
+  extend MigrationHelpers
+
+  def self.up
     create_table :score_groups do |t|
       t.column :title, :string
       t.column :description, :text
@@ -23,11 +26,13 @@ class CreateScores < ActiveRecord::Migration
       t.integer  :items_count
       t.datetime :created_at
       t.datetime :updated_at
+      t.index    :survey_id
+      t.index    :score_scale_id
     end
-    
-    add_index :scores, :survey_id
-    add_index :scores, :score_scale_id
-    
+    add_foreign_key('scores', 'fk_scores_surveys', 'survey_id', 'surveys', 'id')
+    add_foreign_key('scores', 'fk_scores_score_groups', 'score_group_id', 'score_groups', 'id')
+  
+
     create_table :score_items do |t|
       t.column :score_id, :int 
       t.column :question_id, :int
@@ -38,10 +43,10 @@ class CreateScores < ActiveRecord::Migration
       t.column :number, :int
       t.index :score_id
     end
+    add_foreign_key('score_items', 'fk_score_items_scores', 'score_id', 'scores', 'id')
 
     create_table :score_refs do |t|
       t.column :score_id, :int
-      # t.column :survey_id, :int # deprecated
       t.column :gender, :int
       t.column :age_group, :string
       t.column :mean, :float
@@ -49,6 +54,7 @@ class CreateScores < ActiveRecord::Migration
       t.column :percent98, :int
       t.index :score_id
     end
+    add_foreign_key('score_refs', 'fk_score_refs_scores', 'score_id', 'scores', 'id')
     
     create_table "scores_surveys", :id => false, :force => true do |t|
       t.integer "score_id"

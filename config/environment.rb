@@ -15,8 +15,8 @@ $KCODE = 'u'
 #require 'jcode'
 
 require 'pdfkit'
-
-# Rails.backtrace_cleaner.remove_silencers!   
+# require 'foreigner'
+# require 'sparkfly-foreigner'
 
 Rails::Initializer.run do |config|
 
@@ -59,6 +59,9 @@ Rails::Initializer.run do |config|
 
   config.action_controller.session = { :session_key => "_cbcl_online_session", :secret => '0001237daee31bffae5fd8dc02313d' }
 
+  # Turn off timestamped migrations
+  config.active_record.timestamped_migrations = false
+  
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
 
@@ -80,6 +83,9 @@ Rails::Initializer.run do |config|
   
   config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
+
+  # config.gem 'foreigner'
+  # config.gem "sparkfly-foreigner"
   
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	

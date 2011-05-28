@@ -167,9 +167,9 @@ CREATE TABLE `user_registrations` (
 #
 ALTER TABLE `groups` DISABLE KEYS;
 LOCK TABLES `groups` WRITE;
-#INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('1','2008-03-20 10:27:32','2008-03-20 10:27:32','Det børne- og ungdomspsykiatriske Hus',NULL,NULL,'4202','Center');
-#INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('2','2007-01-17 18:38:16','2007-01-17 18:38:16','BUPH',NULL,NULL,'1000','Center');
-#INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('3','2008-03-20 10:29:40','2008-03-20 10:29:40','Forskningsteam','1','1','350','Team');
+-- INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('1','2008-03-20 10:27:32','2008-03-20 10:27:32','Det børne- og ungdomspsykiatriske Hus',NULL,NULL,'4202','Center');
+-- INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('2','2007-01-17 18:38:16','2007-01-17 18:38:16','BUPH',NULL,NULL,'1000','Center');
+-- INSERT INTO `groups` (`id`, `created_at`, `updated_at`, `title`, `parent_id`, `center_id`, `code`, `type`) VALUES ('3','2008-03-20 10:29:40','2008-03-20 10:29:40','Forskningsteam','1','1','350','Team');
 UNLOCK TABLES;
 ALTER TABLE `groups` ENABLE KEYS;
 #
@@ -196,12 +196,12 @@ ALTER TABLE `roles` ENABLE KEYS;
 #
 ALTER TABLE `users` DISABLE KEYS;
 LOCK TABLES `users` WRITE;
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('5','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','cbcl-admin','CBCL Administrator','admin@test.dk','b2abc86652cec508579af52c006181b7','md5','DVXGApwOYP','2',NULL,0);
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('4','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','superadmin','superadmin','stamppot@gmail.com','6563322ab85e26abaef99e483fffcd12','md5','S58h18RfGe','2',NULL,0);
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('1','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','jens','Jens Rasmussen','stamppot@gmail.com','55664753bfaaeea23b7b1c380502d94a','md5','W2LeHQTHFM','2',NULL,0);
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('2','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Bente Anthony','Bente Anthony','test@test.dk','45cffaac640bff5260455d8094efe146','md5','H7XNZgTHfL','2',NULL,0);
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('3','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Niels Bilenberg','Niels Bilenberg','test@test.dk','0ce31b2c8697fa148e2b62529955108a','md5','vi00wMQnmM','2',NULL,0);
-#INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('15','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Tina Ravn','Tina Ravn','tina.ravn@ouh.regionsyddanmark.dk','7b44c209e304babfe3a21b25332039b9','md5','8eGZWXb9L9',2,1,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('5','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','cbcl-admin','CBCL Administrator','admin@test.dk','b2abc86652cec508579af52c006181b7','md5','DVXGApwOYP','2',NULL,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('4','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','superadmin','superadmin','stamppot@gmail.com','6563322ab85e26abaef99e483fffcd12','md5','S58h18RfGe','2',NULL,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('1','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','jens','Jens Rasmussen','stamppot@gmail.com','55664753bfaaeea23b7b1c380502d94a','md5','W2LeHQTHFM','2',NULL,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('2','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Bente Anthony','Bente Anthony','test@test.dk','45cffaac640bff5260455d8094efe146','md5','H7XNZgTHfL','2',NULL,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('3','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Niels Bilenberg','Niels Bilenberg','test@test.dk','0ce31b2c8697fa148e2b62529955108a','md5','vi00wMQnmM','2',NULL,0);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `last_logged_in_at`, `login_failure_count`, `login`, `name`, `email`, `password`, `password_hash_type`, `password_salt`, `state`, `center_id`, `login_user`) VALUES ('15','2008-01-01 12:00:00','2008-01-01 12:00:00','2008-01-01 12:00:00','0','Tina Ravn','Tina Ravn','tina.ravn@ouh.regionsyddanmark.dk','7b44c209e304babfe3a21b25332039b9','md5','8eGZWXb9L9',2,1,0);
 UNLOCK TABLES;
 ALTER TABLE `users` ENABLE KEYS;
 #
@@ -209,10 +209,10 @@ ALTER TABLE `users` ENABLE KEYS;
 #
 ALTER TABLE `groups_users` DISABLE KEYS;
 LOCK TABLES `groups_users` WRITE;
-INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('2','10','2008-01-01 12:00:00');
-INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','11','2008-01-01 12:00:00');
-INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','12','2008-01-01 12:00:00');
-INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','15','2008-01-01 12:00:00');
+-- INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('2','10','2008-01-01 12:00:00');
+-- INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','11','2008-01-01 12:00:00');
+-- INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','12','2008-01-01 12:00:00');
+-- INSERT INTO `groups_users` (`group_id`, `user_id`, `created_at`) VALUES ('3','15','2008-01-01 12:00:00');
 UNLOCK TABLES;
 ALTER TABLE `groups_users` ENABLE KEYS;
 #
@@ -220,11 +220,11 @@ ALTER TABLE `groups_users` ENABLE KEYS;
 #
 ALTER TABLE `roles_users` DISABLE KEYS;
 LOCK TABLES `roles_users` WRITE;
-#INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('1','1','2007-01-17 17:57:40');
-#INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('2','1','2007-01-17 17:57:40');
-#INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('3','1','2007-01-17 17:57:40');
-#INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('4','1','2007-01-17 17:57:40');
-#INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('5','2','2008-03-12 11:57:40');
-#INSERT INTO `roles_users` (`user_id`, `role_id`, `created_at`) VALUES ('15','1','2007-01-18 01:57:11');
+-- INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('1','1','2007-01-17 17:57:40');
+-- INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('2','1','2007-01-17 17:57:40');
+-- INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('3','1','2007-01-17 17:57:40');
+-- INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('4','1','2007-01-17 17:57:40');
+-- INSERT INTO `roles_users` (`user_id`,`role_id`,`created_at`) VALUES ('5','2','2008-03-12 11:57:40');
+-- INSERT INTO `roles_users` (`user_id`, `role_id`, `created_at`) VALUES ('15','1','2007-01-18 01:57:11');
 UNLOCK TABLES;
 ALTER TABLE `roles_users` ENABLE KEYS;

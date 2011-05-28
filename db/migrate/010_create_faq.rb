@@ -1,4 +1,8 @@
+require 'db/migration_helpers'
+
 class CreateFaq < ActiveRecord::Migration
+  extend MigrationHelpers
+
   def self.up
     create_table :faq_sections do |t|
       t.string :title
@@ -9,6 +13,7 @@ class CreateFaq < ActiveRecord::Migration
       t.string :question, :answer, :title
       t.index :fag_section_id
     end
+    add_foreign_key('faqs', 'fk_faqs_faq_sections', 'faq_section_id', 'faq_sections', 'id')
   end
 
   def self.down
