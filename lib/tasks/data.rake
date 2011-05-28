@@ -78,4 +78,9 @@ namespace :db do
       vars.values.each {| v| v.save}
     end
   end
+  
+  task :generate_csv_answers => :environment do
+    puts "Generating CSV answers from survey_answers. Can take a while..."
+    CSVHelper.new.generate_csv_answers
+  end
 end

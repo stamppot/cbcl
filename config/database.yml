@@ -12,7 +12,7 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
   adapter: mysql
-  database: cbcl_production
+  database: cbcl_test
   username: jens
   password: hestehund
   host: localhost

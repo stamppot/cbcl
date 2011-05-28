@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110105182159) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "answer_cells", :force => true do |t|
     t.integer "answer_id",               :default => 0, :null => false
@@ -24,14 +24,16 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   add_index "answer_cells", ["answer_id"], :name => "index_answer_cells_on_answer_id"
+  add_index "answer_cells", ["row"], :name => "index_answer_cells_on_row"
 
   create_table "answers", :force => true do |t|
-    t.integer "survey_answer_id", :default => 0, :null => false
-    t.integer "number",           :default => 0, :null => false
-    t.integer "question_id",      :default => 0, :null => false
+    t.integer "survey_answer_id", :null => false
+    t.integer "number",           :null => false
+    t.integer "question_id",      :null => false
     t.integer "ratings_count"
   end
 
+  add_index "answers", ["number"], :name => "index_answers_on_number"
   add_index "answers", ["survey_answer_id"], :name => "index_answers_on_survey_answer_id"
 
   create_table "center_infos", :force => true do |t|
@@ -43,8 +45,6 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string  "ean"
     t.string  "person"
   end
-
-  add_index "center_infos", ["center_id"], :name => "index_center_infos_on_center_id"
 
   create_table "center_settings", :force => true do |t|
     t.integer  "center_id"
@@ -77,14 +77,6 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string  "journal_info"
   end
 
-  add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
-  add_index "csv_answers", ["survey_id"], :name => "index_csv_answers_on_survey_id"
-
-  create_table "engine_schema_info", :id => false, :force => true do |t|
-    t.string  "engine_name"
-    t.integer "version"
-  end
-
   create_table "export_files", :force => true do |t|
     t.string   "filename"
     t.string   "content_type"
@@ -106,65 +98,51 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string  "title"
   end
 
-  create_table "group_permissions", :force => true do |t|
-    t.integer "group_id"
-    t.integer "permission_id"
-  end
-
   create_table "groups", :force => true do |t|
-    t.timestamp "created_at",                                  :null => false
-    t.timestamp "updated_at",                                  :null => false
-    t.string    "title",      :limit => 200, :default => "",   :null => false
-    t.integer   "code"
-    t.string    "type",       :limit => 16,  :default => "",   :null => false
-    t.integer   "parent_id"
-    t.integer   "center_id"
-    t.boolean   "delta",                     :default => true, :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+    t.string   "title",      :limit => 200, :default => "",   :null => false
+    t.integer  "code"
+    t.string   "type",       :limit => 16,  :default => "",   :null => false
+    t.integer  "parent_id"
+    t.integer  "center_id"
+    t.boolean  "delta",                     :default => true, :null => false
   end
 
-  add_index "groups", ["center_id"], :name => "groups_center_id_index"
   add_index "groups", ["center_id"], :name => "index_groups_on_center_id"
   add_index "groups", ["code"], :name => "index_groups_on_code"
   add_index "groups", ["delta"], :name => "index_groups_on_delta"
-  add_index "groups", ["parent_id"], :name => "groups_parent_id_index"
   add_index "groups", ["parent_id"], :name => "index_groups_on_parent_id"
   add_index "groups", ["type"], :name => "index_groups_on_type"
 
   create_table "groups_roles", :id => false, :force => true do |t|
-    t.integer   "group_id",   :default => 0, :null => false
-    t.integer   "role_id",    :default => 0, :null => false
-    t.timestamp "created_at",                :null => false
+    t.integer  "group_id",   :default => 0, :null => false
+    t.integer  "role_id",    :default => 0, :null => false
+    t.datetime "created_at",                :null => false
   end
 
   add_index "groups_roles", ["group_id", "role_id"], :name => "groups_roles_all_index", :unique => true
   add_index "groups_roles", ["role_id"], :name => "role_id"
 
   create_table "groups_users", :id => false, :force => true do |t|
-    t.integer   "group_id",   :default => 0, :null => false
-    t.integer   "user_id",    :default => 0, :null => false
-    t.timestamp "created_at",                :null => false
+    t.integer  "group_id",   :default => 0, :null => false
+    t.integer  "user_id",    :default => 0, :null => false
+    t.datetime "created_at",                :null => false
   end
 
   add_index "groups_users", ["group_id", "user_id"], :name => "groups_users_all_index", :unique => true
   add_index "groups_users", ["user_id"], :name => "user_id"
 
   create_table "journal_entries", :force => true do |t|
-    t.integer  "journal_id",       :default => 0, :null => false
-    t.integer  "survey_id",        :default => 0, :null => false
+    t.integer  "journal_id",       :null => false
+    t.integer  "survey_id",        :null => false
     t.integer  "user_id"
     t.string   "password"
     t.integer  "survey_answer_id"
     t.datetime "created_at"
     t.datetime "answered_at"
-    t.integer  "state",            :default => 0, :null => false
-    t.datetime "updated_at"
+    t.integer  "state",            :null => false
   end
-
-  add_index "journal_entries", ["journal_id"], :name => "index_journal_entries_on_journal_id"
-  add_index "journal_entries", ["state"], :name => "index_journal_entries_on_state"
-  add_index "journal_entries", ["survey_answer_id"], :name => "index_journal_entries_on_survey_answer_id"
-  add_index "journal_entries", ["survey_id"], :name => "index_journal_entries_on_survey_id"
-  add_index "journal_entries", ["user_id"], :name => "index_journal_entries_on_user_id"
 
   create_table "letters", :force => true do |t|
     t.integer  "group_id"
@@ -175,15 +153,13 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.datetime "updated_at"
   end
 
-  add_index "letters", ["group_id"], :name => "index_letters_on_group_id"
-
   create_table "nationalities", :force => true do |t|
     t.string "country",      :limit => 40
     t.string "country_code", :limit => 4
   end
 
   create_table "periods", :force => true do |t|
-    t.integer  "subscription_id", :default => 0,     :null => false
+    t.integer  "subscription_id",                    :null => false
     t.integer  "used",            :default => 0,     :null => false
     t.boolean  "paid",            :default => false
     t.date     "paid_on"
@@ -192,34 +168,14 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.boolean  "active",          :default => false, :null => false
   end
 
-  add_index "periods", ["active"], :name => "index_periods_on_active"
-  add_index "periods", ["paid"], :name => "index_periods_on_paid"
-  add_index "periods", ["subscription_id"], :name => "index_periods_on_subscription_id"
-
   create_table "person_infos", :force => true do |t|
-    t.integer "journal_id",  :default => 0,    :null => false
-    t.string  "name",        :default => "",   :null => false
-    t.integer "sex",         :default => 0,    :null => false
-    t.date    "birthdate",                     :null => false
-    t.string  "nationality", :default => "",   :null => false
-    t.string  "cpr"
-    t.boolean "delta",       :default => true, :null => false
-  end
-
-  add_index "person_infos", ["cpr"], :name => "index_person_infos_on_cpr"
-  add_index "person_infos", ["delta"], :name => "index_person_infos_on_delta"
-  add_index "person_infos", ["journal_id"], :name => "index_person_infos_on_journal_id"
-
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
-  end
-
-  create_table "posts", :force => true do |t|
-    t.string   "title"
-    t.text     "body"
-    t.boolean  "published"
-    t.datetime "created_at"
+    t.integer  "journal_id",                    :null => false
+    t.string   "name",                          :null => false
+    t.integer  "sex",                           :null => false
+    t.date     "birthdate",                     :null => false
+    t.string   "nationality",                   :null => false
+    t.string   "cpr"
+    t.boolean  "delta",       :default => true, :null => false
     t.datetime "updated_at"
   end
 
@@ -241,36 +197,23 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string    "identifier", :limit => 50,  :default => "", :null => false
-    t.timestamp "created_at",                                :null => false
-    t.timestamp "updated_at",                                :null => false
-    t.string    "title",      :limit => 100, :default => "", :null => false
-    t.integer   "parent_id"
+    t.string   "identifier", :limit => 50,  :default => "", :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "title",      :limit => 100, :default => "", :null => false
+    t.integer  "parent_id"
   end
 
   add_index "roles", ["parent_id"], :name => "roles_parent_id_index"
 
-  create_table "roles_static_permissions", :id => false, :force => true do |t|
-    t.integer   "role_id",              :default => 0, :null => false
-    t.integer   "static_permission_id", :default => 0, :null => false
-    t.timestamp "created_at",                          :null => false
-  end
-
-  add_index "roles_static_permissions", ["role_id"], :name => "role_id"
-  add_index "roles_static_permissions", ["static_permission_id", "role_id"], :name => "roles_static_permissions_all_index", :unique => true
-
   create_table "roles_users", :id => false, :force => true do |t|
-    t.integer   "user_id",    :default => 0, :null => false
-    t.integer   "role_id",    :default => 0, :null => false
-    t.timestamp "created_at",                :null => false
+    t.integer  "user_id",    :default => 0, :null => false
+    t.integer  "role_id",    :default => 0, :null => false
+    t.datetime "created_at",                :null => false
   end
 
   add_index "roles_users", ["role_id"], :name => "role_id"
   add_index "roles_users", ["user_id", "role_id"], :name => "roles_users_all_index", :unique => true
-
-  create_table "schema_info", :id => false, :force => true do |t|
-    t.integer "version"
-  end
 
   create_table "score_groups", :force => true do |t|
     t.string "title"
@@ -280,13 +223,11 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   create_table "score_items", :force => true do |t|
     t.integer "score_id"
     t.integer "question_id"
-    t.text    "items",       :limit => 255
+    t.text    "items"
     t.string  "range"
     t.integer "qualifier"
     t.integer "number"
   end
-
-  add_index "score_items", ["score_id"], :name => "index_score_items_on_score_id"
 
   create_table "score_rapports", :force => true do |t|
     t.string   "title"
@@ -294,13 +235,13 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string   "short_name"
     t.integer  "survey_id"
     t.integer  "survey_answer_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "unanswered"
     t.integer  "gender",                        :null => false
     t.string   "age_group",        :limit => 5, :null => false
     t.integer  "age"
     t.integer  "center_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "score_refs", :force => true do |t|
@@ -312,30 +253,25 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.integer "percent98"
   end
 
-  add_index "score_refs", ["score_id"], :name => "index_score_refs_on_score_id"
-
   create_table "score_results", :force => true do |t|
     t.integer "score_rapport_id"
     t.integer "survey_id"
     t.integer "score_id"
     t.integer "result"
+    t.string  "percentile"
     t.integer "scale"
     t.string  "title"
     t.integer "position"
-    t.float   "mean"
-    t.boolean "deviation"
-    t.boolean "percentile_98"
-    t.boolean "percentile_95"
     t.integer "score_scale_id"
     t.integer "missing",            :default => 0
     t.float   "missing_percentage"
     t.integer "hits"
     t.boolean "valid_percentage"
+    t.float   "mean"
+    t.boolean "deviation"
+    t.boolean "percentile_98"
+    t.boolean "percentile_95"
   end
-
-  add_index "score_results", ["score_id", "score_rapport_id"], :name => "index_score_results_on_score_id_and_score_rapport_id"
-  add_index "score_results", ["score_id"], :name => "index_score_results_on_score_id"
-  add_index "score_results", ["score_rapport_id"], :name => "index_score_results_on_score_rapport_id"
 
   create_table "score_scales", :force => true do |t|
     t.integer "position"
@@ -344,10 +280,10 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
 
   create_table "scores", :force => true do |t|
     t.integer  "score_group_id"
-    t.integer  "survey_id"
-    t.string   "title"
-    t.string   "short_name"
-    t.integer  "sum"
+    t.integer  "survey_id",      :null => false
+    t.string   "title",          :null => false
+    t.string   "short_name",     :null => false
+    t.integer  "sum",            :null => false
     t.integer  "scale"
     t.integer  "position"
     t.integer  "score_scale_id"
@@ -355,6 +291,9 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "scores", ["score_scale_id"], :name => "index_scores_on_score_scale_id"
+  add_index "scores", ["survey_id"], :name => "index_scores_on_survey_id"
 
   create_table "scores_surveys", :id => false, :force => true do |t|
     t.integer "score_id"
@@ -364,26 +303,12 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "scores_surveys", ["score_id"], :name => "index_scores_surveys_on_score_id"
   add_index "scores_surveys", ["survey_id"], :name => "index_scores_surveys_on_survey_id"
 
-  create_table "sph_counter", :id => false, :force => true do |t|
-    t.integer "last_id",                  :null => false
-    t.string  "table_name", :limit => 50, :null => false
-  end
-
-  create_table "static_permissions", :force => true do |t|
-    t.string    "identifier", :limit => 50,  :default => "", :null => false
-    t.string    "title",      :limit => 200, :default => "", :null => false
-    t.timestamp "created_at",                                :null => false
-    t.timestamp "updated_at",                                :null => false
-  end
-
-  add_index "static_permissions", ["title"], :name => "static_permissions_title_index", :unique => true
-
   create_table "subscriptions", :force => true do |t|
-    t.integer  "center_id",           :default => 0, :null => false
-    t.integer  "survey_id",           :default => 0, :null => false
+    t.integer  "center_id",           :null => false
+    t.integer  "survey_id",           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state",               :default => 0, :null => false
+    t.integer  "state",               :null => false
     t.text     "note"
     t.integer  "total_used"
     t.integer  "total_paid"
@@ -391,30 +316,18 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.date     "most_recent_payment"
   end
 
-  add_index "subscriptions", ["center_id"], :name => "index_subscriptions_on_center_id"
-  add_index "subscriptions", ["survey_id"], :name => "index_subscriptions_on_survey_id"
-
   create_table "survey_answers", :force => true do |t|
-    t.integer  "survey_id",                      :default => 0,     :null => false
-    t.string   "surveytype",       :limit => 15
-    t.string   "answered_by",      :limit => 15
-    t.datetime "created_at"
-    t.integer  "age",                            :default => 0,     :null => false
-    t.integer  "sex",                            :default => 0,     :null => false
-    t.string   "nationality",      :limit => 24
-    t.integer  "journal_entry_id",               :default => 0,     :null => false
-    t.boolean  "done",                           :default => false
-    t.datetime "updated_at"
-    t.integer  "journal_id"
-    t.integer  "center_id"
+    t.integer "survey_id",                                          :null => false
+    t.string  "surveytype",       :limit => 15
+    t.string  "answered_by",      :limit => 100
+    t.integer "age",                                                :null => false
+    t.integer "sex",                                                :null => false
+    t.string  "nationality",      :limit => 40
+    t.integer "journal_entry_id",                                   :null => false
+    t.boolean "done",                            :default => false
+    t.integer "journal_id"
+    t.integer "center_id"
   end
-
-  add_index "survey_answers", ["age"], :name => "index_survey_answers_on_age"
-  add_index "survey_answers", ["center_id"], :name => "index_survey_answers_on_center_id"
-  add_index "survey_answers", ["done"], :name => "index_survey_answers_on_done"
-  add_index "survey_answers", ["journal_entry_id"], :name => "index_survey_answers_on_journal_entry_id"
-  add_index "survey_answers", ["journal_id"], :name => "index_survey_answers_on_journal_id"
-  add_index "survey_answers", ["survey_id"], :name => "index_survey_answers_on_survey_id"
 
   create_table "surveys", :force => true do |t|
     t.string  "title",       :limit => 40
@@ -433,31 +346,21 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.datetime "updated_at"
   end
 
-  create_table "user_registrations", :force => true do |t|
-    t.integer   "user_id",    :default => 0, :null => false
-    t.text      "token",                     :null => false
-    t.timestamp "created_at",                :null => false
-    t.timestamp "expires_at",                :null => false
-  end
-
-  add_index "user_registrations", ["expires_at"], :name => "user_registrations_expires_at_index"
-  add_index "user_registrations", ["user_id"], :name => "user_registrations_user_id_index", :unique => true
-
   create_table "users", :force => true do |t|
-    t.timestamp "created_at",                                                   :null => false
-    t.timestamp "updated_at",                                                   :null => false
-    t.timestamp "last_logged_in_at",                                            :null => false
-    t.integer   "login_failure_count",                :default => 0,            :null => false
-    t.string    "login",               :limit => 100, :default => "",           :null => false
-    t.string    "name",                :limit => 100, :default => "",           :null => false
-    t.string    "email",               :limit => 200, :default => "",           :null => false
-    t.string    "password",            :limit => 128, :default => "",           :null => false
-    t.string    "password_hash_type",  :limit => 10,  :default => "",           :null => false
-    t.string    "password_salt",       :limit => 100, :default => "1234512345", :null => false
-    t.integer   "state",                              :default => 1,            :null => false
-    t.integer   "center_id"
-    t.boolean   "login_user",                         :default => false
-    t.integer   "delta"
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
+    t.datetime "last_logged_in_at",                                            :null => false
+    t.integer  "login_failure_count",                :default => 0,            :null => false
+    t.string   "login",               :limit => 100, :default => "",           :null => false
+    t.string   "name",                :limit => 100, :default => "",           :null => false
+    t.string   "email",               :limit => 200, :default => "",           :null => false
+    t.string   "password",            :limit => 128, :default => "",           :null => false
+    t.string   "password_hash_type",  :limit => 10,  :default => "",           :null => false
+    t.string   "password_salt",       :limit => 100, :default => "1234512345", :null => false
+    t.integer  "state",                              :default => 1,            :null => false
+    t.integer  "center_id"
+    t.boolean  "login_user",                         :default => false
+    t.integer  "delta"
   end
 
   add_index "users", ["center_id"], :name => "users_center_id_index"
