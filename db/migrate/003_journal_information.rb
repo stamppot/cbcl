@@ -29,6 +29,7 @@ class JournalInformation < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :answered_at, :datetime
       t.column :state, :int, :null => false  # ikke besvaret, besvaret, venter på svar (login-user)
+      t.column :updated_at, :datetime
       t.index :state
       t.index :journal_id
       t.index :survey_id
@@ -48,8 +49,8 @@ class JournalInformation < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :person_infos
-    drop_table :journal_entries
-    drop_table :nationalities
+    drop_table :person_infos if table_exists? :person_infos
+    drop_table :journal_entries if table_exists? :journal_entries
+    drop_table :nationalities if table_exists? :nationalities
   end
 end

@@ -58,8 +58,8 @@ class SurveyAnswers < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :answer_cells
-    drop_table :answers
-    drop_table :survey_answers
+    drop_table :answer_cells if table_exists? :answer_cells
+    drop_table :answers if table_exists? :answers
+    drop_table :survey_answers if table_exists? :survey_answers
   end
 end

@@ -55,7 +55,7 @@ class CreateScoreReport < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :score_results
-    drop_table :score_rapports
+    drop_table :score_results if table_exists? :score_results
+    drop_table :score_rapports if table_exists? :score_rapports
   end
 end

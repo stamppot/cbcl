@@ -13,7 +13,7 @@ module MigrationHelpers
   #   - on_delete: specify "cascade" or "set null"
   #   - on_update: specify "cascade" or "set null"
   def add_foreign_key(table_name, constraint_name, local_column, 
-                      foreign_table, foreign_column, options = {})
+    foreign_table, foreign_column, options = {})
     st = "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} "
     st += "FOREIGN KEY (#{local_column}) REFERENCES #{foreign_table} (#{foreign_column})"
     if options.has_key?(:on_delete)
@@ -34,5 +34,17 @@ module MigrationHelpers
   def remove_foreign_key(table_name, constraint_name)
     st = "ALTER TABLE #{table_name} DROP FOREIGN KEY #{constraint_name}"
     execute st
+  end
+
+  def table_exists?(name)
+    ActiveRecord::Base.connection.tables.include?(name)
+  end
+
+  def drop_all
+    15.downto(1) do |i|
+      puts "calling rake db:migrate:down VERSION=#{i}"
+      puts system("rake db:migrate:down VERSION=#{i}")
+      puts $?
+    end
   end
 end

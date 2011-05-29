@@ -35,21 +35,21 @@ class CreateSubscriptions < ActiveRecord::Migration
     add_foreign_key('periods', 'fk_periods_subscriptions', 'subscription_id', 'subscriptions', 'id')
     
     
-    # puts "Creating table 'copies' - obsoleted?"
-    # create_table "copies", :force => true do |t|
-    #   t.integer  "subscription_id", :default => 0,     :null => false
-    #   t.integer  "used",            :default => 0,     :null => false
-    #   t.boolean  "consolidated",    :default => false
-    #   t.date     "consolidated_on"
-    #   t.date     "created_on"
-    #   t.datetime "updated_on"
-    #   t.boolean  "active",          :default => false, :null => false
-    # end
+    puts "Creating table 'copies' - obsoleted?"
+    create_table "copies", :force => true do |t|
+      t.integer  "subscription_id", :default => 0,     :null => false
+      t.integer  "used",            :default => 0,     :null => false
+      t.boolean  "consolidated",    :default => false
+      t.date     "consolidated_on"
+      t.date     "created_on"
+      t.datetime "updated_on"
+      t.boolean  "active",          :default => false, :null => false
+    end
   end
 
   def self.down
-    # drop_table :copies
-    drop_table :periods
-    drop_table :subscriptions
+    drop_table :copies if table_exists? :copies
+    drop_table :periods if table_exists? :periods
+    drop_table :subscriptions if table_exists? :subscriptions
   end
 end

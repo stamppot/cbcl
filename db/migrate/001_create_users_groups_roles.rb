@@ -99,12 +99,12 @@ class CreateUsersGroupsRoles < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :roles_users
-    drop_table :groups_roles
-    drop_table :groups_users
-    drop_table :groups
-    drop_table :users
-    drop_table :roles
+    drop_table :roles_users if table_exists? :roles_users
+    drop_table :groups_roles if table_exists? :groups_roles
+    drop_table :groups_users if table_exists? :groups_users
+    drop_table :groups if table_exists? :groups
+    drop_table :users if table_exists? :users
+    drop_table :roles if table_exists? :roles
   end
 
 end

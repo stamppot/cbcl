@@ -76,9 +76,9 @@ class CreateScores < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :score_refs
-    drop_table :score_items
-    drop_table :scores
-    drop_table :score_groups
+    drop_table :score_refs if table_exists? :score_refs
+    drop_table :score_items if table_exists? :score_items
+    drop_table :scores if table_exists? :scores
+    drop_table :score_groups if table_exists? :score_groups
   end
 end

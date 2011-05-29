@@ -13,6 +13,6 @@ class CreateCenterInfo < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :center_infos
+    drop_table :center_infos if table_exists? :center_infos
   end
 end

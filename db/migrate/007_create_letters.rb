@@ -12,10 +12,10 @@ class CreateLetters < ActiveRecord::Migration
       t.timestamps
       t.index :group_id
     end
-    add_foreign_key('letters', 'fk_subscriptions_groups', 'group_id', 'groups', 'id')
+    add_foreign_key('letters', 'fk_letters_groups', 'group_id', 'groups', 'id')
   end
 
   def self.down
-    drop_table :letters
+    drop_table :letters if table_exists? :letters
   end
 end

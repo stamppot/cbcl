@@ -65,8 +65,8 @@ class CreateSurveys < ActiveRecord::Migration
   # end
 
   def self.down  
-    drop_table :question_cells
-    drop_table :questions  
-    drop_table :surveys
+    drop_table :question_cells if table_exists? :question_cells
+    drop_table :questions if table_exists? :questions
+    drop_table :surveys if table_exists? :surveys
   end
 end
