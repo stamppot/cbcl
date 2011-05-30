@@ -1,13 +1,4 @@
 # Be sure to restart your web server when you modify this file.
-class Array
-  def shuffle
-    sort_by { rand }
-  end
-
-  def shuffle!
-    self.replace shuffle
-  end
-end
 
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
@@ -24,8 +15,8 @@ $KCODE = 'u'
 #require 'jcode'
 
 require 'pdfkit'
-
-# Rails.backtrace_cleaner.remove_silencers!   
+# require 'foreigner'
+# require 'sparkfly-foreigner'
 
 Rails::Initializer.run do |config|
 
@@ -68,6 +59,9 @@ Rails::Initializer.run do |config|
 
   config.action_controller.session = { :session_key => "_cbcl_online_session", :secret => '0001237daee31bffae5fd8dc02313d' }
 
+  # Turn off timestamped migrations
+  config.active_record.timestamped_migrations = false
+  
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
 
@@ -89,6 +83,9 @@ Rails::Initializer.run do |config|
   
   config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
+
+  # config.gem 'foreigner'
+  # config.gem "sparkfly-foreigner"
   
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
@@ -115,7 +112,7 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
+CACHE = MemCache.new('127.0.0.1')
 
 class Hash
   # return Hash with nil values removed
@@ -211,7 +208,17 @@ class Array
   def to_h
     Hash[*self]
   end
+
+  def shuffle
+    sort_by { rand }
+  end
+
+  def shuffle!
+    self.replace shuffle
+  end
+
 end
+
 
 class Float
   def to_danish

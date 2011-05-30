@@ -9,37 +9,50 @@ UNLOCK TABLES;
 -- Dumping data for table `scores`
 --
 LOCK TABLES `scores` WRITE;
-INSERT INTO `scores` VALUES (1,1,2,'Total problem score','CBCL',1,0,1);
-INSERT INTO `scores` VALUES (2,1,2,'Eksternalisering','CBCL',1,0,2);
-INSERT INTO `scores` VALUES (3,1,2,'Internalisering','CBCL',1,0,3);
-INSERT INTO `scores` VALUES (4,1,2,'Symptomer på adfærdsforstyrrelse','CBCL',2,1,4);
-INSERT INTO `scores` VALUES (5,1,2,'Depressionssymptomer','CBCL',2,1,5);
-INSERT INTO `scores` VALUES (6,1,2,'Symptomer på social afvigelse','CBCL',2,1,6);
-INSERT INTO `scores` VALUES (7,1,2,'ADHD-symptomer','CBCL',2,1,7);
-INSERT INTO `scores` VALUES (8,1,2,'Anxious/depressed','CBCL',1,2,8);
-INSERT INTO `scores` VALUES (9,1,2,'Social problems','CBCL',1,2,9);
-INSERT INTO `scores` VALUES (10,1,2,'Thought problems','CBCL',1,2,10);
-INSERT INTO `scores` VALUES (11,1,2,'Attention problems','CBCL',1,2,11);
-INSERT INTO `scores` VALUES (12,1,2,'Delinquent','CBCL',1,2,12);
-INSERT INTO `scores` VALUES (13,1,2,'Aggressive behavior','CBCL',1,2,13);
-INSERT INTO `scores` VALUES (14,1,2,'Somatic complaints','CBCL',1,2,14);
-INSERT INTO `scores` VALUES (15,5,5,'Symptomer på adfærdsforstyrrelse','YSR',2,1,1);
-INSERT INTO `scores` VALUES (16,5,5,'ADHD-symptomer','YSR',2,1,2);
-INSERT INTO `scores` VALUES (17,5,5,'Depressionssymptomer','YSR',2,1,3);
-INSERT INTO `scores` VALUES (18,5,5,'Symptomer på social afvigelse','YSR',2,1,4);
-INSERT INTO `scores` VALUES (19,4,4,'Symptomer på adfærdsforstyrrelse','TRF',2,1,5);
-INSERT INTO `scores` VALUES (20,4,4,'ADHD-symptomer','TRF',2,1,6);
-INSERT INTO `scores` VALUES (21,4,4,'Depressionssymptomer','TRF',2,1,7);
-INSERT INTO `scores` VALUES (22,4,4,'Symptomer på social afvigelse','TRF',2,1,8);
-INSERT INTO `scores` VALUES (23,5,5,'Total Problem Score','YSR',1,0,9);
-INSERT INTO `scores` VALUES (24,5,5,'Eksternalisering','YSR',1,0,10);
-INSERT INTO `scores` VALUES (25,5,5,'Internalisering','YSR',1,0,11);
-INSERT INTO `scores` VALUES (26,4,4,'Total Problem Score','TRF',1,0,12);
-INSERT INTO `scores` VALUES (27,4,4,'Eksternalisering','TRF',1,0,13);
-INSERT INTO `scores` VALUES (28,4,4,'Internalisering','TRF',1,0,14);
-INSERT INTO `scores` VALUES (29,1,2,'Withdrawn','CBCL',1,2,15);
-INSERT INTO `scores` VALUES (30,1,1,'DSM: Angstproblemer','CBCL',1,0,16);
-INSERT INTO `scores` VALUES (31,1,1,'DSM: Affektive problemer','CBCL',1,0,17);
+INSERT INTO `scores` VALUES (1,1,1,'Total problem score','CBCL',1,0,1,1,100,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(2,1,2,'Eksternalisering','CBCL',1,0,2,1,35,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(3,1,2,'Internalisering','CBCL',1,0,3,1,32,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(23,1,5,'Total Problem Score','YSR',1,0,1,1,105,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(24,1,5,'Eksternalisering','YSR',1,0,2,1,32,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(25,1,5,'Internalisering','YSR',1,0,3,1,31,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(26,1,4,'Total Problem Score','TRF',1,0,1,1,119,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(27,1,4,'Eksternalisering','TRF',1,0,2,1,34,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(28,1,4,'Internalisering','TRF',1,0,3,1,32,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(30,1,1,'Angst problemer','CBCL',1,0,2,3,10,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(31,1,1,'Affektive problemer','CBCL',1,3,1,3,10,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(35,1,1,'Gennemgribende udv.forst.probl.','CBCL',1,0,4,3,13,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(36,1,1,'ADHD problemer','CBCL',1,0,4,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(37,1,1,'Oppositionelle adfÃ¦rdsproblemer','CBCL',1,0,4,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(38,1,1,'Eksternalisering','CBCL',1,0,2,1,24,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(39,1,1,'Internalisering','CBCL',1,0,3,1,36,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(40,1,2,'Total problem score','CBCL',1,0,1,1,119,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(41,1,3,'Total problem score','C-TRF',1,0,1,1,100,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(42,1,3,'Eksternalisering','C-TRF',1,0,2,1,24,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(43,1,3,'Internalisering','C-TRF',1,0,3,1,36,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(44,1,3,'Affektive problemer','C-TRF',1,0,1,3,10,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(45,1,3,'Gennemgribende udv.forst.probl.','C-TRF',1,0,4,3,13,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(47,NULL,3,'Angst problemer','C-TRF',1,NULL,2,3,10,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(48,NULL,3,'ADHD problemer','C-TRF',1,NULL,4,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(49,NULL,3,'Oppositionelle adfÃ¦rdsproblemer','C-TRF',1,NULL,4,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(51,NULL,2,'ADHD problemer','CBCL',1,NULL,4,3,7,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(52,NULL,2,'Affektive problemer','CBCL',1,NULL,1,3,13,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(53,NULL,2,'Angst problemer','CBCL',1,NULL,2,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(54,NULL,2,'Somatisering','CBCL',1,NULL,3,3,7,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(55,NULL,2,'Oppositionelle adfÃ¦rdsproblemer','CBCL',1,NULL,4,3,5,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(56,NULL,2,'AdfÃ¦rdsforstyrrelse','CBCL',1,NULL,5,3,17,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(57,NULL,4,'ADHD problemer','TRF',1,NULL,4,3,13,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(60,NULL,4,'Affektive problemer','TRF',1,NULL,1,3,10,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(61,NULL,4,'Angst problemer','TRF',1,NULL,2,3,6,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(62,NULL,4,'Somatisering','TRF',1,NULL,3,3,7,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(63,NULL,4,'Oppositionelle adfÃ¦rdsproblemer','TRF',1,NULL,4,3,5,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(64,NULL,4,'AdfÃ¦rdsforstyrrelse','TRF',1,NULL,5,3,13,'2010-01-05 14:12:47','2011-01-05 22:12:47'),
+(65,NULL,5,'Affektive problemer','YSR',1,NULL,6,3,13,'2011-05-17 19:37:19','2011-05-17 19:41:52'),
+(66,NULL,5,'Angst problemer','YSR',1,NULL,7,3,6,'2011-05-17 19:46:38','2011-05-17 19:50:48'),
+(67,NULL,5,'Somatisering','YSR',1,NULL,8,3,7,'2011-05-17 19:55:09','2011-05-17 19:57:27'),
+(68,NULL,5,'ADHD problemer','YSR',1,NULL,9,3,7,'2011-05-19 10:09:25','2011-05-19 10:12:31'),
+(69,NULL,5,'Oppositionelle adfÃ¦rdsproblemer','YSR',1,NULL,10,3,5,'2011-05-19 10:13:17','2011-05-19 10:14:57'),
+(70,NULL,5,'AdfÃ¦rdsforstyrrelse','YSR',1,NULL,11,3,15,'2011-05-19 10:15:29','2011-05-19 10:18:01');
+
 UNLOCK TABLES;
 --
 -- Dumping data for table `score_items`

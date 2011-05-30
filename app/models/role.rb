@@ -41,24 +41,4 @@ class Role < ActiveRecord::Base
     return r.children
  end
  
- # def Role.rolle
- #   {
- #     "forælder" => 1,
- # 	   "pædagog"  => 2,
- #     "lærer"    => 3,
- #     "barn"     => 4,
- # 	   "andet"    => 88
- #   }
- # end
- 
- # def Role.roller
- #   {
- #     "forælder" => "parent",
- #     "lærer"    => "teacher",
- # 	   "pædagog"  => "pedagogue",
- #     "barn"     => "youth",
- # 	   "andet"    => "other"
- #   }
- # end
-
 end

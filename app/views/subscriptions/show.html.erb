@@ -8,10 +8,10 @@
 	<dd><%= @subscription.survey.title %><dd>
 	
   <dt><%= t('status.created') %></dt>
-  <dd><%= @subscription.created_at.to_formatted_s(:long) %></dd>
+  <dd><%= I18n.localize(@subscription.created_at.to_formatted_s(:long)) %></dd>
 
   <dt>Ændret</dt>
-  <dd><%= @subscription.updated_at.to_formatted_s(:long) %></dd>
+  <dd><%= I18.localize(@subscription.updated_at.to_formatted_s(:long)) %></dd>
 	
 	<dt><%= t('state') %></dt>
 	<dd><%= @subscription.states.invert[@subscription.state] %><dd>
@@ -21,10 +21,6 @@
 	<% @periods = @subscription.summary(@options) %>
 	<dd><%= render :partial => "shared/subscription_summary", :object => @periods %></dd>
 
-	<dt><span id="subscription_note">Noter</span></dt>
-	<dd><%= in_place_editor_field :subscription, :note, {}, :rows => 5,
-                     :external_control => 'subscription_note', :style => "border: 1px solid #888;" %>
-	</dd>
 <dl>
 
 	

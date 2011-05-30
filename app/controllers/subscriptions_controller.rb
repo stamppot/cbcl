@@ -1,6 +1,5 @@
 class SubscriptionsController < ApplicationController
-
-  in_place_edit_for :subscription, :note
+    # in_place_edit_for :subscription, :note
   
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => "post", :only => [ :create, :update ]

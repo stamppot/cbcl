@@ -1,0 +1,8119 @@
+--- 
+variables_707: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "94"
+  id: "707"
+  var: ycyviii84hv
+  datatype: string
+  item: 84hv
+variables_564: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "114"
+  id: "564"
+  var: ttxii104
+  datatype: numeric
+  item: "104"
+variables_517: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "74"
+  id: "517"
+  var: ttxii64
+  datatype: numeric
+  item: "64"
+variables_374: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "59"
+  id: "374"
+  var: ctvii57
+  datatype: numeric
+  item: "57"
+variables_184: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "19"
+  id: "184"
+  var: ccyx17
+  datatype: numeric
+  item: "17"
+variables_327: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "16"
+  id: "327"
+  var: ctvii14
+  datatype: numeric
+  item: "14"
+variables_137: 
+  question_id: "4"
+  col: "1"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "2"
+  id: "137"
+  var: ccyiv
+  datatype: string
+  item: 
+variables_708: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "95"
+  id: "708"
+  var: ycyviii85
+  datatype: numeric
+  item: "85"
+variables_565: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "115"
+  id: "565"
+  var: ttxii105
+  datatype: numeric
+  item: "105"
+variables_518: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "75"
+  id: "518"
+  var: ttxii65
+  datatype: numeric
+  item: "65"
+variables_375: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "60"
+  id: "375"
+  var: ctvii58
+  datatype: numeric
+  item: "58"
+variables_185: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "20"
+  id: "185"
+  var: ccyx18
+  datatype: numeric
+  item: "18"
+variables_328: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "17"
+  id: "328"
+  var: ctvii15
+  datatype: numeric
+  item: "15"
+variables_138: 
+  question_id: "4"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "3"
+  id: "138"
+  var: ccyiv1a
+  datatype: numeric
+  item: 1a
+variables_709: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "95"
+  id: "709"
+  var: ycyviii85hv
+  datatype: string
+  item: 85hv
+variables_566: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "115"
+  id: "566"
+  var: ttxii105hv
+  datatype: string
+  item: 105hv
+variables_519: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "76"
+  id: "519"
+  var: ttxii66
+  datatype: numeric
+  item: "66"
+variables_376: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "61"
+  id: "376"
+  var: ctvii59
+  datatype: numeric
+  item: "59"
+variables_186: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "21"
+  id: "186"
+  var: ccyx19
+  datatype: numeric
+  item: "19"
+variables_329: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "18"
+  id: "329"
+  var: ctvii16
+  datatype: numeric
+  item: "16"
+variables_139: 
+  question_id: "4"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "4"
+  id: "139"
+  var: ccyiv1b
+  datatype: numeric
+  item: 1b
+variables_567: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "116"
+  id: "567"
+  var: ttxii106
+  datatype: numeric
+  item: "106"
+variables_377: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "62"
+  id: "377"
+  var: ctvii60
+  datatype: numeric
+  item: "60"
+variables_187: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "22"
+  id: "187"
+  var: ccyx20
+  datatype: numeric
+  item: "20"
+variables_568: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "117"
+  id: "568"
+  var: ttxii107
+  datatype: numeric
+  item: "107"
+variables_378: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "63"
+  id: "378"
+  var: ctvii61
+  datatype: numeric
+  item: "61"
+variables_188: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "23"
+  id: "188"
+  var: ccyx21
+  datatype: numeric
+  item: "21"
+variables_569: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "118"
+  id: "569"
+  var: ttxii108
+  datatype: numeric
+  item: "108"
+variables_001: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "3"
+  id: "1"
+  var: cci1
+  datatype: numeric
+  item: "1"
+variables_379: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "64"
+  id: "379"
+  var: ctvii62
+  datatype: numeric
+  item: "62"
+variables_189: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "24"
+  id: "189"
+  var: ccyx22
+  datatype: numeric
+  item: "22"
+variables_002: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "4"
+  id: "2"
+  var: cci2
+  datatype: numeric
+  item: "2"
+variables_620: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "17"
+  id: "620"
+  var: ycyviii15
+  datatype: numeric
+  item: "15"
+variables_430: 
+  question_id: "276"
+  col: "3"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "430"
+  var: ttv
+  datatype: string
+  item: ""
+variables_003: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "5"
+  id: "3"
+  var: cci3
+  datatype: numeric
+  item: "3"
+variables_240: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "70"
+  id: "240"
+  var: ccyx60
+  datatype: numeric
+  item: "60"
+variables_050: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "48"
+  id: "50"
+  var: cci46hv
+  datatype: string
+  item: 46hv
+variables_621: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "18"
+  id: "621"
+  var: ycyviii16
+  datatype: numeric
+  item: "16"
+variables_431: 
+  question_id: "277"
+  col: "3"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "431"
+  var: ttvi
+  datatype: string
+  item: ""
+variables_004: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "6"
+  id: "4"
+  var: cci4
+  datatype: numeric
+  item: "4"
+variables_241: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "71"
+  id: "241"
+  var: ccyx61
+  datatype: numeric
+  item: "61"
+variables_051: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "49"
+  id: "51"
+  var: cci47
+  datatype: numeric
+  item: "47"
+variables_622: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "19"
+  id: "622"
+  var: ycyviii17
+  datatype: numeric
+  item: "17"
+variables_432: 
+  question_id: "277"
+  col: "4"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "432"
+  var: ttvihv
+  datatype: string
+  item: hv
+variables_005: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "7"
+  id: "5"
+  var: cci5
+  datatype: numeric
+  item: "5"
+variables_242: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "72"
+  id: "242"
+  var: ccyx62
+  datatype: numeric
+  item: "62"
+variables_052: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "50"
+  id: "52"
+  var: cci48
+  datatype: numeric
+  item: "48"
+variables_670: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "64"
+  id: "670"
+  var: ycyviii56f
+  datatype: numeric
+  item: 56f
+variables_623: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "20"
+  id: "623"
+  var: ycyviii18
+  datatype: numeric
+  item: "18"
+variables_480: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "41"
+  id: "480"
+  var: ttxii39
+  datatype: numeric
+  item: "39"
+variables_433: 
+  question_id: "219"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "9"
+  id: "433"
+  var: ttvii
+  datatype: numeric
+  item: 
+variables_006: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:32
+  updated_at: 2011-03-06 18:58:32
+  survey_id: "1"
+  row: "8"
+  id: "6"
+  var: cci6
+  datatype: numeric
+  item: "6"
+variables_290: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "110"
+  id: "290"
+  var: ccyx100hv
+  datatype: string
+  item: 100hv
+variables_243: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "73"
+  id: "243"
+  var: ccyx63
+  datatype: numeric
+  item: "63"
+variables_053: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "51"
+  id: "53"
+  var: cci49
+  datatype: numeric
+  item: "49"
+variables_671: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "65"
+  id: "671"
+  var: ycyviii56g
+  datatype: numeric
+  item: 56g
+variables_624: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "21"
+  id: "624"
+  var: ycyviii19
+  datatype: numeric
+  item: "19"
+variables_481: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "42"
+  id: "481"
+  var: ttxii40
+  datatype: numeric
+  item: "40"
+variables_434: 
+  question_id: "219"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "8"
+  id: "434"
+  var: ttvii6
+  datatype: string
+  item: "6"
+variables_007: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "9"
+  id: "7"
+  var: cci7
+  datatype: numeric
+  item: "7"
+variables_291: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "111"
+  id: "291"
+  var: ccyx101
+  datatype: numeric
+  item: "101"
+variables_244: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "74"
+  id: "244"
+  var: ccyx64
+  datatype: numeric
+  item: "64"
+variables_054: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "52"
+  id: "54"
+  var: cci50
+  datatype: numeric
+  item: "50"
+variables_672: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "66"
+  id: "672"
+  var: ycyviii56h
+  datatype: numeric
+  item: 56h
+variables_625: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "22"
+  id: "625"
+  var: ycyviii20
+  datatype: numeric
+  item: "20"
+variables_482: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "42"
+  id: "482"
+  var: ttxii40hv
+  datatype: string
+  item: 40hv
+variables_435: 
+  question_id: "219"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "9"
+  id: "435"
+  var: ttvii7
+  datatype: string
+  item: "7"
+variables_008: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "10"
+  id: "8"
+  var: cci8
+  datatype: numeric
+  item: "8"
+variables_292: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "112"
+  id: "292"
+  var: ccyx102
+  datatype: numeric
+  item: "102"
+variables_245: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "75"
+  id: "245"
+  var: ccyx65
+  datatype: numeric
+  item: "65"
+variables_055: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "53"
+  id: "55"
+  var: cci51
+  datatype: numeric
+  item: "51"
+variables_673: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "66"
+  id: "673"
+  var: ycyviii56hhv
+  datatype: string
+  item: 56hhv
+variables_626: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "23"
+  id: "626"
+  var: ycyviii21
+  datatype: numeric
+  item: "21"
+variables_483: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "43"
+  id: "483"
+  var: ttxii41
+  datatype: numeric
+  item: "41"
+variables_436: 
+  question_id: "220"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "5"
+  id: "436"
+  var: ttviii
+  datatype: numeric
+  item: 
+variables_009: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "11"
+  id: "9"
+  var: cci9
+  datatype: numeric
+  item: "9"
+variables_293: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "113"
+  id: "293"
+  var: ccyx103
+  datatype: numeric
+  item: "103"
+variables_246: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "76"
+  id: "246"
+  var: ccyx66
+  datatype: numeric
+  item: "66"
+variables_056: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "54"
+  id: "56"
+  var: cci52
+  datatype: numeric
+  item: "52"
+variables_674: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "67"
+  id: "674"
+  var: ycyviii57
+  datatype: numeric
+  item: "57"
+variables_627: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "24"
+  id: "627"
+  var: ycyviii22
+  datatype: numeric
+  item: "22"
+variables_484: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "44"
+  id: "484"
+  var: ttxii42
+  datatype: numeric
+  item: "42"
+variables_437: 
+  question_id: "221"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "437"
+  var: ttix1hv
+  datatype: string
+  item: 1hv
+variables_294: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "114"
+  id: "294"
+  var: ccyx104
+  datatype: numeric
+  item: "104"
+variables_247: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "76"
+  id: "247"
+  var: ccyx66hv
+  datatype: string
+  item: 66hv
+variables_057: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "55"
+  id: "57"
+  var: cci53
+  datatype: numeric
+  item: "53"
+variables_675: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "68"
+  id: "675"
+  var: ycyviii58
+  datatype: numeric
+  item: "58"
+variables_628: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "25"
+  id: "628"
+  var: ycyviii23
+  datatype: numeric
+  item: "23"
+variables_485: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "45"
+  id: "485"
+  var: ttxii43
+  datatype: numeric
+  item: "43"
+variables_438: 
+  question_id: "222"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "438"
+  var: ttx1hv
+  datatype: string
+  item: 1hv
+variables_295: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "115"
+  id: "295"
+  var: ccyx105
+  datatype: numeric
+  item: "105"
+variables_248: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "77"
+  id: "248"
+  var: ccyx67
+  datatype: numeric
+  item: "67"
+variables_058: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "56"
+  id: "58"
+  var: cci54
+  datatype: numeric
+  item: "54"
+variables_676: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "68"
+  id: "676"
+  var: ycyviii58hv
+  datatype: string
+  item: 58hv
+variables_629: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "26"
+  id: "629"
+  var: ycyviii24
+  datatype: numeric
+  item: "24"
+variables_486: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "46"
+  id: "486"
+  var: ttxii44
+  datatype: numeric
+  item: "44"
+variables_439: 
+  question_id: "223"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "439"
+  var: ttxi1hv
+  datatype: string
+  item: 1hv
+variables_296: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "115"
+  id: "296"
+  var: ccyx105hv
+  datatype: string
+  item: 105hv
+variables_249: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "78"
+  id: "249"
+  var: ccyx68
+  datatype: numeric
+  item: "68"
+variables_059: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "56"
+  id: "59"
+  var: cci54hv
+  datatype: string
+  item: 54hv
+variables_677: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "69"
+  id: "677"
+  var: ycyviii59
+  datatype: numeric
+  item: "59"
+variables_487: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "47"
+  id: "487"
+  var: ttxii45
+  datatype: numeric
+  item: "45"
+variables_297: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "116"
+  id: "297"
+  var: ccyx106
+  datatype: numeric
+  item: "106"
+variables_678: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "70"
+  id: "678"
+  var: ycyviii60
+  datatype: numeric
+  item: "60"
+variables_488: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "48"
+  id: "488"
+  var: ttxii46
+  datatype: numeric
+  item: "46"
+variables_300: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "119"
+  id: "300"
+  var: ccyx109
+  datatype: numeric
+  item: "109"
+variables_110: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "102"
+  id: "110"
+  var: cci100hv
+  datatype: string
+  item: 100hv
+variables_298: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "117"
+  id: "298"
+  var: ccyx107
+  datatype: numeric
+  item: "107"
+variables_679: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "71"
+  id: "679"
+  var: ycyviii61
+  datatype: numeric
+  item: "61"
+variables_489: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "48"
+  id: "489"
+  var: ttxii46hv
+  datatype: string
+  item: 46hv
+variables_301: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "120"
+  id: "301"
+  var: ccyx110
+  datatype: numeric
+  item: "110"
+variables_111: 
+  question_id: "8"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "1"
+  id: "111"
+  var: ccii1
+  datatype: numeric
+  item: "1"
+variables_299: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "118"
+  id: "299"
+  var: ccyx108
+  datatype: numeric
+  item: "108"
+variables_302: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "121"
+  id: "302"
+  var: ccyx111
+  datatype: numeric
+  item: "111"
+variables_112: 
+  question_id: "8"
+  col: "3"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "1"
+  id: "112"
+  var: cciihv
+  datatype: string
+  item: hv
+variables_730: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "115"
+  id: "730"
+  var: ycyviii105
+  datatype: numeric
+  item: "105"
+variables_540: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "93"
+  id: "540"
+  var: ttxii83
+  datatype: numeric
+  item: "83"
+variables_303: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "122"
+  id: "303"
+  var: ccyx112
+  datatype: numeric
+  item: "112"
+variables_113: 
+  question_id: "8"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "2"
+  id: "113"
+  var: ccii2hv
+  datatype: string
+  item: 2hv
+variables_350: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "37"
+  id: "350"
+  var: ctvii35
+  datatype: numeric
+  item: "35"
+variables_160: 
+  question_id: "7"
+  col: "3"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "12"
+  id: "160"
+  var: ccyvii4hv
+  datatype: string
+  item: 4hv
+variables_731: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "115"
+  id: "731"
+  var: ycyviii105hv
+  datatype: string
+  item: 105hv
+variables_541: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "93"
+  id: "541"
+  var: ttxii83hv
+  datatype: string
+  item: 83hv
+variables_304: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "2"
+  row: "123"
+  id: "304"
+  var: ccyxhv
+  datatype: string
+  item: hv
+variables_114: 
+  question_id: "8"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "3"
+  id: "114"
+  var: ccii3hv
+  datatype: string
+  item: 3hv
+variables_351: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "38"
+  id: "351"
+  var: ctvii36
+  datatype: numeric
+  item: "36"
+variables_161: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "13"
+  id: "161"
+  var: ccyvii5
+  datatype: numeric
+  item: "5"
+variables_732: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "116"
+  id: "732"
+  var: ycyviii106
+  datatype: numeric
+  item: "106"
+variables_542: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "94"
+  id: "542"
+  var: ttxii84
+  datatype: numeric
+  item: "84"
+variables_305: 
+  question_id: "31"
+  col: "2"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "305"
+  var: cti1hv
+  datatype: string
+  item: 1hv
+variables_115: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "2"
+  id: "115"
+  var: cciii1
+  datatype: numeric
+  item: "1"
+variables_352: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "39"
+  id: "352"
+  var: ctvii37
+  datatype: numeric
+  item: "37"
+variables_162: 
+  question_id: "9"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "1"
+  id: "162"
+  var: ccyviii1
+  datatype: numeric
+  item: "1"
+variables_733: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "117"
+  id: "733"
+  var: ycyviii107
+  datatype: numeric
+  item: "107"
+variables_590: 
+  question_id: "54"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "590"
+  var: ycyiv1c
+  datatype: numeric
+  item: 1c
+variables_543: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "94"
+  id: "543"
+  var: ttxii84hv
+  datatype: string
+  item: 84hv
+variables_306: 
+  question_id: "31"
+  col: "2"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "2"
+  id: "306"
+  var: cti2
+  datatype: numeric
+  item: "2"
+variables_116: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "3"
+  id: "116"
+  var: cciii2hv
+  datatype: string
+  item: 2hv
+variables_353: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "40"
+  id: "353"
+  var: ctvii38
+  datatype: numeric
+  item: "38"
+variables_163: 
+  question_id: "9"
+  col: "3"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "1"
+  id: "163"
+  var: ccyviiihv
+  datatype: string
+  item: hv
+variables_734: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "118"
+  id: "734"
+  var: ycyviii108
+  datatype: numeric
+  item: "108"
+variables_591: 
+  question_id: "55"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "1"
+  id: "591"
+  var: ycyv1
+  datatype: string
+  item: "1"
+variables_544: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "95"
+  id: "544"
+  var: ttxii85
+  datatype: numeric
+  item: "85"
+variables_307: 
+  question_id: "31"
+  col: "3"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "2"
+  id: "307"
+  var: cti2hv
+  datatype: string
+  item: 2hv
+variables_117: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "4"
+  id: "117"
+  var: cciii3
+  datatype: numeric
+  item: "3"
+variables_354: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "41"
+  id: "354"
+  var: ctvii39
+  datatype: numeric
+  item: "39"
+variables_164: 
+  question_id: "9"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "2"
+  id: "164"
+  var: ccyviii2hv
+  datatype: string
+  item: 2hv
+variables_735: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "119"
+  id: "735"
+  var: ycyviii109
+  datatype: numeric
+  item: "109"
+variables_592: 
+  question_id: "55"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "592"
+  var: ycyv2
+  datatype: string
+  item: "2"
+variables_545: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "95"
+  id: "545"
+  var: ttxii85hv
+  datatype: string
+  item: 85hv
+variables_308: 
+  question_id: "32"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "308"
+  var: ctiihv
+  datatype: string
+  item: hv
+variables_118: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "5"
+  id: "118"
+  var: cciii4
+  datatype: numeric
+  item: "4"
+variables_355: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "42"
+  id: "355"
+  var: ctvii40
+  datatype: numeric
+  item: "40"
+variables_165: 
+  question_id: "9"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "3"
+  id: "165"
+  var: ccyviii3hv
+  datatype: string
+  item: 3hv
+variables_736: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "120"
+  id: "736"
+  var: ycyviii110
+  datatype: numeric
+  item: "110"
+variables_593: 
+  question_id: "56"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "593"
+  var: ycyvi1a
+  datatype: numeric
+  item: 1a
+variables_546: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "96"
+  id: "546"
+  var: ttxii86
+  datatype: numeric
+  item: "86"
+variables_309: 
+  question_id: "33"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "309"
+  var: ctiii1hv
+  datatype: string
+  item: 1hv
+variables_119: 
+  question_id: "10"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "5"
+  id: "119"
+  var: cciii4hv
+  datatype: string
+  item: 4hv
+variables_356: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "43"
+  id: "356"
+  var: ctvii41
+  datatype: numeric
+  item: "41"
+variables_166: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "3"
+  id: "166"
+  var: ccyx1
+  datatype: numeric
+  item: "1"
+variables_737: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "121"
+  id: "737"
+  var: ycyviii111
+  datatype: numeric
+  item: "111"
+variables_594: 
+  question_id: "56"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "3"
+  id: "594"
+  var: ycyvi1b
+  datatype: numeric
+  item: 1b
+variables_547: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "97"
+  id: "547"
+  var: ttxii87
+  datatype: numeric
+  item: "87"
+variables_357: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "44"
+  id: "357"
+  var: ctvii42
+  datatype: numeric
+  item: "42"
+variables_167: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "4"
+  id: "167"
+  var: ccyx2
+  datatype: numeric
+  item: "2"
+variables_738: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "122"
+  id: "738"
+  var: ycyviii112
+  datatype: numeric
+  item: "112"
+variables_595: 
+  question_id: "56"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "4"
+  id: "595"
+  var: ycyvi1c
+  datatype: numeric
+  item: 1c
+variables_548: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "98"
+  id: "548"
+  var: ttxii88
+  datatype: numeric
+  item: "88"
+variables_358: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "45"
+  id: "358"
+  var: ctvii43
+  datatype: numeric
+  item: "43"
+variables_168: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "4"
+  id: "168"
+  var: ccyx2hv
+  datatype: string
+  item: 2hv
+variables_596: 
+  question_id: "56"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "596"
+  var: ycyvi1d
+  datatype: numeric
+  item: 1d
+variables_549: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "99"
+  id: "549"
+  var: ttxii89
+  datatype: numeric
+  item: "89"
+variables_359: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "46"
+  id: "359"
+  var: ctvii44
+  datatype: numeric
+  item: "44"
+variables_169: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "5"
+  id: "169"
+  var: ccyx3
+  datatype: numeric
+  item: "3"
+variables_597: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "597"
+  var: ycyvii1a
+  datatype: numeric
+  item: 1a
+variables_600: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "600"
+  var: ycyvii1d
+  datatype: numeric
+  item: 1d
+variables_598: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "3"
+  id: "598"
+  var: ycyvii1b
+  datatype: numeric
+  item: 1b
+variables_410: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "93"
+  id: "410"
+  var: ctvii91
+  datatype: numeric
+  item: "91"
+variables_220: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "52"
+  id: "220"
+  var: ccyx50
+  datatype: numeric
+  item: "50"
+variables_030: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "31"
+  id: "30"
+  var: cci29
+  datatype: numeric
+  item: "29"
+variables_601: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "6"
+  id: "601"
+  var: ycyvii1e
+  datatype: numeric
+  item: 1e
+variables_599: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "4"
+  id: "599"
+  var: ycyvii1c
+  datatype: numeric
+  item: 1c
+variables_411: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "94"
+  id: "411"
+  var: ctvii92
+  datatype: numeric
+  item: "92"
+variables_221: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "53"
+  id: "221"
+  var: ccyx51
+  datatype: numeric
+  item: "51"
+variables_031: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "32"
+  id: "31"
+  var: cci30
+  datatype: numeric
+  item: "30"
+variables_602: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "7"
+  id: "602"
+  var: ycyvii1f
+  datatype: numeric
+  item: 1f
+variables_412: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "94"
+  id: "412"
+  var: ctvii92hv
+  datatype: string
+  item: 92hv
+variables_222: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "54"
+  id: "222"
+  var: ccyx52
+  datatype: numeric
+  item: "52"
+variables_032: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "33"
+  id: "32"
+  var: cci31
+  datatype: numeric
+  item: "31"
+variables_650: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "45"
+  id: "650"
+  var: ycyviii43
+  datatype: numeric
+  item: "43"
+variables_603: 
+  question_id: "57"
+  col: "2"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "8"
+  id: "603"
+  var: ycyvii1g
+  datatype: numeric
+  item: 1g
+variables_460: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "22"
+  id: "460"
+  var: ttxii20
+  datatype: numeric
+  item: "20"
+variables_413: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "95"
+  id: "413"
+  var: ctvii93
+  datatype: numeric
+  item: "93"
+variables_223: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "55"
+  id: "223"
+  var: ccyx53
+  datatype: numeric
+  item: "53"
+variables_033: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "33"
+  id: "33"
+  var: cci31hv
+  datatype: string
+  item: 31hv
+variables_270: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "94"
+  id: "270"
+  var: ccyx84
+  datatype: numeric
+  item: "84"
+variables_080: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "76"
+  id: "80"
+  var: cci74hv
+  datatype: string
+  item: 74hv
+variables_651: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "46"
+  id: "651"
+  var: ycyviii44
+  datatype: numeric
+  item: "44"
+variables_604: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "3"
+  id: "604"
+  var: ycyviii1
+  datatype: numeric
+  item: "1"
+variables_461: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "23"
+  id: "461"
+  var: ttxii21
+  datatype: numeric
+  item: "21"
+variables_414: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "96"
+  id: "414"
+  var: ctvii94
+  datatype: numeric
+  item: "94"
+variables_224: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "56"
+  id: "224"
+  var: ccyx54
+  datatype: numeric
+  item: "54"
+variables_034: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "34"
+  id: "34"
+  var: cci32
+  datatype: numeric
+  item: "32"
+variables_271: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "94"
+  id: "271"
+  var: ccyx84hv
+  datatype: string
+  item: 84hv
+variables_081: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "77"
+  id: "81"
+  var: cci75
+  datatype: numeric
+  item: "75"
+variables_652: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "47"
+  id: "652"
+  var: ycyviii45
+  datatype: numeric
+  item: "45"
+variables_605: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "4"
+  id: "605"
+  var: ycyviii2
+  datatype: numeric
+  item: "2"
+variables_462: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "24"
+  id: "462"
+  var: ttxii22
+  datatype: numeric
+  item: "22"
+variables_415: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "97"
+  id: "415"
+  var: ctvii95
+  datatype: numeric
+  item: "95"
+variables_225: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "57"
+  id: "225"
+  var: ccyx55
+  datatype: numeric
+  item: "55"
+variables_035: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "34"
+  id: "35"
+  var: cci32hv
+  datatype: string
+  item: 32hv
+variables_272: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "95"
+  id: "272"
+  var: ccyx85
+  datatype: numeric
+  item: "85"
+variables_082: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "78"
+  id: "82"
+  var: cci76
+  datatype: numeric
+  item: "76"
+variables_653: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "48"
+  id: "653"
+  var: ycyviii46
+  datatype: numeric
+  item: "46"
+variables_606: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "4"
+  id: "606"
+  var: ycyviii2hv
+  datatype: string
+  item: 2hv
+variables_463: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "25"
+  id: "463"
+  var: ttxii23
+  datatype: numeric
+  item: "23"
+variables_416: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "98"
+  id: "416"
+  var: ctvii96
+  datatype: numeric
+  item: "96"
+variables_226: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "59"
+  id: "226"
+  var: ccyx56a
+  datatype: numeric
+  item: 56a
+variables_036: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "35"
+  id: "36"
+  var: cci33
+  datatype: numeric
+  item: "33"
+variables_273: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "95"
+  id: "273"
+  var: ccyx85hv
+  datatype: string
+  item: 85hv
+variables_083: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "78"
+  id: "83"
+  var: cci76hv
+  datatype: string
+  item: 76hv
+variables_654: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "48"
+  id: "654"
+  var: ycyviii46hv
+  datatype: string
+  item: 46hv
+variables_607: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "5"
+  id: "607"
+  var: ycyviii3
+  datatype: numeric
+  item: "3"
+variables_464: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "26"
+  id: "464"
+  var: ttxii24
+  datatype: numeric
+  item: "24"
+variables_417: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "99"
+  id: "417"
+  var: ctvii97
+  datatype: numeric
+  item: "97"
+variables_227: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "60"
+  id: "227"
+  var: ccyx56b
+  datatype: numeric
+  item: 56b
+variables_037: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "36"
+  id: "37"
+  var: cci34
+  datatype: numeric
+  item: "34"
+variables_274: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "96"
+  id: "274"
+  var: ccyx86
+  datatype: numeric
+  item: "86"
+variables_084: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "79"
+  id: "84"
+  var: cci77
+  datatype: numeric
+  item: "77"
+variables_655: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "49"
+  id: "655"
+  var: ycyviii47
+  datatype: numeric
+  item: "47"
+variables_608: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "6"
+  id: "608"
+  var: ycyviii4
+  datatype: numeric
+  item: "4"
+variables_465: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "27"
+  id: "465"
+  var: ttxii25
+  datatype: numeric
+  item: "25"
+variables_418: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "100"
+  id: "418"
+  var: ctvii98
+  datatype: numeric
+  item: "98"
+variables_228: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "61"
+  id: "228"
+  var: ccyx56c
+  datatype: numeric
+  item: 56c
+variables_038: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "37"
+  id: "38"
+  var: cci35
+  datatype: numeric
+  item: "35"
+variables_275: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "97"
+  id: "275"
+  var: ccyx87
+  datatype: numeric
+  item: "87"
+variables_085: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "80"
+  id: "85"
+  var: cci78
+  datatype: numeric
+  item: "78"
+variables_656: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "50"
+  id: "656"
+  var: ycyviii48
+  datatype: numeric
+  item: "48"
+variables_609: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "7"
+  id: "609"
+  var: ycyviii5
+  datatype: numeric
+  item: "5"
+variables_466: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "28"
+  id: "466"
+  var: ttxii26
+  datatype: numeric
+  item: "26"
+variables_419: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "101"
+  id: "419"
+  var: ctvii99
+  datatype: numeric
+  item: "99"
+variables_229: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "62"
+  id: "229"
+  var: ccyx56d
+  datatype: numeric
+  item: 56d
+variables_039: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "38"
+  id: "39"
+  var: cci36
+  datatype: numeric
+  item: "36"
+variables_276: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "98"
+  id: "276"
+  var: ccyx88
+  datatype: numeric
+  item: "88"
+variables_086: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "81"
+  id: "86"
+  var: cci79
+  datatype: numeric
+  item: "79"
+variables_657: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "51"
+  id: "657"
+  var: ycyviii49
+  datatype: numeric
+  item: "49"
+variables_467: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "29"
+  id: "467"
+  var: ttxii27
+  datatype: numeric
+  item: "27"
+variables_277: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "99"
+  id: "277"
+  var: ccyx89
+  datatype: numeric
+  item: "89"
+variables_087: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "82"
+  id: "87"
+  var: cci80
+  datatype: numeric
+  item: "80"
+variables_658: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "52"
+  id: "658"
+  var: ycyviii50
+  datatype: numeric
+  item: "50"
+variables_468: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "30"
+  id: "468"
+  var: ttxii28
+  datatype: numeric
+  item: "28"
+variables_278: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "100"
+  id: "278"
+  var: ccyx90
+  datatype: numeric
+  item: "90"
+variables_088: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "82"
+  id: "88"
+  var: cci80hv
+  datatype: string
+  item: 80hv
+variables_659: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "53"
+  id: "659"
+  var: ycyviii51
+  datatype: numeric
+  item: "51"
+variables_469: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "31"
+  id: "469"
+  var: ttxii29
+  datatype: numeric
+  item: "29"
+variables_279: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "101"
+  id: "279"
+  var: ccyx91
+  datatype: numeric
+  item: "91"
+variables_089: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "83"
+  id: "89"
+  var: cci81
+  datatype: numeric
+  item: "81"
+variables_710: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "96"
+  id: "710"
+  var: ycyviii86
+  datatype: numeric
+  item: "86"
+variables_520: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "76"
+  id: "520"
+  var: ttxii66hv
+  datatype: string
+  item: 66hv
+variables_330: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "19"
+  id: "330"
+  var: ctvii17
+  datatype: numeric
+  item: "17"
+variables_140: 
+  question_id: "4"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "5"
+  id: "140"
+  var: ccyiv1c
+  datatype: numeric
+  item: 1c
+variables_711: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "97"
+  id: "711"
+  var: ycyviii87
+  datatype: numeric
+  item: "87"
+variables_521: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "77"
+  id: "521"
+  var: ttxii67
+  datatype: numeric
+  item: "67"
+variables_331: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "20"
+  id: "331"
+  var: ctvii18
+  datatype: numeric
+  item: "18"
+variables_141: 
+  question_id: "5"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "1"
+  id: "141"
+  var: ccyv1
+  datatype: string
+  item: "1"
+variables_712: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "98"
+  id: "712"
+  var: ycyviii88
+  datatype: numeric
+  item: "88"
+variables_522: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "78"
+  id: "522"
+  var: ttxii68
+  datatype: numeric
+  item: "68"
+variables_332: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "21"
+  id: "332"
+  var: ctvii19
+  datatype: numeric
+  item: "19"
+variables_142: 
+  question_id: "5"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "2"
+  id: "142"
+  var: ccyv2
+  datatype: string
+  item: "2"
+variables_713: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "99"
+  id: "713"
+  var: ycyviii89
+  datatype: numeric
+  item: "89"
+variables_570: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "119"
+  id: "570"
+  var: ttxii109
+  datatype: numeric
+  item: "109"
+variables_523: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "79"
+  id: "523"
+  var: ttxii69
+  datatype: numeric
+  item: "69"
+variables_333: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "22"
+  id: "333"
+  var: ctvii20
+  datatype: numeric
+  item: "20"
+variables_143: 
+  question_id: "6"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "2"
+  id: "143"
+  var: ccyvi1a
+  datatype: numeric
+  item: 1a
+variables_380: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "65"
+  id: "380"
+  var: ctvii63
+  datatype: numeric
+  item: "63"
+variables_190: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "25"
+  id: "190"
+  var: ccyx23
+  datatype: numeric
+  item: "23"
+variables_714: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "100"
+  id: "714"
+  var: ycyviii90
+  datatype: numeric
+  item: "90"
+variables_571: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "120"
+  id: "571"
+  var: ttxii110
+  datatype: numeric
+  item: "110"
+variables_524: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "80"
+  id: "524"
+  var: ttxii70
+  datatype: numeric
+  item: "70"
+variables_334: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "23"
+  id: "334"
+  var: ctvii21
+  datatype: numeric
+  item: "21"
+variables_144: 
+  question_id: "6"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "3"
+  id: "144"
+  var: ccyvi1b
+  datatype: numeric
+  item: 1b
+variables_381: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "66"
+  id: "381"
+  var: ctvii64
+  datatype: numeric
+  item: "64"
+variables_191: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "26"
+  id: "191"
+  var: ccyx24
+  datatype: numeric
+  item: "24"
+variables_715: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "101"
+  id: "715"
+  var: ycyviii91
+  datatype: numeric
+  item: "91"
+variables_572: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "121"
+  id: "572"
+  var: ttxii111
+  datatype: numeric
+  item: "111"
+variables_525: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "80"
+  id: "525"
+  var: ttxii70hv
+  datatype: string
+  item: 70hv
+variables_335: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "24"
+  id: "335"
+  var: ctvii22
+  datatype: numeric
+  item: "22"
+variables_145: 
+  question_id: "6"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "4"
+  id: "145"
+  var: ccyvi1c
+  datatype: numeric
+  item: 1c
+variables_382: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "67"
+  id: "382"
+  var: ctvii65
+  datatype: numeric
+  item: "65"
+variables_192: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "27"
+  id: "192"
+  var: ccyx25
+  datatype: numeric
+  item: "25"
+variables_716: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "102"
+  id: "716"
+  var: ycyviii92
+  datatype: numeric
+  item: "92"
+variables_573: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "122"
+  id: "573"
+  var: ttxii112
+  datatype: numeric
+  item: "112"
+variables_526: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "81"
+  id: "526"
+  var: ttxii71
+  datatype: numeric
+  item: "71"
+variables_336: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "25"
+  id: "336"
+  var: ctvii23
+  datatype: numeric
+  item: "23"
+variables_146: 
+  question_id: "6"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "5"
+  id: "146"
+  var: ccyvi1d
+  datatype: numeric
+  item: 1d
+variables_383: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "68"
+  id: "383"
+  var: ctvii66
+  datatype: numeric
+  item: "66"
+variables_193: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "28"
+  id: "193"
+  var: ccyx26
+  datatype: numeric
+  item: "26"
+variables_717: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "103"
+  id: "717"
+  var: ycyviii93
+  datatype: numeric
+  item: "93"
+variables_574: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "123"
+  id: "574"
+  var: ttxiihv
+  datatype: string
+  item: hv
+variables_527: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "82"
+  id: "527"
+  var: ttxii72
+  datatype: numeric
+  item: "72"
+variables_337: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "26"
+  id: "337"
+  var: ctvii24
+  datatype: numeric
+  item: "24"
+variables_147: 
+  question_id: "7"
+  col: "1"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "1"
+  id: "147"
+  var: ccyvii
+  datatype: string
+  item: ""
+variables_384: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "69"
+  id: "384"
+  var: ctvii67
+  datatype: numeric
+  item: "67"
+variables_194: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "29"
+  id: "194"
+  var: ccyx27
+  datatype: numeric
+  item: "27"
+variables_718: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "104"
+  id: "718"
+  var: ycyviii94
+  datatype: numeric
+  item: "94"
+variables_575: 
+  question_id: "51"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "5"
+  row: "2"
+  id: "575"
+  var: ycyi
+  datatype: string
+  item: 
+variables_528: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "83"
+  id: "528"
+  var: ttxii73
+  datatype: numeric
+  item: "73"
+variables_338: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "27"
+  id: "338"
+  var: ctvii25
+  datatype: numeric
+  item: "25"
+variables_148: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "1"
+  id: "148"
+  var: ccyviihv
+  datatype: string
+  item: hv
+variables_385: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "70"
+  id: "385"
+  var: ctvii68
+  datatype: numeric
+  item: "68"
+variables_195: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "30"
+  id: "195"
+  var: ccyx28
+  datatype: numeric
+  item: "28"
+variables_719: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "105"
+  id: "719"
+  var: ycyviii95
+  datatype: numeric
+  item: "95"
+variables_576: 
+  question_id: "51"
+  col: "3"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "5"
+  row: "3"
+  id: "576"
+  var: ycyi1a
+  datatype: numeric
+  item: 1a
+variables_529: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "83"
+  id: "529"
+  var: ttxii73hv
+  datatype: string
+  item: 73hv
+variables_339: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "28"
+  id: "339"
+  var: ctvii26
+  datatype: numeric
+  item: "26"
+variables_149: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "3"
+  id: "149"
+  var: ccyvii1a
+  datatype: numeric
+  item: 1a
+variables_386: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "71"
+  id: "386"
+  var: ctvii69
+  datatype: numeric
+  item: "69"
+variables_196: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "31"
+  id: "196"
+  var: ccyx29
+  datatype: numeric
+  item: "29"
+variables_577: 
+  question_id: "51"
+  col: "3"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "5"
+  row: "4"
+  id: "577"
+  var: ycyi1b
+  datatype: numeric
+  item: 1b
+variables_387: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "72"
+  id: "387"
+  var: ctvii70
+  datatype: numeric
+  item: "70"
+variables_197: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "31"
+  id: "197"
+  var: ccyx29hv
+  datatype: string
+  item: 29hv
+variables_578: 
+  question_id: "51"
+  col: "3"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "578"
+  var: ycyi1c
+  datatype: numeric
+  item: 1c
+variables_200: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "34"
+  id: "200"
+  var: ccyx32
+  datatype: numeric
+  item: "32"
+variables_010: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "12"
+  id: "10"
+  var: cci10
+  datatype: numeric
+  item: "10"
+variables_388: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "73"
+  id: "388"
+  var: ctvii71
+  datatype: numeric
+  item: "71"
+variables_198: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "32"
+  id: "198"
+  var: ccyx30
+  datatype: numeric
+  item: "30"
+variables_579: 
+  question_id: "52"
+  col: "1"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "579"
+  var: ycyii
+  datatype: string
+  item: 
+variables_201: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "35"
+  id: "201"
+  var: ccyx33
+  datatype: numeric
+  item: "33"
+variables_011: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "13"
+  id: "11"
+  var: cci11
+  datatype: numeric
+  item: "11"
+variables_389: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "74"
+  id: "389"
+  var: ctvii72
+  datatype: numeric
+  item: "72"
+variables_199: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "33"
+  id: "199"
+  var: ccyx31
+  datatype: numeric
+  item: "31"
+variables_202: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "36"
+  id: "202"
+  var: ccyx34
+  datatype: numeric
+  item: "34"
+variables_012: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "14"
+  id: "12"
+  var: cci12
+  datatype: numeric
+  item: "12"
+variables_630: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "27"
+  id: "630"
+  var: ycyviii25
+  datatype: numeric
+  item: "25"
+variables_440: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "3"
+  id: "440"
+  var: ttxii1
+  datatype: numeric
+  item: "1"
+variables_250: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "79"
+  id: "250"
+  var: ccyx69
+  datatype: numeric
+  item: "69"
+variables_060: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "57"
+  id: "60"
+  var: cci55
+  datatype: numeric
+  item: "55"
+variables_203: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "37"
+  id: "203"
+  var: ccyx35
+  datatype: numeric
+  item: "35"
+variables_013: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "15"
+  id: "13"
+  var: cci13
+  datatype: numeric
+  item: "13"
+variables_631: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "28"
+  id: "631"
+  var: ycyviii26
+  datatype: numeric
+  item: "26"
+variables_441: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "4"
+  id: "441"
+  var: ttxii2
+  datatype: numeric
+  item: "2"
+variables_251: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "80"
+  id: "251"
+  var: ccyx70
+  datatype: numeric
+  item: "70"
+variables_061: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "58"
+  id: "61"
+  var: cci56
+  datatype: numeric
+  item: "56"
+variables_204: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "38"
+  id: "204"
+  var: ccyx36
+  datatype: numeric
+  item: "36"
+variables_014: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "16"
+  id: "14"
+  var: cci14
+  datatype: numeric
+  item: "14"
+variables_632: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "29"
+  id: "632"
+  var: ycyviii27
+  datatype: numeric
+  item: "27"
+variables_442: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "5"
+  id: "442"
+  var: ttxii3
+  datatype: numeric
+  item: "3"
+variables_252: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "80"
+  id: "252"
+  var: ccyx70hv
+  datatype: string
+  item: 70hv
+variables_062: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "59"
+  id: "62"
+  var: cci57
+  datatype: numeric
+  item: "57"
+variables_205: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "39"
+  id: "205"
+  var: ccyx37
+  datatype: numeric
+  item: "37"
+variables_015: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "17"
+  id: "15"
+  var: cci15
+  datatype: numeric
+  item: "15"
+variables_680: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "72"
+  id: "680"
+  var: ycyviii62
+  datatype: numeric
+  item: "62"
+variables_633: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "30"
+  id: "633"
+  var: ycyviii28
+  datatype: numeric
+  item: "28"
+variables_490: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "49"
+  id: "490"
+  var: ttxii47
+  datatype: numeric
+  item: "47"
+variables_443: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "6"
+  id: "443"
+  var: ttxii4
+  datatype: numeric
+  item: "4"
+variables_253: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "81"
+  id: "253"
+  var: ccyx71
+  datatype: numeric
+  item: "71"
+variables_063: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "60"
+  id: "63"
+  var: cci58
+  datatype: numeric
+  item: "58"
+variables_206: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "40"
+  id: "206"
+  var: ccyx38
+  datatype: numeric
+  item: "38"
+variables_016: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "18"
+  id: "16"
+  var: cci16
+  datatype: numeric
+  item: "16"
+variables_681: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "73"
+  id: "681"
+  var: ycyviii63
+  datatype: numeric
+  item: "63"
+variables_634: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "31"
+  id: "634"
+  var: ycyviii29
+  datatype: numeric
+  item: "29"
+variables_491: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "50"
+  id: "491"
+  var: ttxii48
+  datatype: numeric
+  item: "48"
+variables_444: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "7"
+  id: "444"
+  var: ttxii5
+  datatype: numeric
+  item: "5"
+variables_254: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "82"
+  id: "254"
+  var: ccyx72
+  datatype: numeric
+  item: "72"
+variables_064: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "61"
+  id: "64"
+  var: cci59
+  datatype: numeric
+  item: "59"
+variables_207: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "41"
+  id: "207"
+  var: ccyx39
+  datatype: numeric
+  item: "39"
+variables_017: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "19"
+  id: "17"
+  var: cci17
+  datatype: numeric
+  item: "17"
+variables_682: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "74"
+  id: "682"
+  var: ycyviii64
+  datatype: numeric
+  item: "64"
+variables_635: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "31"
+  id: "635"
+  var: ycyviii29hv
+  datatype: string
+  item: 29hv
+variables_492: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "51"
+  id: "492"
+  var: ttxii49
+  datatype: numeric
+  item: "49"
+variables_445: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "8"
+  id: "445"
+  var: ttxii6
+  datatype: numeric
+  item: "6"
+variables_255: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "83"
+  id: "255"
+  var: ccyx73
+  datatype: numeric
+  item: "73"
+variables_065: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "62"
+  id: "65"
+  var: cci60
+  datatype: numeric
+  item: "60"
+variables_208: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "42"
+  id: "208"
+  var: ccyx40
+  datatype: numeric
+  item: "40"
+variables_018: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "20"
+  id: "18"
+  var: cci18
+  datatype: numeric
+  item: "18"
+variables_683: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "75"
+  id: "683"
+  var: ycyviii65
+  datatype: numeric
+  item: "65"
+variables_636: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "32"
+  id: "636"
+  var: ycyviii30
+  datatype: numeric
+  item: "30"
+variables_493: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "52"
+  id: "493"
+  var: ttxii50
+  datatype: numeric
+  item: "50"
+variables_446: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "9"
+  id: "446"
+  var: ttxii7
+  datatype: numeric
+  item: "7"
+variables_256: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "83"
+  id: "256"
+  var: ccyx73hv
+  datatype: string
+  item: 73hv
+variables_066: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "63"
+  id: "66"
+  var: cci61
+  datatype: numeric
+  item: "61"
+variables_209: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "42"
+  id: "209"
+  var: ccyx40hv
+  datatype: string
+  item: 40hv
+variables_019: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "21"
+  id: "19"
+  var: cci19
+  datatype: numeric
+  item: "19"
+variables_684: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "76"
+  id: "684"
+  var: ycyviii66
+  datatype: numeric
+  item: "66"
+variables_637: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "33"
+  id: "637"
+  var: ycyviii31
+  datatype: numeric
+  item: "31"
+variables_494: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "53"
+  id: "494"
+  var: ttxii51
+  datatype: numeric
+  item: "51"
+variables_447: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "10"
+  id: "447"
+  var: ttxii8
+  datatype: numeric
+  item: "8"
+variables_257: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "84"
+  id: "257"
+  var: ccyx74
+  datatype: numeric
+  item: "74"
+variables_067: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "64"
+  id: "67"
+  var: cci62
+  datatype: numeric
+  item: "62"
+variables_685: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "76"
+  id: "685"
+  var: ycyviii66hv
+  datatype: string
+  item: 66hv
+variables_638: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "34"
+  id: "638"
+  var: ycyviii32
+  datatype: numeric
+  item: "32"
+variables_495: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "54"
+  id: "495"
+  var: ttxii52
+  datatype: numeric
+  item: "52"
+variables_448: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "11"
+  id: "448"
+  var: ttxii9
+  datatype: numeric
+  item: "9"
+variables_258: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "85"
+  id: "258"
+  var: ccyx75
+  datatype: numeric
+  item: "75"
+variables_068: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "65"
+  id: "68"
+  var: cci63
+  datatype: numeric
+  item: "63"
+variables_686: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "77"
+  id: "686"
+  var: ycyviii67
+  datatype: numeric
+  item: "67"
+variables_639: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "35"
+  id: "639"
+  var: ycyviii33
+  datatype: numeric
+  item: "33"
+variables_496: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "55"
+  id: "496"
+  var: ttxii53
+  datatype: numeric
+  item: "53"
+variables_449: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "11"
+  id: "449"
+  var: ttxii9hv
+  datatype: string
+  item: 9hv
+variables_259: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "86"
+  id: "259"
+  var: ccyx76
+  datatype: numeric
+  item: "76"
+variables_069: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "66"
+  id: "69"
+  var: cci64
+  datatype: numeric
+  item: "64"
+variables_687: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "78"
+  id: "687"
+  var: ycyviii68
+  datatype: numeric
+  item: "68"
+variables_497: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "56"
+  id: "497"
+  var: ttxii54
+  datatype: numeric
+  item: "54"
+variables_688: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "79"
+  id: "688"
+  var: ycyviii69
+  datatype: numeric
+  item: "69"
+variables_500: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "60"
+  id: "500"
+  var: ttxii56b
+  datatype: numeric
+  item: 56b
+variables_498: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "57"
+  id: "498"
+  var: ttxii55
+  datatype: numeric
+  item: "55"
+variables_310: 
+  question_id: "231"
+  col: "1"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "310"
+  var: ctiv1hv
+  datatype: string
+  item: 1hv
+variables_120: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "6"
+  id: "120"
+  var: cciii5
+  datatype: numeric
+  item: "5"
+variables_689: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "80"
+  id: "689"
+  var: ycyviii70
+  datatype: numeric
+  item: "70"
+variables_501: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "61"
+  id: "501"
+  var: ttxii56c
+  datatype: numeric
+  item: 56c
+variables_499: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "59"
+  id: "499"
+  var: ttxii56a
+  datatype: numeric
+  item: 56a
+variables_311: 
+  question_id: "34"
+  col: "2"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "311"
+  var: ctv1
+  datatype: numeric
+  item: "1"
+variables_121: 
+  question_id: "10"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "6"
+  id: "121"
+  var: cciii5hv
+  datatype: string
+  item: 5hv
+variables_502: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "62"
+  id: "502"
+  var: ttxii56d
+  datatype: numeric
+  item: 56d
+variables_312: 
+  question_id: "237"
+  col: "2"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "312"
+  var: ctvi1
+  datatype: numeric
+  item: "1"
+variables_122: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "7"
+  id: "122"
+  var: cciii7
+  datatype: numeric
+  item: "7"
+variables_550: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "100"
+  id: "550"
+  var: ttxii90
+  datatype: numeric
+  item: "90"
+variables_503: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "62"
+  id: "503"
+  var: ttxii56dhv
+  datatype: string
+  item: 56dhv
+variables_360: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "47"
+  id: "360"
+  var: ctvii45
+  datatype: numeric
+  item: "45"
+variables_170: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "6"
+  id: "170"
+  var: ccyx4
+  datatype: numeric
+  item: "4"
+variables_313: 
+  question_id: "237"
+  col: "3"
+  created_at: 2011-03-06 18:58:45
+  updated_at: 2011-03-06 18:58:45
+  survey_id: "3"
+  row: "1"
+  id: "313"
+  var: ctvi1hv
+  datatype: string
+  item: 1hv
+variables_123: 
+  question_id: "10"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "7"
+  id: "123"
+  var: cciii6hv
+  datatype: string
+  item: 6hv
+variables_551: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "101"
+  id: "551"
+  var: ttxii91
+  datatype: numeric
+  item: "91"
+variables_504: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "63"
+  id: "504"
+  var: ttxii56e
+  datatype: numeric
+  item: 56e
+variables_361: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "48"
+  id: "361"
+  var: ctvii46
+  datatype: numeric
+  item: "46"
+variables_171: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "7"
+  id: "171"
+  var: ccyx5
+  datatype: numeric
+  item: "5"
+variables_314: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "3"
+  id: "314"
+  var: ctvii1
+  datatype: numeric
+  item: "1"
+variables_124: 
+  question_id: "10"
+  col: "2"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "1"
+  row: "8"
+  id: "124"
+  var: cciii7hv
+  datatype: string
+  item: 7hv
+variables_552: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "102"
+  id: "552"
+  var: ttxii92
+  datatype: numeric
+  item: "92"
+variables_505: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:53
+  updated_at: 2011-03-06 18:58:53
+  survey_id: "4"
+  row: "64"
+  id: "505"
+  var: ttxii56f
+  datatype: numeric
+  item: 56f
+variables_362: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "48"
+  id: "362"
+  var: ctvii46hv
+  datatype: string
+  item: 46hv
+variables_172: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "8"
+  id: "172"
+  var: ccyx6
+  datatype: numeric
+  item: "6"
+variables_315: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "4"
+  id: "315"
+  var: ctvii2
+  datatype: numeric
+  item: "2"
+variables_125: 
+  question_id: "1"
+  col: "1"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "2"
+  id: "125"
+  var: ccyi
+  datatype: string
+  item: 
+variables_553: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "103"
+  id: "553"
+  var: ttxii93
+  datatype: numeric
+  item: "93"
+variables_506: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "65"
+  id: "506"
+  var: ttxii56g
+  datatype: numeric
+  item: 56g
+variables_363: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "49"
+  id: "363"
+  var: ctvii47
+  datatype: numeric
+  item: "47"
+variables_173: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "9"
+  id: "173"
+  var: ccyx7
+  datatype: numeric
+  item: "7"
+variables_316: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "5"
+  id: "316"
+  var: ctvii3
+  datatype: numeric
+  item: "3"
+variables_126: 
+  question_id: "1"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "3"
+  id: "126"
+  var: ccyi1a
+  datatype: numeric
+  item: 1a
+variables_554: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "104"
+  id: "554"
+  var: ttxii94
+  datatype: numeric
+  item: "94"
+variables_507: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "66"
+  id: "507"
+  var: ttxii56h
+  datatype: numeric
+  item: 56h
+variables_364: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "50"
+  id: "364"
+  var: ctvii48
+  datatype: numeric
+  item: "48"
+variables_174: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "10"
+  id: "174"
+  var: ccyx8
+  datatype: numeric
+  item: "8"
+variables_317: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "6"
+  id: "317"
+  var: ctvii4
+  datatype: numeric
+  item: "4"
+variables_127: 
+  question_id: "1"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "4"
+  id: "127"
+  var: ccyi1b
+  datatype: numeric
+  item: 1b
+variables_555: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "105"
+  id: "555"
+  var: ttxii95
+  datatype: numeric
+  item: "95"
+variables_508: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "66"
+  id: "508"
+  var: ttxii56hhv
+  datatype: string
+  item: 56hhv
+variables_365: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "51"
+  id: "365"
+  var: ctvii49
+  datatype: numeric
+  item: "49"
+variables_175: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "11"
+  id: "175"
+  var: ccyx9
+  datatype: numeric
+  item: "9"
+variables_318: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "7"
+  id: "318"
+  var: ctvii5
+  datatype: numeric
+  item: "5"
+variables_128: 
+  question_id: "1"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "5"
+  id: "128"
+  var: ccyi1c
+  datatype: numeric
+  item: 1c
+variables_556: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "106"
+  id: "556"
+  var: ttxii96
+  datatype: numeric
+  item: "96"
+variables_509: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "67"
+  id: "509"
+  var: ttxii57
+  datatype: numeric
+  item: "57"
+variables_366: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "52"
+  id: "366"
+  var: ctvii50
+  datatype: numeric
+  item: "50"
+variables_176: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "11"
+  id: "176"
+  var: ccyx9hv
+  datatype: string
+  item: 9hv
+variables_319: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "8"
+  id: "319"
+  var: ctvii6
+  datatype: numeric
+  item: "6"
+variables_129: 
+  question_id: "2"
+  col: "1"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "2"
+  id: "129"
+  var: ccyii
+  datatype: string
+  item: 
+variables_557: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "107"
+  id: "557"
+  var: ttxii97
+  datatype: numeric
+  item: "97"
+variables_367: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "53"
+  id: "367"
+  var: ctvii51
+  datatype: numeric
+  item: "51"
+variables_177: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "12"
+  id: "177"
+  var: ccyx10
+  datatype: numeric
+  item: "10"
+variables_558: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "108"
+  id: "558"
+  var: ttxii98
+  datatype: numeric
+  item: "98"
+variables_368: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "54"
+  id: "368"
+  var: ctvii52
+  datatype: numeric
+  item: "52"
+variables_178: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "13"
+  id: "178"
+  var: ccyx11
+  datatype: numeric
+  item: "11"
+variables_559: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "109"
+  id: "559"
+  var: ttxii99
+  datatype: numeric
+  item: "99"
+variables_369: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "55"
+  id: "369"
+  var: ctvii53
+  datatype: numeric
+  item: "53"
+variables_179: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "14"
+  id: "179"
+  var: ccyx12
+  datatype: numeric
+  item: "12"
+variables_610: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "8"
+  id: "610"
+  var: ycyviii6
+  datatype: numeric
+  item: "6"
+variables_420: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "102"
+  id: "420"
+  var: ctvii100
+  datatype: numeric
+  item: "100"
+variables_230: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "62"
+  id: "230"
+  var: ccyx56dhv
+  datatype: string
+  item: 56dhv
+variables_040: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "39"
+  id: "40"
+  var: cci37
+  datatype: numeric
+  item: "37"
+variables_611: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "9"
+  id: "611"
+  var: ycyviii7
+  datatype: numeric
+  item: "7"
+variables_421: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "102"
+  id: "421"
+  var: ctvii100hv
+  datatype: string
+  item: 100hv
+variables_231: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "63"
+  id: "231"
+  var: ccyx56e
+  datatype: numeric
+  item: 56e
+variables_041: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "40"
+  id: "41"
+  var: cci38
+  datatype: numeric
+  item: "38"
+variables_612: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "10"
+  id: "612"
+  var: ycyviii8
+  datatype: numeric
+  item: "8"
+variables_422: 
+  question_id: "11"
+  col: "2"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "1"
+  id: "422"
+  var: ctviii1
+  datatype: numeric
+  item: "1"
+variables_090: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "84"
+  id: "90"
+  var: cci82
+  datatype: numeric
+  item: "82"
+variables_232: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "64"
+  id: "232"
+  var: ccyx56f
+  datatype: numeric
+  item: 56f
+variables_042: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "41"
+  id: "42"
+  var: cci39
+  datatype: numeric
+  item: "39"
+variables_660: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "54"
+  id: "660"
+  var: ycyviii52
+  datatype: numeric
+  item: "52"
+variables_613: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "11"
+  id: "613"
+  var: ycyviii9
+  datatype: numeric
+  item: "9"
+variables_470: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "31"
+  id: "470"
+  var: ttxii29hv
+  datatype: string
+  item: 29hv
+variables_423: 
+  question_id: "11"
+  col: "3"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "1"
+  id: "423"
+  var: ctviii1hv
+  datatype: string
+  item: 1hv
+variables_280: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "102"
+  id: "280"
+  var: ccyx92
+  datatype: numeric
+  item: "92"
+variables_233: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "65"
+  id: "233"
+  var: ccyx56g
+  datatype: numeric
+  item: 56g
+variables_043: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "42"
+  id: "43"
+  var: cci40
+  datatype: numeric
+  item: "40"
+variables_661: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "55"
+  id: "661"
+  var: ycyviii53
+  datatype: numeric
+  item: "53"
+variables_614: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "11"
+  id: "614"
+  var: ycyviii9hv
+  datatype: string
+  item: 9hv
+variables_471: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "32"
+  id: "471"
+  var: ttxii30
+  datatype: numeric
+  item: "30"
+variables_424: 
+  question_id: "11"
+  col: "2"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "2"
+  id: "424"
+  var: ctviii2hv
+  datatype: string
+  item: 2hv
+variables_281: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "102"
+  id: "281"
+  var: ccyx92hv
+  datatype: string
+  item: 92hv
+variables_091: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "85"
+  id: "91"
+  var: cci83
+  datatype: numeric
+  item: "83"
+variables_234: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "66"
+  id: "234"
+  var: ccyx56h
+  datatype: numeric
+  item: 56h
+variables_044: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "43"
+  id: "44"
+  var: cci41
+  datatype: numeric
+  item: "41"
+variables_662: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "56"
+  id: "662"
+  var: ycyviii54
+  datatype: numeric
+  item: "54"
+variables_615: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "12"
+  id: "615"
+  var: ycyviii10
+  datatype: numeric
+  item: "10"
+variables_472: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "33"
+  id: "472"
+  var: ttxii31
+  datatype: numeric
+  item: "31"
+variables_425: 
+  question_id: "11"
+  col: "2"
+  created_at: 2011-03-06 18:58:50
+  updated_at: 2011-03-06 18:58:50
+  survey_id: "3"
+  row: "3"
+  id: "425"
+  var: ctviii3hv
+  datatype: string
+  item: 3hv
+variables_282: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "103"
+  id: "282"
+  var: ccyx93
+  datatype: numeric
+  item: "93"
+variables_092: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "86"
+  id: "92"
+  var: cci84
+  datatype: numeric
+  item: "84"
+variables_235: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "66"
+  id: "235"
+  var: ccyx56hhv
+  datatype: string
+  item: 56hhv
+variables_045: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "44"
+  id: "45"
+  var: cci42
+  datatype: numeric
+  item: "42"
+variables_663: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "57"
+  id: "663"
+  var: ycyviii55
+  datatype: numeric
+  item: "55"
+variables_616: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "13"
+  id: "616"
+  var: ycyviii11
+  datatype: numeric
+  item: "11"
+variables_473: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "34"
+  id: "473"
+  var: ttxii32
+  datatype: numeric
+  item: "32"
+variables_426: 
+  question_id: "275"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "426"
+  var: tt
+  datatype: string
+  item: ""
+variables_283: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "104"
+  id: "283"
+  var: ccyx94
+  datatype: numeric
+  item: "94"
+variables_093: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "87"
+  id: "93"
+  var: cci85
+  datatype: numeric
+  item: "85"
+variables_236: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "67"
+  id: "236"
+  var: ccyx57
+  datatype: numeric
+  item: "57"
+variables_046: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "45"
+  id: "46"
+  var: cci43
+  datatype: numeric
+  item: "43"
+variables_664: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "59"
+  id: "664"
+  var: ycyviii56a
+  datatype: numeric
+  item: 56a
+variables_617: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "14"
+  id: "617"
+  var: ycyviii12
+  datatype: numeric
+  item: "12"
+variables_474: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "35"
+  id: "474"
+  var: ttxii33
+  datatype: numeric
+  item: "33"
+variables_427: 
+  question_id: "275"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "2"
+  id: "427"
+  var: tthv
+  datatype: string
+  item: hv
+variables_284: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "105"
+  id: "284"
+  var: ccyx95
+  datatype: numeric
+  item: "95"
+variables_094: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "88"
+  id: "94"
+  var: cci86
+  datatype: numeric
+  item: "86"
+variables_237: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "68"
+  id: "237"
+  var: ccyx58
+  datatype: numeric
+  item: "58"
+variables_047: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "46"
+  id: "47"
+  var: cci44
+  datatype: numeric
+  item: "44"
+variables_665: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "60"
+  id: "665"
+  var: ycyviii56b
+  datatype: numeric
+  item: 56b
+variables_618: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "15"
+  id: "618"
+  var: ycyviii13
+  datatype: numeric
+  item: "13"
+variables_475: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "36"
+  id: "475"
+  var: ttxii34
+  datatype: numeric
+  item: "34"
+variables_428: 
+  question_id: "214"
+  col: "2"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "428"
+  var: ttii1
+  datatype: numeric
+  item: "1"
+variables_285: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "106"
+  id: "285"
+  var: ccyx96
+  datatype: numeric
+  item: "96"
+variables_095: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "89"
+  id: "95"
+  var: cci87
+  datatype: numeric
+  item: "87"
+variables_238: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "68"
+  id: "238"
+  var: ccyx58hv
+  datatype: string
+  item: 58hv
+variables_048: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "47"
+  id: "48"
+  var: cci45
+  datatype: numeric
+  item: "45"
+variables_666: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "61"
+  id: "666"
+  var: ycyviii56c
+  datatype: numeric
+  item: 56c
+variables_619: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:58
+  updated_at: 2011-03-06 18:58:58
+  survey_id: "5"
+  row: "16"
+  id: "619"
+  var: ycyviii14
+  datatype: numeric
+  item: "14"
+variables_476: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "37"
+  id: "476"
+  var: ttxii35
+  datatype: numeric
+  item: "35"
+variables_429: 
+  question_id: "215"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "1"
+  id: "429"
+  var: ttiii1hv
+  datatype: string
+  item: 1hv
+variables_286: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "107"
+  id: "286"
+  var: ccyx97
+  datatype: numeric
+  item: "97"
+variables_096: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "90"
+  id: "96"
+  var: cci88
+  datatype: numeric
+  item: "88"
+variables_239: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:42
+  updated_at: 2011-03-06 18:58:42
+  survey_id: "2"
+  row: "69"
+  id: "239"
+  var: ccyx59
+  datatype: numeric
+  item: "59"
+variables_049: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:34
+  updated_at: 2011-03-06 18:58:34
+  survey_id: "1"
+  row: "48"
+  id: "49"
+  var: cci46
+  datatype: numeric
+  item: "46"
+variables_667: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "62"
+  id: "667"
+  var: ycyviii56d
+  datatype: numeric
+  item: 56d
+variables_477: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "38"
+  id: "477"
+  var: ttxii36
+  datatype: numeric
+  item: "36"
+variables_287: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "108"
+  id: "287"
+  var: ccyx98
+  datatype: numeric
+  item: "98"
+variables_097: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "91"
+  id: "97"
+  var: cci89
+  datatype: numeric
+  item: "89"
+variables_668: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "62"
+  id: "668"
+  var: ycyviii56dhv
+  datatype: string
+  item: 56dhv
+variables_478: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "39"
+  id: "478"
+  var: ttxii37
+  datatype: numeric
+  item: "37"
+variables_288: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "109"
+  id: "288"
+  var: ccyx99
+  datatype: numeric
+  item: "99"
+variables_098: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "92"
+  id: "98"
+  var: cci90
+  datatype: numeric
+  item: "90"
+variables_100: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "94"
+  id: "100"
+  var: cci92
+  datatype: numeric
+  item: "92"
+variables_669: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:00
+  updated_at: 2011-03-06 18:59:00
+  survey_id: "5"
+  row: "63"
+  id: "669"
+  var: ycyviii56e
+  datatype: numeric
+  item: 56e
+variables_479: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "40"
+  id: "479"
+  var: ttxii38
+  datatype: numeric
+  item: "38"
+variables_099: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "93"
+  id: "99"
+  var: cci91
+  datatype: numeric
+  item: "91"
+variables_101: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "94"
+  id: "101"
+  var: cci92hv
+  datatype: string
+  item: 92hv
+variables_289: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:44
+  updated_at: 2011-03-06 18:58:44
+  survey_id: "2"
+  row: "110"
+  id: "289"
+  var: ccyx100
+  datatype: numeric
+  item: "100"
+variables_102: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "95"
+  id: "102"
+  var: cci93
+  datatype: numeric
+  item: "93"
+variables_720: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "106"
+  id: "720"
+  var: ycyviii96
+  datatype: numeric
+  item: "96"
+variables_530: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "84"
+  id: "530"
+  var: ttxii74
+  datatype: numeric
+  item: "74"
+variables_340: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "29"
+  id: "340"
+  var: ctvii27
+  datatype: numeric
+  item: "27"
+variables_150: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "4"
+  id: "150"
+  var: ccyvii1b
+  datatype: numeric
+  item: 1b
+variables_103: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "96"
+  id: "103"
+  var: cci94
+  datatype: numeric
+  item: "94"
+variables_721: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "107"
+  id: "721"
+  var: ycyviii97
+  datatype: numeric
+  item: "97"
+variables_531: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "85"
+  id: "531"
+  var: ttxii75
+  datatype: numeric
+  item: "75"
+variables_341: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "30"
+  id: "341"
+  var: ctvii28
+  datatype: numeric
+  item: "28"
+variables_151: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "5"
+  id: "151"
+  var: ccyvii1c
+  datatype: numeric
+  item: 1c
+variables_104: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "97"
+  id: "104"
+  var: cci95
+  datatype: numeric
+  item: "95"
+variables_722: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "108"
+  id: "722"
+  var: ycyviii98
+  datatype: numeric
+  item: "98"
+variables_532: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "86"
+  id: "532"
+  var: ttxii76
+  datatype: numeric
+  item: "76"
+variables_342: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "31"
+  id: "342"
+  var: ctvii29
+  datatype: numeric
+  item: "29"
+variables_152: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "6"
+  id: "152"
+  var: ccyvii1d
+  datatype: numeric
+  item: 1d
+variables_105: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "98"
+  id: "105"
+  var: cci96
+  datatype: numeric
+  item: "96"
+variables_723: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "109"
+  id: "723"
+  var: ycyviii99
+  datatype: numeric
+  item: "99"
+variables_580: 
+  question_id: "52"
+  col: "3"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "3"
+  id: "580"
+  var: ycyii1a
+  datatype: numeric
+  item: 1a
+variables_533: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "87"
+  id: "533"
+  var: ttxii77
+  datatype: numeric
+  item: "77"
+variables_390: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "75"
+  id: "390"
+  var: ctvii73
+  datatype: numeric
+  item: "73"
+variables_343: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "32"
+  id: "343"
+  var: ctvii30
+  datatype: numeric
+  item: "30"
+variables_153: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "7"
+  id: "153"
+  var: ccyvii1e
+  datatype: numeric
+  item: 1e
+variables_106: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "99"
+  id: "106"
+  var: cci97
+  datatype: numeric
+  item: "97"
+variables_724: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "110"
+  id: "724"
+  var: ycyviii100
+  datatype: numeric
+  item: "100"
+variables_581: 
+  question_id: "52"
+  col: "3"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "4"
+  id: "581"
+  var: ycyii1b
+  datatype: numeric
+  item: 1b
+variables_534: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "88"
+  id: "534"
+  var: ttxii78
+  datatype: numeric
+  item: "78"
+variables_391: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "76"
+  id: "391"
+  var: ctvii74
+  datatype: numeric
+  item: "74"
+variables_344: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "33"
+  id: "344"
+  var: ctvii31
+  datatype: numeric
+  item: "31"
+variables_154: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "8"
+  id: "154"
+  var: ccyvii1f
+  datatype: numeric
+  item: 1f
+variables_107: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "100"
+  id: "107"
+  var: cci98
+  datatype: numeric
+  item: "98"
+variables_725: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "110"
+  id: "725"
+  var: ycyviii100hv
+  datatype: string
+  item: 100hv
+variables_582: 
+  question_id: "52"
+  col: "3"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "582"
+  var: ycyii1c
+  datatype: numeric
+  item: 1c
+variables_535: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "89"
+  id: "535"
+  var: ttxii79
+  datatype: numeric
+  item: "79"
+variables_392: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "77"
+  id: "392"
+  var: ctvii75
+  datatype: numeric
+  item: "75"
+variables_345: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "33"
+  id: "345"
+  var: ctvii31hv
+  datatype: string
+  item: 31hv
+variables_155: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "9"
+  id: "155"
+  var: ccyvii1g
+  datatype: numeric
+  item: 1g
+variables_108: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "101"
+  id: "108"
+  var: cci99
+  datatype: numeric
+  item: "99"
+variables_726: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "111"
+  id: "726"
+  var: ycyviii101
+  datatype: numeric
+  item: "101"
+variables_583: 
+  question_id: "53"
+  col: "1"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "583"
+  var: ycyiii
+  datatype: string
+  item: 
+variables_536: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "89"
+  id: "536"
+  var: ttxii79hv
+  datatype: string
+  item: 79hv
+variables_393: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "78"
+  id: "393"
+  var: ctvii76
+  datatype: numeric
+  item: "76"
+variables_346: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "34"
+  id: "346"
+  var: ctvii32
+  datatype: numeric
+  item: "32"
+variables_156: 
+  question_id: "7"
+  col: "3"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "10"
+  id: "156"
+  var: ccyvii2
+  datatype: string
+  item: "2"
+variables_109: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:36
+  updated_at: 2011-03-06 18:58:36
+  survey_id: "1"
+  row: "102"
+  id: "109"
+  var: cci100
+  datatype: numeric
+  item: "100"
+variables_727: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "112"
+  id: "727"
+  var: ycyviii102
+  datatype: numeric
+  item: "102"
+variables_584: 
+  question_id: "53"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "3"
+  id: "584"
+  var: ycyiii1
+  datatype: numeric
+  item: "1"
+variables_537: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "90"
+  id: "537"
+  var: ttxii80
+  datatype: numeric
+  item: "80"
+variables_394: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "78"
+  id: "394"
+  var: ctvii76hv
+  datatype: string
+  item: 76hv
+variables_347: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "34"
+  id: "347"
+  var: ctvii32hv
+  datatype: string
+  item: 32hv
+variables_157: 
+  question_id: "7"
+  col: "3"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "11"
+  id: "157"
+  var: ccyvii3
+  datatype: string
+  item: "3"
+variables_728: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:02
+  updated_at: 2011-03-06 18:59:02
+  survey_id: "5"
+  row: "113"
+  id: "728"
+  var: ycyviii103
+  datatype: numeric
+  item: "103"
+variables_585: 
+  question_id: "53"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "4"
+  id: "585"
+  var: ycyiii1b
+  datatype: numeric
+  item: 1b
+variables_538: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "91"
+  id: "538"
+  var: ttxii81
+  datatype: numeric
+  item: "81"
+variables_395: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "79"
+  id: "395"
+  var: ctvii77
+  datatype: numeric
+  item: "77"
+variables_348: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "35"
+  id: "348"
+  var: ctvii33
+  datatype: numeric
+  item: "33"
+variables_158: 
+  question_id: "7"
+  col: "4"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "11"
+  id: "158"
+  var: ccyvii3hv
+  datatype: string
+  item: 3hv
+variables_729: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:03
+  updated_at: 2011-03-06 18:59:03
+  survey_id: "5"
+  row: "114"
+  id: "729"
+  var: ycyviii104
+  datatype: numeric
+  item: "104"
+variables_586: 
+  question_id: "53"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "5"
+  id: "586"
+  var: ycyiii1c
+  datatype: numeric
+  item: 1c
+variables_539: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:55
+  updated_at: 2011-03-06 18:58:55
+  survey_id: "4"
+  row: "92"
+  id: "539"
+  var: ttxii82
+  datatype: numeric
+  item: "82"
+variables_349: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:47
+  updated_at: 2011-03-06 18:58:47
+  survey_id: "3"
+  row: "36"
+  id: "349"
+  var: ctvii34
+  datatype: numeric
+  item: "34"
+variables_159: 
+  question_id: "7"
+  col: "2"
+  created_at: 2011-03-06 18:58:39
+  updated_at: 2011-03-06 18:58:39
+  survey_id: "2"
+  row: "12"
+  id: "159"
+  var: ccyvii4
+  datatype: numeric
+  item: "4"
+variables_396: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "80"
+  id: "396"
+  var: ctvii78
+  datatype: numeric
+  item: "78"
+variables_587: 
+  question_id: "54"
+  col: "1"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "2"
+  id: "587"
+  var: ycyiv
+  datatype: string
+  item: 
+variables_397: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "81"
+  id: "397"
+  var: ctvii79
+  datatype: numeric
+  item: "79"
+variables_588: 
+  question_id: "54"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "3"
+  id: "588"
+  var: ycyiv1a
+  datatype: numeric
+  item: 1a
+variables_400: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "83"
+  id: "400"
+  var: ctvii81
+  datatype: numeric
+  item: "81"
+variables_210: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "43"
+  id: "210"
+  var: ccyx41
+  datatype: numeric
+  item: "41"
+variables_020: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "22"
+  id: "20"
+  var: cci20
+  datatype: numeric
+  item: "20"
+variables_398: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "82"
+  id: "398"
+  var: ctvii80
+  datatype: numeric
+  item: "80"
+variables_589: 
+  question_id: "54"
+  col: "2"
+  created_at: 2011-03-06 18:58:57
+  updated_at: 2011-03-06 18:58:57
+  survey_id: "5"
+  row: "4"
+  id: "589"
+  var: ycyiv1b
+  datatype: numeric
+  item: 1b
+variables_401: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "84"
+  id: "401"
+  var: ctvii82
+  datatype: numeric
+  item: "82"
+variables_211: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "44"
+  id: "211"
+  var: ccyx42
+  datatype: numeric
+  item: "42"
+variables_021: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "23"
+  id: "21"
+  var: cci21
+  datatype: numeric
+  item: "21"
+variables_399: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "82"
+  id: "399"
+  var: ctvii80hv
+  datatype: string
+  item: 80hv
+variables_402: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "85"
+  id: "402"
+  var: ctvii83
+  datatype: numeric
+  item: "83"
+variables_212: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "45"
+  id: "212"
+  var: ccyx43
+  datatype: numeric
+  item: "43"
+variables_022: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "24"
+  id: "22"
+  var: cci22
+  datatype: numeric
+  item: "22"
+variables_640: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "36"
+  id: "640"
+  var: ycyviii34
+  datatype: numeric
+  item: "34"
+variables_450: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "12"
+  id: "450"
+  var: ttxii10
+  datatype: numeric
+  item: "10"
+variables_403: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "86"
+  id: "403"
+  var: ctvii84
+  datatype: numeric
+  item: "84"
+variables_260: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "87"
+  id: "260"
+  var: ccyx77
+  datatype: numeric
+  item: "77"
+variables_070: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "67"
+  id: "70"
+  var: cci65
+  datatype: numeric
+  item: "65"
+variables_213: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "46"
+  id: "213"
+  var: ccyx44
+  datatype: numeric
+  item: "44"
+variables_023: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "25"
+  id: "23"
+  var: cci23
+  datatype: numeric
+  item: "23"
+variables_641: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "37"
+  id: "641"
+  var: ycyviii35
+  datatype: numeric
+  item: "35"
+variables_451: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "13"
+  id: "451"
+  var: ttxii11
+  datatype: numeric
+  item: "11"
+variables_404: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "87"
+  id: "404"
+  var: ctvii85
+  datatype: numeric
+  item: "85"
+variables_261: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "87"
+  id: "261"
+  var: ccyx77hv
+  datatype: string
+  item: 77hv
+variables_071: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "68"
+  id: "71"
+  var: cci66
+  datatype: numeric
+  item: "66"
+variables_214: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "47"
+  id: "214"
+  var: ccyx45
+  datatype: numeric
+  item: "45"
+variables_024: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "26"
+  id: "24"
+  var: cci24
+  datatype: numeric
+  item: "24"
+variables_642: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "38"
+  id: "642"
+  var: ycyviii36
+  datatype: numeric
+  item: "36"
+variables_452: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "14"
+  id: "452"
+  var: ttxii12
+  datatype: numeric
+  item: "12"
+variables_405: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "88"
+  id: "405"
+  var: ctvii86
+  datatype: numeric
+  item: "86"
+variables_262: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "88"
+  id: "262"
+  var: ccyx78
+  datatype: numeric
+  item: "78"
+variables_072: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "69"
+  id: "72"
+  var: cci67
+  datatype: numeric
+  item: "67"
+variables_215: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "48"
+  id: "215"
+  var: ccyx46
+  datatype: numeric
+  item: "46"
+variables_025: 
+  question_id: "25"
+  col: "2"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "26"
+  id: "25"
+  var: cci24hv
+  datatype: string
+  item: 24hv
+variables_690: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "80"
+  id: "690"
+  var: ycyviii70hv
+  datatype: string
+  item: 70hv
+variables_643: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "39"
+  id: "643"
+  var: ycyviii37
+  datatype: numeric
+  item: "37"
+variables_453: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "15"
+  id: "453"
+  var: ttxii13
+  datatype: numeric
+  item: "13"
+variables_406: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "89"
+  id: "406"
+  var: ctvii87
+  datatype: numeric
+  item: "87"
+variables_263: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "89"
+  id: "263"
+  var: ccyx79
+  datatype: numeric
+  item: "79"
+variables_073: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "70"
+  id: "73"
+  var: cci68
+  datatype: numeric
+  item: "68"
+variables_216: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "48"
+  id: "216"
+  var: ccyx46hv
+  datatype: string
+  item: 46hv
+variables_026: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "27"
+  id: "26"
+  var: cci25
+  datatype: numeric
+  item: "25"
+variables_691: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "81"
+  id: "691"
+  var: ycyviii71
+  datatype: numeric
+  item: "71"
+variables_644: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "40"
+  id: "644"
+  var: ycyviii38
+  datatype: numeric
+  item: "38"
+variables_454: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:51
+  updated_at: 2011-03-06 18:58:51
+  survey_id: "4"
+  row: "16"
+  id: "454"
+  var: ttxii14
+  datatype: numeric
+  item: "14"
+variables_407: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "90"
+  id: "407"
+  var: ctvii88
+  datatype: numeric
+  item: "88"
+variables_264: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "89"
+  id: "264"
+  var: ccyx79hv
+  datatype: string
+  item: 79hv
+variables_074: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "71"
+  id: "74"
+  var: cci69
+  datatype: numeric
+  item: "69"
+variables_217: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "49"
+  id: "217"
+  var: ccyx47
+  datatype: numeric
+  item: "47"
+variables_027: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "28"
+  id: "27"
+  var: cci26
+  datatype: numeric
+  item: "26"
+variables_692: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "82"
+  id: "692"
+  var: ycyviii72
+  datatype: numeric
+  item: "72"
+variables_645: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "41"
+  id: "645"
+  var: ycyviii39
+  datatype: numeric
+  item: "39"
+variables_455: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "17"
+  id: "455"
+  var: ttxii15
+  datatype: numeric
+  item: "15"
+variables_408: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "91"
+  id: "408"
+  var: ctvii89
+  datatype: numeric
+  item: "89"
+variables_265: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "90"
+  id: "265"
+  var: ccyx80
+  datatype: numeric
+  item: "80"
+variables_075: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "72"
+  id: "75"
+  var: cci70
+  datatype: numeric
+  item: "70"
+variables_218: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "50"
+  id: "218"
+  var: ccyx48
+  datatype: numeric
+  item: "48"
+variables_028: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "29"
+  id: "28"
+  var: cci27
+  datatype: numeric
+  item: "27"
+variables_693: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "83"
+  id: "693"
+  var: ycyviii73
+  datatype: numeric
+  item: "73"
+variables_646: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "42"
+  id: "646"
+  var: ycyviii40
+  datatype: numeric
+  item: "40"
+variables_456: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "18"
+  id: "456"
+  var: ttxii16
+  datatype: numeric
+  item: "16"
+variables_409: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:49
+  updated_at: 2011-03-06 18:58:49
+  survey_id: "3"
+  row: "92"
+  id: "409"
+  var: ctvii90
+  datatype: numeric
+  item: "90"
+variables_266: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "91"
+  id: "266"
+  var: ccyx81
+  datatype: numeric
+  item: "81"
+variables_076: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "73"
+  id: "76"
+  var: cci71
+  datatype: numeric
+  item: "71"
+variables_219: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:41
+  updated_at: 2011-03-06 18:58:41
+  survey_id: "2"
+  row: "51"
+  id: "219"
+  var: ccyx49
+  datatype: numeric
+  item: "49"
+variables_029: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:33
+  updated_at: 2011-03-06 18:58:33
+  survey_id: "1"
+  row: "30"
+  id: "29"
+  var: cci28
+  datatype: numeric
+  item: "28"
+variables_694: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "84"
+  id: "694"
+  var: ycyviii74
+  datatype: numeric
+  item: "74"
+variables_647: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "42"
+  id: "647"
+  var: ycyviii40hv
+  datatype: string
+  item: 40hv
+variables_457: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "19"
+  id: "457"
+  var: ttxii17
+  datatype: numeric
+  item: "17"
+variables_267: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "92"
+  id: "267"
+  var: ccyx82
+  datatype: numeric
+  item: "82"
+variables_077: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "74"
+  id: "77"
+  var: cci72
+  datatype: numeric
+  item: "72"
+variables_695: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "85"
+  id: "695"
+  var: ycyviii75
+  datatype: numeric
+  item: "75"
+variables_648: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "43"
+  id: "648"
+  var: ycyviii41
+  datatype: numeric
+  item: "41"
+variables_458: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "20"
+  id: "458"
+  var: ttxii18
+  datatype: numeric
+  item: "18"
+variables_268: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "93"
+  id: "268"
+  var: ccyx83
+  datatype: numeric
+  item: "83"
+variables_078: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "75"
+  id: "78"
+  var: cci73
+  datatype: numeric
+  item: "73"
+variables_696: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "86"
+  id: "696"
+  var: ycyviii76
+  datatype: numeric
+  item: "76"
+variables_649: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:58:59
+  updated_at: 2011-03-06 18:58:59
+  survey_id: "5"
+  row: "44"
+  id: "649"
+  var: ycyviii42
+  datatype: numeric
+  item: "42"
+variables_459: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:52
+  updated_at: 2011-03-06 18:58:52
+  survey_id: "4"
+  row: "21"
+  id: "459"
+  var: ttxii19
+  datatype: numeric
+  item: "19"
+variables_269: 
+  question_id: "20"
+  col: "2"
+  created_at: 2011-03-06 18:58:43
+  updated_at: 2011-03-06 18:58:43
+  survey_id: "2"
+  row: "93"
+  id: "269"
+  var: ccyx83hv
+  datatype: string
+  item: 83hv
+variables_079: 
+  question_id: "25"
+  col: "1"
+  created_at: 2011-03-06 18:58:35
+  updated_at: 2011-03-06 18:58:35
+  survey_id: "1"
+  row: "76"
+  id: "79"
+  var: cci74
+  datatype: numeric
+  item: "74"
+variables_697: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "87"
+  id: "697"
+  var: ycyviii77
+  datatype: numeric
+  item: "77"
+variables_700: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "89"
+  id: "700"
+  var: ycyviii79hv
+  datatype: string
+  item: 79hv
+variables_698: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "88"
+  id: "698"
+  var: ycyviii78
+  datatype: numeric
+  item: "78"
+variables_510: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "68"
+  id: "510"
+  var: ttxii58
+  datatype: numeric
+  item: "58"
+variables_320: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "9"
+  id: "320"
+  var: ctvii7
+  datatype: numeric
+  item: "7"
+variables_130: 
+  question_id: "2"
+  col: "3"
+  created_at: 2011-03-06 18:58:37
+  updated_at: 2011-03-06 18:58:37
+  survey_id: "2"
+  row: "3"
+  id: "130"
+  var: ccyii1a
+  datatype: numeric
+  item: 1a
+variables_701: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "90"
+  id: "701"
+  var: ycyviii80
+  datatype: numeric
+  item: "80"
+variables_699: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "89"
+  id: "699"
+  var: ycyviii79
+  datatype: numeric
+  item: "79"
+variables_511: 
+  question_id: "18"
+  col: "2"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "68"
+  id: "511"
+  var: ttxii58hv
+  datatype: string
+  item: 58hv
+variables_321: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "10"
+  id: "321"
+  var: ctvii8
+  datatype: numeric
+  item: "8"
+variables_131: 
+  question_id: "2"
+  col: "3"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "4"
+  id: "131"
+  var: ccyii1b
+  datatype: numeric
+  item: 1b
+variables_702: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "91"
+  id: "702"
+  var: ycyviii81
+  datatype: numeric
+  item: "81"
+variables_512: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "69"
+  id: "512"
+  var: ttxii59
+  datatype: numeric
+  item: "59"
+variables_322: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "11"
+  id: "322"
+  var: ctvii9
+  datatype: numeric
+  item: "9"
+variables_132: 
+  question_id: "2"
+  col: "3"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "5"
+  id: "132"
+  var: ccyii1c
+  datatype: numeric
+  item: 1c
+variables_703: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "92"
+  id: "703"
+  var: ycyviii82
+  datatype: numeric
+  item: "82"
+variables_560: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "110"
+  id: "560"
+  var: ttxii100
+  datatype: numeric
+  item: "100"
+variables_513: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "70"
+  id: "513"
+  var: ttxii60
+  datatype: numeric
+  item: "60"
+variables_370: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "56"
+  id: "370"
+  var: ctvii54
+  datatype: numeric
+  item: "54"
+variables_180: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "15"
+  id: "180"
+  var: ccyx13
+  datatype: numeric
+  item: "13"
+variables_323: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "12"
+  id: "323"
+  var: ctvii10
+  datatype: numeric
+  item: "10"
+variables_133: 
+  question_id: "3"
+  col: "1"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "2"
+  id: "133"
+  var: ccyiii
+  datatype: string
+  item: 
+variables_704: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "93"
+  id: "704"
+  var: ycyviii83
+  datatype: numeric
+  item: "83"
+variables_561: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "111"
+  id: "561"
+  var: ttxii101
+  datatype: numeric
+  item: "101"
+variables_514: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "71"
+  id: "514"
+  var: ttxii61
+  datatype: numeric
+  item: "61"
+variables_371: 
+  question_id: "272"
+  col: "2"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "56"
+  id: "371"
+  var: ctvii54hv
+  datatype: string
+  item: 54hv
+variables_181: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "16"
+  id: "181"
+  var: ccyx14
+  datatype: numeric
+  item: "14"
+variables_324: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "13"
+  id: "324"
+  var: ctvii11
+  datatype: numeric
+  item: "11"
+variables_134: 
+  question_id: "3"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "3"
+  id: "134"
+  var: ccyiii1a
+  datatype: numeric
+  item: 1a
+variables_705: 
+  question_id: "19"
+  col: "2"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "93"
+  id: "705"
+  var: ycyviii83hv
+  datatype: string
+  item: 83hv
+variables_562: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "112"
+  id: "562"
+  var: ttxii102
+  datatype: numeric
+  item: "102"
+variables_515: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "72"
+  id: "515"
+  var: ttxii62
+  datatype: numeric
+  item: "62"
+variables_372: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "57"
+  id: "372"
+  var: ctvii55
+  datatype: numeric
+  item: "55"
+variables_182: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "17"
+  id: "182"
+  var: ccyx15
+  datatype: numeric
+  item: "15"
+variables_325: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "14"
+  id: "325"
+  var: ctvii12
+  datatype: numeric
+  item: "12"
+variables_135: 
+  question_id: "3"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "4"
+  id: "135"
+  var: ccyiii1b
+  datatype: numeric
+  item: 1b
+variables_706: 
+  question_id: "19"
+  col: "1"
+  created_at: 2011-03-06 18:59:01
+  updated_at: 2011-03-06 18:59:01
+  survey_id: "5"
+  row: "94"
+  id: "706"
+  var: ycyviii84
+  datatype: numeric
+  item: "84"
+variables_563: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:56
+  updated_at: 2011-03-06 18:58:56
+  survey_id: "4"
+  row: "113"
+  id: "563"
+  var: ttxii103
+  datatype: numeric
+  item: "103"
+variables_516: 
+  question_id: "18"
+  col: "1"
+  created_at: 2011-03-06 18:58:54
+  updated_at: 2011-03-06 18:58:54
+  survey_id: "4"
+  row: "73"
+  id: "516"
+  var: ttxii63
+  datatype: numeric
+  item: "63"
+variables_373: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:48
+  updated_at: 2011-03-06 18:58:48
+  survey_id: "3"
+  row: "58"
+  id: "373"
+  var: ctvii56
+  datatype: numeric
+  item: "56"
+variables_183: 
+  question_id: "20"
+  col: "1"
+  created_at: 2011-03-06 18:58:40
+  updated_at: 2011-03-06 18:58:40
+  survey_id: "2"
+  row: "18"
+  id: "183"
+  var: ccyx16
+  datatype: numeric
+  item: "16"
+variables_326: 
+  question_id: "272"
+  col: "1"
+  created_at: 2011-03-06 18:58:46
+  updated_at: 2011-03-06 18:58:46
+  survey_id: "3"
+  row: "15"
+  id: "326"
+  var: ctvii13
+  datatype: numeric
+  item: "13"
+variables_136: 
+  question_id: "3"
+  col: "2"
+  created_at: 2011-03-06 18:58:38
+  updated_at: 2011-03-06 18:58:38
+  survey_id: "2"
+  row: "5"
+  id: "136"
+  var: ccyiii1c
+  datatype: numeric
+  item: 1c

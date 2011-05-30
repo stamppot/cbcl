@@ -1,0 +1,46 @@
+--- 
+surveys_001: 
+  position: "1"
+  surveytype: parent
+  category: CBCL
+  title: "CBCL: 1 1/2-5 (For\xC3\xA6ldreskema)"
+  color: 4499FF
+  id: "1"
+  description: "Sp\xC3\xB8rgeskema om barnets adf\xC3\xA6rd (For\xC3\xA6ldreskema) 1 1/2-5 \xC3\xA5r"
+  age: 1.5-5
+surveys_002: 
+  position: "3"
+  surveytype: parent
+  category: CBCL
+  title: "CBCL: 6-16 \xC3\xA5r (For\xC3\xA6ldreskema)"
+  color: 88DDFF
+  id: "2"
+  description: "Sp\xC3\xB8rgeskema om barnets adf\xC3\xA6rd (For\xC3\xA6ldreskema) 6-16 \xC3\xA5r"
+  age: 6-16
+surveys_003: 
+  position: "2"
+  surveytype: pedagogue
+  category: C-TRF
+  title: "C-TRF: 1 1/2-5 (P\xC3\xA6dagogskema)"
+  color: 55FF44
+  id: "3"
+  description: "Sp\xC3\xB8rgeskema om barnets adf\xC3\xA6rd (p\xC3\xA6dagogskema) 1 1/2-5 \xC3\xA5r"
+  age: 1.5-5
+surveys_004: 
+  position: "5"
+  surveytype: teacher
+  category: TRF
+  title: "TRF: 6-16 \xC3\xA5r (L\xC3\xA6rerskema)"
+  color: 99FF77
+  id: "4"
+  description: "Sp\xC3\xB8rgeskema om barnets adf\xC3\xA6rd (L\xC3\xA6rerskema) 6-16 \xC3\xA5r"
+  age: 6-16
+surveys_005: 
+  position: "4"
+  surveytype: youth
+  category: YSR
+  title: "YSR: 11-16 \xC3\xA5r (Selvrapportskema)"
+  color: FFFF77
+  id: "5"
+  description: "Selvrapportskema for unge 11-16 \xC3\xA5r"
+  age: 11-16

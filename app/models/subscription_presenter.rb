@@ -59,11 +59,11 @@ class SubscriptionPresenter
     summaries = @group.subscription_service.subscription_summary(@params).sort_by {|s| s.first }
     summaries.each do |summary|
       date, periods = *summary
-			puts "periods_summary: #{date.inspect} Summary: #{summary.inspect}"
+			# puts "periods_summary: #{date.inspect} Summary: #{summary.inspect}"
       used = periods.sum {|p| p["used"].to_i }
 			# find period for date, get used amount
 			current_period = get_period_for_date(periods, date)
-			puts "Current_period: #{current_period.inspect}"
+			# puts "Current_period: #{current_period.inspect}"
       active = periods.sum {|p| p["active_used"].to_i }
       is_paid = periods.all? { |p| p['paid'].to_i > 0 && p['paid_on']}
       paid_on = periods.detect { |p| p['paid_on'] }
@@ -84,12 +84,12 @@ class SubscriptionPresenter
 
 	private
 	def get_period_for_date(periods, date)
-		puts "Get_period_for_date: #{date.inspect}"
+    # puts "Get_period_for_date: #{date.inspect}"
    	p = active_periods = periods.select { |p| p["created_on"] < date && p["paid_on"] > date}
 		p = active_periods.first if active_periods.size == 1
 		p = periods.last if !active_periods.any?
 		p = periods.first
-		puts "Got_period_for_date: #{p.inspect}"
+    # puts "Got_period_for_date: #{p.inspect}"
 		p
 	end    
 end

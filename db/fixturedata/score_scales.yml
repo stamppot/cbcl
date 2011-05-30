@@ -1,0 +1,13 @@
+--- 
+score_scales_001: 
+  position: "1"
+  title: Standard
+  id: "1"
+score_scales_002: 
+  position: "2"
+  title: Latent
+  id: "2"
+score_scales_003: 
+  position: "3"
+  title: DSM
+  id: "3"
