@@ -36,14 +36,11 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def create
-    # set group title to person_info name 
     parent = Group.find(params[:group][:parent])
     params[:person_info][:name] = params[:group][:title]
     params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
     @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
-    # @group.update_attributes(params[:group])
-    # @group.center = @group.parent && @group.parent.center
 
     if @group.save
       @group.expire_cache
