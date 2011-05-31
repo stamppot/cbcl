@@ -10,18 +10,19 @@ class CentersController < ApplicationController
   def show
     @group = Center.find(params[:id])
     @page_title = "CBCL - Center " + @group.title
-    @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
-    if @group.teams.size == 0
-      @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
-    end
-    @subscription_presenter = @group.subscription_presenter
-    @subscriptions = @group.subscriptions
-    @surveys = current_user.surveys.group_by {|s| s.id}
-    @hide_team = true
+    # @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
+    # if @group.teams.size == 0
+    #   @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
+    # end
+    # @subscription_presenter = @group.subscription_presenter
+    # @subscriptions = @group.subscriptions
+    # @surveys = current_user.surveys.group_by {|s| s.id}
+    # @hide_team = true
 
     respond_to do |format|
       format.html { redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.js {
+        puts "JJJJSSSSS"
         render :update do |page|
           page.replace_html 'users', :partial => 'shared/user_list'
         end

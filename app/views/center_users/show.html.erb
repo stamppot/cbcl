@@ -1,4 +1,4 @@
-<div class="center_users" id="center_users">
+<div class="center_users" id="users">
 	<% localadmins = @users.select { |u| u.has_access? :centeradm } %>
 	<h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
 
