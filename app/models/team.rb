@@ -4,7 +4,7 @@ class Team < Group
   named_scope :with_center, :include => :center
   named_scope :with_journals, :include => {:journals => :person_info}
   
-  # named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
+  named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
 
   # team code must be unique within the same center
   def validate_on_create

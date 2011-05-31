@@ -1,6 +1,6 @@
 <h2>Detaljer for Center &quot;<%=h @group.title %>&quot;</h2>
 
-<ul class="tabs" id="subscription_tabs" class="center_tabs">  
+<ul id="tabs" id="subscription_tabs" class="center_tabs">
 	<li class="tab"><a href="#info">Info</a></li>  
 	<li class="tab"><a href="#center_teams"><%= t('menu.teams') %></a></li> 
 	<li class="tab"><a href="#center_users"><%= t('menu.users') %></a></li> 
@@ -9,6 +9,10 @@
 	<% end %>
 	<li class="tab"><a href="#center_subscriptions"><%= t('menu.subscriptions') %></a></li>
 </ul>
+
+<div id="users"></div>
+
+
 <div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
 	<br/>
 
@@ -61,13 +65,31 @@
 
 </div>
 
-<script type="text/javascript">
-	var $tabs = $('#example').tabs();
+<!-- <script type="text/javascript">
+	//var $tabs = $('#example').tabs();
 // $$('.tabs').each(function(tab_group){  
 // 	new Control.Tabs(tab_group);  
 // });
-</script>
-
+</script> -->
+<script>
+	$(function() {
+		$("#tabs" ).tabs({
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html(
+						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+						"If this wouldn't be a demo." );
+				}
+			}
+		});
+	});
+	
+	// setInterval(function() {
+	//   jQuery.getJSON('/ajax_users/index/1', function(data) {
+	//     console.log(data);
+	//   });
+	// }, 3000);
+	</script>
 <br/>
 <div class="commands">
 	<% if current_user.access? :center_delete %>

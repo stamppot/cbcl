@@ -1,30 +1,31 @@
-	<% @group = @subscription_presenter.group %>
-	
-	<ul class="tabs" id="subscription_tabs_<%= @group.id %>" class="subsection_tabs">  
-	    <li class="tab"><a href="#summary_view_<%= @group.id %>"><%= t('subscription.overview') %></a></li>  
-	    <li class="tab"><a href="#detailed_view_<%= @group.id %>"><%= t('subscription.details') %></a></li> 
-	</ul>
-	<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
-		<br/>
-	<div class="summary_view" id="summary_view_<%= @group.id %>">
+<% @group = @subscription_presenter.group %>
+
+<ul class="nested css-tabs" id="subscription_tabs_<%= @group.id %>" class="subsection_tabs">  
+	<li class="tab"><a href="#2"><%= t('subscription.overview') %></a></li>  
+	<li class="tab"><a href="#2"><%= t('subscription.details') %></a></li> 
+</ul>
+
+<div class="nested css-panes">
+	<div class="summary_view pane" id="summary_view_<%= @group.id %>">
 		<% if @group.subscriptions.length > 0 %>
-			<%= render :partial => "shared/subscription_summary" %>
+		<%= render :partial => "shared/subscription_summary" %>
 		<% else %>
-			<h4><%= t('subscription.none') %></h4>
+		<h4><%= t('subscription.none') %></h4>
 		<% end %>
 	</div>
-	<div class="detailed_view" id="detailed_view_<%= @group.id %>">
-		<div id="subscription_details_<%= @group.id %>" style="display: normal;">
-			<%= render :partial => "shared/subscription_list_new", :object => @subscription_presenter %>
-		</div>
+	<div class="detailed_view pane" id="detailed_view_<%= @group.id %>">
+		<%= render :partial => "shared/subscription_list_new", :object => @subscription_presenter %>
+		<div id="subscription_details_<%= @group.id %>"></div>
+		<% if current_user.access?(:subscription_new_edit) || (@options && !@options[:hide_buttons] || false) %>
+		<%= link_button t('subscription.change_subscription'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
+		<% end %>
 	</div>
-	<br/>
-	<% if current_user.access?(:subscription_new_edit) || (@options && !@options[:hide_buttons] || false) %>
-			<%= link_button t('subscription.change_subscription'), new_subscription_path(@group), 'subscription_edit', :title => 'Forandr abonnementer' %>
-	<% end %>
-	</div>
-	<script type="text/javascript">
-		$$('.tabs').each(function(tab_group){  
-	    new Control.Tabs(tab_group);  
-		});
-	</script>
+</div>
+
+
+<br/>
+
+
+<script>
+$("ul.nested.css-tabs").tabs("div.nested.css-panes > div.pane");
+</script>

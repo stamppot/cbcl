@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 15) do
 
 # Could not dump table "answer_cells" because of following ArgumentError
 #   struct size differs
@@ -58,7 +58,19 @@ ActiveRecord::Schema.define(:version => 0) do
 # Could not dump table "faqs" because of following ArgumentError
 #   struct size differs
 
+# Could not dump table "groups" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "groups_roles" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "groups_users" because of following ArgumentError
+#   struct size differs
+
 # Could not dump table "journal_entries" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "letters" because of following ArgumentError
 #   struct size differs
 
   create_table "nationalities", :force => true do |t|
@@ -81,10 +93,25 @@ ActiveRecord::Schema.define(:version => 0) do
 # Could not dump table "roles" because of following ArgumentError
 #   struct size differs
 
+# Could not dump table "roles_users" because of following ArgumentError
+#   struct size differs
+
   create_table "score_groups", :force => true do |t|
     t.string "title"
     t.text   "description"
   end
+
+# Could not dump table "score_items" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "score_rapports" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "score_refs" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "score_results" because of following ArgumentError
+#   struct size differs
 
   create_table "score_scales", :force => true do |t|
     t.integer "position"
@@ -92,6 +119,9 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
 # Could not dump table "scores" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "scores_surveys" because of following ArgumentError
 #   struct size differs
 
 # Could not dump table "subscriptions" because of following ArgumentError
@@ -110,7 +140,17 @@ ActiveRecord::Schema.define(:version => 0) do
     t.integer "position",                  :default => 99
   end
 
+  create_table "tasks", :force => true do |t|
+    t.string   "status"
+    t.integer  "export_file_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
 # Could not dump table "users" because of following ArgumentError
+#   struct size differs
+
+# Could not dump table "variables" because of following ArgumentError
 #   struct size differs
 
 end

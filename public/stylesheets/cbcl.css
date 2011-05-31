@@ -947,40 +947,101 @@ input.letter {
 }
 
 /***** tabs *****/
-ul.tabs {
-	display: inline;
+/*ul.tabs {
+  display: inline;
 }
 
 li.tab {
-	display: inline;
-	background-color: #eee;
-	border: 1px solid #ddd;
-	border-bottom: none;
-	-moz-border-radius-topleft:3px;
-	-webkit-border-top-left-radius:3px;
-	-moz-border-radius-topright:3px;
-	-webkit-border-top-right-radius:3px;
-	padding-bottom: 2px;
+  display: inline;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  -moz-border-radius-topleft:3px;
+  -webkit-border-top-left-radius:3px;
+  -moz-border-radius-topright:3px;
+  -webkit-border-top-right-radius:3px;
+  padding-bottom: 2px;
 }
 li.tab a {
-	margin-top: 1px;
-	padding: 7px 8px 6px 8px;
-	line-height: 20px;
-	text-decoration: none;
+  margin-top: 1px;
+  padding: 7px 8px 6px 8px;
+  line-height: 20px;
+  text-decoration: none;
 }
 li.tab a.active {
-	padding: 0px 8px 6px 8px;
-	background-color: #fff;
+  padding: 0px 8px 6px 8px;
+  background-color: #fff;
 }
 .tab_canvas {
-/*	text-indent: 20px;*/
-	display: normal;
-	border: 1px solid #ddd;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	padding: 0px 15px 5px 5px;
-	padding-left: 20px;
+/*  text-indent: 20px;*/
+/*  display: normal;
+  border: 1px solid #ddd;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  padding: 0px 15px 5px 5px;
+  padding-left: 20px;
+}*/
+
+
+/* root element for tabs  */
+ul.css-tabs {  
+	margin:0 !important; 
+	padding:0;
+	height:30px;
+	border-bottom:1px solid #DDD;	 	
 }
+
+/* single tab */
+ul.css-tabs li {  
+	float:left;	 
+	padding:0; 
+	margin:0;  
+	list-style-type:none;	
+}
+
+/* link inside the tab. uses a background image */
+ul.css-tabs a { 
+	float:left;
+	font-size:13px;
+	display:block;
+	padding:5px 30px;	
+	text-decoration:none;
+	border:1px solid #DDD;	
+	border-bottom:0px;
+	height:18px;
+	background-color:#efefef;
+	color:#777;
+	margin-right:2px;
+	position:relative;
+	top:1px;	
+	outline:0;
+	-moz-border-radius:4px 4px 0 0;	
+}
+
+ul.css-tabs a:hover {
+	background-color:#F7F7F7;
+	color:#333;
+}
+	
+/* selected tab */
+ul.css-tabs a.current {
+	background-color:#fff;
+	border-bottom:1px solid #fff;	
+	color:#000;	
+	cursor:default;
+}
+
+	
+/* tab pane */
+.css-panes div.pane {
+	display:block;
+	border:1px solid #DDD;
+	border-width:0 1px 1px 1px;
+	min-height:150px;
+	padding:15px 20px;
+	background-color:#fff;	
+}
+
 
 @media print {  
     body { background-color: #FFF; }

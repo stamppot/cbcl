@@ -189,6 +189,8 @@ class Query
    def do_query(query = nil, to_hash = false)
 		 # puts "DO_QUERY: #{@query.inspect}"
      mysql_result = ActiveRecord::Base.connection.execute(query || self.query).all_hashes
+     # puts "RESULT: #{mysql_result.inspect}"
+     # mysql_result
    end
    
    def filter_date(start, stop)

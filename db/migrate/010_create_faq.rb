@@ -17,7 +17,7 @@ class CreateFaq < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :faqs
-    drop_table :faq_sections
+    drop_table :faqs if table_exists? :faqs
+    drop_table :faq_sections if table_exists? :faq_sections
   end
 end

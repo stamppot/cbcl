@@ -115,12 +115,7 @@ class CSVHelper
   
   # TODO: does not work!
   def login_users(journals)
-    journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
-    
-    puts "journals with unanswered entries: #{journals.size}" if DEBUG
-    # {"journal_155"=> {
-    #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
-    #   :navn=>"Frederik Fran Søndergaard" } }
+    journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }    
     results = journals.inject({}) do |results, journal|
       surveys = journal.journal_entries.inject([]) do |col, entry|
         if entry.login_user && entry.not_answered?
@@ -140,7 +135,6 @@ class CSVHelper
       results
     end
 
-    puts "results size: #{results.size}"  if DEBUG
     # max no surveys in any journal
     max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
     
@@ -161,10 +155,9 @@ class CSVHelper
           row << survey[:password]
           row << survey[:date]
         end
-        # puts "cols: #{row.size}  max: #{max}"
+
         s = row.size
         (max*4-s+2).times { |i| row << "" } # fill row with empty values
-        # puts "cols: #{row.size}  max: #{max}"
 
         contents << row
         contents = contents.sort { |a,b| a.first <=> b.first }

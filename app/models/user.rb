@@ -298,12 +298,10 @@ class User < ActiveRecord::Base
         Journal.and_person_info.all_parents(group_ids).paginate(:all, options)
       end
     elsif self.has_access?(:login_user)
-      entry = JournalEntry.find_by_user_id(self.id)
-      [entry.journal]
+      (entry = JournalEntry.find_by_user_id(self.id)) && [entry.journal] || []
     elsif self.has_access?(:journal_show_none)
-      journals = []
       journals = WillPaginate::Collection.create(options[:page], options[:per_page]) do |pager|
-        pager.replace(journals) # inject the result array into the paginated collection:
+        pager.replace([]) # inject the result array into the paginated collection:
       end
     else  # for login-user
       []  # or should it be the journal the login_user is connected to?

@@ -6,11 +6,12 @@
 	<title><%= @page_title %></title>
 
 	<% if !current_user.login_user? %>
-	<%# stylesheet_link_tag_html4 'tablekit', :media => 'all' %>
+	<%= stylesheet_link_tag_html4 'tablekit', :media => 'all' %>
 	<% stylesheet_link_tag_html4 'validation' %>
-	<%= stylesheet_link_tag_html4 'login', :media => 'all' %>
+	<!-- <%= stylesheet_link_tag_html4 'login', :media => 'all' %> -->
 	<% end %>
 	<%= stylesheet_link_tag_html4 'cbcl', :media => 'all' %>
+	<!-- <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/tabs-no-images.css"/>  -->
 	<%= stylesheet_link_tag_html4 'jqTableKit' %>
 
 	<% if !current_user.login_user? %>
@@ -26,6 +27,8 @@
 	<%# javascript_include_tag 'livepipe/livepipe' %>
 	<%# javascript_include_tag 'livepipe/tabs' %>
 	<%= javascript_include_tag 'jquery/jquery.min' %>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
 	<%# javascript_include_tag 'jquery/jquery.cookie' %>
 	<%= javascript_include_tag 'jquery/jqTableKit' %>
 	<%= javascript_include_tag 'jrails' %> -->
