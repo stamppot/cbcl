@@ -45,6 +45,9 @@ class User < ActiveRecord::Base
   named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   named_scope :users, :conditions => ['login_user = ?', false], :order => "created_at"
   named_scope :login_users, :conditions => ['login_user = ?', true]
+  named_scope :with_groups, lambda { |group_ids| { :select => "users.*", :joins => "INNER JOIN groups_users ON groups_users.user_id = users.id",
+    :conditions => ["groups_users.group_id IN (?)", group_ids] } }
+
   named_scope :with_roles, lambda { |role_ids| { :select => "users.*", :joins => "INNER JOIN roles_users ON roles_users.user_id = users.id",
     :conditions => ["roles_users.role_id IN (?)", role_ids] } }
 

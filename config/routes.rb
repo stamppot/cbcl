@@ -51,7 +51,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :center_infos
   map.resources :center_users
   map.resources :center_teams
+  map.resources :center_journals
   map.resources :center_subscriptions
+  map.resources :team_infos
+  map.resources :team_users
+  map.resources :team_journals
+  
   map.resources :examples
   
   map.namespace(:active_rbac) do |active_rbac|

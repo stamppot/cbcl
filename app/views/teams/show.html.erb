@@ -1,32 +1,20 @@
 <h2>Detaljer for Team &quot;<%=h @group.title %>&quot;</h2>
 
-<ul class="tabs" id="subscription_tabs" class="team_tabs">  
-	<li class="tab"><a href="#info">Info</a></li>  
-	<li class="tab"><a href="#team_users"><%= t('user.users') %></a></li> 
-	<li class="tab"><a href="#team_journals"><%= t('journal.journals') %></a></li> 
+<!-- tabs -->
+<ul class="main css-tabs">
+	<li><%= link_to "Info", team_info_url(@group) %></li>
+	<li><%= link_to "Brugere", team_user_url(@group) %></li>
+	<li><%= link_to "Journaler", team_journal_url(@group) %></li>
 </ul>
-<div class="tab_canvas" id="tab_canvas_<%= @group.id %>">
-	<br/>
 
-	<div class="team_info" id="info">
-		<%= render :partial => 'info' %>
-	</div>
-
-
-	<div class="team_users" id="team_users">
-		<%= render :partial => 'shared/users' %>
-	</div>
-
-	<div class="team_journals" id="team_journals">
-		<%= render :partial => 'shared/journals' %>
-	</div>
-
+<div class="main css-panes">
+	<div class="pane" style="display:block"></div>
 </div>
-<script type="text/javascript">
-	$$('.tabs').each(function(tab_group){  
-    new Control.Tabs(tab_group);  
-	});
+
+<script>
+	$("ul.main.css-tabs").tabs("div.main.css-panes > div.pane", {effect: 'ajax', history: true});
 </script>
+
 
 <br/>
 <div class="commands">
