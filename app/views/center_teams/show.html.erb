@@ -1,6 +1,19 @@
+<script type="text/javascript">
+$(function() {
+  $(".pagination a").live("click", function() {
+    $(".pagination").html("<div class='busy'><div class='status'>Henter næste side...</div></div>");
+    $.get(this.href, function(data) {
+			$('#center_teams').html(data);
+		});
+    return false;
+  });
+});
+</script>
+
 <% if current_user.access?(:center_show_teams) %>
-<%= render :partial => 'shared/group_list', :locals => {:groups => @teams} %>
-<% end %>
+<div id="center_teams">
+	<%= render :partial => 'shared/group_list', :locals => {:groups => @teams} %>
+</div><% end %>
 <div class="button">
 	<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => t('team.new') %> 
 </div>	

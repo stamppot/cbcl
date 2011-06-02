@@ -136,4 +136,5 @@ module ApplicationHelper
 	def any_teams_text
 	  current_user.teams.any? ? "Team" : "Center"
   end
+  
 end

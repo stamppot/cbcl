@@ -1,3 +1,14 @@
+<script type="text/javascript">
+$(function() {
+  $(".pagination a").live("click", function() {
+    $(".pagination").html("<div class='busy'><div class='status'>Henter næste side...</div></div>");
+    $.get(this.href, function(data) {
+			$('#center_journals').html(data);
+		});
+    return false;
+  });
+});
+</script>
 <div class="center_journals" id="center_journals">
-		<%= render :partial => 'shared/journals' %>
+	<%= render :partial => 'shared/journals' %>
 </div>

@@ -520,6 +520,17 @@ table.list td {
 	float: right;
 }
 
+.busy {
+  background:url('/images/spinner.gif') no-repeat 10px 5px;
+	font-style: italics;
+	color: #666;
+}
+
+.busy > .status {
+	font-style: italics;
+	margin-left: 3em;
+	color: #666;  
+}
 
 #survey_info {
 	float: left;
