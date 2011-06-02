@@ -1,4 +1,6 @@
-<% @groups = @group.teams if @group && @group.teams %>
+<% if @group && @group.respond_to?(:teams) && @group.teams %>
+<% @groups = @group.teams %>
+<% end %>
 <table class="sortable list" class="groups">
 	<tr>
 		<th class="wide" title="Sorter efter navn"><%= center_or_team_text(@groups) %></th>

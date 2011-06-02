@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(function() {
   $(".pagination a").live("click", function() {
-    $(".pagination").html("<div class='busy'><div class='status'>Henter næste side...</div></div>");
+    $(".pagination").html("<div class='busy'><div class='status'>Henter side...</div></div>");
     $.get(this.href, function(data) {
 			$('#center_users').html(data);
 		});
@@ -10,7 +10,7 @@ $(function() {
 });
 </script>
 
-<div class="center_users" id="users">
+	<% if !params[:page] %>
 	<% localadmins = @users.select { |u| u.has_access? :centeradm } %>
 	<h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
 
@@ -28,5 +28,7 @@ $(function() {
 		<% end %>
 	</ul>
 	<% end %>
+	<% end %>
+	<div class="center_users" id="center_users">
 	<%= render :partial => 'shared/users' %>
-</div>
+	</div>

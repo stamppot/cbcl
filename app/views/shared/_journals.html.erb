@@ -2,9 +2,8 @@
 	<% if @groups.empty? %>
 		<%= t('none') %>
 	<% else %>
-	<% @hide_team = true %>
 	<div id="journals">
-		<%= render 'shared/journal_list', :locals => {:hide_team => true} %>
+		<%= render 'shared/journal_list' %>
 	</div>
 	
 	<%# render :partial => 'shared/ajax_pagination' %>
