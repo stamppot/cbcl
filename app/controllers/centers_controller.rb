@@ -22,7 +22,6 @@ class CentersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.js {
-        puts "JJJJSSSSS"
         render :update do |page|
           page.replace_html 'users', :partial => 'shared/user_list'
         end
