@@ -92,7 +92,7 @@ class Query
      self.select(["periods.id, subscriptions.center_id, subscriptions.total_used as total_used, subscriptions.active_used as active_used, survey_id, state, subscription_id, used, active, paid as paid, paid_on as paid_on, periods.created_on"])
      self.join_clause(joins, conditions)
      self.query = (self.select_clause << self.from_where).join(' ')
-		 puts "subscription_periods_for_center: query: #{self.query}"
+     # puts "subscription_periods_for_center: query: #{self.query}"
 		self.query
    end
 

@@ -77,9 +77,9 @@ class CentersController < ApplicationController
     # assign properties to group
     if @group.save
       flash[:notice] = 'Centeret er blevet opdateret'
-      redirect_to(centers_path)
+      redirect_to center_path(@group)
     else
-      render new_center_url(@group)
+      render new_center_url
     end
   end
   

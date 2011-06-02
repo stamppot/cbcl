@@ -7,55 +7,53 @@ class LoginController < ApplicationController
   end
   
   def login
-    if request.post?
-      if current_user && current_user.login == params[:username]
-        # user = User.find_with_credentials(params[:username], params[:password])
-        # flash[:notice] = "#{current_user.name}, du er allerede logget ind."
+    redirect_to login_path and return if request.get?
 
-        if current_user.login_user?
-          redirect_to survey_start_path
-        else
-          redirect_to main_path
-        end
-        return
-      end
-
-      # Set the location to redirect to in the session if it was passed in through
-      # a parameter and none is stored in the session.
-      if session[:return_to].nil? and params[:return_to]
-        session[:return_to] = params[:return_to] 
-      end
-
-      # Handle the login request otherwise.
-      @errors = Array.new
-
-      # If login or password is missing, we can stop processing right away.
-      raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
-
-      user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
-      raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
-      # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
-      write_user_to_session(user)    # Write the user into the session object.
-      cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
-      unless user.login_user?
-        cookies[:user_name] = user.name
-        flash[:notice] = "Velkommen #{user.name}, du er logget ind."
-      end
-      flash[:error] = nil
-      # show message on first login
-      if user.created_at == user.last_logged_in_at && !user.login_user
-        flash[:notice] = "Husk at ændre dit password"
-      end
-
-      logger.info "LOGIN #{user.name} #{user.id} @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
-
-      # TODO: DRY up. Duplicate from line 27
-      # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-			if current_user.has_access? :login_user
+    if current_user && current_user.login == params[:username]
+      if current_user.login_user?
         redirect_to survey_start_path
       else
-        redirect_to main_url
+        flash[:notice] = "#{current_user.name}, du er allerede logget ind."
+        redirect_to main_path
       end
+      return
+    end
+
+    # Set the location to redirect to in the session if it was passed in through
+    # a parameter and none is stored in the session.
+    if session[:return_to].nil? and params[:return_to]
+      session[:return_to] = params[:return_to] 
+    end
+
+    # Handle the login request otherwise.
+    @errors = Array.new
+
+    # If login or password is missing, we can stop processing right away.
+    raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
+
+    user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
+    raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
+    # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
+    write_user_to_session(user)    # Write the user into the session object.
+    cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
+    unless user.login_user?
+      cookies[:user_name] = user.name
+      flash[:notice] = "Velkommen #{user.name}, du er logget ind."
+    end
+    flash[:error] = nil
+    # show message on first login
+    if user.created_at == user.last_logged_in_at && !user.login_user
+      flash[:notice] = "Husk at ændre dit password"
+    end
+
+    logger.info "LOGIN #{user.name} #{user.id} @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
+
+    # TODO: DRY up. Duplicate from line 27
+    # if user is superadmin, redirect to login_page. Post to this method with some special parameter
+    if current_user.has_access? :login_user
+      redirect_to survey_start_path
+    else
+      redirect_to main_url
     end
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t('login.wrong')

@@ -72,8 +72,8 @@ ActionController::Routing::Routes.draw do |map|
   # map the login and registration controller somewhere prettier
   map.login '/login', :controller           => 'login', :action => 'index'
   map.logout '/logout', :controller         => 'login', :action => 'logout'
-  map.connect '/login', :controller         => 'login', :action => 'index'
-  map.connect '/logout', :controller        => 'login', :action => 'logout'
+  # map.connect '/login', :controller         => 'login', :action => 'index'
+  # map.connect '/logout', :controller        => 'login', :action => 'logout'
   map.connect '/shadow_login', :controller  => 'login', :action => 'shadow_login'
   map.connect '/shadow_logout', :controller => 'login', :action => 'shadow_logout'
 
