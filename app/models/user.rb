@@ -74,6 +74,7 @@ class User < ActiveRecord::Base
   #   {"user"=>{"roles"=>["5"], "name"=>"behandler test 22222", "groups"=>["121"], "login"=>"test 22222", "state"=>"2", "email"=>"behandler22222@test.dk"}, "submit"=>{"create"=>"Opret"}, "password_confirmation"=>"[FILTERED]", "action"=>"create", "controller"=>"active_rbac/user", "password"=>"[FILTERED]"}
   def create_user(params)
     # if user name not provided, it's same as login
+    params[:state] = 2
     params[:name] = params[:login] if params[:name].blank?
 
     roles  = params.delete(:roles)

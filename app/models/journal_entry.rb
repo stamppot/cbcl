@@ -66,10 +66,6 @@ class JournalEntry < ActiveRecord::Base
     self.save    # saves objects
   end
   
-  # def create_login_user
-  #   self.login_user = LoginUser.build_login_user(self)
-  # end
-  
   def status
     JournalEntry.states.invert[self.state]
   end

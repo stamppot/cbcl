@@ -33,10 +33,10 @@
 			<td class="u_i"><%= t('user.last_login') %>:</td>
 			<td class="u"><%= @user.last_logged_in_at.to_formatted_s(:long) %></td>
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td class="u_i"><%= t('user.State') %>:</td>
 			<td class="u"><%= @user.state != 2 && @user.status.upcase || @user.status.capitalize %></td>
-		</tr>
+		</tr> -->
 	</table>
 
 	<h3><%= t('roles.Roles') %></h3>

@@ -1,4 +1,4 @@
-# require 'facets/dictionary'
+require 'facets/dictionary'
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 
@@ -23,6 +23,14 @@ class SurveyAnswer < ActiveRecord::Base
   named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_answers.survey_id = ?", survey_id] } }
   named_scope :with_journals, :joins => "INNER JOIN `journal_entries` ON `journal_entries`.journal_id = `journal_entries`.survey_answer_id", :include => {:journal_entry => :journal}
   named_scope :for_entries, lambda { |entry_ids| { :conditions => { :journal_entry_id => entry_ids } } } # ["survey_answers.journal_entry_id IN (?)", 
+
+  validates_presence_of :journal_id
+  validates_presence_of :survey_id
+  validates_presence_of :journal_entry_id
+  validates_presence_of :center_id
+  validates_associated :journal
+  validates_associated :center
+  validates_associated :journal_entry
 
   def answered_by_role
     return Role.get(self.answered_by)
