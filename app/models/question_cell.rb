@@ -19,16 +19,7 @@ class QuestionCell < ActiveRecord::Base
 	def datatype # || self.type == "Checkbox"  - for now only ratings are numeric values
 		self.is_a?(Rating) && :numeric || :string
 	end
-		
-	# def get_answer_text
-	# 	text_cells = self.question.question_cells(:conditions => ['question_id = ? AND col < ? AND type not in (?)', self.question_id, self.col, ['Rating', 'Checkbox', 'ListItemComment', 'SelectOption', 'Textbox']], :order => "row, col")
-	# 	main_text_cells = text_cells.select {|cell| cell.item_options.size == 1 }
-	# 	main_text_cells.each {|c| puts c.inspect}
-	# 	self.question_text = main_text_cells.first.item_options.text unless main_text_cells.size < 1
-	# 	option_cells = text_cells.select {|cell| cell.item_options.size > 1 }
-	# 	self.options = option_cells.map {|cell| cell.item_options }
-	# end
-	
+			
 	def cell_same_row
 		cells = self.question.question_cells(:conditions => ['col != ? AND row = ?', self.col, self.row])
 		cell = cells.first if cells.any?

@@ -43,18 +43,12 @@ class Question < ActiveRecord::Base
         cols.each_pair do |col, cell|
 					if a_cells[row][col].text?
 						q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text) || CGI.unescape(a_cells[row][col].value)
-						q_cells[row][col].value = CGI.unescape(a_cells[row][col].value || "") 
             # puts "cell is text. qno: #{q_cells[row][col].question.number} Row[#{row}][#{col}] value: #{a_cells[row][col].value} value_text: #{a_cells[row][col].value_text} : #{a_cells[row][col].inspect}"
 					else
-          	q_cells[row][col].value = a_cells[row][col].value.to_s || "" #if q_cells[row][col].eql_cell?(a_cells[row][col])
+          	q_cells[row][col].value = "#{a_cells[row][col].value}"
             if(a_cells[row][col].value_text != a_cells[row][col].value.to_s)
           	  q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text)
-              # cell = a_cells[row][col]
-              # puts "[#{row}][#{col}]: #{cell.value_text}  value: #{cell.value}"
             end
-            # if(row == 26)
-            #               puts "cell is ratingText . qno: #{q_cells[row][col].question.number} Row[#{row}][#{col}] value: #{a_cells[row][col].value} value_text: #{a_cells[row][col].value_text} : #{a_cells[row][col].inspect}"
-            #             end
 					end
         end
       end
