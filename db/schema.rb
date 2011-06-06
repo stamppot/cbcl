@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string  "person"
   end
 
+  add_index "center_infos", ["center_id"], :name => "index_center_infos_on_center_id"
+
   create_table "center_settings", :force => true do |t|
     t.integer  "center_id"
     t.string   "settings"
@@ -51,6 +53,26 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "code_books", :force => true do |t|
+    t.integer "survey_id",   :null => false
+    t.string  "title",       :null => false
+    t.string  "description"
+  end
+
+  create_table "codes", :force => true do |t|
+    t.integer "code_book_id",      :null => false
+    t.integer "question_id",       :null => false
+    t.integer "question_number",   :null => false
+    t.string  "variable",          :null => false
+    t.string  "item_type",         :null => false
+    t.string  "item",              :null => false
+    t.string  "description"
+    t.string  "measurement_level"
+    t.integer "row",               :null => false
+    t.integer "col",               :null => false
+    t.integer "item_choice_id",    :null => false
   end
 
   create_table "copies", :force => true do |t|
@@ -77,11 +99,6 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
 
   add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
   add_index "csv_answers", ["survey_id"], :name => "index_csv_answers_on_survey_id"
-
-  create_table "engine_schema_info", :id => false, :force => true do |t|
-    t.string  "engine_name"
-    t.integer "version"
-  end
 
   create_table "export_files", :force => true do |t|
     t.string   "filename"
@@ -125,6 +142,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "groups", ["code"], :name => "index_groups_on_code"
   add_index "groups", ["delta"], :name => "index_groups_on_delta"
   add_index "groups", ["parent_id"], :name => "groups_parent_id_index"
+  add_index "groups", ["parent_id"], :name => "index_groups_on_parent_id"
+  add_index "groups", ["type"], :name => "index_groups_on_type"
 
   create_table "groups_roles", :id => false, :force => true do |t|
     t.integer   "group_id",   :default => 0, :null => false
@@ -144,6 +163,19 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "groups_users", ["group_id", "user_id"], :name => "groups_users_all_index", :unique => true
   add_index "groups_users", ["user_id"], :name => "user_id"
 
+  create_table "item_choices", :force => true do |t|
+    t.string  "datatype",   :null => false
+    t.string  "name",       :null => false
+    t.integer "no_options"
+  end
+
+  create_table "item_options", :force => true do |t|
+    t.integer "item_choice_id", :null => false
+    t.string  "option",         :null => false
+    t.string  "code",           :null => false
+    t.string  "label",          :null => false
+  end
+
   create_table "journal_entries", :force => true do |t|
     t.integer  "journal_id",       :default => 0, :null => false
     t.integer  "survey_id",        :default => 0, :null => false
@@ -157,6 +189,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   add_index "journal_entries", ["journal_id"], :name => "index_journal_entries_on_journal_id"
+  add_index "journal_entries", ["state"], :name => "index_journal_entries_on_state"
   add_index "journal_entries", ["survey_answer_id"], :name => "index_journal_entries_on_survey_answer_id"
   add_index "journal_entries", ["survey_id"], :name => "index_journal_entries_on_survey_id"
   add_index "journal_entries", ["user_id"], :name => "index_journal_entries_on_user_id"
@@ -187,6 +220,8 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.boolean  "active",          :default => false, :null => false
   end
 
+  add_index "periods", ["active"], :name => "index_periods_on_active"
+  add_index "periods", ["paid"], :name => "index_periods_on_paid"
   add_index "periods", ["subscription_id"], :name => "index_periods_on_subscription_id"
 
   create_table "person_infos", :force => true do |t|
@@ -202,11 +237,6 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "person_infos", ["cpr"], :name => "index_person_infos_on_cpr"
   add_index "person_infos", ["delta"], :name => "index_person_infos_on_delta"
   add_index "person_infos", ["journal_id"], :name => "index_person_infos_on_journal_id"
-
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
-  end
 
   create_table "posts", :force => true do |t|
     t.string   "title"
@@ -357,11 +387,6 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   add_index "scores_surveys", ["score_id"], :name => "index_scores_surveys_on_score_id"
   add_index "scores_surveys", ["survey_id"], :name => "index_scores_surveys_on_survey_id"
 
-  create_table "sph_counter", :id => false, :force => true do |t|
-    t.integer "last_id",                  :null => false
-    t.string  "table_name", :limit => 50, :null => false
-  end
-
   create_table "static_permissions", :force => true do |t|
     t.string    "identifier", :limit => 50,  :default => "", :null => false
     t.string    "title",      :limit => 200, :default => "", :null => false
@@ -385,6 +410,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
   end
 
   add_index "subscriptions", ["center_id"], :name => "index_subscriptions_on_center_id"
+  add_index "subscriptions", ["survey_id"], :name => "index_subscriptions_on_survey_id"
 
   create_table "survey_answers", :force => true do |t|
     t.integer  "survey_id",                      :default => 0,     :null => false
@@ -401,6 +427,9 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.integer  "center_id"
   end
 
+  add_index "survey_answers", ["age"], :name => "index_survey_answers_on_age"
+  add_index "survey_answers", ["center_id"], :name => "index_survey_answers_on_center_id"
+  add_index "survey_answers", ["done"], :name => "index_survey_answers_on_done"
   add_index "survey_answers", ["journal_entry_id"], :name => "index_survey_answers_on_journal_entry_id"
   add_index "survey_answers", ["journal_id"], :name => "index_survey_answers_on_journal_id"
   add_index "survey_answers", ["survey_id"], :name => "index_survey_answers_on_survey_id"
@@ -462,6 +491,7 @@ ActiveRecord::Schema.define(:version => 20110105182159) do
     t.integer  "question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "datatype"
   end
 
 end
