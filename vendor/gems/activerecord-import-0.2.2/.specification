@@ -1,0 +1,134 @@
+--- !ruby/object:Gem::Specification 
+name: activerecord-import
+version: !ruby/object:Gem::Version 
+  prerelease: false
+  segments: 
+  - 0
+  - 2
+  - 2
+  version: 0.2.2
+platform: ruby
+authors: 
+- Zach Dennis
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2010-10-05 00:00:00 +02:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: activerecord
+  prerelease: false
+  requirement: &id001 !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        segments: 
+        - 3
+        - 0
+        - 0rc
+        version: 3.0.0rc
+  type: :runtime
+  version_requirements: *id001
+description: Extraction of the ActiveRecord::Base#import functionality from ar-extensions for Rails 3 and beyond
+email: zach.dennis@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- README.markdown
+- README.textile
+files: 
+- README.markdown
+- README.textile
+- Rakefile
+- VERSION
+- lib/activerecord-import.rb
+- lib/activerecord-import/active_record/adapters/abstract_adapter.rb
+- lib/activerecord-import/active_record/adapters/mysql2_adapter.rb
+- lib/activerecord-import/active_record/adapters/mysql_adapter.rb
+- lib/activerecord-import/active_record/adapters/postgresql_adapter.rb
+- lib/activerecord-import/active_record/adapters/sqlite3_adapter.rb
+- lib/activerecord-import/adapters/abstract_adapter.rb
+- lib/activerecord-import/adapters/mysql_adapter.rb
+- lib/activerecord-import/adapters/postgresql_adapter.rb
+- lib/activerecord-import/adapters/sqlite3_adapter.rb
+- lib/activerecord-import/base.rb
+- lib/activerecord-import/import.rb
+- lib/activerecord-import/mysql.rb
+- lib/activerecord-import/mysql2.rb
+- lib/activerecord-import/postgresql.rb
+- lib/activerecord-import/sqlite3.rb
+- test/active_record/connection_adapter_test.rb
+- test/adapters/mysql.rb
+- test/adapters/mysql2.rb
+- test/adapters/postgresql.rb
+- test/adapters/sqlite3.rb
+- test/import_test.rb
+- test/models/book.rb
+- test/models/group.rb
+- test/models/topic.rb
+- test/mysql/import_test.rb
+- test/mysql2/import_test.rb
+- test/schema/generic_schema.rb
+- test/schema/mysql_schema.rb
+- test/schema/version.rb
+- test/support/active_support/test_case_extensions.rb
+- test/support/factories.rb
+- test/support/generate.rb
+- test/support/mysql/assertions.rb
+- test/support/mysql/import_examples.rb
+- test/test_helper.rb
+has_rdoc: true
+homepage: http://github.com/zdennis/activerecord-import
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --charset=UTF-8
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      segments: 
+      - 0
+      version: "0"
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      segments: 
+      - 0
+      version: "0"
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.6
+signing_key: 
+specification_version: 3
+summary: Bulk-loading extension for ActiveRecord
+test_files: 
+- test/active_record/connection_adapter_test.rb
+- test/adapters/mysql.rb
+- test/adapters/mysql2.rb
+- test/adapters/postgresql.rb
+- test/adapters/sqlite3.rb
+- test/import_test.rb
+- test/models/book.rb
+- test/models/group.rb
+- test/models/topic.rb
+- test/mysql/import_test.rb
+- test/mysql2/import_test.rb
+- test/schema/generic_schema.rb
+- test/schema/mysql_schema.rb
+- test/schema/version.rb
+- test/support/active_support/test_case_extensions.rb
+- test/support/factories.rb
+- test/support/generate.rb
+- test/support/mysql/assertions.rb
+- test/support/mysql/import_examples.rb
+- test/test_helper.rb
