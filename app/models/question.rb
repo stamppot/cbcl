@@ -43,8 +43,12 @@ class Question < ActiveRecord::Base
         cols.each_pair do |col, cell|
 					if a_cells[row][col].text?
 						q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text) || CGI.unescape(a_cells[row][col].value)
+            # puts "cell is text. qno: #{q_cells[row][col].question.number} Row[#{row}][#{col}] value: #{a_cells[row][col].value} value_text: #{a_cells[row][col].value_text} : #{a_cells[row][col].inspect}"
 					else
-          	q_cells[row][col].value = a_cells[row][col].value.to_s || "" #if q_cells[row][col].eql_cell?(a_cells[row][col])
+          	q_cells[row][col].value = "#{a_cells[row][col].value}"
+            if(a_cells[row][col].value_text != a_cells[row][col].value.to_s)
+          	  q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text)
+            end
 					end
         end
       end
@@ -52,23 +56,6 @@ class Question < ActiveRecord::Base
     end
   end
 
-
-  # def merge_answertype(answer)
-  #   if answer.question_id == self.id
-  #     q_cells = self.rows_of_cols
-  #     a_cells = answer.rows_of_cols
-  #     # puts "#merge_answertype #{@@count_runs}: rows #{a_cells.size}  answer: #{answer.id}"
-  #     a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
-  #       cols.each_pair do |col, cell|
-  #         # puts "set answertype #{q_cells[row][col].type} item: #{q_cells[row][col].answer_item}"
-  #         a_cells[row][col].answertype = q_cells[row][col].type # if q_cells[row][col].eql_cell?(a_cells[row][col])
-  #         a_cells[row][col].item = q_cells[row][col].answer_item
-  #         a_cells[row][col].save
-  #       end
-  #     end
-  #     return a_cells
-  #   end
-  # end
     
   def get_answertype(row, col)
     Rails.cache.fetch("q_type_item_#{self.id}_#{row}_#{col}", :expires_in => 15.minutes) do 
@@ -128,30 +115,6 @@ class Question < ActiveRecord::Base
     end
   end
   
-	# for codebook
-  # def codes
-  #   prefix = survey.prefix
-  # 
-  #   q = self.number.to_roman.downcase
-  #   self.question_cells.map do |cell|
-  #     if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
-  #       var = Variable.get_by_question(id, cell.row, cell.col)
-  #       if var
-  #         # puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: #{var.var}"
-  #         cell.var = var.var
-  #       else
-  #         item = cell.answer_item
-  #         item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-  #         cell.var = "#{prefix}#{q}#{item}"
-  #       end
-  #     else
-  #       cell.var = "" unless cell.var.nil?
-  #     end
-  #     cell.save
-  # 			cell
-  #   end
-  # end
-
   def get_variables(prefix = nil)
     cells = Dictionary.new
     prefix ||= survey.prefix

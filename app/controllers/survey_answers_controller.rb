@@ -39,7 +39,7 @@ class SurveyAnswersController < ApplicationController
     render :template => 'surveys/show'
   end
 
-  def print #_answer
+  def print
     @options = {:answers => true, :disabled => false, :action => "show"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)

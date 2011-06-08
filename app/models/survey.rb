@@ -31,9 +31,6 @@ class Survey < ActiveRecord::Base
   
   def sort_questions
     Question.and_question_cells.by_survey(self.id).find(:all, :order => 'number ASC') # used for showing survey, so preload
-    # Question.find(:all, :conditions => ['survey_id = ?', self.id],
-    #               :include => [:question_cells],                    
-    #               :order => 'number ASC')  # self.questions.sort
   end
     
   def new_question_number
@@ -53,15 +50,6 @@ class Survey < ActiveRecord::Base
     end
     return self  # return survey with questions with values (answers)
   end
-
-  # def merge_answertype(survey_answer)
-  #   survey_answer.answers.each do |answer|
-  #     # find question which matches answer
-  #     question = self.questions.detect { |question| question.id == answer.question_id }
-  #     question.merge_answertype(answer) if question
-  #   end
-  #   return self  # return survey with questions with values (answers)
-  # end
 
   # users that can answer a given survey
   def answer_by

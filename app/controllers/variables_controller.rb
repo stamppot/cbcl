@@ -26,7 +26,7 @@ class VariablesController < ApplicationController
 
   def show_question
     q = Question.find params[:id]
-    @variables = Variable.and_survey.and_question.find(:all, :conditions => ['question_id = ?', q.id], :order => 'row, col, item')
+    @variables = Variable.and_survey.and_question.find(:all, :conditions => ['question_id = ?', q.id], :order => 'question_id, row, col, item')
     render :index
   end
 
