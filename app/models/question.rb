@@ -115,30 +115,6 @@ class Question < ActiveRecord::Base
     end
   end
   
-	# for codebook
-  # def codes
-  #   prefix = survey.prefix
-  # 
-  #   q = self.number.to_roman.downcase
-  #   self.question_cells.map do |cell|
-  #     if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
-  #       var = Variable.get_by_question(id, cell.row, cell.col)
-  #       if var
-  #         # puts "Setting cell (#{cell.row},#{cell.col}) i: #{cell.answer_item}: #{var.var}"
-  #         cell.var = var.var
-  #       else
-  #         item = cell.answer_item
-  #         item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-  #         cell.var = "#{prefix}#{q}#{item}"
-  #       end
-  #     else
-  #       cell.var = "" unless cell.var.nil?
-  #     end
-  #     cell.save
-  # 			cell
-  #   end
-  # end
-
   def get_variables(prefix = nil)
     cells = Dictionary.new
     prefix ||= survey.prefix
