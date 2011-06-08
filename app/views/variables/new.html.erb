@@ -54,6 +54,10 @@
 			<%= link_to_function 'show cell', "highlightCell($('variable_question_id').value, $('variable_row').value, $('variable_col').value)" %>
 		</p>
 		<p>
+	    <%= f.label :datatype %><br>
+	    <%= f.select :datatype, ['Numeric', 'String'] %>
+	  </p>
+		<p>
 			<%= f.label :var, 'Variabel' %><br>
 			<%= f.hidden_field :var %>
 			<span id="preview" style="padding-left: 6px; padding-right: 6px; border: 1px solid #bbb; height:1em; width: 3em;" onload="updatePreview()">

@@ -12,6 +12,10 @@
     <%= f.text_field :item %>
   </p>
   <p>
+    <%= f.label :datatype %><br>
+    <%= f.select :datatype, ['Numeric', 'String'] %>
+  </p>
+  <p>
     <%= f.label :row %><br>
     <%= f.text_field :row %>
   </p>
