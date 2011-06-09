@@ -83,9 +83,7 @@ class SurveyAnswer < ActiveRecord::Base
     # a.order_by
   end
   
-  # cascading does not work over multiple levels, ie. answer_cells are not deleted
   def delete
-    # better solution: iterate through answers, do cascading delete
     answers = self.answers
     answers.each { |answer| Answer.find(answer.id).destroy }  # deletes answers and answer cells
     SurveyAnswer.destroy self.id
@@ -102,8 +100,7 @@ class SurveyAnswer < ActiveRecord::Base
   def no_unanswered
     # count values in largest answer
     answer = self.max_answer # answers.detect {|answer| answer.question_id == score_item.question_id }
-    return answer.ratings_count if answer # 11-01-10 was answer.not_answered_ratings
-    return 0
+    answer && answer.ratings_count || 0 # 11-01-10 was answer.not_answered_ratings
   end
 
   # returns array of cells that must be saved
@@ -202,11 +199,16 @@ class SurveyAnswer < ActiveRecord::Base
   def save_answers(params)
     params.each do |key, cells|
       if key =~ /Q\d+/ && (cells.nil? || (cells.size == 1 && cells.has_key?("id")))
-          params.delete(key)
+        params.delete(key)
       end
     end
     params.each_key { |question| params.delete(question) if params[question].empty? }
-    the_valid_values = Rails.cache.fetch("survey_valid_values_#{self.survey_id}") { self.survey.valid_values }
+    variables = Rails.env.production? && 
+      Rails.cache.fetch("variables_in_hash") { Variable.all_in_hash(:by => 'question_id') } ||
+        Variable.all_in_hash(:by => 'question_id')
+    the_valid_values = Rails.env.production? && 
+      Rails.cache.fetch("survey_valid_values_#{self.survey_id}") { survey.valid_values } ||
+        survey.valid_values
     insert_cells = []
     update_cells = []
     
@@ -219,7 +221,8 @@ class SurveyAnswer < ActiveRecord::Base
       q_cells.each do |cell, value|
         if cell =~ /q(\d+)_(\d+)_(\d+)/   # match col, row
           q = "Q#{$1}"
-          a_cell = {:answer_id => an_answer.id, :row => $2.to_i, :col => $3.to_i, :value => value}
+          row, col = $2.to_i, $3.to_i
+          a_cell = {:answer_id => an_answer.id, :row => row, :col => col, :value => value, :variable_id => variables[q_id.to_i][row][col].id}
           if answer_cell = an_answer.exists?(a_cell[:row], a_cell[:col]) # update
             update_cells << [answer_cell.id,  answer_cell.value, answer_cell.value_text] if answer_cell.change_value(value, the_valid_values[q][cell])
           else
@@ -231,7 +234,7 @@ class SurveyAnswer < ActiveRecord::Base
       new_cells.clear
     end
     # columns = [:answer_id, :row, :col, :item, :answertype, :value, :rating, :text, :value_text, :cell_type]
-    columns = [:answer_id, :row, :col, :item, :value, :rating, :text, :value_text, :cell_type]
+    columns = [:answer_id, :row, :col, :item, :value, :rating, :text, :value_text, :cell_type, :variable_id]
     new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value, :value_text])
     updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text])
     # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"

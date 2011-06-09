@@ -66,6 +66,8 @@ class Journal < Group
   named_scope :and_person_info, :include => :person_info
   named_scope :for_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
   named_scope :by_code, :order => 'code ASC'
+  named_scope :with_login_user, :include => {:journal_entries => :login_user}
+  named_scope :with_entries, :include => :journal_entries
   
   define_index do
      # fields

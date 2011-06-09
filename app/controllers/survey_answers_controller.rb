@@ -7,7 +7,7 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :disabled => false, :action => "show"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
@@ -19,7 +19,7 @@ class SurveyAnswersController < ApplicationController
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
@@ -31,7 +31,7 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :show_all => true, :action => "edit"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
@@ -92,7 +92,7 @@ class SurveyAnswersController < ApplicationController
   
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     if journal_entry.survey_answer.nil?
@@ -130,7 +130,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_entry.journal and return
     end
 
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     survey_answer = journal_entry.make_survey_answer

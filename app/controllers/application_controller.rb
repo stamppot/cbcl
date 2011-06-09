@@ -95,12 +95,11 @@ class ApplicationController < ActionController::Base
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
-          # puts "checking access... params: #{params.inspect}"
           case params[:controller]
           when /faq/
             access = current_user.access?(:superadmin) || current_user.access?(:admin)
           when /score_reports/  # TODO: test this one!!!
-            journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
+            journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
               params[:answers].keys.all? { |entry| journal_ids.include? entry }
             else
