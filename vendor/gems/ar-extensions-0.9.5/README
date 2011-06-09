@@ -1,3 +1,5 @@
+*ar-extensions is not compatible and is not being developed for Rails 3. Please use the activerecord-import gem which supports the same interface.*
+
 LICENSE
 ----------
 This is licensed under the ruby license. 
@@ -9,6 +11,16 @@ Email: zach.dennis@gmail.com
  - For How-To information see http://www.continuousthinking.com/tags/arext
  - For project information and feedback please consult http://rubyforge.org/projects/arext/
  - For release information please see below
+
+ActiveRecord::Extensions 0.9.5
+------------------------------
+April 29th, 2011
+ - Removed erroneous "Can't mass assign protected attribute :id" when importing models
+
+ActiveRecord::Extensions 0.9.4
+------------------------------
+April 6, 2011
+ - Added :synchronize_keys option for import which allows people to synchronize on specified fields besides the primary key. Note these fields should be unique
 
 ActiveRecord::Extensions 0.9.0, 0.9.1
 ------------------------------

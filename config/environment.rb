@@ -88,7 +88,7 @@ Rails::Initializer.run do |config|
   config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
   
   config.gem "newrelic_rpm"
-  # config.gem 'ar-extensions'
+  config.gem 'ar-extensions'
   
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
@@ -139,8 +139,7 @@ module Enumerable
     inject(m) {|m, i| m ? m.send(o, i) : i}
   end
 
-  def build_hash
-    is_hash = false
+  def build_hash(is_hash = false)
     inject({}) do |target, element|
       key, value = yield(element)
       is_hash = true if !is_hash && value.is_a?(Hash)

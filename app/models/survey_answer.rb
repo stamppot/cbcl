@@ -232,10 +232,8 @@ class SurveyAnswer < ActiveRecord::Base
     end
     # columns = [:answer_id, :row, :col, :item, :answertype, :value, :rating, :text, :value_text, :cell_type]
     columns = [:answer_id, :row, :col, :item, :value, :rating, :text, :value_text, :cell_type]
-    t = Time.now; new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
-    # puts "MASS IMPORT ANSWER CELLS (#{new_cells_no.num_inserts}): #{e-t}"
-
-    t = Time.now; updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
+    new_cells_no = AnswerCell.import(columns, insert_cells, :on_duplicate_key_update => [:value, :value_text])
+    updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text])
     # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
     self.answers.each { |a| a.update_ratings_count }
     return self

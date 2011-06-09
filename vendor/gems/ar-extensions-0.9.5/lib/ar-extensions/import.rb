@@ -123,6 +123,11 @@ class ActiveRecord::Base
     #  BlogPost.import posts, :synchronize=>[ post ]
     #  puts post.author_name # => 'yoda'
     #
+    #  # Example synchronizing unsaved/new instances in memory by using a uniqued imported field
+    #  posts = [BlogPost.new(:title => "Foo"), BlogPost.new(:title => "Bar")]
+    #  BlogPost.import posts, :synchronize => posts
+    #  puts posts.first.new_record? # => false
+    #
     # == On Duplicate Key Update (MySQL only)
     #
     # The :on_duplicate_key_update option can be either an Array or a Hash. 
@@ -206,8 +211,10 @@ class ActiveRecord::Base
         num_inserts = import_without_validations_or_callbacks( column_names, array_of_attributes, options )
         OpenStruct.new :failed_instances=>[], :num_inserts=>num_inserts
       end
+
       if options[:synchronize]
-        synchronize( options[:synchronize] )
+        sync_keys = options[:synchronize_keys] || [self.primary_key]
+        synchronize( options[:synchronize], sync_keys)
       end
 
       return_obj.num_inserts = 0 if return_obj.num_inserts.nil?
@@ -234,7 +241,9 @@ class ActiveRecord::Base
       # keep track of the instance and the position it is currently at. if this fails
       # validation we'll use the index to remove it from the array_of_attributes
       arr.each_with_index do |hsh,i|
-        instance = new( hsh )
+        instance = new do |model|
+          hsh.each_pair{ |k,v| model.send("#{k}=", v) }
+        end
         if not instance.valid?
           array_of_attributes[ i ] = nil
           failed_instances << instance
