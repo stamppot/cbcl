@@ -156,7 +156,7 @@ class Answer < ActiveRecord::Base
 			# TODO: writes value to both columns. Later, fix it so only text values are written to value_text
       # fields[:value_text] = fields[:value]
 			fields[:cell_type] = types[valid_values[cell_id][:type]]
-      new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type]]
+      new_cells << [fields[:answer_id], fields[:row], fields[:col], fields[:item], fields[:value], fields[:rating], fields[:text], fields[:value_text], fields[:cell_type], fields[:variable_id]]
     end
     return new_cells
   end
@@ -258,7 +258,7 @@ class Answer < ActiveRecord::Base
   end
   
   def set_missing_items
-    q_cells = Rails.cache.fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
+    q_cells = cache_fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
     counter = 0
     a_cells = self.answer_cells.find(:all, :conditions => ['item IS NULL'])
     a_cells.each do |a_cell|

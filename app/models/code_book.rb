@@ -1,26 +1,30 @@
-class CodeBook
-	attr_accessor :survey, :questions
-	
-	def initialize(survey)
-		self.survey = survey
-		self.questions = survey.questions.map {|question| CodeBookQuestion.new(question) }
-	end
+class CodeBook < ActiveRecord::Base
+  has_many :codes
+  belongs_to :survey
 
-	def to_csv
-		([csv_header] + questions.map {|q| q.to_csv}).join
-	end
-	
-	def to_a
-		([arr_header] + questions.map {|q| q.to_a})
-	end
-	
-	private
-	def csv_header
-		questions.first.cells.first.csv_header
-	end
-
-	def arr_header
-		questions.first.cells.first.arr_header
-	end
-
+  def to_hash
+    result = "#{self.title} - #{self.description}\n"
+    code_strings = codes.map do |code|
+      line = {
+        :survey_title => self.title,
+        :survey_description => self.description,
+        :question => code.question_number,
+        :item => code.item, 
+        :variable => code.variable,
+        :measurement_level => code.measurement_level,
+        :description => code.description,
+        :datatype => code.datatype,
+        :no_options => code.item_choice.no_options
+      }
+      option_no = 1
+      line[:options] = code.item_choice.item_options.map() do |option|
+          { :option => option.option,
+          :code => option.code,
+          :label => option.label
+        }
+      end
+      line
+    end
+    code_strings
+  end
 end

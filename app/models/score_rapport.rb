@@ -39,7 +39,7 @@ class ScoreRapport < ActiveRecord::Base
     if !options[:center].blank?
       options[:journal_ids] = options[:center].journal_ids if options[:center] && !options[:journal_ids]
     end
-    options[:journal_ids] ||= Rails.cache.fetch("journal_ids_user_#{options[:user]}") { self.journal_ids }
+    options[:journal_ids] ||= cache_fetch.fetch("journal_ids_user_#{options[:user]}") { self.journal_ids }
     options
   end
 

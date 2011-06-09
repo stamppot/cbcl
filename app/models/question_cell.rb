@@ -19,7 +19,7 @@ class QuestionCell < ActiveRecord::Base
 	def datatype # || self.type == "Checkbox"  - for now only ratings are numeric values
 		self.is_a?(Rating) && :numeric || :string
 	end
-		
+
 	def cell_same_row
 		cells = self.question.question_cells(:conditions => ['col != ? AND row = ?', self.col, self.row])
 		cell = cells.first if cells.any?
