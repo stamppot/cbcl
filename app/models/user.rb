@@ -137,7 +137,7 @@ class User < ActiveRecord::Base
       user.groups = groups if groups.any?
 
       user.center = groups.first.center unless groups.empty? or user.has_role?(:superadmin)
-      user.save
+      user.save!
       
       return user
     end
