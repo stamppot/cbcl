@@ -16,7 +16,7 @@ class Variable < ActiveRecord::Base
   named_scope :question, lambda { |question_id| { :conditions => ["question_id = ?", question_id.is_a?(Question) && question_id] } }
   named_scope :row, lambda { |row| { :conditions => ["row = ?", row] } }
   named_scope :col, lambda { |col| { :conditions => ["col = ?", col] } }
-  
+
   attr_accessor :short, :value
 
   @@question_hash = nil
@@ -28,17 +28,20 @@ class Variable < ActiveRecord::Base
 	
   # order in hash by hash[by][row][col], where by is by default survey_id or question_id
   def self.all_in_hash(options = {})
-    by_id = options[:by] || 'survey_id'
-    
-    if by_id == 'question_id'
+    by_id = options.delete(:by) || 'survey_id'
+    by_id = 'question_id' if by_id =~ /^q/
+      
+    if by_id == 'question_id' && !options[:conditions]
       return @@question_hash if @@question_hash
-    else
+    elsif !options[:conditions]
       return @@survey_hash if @@survey_hash
     end
     
-    vars = self.all(:order => "#{by_id}, row")    
+    options[:order] = "#{by_id}, row"
+    
+    vars = self.all(options)    
 
-    if by_id == 'question_id'
+    if by_id =~ /^q/
       vars.inject({}) do |h, elem|
         h[elem.question_id] = { elem.row => { elem.col => elem } } if !h.key? elem.question_id
         h[elem.question_id][elem.row] = { elem.col => elem } if !h[elem.question_id].key? elem.row

@@ -30,6 +30,7 @@ class Journal < Group
            :class_name => 'JournalEntry',
            :conditions => 'journal_entries.state < 5',  # not answered
            :order => 'journal_entries.answered_at'
+           
   default_scope :order => 'created_at DESC'               
   
   delegate :name, :to        => :person_info
@@ -207,6 +208,7 @@ class Journal < Group
   def info
 		settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
     c = Dictionary.new # ActiveSupport::OrderedHash.new
+    c["journal_id"] = self.id
     c["ssghafd"] = self.parent.group_code
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
@@ -224,7 +226,9 @@ class Journal < Group
       build_xml(options[:builder])
     else
       xml = Builder::XmlMarkup.new
-      xml.__send__(:journal, self.info.to_h) do
+      info = self.info.to_h
+      info.delete("journal_id")
+      xml.__send__(:journal, info) do
         xml.score_rapports do
           # self.rapports.map(&:score_rapports).each do |rapport|
           self.score_rapports.each do |rapport|

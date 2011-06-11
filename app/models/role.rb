@@ -24,7 +24,7 @@ class Role < ActiveRecord::Base
     roles = roles.shift if roles.first.is_a?(Array)
     roles.each_with_index do |r,i|
       if "production" == RAILS_ENV
-        result << Rails.cache.fetch("role_#{r}") { Role.find_by_title(r.to_s) }
+        result << cache_fetch("role_#{r}") { Role.find_by_title(r.to_s) }
       else
         result << Role.find_by_title(r.to_s)
       end
@@ -41,4 +41,24 @@ class Role < ActiveRecord::Base
     return r.children
  end
  
+ # def Role.rolle
+ #   {
+ #     "forælder" => 1,
+ # 	   "pædagog"  => 2,
+ #     "lærer"    => 3,
+ #     "barn"     => 4,
+ # 	   "andet"    => 88
+ #   }
+ # end
+ 
+ # def Role.roller
+ #   {
+ #     "forælder" => "parent",
+ #     "lærer"    => "teacher",
+ # 	   "pædagog"  => "pedagogue",
+ #     "barn"     => "youth",
+ # 	   "andet"    => "other"
+ #   }
+ # end
+
 end

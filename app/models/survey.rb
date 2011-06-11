@@ -95,11 +95,11 @@ class Survey < ActiveRecord::Base
     d.order_by
   end
 
-  def get_variables # do not cache, coz the cells are merged with answer cells
-    d = Dictionary.new
-    self.questions.each { |question| d = d.merge!(question.get_variables(self.prefix)) }
-    d.order_by
-  end
+  # def get_variables # do not cache, coz the cells are merged with answer cells
+  #   d = Dictionary.new
+  #   self.questions.each { |question| d = d.merge!(question.get_variables(self.prefix)) }
+  #   d.order_by
+  # end
     
   def cell_variables # do not cache, coz the cells are merged with answer cells
     d = Dictionary.new

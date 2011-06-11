@@ -21,38 +21,38 @@ class Answer < ActiveRecord::Base
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
   end
 
-  def to_csv(prefix = nil)
+  def answer_cells_by_row_and_col
+    answer_cells.build_hash {|ac| [ac.row, {ac.col => ac}] }
+  end
+  
+  # assumes that variables do exist in db!
+  # TODO: should loop thru variables, not answer_cells to get all answer_cells in result
+  def to_csv(prefix = nil, variables = nil)
+    variables ||= Variable.for_question(question_id).all
     cells = Dictionary.new
     prefix = survey_answer.survey.prefix unless prefix
     q = self.question.number.to_roman.downcase
-    
-    self.answer_cells.each_with_index do |cell, i|
+  
+    # variables.each do |var|
+      
+    self.answer_cells.each do |cell|
       value = cell.value.blank? && '#NULL!' || cell.value
-      if var = Variable.get_by_question(self.question_id, cell.row, cell.col)
-        cells[var.var.to_sym] = value
-      else  # default var name
-        answer_type = cell.answer_type
-				item = cell.item || ""
-        # item = "" if cell.item.blank?
-        # answer_type, item = self.question.get_answertype(cell.row, cell.col)
-        item << "hv" if (item.nil? or !(item =~ /hv$/)) && ac.text?
-        # item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
-        var = "#{prefix}#{q}#{item}".to_sym
-        cells[var] = 
-        if cell.text? && !cell.value_text.blank? #answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+      if var = get_var(cell.row, cell.col, variables)  #Variable.get_by_question(self.question_id, cell.row, cell.col)
+        cells[var.var.to_sym] = if cell.text? && !cell.value_text.blank?
           CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
-        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-#          CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         else
           value
         end
+      else
+        puts "Variable not found for [#{question_id}][#{cell.row}][#{cell.col}] question_id: #{question_id} row: #{cell.row} col: #{cell.col}"
       end
     end
     return cells
   end
 
   alias :cell_values :to_csv
-
+  
+    
 	# TODO: rewrite assuming all variables exists (no if statement), create new variable or set variable values (datatype)
   def get_variables(prefix = nil)
     cells = Dictionary.new

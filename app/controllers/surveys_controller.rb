@@ -49,7 +49,7 @@ class SurveysController < ApplicationController
     cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
     
     @journal_entry = JournalEntry.find(params[:id])
-    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
+    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
       Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
     end
     @page_title = @survey.title
@@ -67,7 +67,7 @@ class SurveysController < ApplicationController
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
     @journal_entry = JournalEntry.find(params[:id]) 
-    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do
+    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     end
     @page_title = @survey.title
@@ -152,7 +152,7 @@ class SurveysController < ApplicationController
       elsif current_user.access? :superadmin # don't do check for superadmin
         true
       else
-        journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
+        journal_entry_ids = cache_fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
           current_user.journal_entry_ids
         end
         journal_entry_ids.include?(id)

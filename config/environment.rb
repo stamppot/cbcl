@@ -158,6 +158,15 @@ module Enumerable
     end
     result
   end
+  
+  def to_hash2(method)
+    result = {}
+    each do |elt|
+      result[elt.send(method)] = yield(elt)
+    end
+    result
+  end
+  
   # creates a hash with result of block as key, elem as value
   def to_hash_with_key
     result = {}
@@ -244,9 +253,17 @@ end
 
 
 def cache_fetch(key, options = {}, &block)
-  if !Rails.env.production? 
+  if Rails.env.production? 
     Rails.cache.fetch key, options, &block
   else
     yield
   end
+end
+
+def time(description = "")
+  t = Time.now
+  result = yield
+  e = Time.now
+  puts "#{description} took #{e-t}"
+  result
 end

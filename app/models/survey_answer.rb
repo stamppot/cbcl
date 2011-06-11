@@ -70,16 +70,11 @@ class SurveyAnswer < ActiveRecord::Base
 		self.no_unanswered == 0
 	end
 	
-	def get_variables # do not cache, coz the cells are merged with answer cells
-    d = Dictionary.new
-    self.answers.each { |answer| d = d.merge!(answer.get_variables(survey.prefix)) }
-    d.order_by
-  end
-  
-  def cell_values(prefix = nil)
+  def cell_values(prefix = nil, variables = nil)
+    variables ||= Variable.all_in_hash(:by => 'question_id', :conditions => ['survey_id = ?', self.survey_id])
     prefix ||= self.survey.prefix
     a = Dictionary.new
-    self.answers.each { |answer| a.merge!(answer.cell_values(prefix)) }
+    self.answers.each { |answer| a.merge!(answer.cell_values(prefix, variables[answer.question_id])) }
     a.order_by
   end
   
@@ -263,8 +258,52 @@ class SurveyAnswer < ActiveRecord::Base
     CSVHelper.new.generate_all_csv_answers
   end
   
+  def export_variables_params(journal_info, variables = nil)
+    result = Dictionary.new
+    result[:export_journal_info_id] = journal_info && journal_info.id || nil
+    result[:journal_id] = self.journal_id
+    result[:survey_answer_id] = self.id
+    if journal_info.nil? || journal.nil?
+      puts "Export_variables_params: JournalInfo: #{journal_info.inspect} journal: #{journal.inspect}"
+    end
+    result.merge!(variables_with_answers(variables))
+  end
   
-
+  def variables_with_answers(variables = nil)
+    variables ||= Variable.for_survey(survey_id)
+    answer_cells = answer_cells_in_hash
+    variables.inject(Dictionary.new) do |col, var|
+      cell = get_cell(var, answer_cells)
+      col[var.var.to_sym] = if !cell
+        nil
+      elsif
+        cell.text? && !cell.value_text.blank?
+        CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
+      else
+        cell.value
+      end
+      col
+    end    
+  end
+  
+  def get_cell(variable, cells_by_row_and_col)
+    if cells_by_row_and_col[variable.question_id] && (the_row = cells_by_row_and_col[variable.question_id][variable.row])
+      var = the_row[variable.col]
+    end
+  end
+  
+  # same as below but not dependent on answer
+  def answer_cells_in_hash(options = {})
+    by_id = options.delete(:by) || :question_id
+    answers.inject({}) {|h,a| h[a.send(by_id)] = a.answer_cells.build_hash {|ac| [ac.row, {ac.col => ac}] }; h }
+  end
+  
+  def cells_by_row_and_col(method = nil)
+    by = method || :question_id
+    by = by.to_sym
+    answers.inject({}) {|h,a| h[a.send(by)] = a.answer_cells_by_row_and_col; h}
+  end
+  
   def to_xml(options = {})
     if options[:builder]
       build_xml(options[:builder])
