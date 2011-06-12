@@ -154,6 +154,10 @@ class Journal < Group
     self.person_info && self.person_info.sex
   end
 
+  def age
+    self.person_info && self.person_info.age
+  end
+  
   def nationality
     self.person_info && self.person_info.nationality
   end

@@ -33,6 +33,10 @@ Rails::Initializer.run do |config|
     require gem_path if File.exists?(gem_path) # && !gem_path.include?("ar-extensions")
   end
 
+  Dir[File.dirname(__FILE__) + "/../lib/model_mixins/*"].each do |path|
+    require path 
+  end
+  
   # Settings in config/environments/* take precedence those specified here
 
   # Skip frameworks you're not going to use

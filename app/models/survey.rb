@@ -88,13 +88,6 @@ class Survey < ActiveRecord::Base
     return pre
   end
 
-  # set variable values in survey's question cells. Use vars when they exist, otherwise create a value
-  def set_variables
-    d = Dictionary.new
-    self.questions.each { |question| question.set_variables }
-    d.order_by
-  end
-
   # def get_variables # do not cache, coz the cells are merged with answer cells
   #   d = Dictionary.new
   #   self.questions.each { |question| d = d.merge!(question.get_variables(self.prefix)) }

@@ -5,6 +5,18 @@ class ScoreResult < ActiveRecord::Base
   belongs_to :score
 
   attr_accessor :standard_deviation
+
+  def dont_update?
+    valid_percentage && !title && !scale && 
+      !result && !percentile && !percentile_98 && 
+      !percentile_95 && !deviation
+  end
+
+  def update?
+    !(valid_percentage && !title && !scale && 
+      !result && !percentile && !percentile_98 && 
+      !percentile_95 && !deviation)
+  end
   
   def to_report
     report = ScoreReport.new

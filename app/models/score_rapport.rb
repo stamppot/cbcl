@@ -8,9 +8,75 @@ class ScoreRapport < ActiveRecord::Base
   named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
-  named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
+  named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } }
 
+  def self.create_or_update(survey_answer, survey, journal, no_unanswered, created_at, force_update = false)
+    args = ScoreRapport.build_params(survey_answer, survey, journal, no_unanswered, created_at)
+    rapport = ScoreRapport.find_by_survey_answer_id(survey_answer.id, :include => {:survey_answer => {:journal => :person_info}})            
+    rapport = ScoreRapport.create(args) unless rapport
+    rapport.update_attributes(args) if force_update && !rapport.new_record?    
+    rapport.update_score_results(survey_answer, journal, force_update)
+    rapport
+  end
 
+  def update_score_results(survey_answer, journal, update = false)
+    self.survey.scores.each do |score|
+      score_result = ScoreResult.find(:first, :conditions => ['score_id = ? AND score_rapport_id = ?', score.id, self.id])
+      
+      # everything is calculated already
+      if !update && score_result && score_result.dont_update?
+        next
+      else
+        result, percentile, mean, missing, hits, age_group = score.calculate(survey_answer)
+        score_ref = score.find_score_ref(journal)
+        # ADHD score (id: 57 has no items)
+        # puts "update_score_results, survey should be the same: #{survey.id} == #{self.survey_id} #{survey.id == self.survey_id}"
+        args = score_result_params(score, result, percentile, mean, hits, missing)
+        score_result && score_result.update_attributes(args) || ScoreResult.create(args)
+      end
+      self.short_name = score.short_name
+    end
+    save
+    self
+  end
+
+  def self.build_params(survey_answer, survey, journal, no_unanswered, created_at)
+    args = { :survey_name => survey_answer.survey.title,
+                  :survey => survey_answer.survey,
+              :unanswered => no_unanswered,
+              :short_name => survey.category,
+                     :age => journal.age,
+                  :gender => journal.sex,
+               :age_group => survey.age,
+              :created_at => created_at,  # set to date of survey_answer
+               :center_id => journal.center_id,
+        :survey_answer_id => survey_answer.id
+            }
+  end
+  
+  def score_result_params(score, result, percentile, mean, hits, missing)
+    missing_percentage = 99.99 if score.items_count.blank? or score.items_count == 0
+    missing_percentage ||= ((missing.to_f / score.items_count.to_f) * 100.0).round(2)
+    args = { 
+      :title => score.title, 
+      :score_id => score.id, 
+      :scale => score.scale, 
+      :survey => self.survey,
+      :result => result, 
+      :percentile_98 => (percentile == :percentile_98),
+      :percentile_95 => (percentile == :percentile_95),
+      :deviation => (percentile == :deviation),
+      :score_rapport => self, 
+      :mean => mean,
+      :position => score.position,
+      :score_scale_id => score.score_scale_id,
+      :hits => hits,
+      :missing => missing,
+      :missing_percentage => missing_percentage, 
+      :valid_percentage => (missing_percentage <= 10.0)
+    }
+  end
+  
   # finished survey answers, based on accessible journals
   def find_with_options(options = {})  # params are not safe, should only allow page/per_page
     page       = options[:page] ||= 1

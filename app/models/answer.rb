@@ -1,6 +1,7 @@
 require 'facets/dictionary'
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
+
 class Answer < ActiveRecord::Base
   belongs_to :survey_answer
   belongs_to :question
@@ -21,9 +22,9 @@ class Answer < ActiveRecord::Base
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
   end
 
-  def answer_cells_by_row_and_col
-    answer_cells.build_hash {|ac| [ac.row, {ac.col => ac}] }
-  end
+  # def answer_cells_by_row_and_col
+  #   answer_cells.build_hash {|ac| [ac.row, {ac.col => ac}] }
+  # end
   
   # assumes that variables do exist in db!
   # TODO: should loop thru variables, not answer_cells to get all answer_cells in result
