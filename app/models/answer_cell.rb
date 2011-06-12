@@ -9,6 +9,12 @@ class AnswerCell < ActiveRecord::Base
   belongs_to :answer
   belongs_to :variable
   set_primary_key "id"
+<<<<<<< HEAD
+=======
+	attr_accessor :position
+  
+	# named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
+>>>>>>> improve_survey_caching
   named_scope :ratings, :conditions => ['cell_type = ?', AnswerCell.answer_types['Rating']]
   named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
@@ -69,8 +75,28 @@ class AnswerCell < ActiveRecord::Base
 	def cell_value
 		self.value_text || self.value
 	end
-
-		
+	
+	def html_value_id(fast = false)
+		# if self.cell_type == AnswerCell.answer_type["Checkbox"]
+		# 	"q#{answer.number}_#{row}_#{col}"			
+		if rating
+			# puts "HTML_VALUE position #{position}"
+			"q#{answer.number}_#{row}_#{col}_#{position}"
+		else
+			"q#{answer.number}_#{row}_#{col}"
+		end
+	end
+	
+	def javascript_set_value(fast = false)
+		return "" if fast && value == 9 || value.blank?
+		result = if rating || self.answer_type == "Checkbox"
+			"$('#{html_value_id(fast)}').checked = #{value != 9};"
+		else
+			"$('#{html_value_id(fast)}').value = #{value};"
+		end
+		puts "JAVASCRIPT_SET_VALUE: #{result}"
+		result
+	end
   # 
   # def to_xml
   #   r = []

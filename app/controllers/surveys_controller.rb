@@ -42,30 +42,41 @@ class SurveysController < ApplicationController
   
   # 25-2 Changed to use params[:id] for journal_entry. Survey is found here. This means that survey can only be shown thru journal_entries
   def show                                  # 11-2 it's fastest to preload all needed objects
-    @options = {:show_all => true, :action => "create"}
-    if current_user.login_user && (journal_entry = cookies[:journal_entry])
-      params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+		self.expires_in 2.months.from_now
+		@options = {:show_all => true, :action => "create"}
+		survey_id = params[:id]
+		# journal_entry_id = cookies["journal_entry"]
+    params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
+  	cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+
+    journal_entry = JournalEntry.find(params[:id])
+    # @survey = Rails.cache.fetch("survey_entry_#{params[:id]}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
+    @survey = Rails.cache.fetch("survey_#{survey_id}") do  
+      Survey.find(survey_id)
     end
-    cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
     
-    @journal_entry = JournalEntry.find(params[:id])
-    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-      Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
-    end
+# <<<<<<< HEAD
+#     @journal_entry = JournalEntry.find(params[:id])
+#     @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
+#       Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
+#     end
+# =======
+# >>>>>>> improve_survey_caching
     @page_title = @survey.title
 
     # show survey with existing answers
     # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-    if survey_answer = @journal_entry.survey_answer 
-      @survey.merge_survey_answer(survey_answer)
-    end
-    puts "SURVEY_CONTROLLER #{session[:rbac_user_id]}"
+    # if survey_answer = journal_entry.survey_answer 
+    #   @survey.merge_survey_answer(survey_answer)
+    # end
 
     rescue ActiveRecord::RecordNotFound
   end
 
-  def show_fast                             # 11-2 it's fastest to preload all needed objects
+  def show_fast   # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
+		survey_id = params[:id]
+		params[:id] &&= cookies["journal_entry"]
     @journal_entry = JournalEntry.find(params[:id]) 
     @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
@@ -80,7 +91,7 @@ class SurveysController < ApplicationController
       @survey_answer.journal_entry = @journal_entry
     else  # survey_answer was started/created, so a draft is saved
       @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id) # removed .and_answers
-      @survey.merge_survey_answer(@survey_answer)  # insert existing answers
+      # @survey.merge_survey_answer(@survey_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer
       @journal_entry.survey_answer = @survey_answer
@@ -153,15 +164,17 @@ class SurveysController < ApplicationController
     redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       id = params[:id].to_i
-      access = if params[:action] =~ /show_only/
+      access = if params[:action] =~ /show_only|show/
         current_user.surveys.map {|s| s.id }.include? id
-      elsif current_user.access? :superadmin # don't do check for superadmin
-        true
+      #elsif current_user.access? :superadmin # don't do check for superadmin
+      #  true
       else
-        journal_entry_ids = cache_fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
-          current_user.journal_entry_ids
-        end
-        journal_entry_ids.include?(id)
+        true
+        # not using journal_entry_id anymore, so no check is needed. Instead, check call to draft_data
+        # journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
+        #   current_user.journal_entry_ids
+        # end
+        # journal_entry_ids.include?(id)
       end
     end
   end

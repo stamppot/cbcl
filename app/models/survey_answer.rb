@@ -154,4 +154,54 @@ class SurveyAnswer < ActiveRecord::Base
     return self
   end
   
+	# used by draft_data to get positions of values
+  def add_value_positions
+	puts "SURVEY_ANSWER.add_value_positions"
+    self.answers.map { |answer| answer.add_value_positions }.flatten
+      # find question which matches answer
+      # puts "answer number & id: #{answer.number} - #{answer.id}"
+      # question = self.questions.detect { |question| question.id == answer.question_id }
+      # question.merge_answer(answer) if question
+    # return self  # return survey with questions with values (answers)
+  end
+
+  # def make_csv_answer
+  #   c = CSVHelper.new
+  #   c.generate_csv_answer_line(c.survey_answer_csv_query)
+  # end
+  #   
+  # def create_csv_answer!
+  #   CSVHelper.new.create_survey_answer_csv(self)
+  # end
+  # 
+  # def self.create_csv_answers!
+  #   CSVHelper.new.generate_all_csv_answers
+  # end
+  
+  
+
+  # def to_xml(options = {})
+  #   if options[:builder]
+  #     build_xml(options[:builder])
+  #   else
+  #     xml = Builder::XmlMarkup.new
+  #     xml.__send__(:survey_answer, {:created => self.created_at}) do
+  #       xml.answers do
+  #         # self.rapports.map(&:score_rapports).each do |rapport|
+  #         self.cell_vals.each do |answer_vals|
+  #           xml.__send__(:answer, {:number => answer_vals[:number]}) do
+  #             xml.cells do
+  #               answer_vals[:cells].each do |cell_h|
+  #                 attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
+  #                 xml.__send__(:cell, attrs)
+  #               end
+  #             end
+  #           end
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
+  
+# >>>>>>> improve_survey_caching
 end

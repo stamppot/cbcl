@@ -146,6 +146,21 @@ class Hash
   def <<(hash={})
     merge! hash
   end
+
+  def each_path
+    raise ArgumentError unless block_given?
+    self.class.each_path( self ) { |path, object| yield path, object }
+  end
+
+  protected
+  def self.each_path(object, path = '', &block )
+    if object.is_a?( Hash ) then object.each do |key, value|
+        self.each_path value, "#{ path }#{ key }/", &block
+      end
+    else yield path, object
+    end
+  end
+
 end
 
 #example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }

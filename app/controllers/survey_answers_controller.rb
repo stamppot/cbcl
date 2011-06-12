@@ -3,16 +3,38 @@ class SurveyAnswersController < ApplicationController
   layout 'survey', :only  => [ :show, :show_fast, :edit ]
 	layout 'survey_print', :only => [ :print ]
 	
-  def show
-    @options = {:answers => true, :disabled => false, :action => "show"}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
+# <<<<<<< HEAD
+#   def show
+#     @options = {:answers => true, :disabled => false, :action => "show"}
+#     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+#     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+#     @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+#       Survey.and_questions.find(@survey_answer.survey_id)
+# =======
+  # def show
+  #   @options = {:answers => true, :disabled => false, :action => "show"}
+  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+  #   @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+  #   @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+  #     Survey.and_questions.find(@survey_answer.survey_id)
+  #   end
+  #   @survey.merge_survey_answer(@survey_answer)
+  #   @page_title = "CBCL - Vis Svar: " << @survey.title
+  #   # render :template => 'surveys/show'
+  # end
+  def show                                  # 11-2 it's fastest to preload all needed objects
+		self.expires_in 2.months.from_now
+		@options = {:show_all => true, :action => "create"}
+		survey_id = params[:id]
+    params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
+  	cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+    journal_entry = JournalEntry.find(params[:id])
+    @survey = Rails.cache.fetch("survey_#{survey_id}") do  
+      Survey.find(survey_id)
+# >>>>>>> improve_survey_caching
     end
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.title
-		render :template => 'surveys/show'
+    @page_title = @survey.title
+    rescue ActiveRecord::RecordNotFound
   end
   
   def show_fast # show_answer_fast
@@ -90,6 +112,25 @@ class SurveyAnswersController < ApplicationController
     end
   end
   
+  def draft_data
+    # puts "GET_DRAFT_DATA #{params.inspect}"
+		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+		show_fast = params['fast'] || false
+    # puts "SHOW FAST? #{show_fast}"
+		@response = if journal_entry.survey_answer
+			all_answer_cells = journal_entry.survey_answer.add_value_positions
+			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
+		end || ""
+    # puts "RESPONSE: #{@response}"
+		respond_to do |format|
+			format.js {
+				render :update do |page|
+					page << @response.to_s
+				end
+			}
+		end
+	end
+	
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
@@ -121,7 +162,7 @@ class SurveyAnswersController < ApplicationController
     end
     id = params.delete("id")
     journal_entry = JournalEntry.find(id)
-		puts "SURVEY AnSWER create #{journal_entry.inspect}"
+    # puts "SURVEY AnSWER create #{journal_entry.inspect}"
     center = journal_entry.journal.center
     subscription = center.subscriptions.detect { |sub| sub.survey_id == journal_entry.survey_id }
 
@@ -147,7 +188,7 @@ class SurveyAnswersController < ApplicationController
     
     journal_entry.increment_subscription_count(survey_answer)
 
-		puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
+    # puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
     
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
@@ -155,7 +196,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_path(journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-			puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
+      # puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
       redirect_to survey_finish_path(journal_entry) and return
     end
   rescue RuntimeError

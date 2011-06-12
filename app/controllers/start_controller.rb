@@ -16,12 +16,6 @@ class StartController < ApplicationController
 		@survey = @journal_entry.survey
 	end
 
-	# def finish
-	#   login_user = LoginUser.find_by_id(params[:id])
-	#   # login_user.destroy if login_user
-	#   remove_current_user
-	# end
-
 	def finish
 		# if session[:rbac_user_id] && (journal_entry = cookies[:journal_entry])  # TODO: put in helper method
 		# params[:id] ||= cookies[:journal_entry] # login user can access survey with survey_id instead of journal_entry_id
