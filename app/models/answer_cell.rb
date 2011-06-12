@@ -9,12 +9,9 @@ class AnswerCell < ActiveRecord::Base
   belongs_to :answer
   belongs_to :variable
   set_primary_key "id"
-<<<<<<< HEAD
-=======
 	attr_accessor :position
   
 	# named_scope :ratings, :conditions => ['answertype = ?', 'Rating']
->>>>>>> improve_survey_caching
   named_scope :ratings, :conditions => ['cell_type = ?', AnswerCell.answer_types['Rating']]
   named_scope :not_answered, :conditions => ["(value = ? OR value = NULL)", '9']
   named_scope :items, :conditions => ["item != ? ", ""]
