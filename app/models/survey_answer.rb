@@ -54,6 +54,7 @@ class SurveyAnswer < ActiveRecord::Base
     spawn do
       self.generate_score_rapport(update = true) # generate score report
       self.create_csv_answer!
+      FillExportVariables.new.generate_export_variables_answer(self)
     end
     self.save
   end

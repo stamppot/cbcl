@@ -88,6 +88,12 @@ class SurveysController < ApplicationController
     end
     render :layout => "layouts/survey_fast"
     
+    rescue ActiveRecord::RecordInvalid
+      @journal_entry.valid?
+      @survey_answer.valid?
+      puts "INVALID: #{@journal_entry.errors.inspect}"
+      puts  "SurveyAnswer: #{@survey_answer.errors.inspect}"
+      # throw ActiveRecord::RecordInvalid(@journal_entry)
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Kunne ikke finde skema for journal."
       redirect_to surveys_path
