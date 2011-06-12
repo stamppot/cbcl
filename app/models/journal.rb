@@ -63,7 +63,6 @@ class Journal < Group
   # TODO: validates_associated or existence_of (see Advanced Rails recipes or Rails Way)
   
   named_scope :and_entries, :include => :journal_entries
-  # named_scope :and_login_users, :include => { :journal_entries => :login_user }
   named_scope :and_person_info, :include => :person_info
   named_scope :for_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group] } }
   named_scope :by_code, :order => 'code ASC'
@@ -81,17 +80,6 @@ class Journal < Group
 
      set_property :delta => true
    end
-
-  # def validate
-  #   unless self.code.to_s.size == Journal.find_by_code_and_center_id(self.code, self.center_id)
-  #     errors.add("code", "skal være 4 cifre")
-  #   end
-  # end 
-
-  def self.run_rake(task_name)
-    #load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
-    #Rake::Task[task_name].invoke
-  end
 
   def index_search
 		#Journal.run_rake("rake thinking_sphinx:reindex")
@@ -138,9 +126,9 @@ class Journal < Group
     self.title.split(' ').first
   end
   
-  def birthdate
-    self.person_info && self.person_info.birthdate
-  end
+  # def birthdate
+  #   self.person_info && self.person_info.birthdate
+  # end
   
   def birth_short
     birthdate.strftime("%d-%m-%Y")  
@@ -154,13 +142,13 @@ class Journal < Group
     self.person_info && self.person_info.sex
   end
 
-  def age
-    self.person_info && self.person_info.age
-  end
+  # def age
+  #   self.person_info && self.person_info.age
+  # end
   
-  def nationality
-    self.person_info && self.person_info.nationality
-  end
+  # def nationality
+  #   self.person_info && self.person_info.nationality
+  # end
   
   # sets the next journal code based on its center or current_user
   def next_journal_code(user)
@@ -269,11 +257,4 @@ class Journal < Group
       end
     end
   end
-
-  # protected
-  
-  # validates_presence_of   :parent,
-  #                         :message => ': overordnet gruppe skal vælges',
-  #                         :if => Proc.new { |group| group.class.to_s != "Center" }
-                          
 end

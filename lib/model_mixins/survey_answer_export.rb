@@ -1,3 +1,5 @@
+require 'facets/dictionary'
+
 module ModelMixins
   module SurveyAnswer
     module Export
@@ -45,9 +47,10 @@ module ModelMixins
         self.answers.inject([]) { |col, answer| col << (answer.cell_vals(prefix)); col }
       end
 
-      def export_variables_params(journal_info, variables = nil)
+      def export_variables_params(journal_info, id, variables = nil)
         result = Dictionary.new
-        result[:export_journal_info_id] = journal_info && journal_info.id || nil
+        result[:id] = id if id
+        result[:export_journal_info_id] = journal_info && journal_info.id
         result[:journal_id] = self.journal_id
         result[:survey_answer_id] = self.id
         if journal_info.nil? || journal.nil?
@@ -57,7 +60,7 @@ module ModelMixins
       end
 
       def variables_with_answers(variables = nil)
-        variables ||= Variable.for_survey(survey_id)
+        variables ||= Variable.for_survey(survey_id).all
         answer_cells = answer_cells_in_hash
         variables.inject(Dictionary.new) do |col, var|
           cell = get_cell(var, answer_cells)

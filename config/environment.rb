@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   end
 
   Dir[File.dirname(__FILE__) + "/../lib/model_mixins/*"].each do |path|
+    # puts "require #{path}"
     require path 
   end
   

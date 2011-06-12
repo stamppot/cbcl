@@ -92,32 +92,25 @@ class Answer < ActiveRecord::Base
     self.answer_cells.each_with_index do |cell, i|
       c = {}
       type = :Integer
-      # value = cell.value.blank? && '#NULL!' || cell.value
       if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
         c[:var] = var.var.to_sym
       else  # default var name
         answer_type = cell.answer_type
         item = cell.item || ""
-        # answer_type, item = self.question.get_answertype(cell.row, cell.col)
         if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
           item << "hv" 
           type = :String
         end
         var = "#{prefix}#{q}#{item}".to_sym
         c[:var] = var
-        # cs[var] = 
-        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-        #   type = "String"
-        #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
         if cell.text? || !cell.cell_value.blank?
           type = :String
           cell.value_text = CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
         end
-        # value = cell.value.to_i if type == :Integer && !cell.value.blank?
         value = cell.value.to_i if !cell.text? && !cell.value.blank?
         c[:type] = type
         c[:v] = value
-        puts c.inspect
+        # puts c.inspect
         cells << c
       end
     end
@@ -198,44 +191,6 @@ class Answer < ActiveRecord::Base
   def <=>(other)
     self.question <=> other.question
   end
-
-  # # returns array of cells to create
-  # def add_missing_cells_optimized
-  #   a_cells = self.answer_cells.ratings
-  #   count = 0
-  #   # find missing
-  #   cells = a_cells.map {|a| [a.row, a.col] }
-  #   cell_arr = cells.first
-  #   return if !(cell_arr && cell_arr.size == 2) 
-  # 
-  #   q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
-  #   q_cells_size = q_cells.size
-  #   missing_cells = q_cells - cells
-  # 
-  #   new_cells = []
-  #   missing_cells.each do |m_cell|
-  #     row, col = m_cell
-  #     find_row = row - 1 # try one before this
-  #     cells_away = 1 # how far the found cell is from the one to fill in
-  #     while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
-  #       find_row -= 1
-  #       cells_away += 1
-  #     end
-  #     if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
-  #       cells_away.times { item.succ! }
-  #       unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
-  #         new_cells << self.answer_cells.build( :item => item, :row => row, :col => col,
-  #  																								:cell_type => AnswerCell.answer_types['Rating'],
-  #  																								:answertype => 'Rating',
-  #  																								:value => '')
-  #         count += 1
-  #         # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
-  #       end
-  #     end
-  #     row = col = find_row = cells_away = prev_item = exists = nil
-  #   end if self.survey_answer.done
-  #   new_cells
-  # end
   
   def print
     output = "Answer: #{self.number}<br>"

@@ -51,11 +51,6 @@ class User < ActiveRecord::Base
   named_scope :in_journals, lambda { |journal_ids| { :select => "users.*", :joins => "INNER JOIN journal_entries ON journal_entries.user_id = users.id",
     :conditions => ["journal_entries.journal_id IN (?)", journal_ids] } }
 
-	def self.run_rake(task_name)
-		# load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
-		# Rake::Task[task_name].invoke
-	end
-
   def index_search
 		# User.run_rake("rake thinking_sphinx:reindex")
 	end
@@ -194,7 +189,6 @@ class User < ActiveRecord::Base
   # TODO rewrite if user.center works
   def center_and_teams
     if(self.has_access?(:admin))
-      puts "DO WE GET HERE???????????????????????????????????????????????????????????????????????????????????????????"
       Group.center_and_teams #find(:all, :conditions => ['type != ?', "Journal"])
     elsif self.has_access? :team_show
       self.groups
@@ -419,23 +413,6 @@ class User < ActiveRecord::Base
   
   def status
     I18n.translate("user.states.#{state}")
-    # case self.state
-    # when 1: 'ubekræftet'
-    # when 2: 'bekræftet'
-    # when 3: 'låst'
-    # when 4: 'slettet'
-    # when 5: 'retrieved_password'
-    #   # The user has just retrieved his password and he must now
-    #   # it. The user cannot anything in this state but change his
-    #   # password after having logged in and retrieve another one.
-    # when 6: 'retrieved_password'
-    # when 'ubekræftet': 1
-    # when 'bekræftet': 2
-    # when 'låst': 3
-    # when 'slettet': 4
-    # when 'new_password': 5
-    # when 'retrieved_password': 6
-    # end
   end
 
   def User.stateToStatus(hash)
