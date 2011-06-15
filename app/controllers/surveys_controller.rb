@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
-  layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
+  layout "survey", :only  => [ :show, :show_fast, :show_answer, :edit, :show_answer2, :change_answer ]
 
   caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last; entry =~ /journal_entry=(\d+)/ }
   
@@ -50,37 +50,19 @@ class SurveysController < ApplicationController
   	cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
 
     journal_entry = JournalEntry.find(params[:id])
-    # @survey = Rails.cache.fetch("survey_entry_#{params[:id]}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-    @survey = Rails.cache.fetch("survey_#{survey_id}") do  
-      Survey.find(survey_id)
-    end
-    
-# <<<<<<< HEAD
-#     @journal_entry = JournalEntry.find(params[:id])
-#     @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-#       Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
-#     end
-# =======
-# >>>>>>> improve_survey_caching
+    @survey = Rails.cache.fetch("survey_#{survey_id}") { Survey.and_questions.find(survey_id) }
     @page_title = @survey.title
-
-    # show survey with existing answers
-    # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-    # if survey_answer = journal_entry.survey_answer 
-    #   @survey.merge_survey_answer(survey_answer)
-    # end
 
     rescue ActiveRecord::RecordNotFound
   end
 
   def show_fast   # 11-2 it's fastest to preload all needed objects
+    puts "Surveys/fast/#{params[:id]} (#{cookies["journal_entry"]})"
     @options = {:action => "create", :hidden => true}
 		survey_id = params[:id]
 		params[:id] &&= cookies["journal_entry"]
     @journal_entry = JournalEntry.find(params[:id]) 
-    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do
-      Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
-    end
+    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") { Survey.and_questions.find(@journal_entry.survey_id) }
     @page_title = @survey.title
   
     @survey_answer = nil

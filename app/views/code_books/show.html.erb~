@@ -1,0 +1,21 @@
+<h3><%= @view[:survey_title] %></h3>
+
+<table>
+  <th>Item</th>
+  <th>Variabel</th>
+  <th>Niveau</th>
+  <th>Beskrivelse</th>
+  <th>Svar</th>
+  <th>Kode</th>
+  <th>Label</th>
+  
+  <tr>
+    <td rowspan='<%= @view[:no_options %>'><%= @view[:variable] %></td>
+    <td rowspan='<%= @view[:no_options ><%= @view[:measurement_level] %></td>
+    <td rowspan='<%= @view[:no_options ><%= @view[:description] %></td>
+    <% @view[:options].each |option| %>
+    <td><%= option[:option] %></td>
+    <td><%= option[:code] %></td>
+    <td><%= option[:label] %></td>
+    <% end %>
+  </tr>

@@ -1,0 +1,11 @@
+<h2>Kodebøger</h2>
+<table>
+  <th>Kodebog for skema</th>
+  <th>Beskrivelse</th>
+  <% @code_books.each do |code_book| %>
+  <tr>
+    <td><%= link_to code_book.title, code_book_path(code_book) %></td>
+    <td><%= code_book.description %></td>
+  </tr>
+  <% end %>
+</table>

@@ -1,0 +1,8 @@
+<table>
+  <% @code_books.each do |code_book| %>
+  <tr>
+    <td><%= link_to code_book.title, survey_path(code_book.survey_id) %></td>
+    <td><%= code_book.description %></td>
+  </tr>
+  <% end %>
+</table>

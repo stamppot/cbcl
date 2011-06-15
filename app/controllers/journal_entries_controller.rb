@@ -13,8 +13,10 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
 		cookies[:journal_entry] = params[:id]
 		journal_entry = JournalEntry.find(params[:id], :include => :journal)
 		if params[:fast]
+		  puts "FAST!"
 			redirect_to survey_show_fast_path(journal_entry.survey_id) and return
 		else
+		  puts "NOT SO FAST!"
 			redirect_to survey_path(journal_entry.survey_id) and return
 		end
 	end
@@ -66,18 +68,9 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   
   def check_access
     if current_user and ((current_user.access?(:all_users) || current_user.access?(:login_user))) and params[:id]
-# <<<<<<< HEAD
-#       j_id = JournalEntry.find(params[:id]).journal_id
-#       journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
-#       access = journal_ids.include? j_id
-# =======
       parent_id = JournalEntry.find(params[:id], :include => :journal).journal.parent_id
       current_user.center_and_team_ids.include? parent_id
-      # group_ids.include? parent_id
-      # journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
-      # access = journal_ids.include? j_id
-# >>>>>>> improve_survey_caching
     end
   end
 
-  end
+end

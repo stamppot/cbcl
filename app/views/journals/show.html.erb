@@ -21,8 +21,8 @@
 					 <td style='background-color: #<%= survey.color %>;'>
 					  <%# link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
             <%# link_to survey.title, survey_path(entry), :title => 'Besvar' %><!-- &nbsp;&nbsp;</td> -->
-					  <%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), entry_show_fast_path(entry), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
-            <%= link_to survey.title, entry_show_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
+					  <%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), journal_entry_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
+            <%= link_to survey.title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
            <td><%= t("roles.#{survey.surveytype}") %></td>
 					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
 					 <td><%= entry.status %>
