@@ -22,36 +22,36 @@
 <!--[form:group]-->
 <table class="center_info">
 	<tr>
-		<td class="t_i"><%= label(:group, :title, "Navn:") %></td>
+		<td class="t_i"><%= label(:group, :title, t('center.name')) %>:</td>
 		<td class="t"><%= text_field :group,  :title, { :class => "required validate-alpha" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= label(:code, "Centerkode:") %></td>
+		<td class="t_i"><%= label(:code, t('center.code')) %>:</td>
 		<td class="t"><%= text_field :group,  :code, { :class => "required validate-number" }  %></td>
 	</tr>
 	<% fields_for "group[center_info]", @group.center_info do |c| %>
   <tr>
-		<td class="t_i"><%= c.label(:street, "Adresse:") %></td>
+		<td class="t_i"><%= c.label(:street, t("center.address")) %>:</td>
 		<td class="t"><%= c.text_field :street, { :class => "required validate-alpha" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= c.label(:zipcode, "Postkode:") %></td>
+		<td class="t_i"><%= c.label(:zipcode, t("t.zip")) %>:</td>
 		<td class="t"><%= c.text_field :zipcode, { :class => "required validate-number" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= c.label(:city, "By:") %></td>
+		<td class="t_i"><%= c.label(:city, t('center.city')) %>:</td>
 		<td class="t"><%= c.text_field :city, { :class => "required validate-number" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= c.label(:telephone, t('phone')) %>:</td>
+		<td class="t_i"><%= c.label(:telephone, t('center.phone')) %>:</td>
 		<td class="t"><%= c.text_field :telephone, { :class => "required validate-number" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= c.label(:person, "Kontaktperson:") %></td>
+		<td class="t_i"><%= c.label(:person, t("center.contactperson")) %>:</td>
 		<td class="t"><%= c.text_field :person, { :class => "required validate-alpha" }  %></td>
 	</tr>
 	<tr>
-		<td class="t_i"><%= c.label(:street, "EAN-nr:") %></td>
+		<td class="t_i"><%= c.label(:street, t("center.companynumber")) %>:</td>
 		<td class="t"><%= c.text_field :ean, { :class => "validate-number" }  %></td>
 	</tr>
 	<% end %>

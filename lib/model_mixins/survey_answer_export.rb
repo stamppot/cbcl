@@ -13,7 +13,7 @@ module ModelMixins
 
         self.answer_cells.each_with_index do |cell, i|
           value = cell.value.blank? && '#NULL!' || cell.value
-          if var = get_var(self.question_id, cell.row, cell.col, variables) #Variable.get_by_question(self.question_id, cell.row, cell.col)
+          if var = get_var(self.question_id, cell.row, cell.col, variables)
             cells[var.var.to_sym] = value
           else  # default var name
             answer_type = cell.answer_type

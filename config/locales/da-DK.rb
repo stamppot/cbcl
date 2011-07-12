@@ -83,6 +83,7 @@ I18n.backend.store_translations 'da-DK',
 			:code => 'Centerkode',
     	:address => 'Adresse',
     	:phone => 'Telefon',
+    	:zip => 'Postkode',
     	:city => 'By',
     	:contactperson => 'Kontaktperson',
     	:companynumber => 'EAN-nr'
