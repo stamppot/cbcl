@@ -1,0 +1,16 @@
+<!-- tabs -->
+<ul class="main css-tabs">
+	<li><%= link_to "Info", center_info_url(@group) %></li>
+	<li><%= link_to "Teams", center_team_url(@group) %></li>
+	<li><%= link_to "Brugere", center_user_url(@group) %></li>
+	<li><%= link_to "Journaler", center_journal_url(@group) %></li>
+	<li><%= link_to "Abonnementer", center_subscription_url(@group) %></li>
+</ul>
+
+<div class="main css-panes">
+	<div class="pane" style="display:block"></div>
+</div>
+
+<script>
+$("ul.main.css-tabs").tabs("div.main.css-panes > div.pane", {effect: 'ajax', history: true});
+</script>
