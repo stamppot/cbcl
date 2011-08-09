@@ -4,51 +4,35 @@
 <br>
 
 <div id='draft-message' style='color:red;'></div>
-
-<% if current_user.access? :survey_show_fast_input %>
-<div class="command">
-	<% url = 
-	if @options[:show_only]
-		survey_show_only_path(@survey)
-	else
-		survey_path(@journal_entry)
-	end %>
-	<%= link_button t('survey.input'), url, 'survey_input', :title => 'Besvar med normal indtastning' %>
-</div>
-<% end %>
-
-<br>
+<div id="survey_input" class="command"></div>
+<br/>
 
 <a href='javascript:toggleComments(surveyform)'>Skriv kommentarer</a>
 
 <% unless @options[:action] =~ /show/ %>
-		<form action="/survey_answers/create/<%= @journal_entry.id %>" id="surveyform" method="post" onsubmit="return submitAction;" >
+		<form action="/survey_answers/create/0" id="surveyform" method="post" onsubmit="return submitAction;" >
 <% end %>
 
-	<div>
-		<%= render :partial => "surveys/answer_by" %>
-	</div>
-	<br>
+<div>
+	<%= render :partial => "surveys/answer_by" %>
+</div>
+<br>
+<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
+<div id="submit_button" style="display:none;">
+	<%= render :partial => 'surveys/fancy_submit_button' %>
+</div>
+</form>
 
-	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
-	<div id="submit_button" style="display:none;">
-		<%= render :partial => 'surveys/fancy_submit_button' %>
-	</div>
-	
-	<% unless @options[:action] =~ /show/ %>
-	</form>
+<!-- Put before validation.add -->
+<script type='text/javascript'>
+	var valid = new Validation('surveyform', {immediate : true, stopOnFirst : true, onFormValidate : setFormStatusInWindow});
+</script>
 
-	<!-- Put before validation.add -->
-	<script type='text/javascript'>
-		var valid = new Validation('surveyform', {immediate : true, stopOnFirst : true, onFormValidate : setFormStatusInWindow});
-	</script>
-	
-	<% unless @options[:action] =~ /show|edit/ && !@options[:show_only] %>
-		<%= observe_form "surveyform",
-				 :url => survey_save_draft_path(@journal_entry),
-				 :update => "draft-message",
-				 :frequency => save_draft_interval %>
-	<% end %>
+<% unless @options[:action] =~ /show|edit/ && !@options[:show_only] %>
+	<%= observe_form "surveyform",
+			 :url => survey_save_draft_path(@journal_entry),
+			 :update => "draft-message",
+			 :frequency => save_draft_interval %>
 <% end %>
 
 <p/> <!-- dynamic -->
@@ -62,6 +46,7 @@
 			var val = /([0-9]+)$/;
 	  	var matches = document.location.href.match(val);
 			var params = {};
+			params['show'] = 'fast';
 			params['id'] = matches[1];
 			var save_interval = 60;
 			// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
@@ -79,17 +64,26 @@
 			}
 			get_dynamic_fragments("/survey_answers/dynamic_data", params);
 			// get draft data
-			params['fast'] = true;
-			new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
-			  method: 'post',
-				parameters: params,
-				contentType: "text/javascript",
-				evalJS: true,
-			  onSuccess: function(transport) {
-					eval(transport.responseText);
-					// alert("Yes, I did it!");
-			  }
-			});
+//			alert("params: " + params.inspect().toString());
+			get_draft("/survey_answers/draft_data", params);
+	
+			// 		  new Ajax.Request(url, {
+			// 	parameters: opt,
+			// 		    // contentType: "text/javascript",
+			// 		    // evalJS: true,
+			//   onSuccess: function(transport) { eval(transport.responseText); }
+			// });
+			
+			// new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
+			//   method: 'post',
+			// 	parameters: params,
+			// 	contentType: "text/javascript",
+			// 	evalJS: true,
+			//   onSuccess: function(transport) {
+			// 		eval(transport.responseText);
+			// 		// alert("Yes, I did it!");
+			//   }
+			// });
 
 			// set form action to this journal_entry
 			changeAction('surveyform', '/survey_answers/create/' + params['id']);//matches[1]);
