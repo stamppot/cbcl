@@ -87,9 +87,6 @@ Rails::Initializer.run do |config|
   config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
   
   config.gem "newrelic_rpm"
-
-  # config.gem 'foreigner'
-  # config.gem "sparkfly-foreigner"
   config.gem 'ar-extensions'  
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
