@@ -49,6 +49,15 @@ function get_dynamic_fragments(url, opt) {
 	});
 };
 
+function get_draft(url, opt) {
+  new Ajax.Request(url, {
+		parameters: opt,
+    // contentType: "text/javascript",
+    // evalJS: true,
+	  onSuccess: function(transport) { eval(transport.responseText); }
+	});
+}
+
 function changeAction(formid, actionvalue) {
  	document.getElementById(formid).action = actionvalue;
 }
