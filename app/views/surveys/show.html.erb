@@ -34,7 +34,7 @@ Event.observe(window, 'load', function() {
   	var matches = document.location.href.match(val);
 		var params = {};
 		params['id'] = matches[1];
-		var save_interval = 60;
+		var save_interval = 90;
 		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
 		var journal_entry = document.cookies().get('journal_entry');
 		if(!(typeof(journal_entry) == "undefined")) {
