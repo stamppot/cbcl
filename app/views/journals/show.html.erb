@@ -70,7 +70,7 @@
 						<%= survey.title %></td>
 						<%# link_to survey.title, entry_show_answer_path(entry), :title => 'Vis Besvarelse' %></td>
 						<%# link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
-					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
+					 <td><%= entry.answered_at && entry.answered_at.strftime("%d-%m-%Y") || "Ikke besvaret" %> </td>
 					<td><%= entry.status %></td>
 					 <td>
 						<%= if entry.answered_by
