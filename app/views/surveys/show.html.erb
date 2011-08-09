@@ -14,7 +14,11 @@
 	<script type='text/javascript'>
 	   new Validation('surveyform', {immediate : true, stopOnFirst : true });
 	</script>
-	<div><%= render :partial => "surveys/answer_by" %></div>
+	<div>
+		Udfyldt af <%= select :answer, :person, @survey.answer_by %>
+		Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' />
+	<%# render :partial => "surveys/answer_by" %>
+	</div>
 	<br/>
 	<%= render :partial => "surveys/question", :collection => @survey.questions %>
 	<div id="submit_button" style="display:none;">
