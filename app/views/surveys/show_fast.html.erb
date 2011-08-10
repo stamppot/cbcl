@@ -13,9 +13,7 @@
 		<form action="/survey_answers/create/0" id="surveyform" method="post" onsubmit="return submitAction;" >
 <% end %>
 
-<div>
-	<%= render :partial => "surveys/answer_by" %>
-</div>
+<div><%= render :partial => "surveys/answer_by_fast" %></div>
 <br>
 <%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
 <div id="submit_button" style="display:none;">
