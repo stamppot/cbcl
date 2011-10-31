@@ -93,6 +93,13 @@ class SurveysController < ApplicationController
       redirect_to surveys_path
   end
 
+  def print # TODO: fetch from cache with key survey_1
+    @journal_entry = JournalEntry.find(params[:id])
+    @survey = Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
+    @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.title
+  end
+
+
   def new
     @survey = Survey.new
   end
