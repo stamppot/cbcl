@@ -5,7 +5,9 @@ class StartController < ApplicationController
 		@page_title = "CBCL Spørgeskemaer" 
 		@journal_entry = JournalEntry.find_by_user_id(current_user.id)
 		redirect_to login_path and return if @journal_entry.nil?
-		@survey = @journal_entry.survey
+		@survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}" do
+      Survey.and_questions.find(@survey_answer.survey_id)
+    end
 	end
 
 	def edit
