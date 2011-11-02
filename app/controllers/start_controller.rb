@@ -6,7 +6,7 @@ class StartController < ApplicationController
 		@journal_entry = JournalEntry.find_by_user_id(current_user.id)
 		redirect_to login_path and return if @journal_entry.nil?
 		@survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
-      Survey.and_questions.find(@survey_answer.survey_id)
+      Survey.and_questions.find(@journal_entry.survey_id)
     end
     respond_to do |format|
       format.html 
