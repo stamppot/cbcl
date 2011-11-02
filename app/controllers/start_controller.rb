@@ -10,7 +10,7 @@ class StartController < ApplicationController
     end
     respond_to do |format|
       format.html 
-      format.html { redirect_to survey_start_path(:format => 'html')}
+      format.html { redirect_to survey_start_path and return}
     end
 	end
 
