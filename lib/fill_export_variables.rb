@@ -4,6 +4,11 @@ require 'ar-extensions/import/mysql'
 
 class FillExportVariables
   
+  def generate_export_variables_answer(survey_answer)
+    vars = Variable.for_survey(survey_answer.survey_id).all
+    fill_all_tables([survey_answer], vars)
+  end
+  
   def fill_journal_infos
     columns = %w{journal_id ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt pkoen_datatype palder_datatype pnation_datatype dagsdato_datatype pfoedt_datatype}
     numeric, string, date = 0, 1, 2
@@ -16,12 +21,7 @@ class FillExportVariables
     ExportJournalInfo.import(columns, [journal.info.values], :on_duplicate_key_update => [:dags_dato])
     updated_cells_no = AnswerCell.import(:on_duplicate_key_update => [:value, :value_text])
   end
-  
-  def generate_export_variables_answer(survey_answer)
-    vars = Variable.for_survey(survey_answer.survey_id).all
-    fill_all_tables([survey_answer], vars)
-  end
-    
+      
   def fill_all_tables(survey_answers = nil, variables = nil)
     variables ||= Variable.all
     variables_by_survey_id = variables.group_by {|v| v.survey_id}

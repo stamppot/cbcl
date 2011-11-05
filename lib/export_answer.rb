@@ -35,6 +35,8 @@ class ExportAnswer
     results
   end
 
+  private
+  
   def self.prepare_variables(survey)
     vars = Variable.for_survey(1).all
     var_map = vars.inject({}) { |col, v| col[v.var.to_sym] = v.datatype; col}
