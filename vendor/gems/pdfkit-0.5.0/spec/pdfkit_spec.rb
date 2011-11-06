@@ -105,6 +105,36 @@ describe PDFKit do
       pdfkit.command[pdfkit.command.index('"--page-size"') + 1].should == '"Legal"'
       pdfkit.command[pdfkit.command.index('"--orientation"') + 1].should == '"Landscape"'
     end
+
+    it "should detect special pdfkit meta tags despite bad markup" do
+      body = %{
+        <html>
+          <head>
+            <meta name="pdfkit-page_size" content="Legal"/>
+            <meta name="pdfkit-orientation" content="Landscape"/>
+          </head>
+          <br>
+        </html>
+      }
+      pdfkit = PDFKit.new(body)
+      pdfkit.command[pdfkit.command.index('"--page-size"') + 1].should == '"Legal"'
+      pdfkit.command[pdfkit.command.index('"--orientation"') + 1].should == '"Landscape"'
+    end
+
+    it "should skip non-pdfkit meta tags" do
+      body = %{
+        <html>
+          <head>
+            <meta name="test-page_size" content="Legal"/>
+            <meta name="pdfkit-orientation" content="Landscape"/>
+          </head>
+          <br>
+        </html>
+      }
+      pdfkit = PDFKit.new(body)
+      pdfkit.command[pdfkit.command.index('"--orientation"') + 1].should == '"Landscape"'
+    end
+
   end
 
   context "#to_pdf" do
@@ -148,6 +178,15 @@ describe PDFKit do
       pdfkit.stylesheets << css
       lambda { pdfkit.to_pdf }.should raise_error(PDFKit::ImproperSourceError)
     end
+
+    it "should be able to deal with ActiveSupport::SafeBuffer" do
+      pdfkit = PDFKit.new(ActiveSupport::SafeBuffer.new "<html><head></head><body>Hai!</body></html>")
+      css = File.join(SPEC_ROOT,'fixtures','example.css')
+      pdfkit.stylesheets << css
+      pdfkit.to_pdf
+      pdfkit.source.to_s.should include("<style>#{File.read(css)}</style></head>")
+    end
+
   end
 
   context "#to_file" do
@@ -165,6 +204,15 @@ describe PDFKit do
       file = pdfkit.to_file(@file_path)
       file.should be_instance_of(File)
       File.read(file.path)[0...4].should == "%PDF" # PDF Signature at beginning of file
+    end
+
+    it "should not truncate data (in Ruby 1.8.6)" do
+      file_path = File.join(SPEC_ROOT,'fixtures','example.html')
+      pdfkit = PDFKit.new(File.new(file_path))
+      pdf_data = pdfkit.to_pdf
+      file = pdfkit.to_file(@file_path)
+      file_data = open(@file_path, 'rb') {|io| io.read }
+      pdf_data.size.should == file_data.size
     end
   end
 

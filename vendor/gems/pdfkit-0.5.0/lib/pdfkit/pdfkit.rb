@@ -61,7 +61,7 @@ class PDFKit
     args = command(path)
     invoke = args.join(' ')
 
-    result = IO.popen(invoke, "w+") do |pdf|
+    result = IO.popen(invoke, "wb+") do |pdf|
       pdf.puts(@source.to_s) if @source.html?
       pdf.close_write
       pdf.gets(nil)
@@ -79,23 +79,19 @@ class PDFKit
 
   protected
 
-    def find_options_in_meta(body)
-      pdfkit_meta_tags(body).inject({}) do |found, tag|
-        name = tag.attributes["name"].sub(/^#{PDFKit.configuration.meta_tag_prefix}/, '').to_sym
-        found.merge(name => tag.attributes["content"])
-      end
-    end
+    def find_options_in_meta(content)
+      # Read file if content is a File
+      content = content.read if content.is_a?(File)
 
-    def pdfkit_meta_tags(body)
-      require 'rexml/document'
-      xml_body = REXML::Document.new(body)
-      found = []
-      xml_body.elements.each("html/head/meta") do |tag|
-        found << tag if tag.attributes['name'].to_s =~ /^#{PDFKit.configuration.meta_tag_prefix}/
+      found = {}
+      content.scan(/<meta [^>]*>/) do |meta|
+        if meta.match(/name=["']#{PDFKit.configuration.meta_tag_prefix}/)
+          name = meta.scan(/name=["']#{PDFKit.configuration.meta_tag_prefix}([^"']*)/)[0][0]
+          found[name.to_sym] = meta.scan(/content=["']([^"']*)/)[0][0]
+        end
       end
+
       found
-    rescue # rexml random crash on invalid xml
-      []
     end
 
     def style_tag_for(stylesheet)
@@ -107,7 +103,7 @@ class PDFKit
 
       stylesheets.each do |stylesheet|
         if @source.to_s.match(/<\/head>/)
-          @source.to_s.gsub!(/(<\/head>)/, style_tag_for(stylesheet)+'\1')
+          @source = Source.new(@source.to_s.gsub(/(<\/head>)/, style_tag_for(stylesheet)+'\1'))
         else
           @source.to_s.insert(0, style_tag_for(stylesheet))
         end

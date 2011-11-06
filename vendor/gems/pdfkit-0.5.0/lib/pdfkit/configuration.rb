@@ -1,6 +1,6 @@
 class PDFKit
   class Configuration
-    attr_accessor :meta_tag_prefix, :default_options
+    attr_accessor :meta_tag_prefix, :default_options, :root_url
     attr_writer :wkhtmltopdf
 
     def initialize
@@ -17,7 +17,7 @@ class PDFKit
     end
 
     def wkhtmltopdf
-      @wkhtmltopdf ||= `which wkhtmltopdf`.chomp
+      @wkhtmltopdf ||= (defined?(Bundler::GemfileError) ? `bundle exec which wkhtmltopdf` : `which wkhtmltopdf`).chomp
     end
   end
 

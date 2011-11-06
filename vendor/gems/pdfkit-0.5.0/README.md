@@ -1,6 +1,6 @@
 # PDFKit
 
-Create PDFs using plain old HTML+CSS. Uses [wkhtmltopdf](http://github.com/antialize/wkhtmltopdf) on the backend which renders HTML using Webkit.
+Create PDFs using plain old HTML+CSS. Uses [wkhtmltopdf](http://github.com/antialize/wkhtmltopdf) on the back-end which renders HTML using Webkit.
 
 ## Install
 
@@ -10,11 +10,11 @@ Create PDFs using plain old HTML+CSS. Uses [wkhtmltopdf](http://github.com/antia
 
 ### wkhtmltopdf
 
-1. Install by hand (recomended):
+1. Install by hand (recommended):
 
-        https://github.com/jdpace/PDFKit/wiki/Installing-WKHTMLTOPDF
+    <https://github.com/jdpace/PDFKit/wiki/Installing-WKHTMLTOPDF>
 
-2. Try using the wkhtmltopdf-binary gem (mac + linux i386)
+2.  Try using the wkhtmltopdf-binary gem (mac + linux i386)
 
         gem install wkhtmltopdf-binary
 
@@ -47,11 +47,12 @@ If you're on Windows or you installed wkhtmltopdf by hand to a location other th
 
     # config/initializers/pdfkit.rb
     PDFKit.configure do |config|
-      config.wkhtmltopdf = '/path/to/wkhtmltopdf'
-      config.default_options = {
-        :page_size => 'Legal',
-        :print_media_type => true
-      }
+      # config.wkhtmltopdf = '/path/to/wkhtmltopdf'
+      # config.default_options = {
+      #   :page_size => 'Legal',
+      #   :print_media_type => true
+      # }
+      # config.root_url = "http://localhost" # Use only if your external hostname is unavailable on the server.
     end
 
 ## Middleware
@@ -79,7 +80,7 @@ PDFKit comes with a middleware that allows users to get a PDF view of any page o
 
 **With conditions to limit routes that can be generated in pdf**
 
-    # conditions can be regexes (either one or an array)
+    # conditions can be regexps (either one or an array)
     config.middleware.use PDFKit::Middleware, {}, :only => %r[^/public]
     config.middleware.use PDFKit::Middleware, {}, :only => [%r[^/invoice], %r[^/public]]
 
@@ -87,10 +88,16 @@ PDFKit comes with a middleware that allows users to get a PDF view of any page o
     config.middleware.use PDFKit::Middleware, {}, :only => '/public'
     config.middleware.use PDFKit::Middleware, {}, :only => ['/invoice', '/public']
 
+    # conditions can be regexps (either one or an array)
+    config.middleware.use PDFKit::Middleware, {}, :except => [%r[^/prawn], %r[^/secret]]
+
+    # conditions can be strings (either one or an array)
+    config.middleware.use PDFKit::Middleware, {}, :except => ['/secret']
+
 ## Troubleshooting
 
-*  **Single thread issue:** In development environments it is common to run a 
-   single server process. This can cause issues when rendering your pdf 
+*  **Single thread issue:** In development environments it is common to run a
+   single server process. This can cause issues when rendering your pdf
    requires wkhtmltopdf to hit your server again (for images, js, css).
    This is because the resource requests will get blocked by the initial
    request and the initial request will be waiting on the resource
@@ -101,16 +108,15 @@ PDFKit comes with a middleware that allows users to get a PDF view of any page o
    like Passenger or try to embed your resources within your HTML to
    avoid extra HTTP requests.
 
-*  **Resources aren't included in the PDF:** Images, CSS, or Javascript
+*  **Resources aren't included in the PDF:** Images, CSS, or JavaScript
    does not seem to be downloading correctly in the PDF. This is due
    to the fact that wkhtmltopdf does not know where to find those files.
    Make sure you are using absolute paths (start with forward slash) to
-   your resources. If you are using PDFKit to generate pdfs from a raw
-   HTML source make sure you use complete paths (either file paths or 
-   urls including the domain).
-
-## TODO
- - add amd64 support in --install-wkhtmltopdf
+   your resources. If you are using PDFKit to generate PDFs from a raw
+   HTML source make sure you use complete paths (either file paths or
+   urls including the domain). In restrictive server environments the
+   root_url configuration may be what you are looking for change your
+   asset host.
 
 ## Note on Patches/Pull Requests
 
