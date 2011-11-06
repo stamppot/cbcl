@@ -236,3 +236,19 @@ class Fixnum
     str
   end
 end
+
+def cache_fetch(key, options = {}, &block)
+  if Rails.env.production? 
+    Rails.cache.fetch key, options, &block
+  else
+    yield
+  end
+end
+
+def time(description = "")
+  t = Time.now
+  result = yield
+  e = Time.now
+  puts "#{description} took #{e-t}"
+  result
+end
