@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :centers
   map.resources :teams
   map.resources :journals
+  map.resources :journal_entries, :only => [:show]
   map.resources :export_files
   map.resources :exports
   map.resources :faqs
@@ -105,6 +106,7 @@ ActionController::Routing::Routes.draw do |map|
   map.journal_remove_survey '/journals/remove_survey/:id', :controller => 'journals', :action => 'remove_survey'
 
   # journal entries
+  map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
   map.entry_remove 'journal_entries/remove/:id', :controller               => 'journal_entries', :action => 'remove', :only => :post
   map.entry_remove_answer 'journal_entries/remove_answer/:id', :controller => 'journal_entries', :action => 'remove_answer', :only => :post
   map.login_letter 'letters/show_login/:id', :controller                   => 'letters', :action => 'show_login'
