@@ -3,36 +3,37 @@ class SurveyAnswersController < ApplicationController
   layout 'survey', :only  => [ :show, :show_fast, :edit ]
 	layout 'survey_print', :only => [ :print ]
 
-  def show
-		self.expires_in 2.months.from_now
-		@options = {:show_all => true, :action => "create"}
-		survey_id = params[:id]
-    params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
-  	cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
-    journal_entry = JournalEntry.find(params[:id])
-    @survey = Rails.cache.fetch("survey_#{survey_id}") do  
-      Survey.find(survey_id)
-    end
-    @page_title = @survey.title
-    rescue ActiveRecord::RecordNotFound
-  end	
+  # caching, do not use
   # def show
-  #   @options = {:answers => true, :disabled => false, :action => "show"}
-  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-  #   @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-  #   @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-  #     Survey.and_questions.find(@survey_answer.survey_id)
+  #     self.expires_in 2.months.from_now
+  #     @options = {:show_all => true, :action => "create"}
+  #     survey_id = params[:id]
+  #   params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
+  #   cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+  #   journal_entry = JournalEntry.find(params[:id])
+  #   @survey = cache_fetch("survey_#{survey_id}") do  
+  #     Survey.find(survey_id)
   #   end
-  #   @survey.merge_survey_answer(@survey_answer)
-  #   @page_title = "CBCL - Vis Svar: " << @survey.title
-  #     render :template => 'surveys/show'
-  # end
+  #   @page_title = @survey.title
+  #   rescue ActiveRecord::RecordNotFound
+  # end 
+  def show
+    @options = {:answers => true, :disabled => false, :action => "show"}
+    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+      Survey.and_questions.find(@survey_answer.survey_id)
+    end
+    @survey.merge_survey_answer(@survey_answer)
+    @page_title = "CBCL - Vis Svar: " << @survey.title
+      render :template => 'surveys/show'
+  end
   
   def show_fast
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
@@ -44,7 +45,7 @@ class SurveyAnswersController < ApplicationController
     @options = {:answers => true, :show_all => true, :action => "edit"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
@@ -86,6 +87,7 @@ class SurveyAnswersController < ApplicationController
           render :update do |page|
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+            page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
             page.show 'submit_button'
           end

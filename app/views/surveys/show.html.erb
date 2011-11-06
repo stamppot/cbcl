@@ -1,7 +1,5 @@
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
-<div id="survey_header">
 	<%= render :partial => 'surveys/survey_header' %>
-</div>
 <br/>
 
 <div id='draft-message' style='color:red;'></div>
@@ -51,16 +49,16 @@ Event.observe(window, 'load', function() {
 			new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
 			//]]>
 		}
-		new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
-		  method: 'post',
-			parameters: params,
-			contentType: "text/javascript",
-			evalJS: true,
-		  onSuccess: function(transport) {
-				eval(transport.responseText);
-				// alert("Yes, I did it!");
-		  }
-		});
+		// new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
+		//   method: 'post',
+		// 	parameters: params,
+		// 	contentType: "text/javascript",
+		// 	evalJS: true,
+		//   onSuccess: function(transport) {
+		// 		eval(transport.responseText);
+		// 		// alert("Yes, I did it!");
+		//   }
+		// });
 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
 		
 		// set form action to this journal_entry

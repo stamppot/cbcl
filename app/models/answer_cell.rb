@@ -70,18 +70,14 @@ class AnswerCell < ActiveRecord::Base
 		self.value_text || self.value
 	end
 
-	def html_value_id(fast = false)
-		if rating && fast
-			"q#{answer.number}_#{row}_#{col}"
-		elsif rating
-		  puts "POSITION: row, col: #{row}, #{col} position: #{position}" if !position
-			"q#{answer.number}_#{row}_#{col}" << (!position ? "" : "_#{position}")
-    # elsif answer_type == "SelectOption"
-    #   "Q#{answer.number}_q#{answer.number}_#{row}_#{col}"
-		else
-			"q#{answer.number}_#{row}_#{col}"
-		end
-	end
+  def html_value_id(fast = false)
+    if rating
+      # puts "HTML_VALUE position #{position}"
+      "q#{answer.number}_#{row}_#{col}_#{position-1}"
+    else
+      "q#{answer.number}_#{row}_#{col}"
+    end
+  end
 	
 	def javascript_set_value(fast = false)
 		return "" if fast && value == 9 || value.blank?

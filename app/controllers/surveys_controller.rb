@@ -39,35 +39,89 @@ class SurveysController < ApplicationController
     @page_title = @survey.title
     render :template => 'surveys/show_fast', :layout => "layouts/survey_fast"
   end
-  
-  # 25-2 Changed to use params[:id] for journal_entry. Survey is found here. This means that survey can only be shown thru journal_entries
-  def show                                  # 11-2 it's fastest to preload all needed objects
-    @options = {:show_all => true, :action => "create"}
-    if current_user.login_user && (journal_entry = cookies[:journal_entry])
-      params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
-    end
-    cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
-    
-    @journal_entry = JournalEntry.find(params[:id])
-    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-      Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
-    end
-    @page_title = @survey.title
 
-    # show survey with existing answers
-    # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-    if survey_answer = @journal_entry.survey_answer 
-      @survey.merge_survey_answer(survey_answer)
-    end
-    puts "SURVEY_CONTROLLER #{session[:rbac_user_id]}"
+  def show
+     @options = {:show_all => true, :action => "create"}
+     if current_user.login_user && (journal_entry = cookies[:journal_entry])
+       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+     end
+     cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+     
+     @is_login_user = current_user.login_user?
+     @journal_entry = JournalEntry.find(params[:id])
+     @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
+       Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
+     end
+     @page_title = @survey.title
 
-    rescue ActiveRecord::RecordNotFound
-  end
+     # show survey with existing answers
+     # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
+     if survey_answer = @journal_entry.survey_answer 
+       @survey.merge_survey_answer(survey_answer)
+     end
 
+     rescue ActiveRecord::RecordNotFound
+   end
+
+  # caching method, do not use yet
+  # def show
+  #     self.expires_in 2.months.from_now
+  #     @options = {:show_all => true, :action => "create"}
+  #     survey_id = params[:id]
+  #   params[:id] &&= cookies["journal_entry"] # journal_entry_id is stored in cookie. all users access survey with survey_id for caching
+  #   cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+  # 
+  #   journal_entry = JournalEntry.find(params[:id])
+  #   @survey = cache_fetch("survey_#{survey_id}") do  
+  #     Survey.find(survey_id)
+  #   end
+  #   
+  #   @page_title = @survey.title
+  # 
+  #   rescue ActiveRecord::RecordNotFound
+  # end
+
+  # caching method, do not work yet!! (filling of values with javascript does not work)
+  # def show_fast
+  #   puts "Surveys/fast/#{params[:id]} (#{cookies["journal_entry"]})"
+  #   @options = {:action => "create", :hidden => true}
+  #     survey_id = params[:id]
+  #     params[:id] &&= cookies["journal_entry"]
+  #   @journal_entry = JournalEntry.find(params[:id]) 
+  #   @survey = cache_fetch("survey_entry_#{@journal_entry.id}") { Survey.and_questions.find(@journal_entry.survey_id) }
+  #   @page_title = @survey.title
+  # 
+  #   @survey_answer = nil
+  #   if @journal_entry.survey_answer.nil?  # survey_answer not created before
+  #     journal = @journal_entry.journal
+  #     @survey_answer = SurveyAnswer.create(:survey_id => @survey.id, :age => journal.age, :sex => journal.sex_text, :journal => journal,
+  #         :surveytype => @survey.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry, :center_id => journal.center_id)
+  #     @survey_answer.journal_entry = @journal_entry
+  #   else  # survey_answer was started/created, so a draft is saved
+  #     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+  #   end
+  #   unless @journal_entry.survey_answer
+  #     @journal_entry.survey_answer = @survey_answer
+  #     @journal_entry.save
+  #   end
+  #   render :layout => "layouts/survey_fast"
+  #   
+  #   rescue ActiveRecord::RecordInvalid
+  #     @journal_entry.valid?
+  #     @survey_answer.valid?
+  #     puts "INVALID: #{@journal_entry.errors.inspect}"
+  #     puts  "SurveyAnswer: #{@survey_answer.errors.inspect}"
+  #     # throw ActiveRecord::RecordInvalid(@journal_entry)
+  #   rescue ActiveRecord::RecordNotFound
+  #     flash[:error] = "Kunne ikke finde skema for journal."
+  #     redirect_to surveys_path
+  # end
+
+  # non-caching method
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true}
     @journal_entry = JournalEntry.find(params[:id]) 
-    @survey = Rails.cache.fetch("survey_entry_#{@journal_entry.id}") do
+    @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     end
     @page_title = @survey.title
@@ -158,7 +212,7 @@ class SurveysController < ApplicationController
       elsif current_user.access? :superadmin # don't do check for superadmin
         true
       else
-        journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
+        journal_entry_ids = cache_fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
           current_user.journal_entry_ids
         end
         journal_entry_ids.include?(id)

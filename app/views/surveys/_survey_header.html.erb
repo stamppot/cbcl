@@ -1,16 +1,21 @@
-<%- if @journal_entry %>
+<%- if @is_login_user %>
+<div id="survey_header">
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
 			<% render :partial => 'surveys/survey_header_info' %>
 		</div>
 		<div class="surveyname"><%= @survey.title %></div>
 	</div>
+</div>
 <%- else %>
-	<%= back_button surveys_path %>
+<%# back_button journal_path(@journal_entry) %>
+<div id="back_button"></div>
+<div id="survey_header">
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
-			<div class="surveyname"><%= @survey.title %></div>
-			<div class="surveyinfo"><b>Antal sp&oslash;rgsm&aring;l:</b> <%= @survey.no_questions %></div>
+			<div class="surveyinfo"></div>
 		</div>
+		<div class="surveyname"><%= @survey.title %></div>
 	</div>
+</div>
 <%- end %>
