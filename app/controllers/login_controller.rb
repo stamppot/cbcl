@@ -74,11 +74,11 @@ class LoginController < ApplicationController
       redirect_to main_url and return
     end
 
-		# delete login_user
-    if current_user.login_user
-			journal_entry = JournalEntry.find_by_user_id(current_user.id)
-			 journal_entry.login_user.destroy
-		end
+		# delete login_user # 12-8-11 do not delete login_user
+    #     if current_user.login_user
+    #   journal_entry = JournalEntry.find_by_user_id(current_user.id)
+    #    journal_entry.login_user.destroy
+    # end
     # Otherwise delete the user from the session
 		self.remove_user_from_session!
     cookies.delete :journal_entry

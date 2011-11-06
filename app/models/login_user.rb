@@ -3,13 +3,7 @@
 class LoginUser < User
   
   default_scope :order => 'id DESC'
-  
-  
-  # does not work, since association is broken
-  # def journal1
-  #   self.journal_entry.journal
-  # end
-  
+
   def journal
     self.all_groups.select { |group| group.instance_of? Journal }.first
   end
@@ -24,6 +18,17 @@ class LoginUser < User
   
   def survey_answer
     self.journal_entry.survey_answer
+  end
+
+  def self.create_params(center_name, login_number, email = nil)
+    login = "#{center_name}-#{login_number}"
+    email ||= "#{login}@#{center_name}.dk"
+    return { :login => login,
+      :name => login,
+      :email => email,
+      :state => 2,
+      :login_user => true
+    }
   end
   
 end

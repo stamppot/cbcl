@@ -2,20 +2,33 @@ class SurveyAnswersController < ApplicationController
   layout 'cbcl', :except => [ :show, :show_fast ]
   layout 'survey', :only  => [ :show, :show_fast, :edit ]
 	layout 'survey_print', :only => [ :print ]
-	
+
   def show
-    @options = {:answers => true, :disabled => false, :action => "show"}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
+		self.expires_in 2.months.from_now
+		@options = {:show_all => true, :action => "create"}
+		survey_id = params[:id]
+    params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
+  	cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+    journal_entry = JournalEntry.find(params[:id])
+    @survey = Rails.cache.fetch("survey_#{survey_id}") do  
+      Survey.find(survey_id)
     end
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.title
-		render :template => 'surveys/show'
-  end
+    @page_title = @survey.title
+    rescue ActiveRecord::RecordNotFound
+  end	
+  # def show
+  #   @options = {:answers => true, :disabled => false, :action => "show"}
+  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+  #   @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+  #   @survey = Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+  #     Survey.and_questions.find(@survey_answer.survey_id)
+  #   end
+  #   @survey.merge_survey_answer(@survey_answer)
+  #   @page_title = "CBCL - Vis Svar: " << @survey.title
+  #     render :template => 'surveys/show'
+  # end
   
-  def show_fast # show_answer_fast
+  def show_fast
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
@@ -27,7 +40,7 @@ class SurveyAnswersController < ApplicationController
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
   end
 
-  def edit  # was: change_answer
+  def edit
     @options = {:answers => true, :show_all => true, :action => "edit"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
@@ -48,7 +61,6 @@ class SurveyAnswersController < ApplicationController
     # end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Udskriv Svar: " << @survey.title
-    render :content_type => 'application/pdf'
   end
 
   # updates survey page with dynamic data. Consider moving to separate JavascriptsController
@@ -74,7 +86,6 @@ class SurveyAnswersController < ApplicationController
           render :update do |page|
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
-            page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
             page.show 'submit_button'
           end
@@ -90,6 +101,25 @@ class SurveyAnswersController < ApplicationController
       end
     end
   end
+  
+  def draft_data
+    # puts "GET_DRAFT_DATA #{params.inspect}"
+		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+		show_fast = params[:fast] || false
+
+		@response = if journal_entry.survey_answer
+			all_answer_cells = journal_entry.survey_answer.add_value_positions
+			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
+		end || ""
+    # puts "RESPONSE: #{@response}"
+		respond_to do |format|
+			format.js {
+				render :update do |page|
+					page << @response.to_s
+				end
+			}
+		end
+	end
   
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])

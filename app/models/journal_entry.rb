@@ -65,11 +65,7 @@ class JournalEntry < ActiveRecord::Base
     subscription.copy_used!
     self.save    # saves objects
   end
-  
-  # def create_login_user
-  #   self.login_user = LoginUser.build_login_user(self)
-  # end
-  
+    
   def status
     JournalEntry.states.invert[self.state]
   end
@@ -84,18 +80,17 @@ class JournalEntry < ActiveRecord::Base
   end
 
   def answered?
-    self.state == JournalEntry.states['Elektronisk'] || self.state != JournalEntry.states['Papir']  
-  end
-  
-  def answered!
+    (self.state == JournalEntry.states['Elektronisk'] || self.state == JournalEntry.states['Papir']) &&
+    (self.state != JournalEntry.states['Ubesvaret'] || self.state != JournalEntry.states['Sendt ud'] || self.state != JournalEntry.states['Venter'])
+  end                                   
+                                        
+  def answered!                           
     self.state = JournalEntry.states['Elektronisk']  
-		puts "answered! #{self.state}"
     self.save!
   end
 
   def answered_paper!
     self.state = JournalEntry.states['Papir']  
-		puts "answered_paper! #{self.state}"
     self.save!
   end
 
@@ -167,9 +162,10 @@ class JournalEntry < ActiveRecord::Base
        }
   end
   
-  def make_login_user #(journal_entry)
-    params = self.journal.center.login_name_params #(:prefix => self.journal.center.title)
-    pw = PasswordService.generate_password
+  def make_login_user(login_number, password = nil)
+    center_name = self.journal.center.login_center_name
+    params = LoginUser.create_params(center_name, login_number)
+    pw = password && {:password => password, :password_confirmation => password} || PasswordService.generate_password
     login_user = LoginUser.new(params)
     # set protected fields explicitly
     login_user.center_id = self.journal.center_id

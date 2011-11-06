@@ -23,6 +23,8 @@ class PasswordService
     "fut", "tut", "rat", "rut", "ret", "tast", "sub", "til", "told", "tran", "fup", "prop", "top", "tap", "stop",
     "stub", "stil", "stip", "spol", "spul", "brak", "nok", "kok", "kik", "ting", "tom", "bat", "bot", "bit",
     "nat", "dag", "hov", "hof", "bim", "bam", "bom", "bob", "bib", "bip", "pift", "fif", "nip", "nap", "nop",
-    "nup", "flip", "flap", "flop", "sne", "slud", "vind", "vejr", "vip", "vap" ]
+    "nup", "flip", "flap", "flop", "sne", "slud", "vind", "vejr", "vip", "vap",
+    "stav", "stap", "stip", "step", "gren", "bro", "gro", "kro", "krog", "tur", "tus", "bly", "ilt",
+    "nul", "en", "to", "tre", "fire", "fem", "seks", "syv", "otte", "ni", "ti", "tolv" ]
 
 end
