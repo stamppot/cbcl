@@ -152,6 +152,20 @@ class Hash
   def <<(hash={})
     merge! hash
   end
+
+  def each_path
+    raise ArgumentError unless block_given?
+    self.class.each_path( self ) { |path, object| yield path, object }
+  end
+
+  protected
+  def self.each_path(object, path = '', &block )
+    if object.is_a?( Hash ) then object.each do |key, value|
+        self.each_path value, "#{ path }#{ key }/", &block
+      end
+    else yield path, object
+    end
+  end
 end
 
 #example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
@@ -273,5 +287,18 @@ class Fixnum
     (str << "IV"; value = value - 4) while (value >= 4)
     (str << "I"; value = value - 1) while (value >= 1)
     str
+  end
+end
+
+def cache_fetch(key, time_expire = 0)
+  if ENV["RAILS_ENV"] == 'development' && !CACHE_DEVELOPMENT
+    yield
+  else
+    # CACHE.fetch(key, time_expire){yield} #this is the old way
+    unless output = CACHE.get(key)
+      output = yield
+      CACHE.set(key, output, time_expire)
+    end
+    return output
   end
 end
