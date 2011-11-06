@@ -12,7 +12,6 @@ $(document).ready(function() {
 });
 </script>
 
-<%# cache "start_#{@survey}" do %>
 <h2>Velkommen til CBCL</h2>
 <p>
 Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start. Når du er færdig skal du trykke på 'Send svar'-knappen.
@@ -26,4 +25,3 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 
 <br>
 <%= link_button t('finish'), logout_path, 'logout', :format => 'html', :title => 'Log ud af systemet' %>
-<%# end %>

@@ -41,11 +41,11 @@ class Question < ActiveRecord::Base
       a_cells = answer.rows_of_cols
       a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
         cols.each_pair do |col, cell|
-                                        if a_cells[row][col].text?
-                                                q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text) || CGI.unescape(a_cells[row][col].value)
-                                        else
-                q_cells[row][col].value = a_cells[row][col].value.to_s || "" #if q_cells[row][col].eql_cell?(a_cells[row][col])
-                                        end
+          if a_cells[row][col].text?
+            q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text) || CGI.unescape(a_cells[row][col].value)
+          else
+            q_cells[row][col].value = a_cells[row][col].value.to_s || "" #if q_cells[row][col].eql_cell?(a_cells[row][col])
+          end
         end
       end
       return q_cells
@@ -69,7 +69,6 @@ class Question < ActiveRecord::Base
   #     return a_cells
   #   end
   # end
-
 
     
   def get_answertype(row, col)

@@ -2,6 +2,7 @@ class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
   layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
+	layout 'survey_print', :only => [ :print ]
 
   caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last; entry =~ /journal_entry=(\d+)/ }
   
@@ -93,10 +94,10 @@ class SurveysController < ApplicationController
       redirect_to surveys_path
   end
 
-  def print # TODO: fetch from cache with key survey_1
-    @survey = Survey.and_questions.find(params[:id])
-    @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.title
-  end
+  # def print # TODO: fetch from cache with key survey_1
+  #   @survey = Survey.and_questions.find(params[:id])
+  #   @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.title
+  # end
 
 
   def new

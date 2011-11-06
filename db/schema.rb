@@ -103,11 +103,6 @@ ActiveRecord::Schema.define(:version => 19) do
   add_index "csv_answers", ["journal_id"], :name => "index_csv_answers_on_journal_id"
   add_index "csv_answers", ["survey_id"], :name => "index_csv_answers_on_survey_id"
 
-  create_table "engine_schema_info", :id => false, :force => true do |t|
-    t.string  "engine_name"
-    t.integer "version"
-  end
-
   create_table "export_files", :force => true do |t|
     t.string   "filename"
     t.string   "content_type"
@@ -2660,11 +2655,6 @@ ActiveRecord::Schema.define(:version => 19) do
   add_index "person_infos", ["delta"], :name => "index_person_infos_on_delta"
   add_index "person_infos", ["journal_id"], :name => "index_person_infos_on_journal_id"
 
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
-  end
-
   create_table "posts", :force => true do |t|
     t.string   "title"
     t.text     "body"
@@ -2820,11 +2810,6 @@ ActiveRecord::Schema.define(:version => 19) do
 
   add_index "scores_surveys", ["score_id"], :name => "index_scores_surveys_on_score_id"
   add_index "scores_surveys", ["survey_id"], :name => "index_scores_surveys_on_survey_id"
-
-  create_table "sph_counter", :id => false, :force => true do |t|
-    t.integer "last_id",                  :null => false
-    t.string  "table_name", :limit => 50, :null => false
-  end
 
   create_table "static_permissions", :force => true do |t|
     t.string    "identifier", :limit => 50,  :default => "", :null => false
