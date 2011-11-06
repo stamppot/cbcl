@@ -1,0 +1,31 @@
+<%= back_button code_books_path %>
+<h3><%= @code_book.title %></h3>
+
+<table>
+  <th>Spg.</th>
+  <th>Item</th>
+  <th>Variabel</th>
+  <th>Beskrivelse</th>
+  <th>Datatype</th>
+  <th>Svar</th>
+  <th>Kode</th>
+  <th>Label</th>
+  <% puts @view.inspect %>
+  <% @view.each do |line| %>
+  <tr>
+		<% rowspan = line[:no_options].succ %>
+    <td rowspan='<%= rowspan %>'><%= line[:question] %></td>
+    <td rowspan='<%= rowspan %>'><%= line[:item] %></td>
+    <td rowspan='<%= rowspan %>'><%= line[:variable] %></td>
+    <td rowspan='<%= rowspan %>'><%= line[:description] %></td>
+    <td rowspan='<%= rowspan %>'><%= line[:datatype] %></td>
+    <% line[:options].each do |option| %>
+    <tr>
+    <td><%= option[:option] %></td>
+    <td><%= option[:code] %></td>
+    <td><%= option[:label] %></td>
+    </tr>
+    <% end %>
+  </tr>
+  <% end %>
+</table>
