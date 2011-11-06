@@ -22,6 +22,10 @@ config.action_mailer.raise_delivery_errors = false
 # config.log_level = :error
 ActionController::Base.consider_all_requests_local = false
 
+CACHE_DEVELOPMENT = false
+config.action_controller.perform_caching = false
+config.cache_classes = false
+
 # config.after_initialize do
 #   Bullet.enable = true 
 #   Bullet.alert = true
