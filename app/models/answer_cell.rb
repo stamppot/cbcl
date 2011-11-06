@@ -13,6 +13,7 @@ class AnswerCell < ActiveRecord::Base
   named_scope :items, :conditions => ["item != ? ", ""]
   
   attr_accessor :variable_name
+  attr_accessor :position
 
   def change_value(new_value, valid_values = {})
     new_value = new_value || ""
@@ -69,7 +70,30 @@ class AnswerCell < ActiveRecord::Base
 		self.value_text || self.value
 	end
 
-		
+	def html_value_id(fast = false)
+		if rating && fast
+			"q#{answer.number}_#{row}_#{col}"
+		elsif rating
+		  puts "POSITION: row, col: #{row}, #{col} position: #{position}" if !position
+			"q#{answer.number}_#{row}_#{col}" << (!position ? "" : "_#{position}")
+    # elsif answer_type == "SelectOption"
+    #   "Q#{answer.number}_q#{answer.number}_#{row}_#{col}"
+		else
+			"q#{answer.number}_#{row}_#{col}"
+		end
+	end
+	
+	def javascript_set_value(fast = false)
+		return "" if fast && value == 9 || value.blank?
+		result = if rating || self.answer_type == "Checkbox"
+			"$('#{html_value_id(fast)}').checked = #{value != 9};"
+		else
+			"$('#{html_value_id(fast)}').value = #{value};"
+		end
+    # puts "JAVASCRIPT_SET_VALUE: #{result}"
+		result
+	end
+	
   # 
   # def to_xml
   #   r = []

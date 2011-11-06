@@ -235,6 +235,31 @@ class Answer < ActiveRecord::Base
   #   end if self.survey_answer.done
   #   new_cells
   # end
+
+	def add_value_positions
+		puts "ANSWER.add_value_positions"
+		q_cells = self.question.rows_of_cols
+		a_cells = self.rows_of_cols
+		puts "add_value_pos size #{a_cells.size}"
+		a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
+			cols.each_pair do |col, cell|
+				if !cell.value.blank?
+					pos_arr = q_cells[row][col].value_to_text
+					puts "q_cell.value_to_text #{q_cells[row][col].value_to_text.inspect}"
+					puts "looking for position for value: #{cell.cell_value} or #{cell.value}"
+					if cell.value != 9 && result = pos_arr.assoc(cell.cell_value.to_s)
+						pos = result.last
+						puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
+						cell.position = pos unless pos.nil?
+					end
+				end
+			end
+		end
+		all_answer_cells = []
+		a_cells.each_path { |path, value| all_answer_cells << value }
+		puts "all size: #{all_answer_cells.size}"
+		all_answer_cells
+	end
   
   def print
     output = "Answer: #{self.number}<br>"

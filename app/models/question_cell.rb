@@ -36,6 +36,10 @@ class QuestionCell < ActiveRecord::Base
 	end
 	# private :mix, :cell_same_row
 	
+	def value_to_text
+		self.question_items.map { |item| [item.value.blank? && item.text || item.value, item.position] }
+	end
+	
 	def answer_text
 		other_cell = cell_same_row
 		mix(other_cell) if other_cell
@@ -610,7 +614,7 @@ class SelectOption < QuestionCell
 		values = qitems.map { |item| item[1] }
 		help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br>")
 
-		newform << div_item(answer_item + "<input id='#{question_no}_#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
+		newform << div_item(answer_item + "<input id='#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
 		(self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
 		newform << help_div(c_id, help)  # TODO: fix values of help not shown for q7
 
