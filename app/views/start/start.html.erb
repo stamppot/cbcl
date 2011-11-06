@@ -19,7 +19,7 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 <div style=' width: 750px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
 	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start', :format => 'html' %></span>
 	<span style="font-size: 14pt;"><%= @survey.description %></span>
-	<span><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
+	<span><%# link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
 						(print_survey_path(@survey) + ".pdf"), :title => 'Udskriv spørgeskema' %></span>
 </div>
 
