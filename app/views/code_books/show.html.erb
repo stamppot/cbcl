@@ -23,7 +23,7 @@
     <tr>
     <td><%= option[:option] %></td>
     <td><%= option[:code] %></td>
-    <td><%= option[:label] %></td>
+    <td><%= option[:label] == line[:description] ? "Label OK" : "ItemChoice passer ikke: #{option[:label]}" %></td>
     </tr>
     <% end %>
   </tr>
