@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'cbcl'
 
   before_filter :configure_charsets
+  # before_filter :set_content_type
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
   before_filter :check_logged_in, :except => [:login]
   before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout]
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation
 
+  # def set_content_type
+  #    
+  #  end
+  
   def check_logged_in
     redirect_to login_path if !current_user && !params[:controller] =~ /login/
   end

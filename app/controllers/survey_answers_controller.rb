@@ -48,6 +48,7 @@ class SurveyAnswersController < ApplicationController
     # end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Udskriv Svar: " << @survey.title
+    render :content_type => 'application/pdf'
   end
 
   # updates survey page with dynamic data. Consider moving to separate JavascriptsController
