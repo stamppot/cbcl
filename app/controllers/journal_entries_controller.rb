@@ -8,6 +8,26 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
   verify :method       => "post",
          :only         => [ :remove, :remove_answer, :destroy_login ]
 
+  def show
+    puts "JournalEntriesController #{params.inspect}"
+    cookies[:journal_entry] = params[:id]
+    journal_entry = JournalEntry.find(params[:id], :include => :journal)
+    if params[:fast]
+      puts "FAST!"
+      redirect_to survey_show_fast_path(journal_entry.survey_id) and return
+    else
+      puts "NOT SO FAST!"
+      redirect_to survey_path(journal_entry.survey_id) and return
+    end
+  end
+
+  def show_answer
+    puts "Show Answer JournalEntriesController #{params.inspect}"
+    cookies[:journal_entry] = params[:id]
+    journal_entry = JournalEntry.find(params[:id], :include => :journal)
+    redirect_to survey_answer_path(journal_entry.survey_id)
+  end
+
   # deletes and updates page with ajax call
   def remove
     elem = "entry" << params[:id]
