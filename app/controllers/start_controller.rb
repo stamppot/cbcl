@@ -8,10 +8,10 @@ class StartController < ApplicationController
 		@survey = Rails.cache.fetch("survey_#{@journal_entry.survey_id}") do
       Survey.and_questions.find(@journal_entry.survey_id)
     end
-    respond_to do |format|
-      format.html 
-      format.html { redirect_to survey_start_path and return}
-    end
+    # respond_to do |format|
+    #   # format.pdf { puts "CONTENT_TYPE: #{headers['Content-Type']}"; redirect_to survey_start_path and return} 
+    #   format.html { redirect_to survey_start_path and return}
+    # end
 	end
 
 	def edit
