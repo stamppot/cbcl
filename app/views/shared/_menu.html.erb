@@ -1,5 +1,19 @@
 <%# cache "menu_#{current_user.highest_role.title}" do %>
 
+<script type="text/javascript">
+$(document).ready(function() {
+  $("a.new_window").click(function() {
+    link_host = this.href.split("/")[2];
+    document_host = document.location.href.split("/")[2];
+
+    if (link_host == document_host) {
+      window.open(this.href);
+      return false;
+    }
+  });
+});
+</script>
+
 <% if current_user.perms[:layout_show_menu] %>
 <div id="menu">
 
@@ -130,7 +144,9 @@
 	
 	<div id="logout_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.other') %></div>
-		<%= link_to t('menu.manual'), "/public/CBCL-manual.2011-08-01.pdf", :title => t('menu.manual') %>
+		<% manual_url = "/CBCL-manual.2011-08-01.pdf" %>
+		<%= link_to t('menu.manual'), manual_url, :class => "new_window", :onclick => "window.open(\"#{manual_url}\"); return false;",
+		:title => t('menu.manual') %>
 		<%= link_to t('menu.show_faq'), faqs_path, :title => t('menu.faq_alt') %>
 		<% if shadow_user? %>
 			<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
