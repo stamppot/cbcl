@@ -117,22 +117,15 @@ class Center < Group
     self.journals.collect { |j| j.code }
   end
 
-  def login_name_params #(options = {})
-    center_name = title.split.map {|w| w.first }.join.downcase
-    login = 
+  def login_center_name
+   center_name = title.split.map {|w| w.first }.join.downcase
+    login =
     if luser = self.login_users.last
       luser.login =~ /(\d+)/
-      "#{center_name}-login" + $1.succ
+      "#{center_name}"
     else
-      "#{center_name}-login1"
+      "#{center_name}"
     end
-
-    return { :login => login,
-      :name => login,
-      :email => "#{login}@#{center_name}.dk",
-      :state => 2,
-      :login_user => true
-    }
   end
   
 

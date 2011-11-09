@@ -29,7 +29,7 @@ class SurveysController < ApplicationController
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
     @survey = Survey.and_questions.find(params[:id])
     @page_title = @survey.title
-    flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
+    # flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
     render :template => 'surveys/show', :layout => "layouts/survey"
   end
   
@@ -188,6 +188,10 @@ class SurveysController < ApplicationController
     Survey.destroy(params[:id])
     flash[:notice] = "Spørgeskema er slettet"
     redirect_to surveys_path
+  end
+
+  def print
+    redirect_to print_survey_path(params[:id])
   end
 
   

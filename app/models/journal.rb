@@ -180,7 +180,8 @@ class Journal < Group
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
       entry.expire_cache # expire journal_entry_ids
       entry.journal = self
-      entry.make_login_user
+      login_number = "#{self.code}#{survey.id}"
+      entry.make_login_user(login_number)
       if entry.valid?
         entry.print_login!
         entry.login_user.save
@@ -189,8 +190,7 @@ class Journal < Group
     end
     return self
   end
-
-  
+    
   def header_data
     data = to_csv
     data.inject([[],[]]) do |col, tuple|

@@ -240,7 +240,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
   
   def check_access
-    puts "CHECKACCESS JOURNALCONTROLLER"
     redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
       journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }

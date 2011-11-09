@@ -19,9 +19,9 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 <div style=' width: 750px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
 	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start', :format => 'html' %></span>
 	<span style="font-size: 14pt;"><%= @survey.description %></span>
-	<span>
+	<span>&nbsp;&nbsp;&nbsp;&nbsp;
 	<% url = "/survey_#{@survey.id}.pdf" %>
-	<%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
+	<%= link_to img_tag_html4("printer-42x.png", :align => "center", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
 						url, :onclick => "window.open(\"#{url}\"); return false;", :title => 'Udskriv spørgeskema' %></span>
 </div>
 

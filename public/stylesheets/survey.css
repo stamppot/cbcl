@@ -861,3 +861,8 @@ a .send_survey {
 	background:url('/images/spinner.gif') no-repeat 0px 0px;
 	padding-left: 27px;
 }
+
+#copyright {
+  margin-left: 24%;
+	text-align: center;
+}
