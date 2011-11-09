@@ -40,6 +40,7 @@ class SurveysController < ApplicationController
     render :template => 'surveys/show_fast', :layout => "layouts/survey_fast"
   end
 
+  # TODO: should: show empty survey
   def show
      @options = {:show_all => true, :action => "create"}
      if current_user.login_user && (journal_entry = cookies[:journal_entry])
