@@ -514,7 +514,7 @@ class ListItem < QuestionCell
 
 		self.question_items.each_with_index do |item, i|
 			item_text = edit ? item.text : item.text
-			field = (i == 0 && self.question_items.size > 1 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
+			field = (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
 			has_no_text = item_text.blank?
 			if(has_no_text)     # listitem without predefined text
 				if(disabled)      # show answer value

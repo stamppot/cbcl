@@ -121,6 +121,11 @@ a:hover {
 	font-size: larger;
 }
 
+.round_survey_title {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
 .survey_actions {
 	font-size: x-small;
 	text-align: right;
@@ -820,6 +825,31 @@ a .password {
 	padding-left: 27px;
 }
 
+a .survey_edit {
+	background:url('/images/pen_green-24x.png') no-repeat 0px 2px;
+	padding-left: 30px;
+	padding-top: 1px;
+}
+
+a .survey_continue {
+	background:url('/images/pen_green-32x.png') no-repeat 0px 2px;
+	padding-left: 40px;
+	padding-bottom: 4px;
+	padding-top: 0px;
+}
+
+a .survey_print {
+	background:url('/images/printer-24x.png') no-repeat 0px 4px;
+	padding-left: 32px;
+	padding-bottom: 4px;
+	padding-top: 8px;
+}
+
+a .survey_save_draft {
+  background:url('/images/disk.png') no-repeat 0px 0px;
+	padding-left: 27px;	
+}
+
 /* link buttons */
 a.button, input.button {
 	background-color: #eee;
@@ -945,6 +975,7 @@ input.password_mail {
 input.letter {
 	background:url('/images/letter.png') no-repeat 10px 5px;
 }
+
 
 /***** tabs *****/
 ul.tabs {

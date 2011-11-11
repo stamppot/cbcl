@@ -53,7 +53,7 @@ class SurveyAnswersController < ApplicationController
     end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Ret Svar: " << @survey.title
-    render :layout => 'survey', :template => 'surveys/show'
+    render :layout => 'survey', :template => 'survey_answers/show'
   end
 
   def print
