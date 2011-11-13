@@ -1,21 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function() {
-  $("a.new_window").click(function() {
-    link_host = this.href.split("/")[2];
-    document_host = document.location.href.split("/")[2];
-
-    if (link_host == document_host) {
-      window.open(this.href);
-      return false;
-    }
-  });
-});
-</script>
-
-<% if @journal_entry.draft? %>
-	<%= render :partial => "continue_draft" %>
-<% else %>
-
 <h2>Velkommen til CBCL</h2>
 <p>
 Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start. Undervejs gemmes din besvarelse som en kladde, så du kan genoptage besvarelsen senere.
@@ -30,10 +12,8 @@ Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start.
 	<%= link_to img_tag_html4("printer-42x.png", :align => "center", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
 						url, :onclick => "window.open(\"#{url}\"); return false;", :title => 'Udskriv spørgeskema' %></span>
 </div>
-<p>
-	Du kan udskrive spørgeskemaet før du begynder din besvarelse. Tryk på print-knappen ovenfor. 
-</p>
-<% end %>
+
+<p>Du kan udskrive spørgeskemaet før du begynder din besvarelse. Tryk på print-knappen ovenfor.</p>
 
 <br>
 <%= link_button t('finish'), logout_path, 'logout', :format => 'html', :title => 'Log ud af systemet' %>
