@@ -11,11 +11,11 @@ if(doNotCall == null) {
 	if(!(typeof(journal_entry) == "undefined")) {
 		params['id'] = journal_entry;
 		var save_draft_url = '/survey_answers/save_draft/' + params['id'];
-		// alert(save_draft_url);
+		
 	}
 }
 
-function save_draft() { new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false; };
+function save_draft() { alert(save_draft_url); new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false; };
 </script>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
