@@ -42,7 +42,7 @@ class SurveyAnswer < ActiveRecord::Base
       answers.each {|a| a.save!}
     end
   end
-  
+   
   def save_final(params, save_the_answers = true)
 		set_answered_by(params)
     self.done = true

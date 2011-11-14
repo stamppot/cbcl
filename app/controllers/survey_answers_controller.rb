@@ -139,7 +139,6 @@ class SurveyAnswersController < ApplicationController
 		survey_answer.journal_entry_id ||= journal_entry.id
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
-    # journal_entry.answered_at = Time.now
 		survey_answer.center_id ||= journal_entry.journal.center_id
 		# params[:login_user] = current_user.login_user
     # if survey_answer.all_answered?
