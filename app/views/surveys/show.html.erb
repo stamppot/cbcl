@@ -1,5 +1,6 @@
 <script type="text/javascript">
 var doNotCall = document.location.href.match(/show_only/);
+var save_draft_url = "";
 if(doNotCall == null) {
 	var val = /([0-9]+)$/;
 	var matches = document.location.href.match(val);
@@ -10,8 +11,7 @@ if(doNotCall == null) {
 	var journal_entry = document.cookies().get('journal_entry');
 	if(!(typeof(journal_entry) == "undefined")) {
 		params['id'] = journal_entry;
-		var save_draft_url = '/survey_answers/save_draft/' + params['id'];
-		
+		save_draft_url = '/survey_answers/save_draft/' + params['id'];
 	}
 }
 
