@@ -177,14 +177,14 @@ class CSVHelper
   
   # header vars grouped by survey
   def survey_headers(survey_ids)
-    # s_headers = Rails.cache.fetch("survey_headers_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
+    # s_headers = cache_fetch("survey_headers_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
       ss = Survey.find(survey_ids)
       ss.inject(Dictionary.new) { |hash, s| hash[s.id] = s.cell_variables; hash }.order_by
     # end
   end
 
   def survey_headers_flat(survey_ids)
-    s_headers = Rails.cache.fetch("survey_headers_flat_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
+    s_headers = cache_fetch("survey_headers_flat_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
       ss = Survey.find(survey_ids)
       ss.map { |s| s.cell_variables }.foldl(:merge)
     end
@@ -205,7 +205,7 @@ class CSVHelper
     t1 = Time.now
     survey_answers = entries.map {|e| e.survey_answer_id }
     sa_table = survey_answers.inject(Dictionary.new) do |h, sa|
-      sa_obj = Rails.cache.fetch("survey_answer_#{sa}") do SurveyAnswer.and_answer_cells.find_by_id(sa) end
+      sa_obj = cache_fetch("survey_answer_#{sa}") do SurveyAnswer.and_answer_cells.find_by_id(sa) end
       h[sa] = sa_obj.cell_values unless sa_obj.blank?
       h
     end    # join table (hash)
@@ -229,7 +229,7 @@ class CSVHelper
   end
 
   def journal_table_to_csv(table_journals_sas, s_headers)
-    journals = Rails.cache.fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
+    journals = cache_fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
       Journal.find(table_journals_sas.keys).to_hash_with_key { |j| j.id } #.inject({}) { |col, j| col[j.id] = j; col }
     end
     headers = journal_csv_header.merge(s_headers)

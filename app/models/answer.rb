@@ -283,7 +283,7 @@ class Answer < ActiveRecord::Base
   end
   
   def set_missing_items
-    q_cells = Rails.cache.fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
+    q_cells = cache_fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
     counter = 0
     a_cells = self.answer_cells.find(:all, :conditions => ['item IS NULL'])
     a_cells.each do |a_cell|

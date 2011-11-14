@@ -96,7 +96,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # displays a "Do you really want to delete it?" form. It
   # posts to #destroy.
   def delete
-    @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id].to_i)
+    @group = cache_fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id].to_i)
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.'
@@ -108,7 +108,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      @group = Rails.cache.fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
+      @group = cache_fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
       @group.expire
       Rails.cache.delete("journal_ids_user_#{current_user.id}")
       @group.destroy
@@ -242,7 +242,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def check_access
     redirect_to login_path and return unless current_user
     if current_user.access?(:all_users) || current_user.access?(:login_user)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
+      journal_ids = cache_fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
       access = journal_ids.include? params[:id].to_i
     else
       redirect_to login_path and return

@@ -103,7 +103,7 @@ class Subscription < ActiveRecord::Base
   end  
 
   def self.subscriptions_count(center = nil, group_by = 'center_id')
-    result = Rails.cache.fetch("subscriptions_count_#{center.id}", :expires_in => 10.minutes) do
+    result = cache_fetch("subscriptions_count_#{center.id}", :expires_in => 10.minutes) do
       result = Query.new.query_subscriptions_count(center)
       result = result.group_by { |h| h[group_by].to_i } unless center
     end

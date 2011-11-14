@@ -128,7 +128,7 @@ class SurveyAnswersController < ApplicationController
   
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     if journal_entry.survey_answer.nil?
@@ -136,18 +136,18 @@ class SurveyAnswersController < ApplicationController
       journal_entry.survey_answer.save
     end
     survey_answer = journal_entry.survey_answer
-		survey_answer.journal_entry_id = journal_entry.id
+		survey_answer.journal_entry_id ||= journal_entry.id
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
-    journal_entry.answered_at = Time.now
-		survey_answer.center_id = journal_entry.journal.center_id
+    # journal_entry.answered_at = Time.now
+		survey_answer.center_id ||= journal_entry.journal.center_id
 		# params[:login_user] = current_user.login_user
-		if survey_answer.all_answered?
-			survey_answer.save_final(params, false)
-			current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
-		else
-    	journal_entry.draft!
-		end
+    # if survey_answer.all_answered?
+    #   survey_answer.save_final(params, false)
+    #   current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
+    # else
+    journal_entry.draft!
+    # end
     survey_answer.save
   end
   
@@ -166,7 +166,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_entry.journal and return
     end
 
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     survey_answer = journal_entry.make_survey_answer

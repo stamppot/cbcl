@@ -23,7 +23,7 @@ class LoginUser < User
   def self.create_params(center_name, login_number, email = nil)
     login = "#{center_name}-#{login_number}"
     email ||= "#{login}@#{center_name}.dk"
-    login += "_1" if LoginUser.find_by_login(login)
+    login += "-1" if LoginUser.find_by_login(login)
     while(LoginUser.find_by_login(login))
       login = login.succ
     end

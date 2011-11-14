@@ -32,6 +32,17 @@ class SurveyAnswer < ActiveRecord::Base
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
 
+  def save_draft(params, save_the_answers = true)
+		set_answered_by(params)
+    self.done = false
+    self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
+    self.save_answers(params) if save_the_answers
+    # self.answers.each { |a| a.update_ratings_count }
+    Answer.transaction do
+      answers.each {|a| a.save!}
+    end
+  end
+  
   def save_final(params, save_the_answers = true)
 		set_answered_by(params)
     self.done = true
@@ -57,7 +68,8 @@ class SurveyAnswer < ActiveRecord::Base
     self.journal_entry_id = self.journal_entry.id if journal_entry_id == 0
     self.answered_by = params[:answer] && params[:answer][:person] || ""
 	end
-	
+
+	# doesn't work?!  # 14-11-2011
 	def all_answered?
 		self.no_unanswered == 0
 	end
@@ -206,7 +218,7 @@ class SurveyAnswer < ActiveRecord::Base
       end
     end
     params.each_key { |question| params.delete(question) if params[question].empty? }
-    the_valid_values = Rails.cache.fetch("survey_valid_values_#{self.survey_id}") { self.survey.valid_values }
+    the_valid_values = cache_fetch("survey_valid_values_#{self.survey_id}") { self.survey.valid_values }
     insert_cells = []
     update_cells = []
     
