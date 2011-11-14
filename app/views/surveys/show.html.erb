@@ -15,7 +15,6 @@ var save_draft_url = "";
 	}
 // }
 
-var save_draft = function() {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true});};
 </script>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
@@ -40,8 +39,7 @@ var save_draft = function() {new Ajax.Updater('draft-message', save_draft_url, {
 	<div id="submit_button" style="display:none;">
 		<%= render :partial => 'surveys/fancy_submit_button' %>
 		<span style="padding-left: 50px">
-			<a class='button' id='save_draft' 
-				onclick="save_draft(); return false;">
+			<a class='button' id='save_draft' >
 				<span class="survey_save_draft">Gem kladde</span>
 			</a>
 		</span>
