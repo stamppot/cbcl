@@ -1,7 +1,7 @@
 <script type="text/javascript">
-var doNotCall = document.location.href.match(/show_only/);
+// var doNotCall = document.location.href.match(/show_only/);
 var save_draft_url = "";
-if(doNotCall == null) {
+// if(doNotCall == null) {
 	var val = /([0-9]+)$/;
 	var matches = document.location.href.match(val);
 	var params = {};
@@ -13,9 +13,9 @@ if(doNotCall == null) {
 		params['id'] = journal_entry;
 		save_draft_url = '/survey_answers/save_draft/' + params['id'];
 	}
-}
+// }
 
-function save_draft() { alert(save_draft_url); new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false; };
+function save_draft() { alert("url: " + save_draft_url); new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false; };
 </script>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
