@@ -15,9 +15,7 @@ if(doNotCall == null) {
 	}
 }
 
-function save_draft() {
-	new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false;
-};
+function save_draft() { new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true}); return false; };
 </script>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
@@ -27,7 +25,6 @@ function save_draft() {
 <div id='draft-message' style='color:red;'></div>
 <div id="survey_fast_input" class="command"></div>
 <br/>
-
 
 <form action="/survey_answers/create/0" id="surveyform" method="post" >
 	<!-- Put before validation.add -->
