@@ -239,7 +239,7 @@ end
 
 def cache_fetch(key, options = {}, &block)
   if Rails.env.production? 
-    cache_fetch key, options, &block
+    Rails.cache.fetch key, options, &block
   else
     yield
   end
