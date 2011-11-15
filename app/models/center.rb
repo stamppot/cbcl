@@ -126,6 +126,7 @@ class Center < Group
     else
       "#{center_name}"
     end
+    luser.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
   end
   
 

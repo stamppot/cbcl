@@ -116,7 +116,7 @@ class Answer < ActiveRecord::Base
         value = cell.value.to_i if !cell.text? && !cell.value.blank?
         c[:type] = type
         c[:v] = value
-        puts c.inspect
+        # puts c.inspect
         cells << c
       end
     end
@@ -294,7 +294,7 @@ class Answer < ActiveRecord::Base
         a_cell.save
         a_cell = nil
         counter += 1
-        puts "set another 100 a_cells" if counter % 100 == 0
+        # puts "set another 100 a_cells" if counter % 100 == 0
       end
     end
     a_cells.clear

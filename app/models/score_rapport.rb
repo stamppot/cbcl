@@ -20,7 +20,7 @@ class ScoreRapport < ActiveRecord::Base
     params[:page] = page
     params[:per_page] = per_page
     params[:include] = options[:include] if options[:include]
-    puts "find_with_options: #{params.inspect}"
+    # puts "find_with_options: #{params.inspect}"
     ScoreRapport.for_surveys(o[:surveys]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params)
   end
 
