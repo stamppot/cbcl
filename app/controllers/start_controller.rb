@@ -13,16 +13,11 @@ class StartController < ApplicationController
     logger.info "LOGIN_USER continue cookie: #{cookies[:journal_entry]} #{@journal_entry.id} #{@journal_entry.login_user.id} @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
     @survey = @journal_entry.survey
   end
-  
-  # def edit
-  #   @survey = @journal_entry.survey
-  # end
 
   def finish
     @journal_entry = JournalEntry.find_by_user_id(current_user.id)
-    redirect_to survey_continue_path(@journal_entry) and return unless @journal_entry.answered?
+    redirect_to survey_continue_path and return unless @journal_entry.answered?
     @survey = @journal_entry.survey
-    # @survey_type = @journal_entry.survey.surveytype
     cookies.delete "journal_entry"
   end
 
