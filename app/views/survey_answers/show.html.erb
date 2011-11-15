@@ -20,6 +20,12 @@
 	<%= render :partial => "surveys/question", :collection => @survey.questions %>
 	<div id="submit_button" style="display:none;">
 		<%= render :partial => 'surveys/fancy_submit_button' %>
+		<span style="padding-left: 50px">
+				<a class='button' id='save_draft'>
+					<span id="spinner"><img alt="spinner" src="/images/spinner.gif"></span>
+					<span class="survey_save_draft">Gem kladde</span>
+				</a>
+			</span>
 	</div>
 </form>
 
@@ -27,9 +33,26 @@
 	<div id="back_button" style="display:none;"></div>
 
 <script type="text/javascript">
+
+function initMakeItCount() {
+ 	var comments = $$('textarea.comment');
+  comments.each(function(comment) {
+    makeItCount(comment.id, 220);
+  });	
+	// var textfields = $$('textarea.textfield');
+	//   textfields.each(function(textfield) {
+	//     makeItCount(textfield.id, 220);
+	//   });
+}
+
+function hideSpinner() {
+	$('spinner').hide();
+}
+
 Event.observe(window, 'load', function() {
 	// do not add submit button when it's show only
 	var doNotCall = document.location.href.match(/show_only/);
+	var formParams = null;
 	if(doNotCall == null) {
 		var val = /([0-9]+)$/;
   	var matches = document.location.href.match(val);
@@ -40,31 +63,36 @@ Event.observe(window, 'load', function() {
 		var journal_entry = document.cookies().get('journal_entry');
 		if(!(typeof(journal_entry) == "undefined")) {
 			params['id'] = journal_entry;
-			// alert("Only for login user: " + params['id']);
-			// save_interval = 300;
-		// }
-		// else { // no save_draft for login users 
-			//<![CDATA[
+
+			var set_values_interval = 5;
 			var save_draft_url = '/survey_answers/save_draft/' + params['id'];
-			new Form.Observer('surveyform', save_interval, function(element, value) {new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value});});
+			// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
+			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
+			// save values every 60 seconds
+			new Form.Observer('surveyform', save_interval, function(element, value) {
+				new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:value, onComplete:hideSpinner});
+			});
 			//]]>
 		}
-		// new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
-		//   method: 'post',
-		// 	parameters: params,
-		// 	contentType: "text/javascript",
-		// 	evalJS: true,
-		//   onSuccess: function(transport) {
-		// 		eval(transport.responseText);
-		// 		// alert("Yes, I did it!");
-		//   }
-		// });
 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
-		
+
 		// set form action to this journal_entry
 		changeAction('surveyform', '/survey_answers/create/' + params['id']);
 	}
+
+	$('spinner').hide();
+
+	$('save_draft').observe('click', function(el) {
+		$('spinner').show();
+		new Ajax.Updater('draft-message', save_draft_url,
+				{ asynchronous:true, evalScripts:true, parameters:formParams, onComplete:hideSpinner });
+			return false;
+		});
+		// limit text input in textboxes
+	initMakeItCount();
 });
+
+
 </script>
 <% end %>
 </script>
