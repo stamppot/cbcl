@@ -120,13 +120,13 @@ class Center < Group
   def login_center_name
    center_name = title.split.map {|w| w.first }.join.downcase
     login =
-    if luser = self.login_users.last
+    login_name = if luser = self.login_users.last
       luser.login =~ /(\d+)/
       "#{center_name}"
     else
       "#{center_name}"
     end
-    luser.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
+    login_name.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
   end
   
 
