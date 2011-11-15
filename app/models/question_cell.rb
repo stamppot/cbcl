@@ -527,7 +527,7 @@ class ListItem < QuestionCell
 			    when /create|edit/ :
             # field << value
             # newform << div_item(field, "listitemfield answer_textbox")
-            field << "<textarea id='#{c_id}' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
+            field << "<textarea id='#{c_id}' class='textfield' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
             newform << div_item(field, "listitemfield")
           end
 				end
@@ -783,7 +783,7 @@ class ListItemComment < QuestionCell
 				if (listitem_without_predefined_text)
 					input_or_answer = answer ?
 					  (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") :
-					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='20' rows='3' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
+					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='38' rows='5' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
 					div_item((answer_item_set ? "" : answer_item) + input_or_answer,
 					"itemtextbox #{target}".rstrip)
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
@@ -794,7 +794,7 @@ class ListItemComment < QuestionCell
 				if (listitem_without_predefined_text)
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
           # "<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >#{self.value}</input>", "listitemfield")
-					"<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' rows='1' value='#{item.value}'>#{self.value}</textarea>", "listitemfield")
+					"<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='textfield' type='text' rows='1' value='#{item.value}'>#{self.value}</textarea>", "listitemfield")
 				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
 				end
 				answer_item_set = true;
@@ -968,7 +968,7 @@ class TextBox < QuestionCell
 			elsif answer
 				newform << (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_textbox'>#{self.value}</div>")
 			else
-				newform << div_item("<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' cols='20' rows='3'>#{self.value}</textarea>", "itemtextbox")
+				newform << div_item("<textarea id='#{c_id}' class='comment' name='#{question_no}[#{c_id}]' cols='38' rows='5'>#{self.value}</textarea>", "itemtextbox")
 			end
 		end
 		newform.join
