@@ -43,7 +43,7 @@ class SurveysController < ApplicationController
   def show
      @options = {:show_all => true, :action => "create"}
      if current_user.login_user && !session[:journal_entry].blank?
-       cookies[:journal_entry] = session[:journal_entry] if current_user.login_user?
+       cookies[:journal_entry] = { :value => session[:journal_entry], :expires => 2.hour.from_now } if current_user.login_user?
        # cookies[:journal_entry] = journal_entry
        # params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
        puts "Surveys/show journal_entry: #{session[:journal_entry]}"

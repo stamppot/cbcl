@@ -5,7 +5,7 @@ class StartController < ApplicationController
     session[:journal_entry] ||= @journal_entry.id
     # debugger
     logger.info "LOGIN_USER start cookie: '#{session[:journal_entry]}' '#{@journal_entry.id}' '#{@journal_entry.login_user.id}' @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
-    cookies[:journal_entry] = session[:journal_entry]
+    cookies[:journal_entry] = { :value => session[:journal_entry], :expires => 2.hour.from_now }
     redirect_to survey_continue_path if @journal_entry.draft?
     redirect_to survey_finish_path(@journal_entry) and return if @journal_entry.answered?
     @survey = @journal_entry.survey
