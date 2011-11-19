@@ -72,7 +72,8 @@ class AnswerCell < ActiveRecord::Base
 
   def html_value_id(fast = false)
     if rating
-      # puts "HTML_VALUE position #{position}"
+      puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}"
+      return "" unless position
       "q#{answer.number}_#{row}_#{col}_#{position-1}"
     elsif self.text
       # puts "TExt cell (#{self.answer_type}): q#{answer.number}_#{row}_#{col} - value: #{self.value_text}"
@@ -87,7 +88,7 @@ class AnswerCell < ActiveRecord::Base
 		return "" if fast && value == 9 || (!self.text && value.blank?)
 		result = if rating || self.answer_type == "Checkbox"
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
-			"$('#{html_value_id(fast)}').checked = #{value != 9};"
+			"$('#{html_value_id(fast)}').checked = #{value != 9};" 
     elsif self.text
       return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"

@@ -213,12 +213,14 @@ class Answer < ActiveRecord::Base
 						pos = result.last
             # puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
 						cell.position = pos unless pos.nil?
+						puts "ERRRORR pos nil: #{cell.inspect}"
 					end
 				elsif cell.value_text
 				  pos_arr = q_cells[row][col].value_to_text
 					if result = pos_arr.assoc(cell.cell_value.to_s)
 						pos = result.last
 						cell.position = pos unless pos.nil?
+						puts "ERRRORR pos nil: #{cell.inspect}"
 					end
 				end  
 			end
