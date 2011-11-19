@@ -42,27 +42,24 @@ class SurveysController < ApplicationController
 
   def show
      @options = {:show_all => true, :action => "create"}
-
      cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
 
      journal_entry = session[:journal_entry]
      raise RunTimeException "Journal info not found" if journal_entry.blank?
      
      cookies[:journal_entry] = { :value => journal_entry, :expires => 2.hour.from_now } #if current_user.login_user?
-     # puts "Surveys/show journal_entry: #{session[:journal_entry]}"
 
      @is_login_user = current_user.login_user?
      
      @survey = cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
      @page_title = @survey.title
-
      # show survey with existing answers
      # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
      # if survey_answer = @journal_entry.survey_answer 
      #   @survey.merge_survey_answer(survey_answer)
      # end
 
-     rescue ActiveRecord::RecordNotFound
+      rescue ActiveRecord::RecordNotFound
    end
 
   # caching method, do not use yet

@@ -14,9 +14,11 @@
 
 </head>
 <body>
+
+<% if Rails.env.development? %>
 	Session: <%= session.inspect %><br/>
 	Kage: <%= cookies["journal_entry"].inspect %>
-
+<% end %>
 	<%= render :partial => 'layouts/info_header' %>
 
 <div id="content_survey">

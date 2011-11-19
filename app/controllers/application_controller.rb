@@ -288,15 +288,22 @@ class Fixnum
   end
 end
 
-def cache_fetch(key, time_expire = 0)
-  if ENV["RAILS_ENV"] == 'development' && !CACHE_DEVELOPMENT
-    yield
+# def cache_fetch(key, time_expire = 0)
+#   if ENV["RAILS_ENV"] == 'development' && !CACHE_DEVELOPMENT
+#     yield
+#   else
+#     CACHE.fetch(key, time_expire){yield} #this is the old way
+#     # unless output = CACHE.get(key)
+#     #   output = yield
+#     #   CACHE.set(key, output, time_expire)
+#     # end
+#     # return output
+#   end
+# end
+def cache_fetch(key, options = {}, &block)
+  if Rails.env.production? 
+    Rails.cache.fetch key, options, &block
   else
-    # CACHE.fetch(key, time_expire){yield} #this is the old way
-    unless output = CACHE.get(key)
-      output = yield
-      CACHE.set(key, output, time_expire)
-    end
-    return output
+    yield
   end
 end

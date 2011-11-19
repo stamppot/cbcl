@@ -523,7 +523,7 @@ class ListItem < QuestionCell
           case options[:action]
 			    when /print|show/ : 
 			      field << value
-			      newform << "<span class='listitemfield'>" + div_item(field, "answer_textbox") + "</span>"
+			      newform << div_item(field, "listitemfield answer_textbox")
 			    when /create|edit/ :
             # field << value
             # newform << div_item(field, "listitemfield answer_textbox")
