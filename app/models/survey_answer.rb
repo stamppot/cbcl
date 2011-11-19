@@ -254,14 +254,8 @@ class SurveyAnswer < ActiveRecord::Base
   end
   
   # used by draft_data to get positions of values
-  def add_value_positions
-	  puts "SURVEY_ANSWER.add_value_positions"
-    self.answers.map { |answer| answer.add_value_positions }.flatten
-      # find question which matches answer
-      # puts "answer number & id: #{answer.number} - #{answer.id}"
-      # question = self.questions.detect { |question| question.id == answer.question_id }
-      # question.merge_answer(answer) if question
-    # return self  # return survey with questions with values (answers)
+  def setup_draft_values
+    self.answers.map { |answer| answer.setup_draft_values }.flatten
   end
   
   def make_csv_answer

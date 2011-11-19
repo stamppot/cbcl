@@ -9,7 +9,6 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
          :only         => [ :remove, :remove_answer, :destroy_login ]
 
   def show
-    # puts "JournalEntriesController #{params.inspect}"
     session[:journal_entry] = params[:id]
     journal_entry = JournalEntry.find(params[:id], :include => :journal)
     if params[:fast]

@@ -84,9 +84,7 @@ class LoginController < ApplicationController
     # end
     # Otherwise delete the user from the session
 		self.remove_user_from_session!
-    cookies.delete :journal_entry
-    session.delete :journal_entry
-    cookies.delete :user_name
+
     # Render success template.
     flash[:notice] = "Du er blevet logget ud."
     redirect_to login_url
@@ -116,7 +114,7 @@ class LoginController < ApplicationController
 
   
   protected
-
+  
   def write_user_to_session(user)
     session[:rbac_user_id] = user.id
   end

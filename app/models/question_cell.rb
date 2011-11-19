@@ -523,7 +523,7 @@ class ListItem < QuestionCell
           case options[:action]
 			    when /print|show/ : 
 			      field << value
-			      newform << div_item(field, "listitemfield answer_textbox")
+			      newform << "<span class='listitemfield'>" + div_item(field, "answer_textbox") + "</span>"
 			    when /create|edit/ :
             # field << value
             # newform << div_item(field, "listitemfield answer_textbox")
@@ -532,7 +532,8 @@ class ListItem < QuestionCell
           end
 				end
 			else  # with predefined text. show text in item (no input field)
-				newform << div_item(field + item_text, "listitemtext")
+        # newform << "<span class='listitemtext'>" + div_item(item_text, "") + "</span>"
+        newform << div_item(field + item_text, "listitemtext")
 			end
 		end
 		# newform << "<input id='#{cell_id}_item' name='#{question_no}[#{cell}][item]' type='hidden' value='#{self.answer_item}' />" unless self.answer_item.nil?

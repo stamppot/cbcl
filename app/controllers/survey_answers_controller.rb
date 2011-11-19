@@ -43,17 +43,18 @@ class SurveyAnswersController < ApplicationController
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
   end
 
-  # TODO: same as show?  Must have button
-  def edit # BROKEN layout
-    @options = {:answers => true, :show_all => true, :action => "edit"}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = @journal_entry.survey_answer
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
-    end
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Ret Svar: " << @survey.title
-    render :layout => 'survey', :template => 'survey_answers/show'
+  def edit
+    # @options = {:answers => true, :show_all => true, :action => "edit"}
+    journal_entry = JournalEntry.find(params[:id])
+    session[:journal_entry] = params[:id]
+    redirect_to survey_path(journal_entry.survey_id)
+    # @survey_answer = @journal_entry.survey_answer
+    # @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    #   Survey.and_questions.find(@survey_answer.survey_id)
+    # end
+    # @survey.merge_survey_answer(@survey_answer)
+    # @page_title = "CBCL - Ret Svar: " << @survey.title
+    # render :layout => 'survey', :template => 'survey_answers/show'
   end
 
   def print
@@ -116,7 +117,7 @@ class SurveyAnswersController < ApplicationController
 		show_fast = params[:fast] || false
 
 		@response = if journal_entry.survey_answer
-			all_answer_cells = journal_entry.survey_answer.add_value_positions
+			all_answer_cells = journal_entry.survey_answer.setup_draft_values
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
 		end || ""
     # puts "RESPONSE: #{@response}"
