@@ -66,6 +66,10 @@ class AnswerCell < ActiveRecord::Base
 		self.rating
 	end
 	
+	def checkbox?
+	  self.cell_type == AnswerCell.answer_types["Checkbox"] 
+  end
+  
 	def cell_value
 		self.value_text || self.value
 	end
@@ -86,15 +90,21 @@ class AnswerCell < ActiveRecord::Base
 	
 	def javascript_set_value(fast = false)
 		return "" if fast && value == 9 || (!self.text && value.blank?)
-		result = if rating || self.answer_type == "Checkbox"
+		result = if rating
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
 			"$('#{html_value_id(fast)}').checked = #{value != 9};" 
+		elsif self.checkbox?
+		  "$('#{html_value_id(fast)}').checked = #{self.value};"
     elsif self.text
-      return "" unless self.value_text
+      # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
 			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
 		else
-		  return "" unless self.value_text || self.value
+		  if self.value_text
+  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
+		  else
+  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value}\";")
+	    end
       # puts "ElseSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').value = #{value};"
 			"$('#{html_value_id(fast)}').value = #{self.value};"
 		end
