@@ -10,20 +10,19 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
 
   def show
     # puts "JournalEntriesController #{params.inspect}"
-    cookies[:journal_entry] = params[:id]
+    session[:journal_entry] = params[:id]
     journal_entry = JournalEntry.find(params[:id], :include => :journal)
     if params[:fast]
-      # puts "FAST!"
       redirect_to survey_show_fast_path(journal_entry.id) and return # caching disabled, so not .survey_id
     else
-      # puts "NOT SO FAST!"
-      redirect_to survey_path(journal_entry.id) and return # caching disable, so not .survey_id
+      cookies[:journal_entry] = session[:journal_entry]
+      redirect_to survey_path(journal_entry.survey_id) and return # using caching!
     end
   end
 
   def show_answer
     # puts "Show Answer JournalEntriesController #{params.inspect}"
-    cookies[:journal_entry] = params[:id]
+    session[:journal_entry] = params[:id]
     journal_entry = JournalEntry.find(params[:id], :include => :journal)
     redirect_to survey_answer_path(journal_entry.survey_id)
   end

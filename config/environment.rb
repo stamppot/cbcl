@@ -33,7 +33,7 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end << "#{RAILS_ROOT}/app/sweepers"
-  
+
   # auto-load gems in vendor
   Dir[File.dirname(__FILE__) + "/../vendor/*"].each do |path|
     gem_name = File.basename(path.gsub(/-\d+.\d+.\d+$/, ''))
@@ -237,13 +237,13 @@ class Fixnum
   end
 end
 
-def cache_fetch(key, options = {}, &block)
-  if Rails.env.production? 
-    Rails.cache.fetch key, options, &block
-  else
-    yield
-  end
-end
+# def cache_fetch(key, options = {}, &block)
+#   if Rails.env.production? 
+#     Rails.cache.fetch key, options, &block
+#   else
+#     yield
+#   end
+# end
 
 def time(description = "")
   t = Time.now

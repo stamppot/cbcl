@@ -9,7 +9,7 @@ class SurveyAnswersController < ApplicationController
   #     @options = {:show_all => true, :action => "create"}
   #     survey_id = params[:id]
   #   params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
-  #   cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+  #   session.delete :user_name if current_user.login_user?  # remove flash welcome message
   #   journal_entry = JournalEntry.find(params[:id])
   #   @survey = cache_fetch("survey_#{survey_id}") do  
   #     Survey.find(survey_id)
@@ -72,7 +72,8 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.find(params[:id], :include => {:journal => :person_info})
     save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
-    
+
+    # sleep(3000)
     respond_to do |format|
       if current_user.nil?
         format.js {
@@ -92,6 +93,7 @@ class SurveyAnswersController < ApplicationController
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
             page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
+            page.show 'save_draft'
             page.show 'submit_button'
           end
         }
@@ -100,6 +102,7 @@ class SurveyAnswersController < ApplicationController
           render :update do |page|
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
+            page.show 'save_draft'
             page.show 'submit_button'
           end
         }
@@ -151,7 +154,7 @@ class SurveyAnswersController < ApplicationController
   end
   
   def create
-    if current_user.login_user && (journal_entry = cookies[:journal_entry])
+    if current_user.login_user && (journal_entry = session[:journal_entry])
       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
     end
     id = params.delete("id")

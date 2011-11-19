@@ -40,26 +40,29 @@ class SurveysController < ApplicationController
     render :template => 'surveys/show_fast', :layout => "layouts/survey_fast"
   end
 
-  # TODO: should: show empty survey
   def show
      @options = {:show_all => true, :action => "create"}
-     if current_user.login_user && (journal_entry = cookies[:journal_entry])
-       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+     if current_user.login_user && !session[:journal_entry].blank?
+       cookies[:journal_entry] = session[:journal_entry] if current_user.login_user?
+       # cookies[:journal_entry] = journal_entry
+       # params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
+       puts "Surveys/show journal_entry: #{session[:journal_entry]}"
      end
      cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
      
      @is_login_user = current_user.login_user?
-     @journal_entry = JournalEntry.find(params[:id])
-     @survey = cache_fetch("survey_entry_#{@journal_entry.id}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
-       Survey.and_questions.find(@journal_entry.survey_id)  # 28/10 removed: .and_questions
+     # debugger
+     
+     @survey = cache_fetch("survey_#{params[:id]}") do  # for behandlere only (only makes sense to cache if they're going to show the survey again (fx in show_fast))
+       Survey.and_questions.find(params[:id])  # 28/10 removed: .and_questions
      end
      @page_title = @survey.title
 
      # show survey with existing answers
      # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-     if survey_answer = @journal_entry.survey_answer 
-       @survey.merge_survey_answer(survey_answer)
-     end
+     # if survey_answer = @journal_entry.survey_answer 
+     #   @survey.merge_survey_answer(survey_answer)
+     # end
 
      rescue ActiveRecord::RecordNotFound
    end
@@ -69,7 +72,7 @@ class SurveysController < ApplicationController
   #     self.expires_in 2.months.from_now
   #     @options = {:show_all => true, :action => "create"}
   #     survey_id = params[:id]
-  #   params[:id] &&= cookies["journal_entry"] # journal_entry_id is stored in cookie. all users access survey with survey_id for caching
+  #   params[:id] &&= session["journal_entry"] # journal_entry_id is stored in cookie. all users access survey with survey_id for caching
   #   cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
   # 
   #   journal_entry = JournalEntry.find(params[:id])
