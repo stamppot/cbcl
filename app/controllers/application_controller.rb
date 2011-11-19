@@ -37,6 +37,9 @@ class ApplicationController < ActionController::Base
 
   def remove_user_from_session!
     session[:rbac_user_id] = nil
+    session.delete :journal_entry
+    cookies.delete :journal_entry
+    cookies.delete :user_name
   end
 
   private
