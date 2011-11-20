@@ -12,7 +12,7 @@
 	if @options[:show_only]
 		survey_show_only_path(@survey)
 	else
-		survey_path(@journal_entry)
+		journal_entry_path(@journal_entry)
 	end %>
 	<%= link_button t('survey.input'), url, 'survey_input', :title => 'Besvar med normal indtastning' %>
 </div>
