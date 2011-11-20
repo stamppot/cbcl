@@ -18,7 +18,6 @@ class SurveyAnswersController < ApplicationController
   #   rescue ActiveRecord::RecordNotFound
   # end 
 
-
   # should answered survey (merged with answers), which can be saved (send button)
   def show # BROKEN layout
       @options = {:answers => true, :disabled => false, :action => "show"}

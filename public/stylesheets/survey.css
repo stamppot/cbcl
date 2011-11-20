@@ -830,6 +830,18 @@ input.validation-maybe, textarea.validation-maybe {
 		display: normal;
 }
 
+/* charcount */
+.charcount-safe {
+  font-size: 9px;
+  color: #555;
+  text-align: center;
+}
+.charcount-limit {
+  font-size: 9px;
+  color: #E22;
+  text-align: center;
+}
+
 
 #draft-message {
 	float: right;
@@ -860,4 +872,9 @@ input.validation-maybe, textarea.validation-maybe {
 a .send_survey {
 	background:url('/images/spinner.gif') no-repeat 0px 0px;
 	padding-left: 27px;
+}
+
+#copyright {
+  margin-left: 24%;
+	text-align: center;
 }
