@@ -1,5 +1,6 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
+puts "Starting in Production mode"
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
 config.cache_classes = true
