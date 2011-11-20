@@ -52,13 +52,9 @@ class SurveysController < ApplicationController
 
      @is_login_user = current_user.login_user?
      
-     @survey = cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
+     # don't cache now, it's page cached anyway
+     @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
      @page_title = @survey.title
-     # show survey with existing answers
-     # login users cannot see a merged, unless a survey answer is already saved (thus he edits it, and wants to see changes)
-     # if survey_answer = @journal_entry.survey_answer 
-     #   @survey.merge_survey_answer(survey_answer)
-     # end
 
       rescue ActiveRecord::RecordNotFound
    end

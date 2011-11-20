@@ -15,7 +15,7 @@
 <div id="survey_header">
 	<div class="survey" style='background-color: #<%= @survey_fast.color %>;'>
 		<div id="survey_journal_info">
-			<div class="surveyinfo"></div>
+			<%= render :partial => 'surveys/survey_header_info' %>
 		</div>
 		<div class="surveyname"><%= @survey_fast.title %></div>
 	</div>
@@ -31,7 +31,7 @@
 	if @options[:show_only]
 		survey_show_only_path(@survey_fast)
 	else
-		survey_path(@journal_entry)
+		survey_path(@survey_fast)
 	end %>
 	<%= link_button t('survey.input'), url, 'survey_input', :title => 'Besvar med normal indtastning' %>
 </div>
