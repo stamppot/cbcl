@@ -72,7 +72,7 @@ class Question < ActiveRecord::Base
 
     
   def get_answertype(row, col)
-    Rails.cache.fetch("q_type_item_#{self.id}_#{row}_#{col}", :expires_in => 15.minutes) do 
+    cache_fetch("q_type_item_#{self.id}_#{row}_#{col}", :expires_in => 15.minutes) do 
       qc = self.question_cells.first(:conditions => ['question_id = ? AND row = ? AND col = ?', self.id, row, col])
       [qc.class.to_s, qc.answer_item] if qc
     end

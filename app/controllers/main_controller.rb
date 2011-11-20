@@ -6,6 +6,10 @@ class MainController < ApplicationController
   def index
     redirect_to login_path if current_user.nil?
   end
+
+  def show
+    raise "TEST EXCEPTION: #{session.inspect}"
+  end
   
   def check_access
     if current_user.nil?

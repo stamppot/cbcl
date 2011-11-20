@@ -20,7 +20,7 @@ class ScoreRapport < ActiveRecord::Base
     params[:page] = page
     params[:per_page] = per_page
     params[:include] = options[:include] if options[:include]
-    puts "find_with_options: #{params.inspect}"
+    # puts "find_with_options: #{params.inspect}"
     ScoreRapport.for_surveys(o[:surveys]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params)
   end
 
@@ -39,7 +39,7 @@ class ScoreRapport < ActiveRecord::Base
     if !options[:center].blank?
       options[:journal_ids] = options[:center].journal_ids if options[:center] && !options[:journal_ids]
     end
-    options[:journal_ids] ||= Rails.cache.fetch("journal_ids_user_#{options[:user]}") { self.journal_ids }
+    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{options[:user]}") { self.journal_ids }
     options
   end
 

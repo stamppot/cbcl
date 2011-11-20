@@ -23,7 +23,7 @@ class LoginController < ApplicationController
       # Set the location to redirect to in the session if it was passed in through
       # a parameter and none is stored in the session.
       if session[:return_to].nil? and params[:return_to]
-        session[:return_to] = params[:return_to] 
+        session[:return_to] = params[:return_to]
       end
 
       # Handle the login request otherwise.
@@ -36,7 +36,10 @@ class LoginController < ApplicationController
       raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
       # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.
-      cookies[:journal_entry] = JournalEntry.find_by_user_id(user.id).id if user.login_user
+      
+      journal_entry = JournalEntry.find_by_user_id(user.id)
+      session[:journal_entry] = journal_entry.id if user.login_user
+      
       unless user.login_user?
         cookies[:user_name] = user.name
         flash[:notice] = "Velkommen #{user.name}, du er logget ind."
@@ -81,9 +84,7 @@ class LoginController < ApplicationController
     # end
     # Otherwise delete the user from the session
 		self.remove_user_from_session!
-    cookies.delete :journal_entry
-    cookies.delete :user_name
-    
+
     # Render success template.
     flash[:notice] = "Du er blevet logget ud."
     redirect_to login_url
@@ -91,19 +92,20 @@ class LoginController < ApplicationController
 
   def shadow_logout
     set_current_user(shadow_user)
-    cookies.delete :journal_entry # for login users
+    session.delete :journal_entry # for login users
     remove_shadow_user
     flash[:notice] = "Du er blevet logget ind i din egen konto igen"
     redirect_to main_path
   end
   
   def shadow_login  
-    to_user = User.find(params[:id])
+    to_user = User.find(params[:id]) || LoginUser.find(params[:id])
     switch_user(current_user, to_user)
 
     if to_user.login_user
-      cookies[:journal_entry] = JournalEntry.find_by_user_id(to_user.id).id
-      cookies[:user_name] = user.name
+      journal_entry = JournalEntry.find_by_user(to_user)
+      session[:journal_entry] = journal_entry.id
+      cookies[:user_name] = to_user.name
     end
     flash[:notice] = "Logget ind som en anden bruger"
     redirect_to survey_start_url and return if current_user.login_user
@@ -112,7 +114,7 @@ class LoginController < ApplicationController
 
   
   protected
-
+  
   def write_user_to_session(user)
     session[:rbac_user_id] = user.id
   end

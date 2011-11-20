@@ -9,7 +9,7 @@ class SurveyAnswersController < ApplicationController
   #     @options = {:show_all => true, :action => "create"}
   #     survey_id = params[:id]
   #   params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
-  #   cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
+  #   session.delete :user_name if current_user.login_user?  # remove flash welcome message
   #   journal_entry = JournalEntry.find(params[:id])
   #   @survey = cache_fetch("survey_#{survey_id}") do  
   #     Survey.find(survey_id)
@@ -17,17 +17,20 @@ class SurveyAnswersController < ApplicationController
   #   @page_title = @survey.title
   #   rescue ActiveRecord::RecordNotFound
   # end 
-  def show
-    @options = {:answers => true, :disabled => false, :action => "show"}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
+
+
+  # should answered survey (merged with answers), which can be saved (send button)
+  def show # BROKEN layout
+      @options = {:answers => true, :disabled => false, :action => "show"}
+      @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+      @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+        Survey.and_questions.find(@survey_answer.survey_id)
+      end
+      @survey.merge_survey_answer(@survey_answer)
+      @page_title = "CBCL - Vis Svar: " << @survey.title
+        render :layout => 'survey' # :template => 'surveys/show'
     end
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.title
-      render :template => 'surveys/show'
-  end
   
   def show_fast
     @options = {:action => "show", :answers => true}
@@ -42,24 +45,26 @@ class SurveyAnswersController < ApplicationController
   end
 
   def edit
-    @options = {:answers => true, :show_all => true, :action => "edit"}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = @journal_entry.survey_answer
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
-    end
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Ret Svar: " << @survey.title
-    render :template => 'surveys/show'
+    # @options = {:answers => true, :show_all => true, :action => "edit"}
+    journal_entry = JournalEntry.find(params[:id])
+    session[:journal_entry] = params[:id]
+    redirect_to survey_path(journal_entry.survey_id)
+    # @survey_answer = @journal_entry.survey_answer
+    # @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    #   Survey.and_questions.find(@survey_answer.survey_id)
+    # end
+    # @survey.merge_survey_answer(@survey_answer)
+    # @page_title = "CBCL - Ret Svar: " << @survey.title
+    # render :layout => 'survey', :template => 'survey_answers/show'
   end
 
   def print
-    @options = {:answers => true, :disabled => false, :action => "show"}
+    @options = {:answers => true, :disabled => false, :action => "print"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = #Rails.cache.fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(@survey_answer.survey_id)
-    # end
+    end
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Udskriv Svar: " << @survey.title
   end
@@ -69,7 +74,8 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.find(params[:id], :include => {:journal => :person_info})
     save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
-    
+
+    # sleep(3000)
     respond_to do |format|
       if current_user.nil?
         format.js {
@@ -89,6 +95,7 @@ class SurveyAnswersController < ApplicationController
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
             page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
+            page.show 'save_draft'
             page.show 'submit_button'
           end
         }
@@ -97,6 +104,7 @@ class SurveyAnswersController < ApplicationController
           render :update do |page|
             page.replace_html 'centertitle', @journal_entry.journal.center.title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
+            page.show 'save_draft'
             page.show 'submit_button'
           end
         }
@@ -110,7 +118,7 @@ class SurveyAnswersController < ApplicationController
 		show_fast = params[:fast] || false
 
 		@response = if journal_entry.survey_answer
-			all_answer_cells = journal_entry.survey_answer.add_value_positions
+			all_answer_cells = journal_entry.survey_answer.setup_draft_values
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.join
 		end || ""
     # puts "RESPONSE: #{@response}"
@@ -125,7 +133,7 @@ class SurveyAnswersController < ApplicationController
   
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     if journal_entry.survey_answer.nil?
@@ -133,23 +141,22 @@ class SurveyAnswersController < ApplicationController
       journal_entry.survey_answer.save
     end
     survey_answer = journal_entry.survey_answer
-		survey_answer.journal_entry_id = journal_entry.id
+		survey_answer.journal_entry_id ||= journal_entry.id
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
-    journal_entry.answered_at = Time.now
-		survey_answer.center_id = journal_entry.journal.center_id
+		survey_answer.center_id ||= journal_entry.journal.center_id
 		# params[:login_user] = current_user.login_user
-		if survey_answer.all_answered?
-			survey_answer.save_final(params, false)
-			current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
-		else
-    	journal_entry.draft!
-		end
+    # if survey_answer.all_answered?
+    #   survey_answer.save_final(params, false)
+    #   current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
+    # else
+    journal_entry.draft!
+    # end
     survey_answer.save
   end
   
   def create
-    if current_user.login_user && (journal_entry = cookies[:journal_entry])
+    if current_user.login_user && (journal_entry = session[:journal_entry])
       params[:id] = journal_entry # login user can access survey with survey_id instead of journal_entry_id
     end
     id = params.delete("id")
@@ -163,7 +170,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_entry.journal and return
     end
 
-    survey = Rails.cache.fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
+    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 20.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
     survey_answer = journal_entry.make_survey_answer

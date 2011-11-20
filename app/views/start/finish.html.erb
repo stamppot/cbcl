@@ -1,8 +1,21 @@
-Tak fordi du besvarede spørgeskemaet.
-<p>
-Du kan udskrive besvarelsen før du logger af. <%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-					(print_survey_answer_path(@journal_entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
+<h2>Tak fordi du besvarede spørgeskemaet</h2>
+Session: <%= session.inspect %>
 
 <p>
-	Du kan nu logge af systemet. <br/>
+	Du kan udskrive besvarelsen før du logger af. Du kan altid logge ind igen, hvis du vil rette eller udskrive din besvarelse. 
+</p>
+
+<div class="round_survey_title" style=' border: 1px solid #<%= @survey.color %>; width: 750px; padding: 20px 0px 6px 20px; font-size: 14pt; background-color: #<%= @survey.color %>;' >
+	<span class="survey_title"></span>
+	<span style="font-size: 14pt;"><%= @survey.description %></span>
+	<p style="font-size: 12pt; padding-top: 20px; padding-bottom: 0px">
+		<%= link_button t('survey.print'), (print_survey_answer_path(@journal_entry) + ".pdf"), 'survey_print', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
+		<%= link_button t('survey.change_answer'), survey_path(@journal_entry), 'survey_edit' %>
+	</p>
+</div>
+
+<p>Du kan nu logge af.<p/>
+<br>
+<span style="font-size: 14pt; ">
 	<%= link_button t('finish'), logout_path, 'logout', :title => 'Log ud af systemet' %>
+</span>

@@ -115,6 +115,13 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
+ExceptionNotification::Notifier.exception_recipients = %w(stamppot@gmail.com)
+ExceptionNotification::Notifier.sender_address =
+   %("Application Error" <error@cbcl-sdu.dk>)
+
+ # defaults to "[ERROR] "
+ ExceptionNotification::Notifier.email_prefix = "[CBCL] "
+
 CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 
 class Hash

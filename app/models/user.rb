@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
     role_titles = Access.roles(right) # << "SuperAdmin"  # SuperAdmin has access to everything
     return false if role_titles.nil?
 
-    _all_roles = Rails.cache.fetch("user_roles_#{self.id}") do self.all_roles end
+    _all_roles = cache_fetch("user_roles_#{self.id}") do self.all_roles end
     _all_roles.map.any? do |role| 
       role_titles.include?(role.title.to_sym)
     end
@@ -283,20 +283,20 @@ class User < ActiveRecord::Base
     journals =
     if self.has_access?(:journal_show_all)
       if options[:page].to_i < 4 # only cache first pages, since they're used more often
-        Rails.cache.fetch("journals_all_paged_#{options[:page]}_#{options[:per_page]}") do
+        cache_fetch("journals_all_paged_#{options[:page]}_#{options[:per_page]}") do
           Journal.and_person_info.paginate(:all, options)
         end
       else
         Journal.and_person_info.paginate(:all, options)
       end
     elsif self.has_access?(:journal_show_centeradm)
-      Rails.cache.fetch("journals_groups_#{self.center_id}_paged_#{options[:page]}_#{options[:per_page]}", :expires_in => 10.minutes) do
+      cache_fetch("journals_groups_#{self.center_id}_paged_#{options[:page]}_#{options[:per_page]}", :expires_in => 10.minutes) do
         Journal.and_person_info.in_center(self.center).paginate(:all, options)
       end
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(options[:reload]) # get teams and center ids for this user
       if options[:page].to_i < 4 # only cache first 5 pages
-        journals = Rails.cache.fetch("journals_groups_#{group_ids.join("_")}_paged_#{options[:page]}_#{options[:per_page]}") do
+        journals = cache_fetch("journals_groups_#{group_ids.join("_")}_paged_#{options[:page]}_#{options[:per_page]}") do
           Journal.and_person_info.all_parents(group_ids).paginate(:all, options)
         end
       else 
@@ -320,12 +320,12 @@ class User < ActiveRecord::Base
   def journal_ids
     j_ids = 
     if self.has_access?(:journal_show_all)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all(:select => "id") }
+      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.all(:select => "id") }
     elsif self.has_access?(:journal_show_centeradm)
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).all(:select => "id") }
+      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).all(:select => "id") }
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(:reload => true) # get teams and centers for this users
-      journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).all(:select => "id") }
+      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).all(:select => "id") }
     elsif self.has_access?(:journal_show_none)
       []
     else  # for login-user
@@ -337,15 +337,15 @@ class User < ActiveRecord::Base
   def journal_entry_ids
     options = { :select => "id", :include => [:journal_entries] }
     if self.has_access?(:journal_show_all)
-      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
         Journal.and_entries.find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
       end
     elsif self.has_access?(:journal_show_centeradm)
-      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
         Journal.and_entries.in_center(self.center).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
       end
     elsif self.has_access?(:journal_show_member)
-      journal_entry_ids = Rails.cache.fetch("journal_entry_ids_user_#{self.id}") do
+      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
         Journal.and_entries.all_parents(self.group_ids).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
       end
     elsif self.has_access?(:journal_show_none)
@@ -380,14 +380,14 @@ class User < ActiveRecord::Base
     if !options[:center].blank?
       options[:journal_ids]   = options[:center].journal_ids if options[:center] && !options[:journal_ids]
     end
-    options[:journal_ids] ||= Rails.cache.fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { self.journal_ids }
     options
   end
   
   def login_users(options = {})
     options[:page] ||= 1
     options[:per_page] ||= 100000
-    journal_ids = Rails.cache.fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { self.journal_ids }
+    journal_ids = cache_fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { self.journal_ids }
     users = LoginUser.in_journals(journal_ids).paginate(:all, options)
   end
   

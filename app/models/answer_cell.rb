@@ -66,31 +66,53 @@ class AnswerCell < ActiveRecord::Base
 		self.rating
 	end
 	
+	def checkbox?
+	  self.cell_type == AnswerCell.answer_types["Checkbox"] 
+  end
+  
 	def cell_value
 		self.value_text || self.value
 	end
 
+
   def html_value_id(fast = false)
     if rating
-      # puts "HTML_VALUE position #{position}"
+      puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
+      return "" unless position
       "q#{answer.number}_#{row}_#{col}_#{position-1}"
+    elsif self.text
+      # puts "TExt cell (#{self.answer_type}): q#{answer.number}_#{row}_#{col} - value: #{self.value_text}"
+      "q#{answer.number}_#{row}_#{col}"
     else
+      # puts "SmtH else than TEXt or RATing: #{self.answer_type}  value: #{self.value} or #{self.value_text}"
       "q#{answer.number}_#{row}_#{col}"
     end
   end
 	
 	def javascript_set_value(fast = false)
-		return "" if fast && value == 9 || value.blank?
-		result = if rating || self.answer_type == "Checkbox"
-			"$('#{html_value_id(fast)}').checked = #{value != 9};"
+		return "" if fast && value == 9 || (!self.text && value.blank?)
+		result = if rating
+      # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
+			"$('#{html_value_id(fast)}').checked = #{value != 9};" 
+		elsif self.checkbox?
+		  "$('#{html_value_id(fast)}').checked = #{self.value};"
+    elsif self.text
+      # return "" unless self.value_text
+      # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
+			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
 		else
-			"$('#{html_value_id(fast)}').value = #{value};"
+		  if self.value_text
+  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
+		  else
+  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value}\";")
+	    end
+      # puts "ElseSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').value = #{value};"
+			"$('#{html_value_id(fast)}').value = #{self.value};"
 		end
     # puts "JAVASCRIPT_SET_VALUE: #{result}"
 		result
 	end
 	
-  # 
   # def to_xml
   #   r = []
   #   

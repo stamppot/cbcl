@@ -18,7 +18,7 @@ class Code < ActiveRecord::Base
   def fix_parent
     survey = question.survey
     codebook = CodeBook.find_by_survey_id(question.survey_id)
-    puts "found codebook: #{codebook.inspect}"
+    # puts "found codebook: #{codebook.inspect}"
     if codebook
       codebook.codes << self
       self.save

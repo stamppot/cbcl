@@ -278,9 +278,10 @@ class QuestionCell < ActiveRecord::Base
 		name      
 	end
 
-	def div_item(html, type)
+	def div_item(html, type, id = nil)
 		#content_tag("div", html, { :class => type } )
-		"<div class='#{type}'>#{html}</div>"
+		id_attr = id.blank? ? "" : "id='#{id}'"
+		"<div #{id_attr} class='#{type}'>#{html}</div>"
 	end
 
 	def span_item(html, type)
@@ -298,17 +299,19 @@ class QuestionCell < ActiveRecord::Base
 		options[:disabled] = options[:disabled] ? true : false
 		options[:show_all] = options[:show_all] && true || false
 		options[:fast]     = options[:fast] ? true : false
+		options[:edit]     = options[:action] == "edit"
+		options[:print]    = options[:action] == "print"
+		options[:action]   = options[:action]
 		self.form_template(options)
 	end
-
-	#def create_form(value = nil, disabled = false, show_all = true) # :value => nil, :disabled => false, :show_all => true
-	#  form_template(value, disabled, show_all)
-	#end
 
 	def fast_input_form(options = {}, value = nil)
 		options[:disabled] = false
 		options[:show_all] = false
 		options[:number]   ||= self.question.number.to_s
+		options[:edit]     = options[:action] == "edit"
+		options[:print]    = options[:action] == "print"
+		options[:action]   = options[:action]
 		self.create_form(options)
 	end
 
@@ -512,16 +515,25 @@ class ListItem < QuestionCell
 		self.question_items.each_with_index do |item, i|
 			item_text = edit ? item.text : item.text
 			field = (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
-			if(item_text.blank?)     # listitem without predefined text
-				if(disabled and value)      # show answer value
+			has_no_text = item_text.blank?
+			if(has_no_text)     # listitem without predefined text
+				if(disabled)      # show answer value
 					field << value
 				else                        # show text field, possibly with value
-					field << "<input id='#{c_id}' name='#{question_no}[#{cell_id(no)}]' type='text' size='20'" +
-					(item.value ? " value='#{item.value}'" : "") + " >"
+          case options[:action]
+			    when /print|show/ : 
+			      field << value
+			      newform << div_item(field, "listitemfield answer_textbox")
+			    when /create|edit/ :
+            # field << value
+            # newform << div_item(field, "listitemfield answer_textbox")
+            field << "<textarea id='#{c_id}' class='textfield' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
+            newform << div_item(field, "listitemfield")
+          end
 				end
-				newform << div_item(field, "listitemfield")
-			else  # show text in item (no input field)
-				newform << div_item(field + item_text, "listitemtext")
+			else  # with predefined text. show text in item (no input field)
+        # newform << "<span class='listitemtext'>" + div_item(item_text, "") + "</span>"
+        newform << div_item(field + item_text, "listitemtext")
 			end
 		end
 		# newform << "<input id='#{cell_id}_item' name='#{question_no}[#{cell}][item]' type='hidden' value='#{self.answer_item}' />" unless self.answer_item.nil?
@@ -765,11 +777,14 @@ class ListItemComment < QuestionCell
 		target = (fast or switch_off) ? "" : switch_target(options)
 
 		self.question_items.each do |item|
-			case item.qtype
+		  listitem_without_predefined_text = item.text.nil? || item.text.empty?
+		  case item.qtype
 				# enable/disable button
 			when "textbox": newform << 
-				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text
-					input_or_answer = answer ? (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") : "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='20' rows='3' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
+				if (listitem_without_predefined_text)
+					input_or_answer = answer ?
+					  (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") :
+					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='38' rows='5' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
 					div_item((answer_item_set ? "" : answer_item) + input_or_answer,
 					"itemtextbox #{target}".rstrip)
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
@@ -777,9 +792,10 @@ class ListItemComment < QuestionCell
 			when "listitem": 
         answer_item_set = true if self.col == 1
 			  newform <<
-				if ( item.text.nil? || item.text.empty?)     # listitem without predefined text	
+				if (listitem_without_predefined_text)
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
-					"<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >", "listitemfield") # removed />
+          # "<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >#{self.value}</input>", "listitemfield")
+					"<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='textfield' type='text' rows='1' value='#{item.value}'>#{self.value}</textarea>", "listitemfield")
 				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
 				end
 				answer_item_set = true;
@@ -953,7 +969,7 @@ class TextBox < QuestionCell
 			elsif answer
 				newform << (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_textbox'>#{self.value}</div>")
 			else
-				newform << div_item("<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' cols='20' rows='3'>#{self.value}</textarea>", "itemtextbox")
+				newform << div_item("<textarea id='#{c_id}' class='comment' name='#{question_no}[#{c_id}]' cols='38' rows='5'>#{self.value}</textarea>", "itemtextbox")
 			end
 		end
 		newform.join

@@ -28,6 +28,12 @@ config.action_view.cache_template_loading = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+ActionMailer::Base.smtp_settings = {
+  :address => "mail.blueboxgrid.com",
+  :port => "25",
+  :domain => "cbcl-sdu.dk"
+}
+
 # http://code.google.com/p/super-exception-notifier/
 # defaults to exception.notifier@default.com
 # ExceptionNotifier.sender_address =

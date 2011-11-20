@@ -3,20 +3,16 @@ class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
   include CacheableFlash
+  include ExceptionNotification::Notifiable
   layout 'cbcl'
 
   before_filter :configure_charsets
-  # before_filter :set_content_type
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
   before_filter :check_logged_in, :except => [:login]
   before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout]
-  before_filter :center_title, :except => [:dynamic_data, :logout, :login, :finish]
+  before_filter :center_title, :except => [:dynamic_data, :logout, :login]
 
   filter_parameter_logging :password, :password_confirmation
-
-  # def set_content_type
-  #    
-  #  end
   
   def check_logged_in
     redirect_to login_path if !current_user && !params[:controller] =~ /login/
@@ -40,8 +36,26 @@ class ApplicationController < ActionController::Base
     rescue_action_in_public CustomNotFoundError.new
   end
 
+  def rescue_action_in_public(exception)
+    case exception
+    when ActiveRecord::RecordNotFound
+      render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
+    else
+      # render :text => "Der er sket en fejl. #{exception.message}   #{exception.application_backtrace}  #{session.inspect}", :status => 500
+      # @message = exception.message
+      # @backtrace = exception.application_backtrace
+      # @journal_entry = session[:journal_entry]
+      # @user_id = session[:rbac_user_id]
+      # render :template => 'errors/500', :status => 500
+      super
+    end
+  end
+  
   def remove_user_from_session!
     session[:rbac_user_id] = nil
+    session.delete :journal_entry
+    cookies.delete :journal_entry
+    cookies.delete :user_name
   end
 
   private
@@ -105,7 +119,7 @@ class ApplicationController < ActionController::Base
           when /faq/
             access = current_user.access?(:superadmin) || current_user.access?(:admin)
           when /score_reports/  # TODO: test this one!!!
-            journal_ids = Rails.cache.fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
+            journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
               params[:answers].keys.all? { |entry| journal_ids.include? entry }
             else
@@ -290,15 +304,22 @@ class Fixnum
   end
 end
 
-def cache_fetch(key, time_expire = 0)
-  if ENV["RAILS_ENV"] == 'development' && !CACHE_DEVELOPMENT
-    yield
+# def cache_fetch(key, time_expire = 0)
+#   if ENV["RAILS_ENV"] == 'development' && !CACHE_DEVELOPMENT
+#     yield
+#   else
+#     CACHE.fetch(key, time_expire){yield} #this is the old way
+#     # unless output = CACHE.get(key)
+#     #   output = yield
+#     #   CACHE.set(key, output, time_expire)
+#     # end
+#     # return output
+#   end
+# end
+def cache_fetch(key, options = {}, &block)
+  if Rails.env.production? 
+    Rails.cache.fetch key, options, &block
   else
-    # CACHE.fetch(key, time_expire){yield} #this is the old way
-    unless output = CACHE.get(key)
-      output = yield
-      CACHE.set(key, output, time_expire)
-    end
-    return output
+    yield
   end
 end

@@ -1,29 +1,19 @@
-<script type="text/javascript">
-$(document).ready(function() {
-  $("a.new_window").click(function() {
-    link_host = this.href.split("/")[2];
-    document_host = document.location.href.split("/")[2];
-
-    if (link_host == document_host) {
-      window.open(this.href);
-      return false;
-    }
-  });
-});
-</script>
-
 <h2>Velkommen til CBCL</h2>
 <p>
-Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start. Når du er færdig skal du trykke på 'Send svar'-knappen.
+Du skal besvare nedenstående spørgeskema. Du begynder ved at trykke på start. Undervejs gemmes din besvarelse som en kladde, så du kan genoptage besvarelsen senere.
+<br/>Når du er færdig skal du trykke på 'Send svar'-knappen nederst på siden.
+</p>
 
-<div style=' width: 750px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
+<div style=' width: 780px; padding: 20px 0px 20px 20px; font-size: 16pt; background-color: #<%= @survey.color %>;' >
 	<span class="survey_title"><%= link_button t('survey.start'), survey_url(@survey), 'survey_start', :format => 'html' %></span>
 	<span style="font-size: 14pt;"><%= @survey.description %></span>
-	<span>
+	<span>&nbsp;&nbsp;&nbsp;&nbsp;
 	<% url = "/survey_#{@survey.id}.pdf" %>
-	<%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
+	<%= link_to img_tag_html4("printer-42x.png", :align => "center", :border=>0, :alt => 'Udskriv spørgeskema', :class => "new_window", :title => 'Udskriv spørgeskema' ),
 						url, :onclick => "window.open(\"#{url}\"); return false;", :title => 'Udskriv spørgeskema' %></span>
 </div>
+
+<p>Du kan udskrive spørgeskemaet før du begynder din besvarelse. Tryk på print-knappen ovenfor.</p>
 
 <br>
 <%= link_button t('finish'), logout_path, 'logout', :format => 'html', :title => 'Log ud af systemet' %>

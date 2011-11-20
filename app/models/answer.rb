@@ -116,7 +116,7 @@ class Answer < ActiveRecord::Base
         value = cell.value.to_i if !cell.text? && !cell.value.blank?
         c[:type] = type
         c[:v] = value
-        puts c.inspect
+        # puts c.inspect
         cells << c
       end
     end
@@ -198,66 +198,36 @@ class Answer < ActiveRecord::Base
     self.question <=> other.question
   end
 
-  # # returns array of cells to create
-  # def add_missing_cells_optimized
-  #   a_cells = self.answer_cells.ratings
-  #   count = 0
-  #   # find missing
-  #   cells = a_cells.map {|a| [a.row, a.col] }
-  #   cell_arr = cells.first
-  #   return if !(cell_arr && cell_arr.size == 2) 
-  # 
-  #   q_cells = self.question.question_cells.ratings.map {|a| [a.row, a.col] }
-  #   q_cells_size = q_cells.size
-  #   missing_cells = q_cells - cells
-  # 
-  #   new_cells = []
-  #   missing_cells.each do |m_cell|
-  #     row, col = m_cell
-  #     find_row = row - 1 # try one before this
-  #     cells_away = 1 # how far the found cell is from the one to fill in
-  #     while((prev_item = a_cells.detect { |c| c.row == find_row}).nil? && find_row > 0) do
-  #       find_row -= 1
-  #       cells_away += 1
-  #     end
-  #     if prev_item && (item = prev_item.item) && find_row > 0 && find_row < q_cells_size
-  #       cells_away.times { item.succ! }
-  #       unless exists = self.answer_cells(true).find_by_row_and_col(row, col)
-  #         new_cells << self.answer_cells.build( :item => item, :row => row, :col => col,
-  #  																								:cell_type => AnswerCell.answer_types['Rating'],
-  #  																								:answertype => 'Rating',
-  #  																								:value => '')
-  #         count += 1
-  #         # puts "AC created: #{ac.inspect}, item: #{item}, row: #{row}, m_cell: #{m_cell.inspect}"
-  #       end
-  #     end
-  #     row = col = find_row = cells_away = prev_item = exists = nil
-  #   end if self.survey_answer.done
-  #   new_cells
-  # end
-
-	def add_value_positions
-		puts "ANSWER.add_value_positions"
+	def setup_draft_values
+    # puts "ANSWER.setup_draft_values"
 		q_cells = self.question.rows_of_cols
 		a_cells = self.rows_of_cols
-		puts "add_value_pos size #{a_cells.size}"
+    # puts "add_value_pos size #{a_cells.size}"
 		a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
 			cols.each_pair do |col, cell|
 				if !cell.value.blank?
 					pos_arr = q_cells[row][col].value_to_text
-					puts "q_cell.value_to_text #{q_cells[row][col].value_to_text.inspect}"
-					puts "looking for position for value: #{cell.cell_value} or #{cell.value}"
+          # puts "q_cell.value_to_text #{q_cells[row][col].value_to_text.inspect}"
+          # puts "looking for position for value: #{cell.cell_value} or #{cell.value}"
 					if cell.value != 9 && result = pos_arr.assoc(cell.cell_value.to_s)
 						pos = result.last
-						puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
+            # puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
 						cell.position = pos unless pos.nil?
+						puts "ERRRORR value cell pos nil: #{cell.inspect}" if pos.nil?
 					end
-				end
+				elsif cell.value_text
+				  pos_arr = q_cells[row][col].value_to_text
+					if result = pos_arr.assoc(cell.cell_value.to_s)
+						pos = result.last
+						cell.position = pos unless pos.nil?
+						puts "ERRRORR value_text cell pos nil: #{cell.inspect}" if pos.nil?
+					end
+				end  
 			end
 		end
 		all_answer_cells = []
 		a_cells.each_path { |path, value| all_answer_cells << value }
-		puts "all size: #{all_answer_cells.size}"
+    # puts "all size: #{all_answer_cells.size}"
 		all_answer_cells
 	end
   
@@ -283,7 +253,7 @@ class Answer < ActiveRecord::Base
   end
   
   def set_missing_items
-    q_cells = Rails.cache.fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
+    q_cells = cache_fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }
     counter = 0
     a_cells = self.answer_cells.find(:all, :conditions => ['item IS NULL'])
     a_cells.each do |a_cell|
@@ -294,7 +264,7 @@ class Answer < ActiveRecord::Base
         a_cell.save
         a_cell = nil
         counter += 1
-        puts "set another 100 a_cells" if counter % 100 == 0
+        # puts "set another 100 a_cells" if counter % 100 == 0
       end
     end
     a_cells.clear
