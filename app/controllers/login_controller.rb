@@ -8,6 +8,12 @@ class LoginController < ApplicationController
   
   def login
     if request.post?
+      if params[:username].to_i > 0
+        journal_entry = JournalEntry.find(params[:username])
+        if journal_entry.password == params[:password]
+          params[:username] = journal_entry.login_user.login
+        end
+      end
       if current_user && current_user.login == params[:username]
         # user = User.find_with_credentials(params[:username], params[:password])
         # flash[:notice] = "#{current_user.name}, du er allerede logget ind."
