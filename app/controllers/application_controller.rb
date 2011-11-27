@@ -40,13 +40,9 @@ class ApplicationController < ActionController::Base
     case exception
     when ActiveRecord::RecordNotFound
       render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
+    when MethodNotError
+      render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
     else
-      # render :text => "Der er sket en fejl. #{exception.message}   #{exception.application_backtrace}  #{session.inspect}", :status => 500
-      # @message = exception.message
-      # @backtrace = exception.application_backtrace
-      # @journal_entry = session[:journal_entry]
-      # @user_id = session[:rbac_user_id]
-      # render :template => 'errors/500', :status => 500
       super
     end
   end
