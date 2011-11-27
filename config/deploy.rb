@@ -92,7 +92,7 @@ end
 #   end
 # end
 # 
-after "boxcar:deploy:link_files", "memcached:flush"
+# after "boxcar:deploy:link_files", "memcached:flush"
 #
 
 # Thinking Sphinx
