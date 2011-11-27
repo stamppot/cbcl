@@ -91,7 +91,7 @@ end
 #   end
 # end
 # 
-# after "boxcar:deploy:link_files", "example:link_remote_files"
+after "boxcar:deploy:link_files", "memcache:flush"
 #
 
 # Thinking Sphinx

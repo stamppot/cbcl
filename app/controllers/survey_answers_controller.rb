@@ -144,13 +144,7 @@ class SurveyAnswersController < ApplicationController
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
 		survey_answer.center_id ||= journal_entry.journal.center_id
-		# params[:login_user] = current_user.login_user
-    # if survey_answer.all_answered?
-    #   survey_answer.save_final(params, false)
-    #   current_user.login_user? && journal_entry.answered! || journal_entry.answered_paper!
-    # else
     journal_entry.draft!
-    # end
     survey_answer.save
   end
   
