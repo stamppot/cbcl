@@ -40,8 +40,8 @@ class ApplicationController < ActionController::Base
     case exception
     when ActiveRecord::RecordNotFound
       render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
-    when MethodNotError
-      render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
+    # when NoMethodError
+    #   render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
     else
       super
     end
