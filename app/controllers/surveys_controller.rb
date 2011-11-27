@@ -52,7 +52,7 @@ class SurveysController < ApplicationController
      #   cookies[:journal_entry] = journal_entry.id
      #   params[:id] = journal_entry.survey_id
      # end
-     raise "Journal info not found" if journal_entry.blank?
+     # raise "Journal info not found" if journal_entry.blank?
      
      # cookies[:journal_entry] = { :value => journal_entry, :expires => 2.hour.from_now } #if current_user.login_user?
 
