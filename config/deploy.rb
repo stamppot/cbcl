@@ -23,6 +23,7 @@ set :boxcar_server, '67.214.211.55' # Planet Argon: '198.145.115.222' # change t
 # due to a limitation in Capistrano.
 
 set :boxcar_username, 'cbcl'
+set :user, 'cbcl'
 
 # Where is your source code repository?
 #
@@ -186,7 +187,7 @@ namespace :memcached do
 	end        
 	desc "Flush memcached - this assumes memcached is on port 11211"
 	task :flush, :roles => [:app] do
-		sudo "echo 'flush_all' | nc localhost 11211"
+		run "echo 'flush_all' | nc localhost 11211 -w 3"
 	end        
 	desc "Symlink the memcached.yml file into place if it exists"
 	task :symlink_configs, :roles => [:app], :except => { :no_release => true } do
