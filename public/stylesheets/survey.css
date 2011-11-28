@@ -877,4 +877,5 @@ a .send_survey {
 #copyright {
   margin-left: 24%;
 	text-align: center;
+	white-space: nowrap;
 }

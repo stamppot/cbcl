@@ -48,11 +48,11 @@ function initMakeItCount() {
 function hideSpinner() {
 	$('spinner').hide();
 	// Effect.Highlight('save_draft');
-	// Effect.Highlight('content_survey');
+	new Effect.Highlight('content_survey');
 }
 
 Event.observe(window, 'load', function() {
-	// updated 28/11 00.16 CET
+	// updated 28/11 22.10 CET
 
 	// do not add submit button when it's show only
 	var doNotCall = document.location.href.match(/show_only/);
@@ -85,14 +85,13 @@ Event.observe(window, 'load', function() {
 			  }
 			});
 
-			var set_values_interval = 4;
+			var set_values_interval = 2;
 			save_draft_url = '/survey_answers/save_draft/' + params['id'];
 			// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
-			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; console.log("setting values..."); });
+			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
 			// save values every 60 seconds
 			new Form.Observer('surveyform', save_interval, function(element, value) {
-				console.log("saving draft...");
-				new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams, onComplete:hideSpinner});
+				new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams});
 			});
 			//]]>
 		}

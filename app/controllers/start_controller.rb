@@ -1,6 +1,7 @@
 class StartController < ApplicationController
 
   def start
+    cookies.delete :user_name if current_user.login_user?
     @journal_entry = JournalEntry.find_by_user_id(current_user.id)
     session[:journal_entry] ||= @journal_entry.id
 

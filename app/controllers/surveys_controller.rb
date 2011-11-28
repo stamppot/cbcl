@@ -41,18 +41,10 @@ class SurveysController < ApplicationController
   end
 
   def show
-    # rails RunTimeException "Test"
      @options = {:show_all => true, :action => "create"}
-     cookies.delete :user_name if current_user.login_user?  # remove flash welcome message
 
-     cookies[:journal_entry] = { :value => session[:journal_entry], :expires => 2.hour.from_now }
-     
-     # if session[:journal_entry] && session[:journal_entry].to_i > 0
-     #   journal_entry = JournalEntry.find(session[:journal_entry])
-     #   cookies[:journal_entry] = journal_entry.id
-     #   params[:id] = journal_entry.survey_id
-     # end
-     # raise "Journal info not found" if journal_entry.blank?
+     journal_entry = JournalEntry.find(session[:journal_entry])
+     cookies[:journal_entry] = { :value => journal_entry.id, :expires => 2.hour.from_now }
      
      # cookies[:journal_entry] = { :value => journal_entry, :expires => 2.hour.from_now } #if current_user.login_user?
 

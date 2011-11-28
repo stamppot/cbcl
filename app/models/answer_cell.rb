@@ -80,6 +80,7 @@ class AnswerCell < ActiveRecord::Base
       puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
       return "" unless position
       "q#{answer.number}_#{row}_#{col}_#{position-1}"
+    elsif rating && position.nil? # rating with unchosen value
     elsif self.text
       # puts "TExt cell (#{self.answer_type}): q#{answer.number}_#{row}_#{col} - value: #{self.value_text}"
       "q#{answer.number}_#{row}_#{col}"
@@ -90,26 +91,29 @@ class AnswerCell < ActiveRecord::Base
   end
 	
 	def javascript_set_value(fast = false)
-		return "" if fast && value == 9 || (!self.text && value.blank?)
+		return if fast && value == 9 || (!self.text && (value.blank? || value == 9))
+		html_id = html_value_id(fast)
 		result = if rating
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
-			"$('#{html_value_id(fast)}').checked = #{value != 9};" 
+			"$('#{html_id}').checked = #{value != 9};" 
 		elsif self.checkbox?
-		  "$('#{html_value_id(fast)}').checked = #{self.value};"
+		  "$('#{html_id}').checked = #{self.value};"
     elsif self.text
       # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
+			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
 		else
 		  if self.value_text
-  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
+  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
 		  else
-  			"$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value}\";")
+  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value}\";")
 	    end
-      # puts "ElseSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').value = #{value};"
-			"$('#{html_value_id(fast)}').value = #{self.value};"
+			"$('#{html_id}').value = #{self.value};"
 		end
-    # puts "JAVASCRIPT_SET_VALUE: #{result}"
+    if html_value_id(fast).blank?
+	    puts "SOMETHINGS WRONG: #{self.inspect} html_value: #{html_id.inspect}  q#{answer.number}_#{row}_#{col} value: #{value} value_text: #{value_text}"
+	    return
+    end
 		result
 	end
 	

@@ -199,25 +199,22 @@ class Answer < ActiveRecord::Base
   end
 
 	def setup_draft_values
-    # puts "ANSWER.setup_draft_values"
 		q_cells = self.question.rows_of_cols
 		a_cells = self.rows_of_cols
-    # puts "add_value_pos size #{a_cells.size}"
 		a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
 			cols.each_pair do |col, cell|
 				if !cell.value.blank?
-					pos_arr = q_cells[row][col].value_to_text
+					position_values = q_cells[row][col].value_to_text
           # puts "q_cell.value_to_text #{q_cells[row][col].value_to_text.inspect}"
           # puts "looking for position for value: #{cell.cell_value} or #{cell.value}"
-					if cell.value != 9 && result = pos_arr.assoc(cell.cell_value.to_s)
-						pos = result.last
-            # puts "found postion #{pos} #{pos_arr.inspect} for value #{cell.cell_value}"
-						cell.position = pos unless pos.nil?
+					if cell.value != 9 && result = position_values.assoc(cell.cell_value.to_s)
+					  pos = result.last
+            cell.position = pos unless pos.nil?
 						puts "ERRRORR value cell pos nil: #{cell.inspect}" if pos.nil?
 					end
 				elsif cell.value_text
-				  pos_arr = q_cells[row][col].value_to_text
-					if result = pos_arr.assoc(cell.cell_value.to_s)
+				  position_values = q_cells[row][col].value_to_text
+					if result = position_values.assoc(cell.cell_value.to_s)
 						pos = result.last
 						cell.position = pos unless pos.nil?
 						puts "ERRRORR value_text cell pos nil: #{cell.inspect}" if pos.nil?
