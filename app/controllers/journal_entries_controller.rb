@@ -9,8 +9,8 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
          :only         => [ :remove, :remove_answer, :destroy_login ]
 
   def show
-    session[:journal_entry] = params[:id]
     journal_entry = JournalEntry.find(params[:id], :include => :journal)
+    session[:journal_entry] = journal_entry.id
     if params[:fast]
       redirect_to survey_show_fast_path(journal_entry.id) and return # caching disabled, so not .survey_id
     else

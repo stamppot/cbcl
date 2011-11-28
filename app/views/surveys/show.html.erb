@@ -58,15 +58,15 @@ Event.observe(window, 'load', function() {
 	var doNotCall = document.location.href.match(/show_only/);
 	var formParams = null;
 	if(doNotCall == null) {
-		var val = /([0-9]+)$/;
-  	var matches = document.location.href.match(val);
+		// var val = /([0-9]+)$/;
+		//   	var matches = document.location.href.match(val);
 		var params = {};
-		params['id'] = matches[1];
+		// params['id'] = matches[1];
 		var save_interval = 60;
 		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
 		var journal_entry = document.cookies().get('journal_entry');
 		if((typeof(journal_entry) == "undefined")) {
-			alert("Fejl: Kan ikke hente brugerinformation");
+			alert("Fejl: Kan ikke hente brugerinformation: ");
 		}
 
 		var save_draft_url = '/survey_answers/save_draft/0';
