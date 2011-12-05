@@ -35,17 +35,18 @@ class LettersController < ApplicationController
   end
 
   def create
-    @group = Group.find_by_id params[:letter][:group_id]
     @letter = Letter.new(params[:letter])
+    @group = Group.find_by_id params[:letter][:group_id]
     @letter.group = @group
     
     if @letter.save
-      render :new and return
       flash[:notice] = 'Brevet er oprettet.'
-      redirect_to(@letter)
+      redirect_to(@letter) and return
     else
+      @group = [@letter.group.title, @letter.group.id]
       @role_types = Survey.surveytypes
       @groups = [@group]
+      render :new and return
     end
   end
 
@@ -59,10 +60,12 @@ class LettersController < ApplicationController
       render :edit
     end
   end
-
+  
   def destroy
-    @letter = Letter.find(params[:id])
-    @letter.destroy
+      @letter = Letter.find(params[:id])
+      @letter.destroy
+      flash[:notice] = "Brevet #{@letter.name} er blevet slettet."
+      redirect_to letters_path
   end
   
   def show_login

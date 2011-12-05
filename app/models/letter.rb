@@ -5,7 +5,7 @@ class Letter < ActiveRecord::Base
   validates_presence_of :letter
   validates_presence_of :name
   validates_presence_of :surveytype
-  # validates_uniqueness_of :surveytype, :scope => :group
+  validates_uniqueness_of :surveytype, :scope => :group_id
   
   def insert_text_variables(journal_entry)
     self.letter.gsub!('{{login}}', journal_entry.login_user.login)
