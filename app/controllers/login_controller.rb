@@ -7,6 +7,7 @@ class LoginController < ApplicationController
   end
   
   def login
+    cookies.delete :journal_entry
     if request.post?
       if params[:username].to_i > 0
         journal_entry = JournalEntry.find(params[:username])
@@ -76,6 +77,8 @@ class LoginController < ApplicationController
   # be redirected to '/'. User must be logged in
   def logout
     return unless request.post?
+
+    cookies.delete :journal_entry
 
     # Do not log out if the user did not press the "Yes" button
     if params[:yes].nil?

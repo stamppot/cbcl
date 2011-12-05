@@ -49,7 +49,7 @@ class ScoreRapport < ActiveRecord::Base
       survey_answer_id = self.survey_answer_id
       self.score_results.map {|sr| sr.destroy}
       survey_answer = SurveyAnswer.find survey_answer_id
-      survey_answer.generate_score_rapport
+      survey_answer.generate_score_report
       self.updated_at = Time.now
       save
     # end

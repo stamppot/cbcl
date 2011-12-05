@@ -44,10 +44,10 @@ class SurveysController < ApplicationController
      @options = {:show_all => true, :action => "create"}
 
      journal_entry = JournalEntry.find(session[:journal_entry])
-     cookies[:journal_entry] = { :value => journal_entry.id, :expires => 2.hour.from_now }
+     logger.info("SURVEY get: #{journal_entry.id}...")
+     cookies[:journal_entry] = journal_entry.id
+     journal_entry = JournalEntry.find(cookies[:journal_entry]) if session[:journal_entry].blank?
      
-     # cookies[:journal_entry] = { :value => journal_entry, :expires => 2.hour.from_now } #if current_user.login_user?
-
      @is_login_user = current_user.login_user?
      
      # don't cache now, it's page cached anyway

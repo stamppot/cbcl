@@ -39,9 +39,14 @@ class LettersController < ApplicationController
     @letter = Letter.new(params[:letter])
     @letter.group = @group
     
-    render :new and return unless @letter.save
-    flash[:notice] = 'Brevet er oprettet.'
-    redirect_to(@letter)
+    if @letter.save
+      render :new and return
+      flash[:notice] = 'Brevet er oprettet.'
+      redirect_to(@letter)
+    else
+      @role_types = Survey.surveytypes
+      @groups = [@group]
+    end
   end
 
   def update

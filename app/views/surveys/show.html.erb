@@ -52,8 +52,9 @@ function hideSpinner() {
 }
 
 Event.observe(window, 'load', function() {
-	// updated 28/11 22.55 CET
+	// updated 05/12 18.07 CET
 
+	var doSave = true;
 	// do not add submit button when it's show only
 	var doNotCall = document.location.href.match(/show_only/);
 	var formParams = null;
@@ -91,7 +92,9 @@ Event.observe(window, 'load', function() {
 			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
 			// save values every 60 seconds
 			new Form.Observer('surveyform', save_interval, function(element, value) {
-				new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams});
+				if(doSave) {
+					new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams});
+				}
 			});
 			//]]>
 		}
@@ -106,6 +109,7 @@ Event.observe(window, 'load', function() {
 	$('spinner').hide();
 
 	$('save_draft').observe('click', function(el) {
+		doSave = false;
 		$('spinner').show();
 		new Ajax.Updater('draft-message', save_draft_url,
 				{ asynchronous:true, evalScripts:true, parameters:formParams, onComplete:hideSpinner });

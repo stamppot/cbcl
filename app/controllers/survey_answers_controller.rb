@@ -20,17 +20,19 @@ class SurveyAnswersController < ApplicationController
 
   # should answered survey (merged with answers), which can be saved (send button)
   def show # BROKEN layout
-      @options = {:answers => true, :disabled => false, :action => "show"}
-      @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-      @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-      @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
-        Survey.and_questions.find(@survey_answer.survey_id)
-      end
-      @survey.merge_survey_answer(@survey_answer)
-      @page_title = "CBCL - Vis Svar: " << @survey.title
-        render :layout => 'survey' # :template => 'surveys/show'
+    cookies.delete :journal_entry
+    @options = {:answers => true, :disabled => false, :action => "show"}
+    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    cookies[:journal_entry] = @journal_entry.id
+    @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
+    @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
+      Survey.and_questions.find(@survey_answer.survey_id)
     end
-  
+    @survey.merge_survey_answer(@survey_answer)
+    @page_title = "CBCL - Vis Svar: " << @survey.title
+    render :layout => 'survey' # :template => 'surveys/show'
+  end
+
   def show_fast
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
@@ -131,10 +133,12 @@ class SurveyAnswersController < ApplicationController
   
   def save_draft
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    return if journal_entry.answered?
+
     survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end
-    if journal_entry.survey_answer.nil?
+    if journal_entry.survey_answer.nil? || !journal_entry.answered?
       journal_entry.make_survey_answer
       journal_entry.survey_answer.save
     end
@@ -143,7 +147,7 @@ class SurveyAnswersController < ApplicationController
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
 		survey_answer.center_id ||= journal_entry.journal.center_id
-    journal_entry.draft!
+    journal_entry.draft! # unless journal_entry.answered?
     survey_answer.save
   end
   
@@ -202,7 +206,7 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save_answers(params)
     # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
     if survey_answer.save
-      survey_answer.generate_score_rapport(update = true)
+      survey_answer.generate_score_report(update = true)
       Task.new.create_csv_answer(survey_answer)
       redirect_to journal_path(@journal_entry.journal)
     else  # not answered
