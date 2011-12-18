@@ -6,85 +6,6 @@
 --
 -- Table structure for table `surveys`
 --
-DROP TABLE IF EXISTS `surveys`;
-CREATE TABLE `surveys` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(40) collate utf8_danish_ci default NULL,
-  `category` varchar(255) collate utf8_danish_ci default NULL,
-  `description` text collate utf8_danish_ci,
-  `age` varchar(255) collate utf8_danish_ci default NULL,
-  `surveytype` varchar(15) collate utf8_danish_ci default NULL,
-  `color` varchar(7) collate utf8_danish_ci default NULL,
-  `position` int(11) default '99',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
---
--- Dumping data for table `surveys`
---
-LOCK TABLES `surveys` WRITE;
-INSERT INTO `surveys` VALUES (1,'CBCL: 1 1/2-5 (Forældreskema)','CBCL','Spørgeskema om barnets adfærd (Forældreskema) 1 1/2-5 år','1.5-5','parent','4499FF',1);
-INSERT INTO `surveys` VALUES (2,'CBCL: 6-16 år (Forældreskema)','CBCL','Spørgeskema om barnets adfærd (Forældreskema) 6-16 år','6-16','parent','88DDFF',3);
-INSERT INTO `surveys` VALUES (3,'C-TRF: 1 1/2-5 (Pædagogskema)','C-TRF','Spørgeskema om barnets adfærd (pædagogskema) 1 1/2-5 år','1.5-5','pedagogue','55FF44',2);
-INSERT INTO `surveys` VALUES (4,'TRF: 6-16 år (Lærerskema)','TRF','Spørgeskema om barnets adfærd (Lærerskema) 6-16 år','6-16','teacher','99FF77',4);
-INSERT INTO `surveys` VALUES (5,'YSR: 11-16 år (Selvrapportskema)','YSR','Selvrapportskema for unge 11-16 år','11-16','youth','FFFF77',5);
-INSERT INTO `surveys` VALUES (6,'Test','Test','Brug dette spørgeskema til at lave testspørgsmål','0-100','other','B0F8F8',6);
-UNLOCK TABLES;
---
--- Table structure for table `questions`
---
-DROP TABLE IF EXISTS `questions`;
-CREATE TABLE `questions` (
-  `id` int(11) NOT NULL auto_increment,
-  `survey_id` int(11) NOT NULL,
-  `number` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
---
--- Dumping data for table `questions`
---
-LOCK TABLES `questions` WRITE;
-INSERT INTO `questions` VALUES (1,2,1);
-INSERT INTO `questions` VALUES (2,2,2);
-INSERT INTO `questions` VALUES (3,2,3);
-INSERT INTO `questions` VALUES (4,2,4);
-INSERT INTO `questions` VALUES (5,2,5);
-INSERT INTO `questions` VALUES (6,2,6);
-INSERT INTO `questions` VALUES (7,2,7);
-INSERT INTO `questions` VALUES (8,1,2);
-INSERT INTO `questions` VALUES (9,2,8);
-INSERT INTO `questions` VALUES (10,1,3);
-INSERT INTO `questions` VALUES (11,3,8);
-INSERT INTO `questions` VALUES (18,4,12);
-INSERT INTO `questions` VALUES (19,5,8);
-INSERT INTO `questions` VALUES (20,2,10);
-INSERT INTO `questions` VALUES (25,1,1);
-INSERT INTO `questions` VALUES (31,3,1);
-INSERT INTO `questions` VALUES (32,3,2);
-INSERT INTO `questions` VALUES (33,3,3);
-INSERT INTO `questions` VALUES (34,3,5);
-INSERT INTO `questions` VALUES (51,5,1);
-INSERT INTO `questions` VALUES (52,5,2);
-INSERT INTO `questions` VALUES (53,5,3);
-INSERT INTO `questions` VALUES (54,5,4);
-INSERT INTO `questions` VALUES (55,5,5);
-INSERT INTO `questions` VALUES (56,5,6);
-INSERT INTO `questions` VALUES (57,5,7);
-INSERT INTO `questions` VALUES (214,4,2);
-INSERT INTO `questions` VALUES (215,4,3);
-INSERT INTO `questions` VALUES (216,4,4);
-INSERT INTO `questions` VALUES (219,4,7);
-INSERT INTO `questions` VALUES (220,4,8);
-INSERT INTO `questions` VALUES (221,4,9);
-INSERT INTO `questions` VALUES (222,4,10);
-INSERT INTO `questions` VALUES (223,4,11);
-INSERT INTO `questions` VALUES (224,4,1);
-INSERT INTO `questions` VALUES (231,3,4);
-INSERT INTO `questions` VALUES (237,3,6);
-INSERT INTO `questions` VALUES (272,3,7);
-INSERT INTO `questions` VALUES (275,4,0);
-INSERT INTO `questions` VALUES (276,4,5);
-INSERT INTO `questions` VALUES (277,4,6);
-UNLOCK TABLES;
 --
 -- Table structure for table `question_cells`
 --
@@ -1032,7 +953,7 @@ INSERT INTO `question_cells` VALUES (1240,18,'Rating',1,51,'49','radio::0::0###r
 INSERT INTO `question_cells` VALUES (1241,18,'Rating',1,88,'78','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
 INSERT INTO `question_cells` VALUES (1242,18,'Rating',1,44,'42','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
 INSERT INTO `question_cells` VALUES (1243,18,'Rating',1,30,'28','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
-INSERT INTO `question_cells` VALUES (1244,18,'Information',1,1,NULL,'information::::Her er en liste over egenskaber som kan vÃ¦re til stede i stÃ¸rre eller mindre grad. Marker for hver egenskab, hvorledes den passer pÃ¥ eleven nu eller de sidste 2 mÃ¥neder. SÃ¦t en ring om 2, hvis beskrivelsen passer godt eller ofte. SÃ¦t ring rundt om 1, hvis beskrivelsen passer til en vis grad eller nogen gange. Hvis beskrivelsen ikke passer pÃ¥ eleven, sÃ¦t ring om 0. Svar venligst sÃ¥ godt du kan pÃ¥ alle spÃ¸rgsmÃ¥lene.','');
+INSERT INTO `question_cells` VALUES (1244,18,'Information',1,1,NULL,'information::::Her er en liste over egenskaber som kan vÃ¦re til stede i stÃ¸rre eller mindre grad. Marker for hver egenskab, hvorledes den passer pÃ¥ eleven nu eller de sidste 2 mÃ¥neder. Marker 2, hvis beskrivelsen passer godt eller ofte. Marker 1, hvis beskrivelsen passer til en vis grad eller nogen gange. Hvis beskrivelsen ikke passer pÃ¥ eleven, markeer 0. Svar venligst sÃ¥ godt du kan pÃ¥ alle spÃ¸rgsmÃ¥lene.','');
 INSERT INTO `question_cells` VALUES (1245,18,'ListItem',2,51,'49','listitem::::Har indlÃ¦ringsvanskeligheder','');
 INSERT INTO `question_cells` VALUES (1246,18,'ListItem',2,88,'78','listitem::::UopmÃ¦rksom, let afledelig','');
 INSERT INTO `question_cells` VALUES (1247,18,'ListItem',2,44,'42','listitem::::Vil hellere vÃ¦re alene end sammen med andre','');
@@ -1117,7 +1038,7 @@ INSERT INTO `question_cells` VALUES (1326,18,'ListItem',2,79,'69','listitem::::H
 INSERT INTO `question_cells` VALUES (1327,18,'ListItem',2,21,'19','listitem::::KrÃ¦ver meget opmÃ¦rksomhed','');
 INSERT INTO `question_cells` VALUES (1328,18,'ListItem',2,14,'12','listitem::::Klager over ensomhed','');
 INSERT INTO `question_cells` VALUES (1329,18,'Rating',1,52,'50','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
-INSERT INTO `question_cells` VALUES (1330,18,'Information',1,2,NULL,'information::::0 = Passer ikke pÃ¥ mig 1 = Passer til en vis grad eller nogen gange 2 = Passer godt eller ofte','');
+INSERT INTO `question_cells` VALUES (1330,18,'Information',1,2,NULL,'information::::0 = Passer ikke &nbsp; 1 = Passer til en vis grad eller nogen gange &nbsp; 2 = Passer godt eller ofte','');
 INSERT INTO `question_cells` VALUES (1331,18,'ListItem',2,52,'50','listitem::::For bange eller Ã¦ngstelig','');
 INSERT INTO `question_cells` VALUES (1332,18,'Rating',1,89,'79','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
 INSERT INTO `question_cells` VALUES (1333,18,'Rating',1,45,'43','radio::0::0###radio::1::1###radio::2::2','--- \n:required: true\n');
@@ -1528,4 +1449,84 @@ INSERT INTO `question_cells` VALUES (2037,7,'Rating',2,4,'1b','radio::1::###radi
 INSERT INTO `question_cells` VALUES (2038,7,'Rating',2,5,'1c','radio::1::###radio::2::###radio::3::###radio::4::','--- \n:targets: \n- :target: e\n  :state: onstate\n');
 INSERT INTO `question_cells` VALUES (2039,7,'ListItem',1,6,'1d','listitem::::Natur og teknik','--- \n:targets: \n- :target: e\n  :state: onstate\n');
 INSERT INTO `question_cells` VALUES (2040,278,'Description',1,1,'1','desc::::Langt Under Middel###desc::::Under Middel###desc::::Middel###desc::::Over Middel','');
+--
+DROP TABLE IF EXISTS `questions`;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL auto_increment,
+  `survey_id` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
+--
+-- Dumping data for table `questions`
+--
+LOCK TABLES `questions` WRITE;
+INSERT INTO `questions` VALUES (1,2,1);
+INSERT INTO `questions` VALUES (2,2,2);
+INSERT INTO `questions` VALUES (3,2,3);
+INSERT INTO `questions` VALUES (4,2,4);
+INSERT INTO `questions` VALUES (5,2,5);
+INSERT INTO `questions` VALUES (6,2,6);
+INSERT INTO `questions` VALUES (7,2,7);
+INSERT INTO `questions` VALUES (8,1,2);
+INSERT INTO `questions` VALUES (9,2,8);
+INSERT INTO `questions` VALUES (10,1,3);
+INSERT INTO `questions` VALUES (11,3,8);
+INSERT INTO `questions` VALUES (18,4,12);
+INSERT INTO `questions` VALUES (19,5,8);
+INSERT INTO `questions` VALUES (20,2,10);
+INSERT INTO `questions` VALUES (25,1,1);
+INSERT INTO `questions` VALUES (31,3,1);
+INSERT INTO `questions` VALUES (32,3,2);
+INSERT INTO `questions` VALUES (33,3,3);
+INSERT INTO `questions` VALUES (34,3,5);
+INSERT INTO `questions` VALUES (51,5,1);
+INSERT INTO `questions` VALUES (52,5,2);
+INSERT INTO `questions` VALUES (53,5,3);
+INSERT INTO `questions` VALUES (54,5,4);
+INSERT INTO `questions` VALUES (55,5,5);
+INSERT INTO `questions` VALUES (56,5,6);
+INSERT INTO `questions` VALUES (57,5,7);
+INSERT INTO `questions` VALUES (214,4,2);
+INSERT INTO `questions` VALUES (215,4,3);
+INSERT INTO `questions` VALUES (216,4,4);
+INSERT INTO `questions` VALUES (219,4,7);
+INSERT INTO `questions` VALUES (220,4,8);
+INSERT INTO `questions` VALUES (221,4,9);
+INSERT INTO `questions` VALUES (222,4,10);
+INSERT INTO `questions` VALUES (223,4,11);
+INSERT INTO `questions` VALUES (224,4,1);
+INSERT INTO `questions` VALUES (231,3,4);
+INSERT INTO `questions` VALUES (237,3,6);
+INSERT INTO `questions` VALUES (272,3,7);
+INSERT INTO `questions` VALUES (275,4,0);
+INSERT INTO `questions` VALUES (276,4,5);
+INSERT INTO `questions` VALUES (277,4,6);
+--
+DROP TABLE IF EXISTS `surveys`;
+CREATE TABLE `surveys` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(40) collate utf8_danish_ci default NULL,
+  `category` varchar(255) collate utf8_danish_ci default NULL,
+  `description` text collate utf8_danish_ci,
+  `age` varchar(255) collate utf8_danish_ci default NULL,
+  `surveytype` varchar(15) collate utf8_danish_ci default NULL,
+  `color` varchar(7) collate utf8_danish_ci default NULL,
+  `position` int(11) default '99',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
+--
+-- Dumping data for table `surveys`
+--
+LOCK TABLES `surveys` WRITE;
+INSERT INTO `surveys` VALUES (1,'CBCL: 1 1/2-5 (Forældreskema)','CBCL','Spørgeskema om barnets adfærd (Forældreskema) 1 1/2-5 år','1.5-5','parent','4499FF',1);
+INSERT INTO `surveys` VALUES (2,'CBCL: 6-16 år (Forældreskema)','CBCL','Spørgeskema om barnets adfærd (Forældreskema) 6-16 år','6-16','parent','88DDFF',3);
+INSERT INTO `surveys` VALUES (3,'C-TRF: 1 1/2-5 (Pædagogskema)','C-TRF','Spørgeskema om barnets adfærd (pædagogskema) 1 1/2-5 år','1.5-5','pedagogue','55FF44',2);
+INSERT INTO `surveys` VALUES (4,'TRF: 6-16 år (Lærerskema)','TRF','Spørgeskema om barnets adfærd (Lærerskema) 6-16 år','6-16','teacher','99FF77',4);
+INSERT INTO `surveys` VALUES (5,'YSR: 11-16 år (Selvrapportskema)','YSR','Selvrapportskema for unge 11-16 år','11-16','youth','FFFF77',5);
+INSERT INTO `surveys` VALUES (6,'Test','Test','Brug dette spørgeskema til at lave testspørgsmål','0-100','other','B0F8F8',6);
+UNLOCK TABLES;
+--
+-- Table structure for table `questions`
+--
 UNLOCK TABLES;
