@@ -3,6 +3,7 @@ class ExportsController < ApplicationController
   def index
     @center = current_user.center unless current_user.access? :admin
     @center = Center.find(params[:id]) if params[:id]
+    
     args = params
     # set default dates
     params[:start_date] ||= (SurveyAnswer.first && SurveyAnswer.first.created_at)
@@ -31,6 +32,9 @@ class ExportsController < ApplicationController
   
   def filter
     center = Center.find params[:center] unless params[:center].blank?
+    params[:surveys][:id] = params[:surveys][params[:surveys][:id]] = 1
+    params[:surveys].delete :id
+    puts "params: #{params.inspect}"
     args = params
     params = filter_date(args)
     surveys = current_user.subscribed_surveys
@@ -54,6 +58,8 @@ class ExportsController < ApplicationController
   end
 
   def download
+    params[:surveys][:id] = params[:surveys][params[:surveys][:id]] = 1
+    params[:surveys].delete :id
     args = params
     params = filter_date(args)
     params = Query.filter_age(params)
