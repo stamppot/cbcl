@@ -1,0 +1,35 @@
+
+<h2>Slet brev &quot;<%= @letter.name %>&quot;</h2>
+
+<table class="letter_info">
+	<tr>
+		<td class="t_i"><label for="letter_name">Navn:</label></td>
+		<td class="t"><%= @letter.name %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><label for="letter_group"><%= center_or_team_text(@letter.group) %>:</label></td>
+		<% link = if @letter.group.nil?
+			 	 t('letter.all_centers')
+			 else @letter.group
+				 center_or_team_url(@letter.group)
+			 end %>
+		<td class="t"><%= link %></td>
+	</tr>
+	<tr>
+		<td class="t_i">Brev til:</td>
+		<td class="t_i"><%= t("roles.#{@letter.surveytype}") %></td>
+	</tr>
+	<tr>
+		<td class="t_i">Indhold:</td>
+		<td><%= @letter.letter %></td>
+	</tr>
+</table>
+
+<p>
+Er du sikker på at du vil slette brevet &quot;<%= @letter.name %>&quot;?  <strong>Denne handling kan ikke fortrydes</strong>.
+</p>
+
+<% form_tag destroy_letter_path(@letter), :method => :delete do %>
+  <%= submit_tag 'Ja', :name => 'yes', :class => 'button delete'  %>
+  <%= submit_tag 'Nej', :name => 'no', :class => 'button deny' %>
+<% end %>
