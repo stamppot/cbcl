@@ -35,7 +35,7 @@ class Answer < ActiveRecord::Base
 				item = cell.item || ""
         # item = "" if cell.item.blank?
         # answer_type, item = self.question.get_answertype(cell.row, cell.col)
-        item << "hv" if (item.nil? or !(item =~ /hv$/)) && ac.text?
+        item << "hv" if (item.nil? or !(item =~ /hv$/)) && cell.text?
         # item << "hv" if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
         var = "#{prefix}#{q}#{item}".to_sym
         cells[var] = 
@@ -81,48 +81,48 @@ class Answer < ActiveRecord::Base
     return cells
   end
 
-  def cell_vals(prefix = nil)
-    answer = Dictionary.new
-    prefix = survey_answer.survey.prefix unless prefix
-    q = self.question.number.to_roman.downcase
-    answer[:number] = self.question.number
-    cells = []
-    
-    self.answer_cells.each_with_index do |cell, i|
-      c = {}
-      type = :Integer
-      # value = cell.value.blank? && '#NULL!' || cell.value
-      if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
-        c[:var] = var.var.to_sym
-      else  # default var name
-        answer_type = cell.answer_type
-        item = cell.item || ""
-        # answer_type, item = self.question.get_answertype(cell.row, cell.col)
-        if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
-          item << "hv" 
-          type = :String
-        end
-        var = "#{prefix}#{q}#{item}".to_sym
-        c[:var] = var
-        # cs[var] = 
-        # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-        #   type = "String"
-        #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
-        if cell.text? || !cell.cell_value.blank?
-          type = :String
-          cell.value_text = CGI.unescape(cell.value_text).gsub(/\r\n?/, ' ').strip
-        end
-        # value = cell.value.to_i if type == :Integer && !cell.value.blank?
-        value = cell.value.to_i if !cell.text? && !cell.value.blank?
-        c[:type] = type
-        c[:v] = value
-        # puts c.inspect
-        cells << c
-      end
-    end
-    answer[:cells] = cells
-    return answer
-  end
+  # def cell_vals(prefix = nil)
+  #   answer = Dictionary.new
+  #   prefix = survey_answer.survey.prefix unless prefix
+  #   q = self.question.number.to_roman.downcase
+  #   answer[:number] = self.question.number
+  #   cells = []
+  #   
+  #   self.answer_cells.each_with_index do |cell, i|
+  #     c = {}
+  #     type = :Integer
+  #     # value = cell.value.blank? && '#NULL!' || cell.value
+  #     if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
+  #       c[:var] = var.var.to_sym
+  #     else  # default var name
+  #       answer_type = cell.answer_type
+  #       item = cell.item || ""
+  #       # answer_type, item = self.question.get_answertype(cell.row, cell.col)
+  #       if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
+  #         item << "hv" 
+  #         type = :String
+  #       end
+  #       var = "#{prefix}#{q}#{item}".to_sym
+  #       c[:var] = var
+  #       # cs[var] = 
+  #       # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
+  #       #   type = "String"
+  #       #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
+  #       if cell.text? || !cell.cell_value.blank?
+  #         type = :String
+  #         cell.value_text = CGI.unescape(cell.value_text || "").gsub(/\r\n?/, ' ').strip
+  #       end
+  #       # value = cell.value.to_i if type == :Integer && !cell.value.blank?
+  #       value = cell.value.to_i if !cell.text? && !cell.value.blank?
+  #       c[:type] = type
+  #       c[:v] = value
+  #       # puts c.inspect
+  #       cells << c
+  #     end
+  #   end
+  #   answer[:cells] = cells
+  #   return answer
+  # end
   
 
   # returns array of cells. Sets answertype

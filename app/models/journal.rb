@@ -217,48 +217,48 @@ class Journal < Group
     c
   end
 
-  def to_xml(options = {})
-    if options[:builder]
-      build_xml(options[:builder])
-    else
-      xml = Builder::XmlMarkup.new
-      xml.__send__(:journal, self.info.to_h) do
-        xml.score_rapports do
-          # self.rapports.map(&:score_rapports).each do |rapport|
-          self.score_rapports.each do |rapport|
-            xml.__send__(:score_rapport, {:survey => rapport.survey_name, :id => rapport.survey_answer_id, :survey_short => rapport.short_name, :unanswered => rapport.unanswered}) do
-              rapport.score_results.each do |result|
-                attrs = {:name => result.title, :result => result.result, :mean => result.mean }
-                attrs[:percentile98] = true if result.percentile_98
-                attrs[:percentile95] = true if result.percentile_95
-                attrs[:deviation] = true if result.deviation
-                xml.__send__(:score, attrs)
-              end
-            end
-          end
-        end
-        xml.survey_answers do
-          self.survey_answers.each do |survey_answer|
-            xml.__send__(:survey_answer, {:id => survey_answer.id, :survey => survey_answer.score_rapport.survey_name, 
-                         :survey_short => survey_answer.score_rapport.short_name, :created => self.created_at}) do
-              xml.answers do
-                survey_answer.cell_vals.each do |answer_vals|
-                  xml.__send__(:answer, {:number => answer_vals[:number]}) do
-                    xml.cells do
-                      answer_vals[:cells].each do |cell_h|
-                        attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
-                        xml.__send__(:cell, attrs)
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
+  # def to_xml(options = {})
+  #   if options[:builder]
+  #     build_xml(options[:builder])
+  #   else
+  #     xml = Builder::XmlMarkup.new
+  #     xml.__send__(:journal, self.info.to_h) do
+  #       xml.score_rapports do
+  #         # self.rapports.map(&:score_rapports).each do |rapport|
+  #         self.score_rapports.each do |rapport|
+  #           xml.__send__(:score_rapport, {:survey => rapport.survey_name, :id => rapport.survey_answer_id, :survey_short => rapport.short_name, :unanswered => rapport.unanswered}) do
+  #             rapport.score_results.each do |result|
+  #               attrs = {:name => result.title, :result => result.result, :mean => result.mean }
+  #               attrs[:percentile98] = true if result.percentile_98
+  #               attrs[:percentile95] = true if result.percentile_95
+  #               attrs[:deviation] = true if result.deviation
+  #               xml.__send__(:score, attrs)
+  #             end
+  #           end
+  #         end
+  #       end
+  #       xml.survey_answers do
+  #         self.survey_answers.each do |survey_answer|
+  #           xml.__send__(:survey_answer, {:id => survey_answer.id, :survey => survey_answer.score_rapport.survey_name, 
+  #                        :survey_short => survey_answer.score_rapport.short_name, :created => self.created_at}) do
+  #             xml.answers do
+  #               survey_answer.cell_vals.each do |answer_vals|
+  #                 xml.__send__(:answer, {:number => answer_vals[:number]}) do
+  #                   xml.cells do
+  #                     answer_vals[:cells].each do |cell_h|
+  #                       attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
+  #                       xml.__send__(:cell, attrs)
+  #                     end
+  #                   end
+  #                 end
+  #               end
+  #             end
+  #           end
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 
   # protected
   

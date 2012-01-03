@@ -86,13 +86,13 @@ class SurveyAnswer < ActiveRecord::Base
     a.order_by
   end
   
-  def cell_vals(prefix = nil)
-    prefix ||= self.survey.prefix
-    a = []
-    self.answers.each { |answer| a << (answer.cell_vals(prefix)) }
-    a
-    # a.order_by
-  end
+  # def cell_vals(prefix = nil)
+  #   prefix ||= self.survey.prefix
+  #   a = []
+  #   self.answers.each { |answer| a << (answer.cell_vals(prefix)) }
+  #   a
+  #   # a.order_by
+  # end
   
   # cascading does not work over multiple levels, ie. answer_cells are not deleted
   def delete
@@ -255,6 +255,15 @@ class SurveyAnswer < ActiveRecord::Base
   # used by draft_data to get positions of values
   def setup_draft_values
     self.answers.map { |answer| answer.setup_draft_values }.flatten
+  end
+  
+  def variable_values
+    variables = self.survey.cell_variables
+    values = self.cell_values
+    variables.each do |k,v|
+      variables[k] = values[k]
+    end
+    variables
   end
   
   def make_csv_answer
