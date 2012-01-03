@@ -48,19 +48,20 @@ class SubscriptionsController < ApplicationController
       subscriptions = Subscription.for_center(@group)
       subscriptions.each do |sub|
         if surveys.include? sub.survey_id.to_s   # in survey and in db
-          sub.activate! unless sub.state == '1'  # activate if not active
+          sub.activate! unless sub.active?
         else   # not in surveys, but in db, so deactivate
-          sub.deactivate! unless sub.state == '2'
+          sub.deactivate! unless sub.inactive?
         end
         surveys.delete sub.survey_id.to_s   # remove already done subs
       end
       # elsif not exists in db, create new subscription
-      surveys.each { |survey| @group.subscriptions << Subscription.create(:center => @group, :survey_id => survey.to_i, :state => 1) }
-      flash[:notice] = "Abonnementer for center #{@group.title} blev ændret."
+      surveys.each { |survey| @group.subscriptions.create(:center => @group, :survey_id => survey.to_i, :state => 1) }
       if @group.save
+        flash[:notice] = "Abonnementer for center #{@group.title} blev ændret."
         redirect_to center_path(@group)
       else
-        flash[:error] = "Kunne ikke oprette abonnement: #{@group.errors.inspect}"
+        debugger
+        flash[:error] = "Kunne ikke oprette abonnement: #{@group.errors.map &:inspect}"
         redirect_to new_subscription_path(@group)
       end
     else

@@ -3,6 +3,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :survey
   has_many :periods #, :dependent => :delete_all
 
+  before_validation :set_totals
   after_create :new_period!
 
   named_scope :for_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
@@ -19,6 +20,12 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :total_paid
   validates_presence_of :total_used
   validates_presence_of :active_used
+  
+  def set_totals
+    self.total_paid ||= 0
+    self.total_used ||= 0
+    self.active_used ||= 0
+  end
   
   def new_period!
     self.periods.build(:active => true, :used => 0)

@@ -4,9 +4,9 @@
 	<%= "<input id=\"group\" type=\"hidden\" name=\"group[id]\" value=\"#{@group.id}\" checked=\"checked\" /> " %>
 	<% @surveys.each do |survey| %>
 	<% 	 sub = @subscribed.detect { |subsc| subsc.survey_id == survey.id }	%>
-  <%=   result = "<div style='background-color: #{survey.color}; width: 25em;'>" + 
+  <%=   result = "<div style='background-color: ##{survey.color}; width: 20em;'>" + 
 	"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" checked=\"checked\" /> " if !sub.nil?
-        result = "<div style='background-color: #{survey.color}; width: 25em;'>" +
+        result = "<div style='background-color: ##{survey.color}; width: 20em;'>" +
 				"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" /> " if sub.nil?
         result += "<label for=\"group_surveys_#{survey.id}\">#{survey.title}</label></div>"
         result %>
