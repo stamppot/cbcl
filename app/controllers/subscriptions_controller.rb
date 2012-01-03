@@ -60,7 +60,6 @@ class SubscriptionsController < ApplicationController
         flash[:notice] = "Abonnementer for center #{@group.title} blev ændret."
         redirect_to center_path(@group)
       else
-        debugger
         flash[:error] = "Kunne ikke oprette abonnement: #{@group.errors.map &:inspect}"
         redirect_to new_subscription_path(@group)
       end
