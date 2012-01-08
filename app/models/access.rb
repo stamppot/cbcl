@@ -123,6 +123,7 @@ class Access
     :layout_show_subscriptions   => [:superadmin, :admin, :centeradmin],
     :layout_show_scores          => [:superadmin, :admin],
     :layout_show_data_export     => [:superadmin, :admin, :centeradmin, :teamadmin],
+    :layout_show_letters         => [:superadmin, :admin, :centeradmin, :teamadmin],
     :layout_show_survey_stats    => [:superadmin],
     :layout_show_journal_menu    => [:superadmin, :centeradmin, :teamadmin, :behandler],
     :show_column_actions         => [:superadmin, :admin],

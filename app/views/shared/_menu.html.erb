@@ -92,7 +92,7 @@
 		<%= link_to t("menu.data_export"), exports_path %>
 		<% end %>
 		<% if current_user.perms[:layout_show_survey_stats] %>
-		<%= link_to t("menu.survey_stats"), journal_stats_path %>
+		<% link_to t("menu.survey_stats"), journal_stats_path %>
 		<% end %>
 	</div>
 	<% end %>
@@ -119,13 +119,16 @@
 	</div>
 	<% end %>
 
-	<% if current_user.perms[:layout_show_settings_menu] %>
+
+	<% if current_user.perms[:layout_show_letters] %>
 	<div id="settings_menu" class="menu_section">
 		<div class="menu_title">Indstillinger</div>
-		<%= link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>
-		<%= link_to t('menu.variables'), variables_path, :title => t('menu.variables') %>
+		<% if current_user.perms[:layout_show_settings_menu] %>
+			<%= link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>
+			<%= link_to t('menu.variables'), variables_path, :title => t('menu.variables') %>
+		<% end %>
 		<%= link_to t('menu.letters'), letters_path, :title => t('menu.letters') %>
-	</div>
+		</div>
 	<% end %>
 	
 	<div id="logout_menu" class="menu_section">

@@ -376,13 +376,31 @@ class User < ActiveRecord::Base
     options[:stop_date]   ||= SurveyAnswer.last.created_at
     options[:start_age]   ||= 0
     options[:stop_age]    ||= 21
-    options[:surveys]     ||= Survey.all.map {|s| s.id}
+    # options[:surveys]     ||= Survey.all.map {|s| s.id}
     if !options[:center].blank?
-      options[:journal_ids]   = options[:center].journal_ids if options[:center] && !options[:journal_ids]
+      center = Center.find(options[:center])
+      options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
     options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+    puts "survey_answer_params: #{options.inspect}"
     options
   end
+  
+  # def csv_survey_answers(options = {})  # params are not safe, should only allow page/per_page
+  #   page       = options[:page] ||= 1
+  #   per_page   = options[:per_page] ||= 100000
+  #   o = SurveyAnswer.filter_params(options)
+  #   params = o[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
+  #   CsvSurveyAnswer.for_survey(o[:survey]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params.merge(:page => page, :per_page => per_page))
+  # end
+
+#move to csv_survey_answer class
+  # def count_csv_survey_answers(options = {})  # params are not safe, should only allow page/per_page
+  #   o = SurveyAnswer.filter_params(options)
+  #   params = {:conditions => ['center_id = ?', o[:center]]} if options[:center]
+  #   puts "Count_csv_survey_answers params:      o: #{o.inspect}"
+  #   CsvSurveyAnswer.for_survey(o[:survey]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(params)
+  # end
   
   def login_users(options = {})
     options[:page] ||= 1

@@ -157,7 +157,7 @@ class SurveyAnswersController < ApplicationController
     end
     id = params.delete("id")
     journal_entry = JournalEntry.find(id)
-		puts "SURVEY AnSWER create #{journal_entry.inspect}"
+    # puts "SURVEY AnSWER create #{journal_entry.inspect}"
     center = journal_entry.journal.center
     subscription = center.subscriptions.detect { |sub| sub.survey_id == journal_entry.survey_id }
 

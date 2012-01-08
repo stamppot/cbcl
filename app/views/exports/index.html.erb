@@ -21,13 +21,10 @@
 <h3>Alder</h3>
 	<%= render :partial => 'select_age' %>
 	
-	<p><h3>Vælg skemaer</h3></p>
-	<% @surveys.each do |survey| %>
-		<div style='background-color: #<%= survey.color %>; width: 25em;'>
-			<%= check_box_tag("surveys[#{survey.id}]", "1", survey.selected, { :class => 'no_border'}) %>		
-			<%= "<label for=\"surveys_#{survey.id}\">#{survey.title}</label> <br>" %>
+	<p><h3>Vælg skema</h3></p>
+		<div id="survey_color" style='width: 25em;'>
+			<%= select(:survey, :id, @surveys.map {|s| [s.title, s.id]}, { :class => 'no_border' }) %>		
 		</div>
-	<% end %>
 	<br>
 </div>	
 
