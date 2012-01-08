@@ -11,6 +11,7 @@ class Variable < ActiveRecord::Base
   
   named_scope :and_survey, :include => :survey
   named_scope :and_question, :include => :question
+  named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_id = ?", survey_id] } }
   
   attr_accessor :short, :value
 

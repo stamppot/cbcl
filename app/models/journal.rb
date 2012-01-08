@@ -232,6 +232,11 @@ class Journal < Group
     c
   end
 
+  # def self.info_header
+  #   %w{ssghafd  ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt}
+  # end
+    
+    
   # def to_xml(options = {})
   #   if options[:builder]
   #     build_xml(options[:builder])

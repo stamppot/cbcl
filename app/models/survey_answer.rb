@@ -117,11 +117,6 @@ class SurveyAnswer < ActiveRecord::Base
     return answer.ratings_count if answer # 11-01-10 was answer.not_answered_ratings
     return 0
   end
-
-  # returns array of cells that must be saved
-  # def add_missing_cells_optimized
-  #   self.max_answer.add_missing_cells_optimized
-  # end
   
   def add_missing_cells
     self.max_answer.add_missing_cells
@@ -284,7 +279,7 @@ class SurveyAnswer < ActiveRecord::Base
       :created_at => self.created_at,
       :updated_at => self.updated_at,
       :header => journal_info.keys.join(';'),
-      :journal_info => journal_info.values.join(';')
+      :journal_info => to_danish(journal_info.values.join(';'))
     }
     info_options = self.journal.export_info
     options[:sex] = info_options[:pkoen]
@@ -296,6 +291,10 @@ class SurveyAnswer < ActiveRecord::Base
     journal_info = JournalInfo.new(info_options)
     csv_survey_answer.save
     journal_info.save
+  end
+  
+  def to_danish(str)
+    str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
   end
   
   def make_csv_answer
