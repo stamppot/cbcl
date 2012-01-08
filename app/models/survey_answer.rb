@@ -54,7 +54,8 @@ class SurveyAnswer < ActiveRecord::Base
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     spawn do
       self.generate_score_report(update = true) # generate score report
-      self.create_csv_answer!
+      self.save_csv_survey_answer
+      # self.create_csv_answer!
     end
     self.save
   end
@@ -258,12 +259,43 @@ class SurveyAnswer < ActiveRecord::Base
   end
   
   def variable_values
-    variables = self.survey.cell_variables
+    variables = self.survey.variables.map {|v| v.var.to_sym}
     values = self.cell_values
-    variables.each do |k,v|
-      variables[k] = values[k]
+    variables.inject(Dictionary.new) do |col,var|
+      col[var] = values[var] || "#NULL!"
+      col
     end
-    variables
+    #variables
+  end
+  
+  def save_csv_survey_answer
+    vals = variable_values
+    journal_info = self.journal.info
+    options = {
+      :answer => vals.values.join(';;'), 
+      :variables => vals.keys.join(';;'),
+      :journal_id => self.journal_id,
+      :survey_answer_id => self.id,
+      :team_id => self.journal.parent_id,
+      :center_id => self.center_id,
+      :survey_id => self.survey_id,
+      :journal_entry_id => self.journal_entry_id,
+      :age => self.age,
+      :created_at => self.created_at,
+      :updated_at => self.updated_at,
+      :header => journal_info.keys.join(';'),
+      :journal_info => journal_info.values.join(';')
+    }
+    info_options = self.journal.export_info
+    options[:sex] = info_options[:pkoen]
+    info_options[:journal_id] = options[:journal_id]
+    info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
+    info_options[:center_id] = options[:center_id]
+    
+    csv_survey_answer = CsvSurveyAnswer.new(options)
+    journal_info = JournalInfo.new(info_options)
+    csv_survey_answer.save
+    journal_info.save
   end
   
   def make_csv_answer
@@ -278,8 +310,6 @@ class SurveyAnswer < ActiveRecord::Base
   def self.create_csv_answers!
     CSVHelper.new.generate_all_csv_answers
   end
-  
-  
 
   def to_xml(options = {})
     if options[:builder]

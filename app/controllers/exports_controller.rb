@@ -32,24 +32,16 @@ class ExportsController < ApplicationController
   
   def filter
     center = Center.find params[:center] unless params[:center].blank?
-    params[:surveys][:id] = params[:surveys][params[:surveys][:id]] = 1
-    params[:surveys].delete :id
-    puts "params: #{params.inspect}"
     args = params
     params = filter_date(args)
-    surveys = current_user.subscribed_surveys
     params = Query.filter_age(params)
     
-    # set default value to true unless filter is pressed
-    params[:surveys] ||= []
-    surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
     center = current_user.center if current_user.centers.size == 1
-    params[:center] = center if center
+    journals = center && center.journals.count || Journal.count
+    # params.delete :center if params[:center].blank?
 
-    journals = center && center.journals.flatten.size || Journal.count
-    count_survey_answers = current_user.count_survey_answers(filter_date(params).merge({:surveys => surveys}))
-    count_survey_answers = SurveyAnswer.finished.count if count_survey_answers == 0
-    
+    count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
+
     render :update do |page|
       page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{count_survey_answers.to_s}"
       page.visual_effect :shake, 'results'
@@ -58,26 +50,19 @@ class ExportsController < ApplicationController
   end
 
   def download
-    params[:surveys][:id] = params[:surveys][params[:surveys][:id]] = 1
-    params[:surveys].delete :id
+    center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
     params = Query.filter_age(params)
-
-    @surveys = current_user.subscribed_surveys
-    # set default value to true unless filter is pressed
-    params[:surveys] ||= []
-    @surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
-    @center = current_user.center if current_user.centers.size == 1
     
-    @center = Center.find params[:center] unless params[:center].blank?
-    params[:center] = @center if @center
+    center = current_user.center if current_user.centers.size == 1
+    # journals = center && center.journals.flatten.size || Journal.count
 
-    survey_answers = current_user.survey_answers(filter_date(params).merge({:surveys => @surveys})).compact
+    csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
     
     # spawns background task
     @task = Task.create(:status => "In progress")
-    @task.create_export(@surveys.map(&:id), survey_answers)
+    @task.create_survey_answer_export(params[:survey][:id], csv_survey_answers)
   end
   
   # a periodic updater checks the progress of the export data generation 
@@ -104,6 +89,8 @@ class ExportsController < ApplicationController
       end
     end
   end
+
+
   
   def show_range
     @start_date = Date.civil(params[:range][:"start_date(1i)"].to_i,params[:range][:"start_date(2i)"].to_i,params[:range][:"start_date(3i)"].to_i)

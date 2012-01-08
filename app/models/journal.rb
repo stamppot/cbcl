@@ -216,6 +216,21 @@ class Journal < Group
     c["pfoedt"] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
     c
   end
+  
+  def export_info
+		settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
+    c = {}
+    c[:ssghafd] = self.parent.group_code
+    c[:ssghnavn] = self.center.title
+    c[:safdnavn] = self.team.title
+    c[:pid] = settings && eval("self.#{settings.value}") || self.code
+    c[:pkoen] = self.sex
+    c[:palder] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
+    c[:pnation] = self.nationality
+    c[:dagsdato] = self.created_at.strftime("%d-%b-%Y")
+    c[:pfoedt] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
+    c
+  end
 
   # def to_xml(options = {})
   #   if options[:builder]

@@ -23,7 +23,7 @@
 	
 	<p><h3>Vælg skema</h3></p>
 		<div id="survey_color" style='width: 25em;'>
-			<%= select(:surveys, :id, @surveys.map {|s| [s.title, s.id]}, { :class => 'no_border' }) %>		
+			<%= select(:survey, :id, @surveys.map {|s| [s.title, s.id]}, { :class => 'no_border' }) %>		
 		</div>
 	<br>
 </div>	
