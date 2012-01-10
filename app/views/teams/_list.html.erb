@@ -1,0 +1,3 @@
+<div class="teams">
+	<%= select(:team, :team, @teams.map{|c| [c.title, c.id]}, {:include_blank => true}, :class => 'teams') %>
+</div>

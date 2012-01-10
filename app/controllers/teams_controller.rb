@@ -43,6 +43,19 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     @page_title = "CBCL - Liste af teams"
 		@hide_team = true
     @teams_by_center = current_user.teams.group_by { |team| team.center }
+    respond_to do |format|
+      format.html
+      format.js {
+        @teams = Team.all(:conditions => ['parent_id = ?', params[:id]])
+        if @teams.any?
+          render :update do |page|
+            # page.alert "hello teams"
+            # page.visual_effect :pulsate, 'teams'
+            page.replace_html 'teams', :partial => 'list'
+          end
+        end
+      }
+    end
   end
 
   def show

@@ -21,7 +21,13 @@ class ExportsController < ApplicationController
     # set default value to true unless filter is pressed
     @surveys = surveys_default_selected(@surveys, params[:surveys])
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
-    @center = current_user.center if current_user.centers.size == 1
+    
+    if current_user.centers.size == 1
+      @center = current_user.center 
+      @teams = @center.teams
+    else
+      @teams = current_user.centers.map {|c| c.teams }.flatten
+    end
     params[:center] = @center if @center
     
     # clean params
@@ -39,7 +45,7 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     journals = center && center.journals.count || Journal.count
     # params.delete :center if params[:center].blank?
-
+    params[:team] = params[:team][:team] if params[:team]
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
 
     render :update do |page|
