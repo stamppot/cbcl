@@ -15,8 +15,8 @@ class Task < ActiveRecord::Base
   end
 
   def create_survey_answer_export(survey_id, survey_answers)
-    spawn do
-      logger.info "create_survey_answer_export: survey: #{survey_id} #{survey_answers.size}"
+    # spawn do
+      logger.info "EXPORT create_survey_answer_export: survey: #{survey_id} #{survey_answers.size}"
       data = CsvExportHelper.new.to_csv(survey_answers, survey_id)  # TODO: add csv generation on save_answer & change_answer
       logger.info "create_survey_answer_export: created data survey: #{survey_id} #{survey_answers.size}"
       # write data
@@ -28,9 +28,8 @@ class Task < ActiveRecord::Base
 
       self.status = "Completed"
       self.save
-      logger.info "create_survey_answer_export: finished!  survey: #{survey_id} #{survey_answers.size}"
-      
-    end
+      # logger.info "create_survey_answer_export: finished!  survey: #{survey_id} #{survey_answers.size}"
+    # end
   end
 
   def create_sumscores_export(find_options)
