@@ -63,7 +63,8 @@ class ExportsController < ApplicationController
     
     center = current_user.center if current_user.centers.size == 1
     # journals = center && center.journals.flatten.size || Journal.count
-
+    
+    params[:team] = params[:team][:team] if params[:team]
     csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
     
     # spawns background task
