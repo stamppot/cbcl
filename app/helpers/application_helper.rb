@@ -147,4 +147,8 @@ module ApplicationHelper
 	def any_teams_text
 	  current_user.teams.any? ? "Team" : "Center"
   end
+  
+  def unescape_danish(str)
+    str.gsub("%C3%A6", "æ").gsub("%C3%B8", "ø").gsub("%C3%A5", "å")
+  end
 end

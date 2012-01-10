@@ -54,7 +54,7 @@ Event.observe(window, 'load', function() {
 	var user_name = document.cookies().get('user_name');
 	if(!(typeof(user_name) == "undefined")) {
 		var elem = getElemns('user_info');
-		elem.innerHTML = user_name.replace(/\+/g, " ");;
+		elem.innerHTML = decodeURIComponent(user_name.replace(/\+/g, " "));
 	}
 });
 </script>
