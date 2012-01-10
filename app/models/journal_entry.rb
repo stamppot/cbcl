@@ -72,10 +72,8 @@ class JournalEntry < ActiveRecord::Base
 
 	def answered_by
 		if !survey_answer.blank? && survey_answer.answered_by.to_i > 0
-			role = Role.find survey_answer.answered_by
+			role = Role.find(survey_answer.answered_by == 88 && 15 || survey_answer.answered_by)
 			return role.title
-		# elsif survey_answer.answered_by.size > 2
-		# 	survey_answer.answered_by
 		end
   end
 
