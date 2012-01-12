@@ -19,6 +19,7 @@
 			<% if @group.parent && @group.parent.teams.size > 1 %>
 			<%= link_button t('team.move'), select_journals_path(@group), 'journal_move', :title => t('team.move') %>
 			<% end %>
+			<%= link_button t('journal.status'), reminder_path(@group), 'journal_status', :title => t('journal.status') %>
 			<p/>
 		</div>
 	</p>

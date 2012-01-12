@@ -1,5 +1,4 @@
-<h2>Status på skemaer fra Team &quot;<%=h @group.title %>&quot;</h2>
-
+<h2>Status på skemaer fra <%= center_or_team_text(@group) %> &quot;<%=h @group.title %>&quot;</h2>
 
 	<h3>Status</h3>
 	<%= select(:journal_entry, 'state', @states, {:selected => 2}, :onchange => remote_function(:update => "message_id",
@@ -40,12 +39,17 @@
 	<p>
 		<div class="commands">
 			<br/>
-			<%= submit_tag t('journal.move'), :name => 'yes', :class => 'button journal_move' %>
+			<%# submit_tag t('journal.move'), :name => 'yes', :class => 'button journal_move' %>
 			<p/>
 		</div>
 	</p>
 	<% end %>
 </div>
+
+<div class="commands">
+	<%= back_button team_path(@group) %>
+</div>
+
 </div>
 
 <script type="text/javascript">
@@ -67,12 +71,3 @@ Event.observe(window, 'load', function() {
 	}
 });
 </script>
-
-<br/>
-<div class="commands">
-<% if current_user.access? :team_new_edit_delete %>
-<%= link_button t('delete'), delete_team_path(@group), 'team_delete' %>
-<%= link_button t('edit'), edit_team_path(@group), 'team_edit' %>
-<% end %>
-<%= back_button teams_path %>
-</div>
