@@ -15,6 +15,10 @@ class JournalEntry < ActiveRecord::Base
   named_scope :unanswered, :conditions => ['state < ?', 5]
   named_scope :answered, :conditions => ['state = ?', 5]
   named_scope :answered_by_login_user, :conditions => ['state = ?', 6]
+  named_scope :for_states, lambda { |states| { :conditions => ["state IN (?)", states]}}
+  named_scope :with_cond, lambda { |cond| cond }
+  
+  # JournalEntry.all(:joins => [:journal], :conditions => ['journal_id = ? AND (state IN (2,3))', 6450])
   
   def expire_cache
     Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
@@ -147,6 +151,10 @@ class JournalEntry < ActiveRecord::Base
     self.user = nil    # set to unanswered unless answered
     self.state = JournalEntry.states[JournalEntry.states.invert[1]] unless self.state == JournalEntry.states[JournalEntry.states.invert[4]]
     self.save
+  end
+  
+  def JournalEntry.for_parent_with_state(parent, states)
+    JournalEntry.for_states(states).with_cond(:conditions => ['parent_id = ?', parent.is_a?(Group) && parent.id || parent], :joins => :journal)
   end
   
   def JournalEntry.states  # ikke besvaret, besvaret, venter på svar (login-user)

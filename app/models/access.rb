@@ -1,10 +1,5 @@
 class Access
 
-  # attr_accessor :rights
-
-  # def initialize
-  #   @@rights = 
-  
   def self.rights
     @@rights
   end
@@ -75,6 +70,7 @@ class Access
     # :team_show_none             => [:admin],
     # :team_show_admin            => [:centeradmin],
     :team_show_member           => [:superadmin, :centeradmin, :teamadmin, :behandler],
+    :team_edit                  => [:superadmin, :centeradmin, :teamadmin],
     :team_new_edit_delete       => [:superadmin, :centeradmin],
     # :subscription_new           => [:superadmin, :admin],
     :subscription_new_edit      => [:superadmin, :admin],

@@ -33,7 +33,7 @@ class ExportsController < ApplicationController
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
     
-    @count_survey_answers = current_user.count_survey_answers(params.merge({:surveys => filter_surveys}))
+    @count_survey_answers = SurveyAnswer.filter_finished_count(current_user, params.merge({:surveys => filter_surveys}))
   end
   
   def filter

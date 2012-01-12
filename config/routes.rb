@@ -49,6 +49,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :survey_builders
   map.resources :journal_stats
   map.resources :code_books
+  map.resources :reminders
   
   map.namespace(:active_rbac) do |active_rbac|
     active_rbac.resources :roles

@@ -1,4 +1,3 @@
-# This is the controller that provides CRUD functionality for the Center model.
 class TeamsController < ApplicationController # < ActiveRbac::ComponentController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
@@ -47,11 +46,13 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       format.html
       format.js {
         @teams = Team.all(:conditions => ['parent_id = ?', params[:id]])
-        if @teams.any?
-          render :update do |page|
-            # page.alert "hello teams"
-            # page.visual_effect :pulsate, 'teams'
+        render :update do |page|
+          if @teams.any?
+            page.visual_effect :highlight, 'teams'
             page.replace_html 'teams', :partial => 'list'
+            page.show 'teams'
+          else
+            page.hide 'teams'
           end
         end
       }
@@ -203,6 +204,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     
   protected
   before_filter :behandler_access, :only => [ :list, :index, :show ]
+  # before_filter :teamadmin_access, :only => [ :edit ]
   before_filter :centerleder_access, :except => [ :list, :index, :show ]
   before_filter :check_access, :except => [:index, :list, :per_page]
   
@@ -213,6 +215,18 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     end
   end
 
+  # def teamadmin_access
+  #   if current_user.access? :team_edit
+  #     return true
+  #   elsif current_user
+  #     flash[:notice] = "Du har ikke adgang til denne side"
+  #     redirect_to teams_path
+  #   else
+  #     flash[:notice] = "Du har ikke adgang til denne side"
+  #     redirect_to login_path
+  #   end
+  # end
+  
   def centerleder_access
     if current_user.access? :team_new_edit_delete
       return true

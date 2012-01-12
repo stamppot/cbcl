@@ -46,6 +46,10 @@ class Team < Group
     self.children
   end
   
+  def journals_needing_reminders
+    self.journals
+  end
+  
   def self.per_page
     15
   end

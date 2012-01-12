@@ -356,35 +356,34 @@ class User < ActiveRecord::Base
     # return journals.map {|g| g.journal_entries}.flatten!.map {|e| e.id}
   end
 
-  # finished survey answers, based on accessible journals
-  def survey_answers(options = {})  # params are not safe, should only allow page/per_page
-    page       = options[:page] ||= 1
-    per_page   = options[:per_page] ||= 100000
-    o = survey_answer_params(options)
-    params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
-    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params.merge(:page => page, :per_page => per_page))
-  end
-
-  def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
-    o = survey_answer_params(options)
-    params = options[:center] && {:conditions => ['center_id = ?', o[:center].is_a?(Center) ? o[:center].id : o[:center]]} || {}
-    SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(params)
-  end
-
-  def survey_answer_params(options = {})
-    options[:start_date]  ||= SurveyAnswer.first.created_at
-    options[:stop_date]   ||= SurveyAnswer.last.created_at
-    options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
-    # options[:surveys]     ||= Survey.all.map {|s| s.id}
-    if !options[:center].blank?
-      center = Center.find(options[:center])
-      options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
-    end
-    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { self.journal_ids }
-    puts "survey_answer_params: #{options.inspect}"
-    options
-  end
+  # # finished survey answers, based on accessible journals
+  # def survey_answers(options = {})  # params are not safe, should only allow page/per_page
+  #   page       = options[:page] ||= 1
+  #   per_page   = options[:per_page] ||= 100000
+  #   o = survey_answer_params(options)
+  #   params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
+  #   SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params.merge(:page => page, :per_page => per_page))
+  # end
+  # 
+  # def count_survey_answers(options = {})  # params are not safe, should only allow page/per_page
+  #   o = survey_answer_params(options)
+  #   params = options[:center] && {:conditions => ['center_id = ?', o[:center].is_a?(Center) ? o[:center].id : o[:center]]} || {}
+  #   SurveyAnswer.for_surveys(o[:surveys]).finished.between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).count(params)
+  # end
+  # 
+  # def survey_answer_params(options = {})
+  #   options[:start_date]  ||= SurveyAnswer.first.created_at
+  #   options[:stop_date]   ||= SurveyAnswer.last.created_at
+  #   options[:start_age]   ||= 0
+  #   options[:stop_age]    ||= 21
+  #   # options[:surveys]     ||= Survey.all.map {|s| s.id}
+  #   if !options[:center].blank?
+  #     center = Center.find(options[:center])
+  #     options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
+  #   end
+  #   options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { self.journal_ids }
+  #   options
+  # end
   
   # def csv_survey_answers(options = {})  # params are not safe, should only allow page/per_page
   #   page       = options[:page] ||= 1

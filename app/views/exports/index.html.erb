@@ -11,12 +11,14 @@
 		:with => "'id=' + value",  
 		:url => { :controller => :teams, :action => :index })) %>
 		<br/>
-		<h2>Team</h3>
-			<div id="teams"><%= select(:team, :team, [], {:include_blank => true}, :class => 'teams') %></div>
+
+		<div id="teams" style="display:none;"></div>
 	<% else %>
 		<% if @center.teams.any? %>
-			<h2>Team</h3>
-				<div id="teams"><%= select(:team, :id, @teams.map {|t| [t.title, t.id]}, :include_blank => @teams.size > 1) %></div>
+				<div id="teams">
+					<h2>Team</h2>
+					<%= select(:team, :id, @teams.map {|t| [t.title, t.id]}, :include_blank => @teams.size > 1) %>
+				</div>
 		<% end %>
 	<% end %>
 	<br/>

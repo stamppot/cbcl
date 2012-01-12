@@ -32,7 +32,9 @@
 <div class="commands">
 <% if current_user.access? :team_new_edit_delete %>
 	<%= link_button t('delete'), delete_team_path(@group), 'team_delete' %>
+<% end %>
+<% if current_user.access? :team_edit %>
 	<%= link_button t('edit'), edit_team_path(@group), 'team_edit' %>
-	<% end %>
+<% end %>
 	<%= back_button teams_path %>
 </div>
