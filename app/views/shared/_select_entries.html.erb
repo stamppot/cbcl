@@ -1,0 +1,39 @@
+<% if @journal_entries.empty? %>
+Der er ikke fundet nogen skemaer.
+<% else %>
+<table id="journal_list" class="sortable list">
+	<tr>
+		<!-- add checkbox -->
+<th class="small select_all_box nosort" title="Vælg"><%= check_box_tag "select_all_box", "all", false %></th>
+<th class="wide sortcol sortdesc" title="Sorter efter navn">Skema</th>
+<th title="Sorter efter Id" class="sortcol">Id</th>
+<th title="Sorter efter Status" class="sortcol">Status</th>
+<th title="Sorter efter navn" class="sortcol">Navn</th>
+<th class="small sortcol" title="Sorter efter dato">Tilføjet</th>
+<th class="small" title="Team"><%# any_teams_text %></th>
+</tr>
+
+<% @journal_entries.each do |entry| %>
+  <tr>
+		<td class="select"><%= check_box_tag "journal_entries[]", entry.id, false, :id => "journal_entry_#{entry.id}" %>
+		<td style='background-color: #<%= entry.survey.color %>;' class="pj_name">
+			<%= label_tag "journal_#{entry.id}", entry.survey.title %>
+		</td>
+		<td class="pj small number"><%= entry.journal.code %></td>
+		<td class="pj small number"><%= link_to entry.status, entry %></td>
+    <td class="pj small"><span class="nobr"><%= link_to entry.journal.title, entry.journal %></span></td>
+    <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
+
+<% if params[:action] =~ /search/ %>
+	
+	<div style='align: right;'><b><%= @journal_entries.size %></b> resultat<%= 'er' if @journal_entries.size > 1 %></div>
+<% else %>
+	<% if @journal_entries.total_pages > 1 -%>
+		<div class="page_entries"><%= page_entries_info(@journal_entries) -%></div>
+		<%= will_paginate @journal_entries, :remote => {:with => 'value', :update => 'journal_list'}  -%> &nbsp;&nbsp;
+	<% end -%>
+<% end %>

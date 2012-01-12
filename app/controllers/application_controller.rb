@@ -54,6 +54,14 @@ class ApplicationController < ActionController::Base
     cookies.delete :user_name
   end
 
+  def filter_date(args)
+    if args[:start_date] && args[:stop_date]
+      start = args.delete(:start_date)
+      stop  = args.delete(:stop_date)
+    end
+    Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
+  end
+
   private
 
   helper_method :current_user

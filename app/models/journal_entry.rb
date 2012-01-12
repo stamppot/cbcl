@@ -17,8 +17,7 @@ class JournalEntry < ActiveRecord::Base
   named_scope :answered_by_login_user, :conditions => ['state = ?', 6]
   named_scope :for_states, lambda { |states| { :conditions => ["state IN (?)", states]}}
   named_scope :with_cond, lambda { |cond| cond }
-  
-  # JournalEntry.all(:joins => [:journal], :conditions => ['journal_id = ? AND (state IN (2,3))', 6450])
+  named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
   
   def expire_cache
     Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
@@ -158,10 +157,10 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def JournalEntry.states  # ikke besvaret, besvaret, venter på svar (login-user)
-    { 'Fejl'       => 0,
-      'Ubesvaret'  => 1,
+    { #'Fejl'       => 0,
+      # 'Ubesvaret'  => 1,
       'Sendt ud'   => 2,
-      'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
+      # 'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
       'Kladde'     => 4,
       'Papir'   	 => 5,    # besvaret af behandler
 			'Elektronisk' => 6,		# besvaret af login-bruger 

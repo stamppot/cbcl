@@ -215,12 +215,13 @@ class Query
    end
    
    def filter_date(start, stop)
-     args = self.set_time_args(start, stop)
+     args = Query.set_time_args(start, stop)
      args[:start_date] = args[:start_date].to_s(:db)
      args[:stop_date] = args[:stop_date].to_s(:db)
      return args
    end
 
+   
    def self.filter_age(args)
      args[:age_start] ||= 1
      args[:age_stop] ||= 21
@@ -255,5 +256,10 @@ class Query
        end
      end
      args
+   end
+   
+   
+   def self.filter_date(start,stop)
+     Query.new.filter_date(start, stop)
    end
 end
