@@ -129,6 +129,7 @@ ActionController::Routing::Routes.draw do |map|
   map.survey_show_only_fast 'surveys/show_only_fast/:id', :controller => 'surveys', :action => 'show_only_fast' # :id is entry
   map.survey_save_draft 'survey_answers/save_draft/:id', :controller => 'survey_answers', :action => 'save_draft' # :id is entry
   map.survey_answer_create 'survey_answers/create/:id', :controller => 'survey_answers', :action => 'create'
+  map.survey_answer_done 'survey_answers/done/:id', :controller => 'survey_answers', :action => 'done' # :id is entry
   
   # subscriptions
   map.new_subscription 'subscriptions/new/:id', :controller               => 'subscriptions', :action => 'new' # center id
