@@ -215,6 +215,15 @@ class SurveyAnswersController < ApplicationController
     end
   end  
   
+  def done
+    entry = JournalEntry.find params[:id]
+    done = entry.survey_answer && entry.survey_answer.done || false
+    
+    respond_to do |format|
+      format.html { render :text => done.to_s }
+      format.js { render :text => "{'success': '#{done}'}" }
+    end
+  end
 
   protected
   

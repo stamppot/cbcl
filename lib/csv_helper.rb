@@ -113,7 +113,7 @@ class CSVHelper
   end
   
   
-  # TODO: does not work!
+  # works
   def login_users(journals)
     journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
@@ -174,6 +174,17 @@ class CSVHelper
     
     return csv
   end
+
+  def entries_status(journal_entries)
+    output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
+      csv_output << %w{skema kode navn status tilfoejet}    # header
+      journal_entries.each do |entry|                       # rows
+        csv_output << [entry.survey.title, entry.journal.code, entry.journal.title, entry.status, entry.created_at.strftime("%Y-%m-%d")]
+      end
+    end
+    
+  end
+  
   
   # header vars grouped by survey
   def survey_headers(survey_ids)

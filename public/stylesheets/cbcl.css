@@ -963,6 +963,9 @@ input.download {
 input.download.busy {
 	background:url('/images/spinner.gif') no-repeat 10px 5px;
 }
+input.download_excel {
+	background:url('/images/page_excel.png') no-repeat 10px 5px;
+}
 input.login {
 	background:url('/images/door_in.png') no-repeat 10px 5px;
 }

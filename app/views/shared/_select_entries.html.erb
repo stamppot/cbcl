@@ -7,7 +7,7 @@ Der er ikke fundet nogen skemaer.
 <th class="small select_all_box nosort" title="Vælg"><%= check_box_tag "select_all_box", "all", false %></th>
 <th class="wide sortcol sortdesc" title="Sorter efter navn">Skema</th>
 <th title="Sorter efter Id" class="sortcol">Id</th>
-<th title="Sorter efter Status" class="sortcol">Status</th>
+<th title="Sorter efter Status" class="sortcol" style="text-align: left;">&nbsp;&nbsp;Status&nbsp;&nbsp;</th>
 <th title="Sorter efter navn" class="sortcol">Navn</th>
 <th class="small sortcol" title="Sorter efter dato">Tilføjet</th>
 <th class="small" title="Team"><%# any_teams_text %></th>
@@ -31,9 +31,4 @@ Der er ikke fundet nogen skemaer.
 <% if params[:action] =~ /search/ %>
 	
 	<div style='align: right;'><b><%= @journal_entries.size %></b> resultat<%= 'er' if @journal_entries.size > 1 %></div>
-<% else %>
-	<% if @journal_entries.total_pages > 1 -%>
-		<div class="page_entries"><%= page_entries_info(@journal_entries) -%></div>
-		<%= will_paginate @journal_entries, :remote => {:with => 'value', :update => 'journal_list'}  -%> &nbsp;&nbsp;
-	<% end -%>
 <% end %>

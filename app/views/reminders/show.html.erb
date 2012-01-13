@@ -1,10 +1,14 @@
 <h2>Status på skemaer fra <%= center_or_team_text(@group) %> &quot;<%=h @group.title %>&quot;</h2>
 
 	<h3>Status</h3>
-	<%= select(:journal_entry, 'state', @states, {:selected => 2}, :onchange => remote_function(:update => "message_id",
-	:method => "get",
-	:with => "'state=' + value",  
-	:url => { :controller => :reminders, :action => :show })) %>
+	<% form_tag(csv_entry_status_download_path(@group) +".csv", :class => 'form', :method => :post) do %>
+	<span>
+		<%= select(:journal_entry, 'state', @states, {:selected => 2}, :onchange => remote_function(:update => "message_id",
+							 :method => "get", :with => "'state=' + value", :url => { :controller => :reminders, :action => :show })) %>
+	</span>
+	<span class="commands"><%= submit_tag t('export.entry_status'), :class => 'button download_excel' %></span>
+
+
 
 	<div id='filter_fields' style="display:none;"> <!-- Flyt ovenover hvis det skal bruges-->
 
@@ -23,10 +27,11 @@
 	</span>
 </div>
 
-<% form_tag(move_journals_url(@group), :class => 'form', :method => :post) do %>
 
 <div class="team_journals" id="team_journals">
 	<h3>Journaler</h3>
+	</p>
+	
 	<% if @journal_entries.empty? %>
 	<%= t('none') %>
 	<% else %>
@@ -34,15 +39,8 @@
 	<div id="journal_entries">
 		<%= render :partial => 'shared/select_entries', :locals => {:hide_team => true} %>
 	</div>
-	<%= render :partial => 'shared/ajax_pagination' %>
+	<%# render :partial => 'shared/ajax_pagination' %>
 	<% end %>
-	<p>
-		<div class="commands">
-			<br/>
-			<%# submit_tag t('journal.move'), :name => 'yes', :class => 'button journal_move' %>
-			<p/>
-		</div>
-	</p>
 	<% end %>
 </div>
 

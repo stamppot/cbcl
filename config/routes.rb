@@ -144,6 +144,9 @@ ActionController::Routing::Routes.draw do |map|
   map.generating 'exports/generating_export/:id', :controller => 'exports', :action => 'generating_export'
   # map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
 
+  # map.csv_entry_status_download 'reminders/download/:id', :controller => 'reminders', :action => 'download'
+  map.csv_entry_status_download 'reminders/download/:id.:format', :controller => 'reminders', :action => 'download', :format => 'csv'
+
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
 
@@ -210,6 +213,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/myaccount/:action/:id', :controller => 'active_rbac/my_account'
 
   map.connect '/export_logins/:action/:id.:format', :controller => 'export_logins', :action => 'download'
+  # map.connect '/reminders/:action/:id.:format', :controller => 'reminders', :action => 'download'
 
   map.main '/main', :controller => 'main', :action => 'index'
   map.connect '', :controller => 'login', :action => 'index'
