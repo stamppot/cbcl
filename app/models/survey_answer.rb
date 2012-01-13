@@ -297,10 +297,10 @@ class SurveyAnswer < ActiveRecord::Base
     str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
   end
   
-  def make_csv_answer
-    c = CSVHelper.new
-    c.generate_csv_answer_line(c.survey_answer_csv_query)
-  end
+  # def make_csv_answer
+  #      c = CSVHelper.new
+  #      c.generate_csv_answer_line(c.survey_answer_csv_query)
+  #    end
     
   def create_csv_answer!
     CSVHelper.new.create_survey_answer_csv(self)
