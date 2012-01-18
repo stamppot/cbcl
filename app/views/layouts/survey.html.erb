@@ -7,10 +7,16 @@
 
 	<title><%= @page_title %></title>
 	<%# stylesheet_link_tag 'cbcl' %>
-	<%= stylesheet_link_tag 'survey', :media => :all %>
 	<%# stylesheet_link_tag 'validation' %>
+	<%= stylesheet_link_tag 'survey', :media => :all %>
 
-	<%# javascript_include_tag 'controls' %>
+	<%= stylesheet_link_tag 'blueprint/screen', :media => :all %>
+	<%= stylesheet_link_tag 'blueprint/print', :media => :all %>
+	 <!--[if lt IE 8]>
+	<%= stylesheet_link_tag 'blueprint/ie', :media => :all %>
+ <![endif]-->
+	<%= stylesheet_link_tag 'survey_fix', :media => :all %>
+
 
 	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
@@ -21,6 +27,7 @@
 	<%= javascript_include_tag 'wforms/wforms_core' %>
 	<%= javascript_include_tag 'wforms/wforms_switch' %>
 	<%= javascript_include_tag 'charcount' %>
+
 	<script type="text/javascript">
 		var curvyCornersVerbose = false;
 	</script>

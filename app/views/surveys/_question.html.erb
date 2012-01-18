@@ -27,11 +27,15 @@
 		output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
 		((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
 		
+		puts "survey: #{question.survey_id} question: #{no}  Cols: #{cols.size}"
 		cols.each do |col, cell|
 			html = cell.to_html((@options || {:show_all => true}).merge(:number => no))
 			# puts "#{cell.class} id: #{cell.id} nummer: #{question.number} row,col #{cell.row}, #{cell.col}"
 			output << html if html
 		end
+		empty_cells = question.columns - cols.size
+		puts "Insert empty_cells: #{question.columns}-#{cols.size} = #{empty_cells}"
+		empty_cells.times {|i| output << "<td class='filler'></td>\n"}
 		output << "</tr>\n"
 	end
 		%>

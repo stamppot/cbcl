@@ -226,7 +226,12 @@ class QuestionCell < ActiveRecord::Base
 
 	def to_html(options = {})
 		onclick  = options[:onclick]
-		"<td #{onclick} #{id_and_class(options)} >#{create_form(options)}</td>"
+    # puts "OPTIONS: #{options.inspect}  id_and_class: #{id_and_class(options)}"
+		id_class = id_and_class(options)
+    id_class.gsub! /onstate-(.)/, ''
+    id_class.gsub! /offstate-(.)/, ''
+    # puts "OPT: #{id_class}"
+    "<td #{onclick} #{id_class} >#{create_form(options)}</td>"
 	end
 
 	def to_fast_input_html(options = {})
@@ -530,14 +535,11 @@ class ListItem < QuestionCell
 			      field << (value || "")
 			      newform << div_item(field, "listitemfield answer_textbox")
 			    when /create|edit/ :
-            # field << value
-            # newform << div_item(field, "listitemfield answer_textbox")
             field << "<textarea id='#{c_id}' class='textfield' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
             newform << div_item(field, "listitemfield")
           end
 				end
 			else  # with predefined text. show text in item (no input field)
-        # newform << "<span class='listitemtext'>" + div_item(item_text, "") + "</span>"
         newform << div_item(field + item_text, "listitemtext")
 			end
 		end
@@ -774,7 +776,6 @@ class ListItemComment < QuestionCell
 		switch_off = options[:switch_off]
 
 		c_id     = cell_id(no)
-
 		newform = []
 		question_no = "Q" + no
 		answer_item = self.svar_item

@@ -92,6 +92,7 @@ question, table.question {
 
 td {
   border: 1px #DEF solid;
+  border: 1px #029 dashed;
 }
 
 /*************** buttons **********/
@@ -187,9 +188,10 @@ input.button:active {
 }
 
 .selectoption {
-	display: inline;/*
-		padding-left: 0px;
-		padding-right: 40px;*/
+	display: inline;
+/*    padding-left: 0px;*/
+    padding-right: 100px;
+/*  width: 250px;*/
 }
 .selectlabel {
 	width: 120px;
@@ -646,6 +648,9 @@ td.description7lab4 {
   width: 250px;/*175px;*/
 }
 
+.listitemcomment {
+/*  height: 134px;*/
+}
 .listitem1 {  /* without predefined text */
   display: inline;
 }
