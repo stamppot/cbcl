@@ -7,6 +7,8 @@ class LoginController < ApplicationController
   end
   
   def login
+    redirect_to :index and return if request.get?
+    
     cookies.delete :journal_entry
     if request.post?
       if params[:username].to_i > 0
