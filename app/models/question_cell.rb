@@ -284,6 +284,11 @@ class QuestionCell < ActiveRecord::Base
 		"<div #{id_attr} class='#{type}'>#{html}</div>"
 	end
 
+	def span_item(html, type, id = nil)
+		id_attr = id.blank? ? "" : "id='#{id}'"
+		"<span #{id_attr} class='#{type}'>#{html}</span>"
+	end
+
 	def span_item(html, type)
 		#content_tag("div", html, { :class => type } )
 		"<span class='#{type}'>#{html}</span>"
@@ -522,7 +527,7 @@ class ListItem < QuestionCell
 				else                        # show text field, possibly with value
           case options[:action]
 			    when /print|show/ : 
-			      field << value
+			      field << (value || "")
 			      newform << div_item(field, "listitemfield answer_textbox")
 			    when /create|edit/ :
             # field << value
@@ -855,11 +860,11 @@ class Rating < QuestionCell
 				(item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
 			else # show only answers, not all radiobuttons, disabled
 				newform << if value == item.value    # show checked radiobutton
-					div_item("<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked'" +
+					span_item("<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked'" +
 					(disabled ? " disabled" : "") + " />" +
 					(item.text.empty? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio")
 				else     # spacing
-					div_item(item.text.empty? ? "&nbsp;&nbsp;&nbsp&nbsp;&nbsp;" : div_item(item.text, "radiolabel"), "radio")
+					span_item(item.text.empty? ? "&nbsp;&nbsp;&nbsp&nbsp;&nbsp;" : div_item(item.text, "radiolabel"), "radio")
 				end
 			end
 		end
@@ -900,7 +905,7 @@ class Rating < QuestionCell
 		# shows text values, except where all item texts are numbers
 		show_label = self.question_items.map { |item| item.text.to_i }.select {|i| i == 0}.size > 1
 		newform = div_item((show_label ? label.join(", ") : ""), "radiolabel") <<
-		div_item("<input id='#{c_id}' " <<
+		span_item("<input id='#{c_id}' " <<
 		"name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value.to_s + "'")} size='2' >", "radio")  << # removed />
 		"\n" << self.add_validation(options)
 		return newform

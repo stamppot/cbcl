@@ -23,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/score_scales/order', :controller => 'score_scales', :action => 'order'
 
   # Install the default route as the lowest priority.
+  map.resources :skemas
   map.resources :surveys
   map.resources :survey_answers
   map.resources :variables

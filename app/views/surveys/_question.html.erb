@@ -28,7 +28,9 @@
 		((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
 		
 		cols.each do |col, cell|
-			output << cell.to_html((@options || {:show_all => true}).merge(:number => no))
+			html = cell.to_html((@options || {:show_all => true}).merge(:number => no))
+			# puts "#{cell.class} id: #{cell.id} nummer: #{question.number} row,col #{cell.row}, #{cell.col}"
+			output << html if html
 		end
 		output << "</tr>\n"
 	end

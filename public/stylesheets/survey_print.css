@@ -41,8 +41,8 @@ a:visited { color: #666; }
 }
 
 #content_survey {
-	margin:0px 50px 20px 20px;
-	padding:10px;
+	margin:0px 0px 20px 0px;
+	padding:0px;
 	border: 1px #DDD solid;
 	border: 0;
 }
@@ -75,6 +75,8 @@ question, table.question {
 .group {
   border: 4px;
   padding-right: 2em;
+  max-width: 5%;
+  border: 1px dashed green;
 /*  colspan: 100%;*/
 }
 
@@ -114,17 +116,18 @@ td.questiontext {
 .itemquestiontext {
 /*  color: green; */
 	padding: 0;
+	padding-right: 10px;
 /*display: block;*/
 	display:inline;
 	white-space:normal;
 /*  width: 20em;*/
-	width: 250px;
-	max-width: 250px;
+	width: 310px;
+	max-width: 310px;
 	display:block;
 }
 
 .ie .itemquestiontext {
-  width: 220px;
+  width: 280px;
 }
 .itemdescription {
   /*color: green;*/
@@ -243,8 +246,8 @@ td.rating3lab {
 }
 td.rating3lab .radio {
   display: inline;
-  padding-right: 2.0em;
-	padding-left: 2em;
+  padding-right: 1.0em;
+	padding-left: 1em;
 /*	background-color: yellow;*/
 }
 
@@ -287,7 +290,7 @@ td.rating3lab2 .radiolabel {
 }
 
 td.rating3lab3 {
-  padding-left: 1.5em;
+  padding-left: 0em;
 	display: inline;
 }
 td.rating3lab3 .radio {
@@ -614,6 +617,7 @@ td.description7lab4 {
 }
 
 .iteminformation {
+/*  width: 100%;*/
 /*  padding-left: 1em;*/
 /*	white-space: nowrap;*/
 /*	width: 1000px;*/
@@ -644,8 +648,8 @@ td.listitemcomment {
 	display: inline;
 	white-space: normal;
 /*	background: yellow;*/
-  width: 250px;  /*175px;*/
-	max-width: 250px;
+  width: 280px;  /*175px;*/
+	max-width: 280px;
 	display:block;
 }
 
