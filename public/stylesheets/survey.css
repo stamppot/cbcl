@@ -175,11 +175,11 @@ input.button:active {
 /* limit the width */
 .itemquestiontext {
 /*  color: green; */
-  width: 20em;
+  width: 19em;
 }
 
 .ie .itemquestiontext {
-  width: 220px;
+  width: 210px;
 }
 .itemdescription {
   /*color: green;*/
@@ -507,7 +507,9 @@ td.rating7lab .radiolabel {
 }
 
 
-
+td.questiontext {
+  width: 280px;
+}
 
 .itemdescription {
   display: inline;
