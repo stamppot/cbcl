@@ -73,6 +73,12 @@ class JournalEntry < ActiveRecord::Base
     JournalEntry.states.invert[self.state]
   end
 
+  def answer_status
+    return "Besvaret" if [5,6].include? self.state
+    return "Ubesvaret" if self.state == 2
+    return status
+  end
+  
 	def answered_by
 		if !survey_answer.blank? && survey_answer.answered_by.to_i > 0
 			role = Role.find(survey_answer.answered_by == 88 && 15 || survey_answer.answered_by)

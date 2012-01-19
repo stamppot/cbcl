@@ -10,7 +10,7 @@ class RemindersController < ApplicationController
     # @stop_date = @journal_entries.any? && @journal_entries.last.created_at || DateTime.now
     set_params_and_find(params)
     
-    @states = JournalEntry.states
+    @states = {'Alle' => 0, 'Ubesvaret' => 2, 'Besvaret' => "5,6", 'Kladde' => 4} #JournalEntry.states
     respond_to do |format|
       format.html
       format.js {
@@ -41,7 +41,9 @@ class RemindersController < ApplicationController
   protected 
   
   def set_params_and_find(params)
-    @state = params[:state] || 2
+    @state = params[:state].to_s.split(',') unless params[:state].blank?
+    @state = [2,3] if @state.nil?
+    @state = JournalEntry.states.values if params[:state] == "0"
     @start_date = @group.created_at
     @stop_date = DateTime.now
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).

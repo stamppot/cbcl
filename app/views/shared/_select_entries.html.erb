@@ -20,7 +20,7 @@ Der er ikke fundet nogen skemaer.
 			<%= label_tag "journal_#{entry.id}", entry.survey.title %>
 		</td>
 		<td class="pj small number"><%= entry.journal.code %></td>
-		<td class="pj small number"><%= link_to entry.status, entry %></td>
+		<td class="pj small number"><%= link_to entry.answer_status, entry %></td>
     <td class="pj small"><span class="nobr"><%= link_to entry.journal.title, entry.journal %></span></td>
     <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
   </tr>
