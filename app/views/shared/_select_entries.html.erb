@@ -1,6 +1,8 @@
 <% if @journal_entries.empty? %>
 Der er ikke fundet nogen skemaer.
 <% else %>
+
+<p>Antal: <%= @journal_entries.size %></p>
 <table id="journal_list" class="sortable list">
 	<tr>
 		<!-- add checkbox -->

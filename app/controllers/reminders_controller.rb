@@ -16,6 +16,7 @@ class RemindersController < ApplicationController
       format.js {
         render :update do |page|
           page.replace_html 'journal_entries', :partial => 'shared/select_entries'
+          page.visual_effect :highlight, 'journal_entries'
         end
       }
     end
@@ -41,6 +42,7 @@ class RemindersController < ApplicationController
   protected 
   
   def set_params_and_find(params)
+    params[:state] = params[:journal_entry][:state] if params[:journal_entry] && params[:journal_entry][:state] 
     @state = params[:state].to_s.split(',') unless params[:state].blank?
     @state = [2,3] if @state.nil?
     @state = JournalEntry.states.values if params[:state] == "0"
