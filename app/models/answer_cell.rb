@@ -24,6 +24,7 @@ class AnswerCell < ActiveRecord::Base
       end
     else  # other types
       self.value_text = CGI.escape(new_value) if new_value != self.value_text  # TODO: escape value
+      self.clean_quotes
     end
     return changed?
   end
@@ -35,6 +36,12 @@ class AnswerCell < ActiveRecord::Base
 	def datatype
 		cell_type < 2 && :numeric || :string
 	end
+	
+	def clean_quotes
+    self.value_text.gsub!("%22", "%27") if (self.value_text.include?("%22") && self.value_text.include?("%27"))
+    # self.value_text.gsub!('\"', "'") if (self.value_text.include?("'") && self.value_text.include?("\""))
+    self
+  end
 	
   # comparison based on row first, then column
   def <=>(other)
@@ -101,12 +108,12 @@ class AnswerCell < ActiveRecord::Base
     elsif self.text
       # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+			"$('#{html_id}').value = '" + CGI::unescape("#{self.value_text}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "'; "
 		else
 		  if self.value_text
-  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+  			"$('#{html_id}').value = '" + CGI::unescape("#{self.value_text}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "'; "
 		  else
-  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value}\";")
+  			"$('#{html_id}').value = '" + CGI::unescape("#{self.value}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "'; "
 	    end
 			"$('#{html_id}').value = #{self.value};"
 		end

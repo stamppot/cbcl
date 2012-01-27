@@ -230,6 +230,7 @@ class SurveyAnswer < ActiveRecord::Base
           if answer_cell = an_answer.exists?(a_cell[:row], a_cell[:col]) # update
             update_cells << [answer_cell.id,  answer_cell.value, answer_cell.value_text] if answer_cell.change_value(value, the_valid_values[q][cell])
           else
+            # a_cell[:value_text] && a_cell[:value_text].clean_quotes! 
             new_cells[cell] = a_cell  # insert
           end
         end
@@ -247,7 +248,7 @@ class SurveyAnswer < ActiveRecord::Base
     self.answers.each { |a| a.update_ratings_count }
     return self
   end
-  
+    
   # used by draft_data to get positions of values
   def setup_draft_values
     self.answers.map { |answer| answer.setup_draft_values }.flatten

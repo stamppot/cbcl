@@ -121,12 +121,12 @@ class SurveyAnswersController < ApplicationController
 			all_answer_cells = journal_entry.survey_answer.setup_draft_values
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
 		end || ""
-    # puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
 		respond_to do |format|
 			format.js {
-				render :update do |page|
-					page << @response.to_s
-				end
+        # render :update do |page|
+        #   page << @response.to_s
+        # end
 			}
 		end
 	end
