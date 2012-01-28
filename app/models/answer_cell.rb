@@ -108,12 +108,12 @@ class AnswerCell < ActiveRecord::Base
     elsif self.text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
       "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
-			"$('#{elem_id}').value = " + javascript_escape_text(self.value_text)
+			"$('#{html_id}').value = " + javascript_escape_text(self.value_text)
 		else
 		  if self.value_text
-  			"$('#{elem_id}').value = " + javascript_escape_text(self.value_text)
+  			"$('#{html_id}').value = " + javascript_escape_text(self.value_text)
 		  else
-  			"$('#{elem_id}').value = " + javascript_escape_text(self.value)
+  			"$('#{html_id}').value = " + javascript_escape_text(self.value)
 	    end
 			"$('#{html_id}').value = #{self.value};"
 		end
