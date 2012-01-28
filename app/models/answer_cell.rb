@@ -24,7 +24,6 @@ class AnswerCell < ActiveRecord::Base
       end
     else  # other types
       self.value_text = CGI.escape(new_value) if new_value != self.value_text  # TODO: escape value
-      self.clean_quotes
     end
     return changed?
   end
@@ -36,12 +35,6 @@ class AnswerCell < ActiveRecord::Base
 	def datatype
 		cell_type < 2 && :numeric || :string
 	end
-	
-	def clean_quotes
-    self.value_text.gsub!("%22", "%27") if (self.value_text.include?("%22") && self.value_text.include?("%27"))
-    # self.value_text.gsub!('\"', "'") if (self.value_text.include?("'") && self.value_text.include?("\""))
-    self
-  end
 	
   # comparison based on row first, then column
   def <=>(other)
@@ -107,7 +100,7 @@ class AnswerCell < ActiveRecord::Base
 		  "$('#{html_id}').checked = #{self.value};"
     elsif self.text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-      "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+      # "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
 			"$('#{html_id}').value = " + javascript_escape_text(self.value_text)
 		else
 		  if self.value_text
@@ -125,7 +118,7 @@ class AnswerCell < ActiveRecord::Base
 	end
 	
 	def javascript_escape_text(text)
-	  escape_javascript(CGI::unescape("\"#{text}\"; "))  # .gsub("\r\n", "\r")
+	  "'" + escape_javascript(CGI::unescape("#{text}")) + "'; "  # .gsub("\r\n", "\r")
   end
   # def to_xml
   #   r = []

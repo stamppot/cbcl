@@ -202,16 +202,12 @@ def escape_javascript(javascript)
   end
 end
 
-class String
-  # def escape_single_quotes
-  #   self.gsub(/'/, "\\\\'")
-  # end
-
-  def clean_quotes!
-    self.gsub!("%22", "%27") if (self.include?("%22") && self.include?("%27"))
-    self
-  end
-end
+# class String
+#   def clean_quotes!
+#     self.gsub!("%22", "%27") if (self.include?("%22") && self.include?("%27"))
+#     self
+#   end
+# end
 
 class Hash
   # return Hash with nil values removed
