@@ -108,12 +108,13 @@ class AnswerCell < ActiveRecord::Base
     elsif self.text
       # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-			"$('#{html_id}').value = \"" + CGI::unescape("#{self.value_text}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "\"; "
+      "$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
+			javascript_escaped_value_text(self.value_text)
 		else
 		  if self.value_text
-  			"$('#{html_id}').value = \"" + CGI::unescape("#{self.value_text}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "\"; "
+  			javascript_escaped_value_text(self.value_text)
 		  else
-  			"$('#{html_id}').value = \"" + CGI::unescape("#{self.value}").gsub(/'/, "\\\\'").gsub(/"/, '\\\\"') + "\"; "
+  			javascript_escaped_value_text(self.value)
 	    end
 			"$('#{html_id}').value = #{self.value};"
 		end
@@ -124,6 +125,9 @@ class AnswerCell < ActiveRecord::Base
 		result
 	end
 	
+	def javascript_escape_text(text)
+	  "$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{text}\";")
+  end
   # def to_xml
   #   r = []
   #   
