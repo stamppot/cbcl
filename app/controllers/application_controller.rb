@@ -180,18 +180,6 @@ class ApplicationController < ActionController::Base
     return true
   end
 
-
-  JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
-  
-  def escape_javascript(javascript)
-    if javascript
-      result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
-      javascript.html_safe? ? result.html_safe : result
-    else
-      ''
-    end
-  end
-  
   private
   def cache(key)
     unless output = CACHE.get(key)
@@ -203,11 +191,22 @@ class ApplicationController < ActionController::Base
 
 end
 
-class String
-  def escape_single_quotes
-    self.gsub(/'/, "\\\\'")
+JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
+
+def escape_javascript(javascript)
+  if javascript
+    result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
+    javascript.html_safe? ? result.html_safe : result
+  else
+    ''
   end
-  
+end
+
+class String
+  # def escape_single_quotes
+  #   self.gsub(/'/, "\\\\'")
+  # end
+
   def clean_quotes!
     self.gsub!("%22", "%27") if (self.include?("%22") && self.include?("%27"))
     self
