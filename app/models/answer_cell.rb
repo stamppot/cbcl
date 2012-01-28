@@ -125,7 +125,7 @@ class AnswerCell < ActiveRecord::Base
 	end
 	
 	def javascript_escape_text(elem_id, text)
-	  "$('#{elem_id}').value = " + CGI::unescape("\"#{text}\";")
+	  "$('#{elem_id}').value = " + CGI::unescape("\"#{text}\"; ").gsub("\r\n", "\r")
   end
   # def to_xml
   #   r = []

@@ -180,6 +180,9 @@ class ApplicationController < ActionController::Base
     return true
   end
 
+
+  JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
+  
   def escape_javascript(javascript)
     if javascript
       result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
