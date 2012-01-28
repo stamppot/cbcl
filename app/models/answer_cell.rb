@@ -109,12 +109,12 @@ class AnswerCell < ActiveRecord::Base
       # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
       "$('#{html_value_id(fast)}').value = " + CGI::unescape("\"#{self.value_text}\";")
-			javascript_escaped_value_text(self.value_text)
+			javascript_escape_text(self.value_text)
 		else
 		  if self.value_text
-  			javascript_escaped_value_text(self.value_text)
+  			javascript_escape_text(self.value_text)
 		  else
-  			javascript_escaped_value_text(self.value)
+  			javascript_escape_text(self.value)
 	    end
 			"$('#{html_id}').value = #{self.value};"
 		end
