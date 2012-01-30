@@ -20,7 +20,7 @@
 	<tbody>
 	<%- 
 	rows = question.rows_of_cols
-	output = ["<tr>", "<td>", "<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"] # removed />
+	output = ["<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >"] # removed />
 	
 	index = 0
 	rows.sort.each do |row, cols|
@@ -36,8 +36,9 @@
 			output << html if html
 		end
 		empty_cells = question.columns - cols.size
-		puts "Insert empty_cells: #{question.columns}-#{cols.size} = #{empty_cells}"
-		empty_cells.times {|i| output << "<td class='filler span-7 last'></td>\n"}
+		# puts "Insert empty_cells: #{question.columns}-#{cols.size} = #{empty_cells}"
+		# puts "Colsize: #{cols.size} empty: #{empty_cells}" if question.number == 10
+		empty_cells.times {|i| output << "<td class='filler span-7 last'></td>\n"} unless cols.size == 1
 		output << "</tr>\n"
 	end
 		%>

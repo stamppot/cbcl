@@ -468,7 +468,7 @@ end
 class Information < QuestionCell
 
 	def to_html(options = {})
-		"<td colspan='3' id='td_#{cell_id(options[:number])}' class='#{class_name}' >#{create_form(options)}</td>"
+		"<td colspan='3' id='td_#{cell_id(options[:number])}' class='#{class_name} information span-22' >#{question_items.first.text}</td>"
 	end
 
 	def to_fast_input_html(options = {})
@@ -514,6 +514,14 @@ class ListItem < QuestionCell
 		super(options)
 	end
 
+  def span_class
+    if col == 2 and self.question.columns == 2
+      "span-18"
+    else
+      "span-7"
+    end
+  end
+  
 	def form_template(options = {})  # value = nil, disabled = false, show_all = true, edit = false)
 		disabled = options[:disabled] ? "disabled" : nil
 		show_all = options[:show_all].nil? || options[:show_all]
@@ -543,7 +551,7 @@ class ListItem < QuestionCell
           end
 				end
 			else  # with predefined text. show text in item (no input field)
-        newform << div_item(field + item_text, "listitemtext")
+        newform << div_item(field + item_text, "#{span_class} listitemtext")
 			end
 		end
 		# newform << "<input id='#{cell_id}_item' name='#{question_no}[#{cell}][item]' type='hidden' value='#{self.answer_item}' />" unless self.answer_item.nil?
@@ -610,7 +618,7 @@ class SelectOption < QuestionCell
 			newform << "<select id='#{c_id}' name='#{q_no}[#{c_id}]' #{disabled} >" + sel_options.join + "\n</select>"
 		end
 		newform << self.add_validation(options) unless disabled
-		div_item(newform.join, "prepend-1 span-6 selectoption #{target}".rstrip)
+		div_item(newform.join, "span-5 selectoption #{target}".rstrip)
 	end
 
 	def fast_input_form(options = {}, value = nil)
@@ -702,7 +710,7 @@ class Checkbox < QuestionCell
 			checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
 			checkbox += ((self.default_value || item.value).to_s == "1") ? "checked='checked' >" : ">" # removed />
 			checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
-			newform << div_item(checkbox + label, "checkbox")
+			newform << div_item(checkbox + label, "checkbox span-7")
 		end
 		newform.join
 	end
@@ -825,7 +833,9 @@ class Rating < QuestionCell
 
 		klass_name = "class='#{class_names}'".rstrip unless class_name.blank?
 		span = "span-6"
-		"<td id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}><div class='#{span_class}'>#{form_template(options)}</div></td>"
+    # puts "class_name: #{class_name}" if question.number == 7
+		colspan = "colspan='3'" if class_name == "rating4"
+		"<td #{colspan} id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}><div class='#{span_class}'>#{form_template(options)}</div></td>"
 	end
 
 	def to_fast_input_html(options = {})  # :fast => true, use fast_input_form
@@ -838,7 +848,7 @@ class Rating < QuestionCell
     case class_name
     when "rating3lab": "span-4"
     when "rating2lab1": "span-2"
-    when "rating4": "span-11"
+    when "rating4": "span-12"
     when "rating3": "span-9"
     else ""
     end
@@ -944,14 +954,24 @@ end
 
 class Description < QuestionCell
 
+	def to_html(options = {})
+		onclick  = options[:onclick]
+		colspan = "colspan='3'" if class_name.include? "description4lab4"
+		id_class = id_and_class(options)
+    id_class.gsub! /onstate-(.)/, ''
+    id_class.gsub! /offstate-(.)/, ''
+    "<td #{onclick} #{id_class} #{colspan}>#{create_form(options)}</td>"
+	end
+
 	def form_template(options = {}) # value = nil, show_all = true, disabled = false)
 		fast = options[:fast] ? true : false
 		show_values = options[:show_values]
 
 		klass_name = fast ? "" : switch_target(options)
-		klass_name = "class='header_#{class_name} #{klass_name}'".rstrip unless class_name.empty?
+		klass_name = "class='header_#{class_name} #{klass_name} span-9' ".rstrip unless class_name.empty?
 
-		newform = ["<table #{klass_name}><tr>"]
+    # newform = ["<table #{klass_name}><tr>"]
+    newform = ["<div #{klass_name}>"]
 
 
 		question_items.each_with_index do |item, i|
@@ -963,9 +983,11 @@ class Description < QuestionCell
 			else
 				div_item(item.text, span)
 			end
-			newform << "<td class='#{self.class_name}'>#{text}</td>"
+			newform << text  # "<td class='#{self.class_name}'>#{text}</td>"
+      # newform << "<td class='#{self.class_name}'>#{text}</td>"
 		end    
-		newform << "</tr></table>"
+    # newform << "</tr></table>"
+		newform << "</div>"
 		newform.join
 	end
 
