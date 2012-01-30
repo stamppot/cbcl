@@ -148,6 +148,7 @@ class SurveyAnswersController < ApplicationController
     survey_answer.save_answers(params)
 		survey_answer.center_id ||= journal_entry.journal.center_id
     journal_entry.draft! # unless journal_entry.answered?
+    survey_answer.done = false
     survey_answer.save
   end
   
