@@ -280,7 +280,6 @@ class QuestionCell < ActiveRecord::Base
 			else ""
 			end
 		end
-		name      
 	end
 
 	def div_item(html, type, id = nil)
@@ -430,11 +429,15 @@ class Questiontext < QuestionCell
 	def form_template(options = {}) #value = nil, disabled = false, show_all = true)
 		newform = ""
 		answer_item = (self.answer_item.nil? or (self.answer_item =~ /\d+([a-z]+)/).nil?) ?  "" : "\t" + $1 + ". "
+		span = "7"
+		span.succ! unless self.col == 1    # span += 1 if row == 1
+    span << " last" if self.col == self.question.columns
+		
 		self.question_items.each do |item|
 			newform = if item.position==1
-				div_item( answer_item + item.text, "itemquestiontext #{switch_target(options)}".rstrip)
+				div_item( answer_item + item.text, "span-#{span} itemquestiontext #{switch_target(options)}".rstrip)
 			else
-				div_item( item.text, "itemquestiontext #{switch_target(options)}".rstrip)
+				div_item( item.text, "span-#{span} itemquestiontext #{switch_target(options)}".rstrip)
 			end
 		end
 		newform
@@ -452,9 +455,9 @@ class Questiontext < QuestionCell
 		answer_item = (self.answer_item.nil? or (self.answer_item =~ /\d+([a-z]+)/).nil?) ?  "" : "\t" + $1 + ". "
 		self.question_items.each do |item|
 			newform = if item.position==1
-				div_item( answer_item + item.text, "itemquestiontext")
+				div_item( answer_item + item.text, "itemquestiontext span-9")
 			else
-				div_item( item_text, "itemquestiontext")
+				div_item( item_text, "itemquestiontext span-9")
 			end
 		end
 		newform
@@ -607,7 +610,7 @@ class SelectOption < QuestionCell
 			newform << "<select id='#{c_id}' name='#{q_no}[#{c_id}]' #{disabled} >" + sel_options.join + "\n</select>"
 		end
 		newform << self.add_validation(options) unless disabled
-		div_item(newform.join, "selectoption #{target}".rstrip)
+		div_item(newform.join, "prepend-1 span-6 selectoption #{target}".rstrip)
 	end
 
 	def fast_input_form(options = {}, value = nil)
@@ -819,8 +822,10 @@ class Rating < QuestionCell
 		# todo switch target
 		class_switch = switch_target(options) unless switch_off
 		class_names  = class_name + ((class_switch.blank? or switch_off) ? "" : " #{class_switch}" )
+
 		klass_name = "class='#{class_names}'".rstrip unless class_name.blank?
-		"<td id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}>#{form_template(options)}</td>"
+		span = "span-6"
+		"<td id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}><div class='#{span_class}'>#{form_template(options)}</div></td>"
 	end
 
 	def to_fast_input_html(options = {})  # :fast => true, use fast_input_form
@@ -829,6 +834,15 @@ class Rating < QuestionCell
 		"<td id='td_#{cell_id(options[:number])}' #{klass_name}>#{fast_input_form(options)}</td>"
 	end
 
+  def span_class 
+    case class_name
+    when "rating3lab": "span-4"
+    when "rating2lab1": "span-2"
+    when "rating4": "span-11" 
+    else ""
+    end
+  end
+  
 	def create_form_disabled
 	end
 
@@ -849,8 +863,14 @@ class Rating < QuestionCell
 		checked = false
 
 		q_items = self.question_items
+		span = "span-#{9 / q_items.size}"
+    # span = span_class unless span_class.blank?
+		span = "span-1" if class_name == "rating3lab"
+		
 		q_items.each_with_index do |item, i|
 			switch_src = (i > 0) ? switch_source(options) : "" # set switch on positive answers; 0 is 'no'
+			span << " last" if i == q_items.size-1
+  		
 			if show_all
 				checked = (value == item.value ? 'checked="checked"' : nil)
 				switch  = ((switch_src.blank? || switch_off) ? nil : "class='rating #{switch_src}'")
@@ -858,14 +878,14 @@ class Rating < QuestionCell
 				# id = "id='#{c_id.strip}_#{i}'"
 				newform << div_item(
 				"<input id='#{c_id}_#{i}' #{onclick} name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} >" + # removed />
-				(item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
+				(item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{span} #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
 			else # show only answers, not all radiobuttons, disabled
 				newform << if value == item.value    # show checked radiobutton
-					span_item("<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked'" +
-					(disabled ? " disabled" : "") + " />" +
-					(item.text.empty? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio")
+				  input = "<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked' #{disabled && ' disabled'} />"
+					span_item( +
+					(item.text.empty? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{span}")
 				else     # spacing
-					span_item(item.text.empty? ? "&nbsp;&nbsp;&nbsp&nbsp;&nbsp;" : div_item(item.text, "radiolabel"), "radio")
+					span_item(item.text.empty? ? "&nbsp;&nbsp;&nbsp&nbsp;&nbsp;" : div_item(item.text, "radiolabel"), "radio #{span}")
 				end
 			end
 		end
@@ -933,11 +953,15 @@ class Description < QuestionCell
 
 		newform = ["<table #{klass_name}><tr>"]
 
+
 		question_items.each do |item|
+      span = "span-3"
+		  span =  "#{span} last" if self.col == self.question.columns
+  		
 			text = if show_values
-				((item.value.nil?) ? item.value : "#{item.value} = #{item.text}")
+				div_item(item.value.nil? ? item.value : "#{item.value} = #{item.text}", span)
 			else
-				item.text
+				div_item(item.text, span)
 			end
 			newform << "<td class='#{self.class_name}'>#{text}</td>"
 		end    

@@ -33,9 +33,9 @@ a:visited { color: #666; }
 }
 
 #content_survey {
-	margin:0px 50px 20px 20px;
-	padding:10px;
-	border: 1px #DDD solid;
+/*  margin:0px 50px 20px 20px;
+  padding:10px;
+  border: 1px #DDD solid;*/
 }
 
 #infoheader {
@@ -175,11 +175,11 @@ input.button:active {
 /* limit the width */
 .itemquestiontext {
 /*  color: green; */
-  width: 19em;
+/*  width: 19em;*/
 }
 
 .ie .itemquestiontext {
-  width: 210px;
+/*  width: 210px;*/
 }
 .itemdescription {
   /*color: green;*/
@@ -257,16 +257,16 @@ td.rating3 {
 }
 .ie td.rating3 {
 /*  width: 250px;*/
-  padding-left: 10px;
-  text-align: center;
+/*  padding-left: 10px;
+*/  text-align: center;
 	display: inline;
  }
 
 td.rating3 .radio {
-  display: inline;
-  padding-left: 24px; 	/*7%; */
-  padding-right: 24px; 	/*7%; */
-}
+/*  display: inline;
+  padding-left: 24px;   /*7%; */
+/*  padding-right: 24px;  *//*7%; */
+*/}
 td.rating3 .radiolabel {
   display: inline;
 }
@@ -291,7 +291,7 @@ td.rating3lab .radio {
 }
 td.rating3lab .radiolabel {
   display: inline;
-  padding-right: 2.3em;
+/*  padding-right: 2.3em;*/
 }
 .ie td.rating3lab .radiolabel {
 	display: inline;
@@ -547,12 +547,13 @@ table.description .description4lab4 {  /* table to hold descriptions */
 td.description3lab2 {
   padding: 0px 4px 0px 4px;
   width: 250px;
+  text-align: center;
 }
 /* table inside above cell */
 table.header_description3lab2 .description3lab2 {
-	width: 50px;
+/*  width: 50px;
   padding-left: 1.6em;
-}
+*/}
 table.description3lab4 .description3lab4 {
 	border: 0px;
 }
@@ -572,10 +573,11 @@ td.description3lab3 {
 }
 
 td.description3lab4 {
-  padding: 0px 4px 0px 4px;
-	width: 10em;
+  padding: 0px;
+  width: 0em;
+  text-align: center;
 }
-
+/*
 td.description4lab4 {
   padding: 0px 4px 0px 4px;
   width: 220px;
@@ -595,7 +597,7 @@ td.description7lab4 {
   padding: 0px 4px 0px 4px;
   width: 100px;
 }
-
+*/
 .itemdescription4 {
   padding: 0 8px 0 0;
   width: 4em;
@@ -647,7 +649,7 @@ td.description7lab4 {
 }
 
 .listitemtext {  /* without predefined text */
-  width: 250px;/*175px;*/
+/*  width: 250px;/*175px;*/*/
 }
 
 .listitemcomment {

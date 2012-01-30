@@ -1,0 +1,61 @@
+
+#centertitle {
+  position:absolute;
+	top:46px;
+	margin-left: 24%;
+	margin-bottom: 4px;
+}
+
+textarea {
+  width: 250px;
+  height: 80px;
+  width: 200px;
+}
+
+td.textbox {
+  width: 200px;
+  padding-right: 0px;
+}
+td.filler {
+  width: 266px;
+}
+
+td.group {
+  width: 0px;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  border: 0;
+}
+td {
+  padding-left: 0;
+  padding-right: 0;
+  border: 0;
+}
+
+td.group span-1 {
+  margin-right: 0;
+}
+
+td.questiontext {
+  width: 100px;
+  border: 0;
+}
+
+
+.itemquestiontext {
+/*  width: 15em;*/
+}
+
+.selectoption {
+  padding-right: 0px;
+}
+
+.listitemtext {  /* without predefined text */
+/*  width: 0px;/*175px;*/*/
+}
+
+td.row {
+  padding-left: 0;
+  padding-right: 0;
+}
