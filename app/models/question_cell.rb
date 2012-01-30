@@ -838,7 +838,8 @@ class Rating < QuestionCell
     case class_name
     when "rating3lab": "span-4"
     when "rating2lab1": "span-2"
-    when "rating4": "span-11" 
+    when "rating4": "span-11"
+    when "rating3": "span-9"
     else ""
     end
   end
@@ -893,7 +894,6 @@ class Rating < QuestionCell
 		if show_all
 			newform << div_item("<input id='#{c_id}_9' name='#{question_no}[#{c_id}]' type='radio' value='9' #{checked ? '' : checked} style='display:none;' >",  # removed />
 			"hidden_radio")
-
 		end
 		newform.join
 	end  
@@ -954,9 +954,9 @@ class Description < QuestionCell
 		newform = ["<table #{klass_name}><tr>"]
 
 
-		question_items.each do |item|
+		question_items.each_with_index do |item, i|
       span = "span-3"
-		  span =  "#{span} last" if self.col == self.question.columns
+		  span =  "#{span} last" if question_items.size-1 == i
   		
 			text = if show_values
 				div_item(item.value.nil? ? item.value : "#{item.value} = #{item.text}", span)
