@@ -3,7 +3,7 @@
 	<h3>Status</h3>
 	<% form_tag(csv_entry_status_download_path(@group) +".csv", :class => 'form', :method => :post) do %>
 	<span>
-		<%= select(:journal_entry, 'state', @states, {:selected => 2}, :onchange => remote_function(:update => "message_id",
+		<%= select(:journal_entry, 'state', @states, {:selected => 0}, :onchange => remote_function(:update => "message_id",
 							 :method => "get", :with => "'state=' + value", :url => { :controller => :reminders, :action => :show })) %>
 	</span>
 	<span class="commands"><%= submit_tag t('export.entry_status'), :class => 'button download_excel' %></span>

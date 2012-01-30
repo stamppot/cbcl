@@ -122,6 +122,7 @@ ActionController::Routing::Routes.draw do |map|
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
   map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'
 
+  map.upgrade_browser 'upgrade', :controller => 'start', :action => 'upgrade'
   map.survey_start 'start', :controller => 'start', :action => 'start'
   map.survey_continue 'continue', :controller => 'start', :action => 'continue'
   map.survey_finish 'finish/:id', :controller => 'start', :action => 'finish'      # :id is login_user

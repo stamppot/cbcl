@@ -11,13 +11,17 @@ class ApplicationController < ActionController::Base
   before_filter :check_logged_in, :except => [:login]
   before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout]
   before_filter :center_title, :except => [:dynamic_data, :logout, :login]
+  before_filter :cookies_required, :except => [:login, :logout, :upgrade]
 
   filter_parameter_logging :password, :password_confirmation
-  
+
   def check_logged_in
-    redirect_to login_path if !current_user && !params[:controller] =~ /login/
+    if !current_user && !params[:controller] =~ /login/
+      store_location
+      redirect_to login_path
+    end
   end
-  
+
   def set_permissions
     if current_user
       current_user.perms = Access.for_user(current_user)
@@ -30,6 +34,30 @@ class ApplicationController < ActionController::Base
     else
       "Børne- og Ungdomspsykiatrisk Afdeling Odense"
     end
+  end
+
+  def cookies_required
+    return unless !request.cookies["session_id"].to_s.blank?
+    store_location
+    redirect_to(:controller => "start", :action => "upgrade")
+    return false
+  end
+
+  def require_user
+    unless current_user
+      store_location
+      redirect_to login_path
+      return false
+    end
+  end
+
+  def store_location
+    session[:return_to] = request.get? && request.request_uri || request.referer
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
   end
 
   def rescue_404
@@ -46,7 +74,7 @@ class ApplicationController < ActionController::Base
       super
     end
   end
-  
+
   def remove_user_from_session!
     session[:rbac_user_id] = nil
     session.delete :journal_entry
@@ -62,7 +90,7 @@ class ApplicationController < ActionController::Base
     Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
   end
 
-  private
+  # private
 
   helper_method :current_user
   # This method returns the User model of the currently logged in user or
@@ -71,18 +99,18 @@ class ApplicationController < ActionController::Base
     return @current_user_cached unless @current_user_cached.blank?
 
     @current_user_cached = 
-            if session[:rbac_user_id].nil? then
-              nil # ::AnonymousUser.instance
-            else
-              ::User.find(session[:rbac_user_id])
-            end
+    if !session[:rbac_user_id].blank?
+      User.find(session[:rbac_user_id])
+    else
+      nil
+    end
     return @current_user_cached
   rescue
-		puts "def current_user RESCUE #{session[:rbac_user_id]}"
+    puts "def current_user RESCUE #{session[:rbac_user_id]}"
     remove_current_user
     redirect_to login_path
   end
-  
+
   def remove_current_user
     session[:rbac_user_id] = nil
     @current_user_cached = nil
@@ -92,11 +120,11 @@ class ApplicationController < ActionController::Base
   def save_draft_interval
     current_user.login_user? && 900 || 60
   end
-  
+
   def journals_per_page
     20
   end
-  
+
   def local_request?
     return false
   end
@@ -115,6 +143,10 @@ class ApplicationController < ActionController::Base
     # check controller
     if !params[:id].blank? && params[:controller] =~ /score|faq/
       if current_user && (current_user.access?(:all_users) || current_user.access?(:login_user))
+        if session[:journal_entry]
+          logger.info "REQUEST #{params[:controller]}/#{params[:action]} #{'/' + (params[:id] || "")} cookie: '#{session[:journal_entry]}' user: '#{current_user.id}' @ #{9.hours.from_now.to_s(:short)}"
+        end
+        # cookies_required # redirects if cookies are disabled
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
@@ -159,6 +191,23 @@ class ApplicationController < ActionController::Base
 
 end
 
+JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
+
+def escape_javascript(javascript)
+  if javascript
+    result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
+    javascript.html_safe? ? result.html_safe : result
+  else
+    ''
+  end
+end
+
+# class String
+#   def clean_quotes!
+#     self.gsub!("%22", "%27") if (self.include?("%22") && self.include?("%27"))
+#     self
+#   end
+# end
 
 class Hash
   # return Hash with nil values removed
@@ -179,11 +228,11 @@ class Hash
   protected
   def self.each_path(object, path = '', &block )
     if object.is_a?( Hash ) then object.each do |key, value|
-        self.each_path value, "#{ path }#{ key }/", &block
-      end
-    else yield path, object
+      self.each_path value, "#{ path }#{ key }/", &block
     end
+  else yield path, object
   end
+end
 end
 
 #example: journals = entries.build_hash { |elem| [elem.journal_id, elem.survey_id] }
@@ -268,11 +317,11 @@ class Array
     end
     return self
   end
-  
+
   def to_h
     Hash[*self]
   end
-  
+
   def to_hash_flat
     is_hash = false
     inject({}) do |target, element|
@@ -281,7 +330,7 @@ class Array
       target
     end
   end
-  
+
 end
 
 class Float

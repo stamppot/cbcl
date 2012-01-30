@@ -124,15 +124,17 @@ class SurveyAnswersController < ApplicationController
     # puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
 		respond_to do |format|
 			format.js {
-				render :update do |page|
-					page << @response.to_s
-				end
+        # render :update do |page|
+        #   page << @response.to_s
+        # end
 			}
 		end
 	end
   
   def save_draft
+    return if request.get?
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    journal_entry.draft! # unless journal_entry.answered?
     return if journal_entry.answered?
 
     survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
@@ -143,11 +145,11 @@ class SurveyAnswersController < ApplicationController
       journal_entry.survey_answer.save
     end
     survey_answer = journal_entry.survey_answer
+    survey_answer.done = false
 		survey_answer.journal_entry_id ||= journal_entry.id
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
 		survey_answer.center_id ||= journal_entry.journal.center_id
-    journal_entry.draft! # unless journal_entry.answered?
     survey_answer.save
   end
   

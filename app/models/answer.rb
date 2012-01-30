@@ -149,7 +149,7 @@ class Answer < ActiveRecord::Base
 				fields[:value] = value
 				fields[:text] = false
       else
-        fields[:value_text] = CGI.escape(value.gsub(/\r\n?/,' ').strip)  # TODO: escaping of text (dangerous here!)
+        fields[:value_text] = CGI.escape(value.gsub(/\r\n?/,' ').strip) # DONE: escaping of text (done right!)
         fields[:value] = nil
 				fields[:text] = true
       end

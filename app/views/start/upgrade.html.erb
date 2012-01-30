@@ -1,0 +1,12 @@
+<% if Rails.env.development? %>
+	Session: <%= session.inspect %><br/>
+	Kage: <%= cookies["journal_entry"].inspect %>
+<% end %>
+<p>
+	<h3>Du har ikke javascript slået til i din browser. </h3>
+	<p>Siden virker ikke uden javascript. Se på <a href="http://support.microsoft.com/gp/howtoscript" target="_new">denne side</a> hvordan du kan slå det til.</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>Når du har slået javascript til, kan du gå direkte til start igen. <br/><br/> <%= link_button 'Start', survey_start_url %></p>
+</p>

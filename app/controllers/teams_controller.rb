@@ -240,6 +240,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   end
   
   def check_access
+    check_logged_in
     if params[:id] && current_user.access?(:all_users)
       access = current_user.team_member? params[:id].to_i
     elsif !params[:id] && current_user.access?(:login_user)

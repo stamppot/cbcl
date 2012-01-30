@@ -99,14 +99,14 @@ class AnswerCell < ActiveRecord::Base
 		elsif self.checkbox?
 		  "$('#{html_id}').checked = #{self.value};"
     elsif self.text
-      # return "" unless self.value_text
       # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+      # "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+			"$('#{html_id}').value = " + javascript_escape_text(self.value_text)
 		else
 		  if self.value_text
-  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+  			"$('#{html_id}').value = " + javascript_escape_text(self.value_text)
 		  else
-  			"$('#{html_id}').value = " + CGI::unescape("\"#{self.value}\";")
+  			"$('#{html_id}').value = " + javascript_escape_text(self.value)
 	    end
 			"$('#{html_id}').value = #{self.value};"
 		end
@@ -117,6 +117,9 @@ class AnswerCell < ActiveRecord::Base
 		result
 	end
 	
+	def javascript_escape_text(text)
+	  "'" + escape_javascript(CGI::unescape("#{text}")) + "'; "  # .gsub("\r\n", "\r")
+  end
   # def to_xml
   #   r = []
   #   

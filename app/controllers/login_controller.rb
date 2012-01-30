@@ -7,6 +7,8 @@ class LoginController < ApplicationController
   end
   
   def login
+    redirect_to login_path and return if request.get?
+    
     cookies.delete :journal_entry
     if request.post?
       if params[:username].to_i > 0
@@ -22,7 +24,7 @@ class LoginController < ApplicationController
         if current_user.login_user?
           redirect_to survey_start_path
         else
-          redirect_to main_path
+          redirect_to session[:return_to] || main_path
         end
         return
       end

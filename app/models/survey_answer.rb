@@ -247,7 +247,7 @@ class SurveyAnswer < ActiveRecord::Base
     self.answers.each { |a| a.update_ratings_count }
     return self
   end
-  
+    
   # used by draft_data to get positions of values
   def setup_draft_values
     self.answers.map { |answer| answer.setup_draft_values }.flatten
