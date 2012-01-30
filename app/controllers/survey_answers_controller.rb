@@ -121,7 +121,7 @@ class SurveyAnswersController < ApplicationController
 			all_answer_cells = journal_entry.survey_answer.setup_draft_values
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
 		end || ""
-    puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    # puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
 		respond_to do |format|
 			format.js {
         # render :update do |page|
@@ -132,7 +132,9 @@ class SurveyAnswersController < ApplicationController
 	end
   
   def save_draft
+    return if request.get?
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+    journal_entry.draft! # unless journal_entry.answered?
     return if journal_entry.answered?
 
     survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
@@ -143,12 +145,11 @@ class SurveyAnswersController < ApplicationController
       journal_entry.survey_answer.save
     end
     survey_answer = journal_entry.survey_answer
+    survey_answer.done = false
 		survey_answer.journal_entry_id ||= journal_entry.id
 		survey_answer.set_answered_by(params)
     survey_answer.save_answers(params)
 		survey_answer.center_id ||= journal_entry.journal.center_id
-    journal_entry.draft! # unless journal_entry.answered?
-    survey_answer.done = false
     survey_answer.save
   end
   

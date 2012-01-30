@@ -18,9 +18,11 @@
 	</div>
 	<br/>
 	<%= render :partial => "surveys/question", :collection => @survey.questions %>
-	<div id="submit_button" style="display:none;">
+
+	<div id="submit_button" style="display:none; padding-top: 15px;">
 		<%= render :partial => 'surveys/fancy_submit_button' %>
-		<span style="padding-left: 50px;">
+
+		<span style="padding-left: 100px;">
 				<a class='button' id='save_draft' style="display: none;">
 					<span id="spinner"><img alt="spinner" src="/images/spinner.gif"></span>
 					<span class="survey_save_draft">Gem kladde</span>
