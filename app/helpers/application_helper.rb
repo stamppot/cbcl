@@ -123,6 +123,10 @@ module ApplicationHelper
     end
   end
 
+  def local_time(time = nil)
+    (time || Time.now).in_time_zone("Copenhagen")
+  end
+  
   def center_or_team_link(group)
     return "Alle centre" if group.nil?
     if group.is_a? Team
