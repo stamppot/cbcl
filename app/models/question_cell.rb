@@ -265,6 +265,7 @@ class QuestionCell < ActiveRecord::Base
 	# sets id and class for td cells
 	def id_and_class(options = {}) # change to {}
 		ids = ["id='td_#{self.cell_id(options[:number])}' class='#{self.class_name} #{options[:outer_span]}"]
+    puts "options: #{options.inspect}" if self.is_a? Description
 		ids << " " << options[:target] if options[:target]
 		(ids << "'").join
 		# end
@@ -1041,18 +1042,35 @@ end
 class Description < QuestionCell
 
 	def to_html(options = {})
-		onclick  = options[:onclick]
+		onclick    = options[:onclick]
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{outer_span}" : " #{class_switch} #{outer_span}" )
+
 		options[:outer_span] = outer_span(options[:last])
-		colspan = "colspan='3'" if class_name.include? "description4lab4"
+		colspan = class_name.include?("description4lab4") && "colspan='3'" || ""
 		id_class = id_and_class(options)
-    id_class.gsub!(/onstate-(.)/, '')
-    id_class.gsub!(/offstate-(.)/, '')
+    # id_class.gsub!(/onstate-(.)/, '')
+    # id_class.gsub!(/offstate-(.)/, '')
     
+    klass_name = class_name
     fast = options[:fast] ? true : false
-    klass_name = fast ? "" : switch_target(options)
-		
-    "<div #{onclick} #{id_class} #{colspan}>#{create_form(options)}</div>"
+    klass_name << (fast && "" || " " + switch_target(options))
+
+		# "<div #{onclick} #{id_class} #{colspan}>#{create_form(options)}</div>"
+    "<div #{onclick} #{colspan} id='td_#{cell_id(options[:number])}' class='#{klass_name}'>#{form_template(options)}</div>"
 	end
+
+
+  # def to_html(options = {})  # :fast => true, use fast_input_form
+  #    # todo switch target
+  #      # span = "span-6"
+  #      # puts "class_name: #{class_name}" if question.number == 7
+  #    # colspan = "colspan='3'" if class_name == "rating4"
+  #    "<div #{colspan} id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}>#{form_template(options)}</div>"
+  #  end
+
+
 
   def outer_span(last = false)
     span = case class_name
