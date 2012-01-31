@@ -1050,27 +1050,13 @@ class Description < QuestionCell
 		options[:outer_span] = outer_span(options[:last])
 		colspan = class_name.include?("description4lab4") && "colspan='3'" || ""
 		id_class = id_and_class(options)
-    # id_class.gsub!(/onstate-(.)/, '')
-    # id_class.gsub!(/offstate-(.)/, '')
     
     klass_name = class_name
     fast = options[:fast] ? true : false
     klass_name << (fast && "" || " " + switch_target(options))
 
-		# "<div #{onclick} #{id_class} #{colspan}>#{create_form(options)}</div>"
     "<div #{onclick} #{colspan} id='td_#{cell_id(options[:number])}' class='#{klass_name}'>#{form_template(options)}</div>"
 	end
-
-
-  # def to_html(options = {})  # :fast => true, use fast_input_form
-  #    # todo switch target
-  #      # span = "span-6"
-  #      # puts "class_name: #{class_name}" if question.number == 7
-  #    # colspan = "colspan='3'" if class_name == "rating4"
-  #    "<div #{colspan} id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}>#{form_template(options)}</div>"
-  #  end
-
-
 
   def outer_span(last = false)
     span = case class_name

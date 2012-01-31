@@ -64,14 +64,6 @@ width: 200px;
 /*  width: 0px;/*175px;*/*/
 }
 
-/*td.rating5lab4 div {
-  border: 1px solid pink;
-}
-*//*td.rating5lab4 .radio {
-  border: 1px dashed red;
-  display: block;
-}
-*/
 td.rating2lab1 {
   width: 150px;
 }
@@ -81,6 +73,10 @@ td.row {
 }
 
 .rating3.span-9 > .radio.span-3 {
+  text-align: center;
+}
+
+.description3lab2 .span-3 {
   text-align: center;
 }
 
