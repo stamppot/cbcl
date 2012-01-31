@@ -26,20 +26,29 @@
 	rows.sort.each do |row, cols|
 		color = index % 2 == 0 && "even" || "odd"
 		# puts "ROW: #{row.inspect}  cols: #{cols.inspect}"
-		output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
-		((row==1) ? "\t<td class='group'><div class='span-1'>#{(no.to_roman + ". ") if no > 0 }</div></td>\n" : "\t<td></td>\n")
+		output << "<tr><td><div id='row#{id}_#{row}' class='row'>\n"
+		output << 
+			if row == 1
+				"\t<div class='group span-1'>#{no > 0 && (no.to_roman + ". ") || ''}</div>\n"
+			else
+				"\t<div class='span-1'>&nbsp;</div>\n"
+			end
 		
 		# puts "survey: #{question.survey_id} question: #{no}  Cols: #{cols.size}"
+		col_index = 1;
+		no_cols = cols.size
 		cols.each do |col, cell|
-			html = cell.to_html((@options || {:show_all => true}).merge(:number => no))
+			# puts "Column: #{cell.col} last: #{last} cols.size #{no_cols}"
+			html = cell.to_html((@options || {:show_all => true}).merge(:number => no, :last => cell.col == no_cols))
 			# puts "#{cell.class} id: #{cell.id} nummer: #{question.number} row,col #{cell.row}, #{cell.col}"
 			output << html if html
+			col_index += 1
 		end
 		empty_cells = question.columns - cols.size
 		# puts "Insert empty_cells: #{question.columns}-#{cols.size} = #{empty_cells}"
 		# puts "Colsize: #{cols.size} empty: #{empty_cells}" if question.number == 10
-		empty_cells.times {|i| output << "<td class='filler span-7 last'></td>\n"} unless cols.size == 1
-		output << "</tr>\n"
+		# empty_cells.times {|i| output << "<div class='filler span-7 last'></div>\n"} unless cols.size == 1
+		output << "</div></td></tr>\n"
 	end
 		%>
 <%= output.join %>

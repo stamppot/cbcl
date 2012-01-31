@@ -1,37 +1,37 @@
 <div class="container">
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
-<%= render :partial => 'surveys/survey_header' %>
+	<%= render :partial => 'surveys/survey_header' %>
 <br/>
 
 
-<div id='draft-message' style='color:red;'></div>
-<div id="survey_fast_input" class="command"></div>
-<br/>
-
-
-<form action="/survey_answers/create/0" id="surveyform" method="post" >
-	<!-- Put before validation.add -->
-	<script type='text/javascript'>
-	new Validation('surveyform', {immediate : true, stopOnFirst : true });
-	</script>
-	<div class='span-24 colborder'>
-		Udfyldt af <%= select :answer, :person, @survey.answer_by %>
-		Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' />
-	</div>
+	<div id='draft-message' style='color:red;'></div>
+	<div id="survey_fast_input" class="command"></div>
 	<br/>
-	<%= render :partial => "surveys/question", :collection => @survey.questions %>
 
-	<div id="submit_button" style="display:none; padding-top: 15px;">
-		<%= render :partial => 'surveys/fancy_submit_button' %>
 
-		<span style="padding-left: 100px;">
-			<a class='button' id='save_draft' style="display: none;">
-				<span id="spinner"><img alt="spinner" src="/images/spinner.gif"></span>
-				<span class="survey_save_draft">Gem kladde</span>
-			</a>
-		</span>
-	</div>
-</form>
+	<form action="/survey_answers/create/0" id="surveyform" method="post" >
+		<!-- Put before validation.add -->
+		<script type='text/javascript'>
+		new Validation('surveyform', {immediate : true, stopOnFirst : true });
+		</script>
+		<div class='span-24 colborder'>
+			Udfyldt af <%= select :answer, :person, @survey.answer_by %>
+			Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' />
+		</div>
+		<br/>
+		<%= render :partial => "surveys/question", :collection => @survey.questions %>
+
+		<div id="submit_button" style="display:none; padding-top: 15px;">
+			<%= render :partial => 'surveys/fancy_submit_button' %>
+
+			<span style="padding-left: 100px;">
+				<a class='button' id='save_draft' style="display: none;">
+					<span id="spinner"><img alt="spinner" src="/images/spinner.gif"></span>
+					<span class="survey_save_draft">Gem kladde</span>
+				</a>
+			</span>
+		</div>
+	</form>
 </div>
 
 <p/> <!-- dynamic -->
