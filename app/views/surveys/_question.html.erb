@@ -29,7 +29,7 @@
 		output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
 		((row==1) ? "\t<td class='group'><div class='span-1'>#{(no.to_roman + ". ") if no > 0 }</div></td>\n" : "\t<td></td>\n")
 		
-		puts "survey: #{question.survey_id} question: #{no}  Cols: #{cols.size}"
+		# puts "survey: #{question.survey_id} question: #{no}  Cols: #{cols.size}"
 		cols.each do |col, cell|
 			html = cell.to_html((@options || {:show_all => true}).merge(:number => no))
 			# puts "#{cell.class} id: #{cell.id} nummer: #{question.number} row,col #{cell.row}, #{cell.col}"

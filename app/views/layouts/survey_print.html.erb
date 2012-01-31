@@ -6,7 +6,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 
 	<title><%= @page_title %></title>
+
+	<%= stylesheet_link_tag 'survey', :media => :all %>
+
+	<%= stylesheet_link_tag 'blueprint/screen', :media => :all %>
+	<%= stylesheet_link_tag 'blueprint/print', :media => :all %>
+	 <!--[if lt IE 8]>
+	<%= stylesheet_link_tag 'blueprint/ie', :media => :all %>
+ <![endif]-->
 	<%= stylesheet_link_tag 'survey_print', :media => :all %>
+
+	<%= stylesheet_link_tag 'survey_fix', :media => :all %>
+	
 	<script type="text/javascript">
 		var curvyCornersVerbose = false;
 	</script>

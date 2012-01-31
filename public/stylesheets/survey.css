@@ -80,8 +80,8 @@ height:49px; /* the correct height */
 }
 
 question, table.question {
-  border: 1px lightblue solid;
-  display: table;
+/*  border: 1px lightblue solid;
+*/  display: table;
 }
 
 .group {
@@ -92,7 +92,7 @@ question, table.question {
 
 td {
   border: 1px #DEF solid;
-  border: 1px #029 dashed;
+/*  border: 1px #029 dashed;*/
 }
 
 /*************** buttons **********/

@@ -254,7 +254,7 @@ class QuestionCell < ActiveRecord::Base
 
 	# sets id and class for td cells
 	def id_and_class(options = {}) # change to {}
-		ids = ["id='td_#{self.cell_id(options[:number])}' class='#{self.class_name}"]
+		ids = ["id='td_#{self.cell_id(options[:number])}' class='#{self.class_name} #{options[:span]}"]
 		ids << " " << options[:target] if options[:target]
 		(ids << "'").join
 		# end
@@ -311,6 +311,7 @@ class QuestionCell < ActiveRecord::Base
 		options[:edit]     = options[:action] == "edit"
 		options[:print]    = options[:action] == "print"
 		options[:action]   = options[:action]
+    puts "options: #{options.inspect}" if self.is_a? Questiontext
 		self.form_template(options)
 	end
 
@@ -421,23 +422,39 @@ class QuestionCell < ActiveRecord::Base
 end
 
 class Questiontext < QuestionCell
-
+  
+  def span_class
+    span = "6"
+    span.succ! unless self.col == 1    # span += 1 if row == 1
+    span = "span-#{span}"
+    span << " last" if self.col == self.question.columns
+    span
+  end
+  # 
+  # def to_html(options = {})
+  #   onclick  = options[:onclick]
+  #   options[:span] = span_class
+  #     # puts "OPTIONS: #{options.inspect}  id_and_class: #{id_and_class(options)}"
+  #   id_class = id_and_class(options)
+  #     # id_class.gsub!(/onstate-(.)/, '')
+  #     # id_class.gsub!(/offstate-(.)/, '')
+  #     "<td #{onclick} #{id_class} >#{create_form(options)}</td>"
+  # end
+  
 	def to_fast_input_html(options = {})
+    # options[:span] = span_class
 		"<td #{id_and_class(options)} >#{form_template(options)}</td>"
 	end
 
 	def form_template(options = {}) #value = nil, disabled = false, show_all = true)
 		newform = ""
 		answer_item = (self.answer_item.nil? or (self.answer_item =~ /\d+([a-z]+)/).nil?) ?  "" : "\t" + $1 + ". "
-		span = "6"
-		span.succ! unless self.col == 1    # span += 1 if row == 1
-    span << " last" if self.col == self.question.columns
 		
 		self.question_items.each do |item|
 			newform = if item.position==1
-				div_item( answer_item + item.text, "span-#{span} itemquestiontext #{switch_target(options)}".rstrip)
+				div_item( answer_item + item.text, "#{span_class} itemquestiontext #{switch_target(options)}".rstrip)
 			else
-				div_item( item.text, "span-#{span} itemquestiontext #{switch_target(options)}".rstrip)
+				div_item( item.text, "#{span_class} itemquestiontext #{switch_target(options)}".rstrip)
 			end
 		end
 		newform
@@ -576,6 +593,7 @@ end
 class SelectOption < QuestionCell
 
 	def to_html(options = {})
+	  options[:span] = "span-5"
 		options[:target] = switch_target(options) unless switch_target.empty? or options[:switch_off]
 		super(options)
 	end
@@ -828,9 +846,10 @@ class Rating < QuestionCell
 	def to_html(options = {})  # :fast => true, use fast_input_form
 		onclick    = options[:onclick]
 		switch_off = options[:switch_off]
+		
 		# todo switch target
 		class_switch = switch_target(options) unless switch_off
-		class_names  = class_name + ((class_switch.blank? or switch_off) ? "" : " #{class_switch}" )
+		class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{span_class}" : " #{class_switch} #{span_class}" )
 
 		klass_name = "class='#{class_names}'".rstrip unless class_name.blank?
 		span = "span-6"
@@ -1010,7 +1029,7 @@ class Description < QuestionCell
 	end
 
   def span_class
-    puts "Class_name: #{class_name}"
+    # puts "Class_name: #{class_name}"
     case class_name
     when /description3lab4/: "span-9"
     when /description4lab4/: "span-12"
