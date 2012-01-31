@@ -894,7 +894,7 @@ class Rating < QuestionCell
     when "rating5lab4": "span-6"
     when "rating4": "span-12"
     when "rating3": "span-10"
-    when "rating7": "span-17"
+    when "rating7": "span-16"
     # when "rating7": "span-16"
     else ""
     end
@@ -913,7 +913,7 @@ class Rating < QuestionCell
     when "rating4": "span-12"
     when "rating5": "span-3"
     when "rating3": "span-10"
-    when "rating7": "span-17"
+    when "rating7": "span-2_5"
     # when "rating7": "span-16"
     else
       "span-#{9 / self.question_items.size}"
