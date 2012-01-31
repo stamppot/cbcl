@@ -291,6 +291,7 @@ class QuestionCell < ActiveRecord::Base
 			else ""
 			end
 		end
+		name
 	end
 
 	def div_item(html, type, id = nil)
@@ -530,10 +531,28 @@ end
 
 class ListItem < QuestionCell
 
-	def to_html(options = {})
-		options[:target] = switch_target(options) unless switch_target.empty?
-		super(options)
-	end
+  def to_html(options = {})
+    options[:target] = switch_target(options) unless switch_target.empty?
+    super(options)
+  end
+  
+  def to_html(options = {})
+    # onclick    = options[:onclick]
+    switch_off = options[:switch_off]
+    class_switch = switch_target(options) unless switch_off
+    class_names  = class_name <<
+    ((class_switch.blank? or !switch_off.blank?) ? " #{outer_span}" : " #{class_switch} #{outer_span}" )
+  
+    options[:outer_span] = outer_span(options[:last])
+    id_class = id_and_class(options)
+      
+    klass_name = class_name
+    fast = options[:fast] ? true : false
+    klass_name << (fast && "" || " " + switch_target(options))
+  
+    "<div id='td_#{cell_id(options[:number])}' class='#{klass_name}'>#{form_template(options)}</div>"
+  end
+	
 
 	def to_fast_input_html(options = {})
 		options[:target] = switch_target(options) unless switch_target.empty?
