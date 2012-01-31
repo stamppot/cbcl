@@ -35,7 +35,7 @@
 </head>
 <body>
 
-	<% if Rails.env.development? %>
+	<% if false && Rails.env.development? %>
 		<div style="float: left;">
 			Session: <%= session.inspect %><br/>
 			Kage: <%= cookies["journal_entry"].inspect %>

@@ -578,10 +578,10 @@ class ListItem < QuestionCell
 
 		newform = []
 		question_no = "Q" + no
-
+    
 		self.question_items.each_with_index do |item, i|
 			item_text = edit ? item.text : item.text
-			field = (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
+			field = "" # (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
 			has_no_text = item_text.blank?
 			if(has_no_text)     # listitem without predefined text
 				if(disabled)      # show answer value
@@ -590,18 +590,18 @@ class ListItem < QuestionCell
           case options[:action]
 			    when /print|show/ : 
 			      field << (value || "")
-			      newform << div_item(field, "listitemfield answer_textbox")
+			      newform << div_item(field, "listitemfield answer_textbox #{outer_span}")
 			    when /create|edit/ :
             field << "<textarea id='#{c_id}' class='textfield' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
-            newform << div_item(field, "listitemfield")
+            newform << field # div_item(field, "listitemfield #{outer_span}")
           end
 				end
 			else  # with predefined text. show text in item (no input field)
-        newform << div_item(field + item_text, "#{inner_span} listitemtext")
+        newform << span_item(field + item_text, "#{inner_span} listitemtext")
 			end
 		end
 		# newform << "<input id='#{cell_id}_item' name='#{question_no}[#{cell}][item]' type='hidden' value='#{self.answer_item}' />" unless self.answer_item.nil?
-		newform.join
+		span_item(newform.join, "#{class_name} #{outer_span}")
 	end
 
 	def fast_input_form(options = {}, value = nil)
