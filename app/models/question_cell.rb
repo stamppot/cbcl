@@ -968,7 +968,7 @@ class Description < QuestionCell
 		show_values = options[:show_values]
 
 		klass_name = fast ? "" : switch_target(options)
-		klass_name = "class='header_#{class_name} #{klass_name} span-9' ".rstrip unless class_name.empty?
+		klass_name = "class='header_#{class_name} #{klass_name} #{span_class}' ".rstrip unless class_name.empty?
 
     # newform = ["<table #{klass_name}><tr>"]
     newform = ["<div #{klass_name}>"]
@@ -991,6 +991,15 @@ class Description < QuestionCell
 		newform.join
 	end
 
+  def span_class
+    puts "Class_name: #{class_name}"
+    case class_name
+    when /description3lab4/: "span-9"
+    when /description4lab4/: "span-12"
+    else "span-9"
+    end
+  end
+  
 	def fast_input_form(options = {})
 		form_template(options.merge({:show_values => true}))
 	end
