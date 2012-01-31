@@ -608,6 +608,7 @@ class SelectOption < QuestionCell
 
   def outer_span(last = false)
     span = "span-4"
+    span = "span-6" if self.question.columns == 2 and col == 1
     span << " last" if last
     span
   end
@@ -803,6 +804,10 @@ class ListItemComment < QuestionCell
 		super(options)
 	end
 
+  def outer_span
+    "span-6"
+  end
+  
 	def to_fast_input_html(options = {})
 		#options[:target] = switch_target(options) unless switch_target.empty?
 		super(options)
@@ -848,7 +853,7 @@ class ListItemComment < QuestionCell
 				if (listitem_without_predefined_text)
 					input_or_answer = answer ?
 					  (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") :
-					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='38' rows='5' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
+					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='35' rows='5' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
 					div_item((answer_item_set ? "" : answer_item) + input_or_answer,
 					"itemtextbox #{span} #{target}".rstrip)
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{span} #{target}".rstrip)
@@ -918,7 +923,7 @@ class Rating < QuestionCell
     when "rating3lab3": "span-4"
     when "rating3lab4": "span-4"
     when "rating5lab4": "span-4"
-    when "rating4": "span-12"
+    when "rating4": "span-3"
     when "rating5": "span-3"
     when "rating3": "span-3"
     when "rating7": "span-2_5"
