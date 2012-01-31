@@ -14,6 +14,7 @@ textarea {
 
 textarea.textfield {
   height: 15px;
+  vertical-align: middle;
 }
 td.textbox {
   width: 200px;

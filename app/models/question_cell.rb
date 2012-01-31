@@ -235,12 +235,9 @@ class QuestionCell < ActiveRecord::Base
 		onclick  = options[:onclick]
 		options[:outer_span] = outer_span
 		
-    # puts "OPTIONS: #{options.inspect}  id_and_class: #{id_and_class(options)}"
 		id_class = id_and_class(options)
     id_class.gsub!(/onstate-(.)/, '')
     id_class.gsub!(/offstate-(.)/, '')
-    # puts "OPT: #{id_class}"
-    
     "<div #{onclick} #{id_class} >#{create_form(options)}</div>"
 	end
 
@@ -265,7 +262,6 @@ class QuestionCell < ActiveRecord::Base
 	# sets id and class for td cells
 	def id_and_class(options = {}) # change to {}
 		ids = ["id='td_#{self.cell_id(options[:number])}' class='#{self.class_name} #{options[:outer_span]}"]
-    puts "options: #{options.inspect}" if self.is_a? Description
 		ids << " " << options[:target] if options[:target]
 		(ids << "'").join
 		# end
@@ -323,7 +319,6 @@ class QuestionCell < ActiveRecord::Base
 		options[:edit]     = options[:action] == "edit"
 		options[:print]    = options[:action] == "print"
 		options[:action]   = options[:action]
-    puts "options: #{options.inspect}" if self.is_a? Questiontext
 		self.form_template(options)
 	end
 
@@ -531,10 +526,10 @@ end
 
 class ListItem < QuestionCell
 
-  def to_html(options = {})
-    options[:target] = switch_target(options) unless switch_target.empty?
-    super(options)
-  end
+  # def to_html(options = {})
+  #   options[:target] = switch_target(options) unless switch_target.empty?
+  #   super(options)
+  # end
   
   def to_html(options = {})
     # onclick    = options[:onclick]
@@ -628,7 +623,7 @@ class SelectOption < QuestionCell
 
   def outer_span(last = false)
     span = "span-4"
-    span = "span-6" if self.question.columns == 2 and col == 1
+    span = "span-6" if self.question.columns == 2 and col == 1 #and self.question.number > 3
     span << " last" if last
     span
   end
