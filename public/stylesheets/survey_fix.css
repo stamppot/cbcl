@@ -80,6 +80,10 @@ td.row {
   padding-right: 0;
 }
 
+.rating3.span-9 > .radio.span-3 {
+  text-align: center;
+}
+
 .span-2_5 {
   width: 90px;
   float:left;margin-right:10px;

@@ -514,8 +514,12 @@ end
 
 class Placeholder < QuestionCell
 
+  def outer_span
+    "span-4"
+  end
+  
 	def form_template(options = {})
-		div_item(question_items.first.value, "itemplaceholder")
+		div_item(question_items.first.value + "&nbsp;", "span-4 itemplaceholder")
 	end
 
 	def fast_input_form(options = {}, value = nil)
@@ -603,7 +607,7 @@ end
 class SelectOption < QuestionCell
 
   def outer_span(last = false)
-    span = "span-6"
+    span = "span-4"
     span << " last" if last
     span
   end
@@ -729,6 +733,10 @@ end
 
 class Checkbox < QuestionCell
 
+  def outer_span
+    "span-4"
+  end
+  
 	def form_template(options = {}) # value = nil, disabled = false, show_all = true)
 		disabled = options[:disabled] ? "disabled" : nil
 		answer   = options[:answers]
@@ -893,7 +901,7 @@ class Rating < QuestionCell
     when "rating3lab4": "span-6"
     when "rating5lab4": "span-6"
     when "rating4": "span-12"
-    when "rating3": "span-10"
+    when "rating3": "span-9"
     when "rating7": "span-16"
     # when "rating7": "span-16"
     else ""
@@ -912,7 +920,7 @@ class Rating < QuestionCell
     when "rating5lab4": "span-4"
     when "rating4": "span-12"
     when "rating5": "span-3"
-    when "rating3": "span-10"
+    when "rating3": "span-3"
     when "rating7": "span-2_5"
     # when "rating7": "span-16"
     else
