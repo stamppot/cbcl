@@ -12,6 +12,9 @@ textarea {
   width: 200px;
 }
 
+textarea.textfield {
+  height: 15px;
+}
 td.textbox {
   width: 200px;
   padding-right: 0px;
@@ -42,11 +45,17 @@ td.questiontext {
   border: 0;
 }
 
+td.description3lab4 {
+  width: 340px;
+}
 
 .itemquestiontext {
 /*  width: 15em;*/
+width: 200px;
 }
-
+.checkbox {
+width: 200px;
+}
 .selectoption {
   padding-right: 0px;
 }
@@ -55,6 +64,17 @@ td.questiontext {
 /*  width: 0px;/*175px;*/*/
 }
 
+/*td.rating5lab4 div {
+  border: 1px solid pink;
+}
+*//*td.rating5lab4 .radio {
+  border: 1px dashed red;
+  display: block;
+}
+*/
+td.rating2lab1 {
+  width: 150px;
+}
 td.row {
   padding-left: 0;
   padding-right: 0;

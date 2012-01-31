@@ -792,7 +792,8 @@ class ListItemComment < QuestionCell
 		answer_item = self.svar_item
 		answer_item_set = false
 		target = (fast or switch_off) ? "" : switch_target(options)
-
+    span = "span-7"
+    
 		self.question_items.each do |item|
 		  listitem_without_predefined_text = item.text.nil? || item.text.empty?
 		  case item.qtype
@@ -803,8 +804,8 @@ class ListItemComment < QuestionCell
 					  (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") :
 					  "<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='comment' cols='38' rows='5' #{disabled ? ' disabled style="display:none;"' : ''}>#{self.value}</textarea>"
 					div_item((answer_item_set ? "" : answer_item) + input_or_answer,
-					"itemtextbox #{target}".rstrip)
-				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{target}".rstrip)
+					"itemtextbox #{span} #{target}".rstrip)
+				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{span} #{target}".rstrip)
 				end
 			when "listitem": 
         answer_item_set = true if self.col == 1
@@ -812,8 +813,8 @@ class ListItemComment < QuestionCell
 				if (listitem_without_predefined_text)
 					div_item(((answer_item_set && self.col > 2) ? "" : answer_item) + 
           # "<input id='#{c_id}' name='#{question_no}[#{c_id}]' type='text' value='#{item.value}' size='20' >#{self.value}</input>", "listitemfield")
-					"<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='textfield' type='text' rows='1' value='#{item.value}'>#{self.value}</textarea>", "listitemfield")
-				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{target}".strip)
+					"<textarea id='#{c_id}' name='#{question_no}[#{c_id}]' class='textfield' type='text' rows='1' value='#{item.value}'>#{self.value}</textarea>", "listitemfield #{span}")
+				else div_item(((answer_item_set || self.col > 2) ? "" : answer_item) + item.text, "listitemtext #{span} #{target}".strip)
 				end
 				answer_item_set = true;
 			end
@@ -847,11 +848,14 @@ class Rating < QuestionCell
   def span_class 
     case class_name
     when "rating3lab": "span-4"
-    when "rating2lab1": "span-2"
-    when "rating3lab4": "span-9"
+    when "rating2lab1": "span-3"
+    when "rating3lab2": "span-4"
+    when "rating3lab3": "span-3"
+    when "rating3lab4": "span-6"
+    when "rating5lab4": "span-6"
     when "rating4": "span-12"
-    when "rating3": "span-9"
-    when "rating7": "span-16"
+    when "rating3": "span-10"
+    when "rating7": "span-17"
     # when "rating7": "span-16"
     else ""
     end
@@ -879,11 +883,15 @@ class Rating < QuestionCell
 		q_items = self.question_items
 		span = "span-#{9 / q_items.size}"
     # span = span_class unless span_class.blank?
+    span = "span-4" if class_name == "rating5lab4"
 		span = "span-1" if class_name == "rating3lab"
+		span = "span-3" if class_name == "rating3lab2"
+		span = "span-4" if class_name == "rating3lab3"
+		span = "span-2" if class_name == "rating2lab1"
 		
 		q_items.each_with_index do |item, i|
 			switch_src = (i > 0) ? switch_source(options) : "" # set switch on positive answers; 0 is 'no'
-			span << " last" if i == q_items.size-1
+      # span << " last" if i == q_items.size-1
   		
 			if show_all
 				checked = (value == item.value ? 'checked="checked"' : nil)
@@ -1034,15 +1042,16 @@ class TextBox < QuestionCell
 		c_id     = cell_id(no)
 
 		question_no = "Q" + no # self.question.number.to_s
-
+    span = "span-7"
+    
 		newform = []
 		self.question_items.each do |item|
 			if disabled
-				newform << div_item(self.value, "itemtextbox")
+				newform << div_item(self.value, "itemtextbox #{span}")
 			elsif answer
-				newform << (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_textbox'>#{self.value}</div>")
+				newform << (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_textbox #{span}'>#{self.value}</div>")
 			else
-				newform << div_item("<textarea id='#{c_id}' class='comment' name='#{question_no}[#{c_id}]' cols='38' rows='5'>#{self.value}</textarea>", "itemtextbox")
+				newform << div_item("<textarea id='#{c_id}' class='comment' name='#{question_no}[#{c_id}]' cols='38' rows='5'>#{self.value}</textarea>", "itemtextbox #{span}")
 			end
 		end
 		newform.join

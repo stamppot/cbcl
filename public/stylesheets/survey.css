@@ -463,6 +463,13 @@ td.rating5lab2 .radiolabel {
   display: inline;
   padding-left: 6px;
 }
+td.rating5lab4 {
+  width: 100px;
+  display: normal;
+}
+td.rating5lab4 .radio {
+  display: normal;
+}
 
 td.rating6 {
   text-align: center;
@@ -648,7 +655,7 @@ td.description7lab4 {
 }
 
 .itemtextbox { /* tekst med beskrivboks efter */
-  display: inline;
+/*  display: inline;*/
 }
 
 .listitemtext {  /* without predefined text */
