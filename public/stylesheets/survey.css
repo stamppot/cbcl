@@ -491,7 +491,10 @@ td.rating7 {
 }
 td.rating7 .radio {
   display: inline;
-  padding: 0px 41px 0px 41px;
+  padding: 0px 27px 0px 27px;
+}
+td.rating7 .radio.last {
+  padding-right: 0;
 }
 td.rating7 .radiolabel {
   display: inline;
@@ -508,7 +511,7 @@ td.rating7lab .radiolabel {
 
 
 td.questiontext {
-  width: 280px;
+  width: 230px;
 }
 
 .itemdescription {
@@ -524,11 +527,11 @@ table.description tr td {
 	border: 0px;
 }
 .ie .description {
-  padding-left: 20px;
+  padding-left: 0px;
 }
 .ie .description .itemdescription3 {
   text-align: center;
-  padding-right: 5px;
+  padding-right: 0px;
 /*  width: 50px; */
 }
 
@@ -661,7 +664,7 @@ td.description7lab4 {
 
 .itemlistitem2 {  /* with predefined text */
 /*  display: inline; */
-  width: 280px;
+  width: 220px;
 }
 
 /* show answer for listitemcomment */

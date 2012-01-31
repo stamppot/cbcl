@@ -59,3 +59,10 @@ td.row {
   padding-left: 0;
   padding-right: 0;
 }
+
+.span-2_5 {
+  width: 90px;
+  float:left;margin-right:10px;
+  border-left-width:1px;border-right-width:1px;padding-left:5px;padding-right:5px;
+  width:70px;
+}

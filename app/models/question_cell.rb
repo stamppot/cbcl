@@ -228,8 +228,8 @@ class QuestionCell < ActiveRecord::Base
 		onclick  = options[:onclick]
     # puts "OPTIONS: #{options.inspect}  id_and_class: #{id_and_class(options)}"
 		id_class = id_and_class(options)
-    id_class.gsub! /onstate-(.)/, ''
-    id_class.gsub! /offstate-(.)/, ''
+    id_class.gsub!(/onstate-(.)/, '')
+    id_class.gsub!(/offstate-(.)/, '')
     # puts "OPT: #{id_class}"
     "<td #{onclick} #{id_class} >#{create_form(options)}</td>"
 	end
@@ -429,7 +429,7 @@ class Questiontext < QuestionCell
 	def form_template(options = {}) #value = nil, disabled = false, show_all = true)
 		newform = ""
 		answer_item = (self.answer_item.nil? or (self.answer_item =~ /\d+([a-z]+)/).nil?) ?  "" : "\t" + $1 + ". "
-		span = "7"
+		span = "6"
 		span.succ! unless self.col == 1    # span += 1 if row == 1
     span << " last" if self.col == self.question.columns
 		
@@ -518,7 +518,7 @@ class ListItem < QuestionCell
     if col == 2 and self.question.columns == 2
       "span-18"
     else
-      "span-7"
+      "span-6"
     end
   end
   
@@ -848,8 +848,11 @@ class Rating < QuestionCell
     case class_name
     when "rating3lab": "span-4"
     when "rating2lab1": "span-2"
+    when "rating3lab4": "span-9"
     when "rating4": "span-12"
     when "rating3": "span-9"
+    when "rating7": "span-16"
+    # when "rating7": "span-16"
     else ""
     end
   end
@@ -891,10 +894,17 @@ class Rating < QuestionCell
 				"<input id='#{c_id}_#{i}' #{onclick} name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' #{switch} #{disable} #{checked} >" + # removed />
 				(item.text.blank? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{span} #{(i+1)==q_items.length ? self.validation : ""}".rstrip)
 			else # show only answers, not all radiobuttons, disabled
+        # item_text =         
+        #                 if item.text.blank?
+        #                   ""
+        #                 else
+        #                   "<label class='radiolabel' for='#{c_id}_#{i.to_s}'>#{item.text}</label>"
+        #                 end
+        #                 "radio #{span}"
 				newform << if value == item.value    # show checked radiobutton
-				  input = "<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked' #{disabled && ' disabled'} />"
-					span_item( +
-					(item.text.empty? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{span}")
+          span_item("<input id='#{c_id}_#{i}' name='#{question_no}[#{c_id}]' type='radio' value='#{item.value}' checked='checked'" +
+          					(disabled ? " disabled" : "") + " />" +
+          					(item.text.empty? ? "" : "<label class='radiolabel' for='#{c_id}_#{i}'>#{item.text}</label>"), "radio #{span}")
 				else     # spacing
 					span_item(item.text.empty? ? "&nbsp;&nbsp;&nbsp&nbsp;&nbsp;" : div_item(item.text, "radiolabel"), "radio #{span}")
 				end
@@ -958,8 +968,8 @@ class Description < QuestionCell
 		onclick  = options[:onclick]
 		colspan = "colspan='3'" if class_name.include? "description4lab4"
 		id_class = id_and_class(options)
-    id_class.gsub! /onstate-(.)/, ''
-    id_class.gsub! /offstate-(.)/, ''
+    id_class.gsub!(/onstate-(.)/, '')
+    id_class.gsub!(/offstate-(.)/, '')
     "<td #{onclick} #{id_class} #{colspan}>#{create_form(options)}</td>"
 	end
 
@@ -975,7 +985,7 @@ class Description < QuestionCell
 
 
 		question_items.each_with_index do |item, i|
-      span = "span-3"
+      span = question_items.size < 6 && "span-3" || "span-2_5"
 		  span =  "#{span} last" if question_items.size-1 == i
   		
 			text = if show_values
@@ -996,6 +1006,8 @@ class Description < QuestionCell
     case class_name
     when /description3lab4/: "span-9"
     when /description4lab4/: "span-12"
+    when /description5lab4/: "span-16"
+    when /description7lab4/: "span-16"
     else "span-9"
     end
   end
