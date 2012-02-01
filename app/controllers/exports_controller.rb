@@ -45,8 +45,9 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     journals = center && center.journals.count || Journal.count
     # params.delete :center if params[:center].blank?
-    params[:team] = params[:team][:team] if params[:team]
+    params[:team] = params[:team][:id] if params[:team]
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
+    puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
 
     render :update do |page|
       page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{count_survey_answers.to_s}"
@@ -64,9 +65,9 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     # journals = center && center.journals.flatten.size || Journal.count
     
-    params[:team] = params[:team][:team] if params[:team]
+    params[:team] = params[:team][:id] if params[:team]
     csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
-    
+    puts "DOWNLOAD csv_survey_answers: #{csv_survey_answers.size}"
     # spawns background task
     @task = Task.create(:status => "In progress")
     @task.create_survey_answer_export(params[:survey][:id], csv_survey_answers)
