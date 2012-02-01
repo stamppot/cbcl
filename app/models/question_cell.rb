@@ -487,11 +487,11 @@ end
 class Information < QuestionCell
 
 	def to_html(options = {})
-		"<div colspan='3' id='td_#{cell_id(options[:number])}' class='#{class_name} information span-23 last' >#{question_items.first.text}</div>"
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_name} information span-22 last' >#{question_items.first.text}</div>"
 	end
 
 	def to_fast_input_html(options = {})
-		to_html(options)
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_name} information span-22 last' >#{question_items.first.text}</div>"
 	end
 
 	def form_template(options = {})
@@ -551,8 +551,10 @@ class ListItem < QuestionCell
 	
 
 	def to_fast_input_html(options = {})
-		options[:target] = switch_target(options) unless switch_target.empty?
-		super(options)
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{fast_outer_span}" : " #{class_switch} #{fast_outer_span}" )
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_names}'>#{fast_input_form(options)}</div>"
 	end
 
   def outer_span(last = false)
@@ -567,6 +569,10 @@ class ListItem < QuestionCell
   
   def inner_span
     outer_span # "span-6"
+  end
+  
+  def fast_outer_span(last = false)
+    outer_span(last)
   end
   
 	def form_template(options = {})  # value = nil, disabled = false, show_all = true, edit = false)
@@ -646,10 +652,16 @@ class SelectOption < QuestionCell
 		super(options)
 	end
 
+  # def to_fast_input_html(options = {})
+  #   #options[:target] = switch_target(options) unless switch_target.empty?
+  #   options[:target] = switch_target(options) unless switch_target.empty? or options[:switch_off]
+  #   super(options)
+  # end
 	def to_fast_input_html(options = {})
-		#options[:target] = switch_target(options) unless switch_target.empty?
-		options[:target] = switch_target(options) unless switch_target.empty? or options[:switch_off]
-		super(options)
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{fast_outer_span}" : " #{class_switch} #{fast_outer_span}" )
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_names}'>#{fast_input_form(options)}</div>"
 	end
 
 	def form_template(options = {})
@@ -837,9 +849,15 @@ class ListItemComment < QuestionCell
     "span-6"
   end
   
+  def fast_outer_span
+    outer_span
+  end
+  
 	def to_fast_input_html(options = {})
-		#options[:target] = switch_target(options) unless switch_target.empty?
-		super(options)
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{fast_outer_span}" : " #{class_switch} #{fast_outer_span}" )
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_names}'>#{fast_input_form(options)}</div>"
 	end
 
 	def fast_input_form(options = {}, value = nil)
@@ -912,11 +930,9 @@ class Rating < QuestionCell
 		# todo switch target
 		class_switch = switch_target(options) unless switch_off
 		class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{outer_span}" : " #{class_switch} #{outer_span}" )
-
 		klass_name = "class='#{class_names}'".rstrip unless class_name.blank?
-    # span = "span-6"
-    # puts "class_name: #{class_name}" if question.number == 7
-		colspan = "colspan='3'" if class_name == "rating4"
+
+		colspan = "colspan='3'" if class_name == "rating4"  # not needed anymore?
 		"<div #{colspan} id='td_#{cell_id(options[:number])}' #{onclick} #{klass_name}>#{form_template(options)}</div>"
 	end
 
@@ -971,7 +987,7 @@ class Rating < QuestionCell
   def fast_outer_span(last = false)
     span = case class_name
     when "rating3lab": "span-4"
-    when "rating2lab1": "span-3"
+    when "rating2lab1": "span-4"
     when "rating3lab2": "span-4"
     when "rating3lab3": "span-3"
     when "rating3lab4": "span-6"
@@ -988,7 +1004,8 @@ class Rating < QuestionCell
   
   def fast_inner_span(last = false)
     span = case class_name
-    when "rating3lab": "prepend-2 span-1"
+    when "rating2lab1": "span-3"
+    when "rating3lab": "prepend-1 span-3"
     else inner_span(last)
     end
   end
@@ -1072,7 +1089,7 @@ class Rating < QuestionCell
 		# shows text values, except where all item texts are numbers
 		show_label = self.question_items.map { |item| item.text.to_i }.select {|i| i == 0}.size > 1
 		newform = div_item((show_label ? label.join(", ") : ""), "radiolabel") <<
-		span_item("<input id='#{c_id}' " <<
+		span_item(" <input id='#{c_id}' " <<
 		"name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value.to_s + "'")} size='2' >", "radio")  << # removed />
 		"\n" << self.add_validation(options)
 		return div_item(newform, "#{class_name} #{fast_inner_span}")
