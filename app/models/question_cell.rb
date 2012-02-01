@@ -1205,18 +1205,14 @@ class Description < QuestionCell
   
 	def form_template(options = {}) # value = nil, show_all = true, disabled = false)
 		show_values = options[:show_values]
-
-    # klass_name = fast ? "" : switch_target(options)
-	  newform = []
+    newform = []
 
 		question_items.each_with_index do |item, i|
-		  puts "options: #{options.inspect} #{options[:fast].inspect}"
 		  span = if(options[:fast])
 		    fast_inner_span(question_items.size, question_items.size-1 == i)
 		  else
 		    inner_span(question_items.size, question_items.size-1 == i)
 	    end
-		  puts "description inner span: #{span}"
 			text = if show_values
 				span_item(item.value.nil? ? item.value : "#{item.value} = #{item.text}", span)
 			else

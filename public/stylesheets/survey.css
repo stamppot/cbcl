@@ -36,11 +36,13 @@ a:visited { color: #666; }
 /*  margin:0px 50px 20px 20px;
   padding:10px;
   border: 1px #DDD solid;*/
+  border: 0;
 }
 
 #infoheader {
-	margin:30px 0px 10px 0px;
-	padding:10px 0px 0px 20px;
+/*  margin:30px 0px 10px 0px;*/
+  padding:10px 0px 0px 0px;
+  width: 100%;
 	/* For IE5/Win's benefit height = [correct height] + [top padding] + [top and bottom border widths] */
 	height:61px; /* 49px + 10px + 2px = 61px */
 	border-style:solid;
@@ -55,15 +57,16 @@ height:49px; /* the correct height */
 }
 
 #centertitle {
-	position:absolute;
-	top:46px;
+/*  position:absolute;*/
+/*  top:6px;*/
 	margin-left: 24%;
 	margin-bottom: 4px;
-	height: 20pt;
-	font-size: 20pt;
-	color: black;
-	border: 0px solid red;
+	height: 18pt;
+	font-size: 18pt;
+  color: black;*/
+/*  border: 0px solid red;*/
 	padding: 5px;
+	padding-right: 0;
 }
 
 .surveyname {

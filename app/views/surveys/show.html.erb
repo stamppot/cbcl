@@ -1,4 +1,8 @@
 <div class="container">
+	<%= render :partial => 'layouts/info_header' %>
+
+<br/>
+
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
 	<%= render :partial => 'surveys/survey_header' %>
 <br/>
