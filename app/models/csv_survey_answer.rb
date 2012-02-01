@@ -38,6 +38,7 @@ class CsvSurveyAnswer < ActiveRecord::Base
     options[:start_age]   ||= 0
     options[:stop_age]    ||= 21
 
+    options[:center] = user.center if !user.access?(:superadmin)
     if !options[:center].blank?
       center = Center.find(options[:center])
       options[:conditions] = ['center_id = ?', options[:center]]
@@ -52,6 +53,7 @@ class CsvSurveyAnswer < ActiveRecord::Base
     self.with_options(user, options).count #(params)
   end  
   
+  # filtrerer ikke på done, også kladder er med
   def self.with_options(user, options)
     o = self.filter_params(user, options)
     query = CsvSurveyAnswer.for_survey(o[:survey][:id]).
