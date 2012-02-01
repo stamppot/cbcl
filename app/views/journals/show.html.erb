@@ -76,7 +76,7 @@
 								end %>
 					 </td>
 					 <td><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-									(print_survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
+									(survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
 					
 							<%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ),
 									edit_survey_answer_path(entry), :title => 'Ret besvarelse' %>

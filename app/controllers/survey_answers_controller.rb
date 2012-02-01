@@ -1,7 +1,7 @@
 class SurveyAnswersController < ApplicationController
   layout 'cbcl', :except => [ :show, :show_fast ]
-  layout 'survey', :only  => [ :show, :show_fast, :edit ]
-	layout 'survey_print', :only => [ :print ]
+  layout 'survey', :only  => [ :show, :show_fast, :edit, :print ]
+  # layout 'survey_print', :only => [ :print ]
 
   # caching, do not use
   # def show

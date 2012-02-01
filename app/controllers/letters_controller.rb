@@ -57,6 +57,8 @@ class LettersController < ApplicationController
       flash[:notice] = 'Brevet er rettet.'
       redirect_to(@letter) and return
     else
+      @role_types = Survey.surveytypes
+      @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
       render :edit
     end
   end
