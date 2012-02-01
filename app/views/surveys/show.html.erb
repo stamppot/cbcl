@@ -14,9 +14,9 @@
 		<script type='text/javascript'>
 		new Validation('surveyform', {immediate : true, stopOnFirst : true });
 		</script>
-		<div class='span-24 colborder'>
-			Udfyldt af <%= select :answer, :person, @survey.answer_by %>
-			Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' />
+		<div class='span-24'>
+			<span class="prepend-1 span-4">Udfyldt af <%= select :answer, :person, @survey.answer_by %></span>
+			<span class="span-8 last" >Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' /></span>
 		</div>
 		<br/>
 		<%= render :partial => "surveys/question", :collection => @survey.questions %>

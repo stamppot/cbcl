@@ -7,12 +7,17 @@
   	script << "\t\t</script>"
 %>
 
-<div id="answered_by">
-	Udfyldt af <input id='answer_person' name='answer[person]' class='required answer_person' type='text'  size='2' />
-	Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' >
+<div id="answered_by" class='span-24'>
+	<br/>
+	<span class="prepend-1 span-4">
+		Udfyldt af <input id='answer_person' name='answer[person]' class='required answer_person' type='text'  size='2' />
+	</span>
+	<span class="span-9 last">
+		Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' >
+		<% help = roles.map { |r| "#{r.last} = #{r.first}<br>"}.join %>	
+		<%= help_tip(help, "answered_by")%>
+	</span>
 	
 <%= script %>
 
-	<% help = roles.map { |r| "#{r.last} = #{r.first}<br>"}.join %>	
-	<%= help_tip(help, "answered_by")%>
 </div>

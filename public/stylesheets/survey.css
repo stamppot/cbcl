@@ -825,7 +825,7 @@ input.validation-maybe, textarea.validation-maybe {
 	white-space: nowrap;
 	padding: 5px;
 	font-size: x-small;
-	border: 1px solid #0C0;
+/*  border: 1px solid #0C0;*/
 	float: center;
 }
 

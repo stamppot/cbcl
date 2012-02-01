@@ -582,7 +582,7 @@ class ListItem < QuestionCell
     
 		self.question_items.each_with_index do |item, i|
 			item_text = edit ? item.text : item.text
-			field = "" # (i == 0 ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
+			field = (i == 0 && (i == question_items.size-1) ? self.svar_item : "")# only show answer_item label in first item for cell with multiple list items
 			has_no_text = item_text.blank?
 			if(has_no_text)     # listitem without predefined text
 				if(disabled)      # show answer value
@@ -633,6 +633,13 @@ class SelectOption < QuestionCell
     outer_span
   end
   
+  def fast_outer_span(last = false)
+    span = "span-6"
+    span = "span-6" if self.question.columns == 2 and col == 1 #and self.question.number > 3
+    span << " last" if last
+    span
+  end
+  
 	def to_html(options = {})
 	  options[:outer_span] = outer_span
 		options[:target] = switch_target(options) unless switch_target.empty? or options[:switch_off]
@@ -641,6 +648,7 @@ class SelectOption < QuestionCell
 
 	def to_fast_input_html(options = {})
 		#options[:target] = switch_target(options) unless switch_target.empty?
+		options[:target] = switch_target(options) unless switch_target.empty? or options[:switch_off]
 		super(options)
 	end
 
@@ -703,16 +711,18 @@ class SelectOption < QuestionCell
 		values = qitems.map { |item| item[1] }
 		help = qitems.map { |item| (item[1] == item[2]) ? item[1] : "#{item[1]} = #{item[2]}" }.join("<br>")
 
-		newform << div_item(answer_item + "<input id='#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
-		(self.value.nil? ? " >" : "value='#{self.value}' >"), "selectoption #{target}".rstrip) # << # removed />
-		newform << help_div(c_id, help)  # TODO: fix values of help not shown for q7
+    input = answer_item.lstrip + "<input id='#{c_id}' name='#{question_no}[#{c_id}]' class='selectoption #{req} #{c_id}' type='text' " +
+		(self.value.nil? ? " >" : "value='#{self.value}' >")
+		input << help_div(c_id, help)
+		newform << span_item(input, "selectoption #{target} #{fast_outer_span}".rstrip) # << # removed />
+    # newform <<   # TODO: fix values of help not shown for q7
 
 		newform << self.add_validation(options) unless disabled
 		newform.join
 	end
 
 	def help_div(cell_id, help_message)
-		"&nbsp;&nbsp;&nbsp;<img src='/images/icon_comment.gif' class='help_icon' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{cell_id}\");' >" <<
+		"<img src='/images/icon_comment.gif' class='help_icon' alt='Svarmuligheder' title='Vis svarmuligheder' onclick='Element.toggle(\"help_#{cell_id}\");' >" <<
 		"<div id='help_#{cell_id}' style='display:none;'><div class='help_tip'>#{help_message}</div></div>"
 	end
 
@@ -752,6 +762,10 @@ class Checkbox < QuestionCell
 
   def outer_span
     "span-4"
+  end
+  
+  def fast_outer_span
+    "span-6"
   end
   
 	def form_template(options = {}) # value = nil, disabled = false, show_all = true)
@@ -796,12 +810,11 @@ class Checkbox < QuestionCell
 			checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
 			checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' />" : "/>"
 			checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
-			newform << div_item(checkbox + label, "checkbox #{outer_span}") << self.add_validation(:validate => "checkbox", :number => no)# + hidden_fields
+      newform << self.add_validation(:validate => "checkbox", :number => no)
+			newform << div_item(checkbox + label, "checkbox #{fast_outer_span}")
 		end
-		newform.join
+		div_item(newform.join, "checkbox span-8")
 	end
-	# form_template(options) << self.add_validation(:validate => "checkbox")
-	# end
 
 	def validation_type
 		"checkbox"
@@ -909,8 +922,12 @@ class Rating < QuestionCell
 
 	def to_fast_input_html(options = {})  # :fast => true, use fast_input_form
 		# todo switch target   # no switches in fast_input
-		klass_name = "class='#{class_name}'".rstrip unless class_name.empty?
-		"<div id='td_#{cell_id(options[:number])}' #{klass_name}>#{fast_input_form(options)}</div>"
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{fast_outer_span}" : " #{class_switch} #{fast_outer_span}" )
+		
+    # klass_name = "class='#{class_name} #{fast_outer_span}'".rstrip unless class_name.empty?
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_names}'>#{fast_input_form(options)}</div>"
 	end
 
   def outer_span(last = false)
@@ -951,6 +968,31 @@ class Rating < QuestionCell
     span
   end
   
+  def fast_outer_span(last = false)
+    span = case class_name
+    when "rating3lab": "span-4"
+    when "rating2lab1": "span-3"
+    when "rating3lab2": "span-4"
+    when "rating3lab3": "span-3"
+    when "rating3lab4": "span-6"
+    when "rating5lab4": "span-6"
+    when "rating4": "span-12"
+    when "rating3": "span-7"
+    when "rating7": "span-16"
+    # when "rating7": "span-16"
+    else ""
+    end
+    span << " last" if last
+    span
+  end
+  
+  def fast_inner_span(last = false)
+    span = case class_name
+    when "rating3lab": "prepend-2 span-1"
+    else inner_span(last)
+    end
+  end
+  
 	def create_form_disabled
 	end
 
@@ -971,13 +1013,6 @@ class Rating < QuestionCell
 		checked = false
 
 		q_items = self.question_items
-    # span = inner_span() "span-#{9 / q_items.size}"
-    #     # span = span_class unless span_class.blank?
-    #     span = "span-4" if class_name == "rating5lab4"
-    # span = "span-1" if class_name == "rating3lab"
-    # span = "span-3" if class_name == "rating3lab2"
-    # span = "span-4" if class_name == "rating3lab3"
-    # span = "span-2" if class_name == "rating2lab1"
 		
 		q_items.each_with_index do |item, i|
 		  span = inner_span(q_items.size-1 == i)
@@ -1025,7 +1060,6 @@ class Rating < QuestionCell
 		required = self.required? ? "required" : ""
 
 		label = []
-		# show_label = true
 		switch_src = ""
 		show_value = false
 		self.question_items.each_with_index do |item, i|
@@ -1041,7 +1075,7 @@ class Rating < QuestionCell
 		span_item("<input id='#{c_id}' " <<
 		"name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value.to_s + "'")} size='2' >", "radio")  << # removed />
 		"\n" << self.add_validation(options)
-		return newform
+		return div_item(newform, "#{class_name} #{fast_inner_span}")
 	end
 
 	def values
@@ -1073,6 +1107,16 @@ class Description < QuestionCell
     "<div #{onclick} #{colspan} id='td_#{cell_id(options[:number])}' class='#{klass_name}'>#{form_template(options)}</div>"
 	end
 
+	def to_fast_input_html(options = {})  # :fast => true, use fast_input_form
+		# todo switch target   # no switches in fast_input
+		switch_off = options[:switch_off]
+		class_switch = switch_target(options) unless switch_off
+    class_names  = class_name + ((class_switch.blank? or switch_off) ? " #{fast_outer_span}" : " #{class_switch} #{fast_outer_span(options[:last])}" )
+
+		options[:outer_span] = fast_inner_span(options[:last])
+		"<div id='td_#{cell_id(options[:number])}' class='#{class_names}'>#{fast_input_form(options)}</div>"
+	end
+	
   def outer_span(last = false)
     span = case class_name
     when "description3lab" : "span-4"
@@ -1091,15 +1135,64 @@ class Description < QuestionCell
     span
   end
   
+  # def outer_span(last = false)
+  #   # puts "Class_name: #{class_name}"
+  #   span = case class_name
+  #   when /description3lab4/: "span-9"
+  #   when /description4lab4/: "span-12"
+  #   when /description5lab4/: "span-16"
+  #   when /description7lab4/: "span-16"
+  #   else "span-9"
+  #   end
+  #   span << " last" if last
+  #   span
+  # end
+  
+  def inner_span(no_items = 3, last = false)
+    span = no_items < 6 && "span-3" || "span-2_5"
+    span = "#{span} last" if last
+    # puts "desc span: #{span}"
+    span
+  end
+  
+  def fast_outer_span(last = false)
+    span = case class_name
+    when "description3lab" : "span-4"
+    when "description2lab1": "span-6"
+    when "description3lab2": "span-9"
+    when "description3lab3": "span-9"
+    when "description3lab4":
+      s = "prepend-1 "
+      s << (last && "span-7" || "span-6")
+    when "description4lab4": "span-9"
+    when "description5lab4": "span-17"
+    when "description4": "span-12"
+    when "description3": "span-10"
+    when "description7": "span-17"
+      # when "rating7": "span-16"
+    else ""
+    end
+    span << " last" if last
+    span
+  end
+  
+  def fast_inner_span(items_size = 3, last = false)
+    span = "span-7"
+  end
+  
 	def form_template(options = {}) # value = nil, show_all = true, disabled = false)
-    # fast = options[:fast] ? true : false
 		show_values = options[:show_values]
 
     # klass_name = fast ? "" : switch_target(options)
 	  newform = []
 
 		question_items.each_with_index do |item, i|
-		  span = inner_span(question_items.size, question_items.size-1 == i)
+		  puts "options: #{options.inspect} #{options[:fast].inspect}"
+		  span = if(options[:fast])
+		    fast_inner_span(question_items.size, question_items.size-1 == i)
+		  else
+		    inner_span(question_items.size, question_items.size-1 == i)
+	    end
 		  puts "description inner span: #{span}"
 			text = if show_values
 				span_item(item.value.nil? ? item.value : "#{item.value} = #{item.text}", span)
@@ -1111,30 +1204,10 @@ class Description < QuestionCell
 		newform.join
 	end
 
-  def outer_span(last = false)
-    # puts "Class_name: #{class_name}"
-    span = case class_name
-    when /description3lab4/: "span-9"
-    when /description4lab4/: "span-12"
-    when /description5lab4/: "span-16"
-    when /description7lab4/: "span-16"
-    else "span-9"
-    end
-    span << " last" if last
-    span
-  end
-  
-  def inner_span(no_items = 3, last = false)
-      span = no_items < 6 && "span-3" || "span-2_5"
-		  span = "#{span} last" if last
-      # puts "desc span: #{span}"
-      span
-  end
-  
 	def fast_input_form(options = {})
-	  
-		form_template(options.merge({:show_values => true}))
+	  div_item(form_template(options.merge({:show_values => true, :inner_span => fast_inner_span})), class_name)
 	end
+    
 end
 
 

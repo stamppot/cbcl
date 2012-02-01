@@ -113,7 +113,7 @@ class SurveysController < ApplicationController
 
   # non-caching method
   def show_fast                             # 11-2 it's fastest to preload all needed objects
-    @options = {:action => "create", :hidden => true}
+    @options = {:action => "create", :hidden => true, :fast => true}
     @journal_entry = JournalEntry.find(params[:id]) 
     @survey_fast = cache_fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
