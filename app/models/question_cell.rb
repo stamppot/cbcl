@@ -990,8 +990,9 @@ class Rating < QuestionCell
     when "rating2lab1": "span-4"
     when "rating3lab2": "span-4"
     when "rating3lab3": "span-3"
-    when "rating3lab4": "span-6"
+    when "rating3lab4": "span-3"
     when "rating5lab4": "span-6"
+    when "rating5": "span-6"
     when "rating4": "span-12"
     when "rating3": "span-7"
     when "rating7": "span-16"
@@ -1004,6 +1005,7 @@ class Rating < QuestionCell
   
   def fast_inner_span(last = false)
     span = case class_name
+    when "rating5"  "span-7"
     when "rating2lab1": "span-3"
     when "rating3lab": "prepend-1 span-3"
     else inner_span(last)
@@ -1088,7 +1090,7 @@ class Rating < QuestionCell
 		# if items.to_i has duplicates, they are probably 0's, meaning that they have text in them, not just numbers as values. When more than one text becomes 0, there's more than one not-integer text
 		# shows text values, except where all item texts are numbers
 		show_label = self.question_items.map { |item| item.text.to_i }.select {|i| i == 0}.size > 1
-		newform = div_item((show_label ? label.join(", ") : ""), "radiolabel") <<
+		newform = div_item((show_label ? label.map {|l| span_item(l, fast_inner_span)}.join : ""), "radiolabel") <<
 		span_item(" <input id='#{c_id}' " <<
 		"name='#{question_no}[#{c_id}]' class='rating #{required} #{switch_src} #{c_id}' type='text' #{(self.value.nil? ? "" : "value='" + self.value.to_s + "'")} size='2' >", "radio")  << # removed />
 		"\n" << self.add_validation(options)
@@ -1182,7 +1184,8 @@ class Description < QuestionCell
       s = "prepend-1 "
       s << (last && "span-7" || "span-6")
     when "description4lab4": "span-9"
-    when "description5lab4": "span-17"
+    when "description5lab4": "span-7"
+    when "description7lab4": "span-16"
     when "description4": "span-12"
     when "description3": "span-10"
     when "description7": "span-17"
@@ -1194,7 +1197,10 @@ class Description < QuestionCell
   end
   
   def fast_inner_span(items_size = 3, last = false)
-    span = "span-7"
+    span = case class_name
+    when "description7lab4": "span-16"
+    else "span-7"
+    end
   end
   
 	def form_template(options = {}) # value = nil, show_all = true, disabled = false)
