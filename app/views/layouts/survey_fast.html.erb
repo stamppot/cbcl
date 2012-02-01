@@ -7,7 +7,15 @@
 
 	<title><%= @page_title %></title>
 	<%= stylesheet_link_tag 'cbcl' %>
-	<%= stylesheet_link_tag 'survey' %>
+
+	<%= stylesheet_link_tag 'survey', :media => :all %>
+	<%= stylesheet_link_tag 'blueprint/screen', :media => :all %>
+	<%= stylesheet_link_tag 'blueprint/print', :media => :print %>
+	 <!--[if lt IE 8]>
+	<%= stylesheet_link_tag 'blueprint/ie', :media => :all %>
+ <![endif]-->
+	<%= stylesheet_link_tag 'survey_fix', :media => :all %>
+	
 	<% stylesheet_link_tag 'validation' %>
 
 	<%= javascript_include_tag 'prototype' %>

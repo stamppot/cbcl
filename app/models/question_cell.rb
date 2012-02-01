@@ -242,8 +242,9 @@ class QuestionCell < ActiveRecord::Base
 	end
 
 	def to_fast_input_html(options = {})
-		"<div #{id_and_class(options)} >#{fast_input_form(options)}</div>"
-		# fast_input_form(options)
+	  options[:outer_span] = outer_span
+    # "<div #{id_and_class(options)} >#{fast_input_form(options)}</div>"
+    fast_input_form(options)
 	end
 
 	# comparison based on row first, then column
@@ -443,7 +444,7 @@ class Questiontext < QuestionCell
   end
   
 	def to_fast_input_html(options = {})
-    # options[:span] = span_class
+    options[:outer_span] = outer_span
 		"<div #{id_and_class(options)} >#{form_template(options)}</div>"
 	end
 
@@ -772,7 +773,7 @@ class Checkbox < QuestionCell
 			checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
 			checkbox += ((self.default_value || item.value).to_s == "1") ? "checked='checked' >" : ">" # removed />
 			checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
-			newform << div_item(checkbox + label, "checkbox span-7")
+			newform << div_item(checkbox + label, "checkbox #{outer_span}")
 		end
 		newform.join
 	end
@@ -795,7 +796,7 @@ class Checkbox < QuestionCell
 			checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
 			checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' />" : "/>"
 			checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
-			newform << div_item(checkbox + label, "checkbox") << self.add_validation(:validate => "checkbox", :number => no)# + hidden_fields
+			newform << div_item(checkbox + label, "checkbox #{outer_span}") << self.add_validation(:validate => "checkbox", :number => no)# + hidden_fields
 		end
 		newform.join
 	end
@@ -1131,6 +1132,7 @@ class Description < QuestionCell
   end
   
 	def fast_input_form(options = {})
+	  
 		form_template(options.merge({:show_values => true}))
 	end
 end

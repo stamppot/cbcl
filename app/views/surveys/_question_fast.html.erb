@@ -14,21 +14,30 @@
 	<table class="question" id="question<%= id %>"> 
 		<tbody>
 		<%- 
-		# rows = question.cells_rows_of_cols
 		rows = question.rows_of_cols
 		
-		# output = []
-		output = ["<tr>", "<td>", "<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >", "</td>", "</tr>"]
+		output = ["<input id='Q#{no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >"]
 
+		index = 0
 		rows.sort.each do |row, cols|
-			output << "<tr id='row#{id}_#{row}' class='row'>\n" << 
-			((row==1) ? "\t<td class='group'>#{(no.to_roman + ". ") if no > 0 }</td>\n" : "\t<td></td>\n")
+			color = index % 2 == 0 && "even" || "odd"
+			output << "<tr><td><div id='row#{id}_#{row}' class='row'>\n"
+			output << 
+				if row == 1
+					"\t<div class='group span-1'>#{no > 0 && (no.to_roman + ". ") || '&nbsp;'}</div>\n"
+				else
+					"\t<div class='span-1'>&nbsp;</div>\n"
+				end
 
+			no_cols = cols.size
 			cols.each do |col, cell|
-				colspan = (cell.instance_of? Information) ? "colspan='3'" : ""
-				output << cell.to_fast_input_html(@options.merge(:number => no))
+				html = cell.to_fast_input_html(@options.merge(:number => no, :last => cell.col == no_cols))
+				output << html if html
+
+				# colspan = (cell.instance_of? Information) ? "colspan='3'" : ""
+				# output << cell.to_fast_input_html(@options.merge(:number => no))
 			end
-			output << "</tr>\n"
+			output << "</div></td></tr>\n"
 		end	
 		%>
 		<%= output.join %>
