@@ -95,7 +95,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       @groups.compact.uniq  # if superadmin, center is nil
     end
 
-    @group = Team.new
+    @group = Team.new(params && params[:group] || {})
     @group.parent = @groups.first if @groups.size == 1
     # set suggested team code if only one center possible
     @group.code = @groups.first.next_team_code if @groups.size == 1 # for superadmin, no code is set
@@ -121,7 +121,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
         flash[:error] = "Kode skal være uden centerkode: #{params[:group][:code]}"
       end
       @groups = current_user.centers || Center.find(:all)  # last is for superadmins
-      redirect_to new_team_in_center_url(@group)
+      redirect_to new_team_in_center_url(@group, params)
     end
       
   rescue ActiveRecord::RecordNotFound
