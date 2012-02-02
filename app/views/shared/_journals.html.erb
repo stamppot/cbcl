@@ -1,4 +1,4 @@
-	<h3>Journaler <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "journals", {:duration => 0.5}) %></span></h3>
+	<h3>Journaler</h3>
 	<% if @journals.empty? %>
 		<%= t('none') %>
 	<% else %>
@@ -7,9 +7,7 @@
 		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true, :journals => @journals} %>
 	</div>
 	
-	
 	<% if params[:action] =~ /search/ %>
-
 		<div style='align: right;'><b><%= @journals.size %></b> resultat<%= 'er' if @journals.size > 1 %></div>
 	<% else %>
 		<% if @journals.total_pages > 1 -%>
@@ -27,6 +25,7 @@
 	<% end %>
 	<%# render :partial => 'shared/ajax_pagination' %>
 
+	<% if @group %>
 	<p>
 		<div class="commands">
 			<br/>
@@ -42,3 +41,4 @@
 		</div>
 	</p>
 	<% end %>
+<% end %>

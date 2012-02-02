@@ -1,7 +1,7 @@
 <% if flash[:notice] -%>
   <div id="notice" align="center"><%= flash[:notice] %></div>
 <% end -%>
-<% if @groups.any? %>
+<% if @journals.any? %>
 	<h2>Fundne journaler</h2>
   	<%= render :partial => 'shared/journal_list' %>
 <% else %>

@@ -186,7 +186,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     # cpr.nr. søgning. Reverse
     @phrase = @phrase.split("-").reverse.join if @phrase.to_i > 0
 
-    @groups =
+    @journals =
     if @phrase.empty?
       []
     elsif current_user.has_role?(:superadmin)
