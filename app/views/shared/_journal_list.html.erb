@@ -1,4 +1,4 @@
-<% if @groups.empty? %>
+<% if @journals.empty? %>
 Der er ingen journaler i systemet.
 <% else %>
 <table id="journal_list" class="sortable list">
@@ -13,7 +13,7 @@ Der er ingen journaler i systemet.
 <th class="nosort"><%= t('action') %></th>
 </tr>
 
-<% @groups.each do |g| %>
+<% @journals.each do |g| %>
   <tr>
     <td class="pj_name"><a href="<%= url_for(g) %>"><%= g.title %></a></td>
 		<td class="pj small number"><%= g.code %></td>
@@ -31,12 +31,3 @@ Der er ingen journaler i systemet.
 </table>
 <% end %>
 
-<% if params[:action] =~ /search/ %>
-	
-	<div style='align: right;'><b><%= @groups.size %></b> resultat<%= 'er' if @groups.size > 1 %></div>
-<% else %>
-	<% if @groups.total_pages > 1 -%>
-		<div class="page_entries"><%= page_entries_info(@groups) -%></div>
-		<%= will_paginate @groups, :remote => {:with => 'value', :update => 'journal_list'}  -%> &nbsp;&nbsp;
-	<% end -%>
-<% end %>

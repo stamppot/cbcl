@@ -1,13 +1,31 @@
-	<h3>Journaler  <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "journals", {:duration => 0.5}) %></span></h3>
-	<% if @groups.empty? %>
+	<h3>Journaler <span style="font-size: 11px;"><%= link_to_function (content_tag(:span, '&nbsp', {:id => 'expand', :class => 'expand'})), visual_effect(:toggle_blind, "journals", {:duration => 0.5}) %></span></h3>
+	<% if @journals.empty? %>
 		<%= t('none') %>
 	<% else %>
 	<% @hide_team = true %>
 	<div id="journals">
-		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true} %>
+		<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true, :journals => @journals} %>
 	</div>
 	
-	<%= render :partial => 'shared/ajax_pagination' %>
+	
+	<% if params[:action] =~ /search/ %>
+
+		<div style='align: right;'><b><%= @journals.size %></b> resultat<%= 'er' if @journals.size > 1 %></div>
+	<% else %>
+		<% if @journals.total_pages > 1 -%>
+			<div class="page_entries"><%= page_entries_info(@journals) -%></div>
+			<% 
+		 		if @group
+					params[:controller] = '/journals'
+					params[:action] = 'center'
+					params[:id] = @group.id
+					# params[:ajax] = true
+				end
+				%>
+			<%= will_paginate @journals, :remote => { :with => 'value', :update => 'journal_list' } -%> &nbsp;&nbsp;
+		<% end -%>
+	<% end %>
+	<%# render :partial => 'shared/ajax_pagination' %>
 
 	<p>
 		<div class="commands">
@@ -15,7 +33,7 @@
 			<% if current_user.access? :journal_new_edit_delete %>
 			<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
 			<% end %>
-			<%= link_button t('export.logins'), formatted_export_logins_path(@group, 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+			<%= link_button t('export.logins'), export_logins_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
 			<% if @group.parent && @group.parent.teams.size > 1 %>
 			<%= link_button t('team.move'), select_journals_path(@group), 'journal_move', :title => t('team.move') %>
 			<% end %>

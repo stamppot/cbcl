@@ -4,7 +4,7 @@ class ExportLoginsController < ApplicationController
 
   # get login_users in all journals in team
   def download
-    team = Team.find(params[:id])
+    team = Group.find(params[:id])
     
     respond_to do |wants|
       wants.html {

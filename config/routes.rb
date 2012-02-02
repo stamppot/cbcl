@@ -97,6 +97,7 @@ ActionController::Routing::Routes.draw do |map|
   map.merge_periods 'centers/merge_periods/:id', :controller => 'centers',                   :action => 'merge_periods'
   
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
+  map.journals_for_center '/journals/center/:id', :controller => 'journals', :action => 'center'
   map.select_journals '/journals/select/:id', :controller => 'journals', :action => 'select'
   map.move_journals '/journals/move/:id', :controller => 'journals', :action => 'move'
 

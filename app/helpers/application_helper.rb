@@ -140,6 +140,10 @@ module ApplicationHelper
     @group.teams.size == 0
   end
 
+  def any_teams?
+    @group.teams.any?
+  end
+  
 	def center_or_team_text(groups)
 		if groups.respond_to? :any?
 			groups.any? && groups.first.is_a?(Center) && "Center" || "Team"

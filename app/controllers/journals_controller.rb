@@ -9,10 +9,26 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def per_page
     REGISTRY[:journals_per_page]
   end
+
+  def center
+    options = { :include => :parent, :page => params[:page], :per_page => per_page }
+    @group = Group.find params[:id]
+    @journals = Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => (journals_per_page || 20))
+
+    respond_to do |format|
+      format.html { }
+      format.js {
+        render :update do |page|
+          page.replace_html 'journals', :partial => 'shared/journal_list'
+        end
+      }
+    end
+  end
+
   
   def index
     options = { :include => :parent, :page => params[:page], :per_page => per_page }
-    @groups = current_user.journals(options) || [] # TODO: Move to configuration option
+    @journals = current_user.journals(options) || [] # TODO: Move to configuration option
   end
 
   def show

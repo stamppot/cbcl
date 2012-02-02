@@ -21,11 +21,11 @@
 		<td><%= link_to( group.title, group.is_a?(Team) && team_path(group) || center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
 		<td><%= group.code %></td>
 		<td style="text-align: right;"><%= group.users.size %></td>
-		<% unless @hide_journals %>
-    <td style="text-align: right;"><%= group.journals.count %></td>
-		<% end %>
 		<% unless @hide_team %>
     <td style="text-align: left;"><%= group.class.to_s %></td>
+		<% end %>
+		<% unless @hide_journals %>
+    <td style="text-align: right;"><%= group.journals.count %></td>
 		<% end %>
 		
 		<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
