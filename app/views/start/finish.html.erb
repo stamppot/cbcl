@@ -1,8 +1,10 @@
 <h2>Tak fordi du besvarede spørgeskemaet</h2>
-Session: <%= session.inspect %>
 
 <p>
-	Du kan udskrive besvarelsen før du logger af. Du kan altid logge ind igen, hvis du vil rette eller udskrive din besvarelse. 
+	Du kan udskrive besvarelsen før du logger af.
+	<% if @can_update_answer %>
+	 		Du kan logge ind igen indtil <%= I18n::localize(@update_date, :format => "%A %e. %B") %>, hvis du vil rette eller udskrive din besvarelse. 
+	<% end %>
 </p>
 
 <div class="round_survey_title" style=' border: 1px solid #<%= @survey.color %>; width: 750px; padding: 20px 0px 6px 20px; font-size: 14pt; background-color: #<%= @survey.color %>;' >
@@ -10,7 +12,9 @@ Session: <%= session.inspect %>
 	<span style="font-size: 14pt;"><%= @survey.description %></span>
 	<p style="font-size: 12pt; padding-top: 20px; padding-bottom: 0px">
 		<%= link_button t('survey.print'), (survey_answer_path(@journal_entry) + ".pdf"), 'survey_print', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
-		<%= link_button t('survey.change_answer'), survey_path(@survey), 'survey_edit' %>
+		<% if @can_update_answer %>
+			<%= link_button t('survey.change_answer'), survey_path(@survey), 'survey_edit' %>
+		<% end %>
 	</p>
 </div>
 

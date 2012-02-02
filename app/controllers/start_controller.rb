@@ -25,6 +25,9 @@ class StartController < ApplicationController
     redirect_to survey_continue_path and return unless @journal_entry.answered?
     @survey = @journal_entry.survey
     session.delete "journal_entry"
+    survey_answer = @journal_entry.survey_answer
+    @update_date = (survey_answer.created_at.end_of_day + 2.weeks)
+    @can_update_answer = @update_date >= Date.today
   end
 
   def upgrade

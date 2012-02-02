@@ -106,6 +106,11 @@ require 'facets/dictionary'
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Næste'
 
+# Date::MONTHNAMES.replace [nil] + %w(januar februar marts april maj juni juli august september oktober november december)
+# Date::DAYNAMES.replace = %w(s&oslash;ndag mandag tirsdag onsdag torsdag fredag l&oslash;rdag)
+# Date::ABBR_MONTHNAMES.replace [nil] + %w(jav feb mar apr maj jun jul aug sep okt nov dec)
+# Date::ABBR_DAYNAMES.replace %w(s&oslash;n man tir ons tor fre l&oslash;r)
+
 EXPORT_FILES_STORAGE_PATH = "./files/"
 # ActionMailer::Base.server_settings = { 
 #   :address => 'cbcl-sdu.dk',

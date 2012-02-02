@@ -679,8 +679,8 @@ td.description7lab4 {
 
 /* show answer for listitemcomment */
 .answer_comment {
-	width: 300px;
-	border: 1px solid #ccc;
+/*  width: 300px;*/
+/*  border: 1px solid #ccc;*/
 	font-size: 9pt;
 	font-family: courier;
 }

@@ -118,7 +118,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       redirect_to team_url(@group)
     else
       @groups = current_user.centers || Center.find(:all)  # last is for superadmins
-      render new_team_url(@group)
+      redirect_to new_team_url(@group)
     end
       
   rescue ActiveRecord::RecordNotFound

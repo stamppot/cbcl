@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<% if Rails.env.development? %>
+<% if false && Rails.env.development? %>
 	Session: <%= session.inspect %><br/>
 	Kage: <%= cookies["journal_entry"].inspect %>
 <% end %>
