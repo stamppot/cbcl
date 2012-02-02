@@ -120,7 +120,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_search 'users/live_search/:id', :controller   => 'users', :action => 'live_search'
   map.new_user 'users/new/:id', :controller => 'users', :action => 'new'
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
-  map.new_team 'teams/new/:id', :controller => 'teams', :action => 'new'
+  map.new_team_in_center '/teams/new/:id', :controller => 'teams', :action => 'new'
 
   map.upgrade_browser 'upgrade', :controller => 'start', :action => 'upgrade'
   map.survey_start 'start', :controller => 'start', :action => 'start'

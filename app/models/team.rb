@@ -8,7 +8,10 @@ class Team < Group
 
   # team code must be unique within the same center
   def validate_on_create
-    if self.center.teams.collect { |t| t.code }.include?(code)
+    if self.center.nil?
+      errors.add(:center, "ikke angivet")
+    end
+    if self.center && self.center.teams.collect { |t| t.code }.include?(code)
       errors.add(:id, "skal være unik")
     end
   end
@@ -61,7 +64,7 @@ class Team < Group
   #                         :if => Proc.new { |group| current_user.teams.map { |t| t.title }.include? group.title }
 
   validates_numericality_of :code, 
-                            :message => 'skal være 3 cifre.'
+                            :message => 'skal være 1-4 cifre.'
                                                                                 
   validates_presence_of   :parent,
                           :message => ': overordnet gruppe skal vælges',

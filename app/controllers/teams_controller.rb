@@ -117,8 +117,11 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       flash[:notice] = 'Teamet er oprettet.'
       redirect_to team_url(@group)
     else
+      if params[:group][:code].include? "-"
+        flash[:error] = "Kode skal være uden centerkode: #{params[:group][:code]}"
+      end
       @groups = current_user.centers || Center.find(:all)  # last is for superadmins
-      redirect_to new_team_url(@group)
+      redirect_to new_team_in_center_url(@group)
     end
       
   rescue ActiveRecord::RecordNotFound

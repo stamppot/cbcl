@@ -21,7 +21,7 @@
 				<%= render :partial => 'shared/group_list', :locals => {:groups => @group.teams} %>
 			<% end %>
 		<div class="button">
-			<%= link_button t('team.new'), new_team_path(@group), 'team_new', :title => t('team.new') %> 
+			<%= link_button t('team.new'), new_team_in_center_path(@group), 'team_new', :title => t('team.new') %> 
 		</div>	
 		
 		<%= render :partial => 'commands' %>
