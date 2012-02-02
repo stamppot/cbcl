@@ -26,7 +26,7 @@ class StartController < ApplicationController
     @survey = @journal_entry.survey
     session.delete "journal_entry"
     survey_answer = @journal_entry.survey_answer
-    @update_date = (survey_answer.created_at.end_of_day + 2.weeks)
+    @update_date = survey_answer && (survey_answer.created_at.end_of_day + 2.weeks) || Date.today
     @can_update_answer = @update_date >= Date.today
   end
 
