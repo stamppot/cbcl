@@ -39,14 +39,21 @@ class LettersController < ApplicationController
     @group = Group.find_by_id params[:letter][:group_id]
     @letter.group = @group
     
+    
+    existing_letter = @group.letters.select {|l| l.group_id == @group.id && l.surveytype == params[:letter][:surveytype] }
+    if existing_letter.any?
+      flash[:error] = "Gruppen '#{@group.title}' har allerede et brev af typen '#{@letter.surveytype}. V&aelig;lg en anden gruppe"
+    end
+    
     if @letter.save
       flash[:notice] = 'Brevet er oprettet.'
       redirect_to(@letter) and return
     else
+      
       @group = [@letter.group.title, @letter.group.id]
       @role_types = Survey.surveytypes
       @groups = [@group]
-      render :new and return
+      render :new, :params => params and return
     end
   end
 

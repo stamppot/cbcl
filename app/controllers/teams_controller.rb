@@ -15,7 +15,6 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   #        :redirect_to  => teams_url,
   #        :add_flash    => { :error => 'You sent an invalid request!' }
 
-  # Simply redirects to #list
   def login_users
     @team = Team.find(params[:id])
     
