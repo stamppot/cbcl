@@ -5,7 +5,7 @@ class Letter < ActiveRecord::Base
   validates_presence_of :letter
   validates_presence_of :name
   validates_presence_of :surveytype
-  validates_uniqueness_of :surveytype, :scope => :group_id
+  validates_uniqueness_of :surveytype, :scope => :group_id, :message => "Der findes allerede et brev for denne skematype for gruppen . Har du valgt den rigtige gruppe?"
   
   def insert_text_variables(journal_entry)
     self.letter.gsub!('{{login}}', journal_entry.login_user.login)
@@ -24,5 +24,9 @@ class Letter < ActiveRecord::Base
   
   def self.default_letters_exist?
     Survey.surveytypes.all? { |surveytype| Letter.find_default(surveytype) }
+  end
+  
+  def surveytype_exist
+    "Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?"
   end
 end

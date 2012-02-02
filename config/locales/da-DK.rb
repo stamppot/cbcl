@@ -437,7 +437,10 @@ I18n.backend.store_translations 'da-DK',
          :login => "Login",
          :groups => "Center eller team",
          :roles => "Roller"
-         
+       },
+       :letter => {
+         :surveytype => "Skematype",
+         :group => "Gruppe"
        }
      },
      :errors => {
@@ -497,6 +500,13 @@ I18n.backend.store_translations 'da-DK',
                 },
                 :nationality => {
                   :blank => "skal angives" 
+                }
+              }
+            },
+            :letter => {
+              :attributes => {
+                :surveytype => {
+                  :taken => "Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?"
                 }
               }
             }

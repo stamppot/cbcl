@@ -126,8 +126,12 @@ class Survey < ActiveRecord::Base
     xml << "</survey>"
   end
   
+  def self.get_survey_type(surveytype)
+    Survey.SURVEY_TYPES.rassoc(surveytype).first
+  end
+  
   def Survey.SURVEY_TYPES
-    [ ["Lærer", "teacher"], ["Forælder", "parent"], ["Ung", "youth"], ["Pædagog", "pedagogue"], ["Andet", "other"] ]
+    [ ["Lærer", "teacher"], ["Forælder", "parent"], ["Barn", "youth"], ["Pædagog", "pedagogue"], ["Andet", "other"] ]
    end
    
   # expand label the same way as rating, to choose between multiple labels

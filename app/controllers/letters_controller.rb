@@ -42,7 +42,7 @@ class LettersController < ApplicationController
     
     existing_letter = @group.letters.select {|l| l.group_id == @group.id && l.surveytype == params[:letter][:surveytype] }
     if existing_letter.any?
-      flash[:error] = "Gruppen '#{@group.title}' har allerede et brev af typen '#{@letter.surveytype}. V&aelig;lg en anden gruppe"
+      flash[:error] = "Gruppen '#{@group.title}' har allerede et brev af typen '#{Survey.get_survey_type(@letter.surveytype)}'. V&aelig;lg en anden gruppe"
     end
     
     if @letter.save
