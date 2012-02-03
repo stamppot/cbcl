@@ -16,7 +16,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @journals = Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => (journals_per_page || 20))
 
     respond_to do |format|
-      format.html { }
+      format.html { render :index }
       format.js {
         render :update do |page|
           page.replace_html 'journals', :partial => 'shared/journal_list'
