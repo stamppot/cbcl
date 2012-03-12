@@ -1,0 +1,491 @@
+da-DK:
+    :filelist: "Filliste"
+    :id: "Id"
+    :no: "Nej"
+    :yes: "Ja"
+    :edit: "Rediger"
+    date: 
+      :abbr_month_names: 
+      - jan
+      - feb
+      - mar
+      - apr
+      - maj
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
+      :month_names: 
+      - januar
+      - februar
+      - marts
+      - april
+      - maj
+      - juni
+      - juli
+      - august
+      - september
+      - oktober
+      - november
+      - december
+      :order: 
+      - :year
+      - :month
+      - :day
+      :formats: 
+        :default: "%d-%m-%Y"
+        :normal: "%d %m %y"
+        :short: "%d %b"
+        :long: "%e %B %Y"
+      :abbr_day_names: 
+      - søn    
+      - man
+      - tir
+      - ons
+      - tor
+      - fre
+      - lør
+    
+      :day_names: 
+      - "søndag"
+      - mandag
+      - tirsdag
+      - onsdag
+      - torsdag
+      - fredag
+      - "lørdag"
+    code: Kode
+    go_back_to_list: Tilbage til liste
+    user: 
+      :edit: Rediger Bruger
+      :user: Bruger
+      :users: Brugere
+      :new_in: "Opret bruger til "
+      :email: Email
+      :Login: Loginnavn
+      :center: 
+        :admin: Opret Centeradministrator
+      :last_login: Seneste Login
+      :list: Vis Brugere
+      :delete: Slet Bruger
+      :id: ID
+      :State: Status
+      :show: Vis Bruger
+      :states: 
+        "1": "ubekræftet"
+        "2": "bekræftet"
+        "3": "låst"
+        "4": "slettet"
+        "5": "retrieved_password"
+        "6": "retrieved_password"
+      :new: Opret Bruger
+    login: 
+      :login: Log ind
+      :wrong: Forkert brugernavn eller password
+    create: Opret
+    in_total: i alt
+    roles: 
+      :pedagogue: "pædagog"
+      :roles: roller
+      :other: andet
+      :behandler: behandler
+      :admin: "dataudtræk"
+      :superadmin: superadmin
+      :login_bruger: login_bruger
+      :centeradministrator: centeradministrator
+      :parent: "forælder"
+      :centeradmin: centeradministrator
+      :Roles: Roller
+      :youth: barn
+      :teamadministrator: teamadministrator
+      :teacher: "lærer"
+      :data: "dataudtræk"
+      :teamadmin: teamadministrator
+    info: Info
+    center: 
+      :edit: Rediger Center
+      :contactperson: Kontaktperson
+      :companynumber: EAN-nr
+      :email: Email
+      :address: Adresse
+      :code: Centerkode
+      :list: Vis Centre
+      :center: Center
+      :delete: Slet Center
+      :phone: Telefon
+      :name: Navn
+      :centers: Centre
+      :show: Vis Center
+      :city: By
+      :new: Opret Center
+    logout_alt: Log ud af systemet
+    menu: 
+      :settings: Indstillinger
+      :show_surveys: "Vis Spørgeskemaer"
+      :groups: Grupper
+      :show_faq: "Hjælp"
+      :other: Andet
+      :data_export: "Dataudtræk"
+      :users: Brugere
+      :nationalities: Nationaliteter
+      :survey_stats: "Tællere"
+      :change_password: Skift password
+      :journals: Journaler
+      :show_users: Vis Brugere
+      :variables: Skemavariabler
+      :subscriptions: Abonnementer
+      :change_password_alt: "Skift password, det tager kun et øjeblik"
+      :search_journals: "Søg:"
+      :create_user: "Tilføj Bruger"
+      :letters: Breve
+      :show_subscriptions: Vis Abonnementer
+      :center: Center
+      :search_groups: "Søg:"
+      :show_journals: Vis Journaler
+      :search_users: "Søg:"
+      :manual: Manual
+      :scores: Scores
+      :centers: Centre
+      :info: Info
+      :create_journal: Opret Journal
+      :surveys: "Spørgeskemaer"
+      :faq_alt: "Spørgsmål & Svar"
+      :scores_alt: Scoreberegninger
+      :teams: Teams
+    show_hide: Vis/gem detaljer
+    show: Vis
+    nationality: Nationalitet
+    export: 
+      :entry_status: Eksporter til Excel
+      :data: "Dataudtræk"
+      :logins: Eksporter login-data
+    user_id: ID
+    next: "Næste"
+    go_back: Tilbage
+    letter: 
+      :edit: Ret brev
+      :login: Loginbrev
+      :letters: Breve
+      :delete: Slet brev
+      :all_centers: Alle centre
+      :print: Udskriv breve
+      :show: Vis brev
+      :confirm: "Er du sikker på, at du vil slette brevet?"
+      :new: Opret brev
+    previous: Forrige
+    active_record: 
+      :error: 
+        :header_message: 
+        - "1 error prohibited this {{object_name}} from being saved"
+        - "{{object_name}} kan ikke gemmes fejl pga. {{count}} fejl"
+        :message: "Er zijn problemen met de volgende velden:"
+      :error_messages: 
+        :too_short: er for kort (minimum antal tegn er {{count}})
+        :equal_to: lig med {{count}}
+        :confirmation: "er ikke ens med bekræftelsen"
+        :wrong_length: "har den forkerte længde (skal være {{count}} karakter(er))"
+        :less_than: mindre end {{count}}
+        :accepted: skal accepteres
+        :taken: er allerede i brug
+        :less_than_or_equal_to: "skal være mindre end eller lig med {{count}}"
+        :empty: "kan ikke være tom"
+        :not_a_number: er ikke et nummer
+        :inclusion: findes ikke i listen
+        :odd: "skal være ulige"
+        :blank: "kan ikke være tom"
+        :greater_than: "skal være større end {{count}}"
+        :exclusion: er reserveret
+        :even: "skal være lige"
+        :too_long: er for lang (maximum antal karakterer er {{count}})
+        :greater_than_or_equal_to: "skal være større eller lig med {{count}}"
+        :invalid: er ugyldig
+    access: 
+      :error: Du har ikke adgang til denne side.
+    filename: Filnavn
+    save_changes: "Gem ændringer"
+    survey: 
+      :continue_answer: "Fortsæt"
+      :edit: "Rediger spørgeskema"
+      :fast_input: Hurtig indtastning
+      :start: Start
+      :survey: "Spørgeskema"
+      :input: Normal indtastning
+      :add_question: "Tilføj spørgsmål"
+      :print: Udskriv
+      :remove: "Fjern spørgeskemaer"
+      :answered: Besvarede skemaer
+      :change_answer: Ret
+      :show: "Vis spørgeskema"
+      :add: "Tilføj spørgeskemaer"
+      :new: "Nyt spørgeskema"
+    logout: Log ud
+    no_groups: Ingen Grupper
+    total: Total
+    last_login: Seneste Login
+    state: Status
+    age: Alder
+    yes: Ja
+    subscription: 
+      :new_period: Begynd ny periode
+      :overview: Oversigt
+      :merge_periods: "Slå sammen"
+      :total_used: Brugte i alt
+      :subscribe: Abonner
+      :merge_periods_title: "Slå periode sammen med forrige"
+      :change_subscription: "Ændre abonnementer"
+      :list: Liste af abonnementer
+      :undo_payment: Fortryd sidste betaling
+      :none: Ingen abonnementer
+      :pay: Betal
+      :none_for_this_survey: "Centret abbonnerer ikke på dette spørgeskema."
+      :details: Detaljer
+      :pay_surveys: "Sæt skemaer til betalt"
+      :expired: "Dit abonnement er udløbet. Kontakt CBCL-SDU."
+      :new: Nyt abonnement
+    are_you_sure: Er du sikker?
+    support: 
+      :array: 
+        :sentence_connector: og
+    finish: Afslut
+    status: 
+      :created: Oprettet
+      :updated: Opdateret
+      :answered: Besvaret
+    lang: 
+      English: Engelsk
+      French: Fransk
+      Dutch: Hollandsk
+      German: Tysk
+    datetime: 
+      :distance_in_words: 
+        :about_x_hours: 
+          :other: ongeveer {{count}} uur
+          :one: ongeveer 1 uur
+        :less_than_x_seconds: 
+          :other: mindre end {{count}} sekunder
+          :one: mindre end 1 sekund
+        :x_days: 
+          :other: "{{count}} dage"
+          :one: 1 dag
+        :about_x_months: 
+          :other: "ca. {{count}} måneder"
+          :one: "ca. 1 måned"
+        :x_seconds: 
+          :other: "{{count}} sekunder"
+          :one: 1 sekund
+        :x_months: 
+          :other: "{{count}} måneder"
+          :one: 1 maand
+        :less_than_x_minutes: 
+          :other: mindre end {{count}} minutter
+          :one: mindre end 1 minut
+        :about_x_years: 
+          :other: "ca. {{count}} år"
+          :one: "ca. 1 år"
+        :x_minutes: 
+          :other: "{{count}} minutter"
+          :one: 1 minut
+        :over_x_years: 
+          :other: "længere end {{count}} år"
+          :one: "længere end 1 år"
+        :half_a_minute: halvt minut
+    country: Danmark
+    no_roles: Ingen Roller
+    delete: Slet
+    save: Gem
+    journal: 
+      :status: Check status
+      :edit: Rediger Journal
+      :journals: Journaler
+      :list: Vis Journaler
+      :delete: Slet Journal
+      :move: Flyt til team
+      :show: Vis Journal
+      :new: Opret Journal
+    shadow_login_alt: Login som denne bruger
+    number: 
+      :format: 
+        :separator: ","
+        :delimiter: .
+      :currency: 
+        :format: 
+          :precision: 2
+          :separator: ","
+          :format: "%u%n"
+          :delimiter: .
+          :unit: "&euro;"
+    site: 
+      :faq: 
+        :answer: Svar
+        :new_section: Ny sektion
+        :reorder_list: Reorder list
+        :create_section: Create new section
+        :done_reordering: Done!
+        :post_question: Post your question
+        :updated_section: Updated FAQ section
+        :index: Index
+        :question: Question
+    birthdate: "Fødselsdato"
+    action: Handling
+    variable: 
+      :create: Opret
+      :show: Vis
+      :new: Ny variabel
+    update: Opdater
+    here: her
+    name: Navn
+    team: 
+      :edit: Rediger Team
+      :team: Team
+      :list: Vis Teams
+      :admins: Teamadministrator
+      :move: Flyt journaler
+      :show: Vis Team
+      :new: Opret Team
+      :teams: Teams
+    login_label: Login
+    activerecord: 
+      :attributes: 
+        :user: 
+          :roles: Roller
+          :groups: Center eller team
+          :login: Login
+          :name: Navn
+        :journal: 
+          :code: ID
+          :title: Navn
+          :name: Navn
+        :letter: 
+          :group: Gruppe
+          :surveytype: Skematype
+        :team: 
+          :title: Navn
+          :code: Teamkode
+        :center: 
+          :title: Navn
+          :code: Centerkode
+      :errors: 
+        :journal: 
+          :attributes: 
+            :person_info: 
+              :nationality: Nationalitet skal angives
+              :name: Navn skal angives
+              :birthdate: tjah
+            :parent: 
+              :blank: En gruppe skal angives
+            :center: 
+              :blank: TOM! Et center skal angives
+              :do_not_exist: Centeret eksisterer ikke
+            :code: 
+              :taken: "bruges allerede. Vælg andet ID."
+              :blank: ID skal angives
+            :sex: Dreng eller pige skal angives
+            :name: 
+              :blank: skal angives
+        :team: 
+          :attributes: 
+            :title: 
+              :too_short: "Titel skal være mindst 5 bogstaver"
+              :blank: Titel skal angives
+              :too_long: "Titel skal være højst 100 bogstaver"
+        :models: 
+          :user: 
+            :attributes: 
+              :roles: 
+                :blank: skal angives
+              :groups: 
+                :blank: "Center eller team skal vælges"
+              :password: 
+                :confirmation: "Bekræftelse er forkert"
+                :empty: Password skal angives
+                :invalid_length: "Password skal være mellem 6 og 20 tegn"
+                :confirmation_does_not_match: "Bekræftelsen af password er forskellig fra password"
+              :email: 
+                :taken: Denne email-adresse bruges af en anden bruger
+                :blank: Email skal angives
+                :invalid: Ugyldig email-adresse
+              :login: 
+                :too_short: "Login skal være på minimum fire bogstaver"
+                :blank: Login skal angives
+                :too_long: "Login må maksimalt være 50 bogstaver"
+              :name: 
+                :too_short: "Navn skal være på minimum fire bogstaver"
+                :blank: Navn skal angives
+                :too_long: "Navn må maksimalt være 50 bogstaver"
+          :journal: 
+            :attributes: 
+              :person_info: 
+                :blank: 
+                  :Sex: skal angives
+              :nationality: 
+                :blank: skal angives
+              :code: 
+                :taken: "er allerede i brug. Vælg andet ID."
+                :blank: skal angives.
+          :letter: 
+            :attributes: 
+              :surveytype: 
+                :taken: Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?
+          :center: 
+            :attributes: 
+              :code: 
+                :invalid: "skal være på 4 cifre"
+        :center: 
+          :attributes: 
+            :code: 
+              :taken: Centerkode bruges af andet center
+              :blank: Centerkode skal angives
+              :invalid: "Centerkode skal være på 4 cifre"
+            :title: 
+              :too_short: "Titel skal være mindst 5 bogstaver"
+              :blank: Titel skal angives
+              :too_long: "Titel skal være højst 100 bogstaver"
+        :login: 
+          :email_or_password_not_correct: "Brugernavn eller password er forkert. Prøv igen"
+          :blocked_account: "{{countx}} forkerte loginforsøg. Din konto er blokkeret i {{hours}} timer"
+        :template: 
+          :header: Fejl
+          :body: Et eller flere felter er ikke udfyldt korrekt.
+    logout_please: Log venligst ud af systemet og log ind igen ved at trykke
+    sort: 
+      :age: Sorter efter alder
+      :group: Sorter efter gruppe
+      :state: Sorter efter status
+      :role: Sorter efter rolle
+      :name: Sorter efter navn
+    score: 
+      :add_item: "Tilføj beregning"
+      :calculate: Beregn score
+      :add_ref: "Tilføj referenceværdi"
+    password: 
+      :suggest: "Foreslå password"
+    groups: Grupper
+    type: Type
+    thedate: Dato
+    role: Rolle
+    group: Gruppe
+    cancel: Afbryd
+    goto_login: "Gå til login-side"
+    time: 
+      :pm: pm
+      :formats: 
+        :default: "%e %B %Y %H:%M"
+        :short: "%d %b %H:%M"
+        :long: "%a %e %B %Y %H:%M"
+      :am: am
+    gender: "Køn"
+    go_back_to_journal: Tilbage til journal
+    change_password: Du skal skifte dit password
+    add: "Tilføj"
+    of: af
+    none: Ingen
+    Roles: Roller
+    score_scale: 
+      :done: "Færdig!"
+      :reorder: Organiser liste
+      :new: Opret ny skala
+    logout_question: "Er du sikker på at du vil logge ud?"
+    logout_shadow: "Gå tilbage til egen bruger"
