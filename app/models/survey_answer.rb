@@ -55,6 +55,7 @@ class SurveyAnswer < ActiveRecord::Base
     spawn do
       self.generate_score_report(update = true) # generate score report
       self.save_csv_survey_answer
+      self.save_csv_score_rapport
       # self.create_csv_answer!
     end
     self.save
@@ -292,7 +293,7 @@ class SurveyAnswer < ActiveRecord::Base
     csv_survey_answer.save
     journal_info.save
   end
-  
+    
   def to_danish(str)
     str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
   end

@@ -31,6 +31,23 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def create_score_rapports_export(survey_id, score_rapports)
+    spawn do
+      logger.info "EXPORT create_score_rapports_export: survey: #{survey_id} #{score_rapports.size}"
+      data = CsvExportHelper.new.score_rapports_to_csv(score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
+      logger.info "create_score_rapports_export: created data survey: #{survey_id} #{score_rapports.size}"
+      # write data
+      self.export_file = ExportFile.create(:data => data,
+        :type => 'text/csv; charset=utf-8; header=present',
+        :filename => "eksport_scorerapporter_#{Time.now.to_date.to_s}_#{survey_id}" + ".csv",
+        :content_type => "application/vnd.ms-excel")
+
+      self.status = "Completed"
+      self.save
+      # logger.info "create_survey_answer_export: finished!  survey: #{survey_id} #{survey_answers.size}"
+    end
+  end
+
   def create_sumscores_export(find_options)
     spawn do
       score_rapports = ScoreRapport.find_with_options(find_options)

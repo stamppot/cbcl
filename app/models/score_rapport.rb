@@ -9,21 +9,50 @@ class ScoreRapport < ActiveRecord::Base
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
+  named_scope :for_survey, lambda { |survey_id| { :conditions => ["csv_score_rapports.survey_id = ?", survey_id] } }
+  named_scope :for_center, lambda { |center_id| { :conditions => ["csv_score_rapports.center_id = ?", center_id] } }
+  named_scope :for_team, lambda { |team_id| { :conditions => ["csv_score_rapports.team_id = ?", team_id] } }
 
 
-  # finished survey answers, based on accessible journals
-  def find_with_options(options = {})  # params are not safe, should only allow page/per_page
-    page       = options[:page] ||= 1
-    per_page   = options[:per_page] ||= 100000
-    o = find_params(options)
-    params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
-    params[:page] = page
-    params[:per_page] = per_page
-    params[:include] = options[:include] if options[:include]
-    # puts "find_with_options: #{params.inspect}"
-    ScoreRapport.for_surveys(o[:surveys]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params)
+  # # finished survey answers, based on accessible journals
+  #   def find_with_options(options = {})  # params are not safe, should only allow page/per_page
+  #     page       = options[:page] ||= 1
+  #     per_page   = options[:per_page] ||= 100000
+  #     o = find_params(options)
+  #     params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
+  #     params[:page] = page
+  #     params[:per_page] = per_page
+  #     params[:include] = options[:include] if options[:include]
+  #     # puts "find_with_options: #{params.inspect}"
+  # 
+  #     ScoreRapport.for_surveys(o[:surveys]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params)
+  #   end
+
+  def to_csv(csv_survey_answers, survey_id)
+    csv_survey_answers.first.variables
+    output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
+      csv_output << (headers + survey_headers_flat(survey_ids).keys)  # header
+      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "").split(";") }
+    end
   end
+  
+  def self.filter_params(user, options = {})
+    options[:start_date]  ||= ScoreRapport.first.created_at
+    options[:stop_date]   ||= ScoreRapport.last.created_at
+    options[:start_age]   ||= 0
+    options[:stop_age]    ||= 21
 
+    options[:center] = user.center if !user.access?(:superadmin)
+    if !options[:center].blank?
+      center = Center.find(options[:center])
+      options[:conditions] = ['center_id = ?', options[:center]]
+      options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
+    end
+    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { user.journal_ids }
+    # puts "survey_answer_params: #{options.inspect}"
+    options
+  end
+  
   def count_with_options(options = {})  # params are not safe, should only allow page/per_page
     o = find_params(options)
     params = options[:center] && {:conditions => ['center_id = ?', o[:center].is_a?(Center) ? o[:center].id : o[:center]]} || {}
@@ -41,6 +70,51 @@ class ScoreRapport < ActiveRecord::Base
     end
     options[:journal_ids] ||= cache_fetch("journal_ids_user_#{options[:user]}") { self.journal_ids }
     options
+  end
+
+  
+  def self.count_with_options(user, options = {})  # params are not safe, should only allow page/per_page
+    self.with_options(user, options).count #(params)
+  end  
+  
+  # filtrerer ikke på done, også kladder er med
+  def self.with_options(user, options)
+    o = self.filter_params(user, options)
+    query = CsvScoreRapport.for_survey(o[:survey][:id]).
+      between(o[:start_date], o[:stop_date]).
+      aged_between(o[:start_age], o[:stop_age])
+      
+    query = query.for_center(options[:center]) if !options[:center].blank?
+    query = query.for_team(options[:team]) if !options[:team].blank?
+    query
+  end
+
+  def save_csv_score_rapport
+    vals = variable_values
+    journal_info = self.journal.info
+    options = {
+      :answer => vals.values.join(';;'), 
+      :variables => vals.keys.join(';;'),
+      :journal_id => self.journal_id,
+      :survey_answer_id => self.id,
+      :team_id => self.journal.parent_id,
+      :center_id => self.center_id,
+      :survey_id => self.survey_id,
+      :journal_entry_id => self.journal_entry_id,
+      :age => self.age,
+      :created_at => self.created_at,
+      :updated_at => self.updated_at,
+      # :header => journal_info.keys.join(';'),
+      # :journal_info => to_danish(journal_info.values.join(';'))
+    }
+    info_options = self.journal.export_info
+    options[:sex] = info_options[:pkoen]
+    info_options[:journal_id] = options[:journal_id]
+    info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
+    info_options[:center_id] = options[:center_id]
+    
+    csv_score_rapport = CsvScoreRapport.new(options)
+    csv_score_rapport.save
   end
 
   # if scores has been changed, regenerate score_rapport

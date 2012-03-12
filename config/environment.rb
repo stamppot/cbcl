@@ -18,12 +18,10 @@ RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
-require 'memcache'
 
 $KCODE = 'u'
 #require 'jcode'
 
-require 'pdfkit'
 
 # Rails.backtrace_cleaner.remove_silencers!   
 
@@ -76,6 +74,10 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
   :source => 'http://gems.github.com'
 
+  config.gem "memcache"
+  config.gem "memcache-client"
+  # require 'memcache'
+
   mem_cache_options = {
     :c_threshold => 10000,
     :compression => true,
@@ -93,6 +95,7 @@ Rails::Initializer.run do |config|
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
 	config.gem 'pdfkit'
+  require 'pdfkit'
   config.middleware.use PDFKit::Middleware, :print_media_type => true
   Mime::Type.register 'application/pdf', :pdf
 end
@@ -100,7 +103,8 @@ end
 # ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
-require 'facets/dictionary'
+# require 'facets/dictionary'
+
 # require "ruby-debug"
 
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = 'Forrige'
@@ -120,12 +124,14 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-ExceptionNotification::Notifier.exception_recipients = %w(stamppot@gmail.com)
-ExceptionNotification::Notifier.sender_address =
-   %("Application Error" <error@cbcl-sdu.dk>)
+if RAILS_ENV == "production"
+  ExceptionNotification::Notifier.exception_recipients = %w(stamppot@gmail.com)
+  ExceptionNotification::Notifier.sender_address =
+    %("Application Error" <error@cbcl-sdu.dk>)
 
  # defaults to "[ERROR] "
- ExceptionNotification::Notifier.email_prefix = "[CBCL] "
+  ExceptionNotification::Notifier.email_prefix = "[CBCL] "
+end
 
 CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 

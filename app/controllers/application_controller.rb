@@ -1,9 +1,12 @@
+require_dependency 'user'
+require_dependency 'role'
+
 class CustomNotFoundError < RuntimeError; end
 class AccessDenied < StandardError; end
 
 class ApplicationController < ActionController::Base
   include CacheableFlash
-  include ExceptionNotification::Notifiable
+  # include ExceptionNotification::Notifiable
   layout 'cbcl'
 
   before_filter :configure_charsets
