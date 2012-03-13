@@ -63,15 +63,17 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def create_csv_answer(survey_answer)
-    spawn do
-      survey_answer.create_csv_answer!
-    end
-  end
+  # def create_csv_answer(survey_answer)
+  #   spawn do
+  #     survey_answer.create_csv_answer!
+  #   end
+  # end
 
   def create_csv_survey_answer(survey_answer)
     spawn do
       survey_answer.save_csv_survey_answer
+      score_rapport = ScoreRapport.find_by_survey_answer_id(survey_answer.id)
+      score_rapport.save_csv_score_rapport
     end
   end
   

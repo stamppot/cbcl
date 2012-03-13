@@ -304,9 +304,9 @@ class SurveyAnswer < ActiveRecord::Base
   #      c.generate_csv_answer_line(c.survey_answer_csv_query)
   #    end
     
-  def create_csv_answer!
-    CSVHelper.new.create_survey_answer_csv(self)
-  end
+  # def create_csv_answer!
+  #   CSVHelper.new.create_survey_answer_csv(self)
+  # end
   
   def self.create_csv_answers!
     CSVHelper.new.generate_all_csv_answers
