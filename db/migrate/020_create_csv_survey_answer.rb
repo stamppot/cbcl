@@ -7,10 +7,6 @@ class CreateCsvSurveyAnswer < ActiveRecord::Migration
       # t.string :header , :journal_info
       t.timestamps
     end
-    add_index :csv_score_rapports, :survey_answer_id, :unique => true
-    add_index :csv_score_rapports, :center_id
-    add_index :csv_score_rapports, :team_id
-    add_index :csv_score_rapports, :age    
   end
 
   def self.down

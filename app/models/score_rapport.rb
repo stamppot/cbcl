@@ -9,9 +9,6 @@ class ScoreRapport < ActiveRecord::Base
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
-  named_scope :for_survey, lambda { |survey_id| { :conditions => ["csv_score_rapports.survey_id = ?", survey_id] } }
-  named_scope :for_center, lambda { |center_id| { :conditions => ["csv_score_rapports.center_id = ?", center_id] } }
-  named_scope :for_team, lambda { |team_id| { :conditions => ["csv_score_rapports.team_id = ?", team_id] } }
 
 
   # # finished survey answers, based on accessible journals
@@ -89,31 +86,52 @@ class ScoreRapport < ActiveRecord::Base
     query
   end
 
+  # def cell_values(prefix = nil)
+  #   # prefix ||= self.survey.prefix
+  #   a = Dictionary.new
+  #   self.score_results.each { |result| a.merge!({ result.score.variable.to_sym => result.result}) }
+  #   a.order_by
+  # end
+
+  def variable_values
+    # variables = self.score_results.map { |sres| [sres.score.variable.to_sym, sres.result] }
+    # values = self.cell_values
+    # variables.inject(Dictionary.new) do |col,var|
+    #   col[var] = values[var] || "#NULL!"
+    #   col
+    # end
+    a = Dictionary.new
+    self.score_results.each { |result| a.merge!({ result.score.variable.to_sym => result.result}) }
+    a.order_by
+  end
+
   def save_csv_score_rapport
     vals = variable_values
-    journal_info = self.journal.info
+    journal = self.survey_answer.journal
+    journal_info = journal.info
     options = {
       :answer => vals.values.join(';;'), 
       :variables => vals.keys.join(';;'),
-      :journal_id => self.journal_id,
-      :survey_answer_id => self.id,
-      :team_id => self.journal.parent_id,
+      :journal_id => self.survey_answer.journal_id,
+      :survey_answer_id => self.survey_answer_id,
+      :team_id => journal.parent_id,
       :center_id => self.center_id,
       :survey_id => self.survey_id,
-      :journal_entry_id => self.journal_entry_id,
+      # :journal_entry_id => self.journal_entry_id,
       :age => self.age,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
       # :header => journal_info.keys.join(';'),
       # :journal_info => to_danish(journal_info.values.join(';'))
     }
-    info_options = self.journal.export_info
+    info_options = journal.export_info
     options[:sex] = info_options[:pkoen]
     info_options[:journal_id] = options[:journal_id]
     info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
     info_options[:center_id] = options[:center_id]
-    
-    csv_score_rapport = CsvScoreRapport.new(options)
+    csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(options[:survey_answer_id])
+    csv_score_rapport ||= CsvScoreRapport.new(options)
+    csv_score_rapport.answer = vals.values.join(';;')
     csv_score_rapport.save
   end
 

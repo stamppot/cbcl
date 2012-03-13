@@ -35,7 +35,7 @@
 			stopped_on = DateTime.now.to_date
 		end
 	%>
-	<tr>
+	<tr style="<%= !summary[:paid] && 'color: darkgreen;' || '' %>">
 		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
 		<td class="number"><%= summary[:used] %></td>
 		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>

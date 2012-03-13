@@ -103,7 +103,7 @@ end
 # ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
-# require 'facets/dictionary'
+require 'facets/dictionary'
 
 # require "ruby-debug"
 
