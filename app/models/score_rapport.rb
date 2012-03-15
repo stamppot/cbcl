@@ -107,6 +107,7 @@ class ScoreRapport < ActiveRecord::Base
 
   def save_csv_score_rapport
     vals = variable_values
+    return if self.survey_answer.nil?
     journal = self.survey_answer.journal
     journal_info = journal.info
     options = {

@@ -1,6 +1,25 @@
+<script type="text/javascript">
+ function toggle_export(value) {
+	// alert("value: " + value);
+ 	if(value == "rapport")
+ 		changeAction('export_form', "/score_rapport_exports/download");
+	else
+		changeAction('export_form', "/exports/download");
+	// alert('action is: ' + $('export_form').action);
+ }
+ </script>
+
+
 <h1>Dataudtræk</h1>
 
-<% form_tag(csv_download_path) do %>
+<% form_tag(csv_download_path, :id => 'export_form') do %>
+
+<div id="export_type">
+	<%= radio_button_tag('export', 'raw', 0, :checked => true, :onchange => "toggle_export(this.value);") %>		
+	<%= "<label for=\"export_raw\">Rå data</label> <br>" %>
+	<%= radio_button_tag('export', 'rapport', 1, :onchange => "toggle_export(this.value);") %>		
+	<%= "<label for=\"export_rapport\">Scorerapporter</label> <br>" %>
+</div>
 
 <div id='filter_fields'>
 
