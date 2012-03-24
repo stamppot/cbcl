@@ -174,6 +174,7 @@ class Subscription < ActiveRecord::Base
 
 	def update_used_and_total_paid
 		self.total_paid ||= 0
+		self.active_used ||= 0
 		self.total_paid += self.active_used
 		self.active_used = 0
 		self.total_paid

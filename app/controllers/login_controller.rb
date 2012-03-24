@@ -7,9 +7,9 @@ class LoginController < ApplicationController
   end
   
   def login
+    cookies.delete :journal_entry
     redirect_to login_path and return if request.get?
     
-    cookies.delete :journal_entry
     if request.post?
       if params[:username].to_i > 0
         journal_entry = JournalEntry.find(params[:username])
@@ -63,7 +63,7 @@ class LoginController < ApplicationController
 
       # TODO: DRY up. Duplicate from line 27
       # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-			if current_user.has_access? :login_user
+			if user.login_user? || current_user.has_access? :login_user
         redirect_to survey_start_path
       else
         redirect_to main_url
