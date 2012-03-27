@@ -10,6 +10,6 @@ class CreateCsvSurveyAnswer < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :csv_score_rapports
+    drop_table :csv_scurvey_answers
   end
 end

@@ -63,7 +63,7 @@ class LoginController < ApplicationController
 
       # TODO: DRY up. Duplicate from line 27
       # if user is superadmin, redirect to login_page. Post to this method with some special parameter
-			if user.login_user? || current_user.has_access? :login_user
+			if user.login_user? || current_user.has_access?(:login_user)
         redirect_to survey_start_path
       else
         redirect_to main_url
