@@ -9,21 +9,10 @@ class ScoreRapport < ActiveRecord::Base
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
   named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
   named_scope :for_surveys, lambda { |survey_ids| { :conditions => { :survey_id => survey_ids } } } #["survey_answers.survey_id IN (?)", survey_ids] } }
+  # named_scope :for_survey, lambda { |survey_id| { :conditions => ["survey_id = ?", survey_id] } }
+  # named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
+  # named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
 
-
-  # # finished survey answers, based on accessible journals
-  #   def find_with_options(options = {})  # params are not safe, should only allow page/per_page
-  #     page       = options[:page] ||= 1
-  #     per_page   = options[:per_page] ||= 100000
-  #     o = find_params(options)
-  #     params = options[:center] && {:conditions => ['center_id = ?', o[:center].id]} || {}
-  #     params[:page] = page
-  #     params[:per_page] = per_page
-  #     params[:include] = options[:include] if options[:include]
-  #     # puts "find_with_options: #{params.inspect}"
-  # 
-  #     ScoreRapport.for_surveys(o[:surveys]).between(o[:start_date], o[:stop_date]).aged_between(o[:start_age], o[:stop_age]).paginate(params)
-  #   end
 
   def to_csv(csv_survey_answers, survey_id)
     csv_survey_answers.first.variables
@@ -46,7 +35,6 @@ class ScoreRapport < ActiveRecord::Base
       options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
     options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { user.journal_ids }
-    # puts "survey_answer_params: #{options.inspect}"
     options
   end
   
@@ -77,7 +65,7 @@ class ScoreRapport < ActiveRecord::Base
   # filtrerer ikke på done, også kladder er med
   def self.with_options(user, options)
     o = self.filter_params(user, options)
-    query = CsvScoreRapport.for_survey(o[:survey][:id]).
+    query = ScoreRapport.for_survey(o[:survey][:id]).
       between(o[:start_date], o[:stop_date]).
       aged_between(o[:start_age], o[:stop_age])
       
@@ -121,9 +109,6 @@ class ScoreRapport < ActiveRecord::Base
     }
     info_options = journal.export_info
     options[:sex] = info_options[:pkoen]
-    # info_options[:journal_id] = options[:journal_id]
-    # info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
-    # info_options[:center_id] = options[:center_id]
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(options[:survey_answer_id])
     csv_score_rapport ||= CsvScoreRapport.new(options)
     csv_score_rapport.answer = vals.values.join(';;')

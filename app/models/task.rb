@@ -32,7 +32,7 @@ class Task < ActiveRecord::Base
   end
 
   def create_score_rapports_export(survey_id, score_rapports)
-    spawn do
+    # spawn do
       logger.info "EXPORT create_score_rapports_export: survey: #{survey_id} #{score_rapports.size}"
       data = CsvExportHelper.new.score_rapports_to_csv(score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
       logger.info "create_score_rapports_export: created data survey: #{survey_id} #{score_rapports.size}"
@@ -45,23 +45,23 @@ class Task < ActiveRecord::Base
       self.status = "Completed"
       self.save
       # logger.info "create_survey_answer_export: finished!  survey: #{survey_id} #{survey_answers.size}"
-    end
+    # end
   end
 
-  def create_sumscores_export(find_options)
-    spawn do
-      score_rapports = ScoreRapport.find_with_options(find_options)
-      # write data
-      t = Time.now
-      self.export_file = ExportFile.create(:data => ZScoreGroup.to_xml(score_rapports.map {|sr| sr.score_results}).flatten,
-        :filename => "sumscores_eksport" + Time.now.to_date.to_s + ".xml",
-        :content_type => "text/xml")
-      e = Time.now
-      # puts "create_sumscores_export: #{e-t}"
-      self.status = "Completed"
-      self.save
-    end
-  end
+  # def create_sumscores_export(find_options)
+  #   spawn do
+  #     score_rapports = ScoreRapport.find_with_options(find_options)
+  #     # write data
+  #     t = Time.now
+  #     self.export_file = ExportFile.create(:data => ZScoreGroup.to_xml(score_rapports.map {|sr| sr.score_results}).flatten,
+  #       :filename => "sumscores_eksport" + Time.now.to_date.to_s + ".xml",
+  #       :content_type => "text/xml")
+  #     e = Time.now
+  #     # puts "create_sumscores_export: #{e-t}"
+  #     self.status = "Completed"
+  #     self.save
+  #   end
+  # end
 
   # def create_csv_answer(survey_answer)
   #   spawn do

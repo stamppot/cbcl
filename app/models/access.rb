@@ -102,7 +102,7 @@ class Access
     :score_admin                  => [:superadmin],
     :score_show                   => [:superadmin, :admin],
     
-    :score_export               => [:superadmin, :admin], 
+    :score_export               => [:superadmin, :admin, :centeradmin], 
     # admin layout
     # :layout_show_default_title => [:superadmin, :admin],
     # :layout_show_center_title  => [:centeradmin, :behandler, :login_bruger],

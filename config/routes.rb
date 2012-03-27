@@ -146,7 +146,9 @@ ActionController::Routing::Routes.draw do |map|
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'
   map.export_filter 'exports/filter', :controller => 'exports', :action => 'filter'
   map.generating 'exports/generating_export/:id', :controller => 'exports', :action => 'generating_export'
-  # map.csv_download 'exports/download', :controller => 'exports', :action => 'download'
+
+  map.csv_score_rapport_download 'score_exports/download/:id', :controller => 'score_exports', :action => 'download'
+  map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
 
   # map.csv_entry_status_download 'reminders/download/:id', :controller => 'reminders', :action => 'download'
   map.csv_entry_status_download 'reminders/download/:id.:format', :controller => 'reminders', :action => 'download', :format => 'csv'

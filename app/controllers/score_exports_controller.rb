@@ -29,56 +29,47 @@ class ScoreExportsController < ApplicationController
     @count_score_rapports = ScoreRapport.count_with_options(params.merge({:surveys => filter_surveys}))
   end
   
-  def filter
+  # def filter
+  #   center = Center.find params[:center] unless params[:center].blank?
+  #   args = params
+  #   params = filter_date(args)
+  #   surveys = current_user.subscribed_surveys
+  #   params = Query.filter_age(params)
+  #   
+  #   # set default value to true unless filter is pressed
+  #   params[:surveys] ||= []
+  #   surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
+  #   center = current_user.center if current_user.centers.size == 1
+  #   params[:center] = center if center
+  #   params[:user] = current_user.id
+  #   
+  #   journals = center && center.journals.flatten.size || Journal.count
+  #   @count_score_rapports = ScoreRapport.count_with_options(filter_date(params).merge({:surveys => surveys}))
+  #   @count_score_rapports = ScoreRapport.count if @count_score_rapports == 0
+  #   
+  #   puts "COUNT SCORE_RAPPORTS: #{@count_score_rapports}"
+  #   
+  #   render :update do |page|
+  #     page.replace_html 'results', "Journaler: #{journals}  Scorerapporter: #{@count_score_rapports.to_s}"
+  #     page.visual_effect :shake, 'results'
+  #     page.replace_html 'centertitle', center.title if center
+  #   end
+  # end
+
+  def download
     center = Center.find params[:center] unless params[:center].blank?
     args = params
     params = filter_date(args)
-    surveys = current_user.subscribed_surveys
     params = Query.filter_age(params)
     
-    # set default value to true unless filter is pressed
-    params[:surveys] ||= []
-    surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
     center = current_user.center if current_user.centers.size == 1
-    params[:center] = center if center
-    params[:user] = current_user.id
     
-    journals = center && center.journals.flatten.size || Journal.count
-    @count_score_rapports = ScoreRapport.count_with_options(filter_date(params).merge({:surveys => surveys}))
-    @count_score_rapports = ScoreRapport.count if @count_score_rapports == 0
-    
-    puts "COUNT SCORE_RAPPORTS: #{@count_score_rapports}"
-    
-    render :update do |page|
-      page.replace_html 'results', "Journaler: #{journals}  Scorerapporter: #{@count_score_rapports.to_s}"
-      page.visual_effect :shake, 'results'
-      page.replace_html 'centertitle', center.title if center
-    end
-  end
-
-  def download
-    args = params
-    params = filter_date(args)
-    params = Query.filter_age(params)
-
-    puts "DOWNLOAD SUMSCORES"
-
-    @surveys = current_user.subscribed_surveys
-    # set default value to true unless filter is pressed
-    params[:surveys] ||= []
-    @surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
-    @center = current_user.center if current_user.centers.size == 1
-    
-    @center = Center.find params[:center] unless params[:center].blank?
-    params[:center] = @center if @center
-
-    # TODO: put this in separate task
-    find_options = filter_date(params).merge({:surveys => @surveys, :include => [:score_results, :score_scale]}).compact
-    puts "SCORE_RAPPORTS find_options: #{find_options.inspect}"
-
+    params[:team] = params[:team][:id] if params[:team]
+    csv_score_rapports = CsvScoreRapport.with_options(current_user, params).all
+    puts "DOWNLOAD csv_score_rapports: #{csv_score_rapports.size}"
     # spawns background task
     @task = Task.create(:status => "In progress")
-    @task.create_sumscore_sexport(find_options)
+    @task.create_score_rapports_export(params[:survey][:id], csv_score_rapports)
   end
    
   # a periodic updater checks the progress of the export data generation 
@@ -87,7 +78,6 @@ class ScoreExportsController < ApplicationController
     
     respond_to do |format|
       format.js {
-        puts "GENERATING JS"
         render :update do |page|
           if @task.completed?
             page.visual_effect :blind_up, 'content'
@@ -130,7 +120,7 @@ class ScoreExportsController < ApplicationController
 
   def check_access
     redirect_to login_path unless current_user
-    redirect_to login_path unless current_user.access? :admin # current_user.access? :score_exports
+    redirect_to login_path unless current_user.access?(:score_export)
   end
   
 end
