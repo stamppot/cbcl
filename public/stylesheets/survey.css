@@ -657,6 +657,10 @@ td.description7lab4 {
   padding-left: 1em;
 }
 
+.listitem {
+	display: inline;
+}
+
 .itemtextbox { /* tekst med beskrivboks efter */
 /*  display: inline;*/
 }
