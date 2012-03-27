@@ -121,9 +121,9 @@ class ScoreRapport < ActiveRecord::Base
     }
     info_options = journal.export_info
     options[:sex] = info_options[:pkoen]
-    info_options[:journal_id] = options[:journal_id]
-    info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
-    info_options[:center_id] = options[:center_id]
+    # info_options[:journal_id] = options[:journal_id]
+    # info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
+    # info_options[:center_id] = options[:center_id]
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(options[:survey_answer_id])
     csv_score_rapport ||= CsvScoreRapport.new(options)
     csv_score_rapport.answer = vals.values.join(';;')
