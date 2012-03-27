@@ -11,3 +11,22 @@ ScoreResult.find_in_batches do |results|
     end
   end
 end
+
+# update scores.variable
+Score.all.each do |score|
+  pre = score.survey.prefix
+  varname = pre + score.title[0..4].downcase
+  
+  if(score.title =~ /^Gennem/)
+    varname = pre + "udvfo"
+  elsif score.title =~ /^ADHD/
+    varname = pre + "adhd"
+  elsif score.title =~ /^Oppo/
+    varname = pre + "opadf"
+  elsif score.title =~ /^Adf/
+    varname = pre + "adfa" 
+  end
+  score.variable ||= varname
+  score.save
+  puts varname
+end

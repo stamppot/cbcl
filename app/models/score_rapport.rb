@@ -94,12 +94,6 @@ class ScoreRapport < ActiveRecord::Base
   # end
 
   def variable_values
-    # variables = self.score_results.map { |sres| [sres.score.variable.to_sym, sres.result] }
-    # values = self.cell_values
-    # variables.inject(Dictionary.new) do |col,var|
-    #   col[var] = values[var] || "#NULL!"
-    #   col
-    # end
     a = Dictionary.new
     self.score_results.each { |result| a.merge!({ result.score.variable.to_sym => result.result}) }
     a.order_by

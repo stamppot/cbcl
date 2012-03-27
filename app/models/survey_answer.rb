@@ -54,9 +54,9 @@ class SurveyAnswer < ActiveRecord::Base
     end
       # survey_answer.add_missing_cells unless current_user.login_user # 11-01-10 not necessary with ratings_count
     spawn do
-      self.generate_score_report(update = true) # generate score report
+      score_rapport = self.generate_score_report(update = true) # generate score report
       self.save_csv_survey_answer
-      self.save_csv_score_rapport
+      score_rapport.save_csv_score_rapport
       # self.create_csv_answer!
     end
     self.save
@@ -198,7 +198,7 @@ class SurveyAnswer < ActiveRecord::Base
       rapport.short_name = score.short_name
     end
     rapport.save
-    return rapport
+    rapport
   end
         
   # print all values iteratively
@@ -223,12 +223,15 @@ class SurveyAnswer < ActiveRecord::Base
       next unless key.include? "Q"
       q_id = q_cells.delete("id")
       q_number = key.split("Q").last
-      an_answer = self.answers.find_or_create_by_survey_answer_id_and_number(:survey_answer_id => self.id, :question_id => q_id, :number => q_number.to_i)
+      q_number = q_number.to_i
+
+      an_answer = self.answers.find_by_question_id(q_id)
+      an_answer ||= self.answers.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number)
       new_cells ||= {}
       q_cells.each do |cell, value|
         if cell =~ /q(\d+)_(\d+)_(\d+)/   # match col, row
           q = "Q#{$1}"
-          a_cell = {:answer_id => an_answer.id, :row => $2.to_i, :col => $3.to_i, :value => value}
+          a_cell = {:answer_id => an_answer.id, :row => $2.to_i, :col => $3.to_i, :value => value, :number => q_number}
           if answer_cell = an_answer.exists?(a_cell[:row], a_cell[:col]) # update
             update_cells << [answer_cell.id,  answer_cell.value, answer_cell.value_text] if answer_cell.change_value(value, the_valid_values[q][cell])
           else
