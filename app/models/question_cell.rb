@@ -559,7 +559,7 @@ class ListItem < QuestionCell
 
   def outer_span(last = false)
     span = if col == 2 and self.question.columns == 2
-      "span-7"
+      "span-13"
     else
       "span-6"
     end
