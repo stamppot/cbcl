@@ -1,0 +1,10 @@
+<% if @cell %>
+<tr>
+	<td>ListItemComment: <%= if @cell
+		@cell.to_html
+	else "no listitemcomment"
+	end %>
+	</td>
+</tr>
+
+<% end %>

@@ -45,6 +45,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :score_scales
   map.resources :score_items
   map.resources :score_refs
+  map.resources :answer_reports
   map.resources :score_reports
   map.resources :score_exports
   map.resources :survey_builders
