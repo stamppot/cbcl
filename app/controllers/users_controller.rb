@@ -29,7 +29,6 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     @user = User.new
     
     if !params[:id].nil?   # create new user for specific center/team
-      
       @groups = Group.this_or_parent(params[:id])
       @user.groups += @groups
     else
