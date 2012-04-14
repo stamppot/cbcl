@@ -51,7 +51,7 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<form action="/answer_reports/show.pdf" id="show_score_rapports" method="post">
+		<form action="/score_reports/create.pdf" id="show_score_rapports" method="post">
 			<%= hidden_field_tag 'journal_id', @group.id %>
 		<div id="answered_surveys">
 		<table id="answered" class="surveys">

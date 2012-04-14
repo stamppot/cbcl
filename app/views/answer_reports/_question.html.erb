@@ -37,7 +37,7 @@
 					cols.values.each do |cell|
 						@cell = cell
 						celltype = cell.class.to_s.downcase
-						output << render(:partial => "#{celltype}", :object => cell)
+						output << render(:partial => "answer_reports/#{celltype}", :object => cell)
 					end
 					output << "</div></td></tr>"
 				end

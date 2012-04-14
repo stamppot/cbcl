@@ -48,6 +48,16 @@
 <br>
 <p class="spacing2"></p>
 
+<div class="container">
+	<% 	@answer_texts.each do |hash| 
+				@questions = hash[:questions]
+				@survey		 = hash[:survey]	%>
+			
+			<h3 class="survey_title"><%= @survey.title %></h3>
+				<%= render :partial => 'answer_reports/answers' %>
+				<br/><p/>
+		<% end %>
+</div>
 
 <table class='score_ref_description' style="float: bottom">
 	<tr>
