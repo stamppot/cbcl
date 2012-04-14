@@ -1,22 +1,10 @@
 <% if @cell %>
-<tr><td><div id='row#{id}_#{row}' class='row'>
-	<div class="listitemtext span-7">
-		<%= @cell.answer_item %>. 
-		<% @cell.question_items.each do |item| %>
-		<%= item.text %>
-		<% end %>
-	</div>
-
+<td id="row_<%= @cell.row %>_<%= @cell.col %>">
 	<div class="itemtext span-7"></div>
-
-	<td>ListItem: <%= if @cell
-		@cell.to_html
-	else "no listitem"
-	end %>
+	<%= if @cell
+				@cell.to_html
+			else "no listitem"
+			end %>
+	</div>
 </td>
-<br/>
-</div>
-</td>
-</tr>
-
 <% end %>

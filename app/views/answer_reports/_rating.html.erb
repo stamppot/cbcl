@@ -1,0 +1,8 @@
+<% if @cell %>
+	<td id="row_<%= @cell.row %>_<%= @cell.col %>" class="rating"><%= if @cell
+		@cell.to_html
+	else "no RATING"
+	end %>
+</td>
+
+<% end %>

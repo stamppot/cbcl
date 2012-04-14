@@ -52,23 +52,29 @@ class Question < ActiveRecord::Base
     end
   end
 
-
-  # def merge_answertype(answer)
-  #   if answer.question_id == self.id
-  #     q_cells = self.rows_of_cols
-  #     a_cells = answer.rows_of_cols
-  #     # puts "#merge_answertype #{@@count_runs}: rows #{a_cells.size}  answer: #{answer.id}"
-  #     a_cells.each_pair do |row, cols|           # go thru a_cells to make it faster
-  #       cols.each_pair do |col, cell|
-  #         # puts "set answertype #{q_cells[row][col].type} item: #{q_cells[row][col].answer_item}"
-  #         a_cells[row][col].answertype = q_cells[row][col].type # if q_cells[row][col].eql_cell?(a_cells[row][col])
-  #         a_cells[row][col].item = q_cells[row][col].answer_item
-  #         a_cells[row][col].save
-  #       end
-  #     end
-  #     return a_cells
-  #   end
-  # end
+  def merge_report_answer(answer)
+    cells = []
+    if answer.question_id == self.id
+      q_cells = self.rows_of_cols(question_cells.with_property("report"))
+      a_cells = answer.rows_of_cols
+      q_cells.each_pair do |row, cols|           # (not faster for this one, since there's fewer report cells)
+        cols.each_pair do |col, cell|
+          if a_cells[row] && a_cells[row][col]
+            if a_cells[row][col].text?
+              # puts "merge_report_answer: a_cell: #{a_cells[row][col].inspect}, q_cell: #{q_cells[row][col].inspect} TEXT"
+              q_cells[row][col].value = CGI.unescape(a_cells[row][col].value_text) || CGI.unescape(a_cells[row][col].value)
+            else
+              # puts "merge_report_answer: a_cell: #{a_cells[row][col].inspect}, q_cell: #{q_cells[row][col].inspect} TEXT"
+              q_cells[row][col].value = a_cells[row][col].value.to_s || "" if q_cells[row] && q_cells[row][col]
+            end
+            # puts "merge_report_answer: #{q_cells[row][col].value}"
+          end
+          cells << cell
+        end
+      end
+      return cells
+    end
+  end
 
     
   def get_answertype(row, col)
@@ -79,9 +85,9 @@ class Question < ActiveRecord::Base
   end
 
   # should do exactly the same as hash_rows_of_cols, and is faster too!
-  def rows_of_cols
-    result = self.question_cells.inject({}) do |rows, cell|
-      rows[cell.row] = {} if rows[cell.row].nil?
+  def rows_of_cols(cells = self.question_cells)
+    result = cells.inject(Dictionary.new) do |rows, cell|
+      rows[cell.row] = Dictionary.new if rows[cell.row].nil?
       rows[cell.row][cell.col] = cell
       rows
     end

@@ -44,11 +44,20 @@ class Survey < ActiveRecord::Base
     return self if survey_answer.nil?
     survey_answer.answers.each do |answer|
       # find question which matches answer
-      # puts "answer number & id: #{answer.number} - #{answer.id}"
       question = self.questions.detect { |question| question.id == answer.question_id }
       question.merge_answer(answer) if question
     end
     return self  # return survey with questions with values (answers)
+  end
+
+  def merge_report_answer(survey_answer)
+    return {} if survey_answer.nil?
+    questions = Dictionary.new
+    self.questions.sort_by {|q| q.number}.each do |question|
+      answer = survey_answer.answers.detect {|answer| question.id == answer.question_id }
+      questions[question] = question.merge_report_answer(answer) if answer
+    end
+    return questions   # return survey with questions with values (answers)
   end
 
   # users that can answer a given survey

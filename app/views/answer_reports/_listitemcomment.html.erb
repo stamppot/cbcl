@@ -1,10 +1,35 @@
 <% if @cell %>
-<tr>
-	<td>ListItemComment: <%= if @cell
+<td id="row_<%= @cell.row %>_<%= @cell.col %>" class="listitemcomment">
+	<span class="listitemtext">
+		<%
+		newform = []
+		answer_item = @cell.svar_item
+		answer_item_set = false
+		
+		@cell.question_items.each do |item|
+		  listitem_without_predefined_text = item.text.nil? || item.text.empty?
+		  case item.qtype
+			when "textbox": newform << 
+				if (listitem_without_predefined_text)
+					input_or_answer = "<div id='#{@cell.cell_id(@cell.question.number)}' class='answer_comment'>#{@cell.value}</div>"
+					div_item((answer_item_set ? "" : answer_item) + input_or_answer, "itemtextbox".rstrip)
+				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext".rstrip)
+				end
+			when "listitem": 
+        answer_item_set = true if @cell.col == 1
+			  newform << div_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
+				answer_item_set = true;
+			end
+		end
+		 %>
+		<%= newform.join %>
+	</span>
+	<!-- <span class="itemtextbox"><%= @cell.value %></span> -->
+<%# 
+	if @cell
 		@cell.to_html
 	else "no listitemcomment"
 	end %>
-	</td>
-</tr>
+</td>
 
 <% end %>

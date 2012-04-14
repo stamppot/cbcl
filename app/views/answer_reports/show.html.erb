@@ -15,7 +15,14 @@
 		<span class="span-8 last" >Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' /></span>
 	</div>
 	<br/>
-		<%= render :partial => "question", :collection => @survey.questions %>
+	
+		<% @questions.each do |question, cells| %>
+			question: <%= question.number %>, <%= question.id %>
+			Cells: <%= cells.count %><br/>
+			<% if cells.any? %>
+				<%= render :partial => "question", :locals => {:question => question, :cells => cells} %>
+			<% end %>
+		<% end %>
 	</div>
 
 </div>

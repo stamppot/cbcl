@@ -4,68 +4,50 @@
 <div id='question_number<%= no %>'>
 
 	<!-- this should be put in _question_edit -->
-<% if current_user.access? :survey_edit_delete %>
-<% if no > 0 %>
-	Spørgsmål: <%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 2 %>
-<% end %>
-<div class='edit_question'>
-	<%= link_to_remote "Slet", :url => { :controller => 'survey_builder', :action => "delete_question", :id => id, :number => no },
-	:confirm => "Slet spørgsmål #{no}?",
-	:failure => "alert('HTTP Error ' + request.status + '!')" %>
-</div>
-<% end %>
+	<% if current_user.access? :survey_edit_delete %>
+		<% if no > 0 %>
+		Spørgsmål: <%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 2 %>
+		<% end %>
+		<div class='edit_question'>
+			<%= link_to_remote "Slet", :url => { :controller => 'survey_builder', :action => "delete_question", :id => id, :number => no },
+			:confirm => "Slet spørgsmål #{no}?",
+			:failure => "alert('HTTP Error ' + request.status + '!')" %>
+		</div>
+		<% end %>
 
-<br>
-<table class="question" id="question<%= id %>"> 
-	<tbody>
-	<%- 
-	render_cells = ['listitem', 'questiontext', 'rating', 'checkbox', 'description', 'selectoption', 'textbox', 'information', 'placeholder']
-	
-	rows = question.rows_of_cols
-	output = [] #["<input id='Q#{@no}_id_#{id}' name='Q#{no}[id]' type='hidden' value='#{id}' >"]
-	
-	index = 0
-	rows.sort.each do |row, cols|
-		show_row = cols.any? {|col, cell| render_cells.include?(cell.class.to_s.downcase) }
-		color = index % 2 == 0 && "even" || "odd"
-		if show_row
-			output << "<tr><td><div id='row#{id}_#{row}' class='row'>\n" 
-			output << 
-			if row == 1
-				"\t<div class='group span-1'>#{no > 0 && (no.to_roman + ". ") || '&nbsp;'}</div>\n"
-			else
-				"\t<div class='span-1'>&nbsp;</div>\n"
-			end
-		
-			no_cols = cols.size
-			cols.each do |col, cell|
-				@cell = cell
-				celltype = cell.class.to_s.downcase
-				if render_cells.include?(celltype)
-					next
-				end
-				 %>
-				<%= 
-					if render_cells.include?(celltype)
-						output.clear
-						# "<div class='#{celltype}'>#{cell.text}</div>"
+		<br>
+		<table class="question" id="question<%= id %>"> 
+			<tbody>
+				<%- 
+
+				rows = question.rows_of_cols(cells)
+				output = []
+
+				index = 0
+				rows.sort.each do |row, cols|
+					color = index % 2 == 0 && "even" || "odd"
+					output << "<tr id='row#{id}_#{row}'><td><div> \n" 
+					output << 
+					if row == 1
+						"\t<div class='group'>#{no > 0 && (no.to_roman + ". ") || '&nbsp;'}</div>\n"
 					else
-						render :partial => "#{celltype}", :object => cell
+						"\t<div>&nbsp;</div>\n"
 					end
-				 %>
-				<%
-				# html = cell.to_html((@options || {:show_all => true}).merge(:number => no, :last => cell.col == no_cols))
-				# output << html if html
-			end
-		end
-		if !output.blank?
-			output << "</div></td></tr>"
-		end
-end
-		%>
-<%= output.join %>
-	</tbody>
-</table>
 
-</div>
+					no_cols = cols.size
+					cols.values.each do |cell|
+						@cell = cell
+						celltype = cell.class.to_s.downcase
+						output << render(:partial => "#{celltype}", :object => cell)
+					end
+					# if !output.blank?
+						output << "</div></td></tr>"
+					# end
+				end
+				%>
+				<%= output.join %>
+			</tbody>
+		</table>
+
+	</div>
 

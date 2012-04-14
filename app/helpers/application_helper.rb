@@ -159,4 +159,10 @@ module ApplicationHelper
   def unescape_danish(str)
     str.gsub("%C3%A6", "æ").gsub("%C3%B8", "ø").gsub("%C3%A5", "å")
   end
+  
+  def div_item(html, type, id = nil)
+		id_attr = id.blank? ? "" : "id='#{id}'"
+		"<div #{id_attr} class='#{type}'>#{html}</div>"
+	end
+	
 end

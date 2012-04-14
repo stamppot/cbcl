@@ -5,10 +5,28 @@ class QuestionCell < ActiveRecord::Base
 	attr_accessor :value, :number, :question_items  # must be accessed through self.question_items
 	attr_accessor :question_text, :options
 
+  PROPERTIES = %w{input report}
+  
 	named_scope :ratings, :conditions => ['type = ?', 'Rating']
 	named_scope :answerable, :conditions => ['type IN (?)', ['Rating', 'Checkbox', 'ListItemComment', 'SelectOption', 'Textbox']]  # and ListItem???? TODO: check if this can be answered, otherwise answerable part should be extracted to other type
 	named_scope :unanswerable, :conditions => ['type not IN (?)', ['Rating', 'Checkbox', 'ListItemComment', 'ListItem', 'SelectOption', 'Textbox']]
+  named_scope :with_property, lambda { |prop| { :conditions => "prop_mask & #{2**PROPERTIES.index(prop.to_s)} > 0" } }
 
+  def prop_index(p) 2**PROPERTIES.index(p) end
+
+  def add_prop(prop)
+    self.properties << prop if PROPERTIES.include?(prop)
+  end
+  
+  def properties=(props)
+    raise RunTimeError("properties arg must be array") unless props.is_a? Array
+    self.prop_mask = (props & PROPERTIES).map { |p| prop_index(p) }.sum
+  end
+  
+  def properties
+    PROPERTIES.reject { |p| ((prop_mask || 0) & prop_index(p)).zero? }
+  end
+  
 	def row_data
 		self.answer_text if question_text.nil?
 		data = {:item => self.answer_item, :text => self.question_text, :question => self.question.number }
@@ -292,7 +310,6 @@ class QuestionCell < ActiveRecord::Base
 	end
 
 	def div_item(html, type, id = nil)
-		#content_tag("div", html, { :class => type } )
 		id_attr = id.blank? ? "" : "id='#{id}'"
 		"<div #{id_attr} class='#{type}'>#{html}</div>"
 	end
