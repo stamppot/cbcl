@@ -1,0 +1,31 @@
+<% @rows = score_group %>
+<% @rows.each_with_index do |col, i| %>
+
+	<% ja = col.detect {|c| c.respond_to? :scale }
+	 	 scale = ja ? ja.scale : 99
+	%>
+	
+<tr class='scale_<%= scale %>'>
+<%- col.each_with_index do |report,j| 
+	  fst_col = j == 0
+	%>
+<%- result = 
+        if report.nil?
+          "<td class='no_result' width='60px' align='right'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</td>" +
+					"<td class='percentile' width='60px'>&nbsp;</td>"
+        elsif report.is_a? String
+					report_title = (fst_col ? report : "")
+          "<td class='score_title' width='300px'>#{report_title}</td>"
+				elsif report.is_a? ScoreTitle
+					"<td class='score_title_#{scale}'>#{report}</td>"
+        elsif report.is_a? ScoreReport
+          "<td class='result' width='60px' align='right'>#{report.result}</td>" +
+          "<td class='percentile' width='60px' align='right'>#{report.percentile}</td>"
+				else
+					"<td class='result' width='60px' align='right'>#{report}</td>" +
+					"<td class='percentile' width='60px' align='right'>#{report}</td>"
+        end     %>
+        <%= result %></td>
+        <%- end %>
+</tr>
+<% end %>
