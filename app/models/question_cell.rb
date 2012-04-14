@@ -354,10 +354,13 @@ class QuestionCell < ActiveRecord::Base
 		self.create_form
 	end
 
-	def svar_item
+	def svar_item(cut = true)
 		if self.answer_item.nil? or self.answer_item.empty?
 			""
-		elsif self.answer_item.match(/\d+([a-z]+)/)  # cut off number prefix (fx 1.)
+		elsif !cut
+		  self.answer_item + ". "
+		elsif
+		   self.answer_item.match(/\d+([a-z]+)/)  # cut off number prefix (fx 1.)
 			"\t" + $1 + ". "
 		else self.answer_item + ". "
 		end

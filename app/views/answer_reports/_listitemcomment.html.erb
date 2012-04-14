@@ -3,11 +3,11 @@
 	<span class="listitemtext">
 		<%
 		newform = []
-		answer_item = @cell.svar_item
+		answer_item = @cell.svar_item(false)
 		answer_item_set = false
 		
 		@cell.question_items.each do |item|
-		  listitem_without_predefined_text = item.text.nil? || item.text.empty?
+		  listitem_without_predefined_text = item.text.blank?
 		  case item.qtype
 			when "textbox": newform << 
 				if (listitem_without_predefined_text)

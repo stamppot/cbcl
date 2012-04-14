@@ -10,22 +10,11 @@
 	<div id="survey_fast_input" class="command"></div>
 	<br/>
 
-	<div class='span-24'>
-		<span class="prepend-1 span-4">Udfyldt af <%= select :answer, :person, @survey.answer_by %></span>
-		<span class="span-8 last" >Hvis andet, skriv hvem: <input type='text' id='answer_person_other' name='answer[person_other]' /></span>
-	</div>
-	<br/>
-	
 		<% @questions.each do |question, cells| %>
-			question: <%= question.number %>, <%= question.id %>
-			Cells: <%= cells.count %><br/>
 			<% if cells.any? %>
 				<%= render :partial => "question", :locals => {:question => question, :cells => cells} %>
 			<% end %>
 		<% end %>
 	</div>
-
 </div>
-    
-<p/> <!-- dynamic -->
-	<div id="back_button" style="display:none;"></div>
+
