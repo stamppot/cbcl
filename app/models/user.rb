@@ -190,20 +190,11 @@ class User < ActiveRecord::Base
     end
   end
   
-  # TODO rewrite if user.center works
   def center_and_teams
     if(self.has_access?(:admin))
-      Group.center_and_teams #find(:all, :conditions => ['type != ?', "Journal"])
-    # elsif self.has_access? :team_show_admin # self.center
-    #   if self.centers.size > 1 # some people have more centers
-    #     self.centers + self.centers.map { |c| c.teams }.flatten
-    #   else
-    #     [self.center] + self.center.teams
-    #   end
-    elsif self.has_access? :team_show
-      self.groups
+      Group.center_and_teams
     else
-      groups = self.centers #current_user.center #self.center
+      groups = self.centers
       groups.each do |center| 
         center.children.each { |team| groups << team if team.instance_of? Team }
       end
