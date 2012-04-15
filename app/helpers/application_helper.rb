@@ -165,4 +165,9 @@ module ApplicationHelper
 		"<div #{id_attr} class='#{type}'>#{html}</div>"
 	end
 	
+	def span_item(html, type, id = nil)
+		id_attr = id.blank? ? "" : "id='#{id}'"
+		"<span #{id_attr} class='#{type}'>#{html}</span>"
+	end
+	
 end

@@ -1,10 +1,5 @@
 <% if @cell %>
-<td id="row_<%= @cell.row %>_<%= @cell.col %>">
-	<div class="textbox span-7"></div>
-	<%= if @cell
-				@cell.to_html
-			else "no textbox"
-			end %>
-	</div>
+<td id="row_<%= @cell.row %>_<%= @cell.col %>" class="answer">
+	<div class='answer_textbox'><%= @cell.value %></div>
 </td>
 <% end %>

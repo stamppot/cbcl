@@ -6,7 +6,7 @@
 <br/>
 <hr>
 
-<table class="outer">
+<table id="score_report" class="outer">
 	<%- @groups.each_with_index do |group, i| %>
    <% # survey titles in top line only
 	@titles.each_with_index do |title, j|
@@ -48,7 +48,8 @@
 <br>
 <p class="spacing2"></p>
 
-<div class="container">
+<div id="extended_score_report" class="container">
+	<h2>Svarbeskrivelser</h2>
 	<% 	@answer_texts.each do |hash| 
 				@questions = hash[:questions]
 				@survey		 = hash[:survey]	%>

@@ -484,8 +484,39 @@ a.show_hide {
 	font-size: 12px normal;
 }
 
+#score_report, table.score_ref_description td {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+}
+
+#extended_score_report .question td {
+	vertical-align:text-top;
+}
+
+#extended_score_report .answer_textbox, #extended_score_report .answer_comment {
+	border: 1px solid #ddd;
+	padding: 1em;
+	min-width: 400px;
+	max-width: 600px;
+}
 table.score_ref_description {
 	font-weight: bold;
+}
+
+table.score_ref_description td {
+	border: 0;
+}
+
+table.outer td, table.question td {
+	border: 0;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+}
+
+.container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+}
+#extended_score_report td {
+	border: 0;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
 }
 
 .nobr {

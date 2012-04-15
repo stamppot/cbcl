@@ -1,6 +1,4 @@
 <% if @cell %>
-<td id="row_<%= @cell.row %>_<%= @cell.col %>" class="listitemcomment">
-	<span class="listitemtext">
 		<%
 		newform = []
 		answer_item = @cell.svar_item(false)
@@ -9,17 +7,21 @@
 		@cell.question_items.each do |item|
 		  listitem_without_predefined_text = item.text.blank?
 		  case item.qtype
-			when "textbox": newform << 
+			when "textbox": 
+				newform << "<td class='answer textbox'>"
+				newform << 
 				if (listitem_without_predefined_text)
 					input_or_answer = "<div id='#{@cell.cell_id(@cell.question.number)}' class='answer_comment'>#{@cell.value}</div>"
-					div_item((answer_item_set ? "" : answer_item) + input_or_answer, "itemtextbox".rstrip)
-				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext".rstrip)
+					input_or_answer
+				else span_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext".rstrip)
 				end
-			when "listitem": 
+			when "listitem":
+				newform << "<td class='question'>"
         answer_item_set = true if @cell.col == 1
-			  newform << div_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
+			  newform << span_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
 				answer_item_set = true;
 			end
+			newform << "</td>"
 		end
 		 %>
 		<%= newform.join %>
@@ -30,6 +32,4 @@
 		@cell.to_html
 	else "no listitemcomment"
 	end %>
-</td>
-
 <% end %>
