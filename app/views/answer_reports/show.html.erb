@@ -19,9 +19,7 @@
 	<% if (1..group.size + 1) === i && !group.empty? %>
    		<tr class='scale_title'>
 			<td class='scale_show_hide'>
-				<a class='show_hide' HREF='javascript:toggleElems("scale_<%= i %>")'>
-					<%= @group_titles[i] %>
-				</a>
+				<%= @group_titles[i] %>
 			</td>
 		</tr>
 	<% end %>
@@ -75,5 +73,12 @@
 	</tr>
 </table>
 
-
+<style type="text/css">
+@media projection{
+  body { 
+		font-size: 12pt; 
+	}
+  #heading{ font-size:28px; }
+}
+</style>
 

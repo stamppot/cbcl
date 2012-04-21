@@ -1,18 +1,19 @@
 body { background-color: #fff; color: #333; }
 
-body, p, ol, ul, td {
+body { width: 8}
+/*body, p, ol, ul, td {
   font-size:   14px;
-  line-height: 20px; /*20px*/
-}
+  line-height: 20px;
+}*/
 
-#score_report {
+/*#score_report {
 	margin: 0px 0px 500px 0px;
 	padding:0px;
 	border: 1px #DDD solid;
 	width: 840px;
-}
+}*/
 
-#centerlabel {
+/*#centerlabel {
 	border: 1px solid black;
 	position: absolute;
 	top: 80px;
@@ -20,106 +21,106 @@ body, p, ol, ul, td {
 	width: 330px;
 	height: 140px;
 	background: #eee;
-}
+}*/
 
-td.t_i, td.p_i {
+/*td.t_i, td.p_i {
 	width: 120px;
 }
 
 td.p, td.t, td.t_i, td.p_i {
 	border: 0 yellow;
 	padding-right: 25px;
-}
+}*/
 
-table.outer {
+/*table.outer {
 	border: 0;
-}
+}*/
 
-table#score_report {
+/*table#score_report {
 	border:0;
-}
-table.inner {
+}*/
+/*table.inner {
 	border: 0;
-}
-td.score_title, td.result, td.percentile {
+}*/
+/*td.score_title, td.result, td.percentile {
 	border: 0;
-}
+}*/
 
-td.score_percentile {
+/*td.score_percentile {
 	padding-right: 20px;
-}
+}*/
 
-th.col0 {
+/*th.col0 {
 	width: 250px;
 	border: 0;
 	white-space: wrap;
-}
+}*/
 
-th.col1, th.col2, th.col3, th.col4, th.col5 {
+/*th.col1, th.col2, th.col3, th.col4, th.col5 {
 	width: 120px;
 	border: 0;
 }
-
-tr.col0 td {
+*/
+/*tr.col0 td {
 	width: 250px;
 	text-align: left;
 }
-
-tr.col1, tr.col2, tr.col3, tr.col4, tr.col5 {
-/*	width: 120px;*/
+*/
+/*tr.col1, tr.col2, tr.col3, tr.col4, tr.col5 {
+	width: 120px;
 	border: 0;
-}
+}*/
 
 
-th.score_survey {
+/*th.score_survey {
 	width: 100px;
 }
-
+*/
 th.col0 { /* space between groups */
-	font-size: 0px;
+/*	font-size: 0px;*/
 }
 
-th.score_survey_empty {
+/*th.score_survey_empty {
 	width: 280px;
-}
+}*/
 
-td.score_title {
-/*	width: 140px;*/
+/*td.score_title {
+	width: 140px;
 	white-space: normal;
 	border: 0px;
-}
+}*/
 
-td.score_result {
+/*td.score_result {
 	border: 0px;
-/*	width: 60px;*/
+	width: 60px;
 	padding-right: 25px;
-}
+}*/
 
+/*
 td.scale_show_hide {
-/*	width: 130px;*/
+	width: 130px;
 	border: 0px;
-}
-td.scale_show_hide a {
-/*	font-size: 14px;*/
-}
+}*/
+/*td.scale_show_hide a {
+}*/
 
-a.show_hide, a.show_hide:visited {
+/*a.show_hide, a.show_hide:visited {
 	color: black;
-}
+}*/
 
-tr.scale_unanswered td.score_title {
+/*tr.scale_unanswered td.score_title {
 	border: 0px;
 	width: 290px;
 	padding-right: 0px;
 }
-
-td.score_result {
+*/
+/*td.score_result {
 	border: 0px;
 	width: 170px;
 	padding-right: 0px;
 }
-
-.result {
+*/
+/*.result {
 	border: 0px;
 	width: 45px;
 	text-align: right;
@@ -127,8 +128,8 @@ td.score_result {
 	display: inline;
 	padding-left: 15px;
 }
-
-.percentile {
+*/
+/*.percentile {
 	border: 0px;
 	padding-left: 0px;
 	text-align: right;
@@ -136,62 +137,63 @@ td.score_result {
 	display: inline;
 	padding-right: 35px;
 }
-
-td.no_result {
+*/
+/*td.no_result {
 	text-align: center;
 }
-
-td.no_border, td.no_result {
+*/
+/*td.no_border, td.no_result {
 	border: 0;
 }
+*/
 
-
-h1.score_report {
+/*h1.score_report {
   text-align: center;
-}
+}*/
 
-.scale_title {
+/*.scale_title {
 	border: 0px;
 	text-align: left;
 	font: bold;
-}
+}*/
 
 /* TODO: check if needed */
-table.score_report {
+/*table.score_report {
 	border: 0px;
-}
+}*/
 
-td.report_left {
+/*td.report_left {
 	border: 0px;
-}
+}*/
 
 @media print {
-	body { height: 580px; }
-	body, p, ol, ul, td {
+/*	body { height: 580px; }*/
+/*	body, p, ol, ul, td {
 		margin: 0;
 		padding: 0;
 		font-size:   14px;
-		line-height: 20px; /*20px*/
-	}
+		line-height: 20px;
+	}*/
 	
-	#score_report { border: 0px; line-height: 10px;
+/*	#score_report { border: 0px; line-height: 10px;
 	padding-top:1px;
-	 }
+	 }*/
 	
-	td.p, td.t, td.t_i, td.p_i {
+/*	td.p, td.t, td.t_i, td.p_i {
 		padding-right: 30px;
-	}
+	}*/
 	
 	#centerlabel {
-		border: 1px solid black;
+		display: none;
+/*		border: 1px solid black;
 		position: absolute;
 		top: 60px;
 		left: 500px;
 		width: 330px;
 		height: 140px;
 		background: #eee;
-	}
+*/	}
 	
-	p.spacing { height: 90px; border: 0px dashed blue; clear: both;}
-	p.spacing2 { height: 40px; border: 0px dashed blue; clear: both;}
+/*	p.spacing { height: 90px; border: 0px dashed blue; clear: both;}
+	p.spacing2 { height: 40px; border: 0px dashed blue; clear: both;}*/
 }

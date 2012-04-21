@@ -15,7 +15,7 @@ class ScoreTitle < ScoreReport
     else
     "<div class='scale_title'>" +
       @title.to_s + "</div>" + 
-      "<a class='show_hide' HREF='javascript:toggleElems(&quot;scale_#{@scale}&quot;)' >" + #  
+      "<a class='show_hide' >" + #  
       "<img border='0' src='/images/icon_show_hide.png' ></a>"    
     end
   end

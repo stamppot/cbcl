@@ -11,7 +11,7 @@
 				newform << "<td class='answer textbox'>"
 				newform << 
 				if (listitem_without_predefined_text)
-					input_or_answer = "<div id='#{@cell.cell_id(@cell.question.number)}' class='answer_comment'>#{@cell.value}</div>"
+					input_or_answer = "<div id='#{@cell.cell_id(@cell.question.number)}' class='answer_comment span-11'>#{@cell.value}</div>"
 					input_or_answer
 				else span_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext".rstrip)
 				end
