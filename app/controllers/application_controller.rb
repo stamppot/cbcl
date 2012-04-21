@@ -157,7 +157,7 @@ class ApplicationController < ActionController::Base
           case params[:controller]
           when /faq/
             access = current_user.access?(:superadmin) || current_user.access?(:admin)
-          when /score_reports/  # TODO: test this one!!!
+          when /score_reports|answer_reports/  # TODO: test this one!!!
             journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
               params[:answers].keys.all? { |entry| journal_ids.include? entry }

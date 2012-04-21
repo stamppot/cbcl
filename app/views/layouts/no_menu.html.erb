@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+	<title><%= @page_title %></title>
+
+	<% if !current_user.login_user? %>
+	<%= stylesheet_link_tag_html4 'tablekit', :media => 'all' %>
+	<% stylesheet_link_tag_html4 'validation' %>
+	<%= stylesheet_link_tag_html4 'login', :media => 'all' %>
+	<% end %>
+	<%= stylesheet_link_tag_html4 'cbcl', :media => 'all' %>
+	<% stylesheet_link_tag_html4 'buttons' %>
+
+	<% if !current_user.login_user? %>
+ 	<%= javascript_include_tag 'prototype' %>
+ 	<%= javascript_include_tag 'scriptaculous' %>
+ 	<%= javascript_include_tag 'effects' %>
+ 	<%= javascript_include_tag 'controls' %>
+
+ 	<%= javascript_include_tag 'css_browser_selector' %>
+ 	<% javascript_include_tag 'validation' %>
+ 	<%= javascript_include_tag 'application' %>
+	<%= javascript_include_tag 'flash' %>
+	<%= javascript_include_tag 'curvy-corners' %>
+	<%= javascript_include_tag 'livepipe/livepipe' %>
+	<%= javascript_include_tag 'livepipe/tabs' %>
+ 	<%= javascript_include_tag 'tablekit' %>
+	<script type="text/javascript">
+		var curvyCornersVerbose = false;
+	</script>
+
+	<% end %>
+</head>
+
+<body>
+	<div id="score_report">
+		<%= @content_for_layout %>
+	</div>
+</body>
+</html>
+

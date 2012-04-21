@@ -1,3 +1,6 @@
+<%= stylesheet_link_tag 'blueprint/screen', :media => :all %>
+<%= stylesheet_link_tag 'blueprint/print', :media => :print %>
+
 <h1 class="score_report">CBCL-Rapport</h1>
 <hr>
 
@@ -55,7 +58,11 @@
 				@survey		 = hash[:survey]	%>
 			
 			<h3 class="survey_title"><%= @survey.title %></h3>
-				<%= render :partial => 'answer_reports/answers' %>
+				<% @questions.each do |question, cells| %>
+					<% if cells.any? %>
+						<%= render :partial => "answer_reports/question", :locals => {:question => question, :cells => cells} %>
+					<% end %>
+				<% end %>
 				<br/><p/>
 		<% end %>
 </div>

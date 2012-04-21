@@ -51,7 +51,7 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<form action="/score_reports/create.pdf" id="show_score_rapports" method="post">
+		<form action="/answer_reports/show.pdf" id="show_score_rapports" method="post">
 			<%= hidden_field_tag 'journal_id', @group.id %>
 		<div id="answered_surveys">
 		<table id="answered" class="surveys">
@@ -96,7 +96,8 @@
 		<% if answered_count %>
 		  <div class="commands">
 				<div class="button">
-					<%= submit_tag t('score.calculate'), :class => 'button score_calculate', :format => 'pdf' %>
+					<%= submit_tag t('score.show_report'), :class => 'button score_calculate', :format => 'pdf' %>
+					<label><input type="checkbox" checked="checked" name="extended_scorereport" id="select_scorereport" onchange="toggleReportType('show_score_rapports', 'select_scorereport');">Med besvarelser</label>&nbsp;&nbsp;
 					<select autocomplete="off" id="select_format" name="format" onchange="toggleActionFormat('show_score_rapports', 'select_format')">
 						<option value="pdf">PDF</option>
 						<option value="html">HTML</option>

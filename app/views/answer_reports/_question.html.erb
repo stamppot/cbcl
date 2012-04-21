@@ -24,22 +24,21 @@
 					end
 					
 					color = index % 2 == 0 && "even" || "odd"
-					output << "<tr id='row#{id}_#{row}'><td><div> \n" 
-					output << 
-					if row == 1
-						"\t<div class='group'>#{no > 0 && (no.to_roman + ". ") || '&nbsp;'}</div>\n"
-					else
-						"\t<div>&nbsp;</div>\n"
-					end
+					output << "<tr class='first last span-20' id='row#{id}_#{row}'>" 
 
 					no_cols = cols.size
 
-					cols.values.each do |cell|
+					cols.values.each_with_index do |cell, i|
+						output <<
+						if i == 1
+						  roman = no > 0 && (no.to_roman + ". ") || '&nbsp;'
+							content_tag('div', roman, :class => 'group')
+						end
 						@cell = cell
 						celltype = cell.class.to_s.downcase
 						output << render(:partial => "answer_reports/#{celltype}", :object => cell)
 					end
-					output << "</div></td></tr>"
+					output << "</tr>"
 				end
 				%>
 				<%= output.join %>

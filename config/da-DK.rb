@@ -185,6 +185,7 @@ I18n.backend.store_translations 'da-DK',
     
     :score => {
       :calculate => 'Beregn score',
+      :show_report => 'Vis scorerapport',
       :add_ref => "Tilføj referenceværdi",
       :add_item => "Tilføj beregning"
     },

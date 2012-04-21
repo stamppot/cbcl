@@ -1,8 +1,18 @@
 <% if @cell %>
-	<td id="row_<%= @cell.row %>_<%= @cell.col %>" class="rating"><%= if @cell
-		@cell.to_html
-	else "no RATING"
-	end %>
-</td>
+	<td class="answer rating" colspan="3">
+		<%=
+	newform = []
+	question_no = "Q#{@cell.question.number}"
 
+	@cell.question_items.each_with_index do |item, i|
+		checked = 'checked="checked"'
+		cell_id = @cell.cell_id(question_no)
+		if @cell.value == item.value
+			newform <<
+      	span_item("<input id='#{cell_id}' name='#{question_no}[#{cell_id}]' type='radio' value='#{item.value}' checked='checked'" + " />" +
+      	(item.text.empty? ? "" : "<label for='#{cell_id}'>#{item.text}</label>"), "radio_answer")
+		end
+	end
+	newform.join
+	%>
 <% end %>

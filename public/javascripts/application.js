@@ -190,3 +190,16 @@ function toggleActionFormat(formid, element) {
 	// alert("output: " + output);
 	document.getElementById(formid).action = output;
 }
+
+function toggleReportType(formid, element) {
+	var format = $(element).value;
+	var input = $(formid).action;
+
+	var isChecked = $(element).getValue();
+	if(isChecked == "on")
+		input = input.replace('score', 'answer');
+	else
+		input = input.replace('answer', 'score')
+	
+	document.getElementById(formid).action = input;
+}

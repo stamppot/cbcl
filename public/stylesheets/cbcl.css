@@ -488,8 +488,21 @@ a.show_hide {
 	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
 }
 
+table.center_info tbody tr:nth-child(even) td {
+	background: #fff;
+}
+table#score_report tbody tr:nth-child(even) td {
+	background: #fff;
+}
+table.score_ref_description tbody tr:nth-child(even) td {
+	background: #fff;
+}
 #extended_score_report .question td {
 	vertical-align:text-top;
+}
+
+#extended_score_report td.question {
+	width: 364px;
 }
 
 #extended_score_report .answer_textbox, #extended_score_report .answer_comment {
@@ -498,6 +511,15 @@ a.show_hide {
 	min-width: 400px;
 	max-width: 600px;
 }
+
+#extended_score_report table.question td.answer.rating {
+	width: 100px;
+}
+
+#extended_score_report tbody tr:nth-child(even) td {
+	background: #fff;
+}
+
 table.score_ref_description {
 	font-weight: bold;
 }

@@ -1,10 +1,9 @@
 <% if @cell %>
-<td id="row_<%= @cell.row %>_<%= @cell.col %>">
-	<div class="itemtext span-7"></div>
-	<%= if @cell
-				@cell.to_html
-			else "no listitem"
-			end %>
-	</div>
+<td class="question">
+	<%=
+	item = @cell.question_items.first
+  answer_item_set = true if @cell.col == 1
+  span_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
+	%>
 </td>
 <% end %>

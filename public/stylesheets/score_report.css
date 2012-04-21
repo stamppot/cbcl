@@ -34,6 +34,10 @@ td.p, td.t, td.t_i, td.p_i {
 table.outer {
 	border: 0;
 }
+
+table#score_report {
+	border:0;
+}
 table.inner {
 	border: 0;
 }

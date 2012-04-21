@@ -1,5 +1,7 @@
 class AnswerReportsController < ApplicationController
   
+  layout 'no_menu'
+  
   def show
     # @options = {:answers => true, :disabled => false, :action => "show"}
 
