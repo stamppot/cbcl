@@ -1,0 +1,49 @@
+<% no = question.number %>
+<% id = question.id.to_s %>
+
+<div id='question_number<%= no %>'>
+
+	<!-- this should be put in _question_edit -->
+	<% if current_user.access? :survey_edit_delete %>
+		<% if no > 0 %>
+		Spørgsmål: <%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 2 %>
+		<% end %>
+		<% end %>
+
+		<table class="question" id="question<%= id %>"> 
+			<tbody>
+				<%- 
+
+				rows = question.rows_of_cols(cells)
+				output = []
+
+				index = 0
+				rows.sort.each do |row, cols|
+					if !cols.values.any? {|cell| !cell.value.blank?}
+						next
+					end
+					
+					color = index % 2 == 0 && "even" || "odd"
+					output << "<tr class='first last span-20' id='row#{id}_#{row}'>" 
+
+					no_cols = cols.size
+
+					cols.values.each_with_index do |cell, i|
+						output <<
+						if i == 1
+						  roman = no > 0 && (no.to_roman + ". ") || '&nbsp;'
+							content_tag('div', roman, :class => 'group')
+						end
+						@cell = cell
+						celltype = cell.class.to_s.downcase
+						output << render(:partial => "answer_reports/#{celltype}", :object => cell)
+					end
+					output << "</tr>"
+				end
+				%>
+				<%= output.join %>
+			</tbody>
+		</table>
+
+	</div>
+

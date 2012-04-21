@@ -1,0 +1,76 @@
+<%= stylesheet_link_tag 'blueprint/screen', :media => :all %>
+<%= stylesheet_link_tag 'blueprint/print', :media => :print %>
+
+<h1 class="score_report">CBCL-Rapport</h1>
+<hr>
+
+<%= render :partial => "shared/center_info", :object => @journal %>
+
+<br/>
+<hr>
+
+<table id="score_report" class="outer">
+	<%- @groups.each_with_index do |group, i| %>
+   <% # survey titles in top line only
+	@titles.each_with_index do |title, j|
+	 	fst_col = (j == 0) %>
+		<th class='col<%= j %>' colspan='<%= fst_col ? 1 : 2 %>'><%= (i == 0) ? title : "&nbsp;" %></th>
+	<% end %>
+	<% if (1..group.size + 1) === i && !group.empty? %>
+   		<tr class='scale_title'>
+				<%= @group_titles[i] %>
+			</td>
+		</tr>
+	<% end %>
+
+	<%= render :partial => "score_group", :object => group %>
+	<%- end %>
+</table>
+
+<p class="spacing"></p>
+<br>
+
+<table class='score_ref_description'>
+	<tr>
+		<td class='no_border'>Råscore relateres til køns- og aldersstatificerede normalmateriale:</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;( )   middelværdi</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;&nbsp;*&nbsp; 93 percentil</td>
+	</tr>
+	<tr>
+		<td class='no_border'>&nbsp;** 97 percentil</td>
+	</tr>
+</table>
+
+<br>
+<p class="spacing2"></p>
+
+<div id="extended_score_report" class="container">
+	<h2>Svarbeskrivelser</h2>
+	<% 	@answer_texts.each do |hash| 
+				@questions = hash[:questions]
+				@survey		 = hash[:survey]	%>
+			
+			<h3 class="survey_title"><%= @survey.title %></h3>
+				<% @questions.each do |question, cells| %>
+					<% if cells.any? %>
+						<%= render :partial => "answer_reports/question", :locals => {:question => question, :cells => cells} %>
+					<% end %>
+				<% end %>
+				<br/><p/>
+		<% end %>
+</div>
+
+
+<table class='score_ref_description' style="float: bottom">
+	<tr>
+		<td class='no_border'><%= Date.today.strftime("%d-%m-%Y")%></td>
+		<td class='no_border'>Udskrevet af sygehus/institution <%= @journal.qualified_code %></td>
+	</tr>
+</table>
+
+
+

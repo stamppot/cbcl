@@ -1,0 +1,5 @@
+<% @questions.each do |question, cells| %>
+	<% if cells.any? %>
+		<%= render :partial => "question", :locals => {:question => question, :cells => cells} %>
+	<% end %>
+<% end %>
