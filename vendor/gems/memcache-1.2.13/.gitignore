@@ -1,0 +1,12 @@
+pkg
+*.bundle
+*.so
+*.o
+Makefile
+mkmf.log
+*.gem
+*.swp
+ext/bin
+ext/lib
+ext/share
+ext/include
