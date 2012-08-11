@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Team < Group
   belongs_to :center
 

@@ -1,3 +1,4 @@
+# encoding: utf-8
 # require 'access'
 
 class User < ActiveRecord::Base
@@ -155,11 +156,11 @@ class User < ActiveRecord::Base
           
   def status
   	rolename = case self.title
-    when "parent":    "forælder"
-    when "youth":     "barn"
-	  when "teacher":   "lærer"
-	  when "pedagogue": "pædagog"
-	  when "other":     "andet"
+    when "parent" then    "forælder"
+    when "youth" then     "barn"
+	  when "teacher" then   "lærer"
+	  when "pedagogue" then "pædagog"
+	  when "other" then     "andet"
 	  else self.title
 	  end
   end
@@ -454,10 +455,10 @@ class User < ActiveRecord::Base
     ret = Hash.new
     hash.each do |key,val|
       case key
-      when 'unconfirmed': ret['ubekræftet'] = val
-      when 'confirmed': ret['bekræftet'] = val
-      when 'locked': ret['låst'] = val
-      when 'deleted': ret['slettet'] = val
+      when 'unconfirmed' then ret['ubekræftet'] = val
+      when 'confirmed' then ret['bekræftet'] = val
+      when 'locked' then ret['låst'] = val
+      when 'deleted' then ret['slettet'] = val
       end
     end
     return ret

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Survey < ActiveRecord::Base
   has_many :questions, :dependent => :destroy, :include => [ :question_cells ], :order => 'number ASC'
   has_many :subscriptions  # this not needed?
@@ -66,8 +68,8 @@ class Survey < ActiveRecord::Base
     roles << Role.get(self.surveytype)
     # teacher survey can be answered by pedagogue and vice-versa
     case self.surveytype
-    when "teacher": roles << Role.get(:pedagogue)
-    when "pedagogue": roles << Role.get(:teacher)
+    when "teacher"   then roles << Role.get(:pedagogue)
+    when "pedagogue" then roles << Role.get(:teacher)
     end
     roles << Role.get(:other)
     roles = roles.map { |r| [I18n.translate("roles.#{r.title}"), r.id] }
@@ -88,11 +90,11 @@ class Survey < ActiveRecord::Base
   # shortest name used for prefix for statistics variables
   def prefix
     pre = case id
-    when 1: "cc"  # cbcl 1,5-5 # change
-    when 2: "ccy" # CBCL 6-16
-    when 3: "ct"  # CTRF pædagog 1,5-5
-    when 4: "tt"  # TRF lærer 6-16
-    when 5: "ycy" # YSR 6-16
+    when 1 then "cc"  # cbcl 1,5-5 # change
+    when 2 then "ccy" # CBCL 6-16
+    when 3 then "ct"  # CTRF pædagog 1,5-5
+    when 4 then "tt"  # TRF lærer 6-16
+    when 5 then "ycy" # YSR 6-16
     end
     return pre
   end

@@ -1,5 +1,7 @@
+# encoding: utf-8
 # require 'facets/dictionary'
 #require 'rake'
+require 'hashery'
 
 class Journal < Group
   belongs_to :center

@@ -1,3 +1,5 @@
+require 'hashery'
+
 class Question < ActiveRecord::Base
   belongs_to :survey
   has_many :question_cells, :dependent => :destroy, :order => 'row, col ASC'  # order by row, col

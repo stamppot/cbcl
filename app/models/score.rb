@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Score < ActiveRecord::Base
   has_many :score_items, :dependent => :delete_all
   has_many :score_refs, :dependent => :delete_all
@@ -125,10 +127,10 @@ class Score < ActiveRecord::Base
   # used to generate score_result
   def Score.percentile_string(percentile, mean)
     case percentile
-    when :percentile_98: "(#{mean.to_danish}) **"  
-    when :percentile_95: "(#{mean.to_danish}) *&nbsp;"
-    when :deviation: "(#{mean.to_danish}) &nbsp;&nbsp;&nbsp;"
-    when :normal: ""
+    when :percentile_98 then "(#{mean.to_danish}) **"  
+    when :percentile_95 then "(#{mean.to_danish}) *&nbsp;"
+    when :deviation then "(#{mean.to_danish}) &nbsp;&nbsp;&nbsp;"
+    when :normal then ""
     else ""
     end
   end

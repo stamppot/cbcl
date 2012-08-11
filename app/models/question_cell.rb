@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class QuestionCell < ActiveRecord::Base
 	belongs_to :question
 	#serialize :question_items, Array
@@ -298,11 +300,11 @@ class QuestionCell < ActiveRecord::Base
 			name += self.question_items.size.to_s
 			item = self.question_items.collect { |item| item.text.length unless item.text.nil? }.compact.max
 			name << case item
-			when (1..1): "lab"    # labels 0 1 2 etc
-			when (2..4): "lab1"    # nej, ja, etc
-			when (5..8): "lab2"    # middel, daarligt, bedre etc
-			when (9..15): "lab3"   # laengere
-			when (16..40): "lab4"  # lange fx mindre end gennemsnit etc
+			when (1..1) then "lab"    # labels 0 1 2 etc
+			when (2..4) then "lab1"    # nej, ja, etc
+			when (5..8) then "lab2"    # middel, daarligt, bedre etc
+			when (9..15) then "lab3"   # laengere
+			when (16..40) then "lab4"  # lange fx mindre end gennemsnit etc
 			else ""
 			end
 		end
@@ -401,11 +403,11 @@ class QuestionCell < ActiveRecord::Base
 		errormsg = "Ugyldig værdi. Brug " << self.values.join(", ")
 		script = "\t\t<script type='text/javascript'>" <<
 		case self.validation_type
-		when "oneof": "\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { oneOf : #{self.values.inspect} });\n"
-		when "exactlyoneof":
+		when "oneof" then "\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { oneOf : #{self.values.inspect} });\n"
+		when "exactlyoneof" then
 			"\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { exactlyOneOf : #{self.values.inspect} } );"
 			# todo  how to check value of checkbox
-		when "checkbox" : "\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { oneOf : '[\"0\",\"1\"]' });\n"
+		when "checkbox" then "\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { oneOf : '[\"0\",\"1\"]' });\n"
 		else
 			"\tValidation.add('#{self.cell_id(no)}', '#{errormsg}', { oneOf : #{self.values.inspect} } );"
 			# "\tValidation.add('#{self.cell_id}', '#{errormsg}', { oneOf : #{self.values.inspect});\n"
@@ -615,10 +617,10 @@ class ListItem < QuestionCell
 					field << value
 				else                        # show text field, possibly with value
           case options[:action]
-			    when /print|show/ : 
+			    when /print|show/ then 
 			      field << (value || "")
 			      newform << div_item(field, "listitemfield answer_textbox #{outer_span}")
-			    when /create|edit/ :
+			    when /create|edit/ then
             field << "<textarea id='#{c_id}' class='textfield' name='#{question_no}[#{cell_id(no)}]' type='text' rows='1'>#{value}</textarea>"
             newform << field # div_item(field, "listitemfield #{outer_span}")
           end
@@ -916,7 +918,7 @@ class ListItemComment < QuestionCell
 		  listitem_without_predefined_text = item.text.nil? || item.text.empty?
 		  case item.qtype
 				# enable/disable button
-			when "textbox": newform << 
+			when "textbox" then newform << 
 				if (listitem_without_predefined_text)
 					input_or_answer = answer ?
 					  (self.value.blank? ? "" : "<div id='#{c_id}' class='answer_comment'>#{self.value}</div>") :
@@ -925,7 +927,7 @@ class ListItemComment < QuestionCell
 					"itemtextbox #{span} #{target}".rstrip)
 				else div_item((answer_item_set ? "" : answer_item) + item.text, "listitemtext #{span} #{target}".rstrip)
 				end
-			when "listitem": 
+			when "listitem" then 
         answer_item_set = true if self.col == 1
 			  newform <<
 				if (listitem_without_predefined_text)
@@ -968,15 +970,15 @@ class Rating < QuestionCell
 
   def outer_span(last = false)
     span = case class_name
-    when "rating3lab": "span-4"
-    when "rating2lab1": "span-3"
-    when "rating3lab2": "span-4"
-    when "rating3lab3": "span-3"
-    when "rating3lab4": "span-6"
-    when "rating5lab4": "span-6"
-    when "rating4": "span-12"
-    when "rating3": "span-9"
-    when "rating7": "span-16"
+    when "rating3lab"  then "span-4"
+    when "rating2lab1" then "span-3"
+    when "rating3lab2" then "span-4"
+    when "rating3lab3" then "span-3"
+    when "rating3lab4" then "span-6"
+    when "rating5lab4" then "span-6"
+    when "rating4" then "span-12"
+    when "rating3" then "span-9"
+    when "rating7" then "span-16"
     # when "rating7": "span-16"
     else ""
     end
@@ -986,16 +988,16 @@ class Rating < QuestionCell
   
   def inner_span(last = false)
     span = case class_name
-    when "rating3lab": "span-1"
-    when "rating2lab1": "span-2"
-    when "rating3lab2": "span-3"
-    when "rating3lab3": "span-4"
-    when "rating3lab4": "span-4"
-    when "rating5lab4": "span-4"
-    when "rating4": "span-3"
-    when "rating5": "span-3"
-    when "rating3": "span-3"
-    when "rating7": "span-2_5"
+    when "rating3lab"  then "span-1"
+    when "rating2lab1" then "span-2"
+    when "rating3lab2" then "span-3"
+    when "rating3lab3" then "span-4"
+    when "rating3lab4" then "span-4"
+    when "rating5lab4" then "span-4"
+    when "rating4" then "span-3"
+    when "rating5" then "span-3"
+    when "rating3" then "span-3"
+    when "rating7" then "span-2_5"
     # when "rating7": "span-16"
     else
       "span-#{9 / self.question_items.size}"
@@ -1006,16 +1008,16 @@ class Rating < QuestionCell
   
   def fast_outer_span(last = false)
     span = case class_name
-    when "rating3lab": "span-4"
-    when "rating2lab1": "span-4"
-    when "rating3lab2": "span-4"
-    when "rating3lab3": "span-3"
-    when "rating3lab4": "span-3"
-    when "rating5lab4": "span-6"
-    when "rating5": "span-6"
-    when "rating4": "span-12"
-    when "rating3": "span-7"
-    when "rating7": "span-16"
+    when "rating3lab"  then "span-4"
+    when "rating2lab1" then "span-4"
+    when "rating3lab2" then "span-4"
+    when "rating3lab3" then "span-3"
+    when "rating3lab4" then "span-3"
+    when "rating5lab4" then "span-6"
+    when "rating5" then "span-6"
+    when "rating4" then "span-12"
+    when "rating3" then "span-7"
+    when "rating7" then "span-16"
     # when "rating7": "span-16"
     else ""
     end
@@ -1026,8 +1028,8 @@ class Rating < QuestionCell
   def fast_inner_span(last = false)
     span = case class_name
     when "rating5"  "span-7"
-    when "rating2lab1": "span-3"
-    when "rating3lab": "prepend-1 span-3"
+    when "rating2lab1" then "span-3"
+    when "rating3lab"  then "prepend-1 span-3"
     else inner_span(last)
     end
   end
@@ -1158,15 +1160,15 @@ class Description < QuestionCell
 	
   def outer_span(last = false)
     span = case class_name
-    when "description3lab" : "span-4"
-    when "description2lab1": "span-6"
-    when "description3lab2": "span-9"
-    when "description3lab3": "span-9"
-    when "description3lab4": "span-12"
-    when "description5lab4": "span-17"
-    when "description4": "span-12"
-    when "description3": "span-10"
-    when "description7": "span-17"
+    when "description3lab"  then "span-4"
+    when "description2lab1" then "span-6"
+    when "description3lab2" then "span-9"
+    when "description3lab3" then "span-9"
+    when "description3lab4" then "span-12"
+    when "description5lab4" then "span-17"
+    when "description4" then "span-12"
+    when "description3" then "span-10"
+    when "description7" then "span-17"
       # when "rating7": "span-16"
     else ""
     end
@@ -1196,19 +1198,19 @@ class Description < QuestionCell
   
   def fast_outer_span(last = false)
     span = case class_name
-    when "description3lab" : "span-4"
-    when "description2lab1": "span-6"
-    when "description3lab2": "span-9"
-    when "description3lab3": "span-9"
-    when "description3lab4":
+    when "description3lab"  then "span-4"
+    when "description2lab1" then "span-6"
+    when "description3lab2" then "span-9"
+    when "description3lab3" then "span-9"
+    when "description3lab4" then
       s = "prepend-1 "
       s << (last && "span-7" || "span-6")
-    when "description4lab4": "span-9"
-    when "description5lab4": "span-7"
-    when "description7lab4": "span-16"
-    when "description4": "span-12"
-    when "description3": "span-10"
-    when "description7": "span-17"
+    when "description4lab4" then "span-9"
+    when "description5lab4" then "span-7"
+    when "description7lab4" then "span-16"
+    when "description4" then "span-12"
+    when "description3" then "span-10"
+    when "description7" then "span-17"
       # when "rating7": "span-16"
     else ""
     end
@@ -1218,7 +1220,7 @@ class Description < QuestionCell
   
   def fast_inner_span(items_size = 3, last = false)
     span = case class_name
-    when "description7lab4": "span-16"
+    when "description7lab4" then "span-16"
     else "span-7"
     end
   end

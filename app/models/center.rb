@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Center < Group
   has_many :teams, :dependent => :destroy
   has_many :journals #, :dependent => :destroy  # should never delete journals. TODO: some way to reclaim deleted/dangling journals

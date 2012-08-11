@@ -1,4 +1,5 @@
-require 'facets/dictionary'
+# require 'facets/dictionary'
+require 'hashery'
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 class Answer < ActiveRecord::Base

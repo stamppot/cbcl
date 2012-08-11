@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Be sure to restart your web server when you modify this file.
 class Array
   def shuffle
@@ -22,6 +24,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 $KCODE = 'u'
 #require 'jcode'
 
+require 'MemCache'
 
 # Rails.backtrace_cleaner.remove_silencers!   
 
@@ -74,8 +77,8 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
   :source => 'http://gems.github.com'
 
-  config.gem "memcache"
-  config.gem "memcache-client"
+  # config.gem "memcache"
+  # config.gem "memcache-client", :version => '1.8.5', :lib => "memcache"
   # require 'memcache'
 
   mem_cache_options = {
@@ -94,16 +97,17 @@ Rails::Initializer.run do |config|
   
 	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
-	config.gem 'pdfkit'
-  require 'pdfkit'
-  config.middleware.use PDFKit::Middleware, :print_media_type => true
-  Mime::Type.register 'application/pdf', :pdf
+	# config.gem 'pdfkit'
+  # require 'pdfkit'
+  # config.middleware.use PDFKit::Middleware, :print_media_type => true
+  # Mime::Type.register 'application/pdf', :pdf
 end
 
 # ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
-require 'facets/dictionary'
+require "hashery"
+# require 'facets/dictionary'
 
 # require "ruby-debug"
 

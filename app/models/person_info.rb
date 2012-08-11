@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PersonInfo < ActiveRecord::Base
   belongs_to :journal, :touch => true
 

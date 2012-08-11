@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # class Fixnum
 #  def to_roman
 #   value = self

@@ -1567,7 +1567,7 @@ class FasterCSV
     # 
     loop do
       # add another read to the line
-      line  += @io.gets(@row_sep) rescue return nil
+      line  += @io.gets(@row_sep) # rescue return nil
       # copy the line so we can chop it up in parsing
       parse =  line.dup
       parse.sub!(@parsers[:line_end], "")

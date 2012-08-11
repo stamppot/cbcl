@@ -5,10 +5,10 @@ class Faq < ActiveRecord::Base
   def Faq::find_question(query = "", language = "en")
     
     lang = case language
-    when /en/: { 'title' => 10.0 }
-    when /nl/: { 'title2' => 10.0 }
-    when /fr/: { 'title3' => 10.0 }
-    when /de/: { 'title4' => 10.0 }
+    when /en/ then { 'title' => 10.0 }
+    when /nl/ then { 'title2' => 10.0 }
+    when /fr/ then { 'title3' => 10.0 }
+    when /de/ then { 'title4' => 10.0 }
     else
       { 'title' => 10.0 }
     end

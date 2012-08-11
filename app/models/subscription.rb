@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Subscription < ActiveRecord::Base
   belongs_to :center
   belongs_to :survey
@@ -199,8 +201,8 @@ class Subscription < ActiveRecord::Base
   
   def summary(options = {})
     results = case options[:show]
-    when "active": periods.active
-    when "paid": periods.paid
+    when "active" then periods.active
+    when "paid"   then periods.paid
     else 
       periods
     end

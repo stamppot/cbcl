@@ -1,3 +1,4 @@
+# encoding: utf-8
 require_dependency 'user'
 require_dependency 'role'
 
@@ -197,12 +198,13 @@ end
 JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
 
 def escape_javascript(javascript)
-  if javascript
-    result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
-    javascript.html_safe? ? result.html_safe : result
-  else
-    ''
-  end
+  return javascript
+  # if javascript
+  #   result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
+  #   javascript.html_safe? ? result.html_safe : result
+  # else
+  #   ''
+  # end
 end
 
 # class String
