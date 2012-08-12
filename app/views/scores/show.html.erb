@@ -9,7 +9,7 @@
 		<%= if @score.survey.nil?
 		 	"Ingen" 
 		else
-			"<span class='survey_color_box' style='background: ##{@score.survey.color};'>#{@score.survey.title}</span>"
+			"<span class='survey_color_box' style='background: ##{@score.survey.color};'>#{@score.survey.get_title}</span>"
 		end %>
 		</td>
 	</tr>

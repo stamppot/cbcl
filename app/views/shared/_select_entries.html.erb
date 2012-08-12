@@ -19,11 +19,11 @@ Der er ikke fundet nogen skemaer.
   <tr>
 		<td class="select"><%= check_box_tag "journal_entries[]", entry.id, false, :id => "journal_entry_#{entry.id}" %>
 		<td style='background-color: #<%= entry.survey.color %>;' class="pj_name">
-			<%= label_tag "journal_#{entry.id}", entry.survey.title %>
+			<%= label_tag "journal_#{entry.id}", entry.survey.get_title %>
 		</td>
 		<td class="pj small number"><%= entry.journal.code %></td>
 		<td class="pj small number"><%= link_to entry.answer_status, entry %></td>
-    <td class="pj small"><span class="nobr"><%= link_to entry.journal.title, entry.journal %></span></td>
+    <td class="pj small"><span class="nobr"><%= link_to entry.journal.get_title, entry.journal %></span></td>
     <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
   </tr>
 <% end %>

@@ -34,7 +34,8 @@ class CodeBook < ActiveRecord::Base
     else
       xml = Builder::XmlMarkup.new
       #xml.instruct!
-      xml.__send__(:codebook, {:survey => self.survey.title, :description => self.survey.description}) do
+      xml.__send__(:codebook, {:survey => self.# encoding: utf-8
+survey.get_title, :description => self.survey.description}) do
         xml.codes do |codes_elem|
           self.codes.each do |code|
             attrs = {:datatype => code.datatype, :item => code.item, :variable => code.variable, 

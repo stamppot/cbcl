@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module SurveyHelper
 
   SURVEY_TYPES = [ ["Lærer", "teacher"], ["Forælder", "parent"], ["Ung", "youth"], ["Pædagog", "pedagogue"], ["Andet", "other"] ]

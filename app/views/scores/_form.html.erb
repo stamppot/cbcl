@@ -17,7 +17,7 @@
 				"Ingen" 
 			else
 				out = ["&nbsp;&nbsp;"]
-				out << "<span class='survey_color_box' style='background: ##{@score.survey.color};'>#{@score.survey.title}</span>"
+				out << "<span class='survey_color_box' style='background: ##{@score.survey.color};'>#{@score.survey.get_title}</span>"
 				# out << "<br>" << link_to('Vælg andet skema', { :action => :edit_survey, :id => @score.id })
 				out.join
 			end %>

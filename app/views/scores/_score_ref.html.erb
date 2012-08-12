@@ -1,5 +1,5 @@
 <% @score_ref = score_ref %>
-<% surveys = [@score.survey.title, @score.survey.title] %>
+<% surveys = [@score.survey.get_title, @score.survey.get_title] %>
 <tr id='score_ref_<%= score_ref.id %>'>
         <td><%= select 'score_ref[]', 'gender', @score_ref.genders.to_a %></td>
         <td><%= text_field 'score_ref[]', 'age_group', { :size => 6 } %></td>

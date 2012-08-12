@@ -4,7 +4,7 @@
 		<div id="survey_journal_info">
 			<%# render :partial => 'surveys/survey_header_info' %>
 		</div>
-		<div class="surveyname"><%= @survey.title %></div>
+		<div class="surveyname"><%= @survey.get_title %></div>
 	</div>
 </div>
 <%- else %>
@@ -15,7 +15,7 @@
 		<div id="survey_journal_info">
 			<div class="surveyinfo"></div>
 		</div>
-		<div class="surveyname"><%= @survey.title %></div>
+		<div class="surveyname"><%= @survey.get_title %></div>
 	</div>
 </div>
 <%- end %>

@@ -53,7 +53,7 @@
 				@questions = hash[:questions]
 				@survey		 = hash[:survey]	%>
 			
-			<h3 class="survey_title"><%= @survey.title %></h3>
+			<h3 class="survey_title"><%= @survey.get_title %></h3>
 				<%= render :partial => 'answer_reports/answers' %>
 				<br/><p/>
 		<% end %>

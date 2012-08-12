@@ -15,12 +15,12 @@ Der er ingen journaler i systemet.
 
 	<% @journals.each do |g| %>
 	<tr>
-		<td class="pj_name"><a href="<%= url_for(g) %>"><%= g.title %></a></td>
+		<td class="pj_name"><a href="<%= url_for(g) %>"><%= g.get_name %></a></td>
 		<td class="pj small number"><%= g.code %></td>
 		<td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
 		<td class="pj small"><span class="nobr"><%= g.created_at.to_date.strftime("%d-%m-%Y") %></span></td>
 		<% unless @hide_team %>
-		<td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.title %></td>
+		<td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.get_name %></td>
 		<% end %>
 		<td class="pj">
 			<%= link_to_icon 'journal_edit.png', edit_journal_url(g), :title => t('journal.edit') %>

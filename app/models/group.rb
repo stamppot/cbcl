@@ -34,6 +34,10 @@ class Group < ActiveRecord::Base
     group = Group.and_parent.find_by_id(id)
     (group && !group.is_a?(Journal)) && [group] || user.center_and_teams
   end
+
+  def get_title
+    title.force_encoding("UTF-8")
+  end
   
   # all ascendants/parents
   def ascendants

@@ -54,7 +54,7 @@
 				@questions = hash[:questions]
 				@survey		 = hash[:survey]	%>
 			
-			<h3 class="survey_title"><%= @survey.title %></h3>
+			<h3 class="survey_title"><%= @survey.get_title %></h3>
 				<% @questions.each do |question, cells| %>
 					<% if cells.any? %>
 						<%= render :partial => "answer_reports/question", :locals => {:question => question, :cells => cells} %>

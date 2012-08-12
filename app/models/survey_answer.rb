@@ -137,7 +137,7 @@ class SurveyAnswer < ActiveRecord::Base
 
   def generate_score_report(update = false)
     rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
-    args = { :survey_name => self.survey.title,
+    args = { :survey_name => self.survey.get_title,
                   :survey => self.survey,
               :unanswered => self.no_unanswered,
               :short_name => self.survey.category,
@@ -205,7 +205,7 @@ class SurveyAnswer < ActiveRecord::Base
         
   # print all values iteratively
   def print
-    output = "Survey Answer: #{self.survey.title}<br>"
+    output = "Survey Answer: #{self.survey.get_title}<br>"
     answers.each { |answer| output << answer.print }
     return output
   end

@@ -1,6 +1,6 @@
 <% @surveys.each do |survey| %>
 <div style='background-color: #<%= survey.color %>; width: 25em;'>
 	<%= radio_button(:score, :survey, survey.id) %>		
-	<%= "<label for=\"score_survey_#{survey.id}\">#{survey.title}</label> <br>" %>
+	<%= "<label for=\"score_survey_#{survey.id}\">#{survey.get_title}</label> <br>" %>
 </div>
 <% end %>

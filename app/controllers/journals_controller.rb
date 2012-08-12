@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # A Journal is a special group that must be a child of a journal or center
 class JournalsController < ApplicationController # < ActiveRbac::ComponentController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly

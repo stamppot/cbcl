@@ -34,7 +34,7 @@ class Journal < Group
            :order => 'journal_entries.answered_at'
   default_scope :order => 'created_at DESC'               
   
-  delegate :name, :to        => :person_info
+  # delegate :name, :to        => :person_info
   # delegate :sex, :to         => :person_info
   delegate :birthdate, :to   => :person_info, :allow_nil => true
   delegate :nationality, :to => :person_info
@@ -91,6 +91,10 @@ class Journal < Group
   def self.run_rake(task_name)
     #load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
     #Rake::Task[task_name].invoke
+  end
+
+  def get_name
+    person_info.name.force_encoding("UTF-8")
   end
 
   def index_search

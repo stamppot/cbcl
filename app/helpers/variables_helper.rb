@@ -3,7 +3,7 @@ module VariablesHelper
   def survey_options
     # @survey = Survey.first
     Survey.all.collect do |survey|
-      [survey.title, survey.id]
+      [survey.get_title, survey.id]
     end
   end
 

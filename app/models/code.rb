@@ -29,7 +29,7 @@ class Code < ActiveRecord::Base
     end
     if self.id == 0
       survey = self.question.survey
-      codebook = CodeBook.create(:survey => survey, :title => survey.title, :description => survey.description)
+      codebook = CodeBook.create(:survey => survey, :title => survey.get_title, :description => survey.description)
       self.code_book = codebook
       self.save
     end

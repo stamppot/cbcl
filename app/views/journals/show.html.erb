@@ -1,5 +1,5 @@
 <%# cache @group.cache_key do  %>
-	<h2>Journal &quot;<%=h @group.title %>&quot;</h2>
+	<h2>Journal &quot;<%=h @group.get_name %>&quot;</h2>
 	
 	<%# cache "#{@group.cache_key}_info" do %>
 		<%= render :partial => 'journal_info' %>
@@ -21,7 +21,7 @@
 					 <td style='background-color: #<%= survey.color %>;'>
 					  <%# link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_show_fast_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
 					  <%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), journal_entry_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
-            <%= link_to survey.title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
+            <%= link_to survey.get_title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
            <td><%= t("roles.#{survey.surveytype}") %></td>
 					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
 					 <td><%= entry.status %>
@@ -33,7 +33,7 @@
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 
 							:update => ('entry'<<entry.id.to_s), 
-							:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.title}'\n fra journalen #{@group.title}?",
+							:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.get_title}'\n fra journalen #{@group.get_name}?",
 					 		:url => entry_remove_path(entry)) %></td>
 				 </tr>
 		<% end %>
@@ -65,7 +65,7 @@
 		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
 					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
-						<%= link_to entry.survey.title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
+						<%= link_to entry.survey.get_title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
 					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> </td>
 					<td><%= entry.status %></td>
 					 <td>
@@ -83,7 +83,7 @@
  							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
 							:update => ('entry_answer' << entry.id.to_s), 
-							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.title}'\n fra journalen #{@group.title}?",
+							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.get_title}'\n fra journalen #{@group.get_title}?",
 					 		:url => entry_remove_answer_path(entry)) %>      
 						</td>
 	

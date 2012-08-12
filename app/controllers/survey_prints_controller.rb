@@ -5,7 +5,7 @@ class SurveyPrintsController < ApplicationController
     @survey = #cache_fetch("survey_#{params[:id]}") do
       Survey.and_questions.find(Survey.and_questions.find(params[:id]))
     # end
-    @page_title = "CBCL - Udskriv Svar: " << @survey.title
+    @page_title = "CBCL - Udskriv Svar: " << @survey.get_title
   end
   
 end

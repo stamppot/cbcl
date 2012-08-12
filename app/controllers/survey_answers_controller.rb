@@ -14,7 +14,7 @@ class SurveyAnswersController < ApplicationController
   #   @survey = cache_fetch("survey_#{survey_id}") do  
   #     Survey.find(survey_id)
   #   end
-  #   @page_title = @survey.title
+  #   @page_title = @survey.get_title
   #   rescue ActiveRecord::RecordNotFound
   # end 
 
@@ -29,7 +29,7 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@survey_answer.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.title
+    @page_title = "CBCL - Vis Svar: " << @survey.get_title
     render :layout => 'survey' # :template => 'surveys/show'
   end
 
@@ -41,7 +41,7 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@journal_entry.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.title
+    @page_title = "CBCL - Vis Svar: " << @survey.get_title
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
   end
 
@@ -55,7 +55,7 @@ class SurveyAnswersController < ApplicationController
     #   Survey.and_questions.find(@survey_answer.survey_id)
     # end
     # @survey.merge_survey_answer(@survey_answer)
-    # @page_title = "CBCL - Ret Svar: " << @survey.title
+    # @page_title = "CBCL - Ret Svar: " << @survey.get_title
     # render :layout => 'survey', :template => 'survey_answers/show'
   end
 
@@ -67,7 +67,7 @@ class SurveyAnswersController < ApplicationController
       Survey.and_questions.find(@survey_answer.survey_id)
     end
     @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Udskriv Svar: " << @survey.title
+    @page_title = "CBCL - Udskriv Svar: " << @survey.get_title
   end
 
   # updates survey page with dynamic data. Consider moving to separate JavascriptsController
@@ -92,7 +92,7 @@ class SurveyAnswersController < ApplicationController
       elsif current_user && !current_user.login_user
         format.js {
           render :update do |page|
-            page.replace_html 'centertitle', @journal_entry.journal.center.title
+            page.replace_html 'centertitle', @journal_entry.journal.center.get_title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
             page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
             page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
@@ -103,7 +103,7 @@ class SurveyAnswersController < ApplicationController
       else # login users
         format.js {
           render :update do |page|
-            page.replace_html 'centertitle', @journal_entry.journal.center.title
+            page.replace_html 'centertitle', @journal_entry.journal.center.get_title
             page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
             page.show 'save_draft'
             page.show 'submit_button'

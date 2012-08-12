@@ -30,7 +30,7 @@ class ScoresController < ApplicationController
     @score.sum = params[:score][:sum]
     
     if @score.valid?
-      (@score.survey.title =~ /^([A-Z]([A-Z]|\-)+)/) or (@score.survey.title =~ /([A-Z]([A-Z]|\-)+)/)
+      (@score.survey.get_title =~ /^([A-Z]([A-Z]|\-)+)/) or (@score.survey.get_title =~ /([A-Z]([A-Z]|\-)+)/)
       @score.short_name = $1 || @score.survey.category
     end
     

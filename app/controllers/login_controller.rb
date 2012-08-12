@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class LoginController < ApplicationController
   caches_page :index, :logout
   

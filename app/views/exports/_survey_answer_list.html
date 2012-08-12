@@ -9,7 +9,7 @@
 	<% @survey_answers.each do |survey_answer| %>
 	<tr>
 		<td><%= link_to( survey_answer.journal_entry.journal.code, survey_answer_path(survey_answer.id) ) %></td>
-		<td><%= survey_answer.survey.title %></td>
+		<td><%= survey_answer.survey.get_title %></td>
 		<td><%= survey_answer.created_at.strftime("%d %m %y") %></td>
 		<td><%= survey_answer.age %></td>
 	<tr/>

@@ -19,7 +19,8 @@
 			 active_total_used += sub.active_used
 		%>
 			<tr>
-				<td><%= link_to(sub.survey.title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
+				<td><%= link_to(sub.# encoding: utf-8
+survey.get_title, subscription_path(sub), :title => 'Vis Abonnement') %></td>
 				<td><%= sub.note.nil? ? "&nbsp;" : split_string(sub.note) %></td>
 				<td><%= Subscription.states.invert[sub.state] %></td>
 				<td class="number"><%= sub.unpaid_used %></td>

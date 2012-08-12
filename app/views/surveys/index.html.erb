@@ -13,7 +13,7 @@ for survey in @surveys
 	%>
 	<tr valign="top" class="ListLine<%= odd_or_even %>" style='background-color: #<%= survey.color %>;'>
 		<td class="surveyname">
-			<span class="survey_title"><%= link_to h(survey.title), :action => :show_only, :id => survey %></span><br>
+			<span class="survey_title"><%= link_to h(survey.get_title), :action => :show_only, :id => survey %></span><br>
 			<%= h(truncate(survey.description, {:length => 80})) %>
 		</td>
 

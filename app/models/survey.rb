@@ -18,6 +18,14 @@ class Survey < ActiveRecord::Base
   
   attr_accessor :selected
   # includes cells
+
+  def get_title
+    title.force_encoding("UTF-8")
+  end
+  
+  def description
+    attributes["description"].force_encoding("UTF-8")
+  end
   
   def valid_values
     params = {}

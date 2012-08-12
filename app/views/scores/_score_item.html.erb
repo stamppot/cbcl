@@ -1,7 +1,7 @@
 <% @item_id = "score_item_#{score_item.id}" %>
 <% @score_item = score_item %>
 
-<% surveys = [@score.survey.title, @score.survey.title] %>
+<% surveys = [@score.survey.get_title, @score.survey.get_title] %>
 <% items = @score.survey.questions.map { |q| ["Spg. #{q.number} (#{q.count_items} items)", q.id] } # was: q.number %>
 <% item_id = score_item.id %>
 

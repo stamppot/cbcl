@@ -16,7 +16,7 @@ class ScoreRefsController < ApplicationController
       @score_ref.age_group = @score_ref2.age_group
     end
 
-    @surveys = [@score.survey.title, @score.survey.id]
+    @surveys = [@score.survey.get_title, @score.survey.id]
 
     # show score ref form in page                                                                                         
     render :update do |page|

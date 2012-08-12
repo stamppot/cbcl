@@ -99,7 +99,7 @@ module ApplicationHelper
   end
   
   def survey_short(survey)
-    survey.title.gsub(/\s\(.*\)/,'')
+    survey.get_title.gsub(/\s\(.*\)/,'')
   end
 
   def use_tinymce

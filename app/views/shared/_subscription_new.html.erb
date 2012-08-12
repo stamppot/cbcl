@@ -8,7 +8,7 @@
 	"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" checked=\"checked\" /> " if !sub.nil?
         result = "<div style='background-color: ##{survey.color}; width: 20em;'>" +
 				"<input id=\"group_surveys_#{survey.id}\" type=\"checkbox\" name=\"group[surveys][]\" value=\"#{survey.id}\" /> " if sub.nil?
-        result += "<label for=\"group_surveys_#{survey.id}\">#{survey.title}</label></div>"
+        result += "<label for=\"group_surveys_#{survey.id}\">#{survey.get_title}</label></div>"
         result %>
   <% end %></p>
 </dd>

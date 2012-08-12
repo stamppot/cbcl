@@ -1,11 +1,11 @@
-<h2>Detaljer for Abonnement &quot;<%=h @subscription.center.title %>&quot;</h2>
+<h2>Detaljer for Abonnement &quot;<%=h @subscription.center.get_title %>&quot;</h2>
 
 <dl>
   <dt>Center:</dt>
-  <dd><%=h @subscription.center.title %></dd>
+  <dd><%=h @subscription.center.get_title %></dd>
 
 	<dt>Spørgeskema:</dt>
-	<dd><%= @subscription.survey.title %><dd>
+	<dd><%= @subscription.survey.get_title %><dd>
 	
   <dt><%= t('status.created') %></dt>
   <dd><%= @subscription.created_at.to_formatted_s(:long) %></dd>

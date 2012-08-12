@@ -26,7 +26,7 @@ class SubscriptionPresenter
     survey = @surveys[subscription.survey_id]
     @detailed_view << {
       :subscription => subscription,
-      :title => (survey && survey.title || "Ingen titel"),
+      :title => (survey && survey.get_title || "Ingen titel"),
       :total => subscription.total_used,
       :note => subscription.note || "",
       :active => subscription.unpaid_used,

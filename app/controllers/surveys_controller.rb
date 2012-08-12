@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
@@ -28,7 +30,7 @@ class SurveysController < ApplicationController
   def show_only
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
     @survey = Survey.and_questions.find(params[:id])
-    @page_title = @survey.title
+    @page_title = @survey.get_title
     # flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
     render :template => 'surveys/show', :layout => "layouts/survey"
   end
@@ -36,7 +38,7 @@ class SurveysController < ApplicationController
   def show_only_fast
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
     @survey = Survey.and_questions.find(params[:id])
-    @page_title = @survey.title
+    @page_title = @survey.get_title
     render :template => 'surveys/show_fast', :layout => "layouts/survey_fast"
   end
 
@@ -52,7 +54,7 @@ class SurveysController < ApplicationController
      
      # don't cache now, it's page cached anyway
      @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
-     @page_title = @survey.title
+     @page_title = @survey.get_title
 
       rescue ActiveRecord::RecordNotFound
    end
@@ -64,7 +66,7 @@ class SurveysController < ApplicationController
     @survey_fast = cache_fetch("survey_entry_#{@journal_entry.id}") do
       Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     end
-    @page_title = @survey_fast.title
+    @page_title = @survey_fast.get_title
   
     @survey_fast_answer = nil
     if @journal_entry.survey_answer.nil?  # survey_answer not created before
@@ -90,7 +92,7 @@ class SurveysController < ApplicationController
 
   # def print # TODO: fetch from cache with key survey_1
   #   @survey = Survey.and_questions.find(params[:id])
-  #   @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.title
+  #   @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.get_title
   # end
 
   def new

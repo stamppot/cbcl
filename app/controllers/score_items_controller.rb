@@ -27,7 +27,7 @@ class ScoreItemsController < ApplicationController
       @score_item.question_id = @score.survey.question_with_most_items.id
 
       # all surveys and questions for chosen survey
-      @survey = [@score.survey.title, @score.survey.id] #(true).map { |s| [s.title, s.id] } # next_survey should be selected
+      @survey = [@score.survey.get_title, @score.survey.id] #(true).map { |s| [s.title, s.id] } # next_survey should be selected
       @items = @score.survey.questions.map { |q| ["Spg. #{q.number} (#{q.count_items} items)", q.id] } # was q.number
       # table_header = %w(Skema Spørgsmål Range Kvalifikator Items).map { |h| "<th>#{h}</th>" }.join
     end

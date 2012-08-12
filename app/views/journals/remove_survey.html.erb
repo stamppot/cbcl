@@ -1,6 +1,6 @@
 <% @subtitle = "Vælg spørgeskemaer der skal fjernes" %>
 
-<h3>Fjern spørgeskemaer fra journal <%= @group.title %></h3>
+<h3>Fjern spørgeskemaer fra journal <%= @group.get_title %></h3>
 
 <% if @entries.empty? %>
 <p>Der er ingen spørgeskemaer tilknyttet.</p>
@@ -16,7 +16,7 @@
 		<% @entries.each do |entry| %>
 			<div style='background-color: #<%= entry.survey.color %>; width: 25em;'>
 				<%= check_box(:entry, entry.id) %>		
-				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.title}</label> <br>" %>
+				<%= "<label for=\"entry_#{entry.id}\">#{entry.survey.get_title}</label> <br>" %>
 			</div>
 		<% end %>
 	</dd>
