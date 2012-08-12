@@ -13,7 +13,7 @@ class NotAnsweredRatingsTest < ActiveSupport::TestCase
     puts "start test"
     surveys = Survey.all
     surveys.each do |survey|
-      puts "start test survey #{survey.title} #{survey.id}"
+      puts "start test survey #{survey.get_title} #{survey.id}"
       score = Score.for_survey(survey.id).first
       puts "test score #{score.title} #{score.survey_id}"
       survey_answers = SurveyAnswer.for_survey(survey.id)
@@ -26,7 +26,7 @@ class NotAnsweredRatingsTest < ActiveSupport::TestCase
 
     surveys = Survey.all
     surveys.each do |survey|
-      puts "start test survey #{survey.title} #{survey.id}"
+      puts "start test survey #{survey.get_title} #{survey.id}"
       score = Score.for_survey(survey.id).first
       puts "test score #{score.title} #{score.survey_id}"
       survey_answers = SurveyAnswer.for_survey(survey.id)
