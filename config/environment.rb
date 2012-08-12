@@ -21,8 +21,9 @@ RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-$KCODE = 'u'
-#require 'jcode'
+# $KCODE = 'u'
+# Encoding.default_internal = 'utf-8'
+# Encoding.default_external = 'utf-8'
 
 require 'MemCache'
 

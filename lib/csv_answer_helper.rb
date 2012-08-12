@@ -94,7 +94,7 @@ class CSVAnswerHelper
       csv_answers = CsvAnswer.by_journal_and_surveys(j, survey_ids).map {|ca| ca.answer.chomp.gsub!(/^\"|\n"$/, ""); ca}.group_by { |c| c.survey_id }
       csv_headers.each do |s_id, empty_vals|       # fill missing values for surveys not answered for this journal
         je = Journal.find(j).journal_entries.map &:survey
-        # puts "MISSING csv: j_id: #{j} code: #{Journal.find(j).code} s: #{s_id} journal has surveys: #{je.map &:title}" unless csv_answers[s_id]
+        # puts "MISSING csv: j_id: #{j} code: #{Journal.find(j).code} s: #{s_id} journal has surveys: #{je.map &:get_title}" unless csv_answers[s_id]
         csv_answers[s_id] = csv_answers[s_id] && csv_answers[s_id].first.answer.chomp || empty_vals 
       end
       result[j] = [csv_answers.values.join(';')]
@@ -124,7 +124,7 @@ class CSVAnswerHelper
     results = journals.inject({}) do |results, journal|
       surveys = journal.journal_entries.inject([]) do |col, entry|
         if entry.login_user && entry.not_answered?
-          survey_name = entry.survey.title.gsub(/\s\(.*\)/,'')
+          survey_name = entry.survey.get_title.gsub(/\s\(.*\)/,'')
           an_entry = { :user => entry.login_user.login, :password => entry.password,
             :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
           col << an_entry

@@ -3,6 +3,7 @@ source "http://rubygems.org"
 source "http://gems.github.com"
 gem "rack", "~> 1.1.3"
 gem "mysql"
+# gem "mysql2"
 gem 'i18n', '0.5.0'
 gem "rails", "~> 2.3.14"
 gem "pdfkit", "~> 0.5.2"

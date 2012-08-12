@@ -22,7 +22,7 @@ class FillCodeBooks
       codebook = codebooks[v.survey_id]
       if !(codebook = CodeBook.find_by_survey_id(survey.id))
         codebook = CodeBook.find_by_survey_id(survey.id)
-        CodeBook.create(:survey_id => survey.id, :title => survey.title,
+        CodeBook.create(:survey_id => survey.id, :title => survey.get_title,
         :description => survey.description)
       end
 
