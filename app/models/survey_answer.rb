@@ -28,6 +28,14 @@ class SurveyAnswer < ActiveRecord::Base
     return Role.get(self.answered_by)
   end
 
+  def age_when_answered
+     ( (self.created_at - self.journal.birthdate).to_i / 365.25).floor
+   end
+   
+  def age_now
+    ( (DateTime.now - self.journal.birthdate).to_i / 365.25).floor
+  end
+    
   def to_csv
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
@@ -139,7 +147,7 @@ class SurveyAnswer < ActiveRecord::Base
                   :survey => self.survey,
               :unanswered => self.no_unanswered,
               :short_name => self.survey.category,
-                     :age => self.journal.person_info.age,
+                     :age => self.age_now,
                   :gender => self.journal.person_info.sex,
                :age_group => self.survey.age,
               :created_at => self.created_at,  # set to date of survey_answer
@@ -280,13 +288,14 @@ class SurveyAnswer < ActiveRecord::Base
       :center_id => self.center_id,
       :survey_id => self.survey_id,
       :journal_entry_id => self.journal_entry_id,
-      :age => self.age,
+      :age => self.age_now,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
       :header => journal_info.keys.join(';'),
       :journal_info => to_danish(journal_info.values.join(';'))
     }
     info_options = self.journal.export_info
+    info_options[:palder] = self.age_when_answered
     options[:sex] = info_options[:pkoen]
     info_options[:journal_id] = options[:journal_id]
     info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]

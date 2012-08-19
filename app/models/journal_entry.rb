@@ -26,7 +26,7 @@ class JournalEntry < ActiveRecord::Base
   def make_survey_answer
     self.survey_answer ||= self.build_survey_answer(:survey => self.survey,
                              :sex => self.journal.sex,
-                             :age => self.journal.age,
+                             :age => self.journal.age, # age at moment of answering
                              :nationality => self.journal.nationality,
                              :journal_entry_id => self.id,
                              :journal_id => self.journal_id,

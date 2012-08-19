@@ -122,7 +122,8 @@ da-DK:
       :city: By
       :new: Opret Center
     logout_alt: Log ud af systemet
-    menu: 
+    menu:
+      :centeradministration : Centeradministration  
       :settings: Indstillinger
       :show_surveys: "Vis Spørgeskemaer"
       :groups: Grupper

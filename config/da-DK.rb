@@ -38,6 +38,7 @@ I18n.backend.store_translations 'da-DK',
     :group => 'Gruppe',
     :no_groups => 'Ingen Grupper',
     :menu => {
+      :centeradministration : 'Centeradministration'  
       :info => 'Info',
       :groups => 'Grupper',
       :search_groups => 'Søg:',
