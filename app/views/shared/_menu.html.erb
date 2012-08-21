@@ -13,27 +13,27 @@
 		<% end %>
 		</div>
 	<div id="group_menu" class="menu_section">
-		<div class="menu_title"><%= t("menu.groups") %></div>
+		<div class="menu_title"><%= t("menu.centeradministration") %></div>
 
-		<% form_tag(center_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
+		<%# form_tag(center_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 		
-		<% if current_user.perms[:layout_show_center_search] %>
-		<div class="searchbox">
-			<label for="search_centers"><font size="1"><b><%= t("menu.search_groups") %></b></font></label><br>
-			<%= text_field_tag_html4 :search_centers, "center", { :value => "" ,:size => 10, :class => 'search' } %>
-			<img alt="spinner" id="center_spinner" src="/images/spinner.gif" style="display:none;" >
-		</div>
-		<% end %>
+		<%# if current_user.perms[:layout_show_center_search] %>
+		<!-- <div class="searchbox"> -->
+			<!-- <label for="search_centers"><font size="1"><b><%= t("menu.search_groups") %></b></font></label><br> -->
+			<%# text_field_tag_html4 :search_centers, "center", { :value => "" ,:size => 10, :class => 'search' } %>
+			<!-- <img alt="spinner" id="center_spinner" src="/images/spinner.gif" style="display:none;" > -->
+		<!-- </div> -->
+		<%# end %>
 
-		<% if current_user.perms[:layout_show_center_search] %>
-			<%= observe_field(:search_centers,
+		<%# if current_user.perms[:layout_show_center_search] %>
+			<%# observe_field(:search_centers,
 				:frequency => 1.0,
 				:update => :content,
 				:loading => "Element.show('center_spinner')",
 				:complete => "Element.hide('center_spinner');",
 				:url => center_search_path ) %>
-			<% end %>
-		<% end %>
+			<%# end %>
+		<%# end %>
 
 		<%= link_to (current_user.perms[:admin] ? t("menu.centers") : t("menu.center")), centers_path, :title => t('center.list') %>
 
@@ -41,16 +41,17 @@
 		<% if current_user.perms[:team_show] %>
 			<%= link_to t("menu.teams"), teams_path, :title => t('team.list') %>
 		<% end %>
-	</div>
-	<% end %>
 
-	<% if current_user.perms[:layout_show_user_menu] %>
-	<div id="user_menu" class="menu_section">
-		<div class="menu_title"><%= t('menu.users') %></div>
+		<% if current_user.perms[:layout_show_users]  %>
+		<%= link_to t('menu.show_users'), users_path, :title => t('user.show') %>
+			<%# if current_user.perms[:user_new] %>
+				<%# link_to t('menu.create_user'), new_user_path, :title => t('user.new') %>
+			<%# end %>
+		<% end %>
 		<% form_tag(user_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 			<div class="searchbox">
 				<label for="search_users"><font size="1"><b><%= t('menu.search_users') %></b></font></label><br>
-				<%= text_field_tag_html4 :search_users, "", { :size => 10, :class => 'search' } %>
+				<%= text_field_tag_html4 :search_users, "", { :size => 10, :class => 'search', :placeholder => 'Søg bruger' } %>
 				<img alt="spinner" id="user_spinner" src="/images/spinner.gif" style="display:none;" >
 			</div>
 		<% end %>
@@ -63,47 +64,13 @@
 			<div class="change_password" style="display:none;">
 				<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
 			</div>
-		<% if current_user.perms[:layout_show_users]  %>
-		<%= link_to t('menu.show_users'), users_path, :title => t('user.show') %>
-			<% if current_user.perms[:user_new] %>
-				<%= link_to t('menu.create_user'), new_user_path, :title => t('user.new') %>
-			<% end %>
-		<% end %>
-		<% if current_user.perms[:layout_show_login_users] %>
-		<% link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
-		<% end %>
-	</div>
-	<% end %>
 
-
-	<% if current_user.perms[:layout_show_survey_menu] %>
-	<div id="survey_menu" class="menu_section">
-		<div class="menu_title"><%= t('menu.surveys') %></div>
-		<% if current_user.perms[:layout_show_only_surveys] %>
-		<%= link_to t('menu.show_surveys'), surveys_path, :title => 'Spørgeskema-liste' %>
-		<% end %>
-		<% if current_user.perms[:layout_show_subscriptions] %>
-		<%= link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
-		<% end %>
-		<% if current_user.perms[:layout_show_scores] %>
-		<%= link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
-		<% end %>
-		<% if current_user.perms[:layout_show_data_export] %>
-		<%= link_to t("menu.data_export"), exports_path %>
-		<% end %>
-		<% if current_user.perms[:layout_show_survey_stats] %>
-		<% link_to t("menu.survey_stats"), journal_stats_path %>
-		<% end %>
-	</div>
-	<% end %>
-
-	<% if current_user.perms[:layout_show_teams_journals] %>
-	<div id="journal_menu" class="menu_section">
-		<div class="menu_title"><%= t('menu.journals') %></div>
+		<%= link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
+		
 		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 			<div class="searchbox">
 				<label for="search_journals"><font size="1"><b><%= t('menu.search_journals') %></b></font></label><br>
-				<%= text_field_tag_html4 :search_journals, "", { :size => 10, :class => 'search' } %>
+				<%= text_field_tag_html4 :search_journals, "", { :size => 10, :class => 'search', :placeholder => 'Søg journal' } %>
 				<img alt="spinner" id="journal_spinner" src="/images/spinner.gif" style="display:none;" >
 			</div>
 		<% end %>
@@ -113,20 +80,63 @@
 			:loading => "Element.show('journal_spinner')",
 			:complete => "Element.hide('journal_spinner'); TableKit.reload();",
 			:url => journal_search_path) %>
-		
-		<%= link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
-		<%= link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
+
+		<% if current_user.perms[:layout_show_subscriptions] %>
+		<%= link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
+		<% end %>
+
+	</div>
+	<% end %>
+
+	<% if current_user.perms[:layout_show_user_menu] %>
+	<div id="user_menu" class="menu_section">
+		<div class="menu_title"><%= t('menu.users') %></div>
+
+		<%# if current_user.perms[:layout_show_login_users] %>
+		<%# link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
+		<%# end %>
 	</div>
 	<% end %>
 
 
+	<%# if current_user.perms[:layout_show_survey_menu] %>
+	<!-- <div id="survey_menu" class="menu_section"> -->
+		<!-- <div class="menu_title"><%= t('menu.surveys') %></div> -->
+		<%# if current_user.perms[:layout_show_only_surveys] %>
+		<%# link_to t('menu.show_surveys'), surveys_path, :title => 'Spørgeskema-liste' %>
+		<%# end %>
+		<%# if current_user.perms[:layout_show_subscriptions] %>
+		<%# link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
+		<%# end %>
+		<%# if current_user.perms[:layout_show_scores] %>
+		<%# link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
+		<%# end %>
+		<%# if current_user.perms[:layout_show_data_export] %>
+		<%# link_to t("menu.data_export"), exports_path %>
+		<%# end %>
+		<%# if current_user.perms[:layout_show_survey_stats] %>
+		<%# link_to t("menu.survey_stats"), journal_stats_path %>
+		<%# end %>
+	<!-- </div> -->
+	<%# end %>
+
+	<%# if current_user.perms[:layout_show_teams_journals] %>
+	<!-- <div id="journal_menu" class="menu_section"> -->
+		<!-- <div class="menu_title"><%= t('menu.journals') %></div> -->
+		
+		<%# link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
+		<%# link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
+	<!-- </div> -->
+	<%# end %>
+
+
 	<% if current_user.perms[:layout_show_letters] %>
 	<div id="settings_menu" class="menu_section">
-		<div class="menu_title">Indstillinger</div>
-		<% if current_user.perms[:layout_show_settings_menu] %>
-			<%= link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>
-			<%= link_to t('menu.variables'), variables_path, :title => t('menu.variables') %>
-		<% end %>
+		<div class="menu_title"><%= t('menu.letters') %></div>
+		<%# if current_user.perms[:layout_show_settings_menu] %>
+			<%# link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>
+			<%# link_to t('menu.variables'), variables_path, :title => t('menu.variables') %>
+		<%# end %>
 		<%= link_to t('menu.letters'), letters_path, :title => t('menu.letters') %>
 		</div>
 	<% end %>
