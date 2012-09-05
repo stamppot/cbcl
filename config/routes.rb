@@ -52,7 +52,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :journal_stats
   map.resources :code_books
   map.resources :reminders
-  
+  map.resources :projects
+    
   map.namespace(:active_rbac) do |active_rbac|
     active_rbac.resources :roles
   end
@@ -104,6 +105,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
   map.new_journal 'journals/new/:id', :controller              => 'journals', :action => 'new'
+  map.new_project_journal 'journals/new/:id/:project_id', :controller => 'journals', :action => 'new'
   map.delete_journal '/journals/delete/:id', :controller       => 'journals', :action => 'delete'
   map.destroy_journal '/journals/destroy/:id', :controller     => 'journals', :action => 'destroy'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
@@ -116,7 +118,8 @@ ActionController::Routing::Routes.draw do |map|
   map.login_letter 'letters/show_login/:id', :controller                   => 'letters', :action => 'show_login'
   map.print_letters 'letters/show_logins/:id', :controller                 => 'letters', :action => 'show_logins'
   map.new_letter 'letters/new/:id', :controller                            => 'letters', :action => 'new'
-  
+  map.download_letter 'letters/mail_merge/:id', :controller                => 'letters', :action => 'mail_merge'
+    
   # map.destroy_login 'journal_entries/destroy_login/:id', :controller     => 'journal_entries', :action => 'destroy_login', :only => :post
   
   map.user_search 'users/live_search/:id', :controller   => 'users', :action => 'live_search'
@@ -142,6 +145,9 @@ ActionController::Routing::Routes.draw do |map|
   map.subscription_activate 'subscriptions/activate/:id', :controller     => 'subscriptions', :action => 'activate'
   map.subscription_deactivate 'subscriptions/deactivate/:id', :controller => 'subscriptions', :action => 'deactivate'
   map.set_subscription_not 'subscriptions/set_subscription_note/:id', :controller => 'subscriptions', :action => 'set_subscription_note'
+
+  map.select_project_journals '/projects/select/:id', :controller => 'projects', :action => 'select'
+  map.add_project_journals '/projects/add_journals/:id', :controller => 'projects', :action => 'add_journals'
   
   map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'
@@ -156,6 +162,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
+  map.export_journals 'journals/export/:id.:format', :controller => 'journals', :action => 'export', :format => 'csv'
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'
