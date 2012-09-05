@@ -1,0 +1,15 @@
+<h1>Opret projekt</h1>
+
+<% form_for(@project) do |f| %>
+  <%= f.error_messages %>
+
+	<%= render :partial => 'form' %>
+
+	<p><br>
+
+  <p>
+    <%= f.submit t('create'), :class => 'button project' %>
+  </p>
+<% end %>
+
+<%= back_button center_path(@center) %>

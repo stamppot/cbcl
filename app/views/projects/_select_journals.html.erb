@@ -1,0 +1,45 @@
+<% if @groups.empty? %>
+Der er ingen journaler i systemet.
+<% else %>
+<table id="journal_list" class="sortable list">
+	<tr>
+		<!-- add checkbox -->
+<th class="small select_all_box nosort" title="Vælg"><%= check_box_tag "select_all_box", "all", false %></th>
+<th class="wide sortcol sortdesc" title="Sorter efter navn">Navn</th>
+<th title="Sorter efter Id" class="sortcol">Id</th>
+<th title="Sorter efter fødselsdato" class="sortcol">Fødselsdato</th>
+<th class="small" title="Sorter efter team"><%= any_teams_text %></th>
+</tr>
+
+<% @groups.each do |g| %>
+  <tr>
+		<td class="select"><%= check_box_tag "journals[]", g.id, false, :id => "journal_#{g.id}" %>
+    <td class="pj_name"><%= label_tag "journal_#{g.id}", g.title %></td>
+		<td class="pj small number"><%= link_to g.code, g %></td>
+    <td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
+    <td class="pj" style="text-align: left;"><%= g.parent.title %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
+
+	<% if @groups.total_pages > 1 -%>
+		<div class="page_entries"><%= page_entries_info(@groups) -%></div>
+		<%= will_paginate @groups, :remote => {:with => 'value', :update => 'journal_list'}  -%> &nbsp;&nbsp;
+	<% end -%>
+
+<% if !@hide_actions %>
+<p>
+	<div class="commands">
+		<br/>
+		<% if current_user.access? :journal_new_edit_delete %>
+		<%# link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
+		<% end %>
+		<%# link_button t('export.journal_letter_data'), export_logins_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+		<% if @group.parent && @group.parent.teams.size > 1 %>
+		<%# link_button "Tilføj journaler", select_project_journals_path(@group), 'journal_add', :title => 'Tilføj journaler til projekt' %>
+		<% end %>
+		<p/>
+	</div>
+</p>
+<% end %>

@@ -18,6 +18,9 @@
   <dt><label for="person_info_nationality"><%= t('nationality') %></label></dt>
   <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
 
+  <dt><label for="person_info_parent_email"><%= 'Forælder-email' %></label></dt>
+  <dd><%= text_field('person_info', 'parent_email', {:size => 25}) %></dd>
+
 	<br>
   <dt><label>Vælg center/team:</label></dt>
   <dd>
@@ -30,6 +33,10 @@
         end %>
   </dd>
 
+  <% if @project %>
+  <dt><label for="journal_project"><%= 'Projekt' %></label></dt>
+  <dd><%= radio_button :group, :project, @project.id, {:checked => true} %><%= @project.code %> - <%= @project.name %></dd>
+  <% end %>
 </dl>
 
 <script type="text/javascript">

@@ -13,7 +13,8 @@
 		<td><%= link_to letter.name, letter_path(letter) %></td>
 		<td><%= letter.group.nil? && "Alle centre" || letter.group.title %></td>
 		<td><%= t("roles.#{letter.surveytype}") %></td>
-    <td><%= link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %>
+	    <td><%= link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %>
+	    	<%= link_to(img_tag_html4('letter_forward.png', :border => 0, :class => 'icon', :title => t('letter.download')), download_letter_path(letter), :popup => ['new_window, height=800,width=700']) %>
 				<span>&nbsp;&nbsp;</span>
 				<%= link_to_icon 'delete2.png', letter_path(letter), :method => :delete, :confirm => t('letter.confirm') %></td>
   </tr>

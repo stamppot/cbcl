@@ -20,11 +20,11 @@ class Survey < ActiveRecord::Base
   # includes cells
 
   def get_title
-    title.force_encoding("UTF-8")
+    title #.force_encoding("UTF-8")
   end
   
   def description
-    attributes["description"].force_encoding("UTF-8")
+    attributes["description"] #.force_encoding("UTF-8")
   end
   
   def valid_values

@@ -1,7 +1,7 @@
 # encoding: utf-8
 # require 'facets/dictionary'
 #require 'rake'
-require 'hashery'
+# require 'hashery'
 
 class Journal < Group
   belongs_to :center
@@ -13,6 +13,7 @@ class Journal < Group
   has_many :survey_answers
   has_many :csv_answers
   has_many :score_rapports, :through => :survey_answers
+  has_and_belongs_to_many :projects
   
   
   has_many :answered_entries_by_personnel,
@@ -60,7 +61,6 @@ class Journal < Group
   # validates_associated :person_info
   # journal code must be unique within the same center
   validates_uniqueness_of :code, :scope => :center_id #, :message => "bruges allerede. Vælg andet ID."
-  
   # TODO: validates_associated or existence_of (see Advanced Rails recipes or Rails Way)
   
   named_scope :and_entries, :include => :journal_entries
@@ -94,7 +94,7 @@ class Journal < Group
   end
 
   def get_name
-    person_info.name.force_encoding("UTF-8")
+    person_info.name # .force_encoding("UTF-8")
   end
 
   def index_search

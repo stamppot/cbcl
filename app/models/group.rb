@@ -36,7 +36,7 @@ class Group < ActiveRecord::Base
   end
 
   def get_title
-    title.force_encoding("UTF-8")
+    title # .force_encoding("UTF-8")
   end
   
   # all ascendants/parents

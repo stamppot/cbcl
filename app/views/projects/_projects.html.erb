@@ -1,0 +1,31 @@
+<h2>Projekter</h2>
+
+<table class="sortable list" class="projects">
+	<tr>
+		<th class="wide" title="Sorter efter navn"><%= "Projekt" %></th>
+		<th title="Sorter efter Projekt-id">ID</th>
+		<% unless @hide_journals %>
+		<th class="half_wide" title="Sorter efter journal"><%= t('journal.journals') %></th>
+		<% end %>
+		<th title="Sorter efter oprettelsesdato"><%= t('status.created') %></th>
+		<% if current_user.access? :show_column_actions %>
+		<th class="nosort"><%= t('action') %></th>
+		<% end %>
+	</tr>	
+
+	<% @projects.each do |project| %>
+	<tr>
+		<td><%= link_to project.name, project_path(project) %></td>
+		<td><%= project.code %></td>
+		<td style="text-align: right;"><%= project.journals.size %></td>
+		
+		<td><%= project.created_at.strftime("%d-%m-%Y") %></td>
+		<% if current_user.access? :project_new_edit_delete %>
+		<td>
+			<%= link_to img_tag_html4('pencil.png', :border => 0, :class => 'icon', :title => 'Rediger projekt'), edit_project_path(project), :title => t('edit') -%>
+			<%= link_to img_tag_html4('delete2.png', :border => 0, :class => 'icon', :title => 'Slet projekt'), project_path(project), :method => :delete, :confirm => "Er du sikker?",  :title => t('delete') -%>
+		</td>
+		<% end %>
+		<tr/>
+		<% end %>
+</table>

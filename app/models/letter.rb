@@ -18,6 +18,17 @@ class Letter < ActiveRecord::Base
     self.letter.gsub!('{{fornavn}}', journal_entry.journal.firstname)
   end
   
+  def to_mail_merge
+    self.letter.gsub!('{{login}}', '{ MERGEFIELD login }')
+    self.letter.gsub!('{{brugernavn}}', '{ MERGEFIELD brugernavn }')
+    self.letter.gsub!('{{password}}', '{ MERGEFIELD password }')
+    self.letter.gsub!('{{kodeord}}', '{ MERGEFIELD kodeord }')
+    self.letter.gsub!('{{name}}', '{ MERGEFIELD name }')
+    self.letter.gsub!('{{navn}}', '{ MERGEFIELD navn }')
+    self.letter.gsub!('{{firstname}}', '{ MERGEFIELD firstname }')
+    self.letter.gsub!('{{fornavn}}', '{ MERGEFIELD fornavn }')
+  end
+
   def self.find_default(surveytype)
     Letter.find_by_surveytype(surveytype, :conditions => ['group_id IS NULL or group_id = ?', 0] )
   end

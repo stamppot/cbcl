@@ -1,0 +1,31 @@
+<div id="journals">
+	<%= render :partial => 'journal_list', :locals => {:journals => @journals} %>
+</div>
+
+<% if @journals.total_pages > 1 -%>
+	<div class="page_entries"><%= page_entries_info(@journals) -%></div>
+	<% 
+ 		if @group
+			params[:controller] = '/journals'
+			params[:action] = 'center'
+			params[:id] = @group.id
+			# params[:ajax] = true
+		end
+		%>
+	<%= will_paginate @journals, :remote => { :with => 'value', :update => 'journal_list' } -%> &nbsp;&nbsp;
+<% end -%>
+
+
+<p>
+	<div class="commands">
+		<br/>
+		<% if current_user.access? :journal_new_edit_delete %>
+		<%= link_button(t('journal.new'), new_project_journal_path(@group, @project), 'journal_add', :title => 'Opret Journal i projekt') %>
+		<% end %>
+		<%= link_button t('export.journal_letter_data'), export_journals_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter brevfletningsdata' %>
+
+		<%= link_button "Tilføj journaler", select_project_journals_path(@project), 'journal_move', :title => "Føj journaler til projekt" %>
+		<%# link_button t('journal.status'), reminder_path(@group), 'journal_status', :title => t('journal.status') %>
+		<p/>
+	</div>
+</p>

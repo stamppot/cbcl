@@ -49,6 +49,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
     # @group.code = @group.next_journal_code(current_user)
 
+    @project = Project.find(params[:project_id]) if params[:project_id]
+    # @project.journals << @group if params[:project_id]
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
@@ -57,8 +59,14 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     parent = Group.find(params[:group][:parent])
     params[:person_info][:name] = params[:group][:title]
     params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
+    project_params = params[:group].delete :project
     @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
+
+    if project_params
+      @project = Project.find(project_params)
+      @project.journals << @group
+    end
 
     if @group.save
       @group.expire_cache

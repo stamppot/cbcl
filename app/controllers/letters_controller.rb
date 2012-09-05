@@ -49,7 +49,6 @@ class LettersController < ApplicationController
       flash[:notice] = 'Brevet er oprettet.'
       redirect_to(@letter) and return
     else
-      
       @group = [@letter.group.title, @letter.group.id]
       @role_types = Survey.surveytypes
       @groups = [@group]
@@ -111,11 +110,18 @@ class LettersController < ApplicationController
     render :layout => 'letters'
   end
 
+  def mail_merge
+    # find letter for team, center, system
+    @letter = Letter.find(params[:id])
+    @letter.to_mail_merge
+    render :layout => 'letters', :template => 'letters/show_login'
+  end
+
   def check_access
     if current_user.nil?
       redirect_to login_path and return
     end
-    if (params[:action] == "show_login") && current_user and (current_user.access? :all_users)
+    if ["show_login"].include?(params[:action]) && current_user and (current_user.access? :all_users)
       j_id = JournalEntry.find(params[:id]).journal_id
       journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
       access = journal_ids.include? j_id

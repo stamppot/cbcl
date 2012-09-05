@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
     end
     return @current_user_cached
   rescue
-    puts "def current_user RESCUE #{session[:rbac_user_id]}"
+    # puts "def current_user RESCUE #{session[:rbac_user_id]}"
     remove_current_user
     redirect_to login_path
   end

@@ -24,6 +24,10 @@
 			<td class="p"><%=h @group.nationality %></td>
 		</tr>
 		<tr>
+			<td class="p_i">Forælder-email:</td>
+			<td class="p"><%=h @group.person_info.parent_email %></td>
+		</tr>
+		<tr>
 			<td class="p_i"><%= t('status.created') %>:</td>
 			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
 		</tr>

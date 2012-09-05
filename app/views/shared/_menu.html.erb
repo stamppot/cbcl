@@ -89,13 +89,13 @@
 	<% end %>
 
 	<% if current_user.perms[:layout_show_user_menu] %>
-	<div id="user_menu" class="menu_section">
+	<!-- <div id="user_menu" class="menu_section">
 		<div class="menu_title"><%= t('menu.users') %></div>
-
+ -->
 		<%# if current_user.perms[:layout_show_login_users] %>
 		<%# link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
 		<%# end %>
-	</div>
+<!-- 	</div> -->
 	<% end %>
 
 
@@ -132,7 +132,7 @@
 
 	<% if current_user.perms[:layout_show_letters] %>
 	<div id="settings_menu" class="menu_section">
-		<div class="menu_title"><%= t('menu.letters') %></div>
+		<div class="menu_title"><%= 'Formularer' %></div>
 		<%# if current_user.perms[:layout_show_settings_menu] %>
 			<%# link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>
 			<%# link_to t('menu.variables'), variables_path, :title => t('menu.variables') %>

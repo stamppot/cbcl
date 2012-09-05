@@ -98,6 +98,9 @@ class Access
     :faq_show                   => [:superadmin, :admin, :centeradmin, :teamadmin, :behandler],
     :faq_login                  => [:login_bruger, :parent, :teacher, :pedagogue, :youth],
 
+    :project_edit                  => [:superadmin, :centeradmin, :teamadmin],
+    :project_new_edit_delete       => [:superadmin, :centeradmin, :teamadmin],
+
     :score_edit                   => [:superadmin],
     :score_admin                  => [:superadmin],
     :score_show                   => [:superadmin, :admin],

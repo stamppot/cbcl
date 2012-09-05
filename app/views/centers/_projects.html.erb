@@ -1,0 +1,13 @@
+	<% if @projects.any? %>
+	<%= render :partial => 'projects/projects' %>
+	<% else %>
+	<h3>Der er ikke oprettet nogen projekter</h3>
+	<% end %>
+
+	<% if current_user.access? :subscription_new_edit %>
+	<p>
+		<%= link_button "Opret", new_project_path(@center), 'project_create', :title => "Opret projekt" %>
+		<%# link_button "Rediger", edit_project_path(@center), 'project_edit', :title => "Rediger projekt" %>
+		
+	</p>
+	<% end %>

@@ -1,4 +1,5 @@
-require 'hashery'
+# require 'hashery/dictionary'
+# require 'lib/dictionary'
 
 class Question < ActiveRecord::Base
   belongs_to :survey

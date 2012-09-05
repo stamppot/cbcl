@@ -16,6 +16,9 @@ class CentersController < ApplicationController
     else
       Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => journals_per_page)
     end
+
+    @projects = Project.all(:conditions => ['center_id IN (?)', current_user.centers.map(&:id)])
+
     puts "Journals: #{@journals.size}"
     @subscription_presenter = @group.subscription_presenter
     @subscriptions = @group.subscriptions
