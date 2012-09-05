@@ -200,7 +200,8 @@ I18n.backend.store_translations 'da-DK',
     :export => {
       :logins => 'Eksporter login-data',
       :data => 'Dataudtræk',
-      :entry_status => 'Eksporter til Excel'
+      :entry_status => 'Eksporter til Excel',
+      :journal_letter_data => 'Eksporter brevfletningsdata'
     },
     
     :variable => {

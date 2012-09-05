@@ -163,6 +163,7 @@ da-DK:
       :entry_status: Eksporter til Excel
       :data: "Dataudtræk"
       :logins: Eksporter login-data
+      :journal_letter_data: Eksporter brevfletningsdata
     user_id: ID
     next: "Næste"
     go_back: Tilbage
@@ -176,6 +177,7 @@ da-DK:
       :show: Vis brev
       :confirm: "Er du sikker på, at du vil slette brevet?"
       :new: Opret brev
+      :download: Hent brevskabelon
     previous: Forrige
     active_record: 
       :error: 
