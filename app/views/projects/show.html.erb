@@ -16,6 +16,12 @@
 	<h3>Journaler</h3>
 
 	<div id="journals">
-	<%= render :partial => 'journals' %>
+		<% if @journals && @journals.any? %>
+		<%= render :partial => 'journals' %>
+		<% end %>
 	<%# render :partial => 'select_project_journals', :locals => {:hide_team => true} %>
 	</div>
+
+<div class="commands">
+	<%= back_button t('go_back'), :onclick => 'history.go(-1)' %>
+</div>

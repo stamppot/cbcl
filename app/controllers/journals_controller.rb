@@ -253,6 +253,27 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     redirect_to select_journals_path(team) and return
   end
   
+  # def export
+  #   project = Project.find(params[:id])
+    
+  #   respond_to do |wants|
+  #     wants.html {
+  #       # @login_users = team.journals.map { |journal| journal.journal_entries }.flatten.map {|entry| entry.login_user}.compact
+  #       csv = CSVHelper.new.login_users(project.journals)
+        
+  #       send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_project_#{project.code.underscore}.csv", 
+  #                 :type => 'text/csv', :disposition => 'attachment')
+
+  #     }
+  #     wants.csv {
+  #       csv = CSVHelper.new.login_users(project.journals)
+        
+  #       send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_project_#{project.code.underscore}.csv", 
+  #                 :type => 'text/csv', :disposition => 'attachment')
+  #     }
+  #   end
+  # end
+
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
 

@@ -11,12 +11,24 @@ class Array
   end
 end
 
+# class String
+  # def force_encoding(charset)
+  #   # yield 
+  # end
+
+  # def encoding
+  #   # yield
+  # end
+# end
+
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
+
+  # require 'memcache'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -25,7 +37,10 @@ require File.join(File.dirname(__FILE__), 'boot')
 # Encoding.default_internal = 'utf-8'
 # Encoding.default_external = 'utf-8'
 
-require 'MemCache'
+# require 'MemCache'
+# require 'memcache'
+
+# require 'hashery/dictionary'
 
 # Rails.backtrace_cleaner.remove_silencers!   
 
@@ -79,24 +94,51 @@ Rails::Initializer.run do |config|
   :source => 'http://gems.github.com'
 
   # config.gem "memcache"
-  # config.gem "memcache-client", :version => '1.8.5', :lib => "memcache"
-  # require 'memcache'
+  # config.gem "MemCache"
+  # config.gem "memcache-client", :version => '1.8.5' , :lib => "memcache"
 
-  mem_cache_options = {
-    :c_threshold => 10000,
-    :compression => true,
-    :debug => false,
-    :timeout => false,
-    :namespace => 'app',
-    :readonly => false,
-    :urlencode => false
-  }
-  config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
-  
+  # require 'memcached'
+  # require 'MemCache'
+  # config.gem "MemCache"
+  # config.gem "memcache-client", :version => '1.8.5', :lib => "memcache"
+  # require 'MemCache'
+
+  # mem_cache_options = {
+  #   :c_threshold => 10000,
+  #   :compression => true,
+  #   :debug => false,
+  #   :timeout => false,
+  #   :namespace => 'app',
+  #   :readonly => false,
+  #   :urlencode => false
+  # }
+  # require 'memcached' # gem install memcached; uses C bindings to libmemcached
+  # config.action_controller.cache_store = :mem_cache_store_with_delete_matched, ['127.0.0.1:11211'], mem_cache_options
+  # ActiveSupport::Cache::MemCacheStore.new(Memcached::Rails.new("localhost:11211"))  # ActiveSupport::Cache::MemCacheStore.new(Memcached::Rails.new("localhost:11211"))  
+
+# memcache setup 
+# config.action_controller.session_store = :mem_cache_store 
+
+# memcache_options = { 
+#   :c_threshold => 10_000, 
+#   :compression => false, 
+#   :debug => false, 
+#   :namespace => "app", 
+#   :readonly => false, 
+#   :urlencode => false 
+# } 
+
+# require 'memcache' 
+# CACHE = MemCache.new memcache_options 
+# CACHE.servers = [ '127.0.0.1:11211'] 
+
+# ActionController::Base.session_options[:expires] = 7200 
+# ActionController::Base.session_options[:cache] = CACHE 
+
   config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
   
-	config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
+	# config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
 	
 	# config.gem 'pdfkit'
   # require 'pdfkit'
@@ -107,7 +149,7 @@ end
 # ThinkingSphinx.suppress_delta_output = true
 
 require "will_paginate"
-require "hashery"
+# require "hashery"
 # require 'facets/dictionary'
 
 # require "ruby-debug"
@@ -138,7 +180,8 @@ if RAILS_ENV == "production"
   ExceptionNotification::Notifier.email_prefix = "[CBCL] "
 end
 
-CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
+# CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
+CACHE = {}
 
 class Hash
   # return Hash with nil values removed

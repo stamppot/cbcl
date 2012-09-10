@@ -106,6 +106,7 @@ ActionController::Routing::Routes.draw do |map|
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
   map.new_journal 'journals/new/:id', :controller              => 'journals', :action => 'new'
   map.new_project_journal 'journals/new/:id/:project_id', :controller => 'journals', :action => 'new'
+  map.remove_project_journal '/projects/remove/:id/:journal_id', :controller => 'projects', :action => 'remove' 
   map.delete_journal '/journals/delete/:id', :controller       => 'journals', :action => 'delete'
   map.destroy_journal '/journals/destroy/:id', :controller     => 'journals', :action => 'destroy'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
@@ -148,6 +149,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.select_project_journals '/projects/select/:id', :controller => 'projects', :action => 'select'
   map.add_project_journals '/projects/add_journals/:id', :controller => 'projects', :action => 'add_journals'
+  map.edit_journals_email '/projects/edit_journals_email/:id', :controller => 'projects', :action => 'edit_journals_email'
+  map.update_journals_email '/projects/update_journals_email/:id', :controller => 'projects', :action => 'update_journals_email'
   
   map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'
@@ -162,7 +165,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
-  map.export_journals 'journals/export/:id.:format', :controller => 'journals', :action => 'export', :format => 'csv'
+  map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'

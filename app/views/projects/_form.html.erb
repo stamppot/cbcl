@@ -11,4 +11,8 @@
 			<td class="t_i"><label for="project_description">Beskrivelse:</label></td>
 			<td class="t"><%= text_field "project", "description" %></td>
 		</tr>
+		<tr>
+			<td class="t_i"><label for="project_center">Center:</label</td>
+			<td class="t_i"><%= collection_select :project, :center_id, @centers, :id, :title %>
+		</tr>
 	</table>

@@ -41,7 +41,11 @@ class JournalEntry < ActiveRecord::Base
     return self.login_user.destroy if self.login_user
     return false
   end
-  
+
+  def is_parent_survey?
+    [1,2].include?(survey_id)
+  end
+
   def destroy_and_remove_answers!
     self.remove_login!
     self.survey_answer.destroy if self.survey_answer

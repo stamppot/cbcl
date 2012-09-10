@@ -1,9 +1,8 @@
 body { background-color: #fff; color: #333; }
 
 body, p, ol, ul, td {
-	font-family: tacoma, verdana, arial, helvetica, sans-serif;
-	font: small Tacoma, "Lucida Grande", Lucida, Verdana, sans-serif;
-	font-size:   13px;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 	line-height: 18px;
 }
 
@@ -67,7 +66,8 @@ a:visited { color: #666; }
 	-webkit-border-radius:5px;
 }
 #menu a {
-	font-family: tahoma, arial;	
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 	color: #555;
 }
 #menu a:visited { color: #555; }
@@ -254,7 +254,8 @@ height:49px; /* the correct height */
 	margin-bottom: 1em;
 	background-color: #eee;
 	width: 140px;
-	font: small Tacoma, "Lucida Grande", Lucida, Verdana, sans-serif;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 }
@@ -485,7 +486,8 @@ a.show_hide {
 }
 
 #score_report, table.score_ref_description td {
-	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 	margin: 0px 0px 400px 0px;
 	padding:0px;
 /*	border-bottom: 1px #DDD solid;*/
@@ -542,15 +544,21 @@ table.score_ref_description td {
 
 table.outer td, table.question td {
 	border: 0;
-	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+	/*font-family: "Helvetica Neue", Arial, Helvetica, sans serif;*/
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 }
 
 .container {
-	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+	/*font-family: "Helvetica Neue", Arial, Helvetica, sans serif;*/
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
 }
 #extended_score_report td {
 	border: 0;
-	font-family: "Helvetica Neue", Arial, Helvetica, sans serif;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+/*font-family: "Helvetica Neue", Arial, Helvetica, sans serif;*/
 }
 
 .nobr {
@@ -1097,7 +1105,9 @@ li.tab a.active {
 		body, p, ol, ul, td { font-size: 9px; }
 		#infoheader {	margin:0px; padding:5px 0px 0px 0px; height: 32px; width: 100%; border-top: 1px solid black; border-bottom: 1px solid black; }
 		
-		#centertitle { font-family: tacoma; font-size: 16px; top: 16px; height: 20pt; }
+		#centertitle { font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+						font-weight: 300; font-size: 16px; top: 16px; height: 20pt; }
+
 		#menu { display: normal; top:60px; left: 8px; width: 85px; font-size: 8px; height: 580px; min-height: 500px; }
 		.menu_section { width: 80px;}
 		.menu_section a { font-size: 8px; }

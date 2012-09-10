@@ -93,6 +93,10 @@ class Journal < Group
     #Rake::Task[task_name].invoke
   end
 
+  def get_project_code
+    projects.any? && projects.first.code || ""
+  end
+  
   def get_name
     person_info.name # .force_encoding("UTF-8")
   end

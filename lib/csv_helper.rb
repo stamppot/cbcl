@@ -175,6 +175,45 @@ class CSVHelper
     return csv
   end
 
+
+  def mail_merge_login_users(journal_entries)
+    results = journal_entries.inject([]) do |results, entry|
+      if entry.login_user && entry.not_answered?
+        an_entry = {
+          :email => entry.journal.person_info.parent_email,
+          :navn => entry.journal.title,
+          :fornavn => entry.journal.firstname,
+          :login => entry.login_user.login, 
+          :password => entry.password
+        }
+        results << an_entry
+      end
+      results
+    end
+    
+    csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
+      header = ["email", "navn", "fornavn", "login", "password"]
+      csv << header
+      
+      contents = []
+      results.each do |fields|
+        puts "fields: #{fields.inspect}"
+        row = []
+        row << fields[:email]
+        row << fields[:navn]
+        row << fields[:fornavn]
+        row << fields[:login]
+        row << fields[:password]
+        # row << fields[:date]
+        csv << row
+      end
+    end
+    
+    return csv
+  end
+
+
+
   def entries_status(journal_entries)
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
       csv_output << %w{skema kode navn status tilfoejet}    # header

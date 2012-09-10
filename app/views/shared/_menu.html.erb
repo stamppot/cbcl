@@ -64,9 +64,11 @@
 			<div class="change_password" style="display:none;">
 				<%= link_to t('menu.change_password'), change_password_path(current_user), :title => t('menu.change_password_alt') %>
 			</div>
-
+		<br/>
 		<%= link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
+		<%= link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
 		
+		<br/>
 		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 			<div class="searchbox">
 				<label for="search_journals"><font size="1"><b><%= t('menu.search_journals') %></b></font></label><br>
@@ -80,7 +82,8 @@
 			:loading => "Element.show('journal_spinner')",
 			:complete => "Element.hide('journal_spinner'); TableKit.reload();",
 			:url => journal_search_path) %>
-
+		
+		<br/>
 		<% if current_user.perms[:layout_show_subscriptions] %>
 		<%= link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
 		<% end %>
