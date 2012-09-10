@@ -18,6 +18,10 @@ class Team < Group
     end
   end
 
+  def get_name
+    title
+  end
+  
   def has_member?(user)
     self.users.include? user
   end

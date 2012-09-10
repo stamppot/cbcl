@@ -59,6 +59,10 @@ class Center < Group
   def person; center_info && center_info.person; end
   def ean; center_info && center_info.ean; end
     
+  def get_name
+    title
+  end
+  
   # returns subscription for the specified survey
   def get_subscription(survey_id)
     (s = self.subscriptions.by_survey(survey_id)) && s.first

@@ -8,6 +8,7 @@ class Letter < ActiveRecord::Base
   validates_uniqueness_of :surveytype, :scope => :group_id, :message => "Der findes allerede et brev for denne skematype for gruppen . Har du valgt den rigtige gruppe?"
   
   def insert_text_variables(journal_entry)
+    self.letter.gsub!('{{parent}}', journal_entry.journal.person_info.parent_name)
     self.letter.gsub!('{{login}}', journal_entry.login_user.login)
     self.letter.gsub!('{{brugernavn}}', journal_entry.login_user.login)
     self.letter.gsub!('{{password}}', journal_entry.password)
@@ -19,6 +20,7 @@ class Letter < ActiveRecord::Base
   end
   
   def to_mail_merge
+    self.letter.gsub!('{{parent}}', '{ MERGEFIELD parent }')
     self.letter.gsub!('{{login}}', '{ MERGEFIELD login }')
     self.letter.gsub!('{{brugernavn}}', '{ MERGEFIELD brugernavn }')
     self.letter.gsub!('{{password}}', '{ MERGEFIELD password }')

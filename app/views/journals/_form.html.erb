@@ -18,8 +18,14 @@
   <dt><label for="person_info_nationality"><%= t('nationality') %></label></dt>
   <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
 
+  <dt><label for="person_info_parent_name"><%= 'Forælder' %></label></dt>
+  <dd><%= text_field('person_info', 'parent_name', {:size => 40}) %></dd>
+
   <dt><label for="person_info_parent_email"><%= 'Forælder-email' %></label></dt>
   <dd><%= text_field('person_info', 'parent_email', {:size => 25}) %></dd>
+
+  <dt><label for="person_info_alt_id"><%= 'Graviditetsnr' %></label></dt>
+  <dd><%= text_field('person_info', 'alt_id', {:size => 25}) %></dd>
 
 	<br>
   <dt><label>Vælg center/team:</label></dt>

@@ -23,9 +23,19 @@
 			<td class="p_i">Nationalitet:</td>
 			<td class="p"><%=h @group.nationality %></td>
 		</tr>
+		<% if !@group.person_info.parent_name.blank? %>
+		<tr>
+			<td class="p_i">Forælder:</td>
+			<td class="p"><%=h @group.person_info.parent_name %></td>
+		</tr>
+		<% end %>
 		<tr>
 			<td class="p_i">Forælder-email:</td>
 			<td class="p"><%=h @group.person_info.parent_email %></td>
+		</tr>
+		<tr>
+			<td class="p_i">Graviditetsnr:</td>
+			<td class="p"><%=h @group.person_info.alt_id %></td>
 		</tr>
 		<tr>
 			<td class="p_i"><%= t('status.created') %>:</td>
