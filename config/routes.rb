@@ -101,6 +101,7 @@ ActionController::Routing::Routes.draw do |map|
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
   map.journals_for_center '/journals/center/:id', :controller => 'journals', :action => 'center'
   map.select_journals '/journals/select/:id', :controller => 'journals', :action => 'select'
+  map.select_move_journals '/journals/select_move/:id', :controller => 'journals', :action => 'select_move'
   map.move_journals '/journals/move/:id', :controller => 'journals', :action => 'move'
 
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
@@ -111,6 +112,12 @@ ActionController::Routing::Routes.draw do |map|
   map.destroy_journal '/journals/destroy/:id', :controller     => 'journals', :action => 'destroy'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
   map.journal_remove_survey '/journals/remove_survey/:id', :controller => 'journals', :action => 'remove_survey'
+
+  # map.add_project_journals '/journals/add/:id', :controller => 'projects', :action => 'add_journals'
+  map.edit_journals_email '/journals/edit_emails/:id', :controller => 'journals', :action => 'edit_email'
+  map.update_journals_email '/journals/update_emails/:id', :controller => 'journals', :action => 'update_email'
+
+  map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails', :format => 'csv'
 
   # journal entries
   map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
@@ -165,7 +172,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
-  map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
+  # map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'

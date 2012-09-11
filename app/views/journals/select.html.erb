@@ -1,18 +1,6 @@
-<h2>Flyt journaler fra Team &quot;<%=h @group.title %>&quot;</h2>
+<h2>Vælg journaler fra Team &quot;<%=h @group.title %>&quot;</h2>
 
 <% form_tag(move_journals_url(@group), :class => 'form', :method => :post) do %>
-<div class="teams" id="teams" style="float:right;">
-	<p/>
-	<h3>Flyt til team</h3>
-  <% unless @group.errors[:parent].nil? %><div class="fieldWithErrors"><% end %>
-    <%= node_tree(@teams) do |team|
-          result = "<input id=\"team_#{team.id}\" type=\"radio\" name=\"team\" value=\"#{team.id}\" checked=\"checked\" /> " if @group == team
-          result = "<input id=\"team_#{team.id}\" type=\"radio\" name=\"team\" value=\"#{team.id}\" /> " if @group != team
-          result += "<label for=\"team_#{team.id}\">#{team.title}</label> "
-          result
-        end %>
-  <% unless @group.errors[:parent].nil? %></div><% end %>
-</div>
 
 <div class="team_journals" id="team_journals">
 	<h3>Journaler</h3>

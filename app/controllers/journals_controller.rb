@@ -217,7 +217,27 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
   end
   
-  def select # nb. :id is Team id!
+  def select
+    @group = Group.find(params[:id])
+    @page_title = "CBCL - Center " + @group.title
+    @groups = @group.journals.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
+    @journal_count = @group.journals.count
+
+     respond_to do |format|
+       format.html
+       format.js {
+         render :update do |page|
+           page.replace_html 'journals', :partial => 'select_journals'
+         end
+       }
+     end
+
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = 'Du har ikke adgang til dette center.'
+    redirect_to teams_url
+  end
+
+  def select_move # nb. :id is Team id!
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
     @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
@@ -273,6 +293,66 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   #     }
   #   end
   # end
+
+  def add_journals
+    project = Project.find(params[:id])
+    flash[:error] = 'Ingen journaler er valgt' if params[:journals].blank?
+    redirect_to project if flash[:error]
+    
+    journals = Journal.find(params[:journals])
+    journals.each do |journal|
+      project.journals << journal unless project.journals.include?(journal)
+    end
+    project.save
+    flash[:notice] = "#{journals.size} journaler er rettet #{project.code} - #{project.name}"
+    redirect_to project_path(project)
+  end
+
+  def edit_journals_email
+    @project = Project.find(params[:id])
+    @group = @project.center
+    @page_title = "CBCL - Center " + @group.title
+    @journals = @project.journals #.for_center(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
+  end
+
+  def update_journals_email
+    params[:journals].each do |journal_params|
+      journal = Journal.find(journal_params[:id])
+      journal.person_info.parent_email = journal_params[:person_info][:parent_email]
+      journal.person_info.save
+    end
+    flash[:notice] = "Forældre-mails er rettet"
+    redirect_to project_path(params[:project][:id])
+  end
+
+  def export_mails
+    group = Group.find(params[:id])
+    
+    # TODO: get journal_entries for parent surveys
+    journal_entries = 
+    group.journals.inject([]) do |col, journal|
+      parent_entries = journal.journal_entries.select {|entry| entry.not_answered? && entry.login_user && entry.is_parent_survey? }
+      col << parent_entries
+      col
+    end.flatten
+
+    respond_to do |wants|
+      wants.html {
+        # @login_users = team.journals.map { |journal| journal.journal_entries }.flatten.map {|entry| entry.login_user}.compact
+        csv = CSVHelper.new.mail_merge_login_users(journal_entries)
+        
+        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_projekt_#{group.code.to_s.underscore}.csv", 
+                  :type => 'text/csv', :disposition => 'attachment')
+
+      }
+      wants.csv {
+        csv = CSVHelper.new.mail_merge_login_users(journal_entries)
+        
+        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_projekt_#{group.code.to_s.underscore}.csv", 
+                  :type => 'text/csv', :disposition => 'attachment')
+      }
+    end
+  end
 
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]

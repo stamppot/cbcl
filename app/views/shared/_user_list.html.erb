@@ -30,7 +30,6 @@
 	<% end %>
 </table>
 
-<%= @users.respond_to?(:total_pages) %>
 <% if @users.size > 1 %>
 	<div class="page_entries" > <%= page_entries_info(@users) %> </div>
 	<%# will_paginate @users, :remote => {:with => 'value', :update => 'user_list'}, :outer_window => 2 -%>
