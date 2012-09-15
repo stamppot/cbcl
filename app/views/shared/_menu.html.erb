@@ -43,7 +43,7 @@
 		<% end %>
 
 		<% if current_user.perms[:layout_show_users]  %>
-		<%= link_to t('menu.show_users'), users_path, :title => t('user.show') %>
+		<%= link_to t('menu.users'), users_path, :title => t('user.show') %>
 			<%# if current_user.perms[:user_new] %>
 				<%# link_to t('menu.create_user'), new_user_path, :title => t('user.new') %>
 			<%# end %>
@@ -131,6 +131,14 @@
 		<%# link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
 	<!-- </div> -->
 	<%# end %>
+
+
+	 <% if current_user.perms[:layout_show_data_export] %>
+            <div id="settings_menu" class="menu_section">
+                <div class="menu_title"><%= 'Data' %></div>
+                <%= link_to t("menu.data_export"), exports_path %>
+            </div>
+        <% end %>
 
 
 	<% if current_user.perms[:layout_show_letters] %>

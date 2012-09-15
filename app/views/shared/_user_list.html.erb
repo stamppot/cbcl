@@ -19,7 +19,7 @@
    		 end -%>
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.access? :user_edit_delete %>
-	<td>
+	<td style="display:inline;">
 		<%= link_to_icon 'user_edit.png', edit_user_url(user), :title => t('user.edit') %>
 		<%= link_to_icon 'user_delete.png', delete_user_url(user), :title => t('user.delete') -%>
 		<span>&nbsp;&nbsp;</span>
@@ -32,5 +32,5 @@
 
 <% if @users.size > 1 %>
 	<div class="page_entries" > <%= page_entries_info(@users) %> </div>
-	<%# will_paginate @users, :remote => {:with => 'value', :update => 'user_list'}, :outer_window => 2 -%>
+	<%= will_paginate @users, :remote => {:with => 'value', :update => 'user_list'}, :outer_window => 2 -%>
 <% end -%>

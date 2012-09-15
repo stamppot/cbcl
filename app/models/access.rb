@@ -68,7 +68,7 @@ class Access
     :team_show                  => [:superadmin, :centeradmin, :teamadmin, :behandler],
     :team_show_all              => [:superadmin],  # shows all centers too
     # :team_show_none             => [:admin],
-    # :team_show_admin            => [:centeradmin],
+    :team_show_admin            => [:centeradmin],
     :team_show_member           => [:superadmin, :centeradmin, :teamadmin, :behandler],
     :team_edit                  => [:superadmin, :centeradmin, :teamadmin],
     :team_new_edit_delete       => [:superadmin, :centeradmin],

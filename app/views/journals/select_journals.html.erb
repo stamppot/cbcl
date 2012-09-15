@@ -1,0 +1,67 @@
+<h2>Vælg journaler fra Team &quot;<%=h @group.title %>&quot;</h2>
+
+<% form_tag(move_journals_url(@group), :class => 'form', :method => :post) do %>
+<div class="teams" id="teams" style="float:right;">
+	<p/>
+	<h3>Flyt til team</h3>
+  <% unless @group.errors[:parent].nil? %><div class="fieldWithErrors"><% end %>
+    <% node_tree(@teams) do |team|
+          result = "<input id=\"team_#{team.id}\" type=\"radio\" name=\"team\" value=\"#{team.id}\" checked=\"checked\" /> " if @group == team
+          result = "<input id=\"team_#{team.id}\" type=\"radio\" name=\"team\" value=\"#{team.id}\" /> " if @group != team
+          result += "<label for=\"team_#{team.id}\">#{team.title}</label> "
+          result
+        end %>
+  <% unless @group.errors[:parent].nil? %></div>
+  <% end %>
+</div>
+
+<div class="team_journals" id="team_journals">
+	<h3>Journaler</h3>
+	<% if @groups.empty? %>
+		<%= t('none') %>
+	<% else %>
+	<% @hide_team = true %>
+	<div id="journals">
+		<%= render :partial => 'shared/select_journals', :locals => {:hide_team => true} %>
+	</div>
+	<%= render :partial => 'shared/ajax_pagination' %>
+	<% end %>
+	<p>
+		<div class="commands">
+			<br/>
+			<%= submit_tag t('journal.move'), :name => 'yes', :class => 'button journal_move' %>
+			<p/>
+		</div>
+	</p>
+	<% end %>
+</div>
+</div>
+
+<script type="text/javascript">
+	$$('.tabs').each(function(tab_group){  
+    new Control.Tabs(tab_group);  
+	});
+	
+	Event.observe(window, 'load', function() {
+	  var select_all_box = $('select_all_box');
+	  if (select_all_box) {
+	    var checkboxes = select_all_box.up('form').getInputs('checkbox');
+	    checkboxes.shift(); // throw out select all box
+
+	    select_all_box.observe('click', function() {
+	      checkboxes.each(function(e) {
+	        e.checked = select_all_box.checked;
+	      });
+	    });
+	  }
+	});
+</script>
+
+<br/>
+<div class="commands">
+<% if current_user.access? :team_new_edit_delete %>
+	<%= link_button t('delete'), delete_team_path(@group), 'team_delete' %>
+	<%= link_button t('edit'), edit_team_path(@group), 'team_edit' %>
+	<% end %>
+	<%= back_button teams_path %>
+</div>

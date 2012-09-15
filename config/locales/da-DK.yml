@@ -123,7 +123,7 @@ da-DK:
       :new: Opret Center
     logout_alt: Log ud af systemet
     menu:
-      :centeradministration : Centeradministration  
+      :centeradministration : Administration  
       :settings: Indstillinger
       :show_surveys: "Vis Spørgeskemaer"
       :groups: Grupper
@@ -135,7 +135,7 @@ da-DK:
       :survey_stats: "Tællere"
       :change_password: Skift password
       :journals: Journaler
-      :show_users: Vis Brugere
+      :show_users: Brugere
       :variables: Skemavariabler
       :subscriptions: Abonnementer
       :change_password_alt: "Skift password, det tager kun et øjeblik"

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # require 'access'
 
 class User < ActiveRecord::Base
@@ -156,11 +155,11 @@ class User < ActiveRecord::Base
           
   def status
   	rolename = case self.title
-    when "parent" then    "forælder"
-    when "youth" then     "barn"
-	  when "teacher" then   "lærer"
-	  when "pedagogue" then "pædagog"
-	  when "other" then     "andet"
+    when "parent":    "forælder"
+    when "youth":     "barn"
+	  when "teacher":   "lærer"
+	  when "pedagogue": "pædagog"
+	  when "other":     "andet"
 	  else self.title
 	  end
   end
@@ -257,8 +256,8 @@ class User < ActiveRecord::Base
     teams =
     if self.has_access?(:team_show_all)
       Team.find(:all, options)
-    # elsif self.has_access?(:team_show_admin)
-    #   Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
+    elsif self.has_access?(:team_show_admin)
+      Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
     elsif self.has_access?(:team_show_member)
       Team.direct_groups(self)
     else
@@ -455,10 +454,10 @@ class User < ActiveRecord::Base
     ret = Hash.new
     hash.each do |key,val|
       case key
-      when 'unconfirmed' then ret['ubekræftet'] = val
-      when 'confirmed' then ret['bekræftet'] = val
-      when 'locked' then ret['låst'] = val
-      when 'deleted' then ret['slettet'] = val
+      when 'unconfirmed': ret['ubekræftet'] = val
+      when 'confirmed': ret['bekræftet'] = val
+      when 'locked': ret['låst'] = val
+      when 'deleted': ret['slettet'] = val
       end
     end
     return ret

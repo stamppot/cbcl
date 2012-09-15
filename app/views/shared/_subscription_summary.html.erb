@@ -29,13 +29,13 @@
 		end
 	end
 	
-	@summaries.each_with_index do |summary,i|
+	@summaries.each do |summary|
 		stopped_on = (summary[:stopped_on] || local_time).to_date
 		if !summary[:paid] && @summaries.last == summary
 			stopped_on = DateTime.now.to_date
 		end
 	%>
-	<tr style="<%= !summary[:paid] && 'color: darkgreen;' || '' %>">
+	<tr>
 		<td><%= summary[:start_on].to_date.strftime("%e %b %y") %> - <%= stopped_on.strftime("%e %b %y") %></td>
 		<td class="number"><%= summary[:used] %></td>
 		<td class="number"><%= summary[:paid] ? t('yes') : t('no') %></td>
