@@ -1,0 +1,31 @@
+<h3>Ret oplysninger om opfølgning</h3>
+
+<% form_tag(@journal_entry, :method => :put) do %>
+
+<table class="center_info">
+	<tr>
+		<td class="p"><%= 'Journal' %>:</td>
+		<td class="p"><%=h @journal_entry.journal.name %></td>
+	</tr>
+	<tr>
+		<td class="p">Spørgeskema:</td>
+		<td class="p"><%=h @journal_entry.get_title %></td>
+	</tr>
+	<tr>
+		<td class="p">Status</td>
+		<td class="p"><%=h @journal_entry.answer_status %></td>
+	</tr>
+	<tr>
+		<td class="p">Tilføjet</td>
+		<td class="p"><%=h @journal_entry.created_at.strftime("%d-%m-%Y") %></td>
+	</tr>
+	<tr>
+		<td class="p"><%= 'Opfølgning' %>:</td>
+		<td class="p"><%= select :journal_entry, "follow_up", @follow_ups, :selected => @journal_entry.follow_up %></td>
+	</tr>
+</table>
+
+<%= submit_tag "Gem", :name => 'submit[update]', :class => 'button save' %>
+<% end %>
+<p/>
+<%= back_button @group %>

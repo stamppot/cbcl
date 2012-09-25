@@ -5,4 +5,7 @@ class JournalInfo < ActiveRecord::Base
   
   validates_uniqueness_of :journal_id
   
+  def to_csv(journal)
+  	[ssghafd, ssghnavn, safdnavn, pid, journal.person_info.alt_id, pkoen, palder, pnation, dagsdato, pfoedt].join(";")
+  end
 end

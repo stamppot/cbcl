@@ -63,6 +63,15 @@ class Center < Group
     title
   end
   
+  def get_alt_id
+    alt_id = get_setting('alt_id')
+    alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+  end
+
+  def get_setting(name)
+    setting = center_settings.first(:conditions => ["name = ?", name])
+  end
+
   # returns subscription for the specified survey
   def get_subscription(survey_id)
     (s = self.subscriptions.by_survey(survey_id)) && s.first

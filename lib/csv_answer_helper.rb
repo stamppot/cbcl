@@ -228,36 +228,36 @@ class CSVAnswerHelper
     tbl_j_sa
   end
 
-  def journal_table_to_csv(table_journals_sas, s_headers)
-    journals = cache_fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
-      Journal.find(table_journals_sas.keys).to_hash_with_key { |j| j.id } #.inject({}) { |col, j| col[j.id] = j; col }
-    end
-    headers = journal_csv_header.merge(s_headers)
+  # def journal_table_to_csv(table_journals_sas, s_headers)
+  #   journals = cache_fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
+  #     Journal.find(table_journals_sas.keys).to_hash_with_key { |j| j.id } #.inject({}) { |col, j| col[j.id] = j; col }
+  #   end
+  #   headers = journal_csv_header.merge(s_headers)
   
-    csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-      csv << headers.keys
+  #   csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
+  #     csv << headers.keys
       
-      contents = []
-      table_journals_sas.each do |journal, vals|
-        row = [journals[journal].to_csv, vals].flatten
-        contents << row
-      end
-      contents.each { |row| csv << row }
-    end
-    return csv
-  end
+  #     contents = []
+  #     table_journals_sas.each do |journal, vals|
+  #       row = [journals[journal].to_csv, vals].flatten
+  #       contents << row
+  #     end
+  #     contents.each { |row| csv << row }
+  #   end
+  #   return csv
+  # end
 
-  def filter_valid_entries(entries)
-    # entries.each { |e| puts "NOT AN ENTRY: #{e.inspect}" unless e.is_a?(JournalEntry)}
-    entries.map { |e| e.valid_for_csv? }.compact
-  end
+  # def filter_valid_entries(entries)
+  #   # entries.each { |e| puts "NOT AN ENTRY: #{e.inspect}" unless e.is_a?(JournalEntry)}
+  #   entries.map { |e| e.valid_for_csv? }.compact
+  # end
   
   # This one does the complete job
-  def entries_to_csv(entries, survey_ids)
-    s_headers = survey_headers_flat(survey_ids)
-    entries = filter_valid_entries(entries)
-    journal_table_to_csv(join_table_survey_answers_mixed(survey_ids, filter_valid_entries(entries)), s_headers)
-  end
+  # def entries_to_csv(entries, survey_ids)
+  #   s_headers = survey_headers_flat(survey_ids)
+  #   entries = filter_valid_entries(entries)
+  #   journal_table_to_csv(join_table_survey_answers_mixed(survey_ids, filter_valid_entries(entries)), s_headers)
+  # end
     
   # fill survey answers where no survey has been answered
   def fill_csv_answer(survey_headers, answer_values)
@@ -318,6 +318,7 @@ class CSVAnswerHelper
     c["ssghnavn"] = nil
     c["safdnavn"] = nil
     c["pid"] = nil
+    c["alt_id"] = nil
     c["pkoen"] = nil
     c["palder"] = nil
     c["pnation"] = nil

@@ -8,5 +8,10 @@
 				<%= "<label for=\"survey_#{survey.id}\">#{survey.title}</label> <br>" %>
 			</div>
 		<% end %>
+		<br/>
+		<div>
+			<%= "<label for=\"survey_follow_up\">" %>
+			<%= select :journal_entry, "follow_up", @follow_ups, :selected => @follow_up %>
+		</div>
 	</dd>
 </dl>

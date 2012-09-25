@@ -184,7 +184,9 @@ class CSVHelper
           :navn => entry.journal.title,
           :fornavn => entry.journal.firstname,
           :login => entry.login_user.login, 
-          :password => entry.password
+          :password => entry.password,
+          :alt_id => entry.journal.person_info.alt_id,
+      	  :parent_name => entry.journal.person_info.parent_name
         }
         results << an_entry
       end
@@ -192,18 +194,20 @@ class CSVHelper
     end
     
     csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-      header = ["email", "navn", "fornavn", "login", "password"]
+      header = ["email", "navn", "fornavn", "login", "password", "alternativ_id", "mor_navn"]
       csv << header
       
       contents = []
       results.each do |fields|
-        puts "fields: #{fields.inspect}"
+        # puts "fields: #{fields.inspect}"
         row = []
         row << fields[:email]
         row << fields[:navn]
         row << fields[:fornavn]
         row << fields[:login]
         row << fields[:password]
+       	row << fields[:alt_id]
+	      row << fields[:parent_name]
         # row << fields[:date]
         csv << row
       end

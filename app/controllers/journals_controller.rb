@@ -37,6 +37,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = cache_fetch("j_#{params[:id]}") do
       Journal.find(params[:id], :include => {:journal_entries => :login_user})
     end
+    alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
+    @alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+
 		@answered_entries = @group.answered_entries
 		@not_answered_entries = @group.not_answered_entries
   end
@@ -48,6 +51,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @groups = Group.get_teams_or_centers(params[:id], current_user)
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
     # @group.code = @group.next_journal_code(current_user)
+    @alt_id_name = @group.center.get_alt_id
 
     @project = Project.find(params[:project_id]) if params[:project_id]
     # @project.journals << @group if params[:project_id]
@@ -86,11 +90,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   def edit
     @page_title = "Rediger journal"
-    
+
     @group = Journal.find(params[:id], :include => [:person_info])
     @groups = current_user.center_and_teams
     @person_info = @group.person_info
     @nationalities = Nationality.all
+    @alt_id_name = @group.center.get_alt_id    
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Denne journal kunne ikke findes.'
@@ -159,11 +164,15 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       surveys = []
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
-      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys)
+      follow_up = params[:journal_entry][:follow_up]
+      puts "follow_up: #{follow_up}"
+      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, follow_up)
       flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "er oprettet." if @group.save && valid_entries
       redirect_to @group
     else
       # can only add surveys in age group of person
+      @follow_ups = JournalEntry.follow_ups
+      @follow_up = (@group.journal_entries.map(&:follow_up).compact.max  || -1).next
       @surveys = @group.center.subscribed_surveys_in_age_group(@group.age)
       @page_title = "Journal #{@group.title}: Tilføj spørgeskemaer"      
     end

@@ -20,7 +20,7 @@ class Survey < ActiveRecord::Base
   # includes cells
 
   def get_title
-    title #.force_encoding("UTF-8")
+    title
   end
   
   def description

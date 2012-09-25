@@ -62,7 +62,18 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     end
   end
 
+  def edit # edit follow_up
+    @journal_entry = JournalEntry.find(params[:id])
+    @follow_ups
+    @follow_ups = JournalEntry.follow_ups
+  end
 
+  def update
+    @journal_entry = JournalEntry.find(params[:id])
+    @journal_entry.follow_up = params[:journal_entry][:follow_up]
+    @journal_entry.save
+    redirect_to journal_path(@journal_entry.journal)
+  end
 
   protected
   

@@ -67,7 +67,7 @@ class CsvSurveyAnswer < ActiveRecord::Base
   
   # def self.with_options(options)
   def headers
-    %w{ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt}.join(';;')
+    %w{ssghafd ssghnavn safdnavn pid alt_id pkoen palder pnation dagsdato pfoedt}.join(';;')
   end
 
 end

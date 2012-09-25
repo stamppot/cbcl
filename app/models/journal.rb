@@ -101,6 +101,10 @@ class Journal < Group
     person_info.name # .force_encoding("UTF-8")
   end
 
+  def has_follow_up?(entry)
+    journal_entries.any? {|e| e.id != entry.id && e.survey_id == entry.survey_id && e.follow_up == entry.follow_up}
+  end
+
   def index_search
 		#Journal.run_rake("rake thinking_sphinx:reindex")
 	end
@@ -185,10 +189,10 @@ class Journal < Group
   end
   
   # creates entries with logins
-  def create_journal_entries(surveys)
+  def create_journal_entries(surveys, follow_up = 0)
     return true if surveys.empty?
     surveys.each do |survey|
-      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self})
+      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up})
       entry.expire_cache # expire journal_entry_ids
       entry.journal = self
       login_number = "#{self.code}#{survey.id}"
@@ -220,6 +224,7 @@ class Journal < Group
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
     c["pid"] = settings && eval("self.#{settings.value}") || self.code
+    c["alt_id"] = self.person_info.alt_id
     c["pkoen"] = self.sex
     c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c["pnation"] = self.nationality
@@ -235,6 +240,7 @@ class Journal < Group
     c[:ssghnavn] = self.center.title
     c[:safdnavn] = self.team.title
     c[:pid] = settings && eval("self.#{settings.value}") || self.code
+    c[:alt_id] = self.person_info.alt_id
     c[:pkoen] = self.sex
     c[:palder] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c[:pnation] = self.nationality
@@ -242,54 +248,6 @@ class Journal < Group
     c[:pfoedt] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
     c
   end
-
-  # def self.info_header
-  #   %w{ssghafd  ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt}
-  # end
-    
-    
-  # def to_xml(options = {})
-  #   if options[:builder]
-  #     build_xml(options[:builder])
-  #   else
-  #     xml = Builder::XmlMarkup.new
-  #     xml.__send__(:journal, self.info.to_h) do
-  #       xml.score_rapports do
-  #         # self.rapports.map(&:score_rapports).each do |rapport|
-  #         self.score_rapports.each do |rapport|
-  #           xml.__send__(:score_rapport, {:survey => rapport.survey_name, :id => rapport.survey_answer_id, :survey_short => rapport.short_name, :unanswered => rapport.unanswered}) do
-  #             rapport.score_results.each do |result|
-  #               attrs = {:name => result.title, :result => result.result, :mean => result.mean }
-  #               attrs[:percentile98] = true if result.percentile_98
-  #               attrs[:percentile95] = true if result.percentile_95
-  #               attrs[:deviation] = true if result.deviation
-  #               xml.__send__(:score, attrs)
-  #             end
-  #           end
-  #         end
-  #       end
-  #       xml.survey_answers do
-  #         self.survey_answers.each do |survey_answer|
-  #           xml.__send__(:survey_answer, {:id => survey_answer.id, :survey => survey_answer.score_rapport.survey_name, 
-  #                        :survey_short => survey_answer.score_rapport.short_name, :created => self.created_at}) do
-  #             xml.answers do
-  #               survey_answer.cell_vals.each do |answer_vals|
-  #                 xml.__send__(:answer, {:number => answer_vals[:number]}) do
-  #                   xml.cells do
-  #                     answer_vals[:cells].each do |cell_h|
-  #                       attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
-  #                       xml.__send__(:cell, attrs)
-  #                     end
-  #                   end
-  #                 end
-  #               end
-  #             end
-  #           end
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
 
   # protected
   

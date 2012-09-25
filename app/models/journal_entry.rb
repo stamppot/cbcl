@@ -5,7 +5,9 @@ class JournalEntry < ActiveRecord::Base
   belongs_to :login_user, :class_name => "LoginUser", :foreign_key => "user_id", :dependent => :destroy  # TODO: rename to login_user, add type constraint
 
   validates_associated :login_user
-  
+  # validates_uniqueness_of :follow_up, :scope => :journal_id #, :message => "bruges allerede. Vælg andet ID."
+  # validate :follow_up_validation
+
   named_scope :and_login_user, :include => :login_user
   named_scope :and_survey_answer, :include => [:survey, :survey_answer]
 	named_scope :for_center, lambda { |center_id| { :joins => :journal, :conditions => ["center_id = ?", center_id] } }
@@ -18,7 +20,26 @@ class JournalEntry < ActiveRecord::Base
   named_scope :for_states, lambda { |states| { :conditions => ["state IN (?)", states]}}
   named_scope :with_cond, lambda { |cond| cond }
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
-  
+
+  def self.follow_ups
+    [["Diagnosticering", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3]]
+  end
+
+  def get_follow_up
+    self.follow_up ||= 0
+    JournalEntry.follow_ups[follow_up].first
+  end
+
+  # def follow_up_validation
+  #   is_invalid = journal.has_follow_up?(self)
+  #   errors.add(:follow_up, "Journalen har allerede et skema med denne opfølgning: #{get_follow_up}") if is_invalid
+  # end
+
+  def get_title
+    t = survey.title.gsub("skema", "")
+    t += " #{self.get_follow_up}"
+  end
+
   def expire_cache
     Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
   end
@@ -35,7 +56,7 @@ class JournalEntry < ActiveRecord::Base
     self.survey_answer.journal_entry = self
     self.survey_answer
   end
-  
+
   # deletes login user
   def remove_login!
     return self.login_user.destroy if self.login_user

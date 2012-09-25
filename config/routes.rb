@@ -31,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :centers
   map.resources :teams
   map.resources :journals
-  map.resources :journal_entries, :only => [:show]
+  map.resources :journal_entries, :only => [:show, :edit, :update]
   map.resources :export_files
   map.resources :exports
   map.resources :faqs

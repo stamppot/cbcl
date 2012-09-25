@@ -224,6 +224,7 @@ da-DK:
       :show: "Vis spørgeskema"
       :add: "Tilføj spørgeskemaer"
       :new: "Nyt spørgeskema"
+      :followup: "Opfølgning"
     logout: Log ud
     no_groups: Ingen Grupper
     total: Total
