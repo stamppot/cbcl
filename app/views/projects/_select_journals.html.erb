@@ -35,7 +35,7 @@ Der er ingen journaler i systemet.
 		<% if current_user.access? :journal_new_edit_delete %>
 		<%# link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
 		<% end %>
-		<%# link_button t('export.journal_letter_data'), export_logins_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+		<%= link_button t('export.journal_letter_data'), export_logins_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
 		<% if @group.parent && @group.parent.teams.size > 1 %>
 		<%# link_button "Tilføj journaler", select_project_journals_path(@group), 'journal_add', :title => 'Tilføj journaler til projekt' %>
 		<% end %>

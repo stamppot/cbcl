@@ -66,6 +66,10 @@ class JournalEntry < ActiveRecord::Base
   def is_parent_survey?
     [1,2].include?(survey_id)
   end
+  
+  def is_teacher_survey?
+    [3,4].include? survey_id
+  end
 
   def destroy_and_remove_answers!
     self.remove_login!

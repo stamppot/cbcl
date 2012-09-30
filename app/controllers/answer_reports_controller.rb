@@ -9,7 +9,7 @@ class AnswerReportsController < ApplicationController
     
     score_report = ScoreReportPresenter.new.create(params[:answers], params[:journal_id])
     @journal = score_report.journal
-    @titles  = score_report.titles
+    @titles  = score_report.titles #.map {|t| t.gsub("nn", "<br/>")}
     @groups  = score_report.groups
     @scales  = score_report.scales
     @group_titles = score_report.group_titles

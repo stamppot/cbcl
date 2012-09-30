@@ -15,7 +15,7 @@ class ScoreReportPresenter
 
     @journal = entries.first.journal # show journal info
     # create survey titles row  # first header is empty, is in corner
-    @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age}" }
+    @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age} <br/>#{sa.created_at.strftime('%-d-%-m-%Y')}" }
     # find or create score_rapport
     score_rapports = survey_answers.map { |sa| sa.score_rapport ||= sa.generate_score_report }
     unanswered = ["Ubesvarede"]

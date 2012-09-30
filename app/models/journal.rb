@@ -109,6 +109,10 @@ class Journal < Group
 		#Journal.run_rake("rake thinking_sphinx:reindex")
 	end
 
+  def follow_up_count
+    journal_entries.map {|e| e.survey_id}.group_by {|c| c}.map {|c| c.second.count}.max
+  end
+
   def expire
     Rails.cache.delete("j_#{self.id}")
 		Rails.cache.delete("journal_ids_user_#{self.id}")

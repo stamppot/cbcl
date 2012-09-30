@@ -118,6 +118,7 @@ ActionController::Routing::Routes.draw do |map|
   map.update_journals_email '/journals/update_emails/:id', :controller => 'journals', :action => 'update_email'
 
   map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails', :format => 'csv'
+  map.export_journal_logins 'journals/export_logins/:id.:format', :controller => 'journals', :action => 'export_logins', :format => 'csv'
 
   # journal entries
   map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
@@ -145,7 +146,9 @@ ActionController::Routing::Routes.draw do |map|
   map.survey_save_draft 'survey_answers/save_draft/:id', :controller => 'survey_answers', :action => 'save_draft' # :id is entry
   map.survey_answer_create 'survey_answers/create/:id', :controller => 'survey_answers', :action => 'create'
   map.survey_answer_done 'survey_answers/done/:id', :controller => 'survey_answers', :action => 'done' # :id is entry
-  
+  map.edit_date_survey_answers 'survey_answers/edit_date/:id', :controller => 'survey_answers', :action => 'edit_date'
+  map.update_date_survey_answers 'survey_answers/update_date/:id', :controller => 'survey_answers', :action => 'update_date'
+
   # subscriptions
   map.new_subscription 'subscriptions/new/:id', :controller               => 'subscriptions', :action => 'new' # center id
   map.subscription_reset 'subscriptions/reset/:id', :controller           => 'subscriptions', :action => 'reset'

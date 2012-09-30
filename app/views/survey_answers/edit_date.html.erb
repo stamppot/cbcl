@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="/javascripts/clean-calendar/calendar.css" />
+<script type="text/javascript" src="/javascripts/clean-calendar/calendar.js" ></script>
+
+<h2>Ret besvarelsesdato</h2>
+
+Den oprindelige besvarelsesdato er: <%= @entry.created_at.strftime("%-d-%m-%-y") %>.
+
+<% form_tag :action => 'update_date', :id => @entry do %>
+	<%= hidden_field :journal_entry, :id, :value => @entry.id %>
+	<%= text_field :survey_answer, :created, :id => "survey_answer_date", :class => "datePick" %>
+	<p/>
+	<div id="calendar"></div>
+ 
+	<%= submit_tag t('save_changes'), :class => 'button save', :confirm => 'Er du sikker på at du vil ændre besvarelsesdatoen?' %>
+<% end %>
+
+<%= back_button journal_path(@entry.journal) %>
+
+
+<script type="text/javascript">
+	//cal = new scal('calendar', 'survey_answer_date', {}); cal.showCalendar();
+</script>
+

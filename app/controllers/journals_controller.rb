@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'iconv'
+
 # A Journal is a special group that must be a child of a journal or center
 class JournalsController < ApplicationController # < ActiveRbac::ComponentController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
@@ -7,6 +9,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   cache_sweeper :journal_sweeper, :only => [:create, :update, :destroy, :add_survey, :remove_survey, :move]
   
   before_filter :check_access, :except => [:index, :list, :per_page, :new, :live_search]
+
+  BOM = "\377\376" #Byte Order Mark
 
   def per_page
     REGISTRY[:journals_per_page]
@@ -37,8 +41,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = cache_fetch("j_#{params[:id]}") do
       Journal.find(params[:id], :include => {:journal_entries => :login_user})
     end
-    alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
-    @alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+    alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
+    alt_id = alt_ids.any? && alt_ids.first || ""
+    @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
 
 		@answered_entries = @group.answered_entries
 		@not_answered_entries = @group.not_answered_entries
@@ -51,7 +56,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @groups = Group.get_teams_or_centers(params[:id], current_user)
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
     # @group.code = @group.next_journal_code(current_user)
-    @alt_id_name = @group.center.get_alt_id
+    alt_ids = [] #@group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
+    alt_id = alt_ids.any? && alt_ids.first || ""
+    @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
+
 
     @project = Project.find(params[:project_id]) if params[:project_id]
     # @project.journals << @group if params[:project_id]
@@ -95,7 +103,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @groups = current_user.center_and_teams
     @person_info = @group.person_info
     @nationalities = Nationality.all
-    @alt_id_name = @group.center.get_alt_id    
+    alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
+    @alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+    
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Denne journal kunne ikke findes.'
@@ -172,7 +182,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     else
       # can only add surveys in age group of person
       @follow_ups = JournalEntry.follow_ups
-      @follow_up = (@group.journal_entries.map(&:follow_up).compact.max  || -1).next
+      @follow_up = @group.follow_up_count
       @surveys = @group.center.subscribed_surveys_in_age_group(@group.age)
       @page_title = "Journal #{@group.title}: Tilføj spørgeskemaer"      
     end
@@ -281,27 +291,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
     redirect_to select_journals_path(team) and return
   end
-  
-  # def export
-  #   project = Project.find(params[:id])
-    
-  #   respond_to do |wants|
-  #     wants.html {
-  #       # @login_users = team.journals.map { |journal| journal.journal_entries }.flatten.map {|entry| entry.login_user}.compact
-  #       csv = CSVHelper.new.login_users(project.journals)
-        
-  #       send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_project_#{project.code.underscore}.csv", 
-  #                 :type => 'text/csv', :disposition => 'attachment')
-
-  #     }
-  #     wants.csv {
-  #       csv = CSVHelper.new.login_users(project.journals)
-        
-  #       send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_project_#{project.code.underscore}.csv", 
-  #                 :type => 'text/csv', :disposition => 'attachment')
-  #     }
-  #   end
-  # end
 
   def add_journals
     project = Project.find(params[:id])
@@ -336,36 +325,59 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   def export_mails
     group = Group.find(params[:id])
-    
+    filter = params[:survey] || [1,2,3,4,5]
+        
     # TODO: get journal_entries for parent surveys
     journal_entries = 
     group.journals.inject([]) do |col, journal|
-      parent_entries = journal.journal_entries.select {|entry| entry.not_answered? && entry.login_user && entry.is_parent_survey? }
+      parent_entries = journal.journal_entries.select {|entry| entry.not_answered? && entry.login_user && filter.include?(entry.survey_id) }
       col << parent_entries
       col
     end.flatten
 
+    csv = CSVHelper.new.mail_merge_login_users(journal_entries)
+
     respond_to do |wants|
       wants.html {
-        # @login_users = team.journals.map { |journal| journal.journal_entries }.flatten.map {|entry| entry.login_user}.compact
-        csv = CSVHelper.new.mail_merge_login_users(journal_entries)
-        
-        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_projekt_#{group.code.to_s.underscore}.csv", 
+        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_data_#{group.code.to_s.underscore}.csv", 
                   :type => 'text/csv', :disposition => 'attachment')
 
       }
       wants.csv {
-        csv = CSVHelper.new.mail_merge_login_users(journal_entries)
-        
-        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_projekt_#{group.code.to_s.underscore}.csv", 
+        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_data_#{group.code.to_s.underscore}.csv", 
                   :type => 'text/csv', :disposition => 'attachment')
       }
     end
   end
 
+  # get login_users in all journals in team
+  def export_logins
+    team = Group.find(params[:id])
+    csv = CSVHelper.new.login_users(team.journals)
+    filename = group.title.underscore + "_" + I18n.l(Time.now, :format => :short) + "-logins.csv"
+    
+    respond_to do |wants|
+      # wants.html {
+      #   send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_login_brugere_team_#{team.title.underscore}.csv", 
+      #             :type => 'text/csv', :disposition => 'attachment')
+
+      # }
+      wants.csv {
+        export_csv(csv, filename)
+        # send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_login_brugere_team_#{team.title.underscore}.csv", 
+        #           :type => 'text/csv', :disposition => 'attachment')
+      }
+    end    
+  end
+
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
 
+  def export_csv(csv, filename)
+    content = csv
+    content = BOM + Iconv.conv("utf-16le", "utf-8", content)
+    send_data content, :filename => filename
+  end
 
   def user_access
     redirect_to login_path and return unless current_user

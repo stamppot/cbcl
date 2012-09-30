@@ -2,6 +2,8 @@ require 'fastercsv'
 
 class ExportLoginsController < ApplicationController
 
+  BOM = "\377\376" #Byte Order Mark
+  
   # get login_users in all journals in team
   def download
     team = Group.find(params[:id])
