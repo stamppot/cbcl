@@ -498,6 +498,11 @@ h1.score_report {
   	text-align: center;
 }
 
+table#score_report th .survey_info {
+	font-size: 13px;
+	font-weight: normal;
+}
+
 table.center_info tbody tr:nth-child(even) td {
 	background: #fff;
 }

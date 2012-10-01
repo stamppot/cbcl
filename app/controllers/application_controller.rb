@@ -184,6 +184,11 @@ class ApplicationController < ActionController::Base
     return true
   end
 
+  def export_csv(csv, filename, type = "application/vnd.ms-excel; charset=utf-8")
+    content = Excelinator.csv_to_xls(csv)
+    send_data content, :filename => filename, :type => type, :content_type => type, :disposition => 'attachment'
+  end
+
   private
   def cache(key)
     unless output = CACHE.get(key)

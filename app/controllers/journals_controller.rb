@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 require 'iconv'
-
+require 'excelinator'
+  
 # A Journal is a special group that must be a child of a journal or center
 class JournalsController < ApplicationController # < ActiveRbac::ComponentController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
@@ -10,7 +11,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
   before_filter :check_access, :except => [:index, :list, :per_page, :new, :live_search]
 
-  BOM = "\377\376" #Byte Order Mark
+  # BOM = "\377\376" #Byte Order Mark
 
   def per_page
     REGISTRY[:journals_per_page]
@@ -338,15 +339,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     csv = CSVHelper.new.mail_merge_login_users(journal_entries)
 
     respond_to do |wants|
-      wants.html {
-        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_data_#{group.code.to_s.underscore}.csv", 
-                  :type => 'text/csv', :disposition => 'attachment')
-
-      }
-      wants.csv {
-        send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_logins_data_#{group.code.to_s.underscore}.csv", 
-                  :type => 'text/csv', :disposition => 'attachment')
-      }
+      filename = Time.now.strftime("%Y%m%d%H%M%S") + "_logins_data_#{group.code.to_s.underscore}.csv"
+      wants.html { export_csv(csv, filename) }
+      wants.csv { export_csv(csv, filename) }
     end
   end
 
@@ -357,26 +352,21 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     filename = group.title.underscore + "_" + I18n.l(Time.now, :format => :short) + "-logins.csv"
     
     respond_to do |wants|
-      # wants.html {
-      #   send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_login_brugere_team_#{team.title.underscore}.csv", 
-      #             :type => 'text/csv', :disposition => 'attachment')
-
-      # }
-      wants.csv {
-        export_csv(csv, filename)
-        # send_data(csv, :filename => Time.now.strftime("%Y%m%d%H%M%S") + "_login_brugere_team_#{team.title.underscore}.csv", 
-        #           :type => 'text/csv', :disposition => 'attachment')
-      }
+      wants.csv { send_xsl_data 'filename' } #export_csv(csv, filename) }
+      wants.xls { send_xsl_data 'filename' } #export_csv(csv, filename) }
     end    
   end
 
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
 
-  def export_csv(csv, filename)
-    content = csv
-    content = BOM + Iconv.conv("utf-16le", "utf-8", content)
-    send_data content, :filename => filename
+  # TODO: export to xls, see export_logins_controller
+  def export_csv(csv, filename, type = "application/vnd.ms-excel; charset=utf-8")
+    # content = csv
+    bom = "\377\376" #Byte Order Mark
+    puts "BOM: #{bom} #{bom.inspect}"
+    content = bom + csv # Iconv.conv("utf-16le", "utf-8", csv)
+    send_data content, :filename => filename, :type => type, :content_type => type, :disposition => 'attachment'
   end
 
   def user_access

@@ -35,7 +35,7 @@ class PersonInfo < ActiveRecord::Base
   end
   
   def self.nationalities
-    Nationality.find :all
+    Nationality.all
   end
 
   def sex_text

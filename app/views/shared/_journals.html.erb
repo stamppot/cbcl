@@ -37,7 +37,7 @@
 			<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
 			<%= link_button("Handling på flere", select_journals_path(@group), 'bulk_edit', :title => 'Udfør en handling på flere journaler') %>
 			<% end %>
-			<%= link_button t('export.logins'), export_logins_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter logins til Excel' %>
+			<%= link_button t('export.logins'), export_logins_path(@group, :format => 'csv') + ".xls", 'export_logins', :title => 'Eksporter logins til Excel' %>
 			<br/>
 			<% if @group.parent && @group.parent.teams.size > 1 %>
 			<%= link_button t('team.move'), select_move_journals_path(@group), 'journal_move', :title => t('team.move') %>

@@ -15,7 +15,11 @@ class ScoreReportPresenter
 
     @journal = entries.first.journal # show journal info
     # create survey titles row  # first header is empty, is in corner
-    @titles = [""] + survey_answers.map { |sa| "#{sa.survey.category} #{sa.survey.age} <br/>#{sa.created_at.strftime('%-d-%-m-%Y')}" }
+    @titles = [""] + survey_answers.map do |sa|
+      entry = entries.select { |e| e.survey_answer_id == sa.id }.first
+      "#{sa.survey.category} #{sa.survey.age}<div class='survey_info'>#{entry.get_follow_up}<br/>#{sa.created_at.strftime('%-d-%-m-%Y')}</div>"
+    end
+
     # find or create score_rapport
     score_rapports = survey_answers.map { |sa| sa.score_rapport ||= sa.generate_score_report }
     unanswered = ["Ubesvarede"]

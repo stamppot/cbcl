@@ -67,7 +67,7 @@ class ExportsController < ApplicationController
     
     params[:team] = params[:team][:id] if params[:team]
     csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
-    puts "DOWNLOAD csv_survey_answers: #{csv_survey_answers.size}"
+    # puts "DOWNLOAD csv_survey_answers: #{csv_survey_answers.size}"
     # spawns background task
     @task = Task.create(:status => "In progress")
     @task.create_survey_answer_export(params[:survey][:id], csv_survey_answers)
@@ -79,7 +79,7 @@ class ExportsController < ApplicationController
     
     respond_to do |format|
       format.js {
-        puts "GENERATING JS"
+        # puts "GENERATING JS"
         render :update do |page|
           if @task.completed?
             page.visual_effect :blind_up, 'content'
@@ -92,7 +92,7 @@ class ExportsController < ApplicationController
         end
       }
       format.html do
-        puts "GENERATING HTML"
+        # puts "GENERATING HTML"
         redirect_to export_file_path(@task.export_file) and return if @task.completed?
       end
     end

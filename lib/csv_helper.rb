@@ -114,66 +114,66 @@ class CSVHelper
   
   
   # works
-  def login_users(journals)
-    journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
+  # def login_users(journals)
+  #   journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
-    puts "journals with unanswered entries: #{journals.size}" if DEBUG
-    # {"journal_155"=> {
-    #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
-    #   :navn=>"Frederik Fran Søndergaard" } }
-    results = journals.inject({}) do |results, journal|
-      surveys = journal.journal_entries.inject([]) do |col, entry|
-        if entry.login_user && entry.not_answered?
-          survey_name = entry.survey.get_title.gsub(/\s\(.*\)/,'')
-          an_entry = { :user => entry.login_user.login, :password => entry.password,
-            :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
-          col << an_entry
-        end
-        col
-      end
+  #   puts "journals with unanswered entries: #{journals.size}" if DEBUG
+  #   # {"journal_155"=> {
+  #   #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
+  #   #   :navn=>"Frederik Fran Søndergaard" } }
+  #   results = journals.inject({}) do |results, journal|
+  #     surveys = journal.journal_entries.inject([]) do |col, entry|
+  #       if entry.login_user && entry.not_answered?
+  #         survey_name = entry.survey.get_title.gsub(/\s\(.*\)/,'')
+  #         an_entry = { :user => entry.login_user.login, :password => entry.password,
+  #           :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
+  #         col << an_entry
+  #       end
+  #       col
+  #     end
 
-      results["journal_#{journal.code}"] = { 
-        :navn => journal.person_info.name,
-        :skemaer => surveys
-      } if !surveys.empty?
+  #     results["journal_#{journal.code}"] = { 
+  #       :navn => journal.person_info.name,
+  #       :skemaer => surveys
+  #     } if !surveys.empty?
 
-      results
-    end
+  #     results
+  #   end
 
-    puts "results size: #{results.size}"  if DEBUG
-    # max no surveys in any journal
-    max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
+  #   puts "results size: #{results.size}"  if DEBUG
+  #   # max no surveys in any journal
+  #   max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
     
-    csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-      header = ["id", "navn"]
-      max.times do |i| 
-        s = "skema_#{i+1}"
-        header += [s, "#{s}_login", "#{s}_password", "#{s}_dato"]
-      end
-      csv << header
+  #   csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
+  #     header = ["id", "navn"]
+  #     max.times do |i| 
+  #       s = "skema_#{i+1}"
+  #       header += [s, "#{s}_login", "#{s}_password", "#{s}_dato"]
+  #     end
+  #     csv << header
       
-      contents = []
-      results.each do |journal, hash|
-        row = [journal, hash[:navn]]
-        results[journal][:skemaer].each do |survey|
-          row << survey[:survey]
-          row << survey[:user]
-          row << survey[:password]
-          row << survey[:date]
-        end
-        # puts "cols: #{row.size}  max: #{max}"
-        s = row.size
-        (max*4-s+2).times { |i| row << "" } # fill row with empty values
-        # puts "cols: #{row.size}  max: #{max}"
+  #     contents = []
+  #     results.each do |journal, hash|
+  #       row = [journal, hash[:navn]]
+  #       results[journal][:skemaer].each do |survey|
+  #         row << survey[:survey]
+  #         row << survey[:user]
+  #         row << survey[:password]
+  #         row << survey[:date]
+  #       end
+  #       # puts "cols: #{row.size}  max: #{max}"
+  #       s = row.size
+  #       (max*4-s+2).times { |i| row << "" } # fill row with empty values
+  #       # puts "cols: #{row.size}  max: #{max}"
 
-        contents << row
-        contents = contents.sort { |a,b| a.first <=> b.first }
-      end
-      contents.each { |row| csv << row }
-    end
+  #       contents << row
+  #       contents = contents.sort { |a,b| a.first <=> b.first }
+  #     end
+  #     contents.each { |row| csv << row }
+  #   end
     
-    return csv
-  end
+  #   return csv
+  # end
 
  def login_users(journals)
     journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
@@ -193,10 +193,11 @@ class CSVHelper
         col
       end
 
+      # parent_email = journal.person_info.parent_email || ""
       results["journal_#{journal.code}"] = { 
         :name => journal.person_info.name,
         :first_name => journal.person_info.name.split(" ").first,
-        :parent_email => journal.person_info.parent_email || "",
+        :parent_email => journal.person_info.parent_email,
         :parent_name => journal.person_info.parent_name,
         :alt_id => journal.person_info.alt_id,
         :skemaer => surveys
@@ -208,7 +209,7 @@ class CSVHelper
     # max no surveys in any journal
     max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
     
-    csv = FasterCSV.generate(:col_sep => "\t", :row_sep => :auto) do |csv|
+    csv = FasterCSV.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
       header = ["id", "navn", "fornavn", "email", "mor_navn", "alternativ_id" ]
       max.times do |i| 
         s = "skema_#{i+1}"

@@ -55,7 +55,7 @@ Rails::Initializer.run do |config|
   Dir[File.dirname(__FILE__) + "/../vendor/*"].each do |path|
     gem_name = File.basename(path.gsub(/-\d+.\d+.\d+$/, ''))
     gem_path = path + "/lib/" + gem_name + ".rb"
-    # puts "GEM_PATH: #{gem_name}" if gem_path.include? "ar-extensions"
+    puts "GEM_PATH: #{gem_name}"
     require gem_path if File.exists?(gem_path) # && !gem_path.include?("ar-extensions")
   end
 
