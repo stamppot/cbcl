@@ -1,4 +1,5 @@
-	<h3>Journaler</h3>
+	<img src="/images/journal_48.png" border=0 align="middle" />
+		<span class="h3">Journaler</span><p>
 	<p>
 	Tryk på en kolonne for at sortere tabellen.
 	</p>
@@ -35,16 +36,16 @@
 			<br/>
 			<% if current_user.access? :journal_new_edit_delete %>
 			<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
-			<%= link_button("Handling på flere", select_journals_path(@group), 'bulk_edit', :title => 'Udfør en handling på flere journaler') %>
+			<%# link_button("Handling på flere", select_journals_path(@group), 'bulk_edit', :title => 'Udfør en handling på flere journaler') %>
 			<% end %>
-			<%= link_button t('export.logins'), export_logins_path(@group, :format => 'csv') + ".xls", 'export_logins', :title => 'Eksporter logins til Excel' %>
+			<%= link_button t('export.logins'), export_login_path(@group.id), 'export_logins', :class => "mini", :title => 'Eksporter logins til Excel' %>
 			<br/>
 			<% if @group.parent && @group.parent.teams.size > 1 %>
-			<%= link_button t('team.move'), select_move_journals_path(@group), 'journal_move', :title => t('team.move') %>
+			<%= link_button t('team.move'), select_move_journals_path(@group), 'journal_move', :class => "mini", :title => t('team.move') %>
 			<% end %>
-			<%# link_button t('export.journal_letter_data'), export_journals_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter brevfletningsdata' %>
+			<%= link_button t('export.journal_letter_data'), export_journals_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter brevfletningsdata' %>
 
-			<%= link_button t('journal.status'), reminder_path(@group), 'journal_status', :title => t('journal.status') %>
+			<%= link_button t('journal.status'), reminder_path(@group), 'journal_status', :class => "mini", :title => t('journal.status') %>
 			<p/>
 		</div>
 	</p>

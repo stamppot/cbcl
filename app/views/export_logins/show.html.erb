@@ -1,0 +1,15 @@
+<h2>Eksporter login-data</h2>
+
+<% form_tag :action => :download, :id => @group.id do %>
+	<label for="format">Format: </label>
+	<%= select_tag :format, options_for_select(@format), :include_blank => false %>
+
+	<br/>
+	<label for="separator">Separator: </label>
+	<%= select_tag :separator, options_for_select([["semikolon", ";"],["tab", "\t"]]), :include_blank => false %>
+
+<br/>
+<br/>
+    <%= submit_tag t('export.logins'), { :class => 'download button' } %>
+
+<% end %>

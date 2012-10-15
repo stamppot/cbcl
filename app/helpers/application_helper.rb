@@ -79,7 +79,7 @@ module ApplicationHelper
   end 
 
   alias_method_chain :will_paginate, :i18n
-  
+
   def create_cell_id(row, col)
     return "cell"+row.to_s + "_" + col.to_s
   end

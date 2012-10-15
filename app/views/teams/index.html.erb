@@ -1,15 +1,11 @@
-<h2>Teams</h2>
+<p><!-- <img src="/images/users_64.png" border=0 align="middle" /> -->
+<span class="h3">Teams</span></a><p>
+</p>
 
 <p>
-<% @teams_by_center.each do |center, teams| %>
-    <%= link_to(center.title, center_path(center), :title => t('center.show')) %>
-		<% if teams.any? %>
-			<% @groups = teams %>
-			<%= render :partial => "shared/group_list" %>
- 		<% end %>
+	<%= render :partial => "shared/teams" %>
 		<p/>
 		<br/>
-<% end %>
 </p>
 
 <% if current_user.access? :team_new_edit_delete %>

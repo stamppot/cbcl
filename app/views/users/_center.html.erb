@@ -1,0 +1,22 @@
+<%# cache "center_users_#{@group.id}_role_#{current_user.highest_role.title}" do %>
+
+	<% localadmins = @users.select { |u| u.has_access? :centeradm } %>
+	<h3>Centeradministrator<%= !localadmins.empty? ? "er" : " " %></h3>
+	
+	<% if localadmins.empty? %>
+	<p>Ingen</p>
+	<% if current_user.access? :user_new_leader %>
+	<div class="commands">
+	<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => t('user.new') %><br>
+	</div>
+	<% end %>
+	<% else %>
+	<ul>
+	<% for user in localadmins %>
+	<li><%= link_to user.login, user_path(user), :title => t('user.show') %></li>
+	<% end %>
+	</ul>
+	<% end %>
+	<%= render :partial => 'shared/users' %>
+
+<%# end %>

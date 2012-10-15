@@ -137,6 +137,7 @@ class SurveyAnswersController < ApplicationController
     journal_entry.draft! # unless journal_entry.answered?
     return if journal_entry.answered?
 
+    # necessary to load survey here??
     survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
       Survey.and_questions.find(journal_entry.survey_id)
     end

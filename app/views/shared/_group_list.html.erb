@@ -1,9 +1,9 @@
-<% @groups = @group.teams if @group && @group.teams %>
+<% @groups = @group.teams if @group && @group.teams.count > 0 %>
 <table class="sortable list" class="groups">
 	<tr>
 		<th class="wide" title="Sorter efter navn"><%= center_or_team_text(@groups) %></th>
 		<th title="Sorter efter SKS-kode">ID</th>
-		<th class="narrow" title="Sorter efter antal brugere"><%= t('user.users') %></th>
+		<!-- <th class="narrow" title="Sorter efter antal brugere"><%# t('user.users') %></th> -->
 		<% unless @hide_team %>
 		<th class="half_wide" title="Sorter efter team"><%= any_teams_text %></th>
 		<% end %>
@@ -20,7 +20,7 @@
 	<tr>
 		<td><%= link_to( group.title, group.is_a?(Team) && team_path(group) || center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
 		<td><%= group.code %></td>
-		<td style="text-align: right;"><%= group.users.size %></td>
+		<!-- <td style="text-align: right;"><%# group.users.size %></td> -->
 		<% unless @hide_team %>
     <td style="text-align: left;"><%= group.class.to_s %></td>
 		<% end %>
@@ -31,8 +31,8 @@
 		<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
 		<% if current_user.access? :center_delete %>
 		<td>
-			<%= link_to img_tag_html4('group_edit.png', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
-			<%= link_to img_tag_html4('group_delete.png', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
+			<%= link_to img_tag_html4('group_edit_24.png', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
+			<%= link_to img_tag_html4('group_delete_24.png', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
 		</td>
 		<% end %>
 		<tr/>

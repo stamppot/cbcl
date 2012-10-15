@@ -1,7 +1,10 @@
-<h2>Liste af Brugere</h2>
+<p><img src="/images/users_48.png" border=0 align="middle" />
+<span class="h3">Brugere</span></a><p>
+</p>
 
-<%= render :partial => 'shared/user_list' %>
-
+	<div id="users">
+		<%= render :partial => 'shared/user_list' %>
+	</div>
 <br/>
 <p>
 
@@ -12,3 +15,29 @@
 	<%= link_button t('user.new'), new_user_path, 'user_add' %>
 <% end %>
 </div>
+
+<script type="text/javascript">
+document.observe("dom:loaded", function() {
+  var container = $(document.body)
+
+  if (container) {
+    var img = new Image
+    img.src = '/images/spinner.gif'
+    var spinner = null
+
+    function Spinner() {
+      spinner = new Element('img', { src: img.src, 'class': 'spinner' })
+      return spinner
+    }
+
+    container.observe('click', function(e) {
+      var el = e.element()
+      if (el.match('.pagination a')) {
+        el.up('.pagination').insert(Spinner())
+        new Ajax.Request(el.href, { method: 'get' })
+        e.stop()
+      }
+    })
+  }
+})
+</script>

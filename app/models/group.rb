@@ -60,6 +60,20 @@ class Group < ActiveRecord::Base
     end
   end
   
+  def login_prefix
+   group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
+   num = self.login_users.count.next
+   login_name = "#{group_name}-#{num}"
+    # login =
+    # login_name = if luser = self.login_users.count
+      # luser.login =~ /(\d+)/
+      # "#{group_name}"
+    # else
+      # "#{group_name}"
+    # end
+    login_name.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
+  end
+
   protected
 
     # We want to validate a group's title pretty thoroughly.

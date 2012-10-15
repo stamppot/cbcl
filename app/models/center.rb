@@ -132,18 +132,6 @@ class Center < Group
     self.journals.collect { |j| j.code }
   end
 
-  def login_center_name
-   center_name = title.split.map {|w| w.first }.join.downcase
-    login =
-    login_name = if luser = self.login_users.last
-      luser.login =~ /(\d+)/
-      "#{center_name}"
-    else
-      "#{center_name}"
-    end
-    login_name.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
-  end
-  
 
   protected
   

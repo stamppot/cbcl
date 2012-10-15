@@ -1,0 +1,38 @@
+	<h3>Journaler</h3>
+	<p>
+	Tryk på en kolonne for at sortere tabellen.
+	</p>
+	
+	<% if @journals.empty? %>
+		<%= t('none') %>
+	<% else %>
+	<% @hide_team = true %>
+	<div id="journals">
+		<%= render :partial => 'journals/journals' %>
+	</div>
+	
+	<% if params[:action] =~ /search/ %>
+		<div style='align: right;'><b><%= @journals.size %></b> resultat<%= 'er' if @journals.size > 1 %></div>
+	<% end %>
+
+	<% if @group %>
+	<p>
+		<div class="commands">
+			<br/>
+			<% if current_user.access? :journal_new_edit_delete %>
+			<%# link_button("Handling på flere", select_journals_path(@group), 'bulk_edit', :title => 'Udfør en handling på flere journaler') %>
+			<% end %>
+			<%= link_button(t('journal.new'), new_journal_path(@group), 'journal_add', :title => 'Opret Journal') %>
+			<p>
+			<%= link_button t('export.logins_short'), export_login_path(@group.id), 'export_logins', :class => "mini", :title => 'Eksporter logins til Excel' %>
+			<% if @group.parent && @group.parent.teams.size > 1 %>
+			<%= link_button t('team.move_short'), select_move_journals_path(@group), 'journal_move', :class => "mini", :title => t('team.move') %>
+			<% end %>
+			<%# link_button t('export.journal_letter_data'), export_journals_path(@group, :format => 'csv') +".csv", 'export_logins', :title => 'Eksporter brevfletningsdata' %>
+
+			<%= link_button t('journal.status_short'), reminder_path(@group), 'journal_status', :class => "mini", :title => t('journal.status') %>
+			<p/>
+		</div>
+	</p>
+	<% end %>
+<% end %>

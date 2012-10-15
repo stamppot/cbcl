@@ -16,6 +16,10 @@
 				<% end %>
 			</tr>
 			<tr>
+				<td class="t_i"><%= t('status.created') %>:</td>
+				<td class="t"><%=h @group.created_at.strftime("%d-%m-%Y") %></td>
+			</tr>
+			<tr>
 				<td class="t_i"><%= t('user.users') %>:</td>
 				<td class="t"><%=h @user_count %></td>
 			</tr>
@@ -31,7 +35,9 @@
 				<td class="t_i"><%= t('letter.login') %>:</td>
 				<td class="t">
 					<% if @group.letters.any? %>
-						<%= link_to t('letter.letters'), letters_path %>
+						<%= link_to img_tag_html4('mail_24.png', :border => 0, :align => "middle", :class => 'icon', :title => t('letter.letters') + t('letter.letters'), :alt => t('letter.letters')), letters_path  -%>
+				
+						<%# link_to t('letter.letters'), letters_path %>
 					<% else %>
 						<%= link_button t('letter.new'), new_letter_url(@group), 'letter', :title => t('letter.new') %>
 					<% end %>

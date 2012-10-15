@@ -163,6 +163,7 @@ da-DK:
       :entry_status: Eksporter til Excel
       :data: "Dataudtræk"
       :logins: Eksporter logins
+      :logins_short: "-> logins"
       :journal_letter_data: Eksporter brevfletningsdata
     user_id: ID
     next: "Næste"
@@ -240,7 +241,7 @@ da-DK:
       :subscribe: Abonner
       :merge_periods_title: "Slå periode sammen med forrige"
       :change_subscription: "Ændre abonnementer"
-      :list: Liste af abonnementer
+      :list: Abonnementer
       :undo_payment: Fortryd sidste betaling
       :none: Ingen abonnementer
       :pay: Betal
@@ -301,7 +302,8 @@ da-DK:
     delete: Slet
     save: Gem
     journal: 
-      :status: Check status
+      :status: Svarstatus
+      :status_short: Status
       :edit: Rediger Journal
       :journals: Journaler
       :list: Vis Journaler
@@ -347,6 +349,7 @@ da-DK:
       :list: Vis Teams
       :admins: Teamadministrator
       :move: Flyt journaler
+      :move_short: Flyt
       :show: Vis Team
       :new: Opret Team
       :teams: Teams

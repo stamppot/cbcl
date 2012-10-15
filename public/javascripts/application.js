@@ -49,6 +49,16 @@ function get_dynamic_fragments(url, opt) {
 	});
 };
 
+function get_js_fragments(url, onsuccessfn) {
+ // alert ("Loading: " + url + "  args: " + opt );
+	new Ajax.Request( url, {
+	    method: 'get', // default is post
+		parameters: {},
+		onSuccess: function(transport) { if(typeof onsuccessfn !== 'undefined') onsuccessfn(); /* alert( transport.responseText ); */ },
+		onFailure: function() { /* alert( "Unable to raise request" ); */ }
+	});
+};
+
 function get_draft(url, opt) {
   new Ajax.Request(url, {
 		parameters: opt,

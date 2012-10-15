@@ -1,0 +1,6 @@
+	<%= render :partial => 'shared/journal_list', :locals => {:hide_team => true, :journals => @journals} %>
+	<%= will_paginate @journals, :params => { :remote => { :update => 'journals' }} -%> &nbsp;&nbsp;
+
+	<% if @journals.total_pages > 1 -%>
+		<div class="page_entries"><%= page_entries_info(@journals) -%></div>
+	<% end %>

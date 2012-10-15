@@ -1,0 +1,7 @@
+<%# cache "center_teams_#{@group.id}_role_#{current_user.highest_role.title}" do %>
+
+	<% if current_user.access?(:center_show_teams) && @teams.any? %>
+		<%= render :partial => 'shared/teams', :locals => {:teams => @teams} %>
+	<% end %>
+
+<%# end %>

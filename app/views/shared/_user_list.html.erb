@@ -19,11 +19,11 @@
    		 end -%>
 		<td><%= groups %>&nbsp;</td>
 	<% if current_user.access? :user_edit_delete %>
-	<td style="display:inline;">
-		<%= link_to_icon 'user_edit.png', edit_user_url(user), :title => t('user.edit') %>
-		<%= link_to_icon 'user_delete.png', delete_user_url(user), :title => t('user.delete') -%>
+	<td style="display:inline; width: 80px;">
+		<%= link_to_icon 'user_edit_female_24.png', edit_user_url(user), :title => t('user.edit') %>
+		<%= link_to_icon 'user_delete_24.png', delete_user_url(user), :title => t('user.delete') -%>
 		<span>&nbsp;&nbsp;</span>
-		<%= link_to_icon 'door.png', shadow_login_url(user), {:alt => t('shadow_login_alt'), :title => t('shadow_login_alt')}, (current_user.access?(:shadow_login) and user.id != current_user.id) %>
+		<%= link_to_icon 'door_24.png', shadow_login_url(user), {:alt => t('shadow_login_alt'), :title => t('shadow_login_alt')}, (current_user.access?(:shadow_login) and user.id != current_user.id) %>
 	</td>
 	<% end %>
 	<tr/>

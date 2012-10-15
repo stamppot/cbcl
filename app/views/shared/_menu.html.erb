@@ -1,4 +1,4 @@
-<%# cache "menu_#{current_user.highest_role.title}" do %>
+<% cache "menu_#{current_user.highest_role.title}" do %>
 
 <% if current_user.perms[:layout_show_menu] %>
 <div id="menu">
@@ -87,24 +87,23 @@
 		<% if current_user.perms[:layout_show_subscriptions] %>
 		<%= link_to t('menu.subscriptions'), subscriptions_path, :title => t('menu.show_subscriptions') %>
 		<% end %>
-
 	</div>
 	<% end %>
 
-	<% if current_user.perms[:layout_show_user_menu] %>
+	<%# if current_user.perms[:layout_show_user_menu] %>
 	<!-- <div id="user_menu" class="menu_section">
-		<div class="menu_title"><%= t('menu.users') %></div>
+		<div class="menu_title"><%# t('menu.users') %></div>
  -->
 		<%# if current_user.perms[:layout_show_login_users] %>
 		<%# link_to 'Vis Login-brugere', login_users_path, :title => 'Vis login-bruger liste' %>
 		<%# end %>
 <!-- 	</div> -->
-	<% end %>
+	<%# end %>
 
 
 	<%# if current_user.perms[:layout_show_survey_menu] %>
 	<!-- <div id="survey_menu" class="menu_section"> -->
-		<!-- <div class="menu_title"><%= t('menu.surveys') %></div> -->
+		<!-- <div class="menu_title"><%# t('menu.surveys') %></div> -->
 		<%# if current_user.perms[:layout_show_only_surveys] %>
 		<%# link_to t('menu.show_surveys'), surveys_path, :title => 'Spørgeskema-liste' %>
 		<%# end %>
@@ -120,15 +119,6 @@
 		<%# if current_user.perms[:layout_show_survey_stats] %>
 		<%# link_to t("menu.survey_stats"), journal_stats_path %>
 		<%# end %>
-	<!-- </div> -->
-	<%# end %>
-
-	<%# if current_user.perms[:layout_show_teams_journals] %>
-	<!-- <div id="journal_menu" class="menu_section"> -->
-		<!-- <div class="menu_title"><%= t('menu.journals') %></div> -->
-		
-		<%# link_to t('menu.show_journals'), journals_path, :title => t('menu.show_journals') %>
-		<%# link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
 	<!-- </div> -->
 	<%# end %>
 
@@ -169,4 +159,4 @@
 <% else %>
 <%= t('logout_please') %> <%= link_to t('here'), logout_url %>
 <% end %>
-<%# end %>
+<% end %>

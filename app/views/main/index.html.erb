@@ -1,28 +1,37 @@
 <% if current_user %>
 <%- cache "main_#{current_user.highest_role}" do %>
-<h1>Velkommen til CBCL-Online</h1>
+<p>
+<span class="h1">Velkommen til CBCL-Online</span>
+</p>
 
 <p><br></p>
 
-<h2>Introduktion</h2>
-
 <%- if current_user.access?(:faq_show) %>
 	<div id="journal_help">
-		<h3>Journaler</h3>
-		<p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller (delvis) cprnr.</p>
+		<a href="/journals/" title="Journaler" alt="Journaler"><img src="/images/journal_64.png" border=0 align="middle" />
+		<span class="h3">Journaler</span></a><p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller (delvis) cprnr.</p>
 	</div>
 <% end %>
 
 	<p><br></p>
 
+<%- if current_user.access?(:team_new_edit_delete) %>
+	<div id="team_help">
+		<a href="/teams/" title="Teams" alt="Teams"><img src="/images/users_64.png" border=0 align="middle" />
+		<span class="h3">Teams</span></a><p>Du kan oprette teams under menupunktet 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
+	</div>
+<% end %>
+<p><br/></p>
+
 <%- if current_user.access?(:faq_admin) %>
 	<div id="center_help">
-		<h3>Centre</h3>
-		<p>Du kan oprette nye centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
+		<span class="h3">Centre</span>
+		<p>Du kan oprette centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
 	</div>
 
+	<p><br/></p>
 	<div class="subscription_help">
-		<h3>Abonnementer</h3>
+		<span class="h3">Abonnementer</span>
 		<p>Du kan oprette abonnementer til centre under menupunktet 'Abonnementer'. Her kan du også se forbruget og nulstille forbrugstælleren.</p>
 	</div>
 

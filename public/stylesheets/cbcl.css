@@ -34,6 +34,17 @@ a:visited { color: #666; }
 /*	float: right;*/
 }
 
+.h1 {
+	font-size: 20pt;
+}
+
+.h3 {
+	font-size: 16pt;
+}
+
+.h4 {
+	font-size: 14pt;
+}
 
 .survey {
   border: 1px black solid;
@@ -808,6 +819,10 @@ a .journal_remove_surveys {
 	background:url('/images/table_delete.png') no-repeat 0px 0px;
 	padding-left: 27px;
 } 
+a .journal_status {
+	background:url('/images/status-online-mini.png') no-repeat 0px 0px;
+	padding-left: 27px;
+} 
 
 a .letters_print {
 	background:url('/images/printer.png') no-repeat 0px 0px;
@@ -1073,6 +1088,15 @@ input.letter {
 	background:url('/images/letter.png') no-repeat 10px 5px;
 }
 
+.mini {
+	background: no-repeat: -2px -2px;
+	padding-left: 20px;
+	font-size: 11px;
+}
+
+.wide.actions {
+	width: 400px;
+}
 
 /***** tabs *****/
 ul.tabs {

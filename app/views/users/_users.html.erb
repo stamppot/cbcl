@@ -1,0 +1,36 @@
+<table id="user_list" class="sortable list" class="users">
+	<tr>
+	<th class="wide sortcol sortdesc" title=<%= t('sort.name') %>><%= t('name') %></th>
+	<th class="sortcol" title="<%= t('sort.role') %>"><%= t('role') %></th>
+	<th class="sortcol" title="<%= t('sort.group') %>"><%= t('groups') %></th>
+	<% if current_user.access? :user_edit_delete %>
+	<th class="nosort" style="width: 75px;"><%= t('action') %></th>
+	</tr>
+	<% end %>
+
+	<% @users.each do |user| %>
+	<tr>
+		<td><%= link_to user.name.blank? && user.login || user.name, user_path(user), :title => t('user.show'), :class => (user.state != 2) && 'unconfirmed' || '' %></td>
+		<td><%= (roles = user.roles).any? && t("roles.#{roles.first.title}").capitalize || " " -%></td>
+		<% if current_user.access?(:user_show_teams) and !(groups = user.groups.teams).empty?
+			   groups = groups.map { |g| g.title }.join(", ")
+			 else
+			 	 groups = user.center ? user.center.title : (user.centers.compact.empty? ? "" : user.centers.first.title)
+   		 end -%>
+		<td><%= groups %>&nbsp;</td>
+	<% if current_user.access? :user_edit_delete %>
+	<td style="display:inline;">
+		<%= link_to_icon 'user_edit.png', edit_user_url(user), :title => t('user.edit') %>
+		<%= link_to_icon 'user_delete.png', delete_user_url(user), :title => t('user.delete') -%>
+		<span>&nbsp;&nbsp;</span>
+		<%= link_to_icon 'door.png', shadow_login_url(user), {:alt => t('shadow_login_alt'), :title => t('shadow_login_alt')}, (current_user.access?(:shadow_login) and user.id != current_user.id) %>
+	</td>
+	<% end %>
+	<tr/>
+	<% end %>
+</table>
+
+<% if @users.size > 1 %>
+	<div class="page_entries" > <%= page_entries_info(@users) %> </div>
+	<%= will_paginate @users, :remote => {:with => 'value', :update => 'users'}, :outer_window => 2 -%>
+<% end -%>

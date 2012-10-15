@@ -54,7 +54,7 @@ class Team < Group
   def journals
     self.children
   end
-  
+
   def journals_needing_reminders
     self.journals
   end
@@ -62,6 +62,7 @@ class Team < Group
   def self.per_page
     15
   end
+  
   
   protected
 

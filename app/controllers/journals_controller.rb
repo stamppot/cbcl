@@ -75,6 +75,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     project_params = params[:group].delete :project
     @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
+    @group.delta = true # force index
 
     if project_params
       @project = Project.find(project_params)
@@ -265,7 +266,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @journal_count = Journal.for_parent(@group).count
 
      respond_to do |format|
-       format.html
+       format.html { render "select" }
        format.js {
          render :update do |page|
            page.replace_html 'journals', :partial => 'shared/select_journals'

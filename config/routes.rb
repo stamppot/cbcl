@@ -33,6 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :journals
   map.resources :journal_entries, :only => [:show, :edit, :update]
   map.resources :export_files
+  map.resources :export_logins
   map.resources :exports
   map.resources :faqs
   map.resources :faq_sections
@@ -98,6 +99,7 @@ ActionController::Routing::Routes.draw do |map|
   map.pay_periods 'centers/pay_periods/:id', :controller => 'centers',                       :action => 'pay_periods'
   map.merge_periods 'centers/merge_periods/:id', :controller => 'centers',                   :action => 'merge_periods'
   
+  map.center_teams 'teams/center/:center_id.:format', :controller => 'teams', :action => 'center'
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
   map.journals_for_center '/journals/center/:id', :controller => 'journals', :action => 'center'
   map.select_journals '/journals/select/:id', :controller => 'journals', :action => 'select'
@@ -118,7 +120,7 @@ ActionController::Routing::Routes.draw do |map|
   map.update_journals_email '/journals/update_emails/:id', :controller => 'journals', :action => 'update_email'
 
   map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails', :format => 'csv'
-  map.export_journal_logins 'journals/export_logins/:id.:format', :controller => 'journals', :action => 'export_logins', :format => 'csv'
+  map.export_journal_logins 'journals/export_logins/:id', :controller => 'journals', :action => 'export_logins' #, :format => 'csv'
 
   # journal entries
   map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
@@ -134,6 +136,8 @@ ActionController::Routing::Routes.draw do |map|
   map.user_search 'users/live_search/:id', :controller   => 'users', :action => 'live_search'
   map.new_user 'users/new/:id', :controller => 'users', :action => 'new'
   map.delete_user '/users/delete/:id', :controller => 'users', :action => 'delete'
+  map.center_users 'users/center/:center_id.:format', :controller => 'users', :action => 'center'
+
   map.new_team_in_center '/teams/new/:id', :controller => 'teams', :action => 'new'
 
   map.upgrade_browser 'upgrade', :controller => 'start', :action => 'upgrade'
@@ -156,7 +160,8 @@ ActionController::Routing::Routes.draw do |map|
   map.subscription_activate 'subscriptions/activate/:id', :controller     => 'subscriptions', :action => 'activate'
   map.subscription_deactivate 'subscriptions/deactivate/:id', :controller => 'subscriptions', :action => 'deactivate'
   map.set_subscription_not 'subscriptions/set_subscription_note/:id', :controller => 'subscriptions', :action => 'set_subscription_note'
-
+  map.center_subscriptions 'subscriptions/center/:center_id.:format', :controller => 'subscriptions', :action => 'center'
+  
   map.select_project_journals '/projects/select/:id', :controller => 'projects', :action => 'select'
   map.add_project_journals '/projects/add_journals/:id', :controller => 'projects', :action => 'add_journals'
   map.edit_journals_email '/projects/edit_journals_email/:id', :controller => 'projects', :action => 'edit_journals_email'
@@ -174,7 +179,7 @@ ActionController::Routing::Routes.draw do |map|
   map.csv_entry_status_download 'reminders/download/:id.:format', :controller => 'reminders', :action => 'download', :format => 'csv'
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
-  map.export_logins 'export_logins/download/:id.:format', :controller => 'export_logins', :action => 'download', :format => 'csv'
+  map.get_export_logins 'export_logins/download/:id', :controller => 'export_logins', :action => 'download' #, :format => 'csv'
   # map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
@@ -239,7 +244,7 @@ ActionController::Routing::Routes.draw do |map|
   # testing
   map.connect '/myaccount/:action/:id', :controller => 'active_rbac/my_account'
 
-  map.connect '/export_logins/:action/:id.:format', :controller => 'export_logins', :action => 'download'
+  # map.connect '/export_logins/:action/:id.:format', :controller => 'export_logins', :action => 'download'
   # map.connect '/reminders/:action/:id.:format', :controller => 'reminders', :action => 'download'
 
   map.main '/main', :controller => 'main', :action => 'index'

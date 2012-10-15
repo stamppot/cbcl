@@ -16,6 +16,15 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
   def index
     @page_title = "CBCL - Liste af Brugere"
     @users = current_user.get_users(:page => params[:page], :per_page => REGISTRY[:users_per_page])
+
+    respond_to do |format|
+      format.html
+      format.js {
+        render :update do |page|
+          page.replace_html 'users', :partial => 'users/users'
+        end
+      }
+     end
   end
 
   # Show a user identified by the +:id+ path fragment in the URL. Before_filter find_user
@@ -122,6 +131,23 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     end
   end
   
+  def center
+    @group = Center.find params[:center_id]
+    @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
+
+    respond_to do |format|
+      format.html {
+        # puts "USER CENTER HTML"
+         redirect_to team_path(@group) and return if @group.instance_of?(Team) }
+      format.rjs {
+        # puts "USER CENTER RJS"
+        render :update do |page|
+          page.replace_html 'users_content', :partial => 'center'
+        end
+      }
+    end
+  end
+
   protected
   before_filter :login_access
 
@@ -158,6 +184,9 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
   end
   
   def check_access
+    puts "ACTION " + params[:action]
+    # return true if params[:action] == "center"
+
     id = params[:id].to_i
     # puts "CHECK ACCESS #{current_user.inspect}"
     redirect_to login_path and return false unless current_user

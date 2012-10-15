@@ -2,7 +2,6 @@
 # require 'facets/dictionary'
 #require 'rake'
 # require 'hashery'
-
 class Journal < Group
   belongs_to :center
   has_one :person_info #, :dependent => :destroy
@@ -110,7 +109,7 @@ class Journal < Group
 	end
 
   def follow_up_count
-    journal_entries.map {|e| e.survey_id}.group_by {|c| c}.map {|c| c.second.count}.max
+    journal_entries.map {|e| e.survey_id}.group_by {|c| c}.map {|c| c.second.size}.max
   end
 
   def expire

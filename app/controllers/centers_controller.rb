@@ -10,28 +10,27 @@ class CentersController < ApplicationController
   def show
     @group = Center.find(params[:id])
     @page_title = "CBCL - Center " + @group.title
-    @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
+    # @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
     # @centeradmins = User.users.in_center(@group).all(:joins => :roles, :conditions => ['role_id = 3'])
-    
-    @journals = if @group.teams.size == 0
-      Journal.for_parent(@group).by_code.paginate(:all, :page => 1, :per_page => journals_per_page) || []
-    else
-      Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => journals_per_page)
-    end
 
-    @projects = @group.projects
+    @journals = []    
+    # @journals = if @group.teams.size == 0
+    #   Journal.for_parent(@group).by_code.paginate(:all, :page => 1, :per_page => journals_per_page) || []
+    # else
+    #   Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => journals_per_page)
+    # end
 
-    puts "Journals: #{@journals.size}"
-    @subscription_presenter = @group.subscription_presenter
-    @subscriptions = @group.subscriptions
-    @surveys = current_user.surveys.group_by {|s| s.id}
+    # puts "Journals: #{@journals.size}"
+    # @subscription_presenter = @group.subscription_presenter
+    # @subscriptions = @group.subscriptions
+    # @surveys = current_user.surveys.group_by {|s| s.id}
     @hide_team = true
 
     respond_to do |format|
       format.html {
-        puts "CENTERS/#{params[:id]} HTML"
+        # puts "CENTERS/#{params[:id]} HTML"
          redirect_to team_path(@group) and return if @group.instance_of?(Team) }
-      format.js {
+      format.rjs {
         render :update do |page|
           page.replace_html 'users', :partial => 'shared/user_list'
         end

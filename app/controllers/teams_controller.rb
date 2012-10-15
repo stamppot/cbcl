@@ -41,6 +41,8 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     @page_title = "CBCL - Liste af teams"
 		@hide_team = true
     @teams_by_center = current_user.teams.group_by { |team| team.center }
+    @teams = current_user.teams
+
     respond_to do |format|
       format.html
       format.js {
@@ -73,7 +75,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
        format.html
        format.js {
          render :update do |page|
-           page.replace_html 'journals', :partial => 'shared/journal_list'
+           page.replace_html 'journals', :partial => 'journals/journals'
          end
        }
      end
@@ -203,12 +205,27 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     redirect_to teams_url
   end
   
+  def center
+    @group = Center.find params[:center_id]
+    @teams = @group.teams
     
+    respond_to do |format|
+      format.html {
+         redirect_to team_path(@group) and return if @group.instance_of?(Team) }
+      format.rjs {
+        puts "TEMASE + CENTER"
+        render :update do |page|
+          page.replace_html 'teams_content', :partial => 'center'
+        end
+      }
+    end
+  end
+
   protected
   before_filter :behandler_access, :only => [ :list, :index, :show ]
   # before_filter :teamadmin_access, :only => [ :edit ]
-  before_filter :centerleder_access, :except => [ :list, :index, :show ]
-  before_filter :check_access, :except => [:index, :list, :per_page]
+  before_filter :centerleder_access, :except => [ :list, :index, :show, :center ]
+  before_filter :check_access, :except => [:index, :list, :per_page, :center]
   
   def behandler_access
     if !current_user
@@ -233,9 +250,11 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     if current_user.access? :team_new_edit_delete
       return true
     elsif current_user
+      puts "centerleder_access current_user: #{current_user.inspect}"
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to teams_path
     else
+      puts "centerleder_access NOT LOGGED IN"
       flash[:notice] = "Du har ikke adgang til denne side"
       redirect_to login_path
     end
@@ -243,7 +262,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   
   def check_access
     check_logged_in
-    if params[:id] && current_user.access?(:all_users)
+    if params[:id] && current_user && current_user.access?(:all_users)
       access = current_user.team_member? params[:id].to_i
     elsif !params[:id] && current_user.access?(:login_user)
       true

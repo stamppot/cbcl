@@ -124,9 +124,25 @@ class SubscriptionsController < ApplicationController
     redirect_to subscriptions_path
   end
   
+  def center
+    @group = Center.find params[:center_id]
+    @subscription_presenter = @group.subscription_presenter
+    @subscriptions = @group.subscriptions
+    @surveys = current_user.surveys.group_by {|s| s.id}
+
+    respond_to do |format|
+      format.html {
+         redirect_to team_path(@group) and return if @group.instance_of?(Team) }
+      format.rjs {
+        render :update do |page|
+          page.replace_html 'subscription_content', :partial => 'center'
+        end
+      }
+    end
+  end
     
   protected
-  before_filter :admin_access, :except => [ :list, :index, :show ]
+  before_filter :admin_access, :except => [ :list, :index, :show, :center ]
   before_filter :subscription_show, :only => [ :list, :index, :show ]
 
   

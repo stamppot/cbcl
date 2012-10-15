@@ -203,7 +203,7 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def make_login_user(login_number, password = nil)
-    center_name = self.journal.center.login_center_name
+    center_name = self.journal.parent.login_prefix
     params = LoginUser.create_params(center_name, login_number)
     pw = password && {:password => password, :password_confirmation => password} || PasswordService.generate_password
     login_user = LoginUser.new(params)
