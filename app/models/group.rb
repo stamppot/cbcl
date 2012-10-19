@@ -62,7 +62,7 @@ class Group < ActiveRecord::Base
   
   def login_prefix
    group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
-   num = self.login_users.count.next
+   num = self.login_users.size.next
    login_name = "#{group_name}-#{num}"
     # login =
     # login_name = if luser = self.login_users.count

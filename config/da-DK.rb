@@ -136,7 +136,7 @@ I18n.backend.store_translations 'da-DK',
       :new  => 'Opret Journal', 
       :delete => 'Slet Journal',
       :move => 'Flyt til team',
-      :status => 'Check status'
+      :status => 'Check besvarelsesstatus'
     },
     :survey => {
       :new => 'Nyt spørgeskema',

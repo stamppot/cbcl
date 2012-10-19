@@ -13,18 +13,10 @@
 	</div>
 	
 	<% if params[:action] =~ /search/ %>
-		<div style='align: right;'><b><%= @journals.size %></b> resultat<%= 'er' if @journals.size > 1 %></div>
+		<div style='align: right;'><b><%= num_journals = @journals.size %></b> resultat<%= 'er' if num_journals > 1 %></div>
 	<% else %>
 		<% if @journals.total_pages > 1 -%>
 			<div class="page_entries"><%= page_entries_info(@journals) -%></div>
-			<% 
-		 		if @group
-					params[:controller] = '/journals'
-					params[:action] = 'center'
-					params[:id] = @group.id
-					# params[:ajax] = true
-				end
-				%>
 			<%= will_paginate @journals, :remote => { :with => 'value', :update => 'journal_list' } -%> &nbsp;&nbsp;
 		<% end -%>
 	<% end %>

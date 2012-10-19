@@ -2,6 +2,10 @@
 <span class="h3">Brugere</span></a><p>
 </p>
 
+    <% if shadow_user? %>
+      <%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
+    <% end %>
+    
 	<div id="users">
 		<%= render :partial => 'shared/user_list' %>
 	</div>

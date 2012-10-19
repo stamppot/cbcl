@@ -127,7 +127,7 @@ class SubscriptionsController < ApplicationController
   def center
     @group = Center.find params[:center_id]
     @subscription_presenter = @group.subscription_presenter
-    @subscriptions = @group.subscriptions
+    @subscriptions = @group.subscriptions(:include => :periods)
     @surveys = current_user.surveys.group_by {|s| s.id}
 
     respond_to do |format|

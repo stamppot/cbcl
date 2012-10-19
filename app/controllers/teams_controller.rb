@@ -213,7 +213,6 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
       format.html {
          redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.rjs {
-        puts "TEMASE + CENTER"
         render :update do |page|
           page.replace_html 'teams_content', :partial => 'center'
         end

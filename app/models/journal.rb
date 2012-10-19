@@ -68,6 +68,9 @@ class Journal < Group
   named_scope :for_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group], :order => 'created_at desc' } }
   named_scope :for_center, lambda { |group| { :conditions => ['center_id = ?', group.is_a?(Center) ? group.id : group], :order => 'created_at desc' } }
   named_scope :by_code, :order => 'code ASC'
+  named_scope :for_groups, lambda { |group_ids| { :conditions => ['parent_id IN (?)', group_ids] } }
+  named_scope :for, lambda { |journal_id| { :conditions => ['id = ?', journal_id] } }
+  
   
   define_index do
      # fields
@@ -115,7 +118,7 @@ class Journal < Group
   def expire
     Rails.cache.delete("j_#{self.id}")
 		Rails.cache.delete("journal_ids_user_#{self.id}")
-		Rails.cache.delete("journal_entry_ids_user_#{self.id}")
+		# Rails.cache.delete("journal_entry_ids_user_#{self.id}")
   end
   
   def expire_cache
@@ -123,7 +126,7 @@ class Journal < Group
     # remove pagination caching for cached journal list for all teams in this center
     Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
-    Rails.cache.delete_matched(/journal_ids_user_(.*)/)
+    # Rails.cache.delete_matched(/journal_ids_user_(.*)/)
 		self.team.users.map {|user| user.expire_cache}
   end
   
@@ -192,11 +195,10 @@ class Journal < Group
   end
   
   # creates entries with logins
-  def create_journal_entries(surveys, follow_up = 0)
+  def create_journal_entries(surveys, current_user, follow_up = 0)
     return true if surveys.empty?
     surveys.each do |survey|
-      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up})
-      entry.expire_cache # expire journal_entry_ids
+      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up, :group_id => self.parent_id})
       entry.journal = self
       login_number = "#{self.code}#{survey.id}"
       entry.make_login_user(login_number)
@@ -204,7 +206,7 @@ class Journal < Group
         entry.print_login!
         entry.login_user.save
       end
-      entry.expire_cache # expire journal_entry_ids
+      entry.expire_cache(current_user) # expire journal_entry_ids
     end
     return self
   end

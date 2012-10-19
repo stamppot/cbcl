@@ -3,13 +3,49 @@
 </p>
 
 <p>
-	<%= render :partial => "shared/teams" %>
+<% if @teams.any? %>
+<table class="sortable list" class="groups">
+	<tr>
+		<th class="wide" title="Sorter efter navn">Teams</th>
+		<th title="Sorter efter SKS-kode">ID</th>
+		<!-- <th class="narrow" title="Sorter efter antal brugere"><%# t('user.users') %></th> -->
+		<th class="nosort">Journalhandling</th>
+		<% if current_user.access? :show_column_actions %>
+		<th title="">Teamhandling</th>
+		<% end %>
+	</tr>	
+
+	<% @teams.each do |group| %>
+	<tr>
+		<td><a title="Vis Team" href="/teams/<%= group.id %>"><%= group.title %></td>
+		<td><%= group.code %></td>
+		<!-- <td style="text-align: right;"><%# group.users.size %></td> -->
+		
+		<td>
+			<span class="action wide actions">
+				<a title="Flyt journaler" href="/journals/select_move/<%= group.id %>"><img border="0" title="Flyt journaler" src="/images/document_move_24.png" class="icon" alt="Flyt journaler"></a>
+			</span>
+			<span class="action">
+				<a href="/reminders/<%= group.id %>"><img border="0" title="Svarstatus" src="/images/traffic-light_24.png" class="icon" alt="Svarstatus"></a>
+				<a title="Eksporter brevfletningsdata" href="/journals/export_mails/<%= group.id %>.csv"><img border="0" title="Eksporter brevfletningsdata" src="/images/documents_email_24.png" class="icon" alt="Documents_email_24"></a>
+			<span class="action"></span>
+		</td>
+		<% if current_user.access? :center_delete %>
+		<td>
+			<a title="Rediger" href="/teams/<%= group.id %>/edit"><img border="0" title="Rediger team" src="/images/group_edit_24.png" class="icon" alt="Group_edit"></a>
+			<a title="Slet" href="/teams/delete/<%= group.id %>"><img border="0" title="Slet team" src="/images/group_delete_24.png" class="icon" alt="Group_delete"></a>
+		</td>
+		<% end %>
+		<tr/>
+		<% end %>
+</table>
+<% end %>
 		<p/>
 		<br/>
 </p>
 
 <% if current_user.access? :team_new_edit_delete %>
 <div class="commands">
-	<%= link_button t('team.new'), new_team_path, 'team_add' %>
+	<a class="button" href="/teams/new"><span class="team_add">Opret Team</span></a>
 </div>
 <% end %>

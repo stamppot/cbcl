@@ -16,6 +16,7 @@
 		<% end %>
 	</tr>	
 
+	<% can_center_delete = current_user.access? :center_delete %>
 	<% @groups.each do |group| %>
 	<tr>
 		<td><%= link_to( group.title, group.is_a?(Team) && team_path(group) || center_path(group),	:title => "Vis #{group.class.to_s}" ) %></td>
@@ -29,10 +30,12 @@
 		<% end %>
 		
 		<td><%= group.created_at.strftime("%d-%m-%Y") %></td>
-		<% if current_user.access? :center_delete %>
+		<% if can_center_delete %>
 		<td>
-			<%= link_to img_tag_html4('group_edit_24.png', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
-			<%= link_to img_tag_html4('group_delete_24.png', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
+			<a title="Rediger" href="/centers/<%= group.id %>/edit"><img border="0" title="Rediger center" src="/images/group_edit_24.png" class="icon" alt="Group_edit_24"></a>
+			<a title="Slet" href="/centers/delete/<%= group.id %>"><img border="0" title="Slet center" src="/images/group_delete_24.png" class="icon" alt="Group_delete_24"></a>
+			<%# link_to img_tag_html4('group_edit_24.png', :border => 0, :class => 'icon', :title => 'Rediger center'), edit_center_path(group), :title => t('edit') -%>
+			<%# link_to img_tag_html4('group_delete_24.png', :border => 0, :class => 'icon', :title => 'Slet center'), delete_center_path(group), :title => t('delete') -%>
 		</td>
 		<% end %>
 		<tr/>

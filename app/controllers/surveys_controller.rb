@@ -158,10 +158,7 @@ class SurveysController < ApplicationController
       elsif current_user.access? :superadmin # don't do check for superadmin
         true
       else
-        journal_entry_ids = cache_fetch("journal_entry_ids_user_#{current_user.id}", :expires_in => 10.minutes) do
-          current_user.journal_entry_ids
-        end
-        journal_entry_ids.include?(id)
+        current_user.has_journal_entry?(id)
       end
     end
   end

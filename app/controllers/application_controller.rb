@@ -143,7 +143,7 @@ class ApplicationController < ActionController::Base
 
   # check_access is implemented in most subclassed controllers (where needed)
   def check_access
-    return true if params[:controller] =~ /newrelic|login/
+    return true if params[:controller] =~ /newrelic|login|heartbeat/
     # check controller
     if !params[:id].blank? && params[:controller] =~ /score|faq/
       if current_user && (current_user.access?(:all_users) || current_user.access?(:login_user))
@@ -159,11 +159,10 @@ class ApplicationController < ActionController::Base
           when /faq/
             access = current_user.access?(:superadmin) || current_user.access?(:admin)
           when /score_reports|answer_reports/  # TODO: test this one!!!
-            journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
             access = if params[:answers]
-              params[:answers].keys.all? { |entry| journal_ids.include? entry }
+              params[:answers].keys.all? { |entry| current_user.has_journal? entry }
             else
-              access = journal_ids.include? id
+              current_user.has_journal? id
             end
           when /scores/
             access = current_user.access? :superadmin

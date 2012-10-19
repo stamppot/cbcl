@@ -66,6 +66,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/admin/static_permission/:action/:id', :controller => 'active_rbac/static_permission'
   
   # map the login and registration controller somewhere prettier
+  map.heartbeat '/heartbeat', :controller   => 'heartbeat', :action => 'index'
   map.login '/login', :controller           => 'login', :action => 'index'
   map.logout '/logout', :controller         => 'login', :action => 'logout'
   map.connect '/login', :controller         => 'login', :action => 'index'

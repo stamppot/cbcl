@@ -1,12 +1,11 @@
 <% if @teams.any? %>
 <table class="sortable list" class="groups">
 	<tr>
-		<th class="wide" title="Sorter efter navn"><%= center_or_team_text(@groups) %></th>
+		<th class="wide" title="Sorter efter navn">Team</th>
 		<th title="Sorter efter SKS-kode">ID</th>
-		<!-- <th class="narrow" title="Sorter efter antal brugere"><%# t('user.users') %></th> -->
-		<th title=""><%= t('action') %></th>
+		<th class="nosort">Journalhandling</th>
 		<% if current_user.access? :show_column_actions %>
-		<th class="nosort"><%= t('action') %></th>
+		<th title=""><%= t('action') %></th>
 		<% end %>
 	</tr>	
 
@@ -18,18 +17,23 @@
 		
 		<td>
 			<span class="action wide actions">
-				<%= link_to img_tag_html4('document_move_24.png', :border => 0, :class => 'icon', :title => t('team.move'), :alt => t('team.move')), select_move_journals_path(group), :title => t('team.move') %>
+				<a title="Flyt journaler" href="/journals/select_move/<%= group.id %>"><img border="0" title="Flyt journaler" src="/images/document_move_24.png?" class="icon" alt="Flyt journaler"></a>
+				<%# link_to img_tag_html4('document_move_24.png', :border => 0, :class => 'icon', :title => t('team.move'), :alt => t('team.move')), select_move_journals_path(group), :title => t('team.move') %>
 			</span>
 			<span class="action">
-				<%= link_to img_tag_html4('traffic-light_24.png', :border => 0, :class => 'icon', :title => t('journal.status'), :alt => t('journal.status')), reminder_path(group)  -%>
-				<%= link_to img_tag_html4('documents_email_24.png', :border => 0, :class => 'icon', :title => t('export.journal_letter_data')), export_journals_path(@group, :format => 'csv') +".csv", :title => 'Eksporter brevfletningsdata' %>
+				<a href="/reminders/<%= group.id %>"><img border="0" title="Svarstatus" src="/images/traffic-light_24.png" class="icon" alt="Svarstatus"></a>
+				<a title="Eksporter brevfletningsdata" href="/journals/export_mails/<%= group.id %>.csv"><img border="0" title="Eksporter brevfletningsdata" src="/images/documents_email_24.png" class="icon" alt="Documents_email_24"></a>
+				<%# link_to img_tag_html4('traffic-light_24.png', :border => 0, :class => 'icon', :title => t('journal.status'), :alt => t('journal.status')), reminder_path(group)  -%>
+				<%# link_to img_tag_html4('documents_email_24.png', :border => 0, :class => 'icon', :title => t('export.journal_letter_data')), export_journals_path(group, :format => 'csv') +".csv", :title => 'Eksporter brevfletningsdata' %>
 
 			<span class="action"></span>
 		</td>
 		<% if current_user.access? :center_delete %>
 		<td>
-			<%= link_to img_tag_html4('group_edit_24.png', :border => 0, :class => 'icon', :title => 'Rediger team'), edit_team_path(group), :title => t('edit') -%>
-			<%= link_to img_tag_html4('group_delete_24.png', :border => 0, :class => 'icon', :title => 'Slet team'), delete_team_path(group), :title => t('delete') -%>
+			<a title="Rediger" href="/teams/<%= group.id %>/edit"><img border="0" title="Rediger team" src="/images/group_edit_24.png" class="icon" alt="Rediger team"></a>
+			<a title="Slet" href="/teams/delete/<%= group.id %>"><img border="0" title="Slet team" src="/images/group_delete_24.png" class="icon" alt="Slet team"></a>
+			<%# link_to img_tag_html4('group_edit_24.png', :border => 0, :class => 'icon', :title => 'Rediger team'), edit_team_path(group), :title => t('edit') -%>
+			<%# link_to img_tag_html4('group_delete_24.png', :border => 0, :class => 'icon', :title => 'Slet team'), delete_team_path(group), :title => t('delete') -%>
 		</td>
 		<% end %>
 		<tr/>

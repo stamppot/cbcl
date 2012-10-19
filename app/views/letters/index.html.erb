@@ -13,11 +13,14 @@
 
 <% @letters.each do |letter| %>
   <tr>
-		<td><%= link_to letter.name, letter_path(letter) %></td>
+		<td><a href="/letters/<%= letter.id %>"><%= letter.name %></a><%# link_to letter.name, letter_path(letter) %></td>
 		<td><%= letter.group.nil? && "Alle centre" || letter.group.title %></td>
 		<td><%= t("roles.#{letter.surveytype}") %></td>
-	    <td><%= link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %>
-	    	<%= link_to(img_tag_html4('letter_forward.png', :border => 0, :class => 'icon', :title => t('letter.download')), download_letter_path(letter), :popup => ['new_window, height=800,width=700']) %>
+	    <td>
+	    	<a title="Ret brev" href="/letters/<%= letter.id %>/edit"><img border="0" title="Ret brev" src="/images/icon_edit_mailbox.gif" class="icon" alt="Icon_edit_mailbox"></a>
+	    	<a onclick="window.open(this.href,'new_window, height=800,width=700','new_window, height=800,width=700');return false;" href="/letters/mail_merge/1"><img border="0" title="Hent brevskabelon" src="/images/letter_forward.png" class="icon" alt="Letter_forward"></a>
+	    	<%# link_to_icon 'icon_edit_mailbox.gif', edit_letter_url(letter), :title => t('letter.edit') %>
+	    	<%# link_to(img_tag_html4('letter_forward.png', :border => 0, :class => 'icon', :title => t('letter.download')), download_letter_path(letter), :popup => ['new_window, height=800,width=700']) %>
 				<span>&nbsp;&nbsp;</span>
 				<%= link_to_icon 'delete2.png', letter_path(letter), :method => :delete, :confirm => t('letter.confirm') %></td>
   </tr>

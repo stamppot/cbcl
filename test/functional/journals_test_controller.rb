@@ -146,7 +146,7 @@ class JournalsControllerTest < ActiveSupport::TestCase
     context "on POST to :remove_survey" do
       setup {
         @controller = JournalController.new
-        @journala_101.create_journal_entries(Survey.find([1,2]))
+        @journala_101.create_journal_entries(Survey.find([1,2]), current_user)
         post :remove_survey, { "entry"=>{"6"=>"1", "13"=>"0", "5"=>"1"}, "id"=>"12" }
       }
 

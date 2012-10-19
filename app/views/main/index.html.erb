@@ -1,4 +1,3 @@
-<% if current_user %>
 <%- cache "main_#{current_user.highest_role}" do %>
 <p>
 <span class="h1">Velkommen til CBCL-Online</span>
@@ -9,7 +8,7 @@
 <%- if current_user.access?(:faq_show) %>
 	<div id="journal_help">
 		<a href="/journals/" title="Journaler" alt="Journaler"><img src="/images/journal_64.png" border=0 align="middle" />
-		<span class="h3">Journaler</span></a><p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller (delvis) cprnr.</p>
+		<span class="h3">Journaler</span></a><p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller cprnr.</p>
 	</div>
 <% end %>
 
@@ -25,14 +24,14 @@
 
 <%- if current_user.access?(:faq_admin) %>
 	<div id="center_help">
-		<span class="h3">Centre</span>
+		<a href="/centers/" title="Centre" alt="Centre"><span class="h3">Centre</span></a>
 		<p>Du kan oprette centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
 	</div>
 
 	<p><br/></p>
 	<div class="subscription_help">
 		<span class="h3">Abonnementer</span>
-		<p>Du kan oprette abonnementer til centre under menupunktet 'Abonnementer'. Her kan du også se forbruget og nulstille forbrugstælleren.</p>
+		<p>Du kan oprette abonnementer på spørgeskemaer under menupunktet 'Abonnementer'. Her kan du også se forbruget og nulstille forbrugstælleren.</p>
 	</div>
 
 	<div class="score_help" style="display:none;">
@@ -40,8 +39,4 @@
 		<p>Du kan oprette scoreberegninger til spørgeskemaer under menupunktet 'Scores'</p>
 	</div>
 <% end %>
-<% end %>
-
-<% else %>
-	<%= t('logout_please') %> <%= link_to t('here'), logout_url %>
 <% end %>

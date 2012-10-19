@@ -351,7 +351,7 @@ class SurveyAnswer < ActiveRecord::Base
       center = Center.find(options[:center])
       options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
-    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{user.id}") { user.journal_ids }
+    options[:journal_ids] ||= user.journal_ids
     options
   end
 

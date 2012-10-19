@@ -32,7 +32,7 @@ class CsvScoreRapport < ActiveRecord::Base
       options[:conditions] = ['center_id = ?', options[:center]]
       options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
-    options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}") { user.journal_ids }
+    options[:journal_ids] ||= user.journal_ids
     options
   end
   

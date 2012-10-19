@@ -3,7 +3,7 @@ class LettersController < ApplicationController
   
   def index
     if current_user.admin?
-      @letters = Letter.all
+      @letters = Letter.all(:include => :group)
     else
       @letters = current_user.center_and_teams.map { |g| g.letters }.compact.flatten
     end
@@ -122,9 +122,7 @@ class LettersController < ApplicationController
       redirect_to login_path and return
     end
     if ["show_login"].include?(params[:action]) && current_user and (current_user.access? :all_users)
-      j_id = JournalEntry.find(params[:id]).journal_id
-      journal_ids = cache_fetch("journal_ids_user_#{current_user.id}") { current_user.journal_ids }
-      access = journal_ids.include? j_id
+      access = current_user.has_journal_entry? params[:id]
     end
     return access || true
   end

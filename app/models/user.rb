@@ -233,8 +233,8 @@ class User < ActiveRecord::Base
     end
   end
   
-  def centers
-    options = {:include => :users}
+  def centers(options = {})
+    options ||= {:include => :users}
     centers =
     if self.has_access?(:center_show_all)
       Center.find(:all, options) #.delete_if { |group| group.instance_of? Journal or group.instance_of? Team }    # filtrer teams fra
@@ -307,44 +307,44 @@ class User < ActiveRecord::Base
     return journals
   end
 
+  # ids of center, teams
+  # def all_group_ids
+  #   group_ids = [center_id] + teams.map(&:id)
+  #   connection.execute("select id from journal_entries je where je.group_id in (#{group_ids.join(',')})")
+  # end
+
+  def has_journal_entry?(journal_entry_id)
+    return true if admin?
+    group_ids = []
+    group_ids += ([center_id] && center_id || centers.map(&:id))
+    group_ids += teams.map(&:id)
+    result = connection.execute("select count(id) from journal_entries je where je.group_id in (#{group_ids.join(',')}) and je.id = #{journal_entry_id}")
+    row = result.fetch_row
+    row.any? && row.first.to_i > 0
+  end
+
+  def has_journal?(journal_id)
+    group_ids = [center_id] + teams.map(&:id)
+    journals_count = Journal.for_groups(group_ids).for(journal_id).count(:select => "id")
+  end
+
   # returns journal ids that this user can access. Used by check_access. SQL optimized
   def journal_ids
+    group_ids = [center_id] + teams.map(&:id)
     j_ids = 
     if self.has_access?(:journal_show_all)
-      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.all(:select => "id") }
+      journal_ids = Journal.all(:select => "id")
     elsif self.has_access?(:journal_show_centeradm)
-      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.in_center(self.center).all(:select => "id") }
+      journal_ids = Journal.in_center(self.center).all(:select => "id")
     elsif self.has_access?(:journal_show_member)
       group_ids = self.group_ids(:reload => true) # get teams and centers for this users
-      journal_ids = cache_fetch("journal_ids_user_#{self.id}") { Journal.all_parents(group_ids).all(:select => "id") }
+      journal_ids = Journal.for_groups(group_ids).all_parents(group_ids).all(:select => "id")
     elsif self.has_access?(:journal_show_none)
       []
     else  # for login-user
       []  # or should it be the journal the login_user is connected to?
     end
     return j_ids.map {|j| j.id}
-  end
-
-  def journal_entry_ids
-    options = { :select => "id", :include => [:journal_entries] }
-    if self.has_access?(:journal_show_all)
-      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
-        Journal.and_entries.find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
-      end
-    elsif self.has_access?(:journal_show_centeradm)
-      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
-        Journal.and_entries.in_center(self.center).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
-      end
-    elsif self.has_access?(:journal_show_member)
-      journal_entry_ids = cache_fetch("journal_entry_ids_user_#{self.id}") do
-        Journal.and_entries.all_parents(self.group_ids).find(:all, options).map {|g| g.journal_entries}.flatten!.map {|e| e.id}
-      end
-    elsif self.has_access?(:journal_show_none)
-      []
-    else  # for login-user
-      []  # or should it be the journal the login_user is connected to?
-    end
-    # return journals.map {|g| g.journal_entries}.flatten!.map {|e| e.id}
   end
 
   # # finished survey answers, based on accessible journals

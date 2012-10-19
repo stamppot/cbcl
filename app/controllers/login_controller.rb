@@ -114,7 +114,7 @@ class LoginController < ApplicationController
       session[:journal_entry] = journal_entry.id
       cookies[:user_name] = to_user.name
     end
-    flash[:notice] = "Logget ind som en anden bruger"
+    flash[:notice] = "Logget ind som #{to_user.name}"
     redirect_to survey_start_url and return if current_user.login_user
     redirect_to main_url
   end

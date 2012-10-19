@@ -1,4 +1,4 @@
-<h2><%=h @group.title %></h2>
+<p><span class="h3"><%=h @group.title %></span><br/></p>
 
 <ul class="tabs" class="center_tabs">
 	<li class="tab" id="info_tab"><a href="#info">Info</a></li>
@@ -63,6 +63,31 @@ Event.observe(window, 'load', function() {
 
 </script>
 
+<script type="text/javascript">
+document.observe("dom:loaded", function() {
+  var container = $(document.body)
+
+  if (container) {
+    var img = new Image
+    img.src = '/images/spinner.gif'
+    var spinner = null
+
+    function Spinner() {
+      spinner = new Element('img', { src: img.src, 'class': 'spinner' })
+      return spinner
+    }
+
+    container.observe('click', function(e) {
+      var el = e.element()
+      if (el.match('.pagination a')) {
+        el.up('.pagination').insert(Spinner())
+        new Ajax.Request(el.href, { method: 'get' })
+        e.stop()
+      }
+    })
+  }
+})
+</script>
 <br/>
 <div class="commands">
 <% if current_user.access? :center_delete %>

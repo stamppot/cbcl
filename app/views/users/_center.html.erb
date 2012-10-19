@@ -6,6 +6,7 @@
 	<% if localadmins.empty? %>
 	<p>Ingen</p>
 	<% if current_user.access? :user_new_leader %>
+	<p/>
 	<div class="commands">
 	<%= link_button t('user.center.admin'), new_user_path(@group), 'center_admin_new', :title => t('user.new') %><br>
 	</div>

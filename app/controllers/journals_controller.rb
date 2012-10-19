@@ -39,9 +39,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def show
-    @group = cache_fetch("j_#{params[:id]}") do
-      Journal.find(params[:id], :include => {:journal_entries => :login_user})
-    end
+    @group = cache_fetch("j_#{params[:id]}") { Journal.find(params[:id]) }
+  
     alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
@@ -75,6 +74,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     project_params = params[:group].delete :project
     @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
+    @group.person_info.delta = true
     @group.delta = true # force index
 
     if project_params
@@ -153,7 +153,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     if not params[:yes].nil?   # slet journal gruppe
       @group = cache_fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
       @group.expire
-      Rails.cache.delete("journal_ids_user_#{current_user.id}")
       @group.destroy
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
       redirect_to journals_path
@@ -177,8 +176,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
       follow_up = params[:journal_entry][:follow_up]
-      puts "follow_up: #{follow_up}"
-      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, follow_up)
+      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, current_user, follow_up)
       flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "er oprettet." if @group.save && valid_entries
       redirect_to @group
     else
@@ -380,11 +378,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
   def check_access
     redirect_to login_path and return unless current_user
-    if current_user.access?(:all_users) || current_user.access?(:login_user)
-      journal_ids = cache_fetch("journal_ids_user_#{current_user.id}", :expires_in => 10.minutes) { current_user.journal_ids }
-      access = journal_ids.include? params[:id].to_i
-    else
-      redirect_to login_path and return
+    if current_user.access?(:login_user)
+      JournalEntry.find_by_id_and_user_id(params[:id], luser.id)
+    elsif current_user.access?(:all_users)
+      current_user.has_journal? params[:id]
     end
   end
 

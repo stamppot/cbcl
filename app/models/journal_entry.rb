@@ -40,8 +40,8 @@ class JournalEntry < ActiveRecord::Base
     t += " #{self.get_follow_up}"
   end
 
-  def expire_cache
-    Rails.cache.delete_matched(/journal_entry_ids_user_(.+)/)
+  def expire_cache(user)
+    # Rails.cache.delete("journal_entry_ids_user_#{user.id}")
   end
   
   def make_survey_answer

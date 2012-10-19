@@ -3,21 +3,6 @@ class SurveyAnswersController < ApplicationController
   layout 'survey', :only  => [ :show, :show_fast, :edit, :print ]
   # layout 'survey_print', :only => [ :print ]
 
-  # caching, do not use
-  # def show
-  #     self.expires_in 2.months.from_now
-  #     @options = {:show_all => true, :action => "create"}
-  #     survey_id = params[:id]
-  #   params[:id] &&= cookies["journal_entry"] # survey_id is stored in cookie. all users access survey with survey_id for caching
-  #   session.delete :user_name if current_user.login_user?  # remove flash welcome message
-  #   journal_entry = JournalEntry.find(params[:id])
-  #   @survey = cache_fetch("survey_#{survey_id}") do  
-  #     Survey.find(survey_id)
-  #   end
-  #   @page_title = @survey.get_title
-  #   rescue ActiveRecord::RecordNotFound
-  # end 
-
   # should answered survey (merged with answers), which can be saved (send button)
   def show # BROKEN layout
     cookies.delete :journal_entry
@@ -282,7 +267,7 @@ class SurveyAnswersController < ApplicationController
       access = if params[:action] =~ /show_only/
         current_user.surveys.map {|s| s.id }.include?(id)
       else  # show methods uses journal_entry id
-        current_user.journal_entry_ids.include?(id)
+        current_user.has_journal_entry?(id)
       end
     else
       redirect_to login_path
