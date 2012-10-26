@@ -8,6 +8,7 @@ class RemindersController < ApplicationController
     # @journal_entries = JournalEntry.for_parent_with_state(@group, @state).between(@start_date, @stop_date).
     #   paginate(:all, :page => params[:page], :per_page => 40, :order => 'created_at desc')
     # @stop_date = @journal_entries.any? && @journal_entries.last.created_at || DateTime.now
+    # puts "#{params[:state]}"
     set_params_and_find(params)
     
     @states = {'Alle' => 0, 'Ubesvaret' => 2, 'Besvaret' => "5,6", 'Kladde' => 4} #JournalEntry.states
@@ -42,8 +43,14 @@ class RemindersController < ApplicationController
   protected 
   
   def set_params_and_find(params)
+    # puts "#{params[:state].inspect}"
+    params[:state] ||= "1\/2\/3\/4\/5\/6"
+    states = params[:state].split("\/")
+    # puts "states: #{states.inspect}"
+    params[:state] = states.map &:to_i
+    # puts "#{params[:state].inspect}"
     params[:state] = params[:journal_entry][:state] if params[:journal_entry] && params[:journal_entry][:state] 
-    @state = params[:state].to_s.split(',') unless params[:state].blank?
+    @state = states # params[:state].to_s.split(',') unless params[:state].blank?
     @state = [2,3] if @state.nil?
     @state = JournalEntry.states.values if params[:state] == "0"
     @start_date = @group.created_at

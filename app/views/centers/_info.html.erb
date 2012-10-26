@@ -37,4 +37,21 @@
 				<% end %>
 			</td>
 		</tr>
+
+	<% if @team_count == 0 %>
+		<tr>
+		<td class="t_i commands">
+			JournalHandlinger:
+		</td>
+		<td class="t">
+			<span class="action wide actions">
+				<a title="Flyt journaler" href="/journals/select_move/<%= @group.id %>"><img border="0" title="Flyt journaler" src="/images/document_move_24.png?" class="icon" alt="Flyt journaler"></a>
+			</span>
+			<a href="/reminders/<%= @group.id %>"><img border="0" title="Status besvarelser" src="/images/traffic-light_24.png" class="icon" alt="Status besvarelser"></a>
+			<a title="Eksporter brevfletningsdata" href="/journals/export_mails/<%= @group.id %>.csv"><img border="0" title="Eksporter brevfletningsdata" src="/images/documents_email_24.png" class="icon" alt="Documents_email_24"></a>
+		</td>
+	</div>
+	</tr>
+	<% end %>
+
 	</table>

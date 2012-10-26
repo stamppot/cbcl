@@ -163,7 +163,7 @@ da-DK:
       :entry_status: Eksporter til Excel
       :data: "Dataudtræk"
       :logins: Eksporter logins
-      :logins_short: "-> logins"
+      :logins_short: "logins-udtræk"
       :journal_letter_data: Eksporter brevfletningsdata
     user_id: ID
     next: "Næste"
@@ -309,6 +309,7 @@ da-DK:
       :list: Vis Journaler
       :delete: Slet Journal
       :move: Flyt til team
+      :move_short: Flyt
       :show: Vis Journal
       :new: Opret Journal
     shadow_login_alt: Login som denne bruger

@@ -346,10 +346,12 @@ class CSVHelper
 
 
   def entries_status(journal_entries)
+    surveys = Survey.all.to_hash(&:id).invert
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
       csv_output << %w{skema kode navn status tilfoejet}    # header
       journal_entries.each do |entry|                       # rows
-        csv_output << [entry.survey.get_title, entry.journal.code, entry.journal.get_title, entry.status, entry.created_at.strftime("%Y-%m-%d")]
+        s = surveys[entry.survey_id]
+        csv_output << [s.get_title, entry.journal.code, entry.journal.get_title, entry.status, entry.created_at.strftime("%Y-%m-%d")]
       end
     end
     

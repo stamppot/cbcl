@@ -177,6 +177,7 @@ ActionController::Routing::Routes.draw do |map|
   map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
 
   # map.csv_entry_status_download 'reminders/download/:id', :controller => 'reminders', :action => 'download'
+  map.answer_status 'reminders/show/:id/:state.:format', :controller => 'reminders', :action => 'show', :format => 'csv'
   map.csv_entry_status_download 'reminders/download/:id.:format', :controller => 'reminders', :action => 'download', :format => 'csv'
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'

@@ -316,7 +316,7 @@ class User < ActiveRecord::Base
   def has_journal_entry?(journal_entry_id)
     return true if admin?
     group_ids = []
-    group_ids += ([center_id] && center_id || centers.map(&:id))
+    group_ids += (center_id && [center_id] || centers.map(&:id))
     group_ids += teams.map(&:id)
     result = connection.execute("select count(id) from journal_entries je where je.group_id in (#{group_ids.join(',')}) and je.id = #{journal_entry_id}")
     row = result.fetch_row

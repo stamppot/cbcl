@@ -67,7 +67,7 @@
 					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
 						<%= link_to entry.get_title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
-					 <td><%= entry.answered_at.strftime "%d-%m-%Y" %> 
+					 <td><%= entry.answered_at.strftime "%-d-%-m-%Y" %> 
 						 <%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret besvarelsesdato", :title => "Ret besvarelsesdato"), edit_date_survey_answers_path(entry) %>
 					 </td>
 					 <td><%= entry.status %></td>

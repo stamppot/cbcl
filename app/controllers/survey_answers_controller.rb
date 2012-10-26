@@ -3,6 +3,8 @@ class SurveyAnswersController < ApplicationController
   layout 'survey', :only  => [ :show, :show_fast, :edit, :print ]
   # layout 'survey_print', :only => [ :print ]
 
+  @@surveys = []
+
   # should answered survey (merged with answers), which can be saved (send button)
   def show # BROKEN layout
     cookies.delete :journal_entry
@@ -10,9 +12,11 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     cookies[:journal_entry] = @journal_entry.id
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
-    end
+    # @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    #   Survey.and_questions.find(@survey_answer.survey_id)
+    # end
+    @@surveys[journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
+    @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.get_title
     render :layout => 'survey' # :template => 'surveys/show'
@@ -22,9 +26,12 @@ class SurveyAnswersController < ApplicationController
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@journal_entry.survey_id)
-    end
+    # @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
+    #   Survey.and_questions.find(@journal_entry.survey_id)
+    # end
+    # @survey = Survey.and_questions.find(@journal_entry.survey_id)
+    @@surveys[journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
+    @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.get_title
     render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
@@ -123,9 +130,9 @@ class SurveyAnswersController < ApplicationController
     return if journal_entry.answered?
 
     # necessary to load survey here??
-    survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(journal_entry.survey_id)
-    end
+    # survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 30.minutes) do
+    #   Survey.and_questions.find(journal_entry.survey_id)
+    # end
     if journal_entry.survey_answer.nil? || !journal_entry.answered?
       journal_entry.make_survey_answer
       journal_entry.survey_answer.save

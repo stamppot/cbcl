@@ -3,6 +3,12 @@
 	<h3>Status</h3>
 	<% form_tag(csv_entry_status_download_path(@group) +".csv", :class => 'form', :method => :post) do %>
 	<span>
+		<%= link_button "Ubesvarede", answer_status_path(@group, [2,4]), "status_unanswered" %>&nbsp;&nbsp;
+		<%= link_button "Kladder", answer_status_path(@group, [4]), "button status_draft" %>&nbsp;&nbsp;
+		<%= link_button "Besvarede", answer_status_path(@group, [5,6]), "status_answered" %>&nbsp;&nbsp;
+
+		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all" %><br/>
+
 		<%= select(:journal_entry, 'state', @states, {:selected => 0}, :onchange => remote_function(:update => "message_id",
 							 :method => "get", :with => "'state=' + value", :url => { :controller => :reminders, :action => :show })) %>
 	</span>

@@ -12,7 +12,7 @@ class CentersController < ApplicationController
     @page_title = "CBCL - Center " + @group.title
     # @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
     # @centeradmins = User.users.in_center(@group).all(:joins => :roles, :conditions => ['role_id = 3'])
-
+    @team_count = Team.for_center(@group).count
     @journals = []    
     # @journals = if @group.teams.size == 0
     #   Journal.for_parent(@group).by_code.paginate(:all, :page => 1, :per_page => journals_per_page) || []
