@@ -16,14 +16,16 @@ Der er ikke fundet nogen skemaer.
 </tr>
 
 <% @journal_entries.each do |entry| %>
+	<% survey = @surveys && @surveys[entry.survey_id] || entry.survey %>
+	<% journal = entry.journal %>
   <tr>
 		<td class="select"><%= check_box_tag "journal_entries[]", entry.id, false, :id => "journal_entry_#{entry.id}" %>
-		<td style='background-color: #<%= entry.survey.color %>;' class="pj_name">
-			<%= label_tag "journal_#{entry.id}", entry.survey.title %>
+		<td style='background-color: #<%= survey.color %>;' class="pj_name">
+			<%= label_tag "journal_#{entry.id}", survey.title %>
 		</td>
-		<td class="pj small number"><%= entry.journal.code %></td>
-		<td class="pj small number"><%= link_to entry.answer_status, entry %></td>
-    <td class="pj small"><span class="nobr"><%= link_to entry.journal.title, entry.journal %></span></td>
+		<td class="pj small number"><%= journal.code %></td>
+		<td class="pj small number"><a href="/journal_entries/<%= entry.id %>"><%= entry.answer_status %></a></td>
+    <td class="pj small"><span class="nobr"><a href="/journals/<%= entry.journal_id %>"><%= journal.title %></a></span></td>
     <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
   </tr>
 <% end %>

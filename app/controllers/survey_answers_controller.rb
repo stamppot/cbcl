@@ -15,7 +15,7 @@ class SurveyAnswersController < ApplicationController
     # @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
     #   Survey.and_questions.find(@survey_answer.survey_id)
     # end
-    @@surveys[journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
+    @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
     @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.get_title
@@ -30,7 +30,7 @@ class SurveyAnswersController < ApplicationController
     #   Survey.and_questions.find(@journal_entry.survey_id)
     # end
     # @survey = Survey.and_questions.find(@journal_entry.survey_id)
-    @@surveys[journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
+    @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
     @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Vis Svar: " << @survey.get_title
@@ -178,7 +178,7 @@ class SurveyAnswersController < ApplicationController
     
     journal_entry.increment_subscription_count(survey_answer)
 
-		puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
+		# puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
     
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
@@ -186,7 +186,7 @@ class SurveyAnswersController < ApplicationController
       redirect_to journal_path(journal_entry.journal) and return
     else
       flash[:notice] = "Tak for dit svar!"
-			puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
+			# puts "GOING TO FINISH PAGE: #{journal_entry.inspect}\n   current_user: #{current_user.inspect}"
       redirect_to survey_finish_path(journal_entry) and return
     end
   rescue RuntimeError

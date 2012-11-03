@@ -199,14 +199,15 @@ class Journal < Group
     return true if surveys.empty?
     surveys.each do |survey|
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up, :group_id => self.parent_id})
-      entry.journal = self
-      login_number = "#{self.code}#{survey.id}"
-      entry.make_login_user(login_number)
-      if entry.valid?
-        entry.print_login!
-        entry.login_user.save
-      end
-      entry.expire_cache(current_user) # expire journal_entry_ids
+      entry.journal_id = self.id
+      # login_number = "#{self.code}#{survey.id}"
+      entry.make_login_user
+      entry.login_user.save && entry.save
+      # if entry.valid?
+      #   entry.print_login!
+      #   entry.login_user.save
+      # end
+      # entry.expire_cache(current_user) # expire journal_entry_ids
     end
     return self
   end

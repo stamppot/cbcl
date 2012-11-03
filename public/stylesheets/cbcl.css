@@ -820,7 +820,7 @@ a .journal_remove_surveys {
 	padding-left: 27px;
 } 
 a .journal_status {
-	background:url('/images/status-online-mini.png') no-repeat 0px 0px;
+	background:url('/images/status.png') no-repeat 0px 0px;
 	padding-left: 27px;
 } 
 
@@ -960,12 +960,12 @@ a .survey_save_draft {
 }
 
 a .status_answered {
-  background:url('/images/status-online.png') no-repeat 0px 0px;
+  background:url('/images/status.png') no-repeat 0px 0px;
 	padding-left: 27px;	
 }
 
 a .status_unanswered {
-  background:url('/images/stop.png') no-repeat 0px 0px;
+  background:url('/images/status-busy.png') no-repeat 0px 0px;
 	padding-left: 27px;	
 }
 
@@ -1027,6 +1027,17 @@ input.button:active {
 	background-color: #aaa;
 	border: 1px solid #000;
 }
+
+input.large {
+	/*line-height: 36px;*/
+	font-size: 14px;
+	text-indent: 4px;
+	height: 58px;
+	padding-top: 32px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
 input.add {
 	background:url('/images/add.png') no-repeat 10px 5px;
 }
@@ -1082,6 +1093,9 @@ input.survey_remove {
 
 input.score_calculate {
 	background:url('/images/table.png') no-repeat 10px 5px;
+}
+input.score_calculate.large {
+	background:url('/images/patient_data_x32.png') no-repeat 50% 2px;
 }
 input.subscribe {
 	background:url('/images/table_add.png') no-repeat 10px 5px;

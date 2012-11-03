@@ -3,15 +3,16 @@
 	<h3>Status</h3>
 	<% form_tag(csv_entry_status_download_path(@group) +".csv", :class => 'form', :method => :post) do %>
 	<span>
-		<%= link_button "Ubesvarede", answer_status_path(@group, [2,4]), "status_unanswered" %>&nbsp;&nbsp;
-		<%= link_button "Kladder", answer_status_path(@group, [4]), "button status_draft" %>&nbsp;&nbsp;
-		<%= link_button "Besvarede", answer_status_path(@group, [5,6]), "status_answered" %>&nbsp;&nbsp;
+		<%= link_button "Ubesvarede", answer_status_path(@group, [2,4]), "status_unanswered", :class => 'answer_state' %>&nbsp;&nbsp;
+		<%= link_button "Kladder", answer_status_path(@group, [4]), "button status_draft", :class => 'answer_state' %>&nbsp;&nbsp;
+		<%= link_button "Besvarede", answer_status_path(@group, [5,6]), "status_answered", :class => 'answer_state' %>&nbsp;&nbsp;
 
-		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all" %><br/>
-
-		<%= select(:journal_entry, 'state', @states, {:selected => 0}, :onchange => remote_function(:update => "message_id",
+		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all", :class => 'answer_state' %><br/>
+		<input type="hidden" name="selected_state" class="selected_state" value="<%= @answer_state %>" />
+		<%# select(:journal_entry, 'state', @states, {:selected => 0}, :onchange => remote_function(:update => "message_id",
 							 :method => "get", :with => "'state=' + value", :url => { :controller => :reminders, :action => :show })) %>
 	</span>
+	<br/>
 	<span class="commands"><%= submit_tag t('export.entry_status'), :class => 'button download_excel' %></span>
 
 
@@ -40,6 +41,8 @@
 	
 	<% if @journal_entries.empty? %>
 	<%= t('none') %>
+	<% elsif @journal_entries.nil? %>
+		Antal: <%= @journal_entries_count %>
 	<% else %>
 	<% @hide_team = true %>
 	<div id="journal_entries">
@@ -62,6 +65,14 @@ $$('.tabs').each(function(tab_group){
 });
 
 Event.observe(window, 'load', function() {
+		$$('.answer_state').each(function(e) {
+			e.observe('click', function(element) {
+				var selected_state = e.href;
+				//alert("hello: " + selected_state);
+				console.log("setting selected: " + selected_state);
+				$$("[name='selected_state']")[0].setValue(selected_state);
+			});
+		});
 	var select_all_box = $('select_all_box');
 	if (select_all_box) {
 		var checkboxes = select_all_box.up('form').getInputs('checkbox');

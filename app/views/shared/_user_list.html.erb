@@ -5,7 +5,7 @@
 	<th class="sortcol" title="<%= t('sort.role') %>"><%= t('role') %></th>
 	<th class="sortcol" title="<%= t('sort.group') %>"><%= t('groups') %></th>
 	<% if can_edit_delete %>
-	<th class="nosort" style="width: 75px;"><%= t('action') %><span style="width: 100px;">&nbsp;</span></th>
+	<th class="nosort" style="width: 92px;"><%= t('action') %><span style="width: 100px;">&nbsp;</span></th>
 	</tr>
 	<% end %>
 
@@ -26,7 +26,7 @@
 			<a title="Slet Bruger" href="/users/delete/<%= user.id %>"><img border="0" title="Slet Bruger" src="/images/user_delete_24.png" class="icon" alt="Slet bruger"></a>
 		<%# link_to_icon 'user_edit_female_24.png', edit_user_url(user), :title => t('user.edit') %>
 		<%# link_to_icon 'user_delete_24.png', delete_user_url(user), :title => t('user.delete') -%>
-		<span>&nbsp;&nbsp;</span>
+		<span>&nbsp;</span>
 		<a title="Login som denne bruger" href="/login/shadow_login/<%= user.id %>"><img border="0" title="Login som denne bruger" src="/images/door_24.png" class="icon" alt="Login som denne bruger"></a>
 		<%# link_to_icon 'door_24.png', shadow_login_url(user), {:alt => t('shadow_login_alt'), :title => t('shadow_login_alt')}, (current_user.access?(:shadow_login) and user.id != current_user.id) %>
 	</span>

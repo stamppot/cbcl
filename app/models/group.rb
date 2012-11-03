@@ -60,17 +60,18 @@ class Group < ActiveRecord::Base
     end
   end
   
+  def group_name_abbr
+    group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
+  end
+  
   def login_prefix
-   group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
-   num = self.login_users.size.next
-   login_name = "#{group_name}-#{num}"
-    # login =
-    # login_name = if luser = self.login_users.count
-      # luser.login =~ /(\d+)/
-      # "#{group_name}"
-    # else
-      # "#{group_name}"
-    # end
+    group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
+    num = LoginUser.count(:conditions => ['center_id = ? and login LIKE ?', parent.nil? && id || parent.id, group_name + "%"]) + 1
+    login_name = "#{group_name}-#{num}"
+    while(LoginUser.find_by_login(login_name)) do
+      num += 1
+      login_name = "#{group_name}-#{num}"
+    end
     login_name.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")
   end
 

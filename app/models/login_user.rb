@@ -20,13 +20,16 @@ class LoginUser < User
     self.journal_entry.survey_answer
   end
 
-  def self.create_params(center_name, login_number, email = nil)
-    login = "#{center_name}-#{login_number}"
+  def self.create_params(login, center_name) #, login_number, email = nil)
+    # login = "#{center_name}-#{login_number}"
+    # login_user = center.login_users.last(:conditions => ['login LIKE ?', "#{center_name}%"])
+    # login = login_user && login_user.login.succ || login + "-1"
+    # puts "LoginUser.create_params: #{login}"
     email ||= "#{login}@#{center_name}.dk"
-    login += "-1" if LoginUser.find_by_login(login)
-    while(LoginUser.find_by_login(login))
-      login = login.succ
-    end
+    # login += "-1" if LoginUser.find_by_login(login)
+    # while(LoginUser.find_by_login(login))
+    #   login = login.succ
+    # end
     return { :login => login,
       :name => login,
       :email => email,

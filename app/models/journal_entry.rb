@@ -1,5 +1,5 @@
 class JournalEntry < ActiveRecord::Base
-  belongs_to :journal, :touch => true
+  belongs_to :journal #, :touch => true
   belongs_to :survey
   belongs_to :survey_answer, :dependent => :destroy, :touch => true
   belongs_to :login_user, :class_name => "LoginUser", :foreign_key => "user_id", :dependent => :destroy  # TODO: rename to login_user, add type constraint
@@ -202,15 +202,16 @@ class JournalEntry < ActiveRecord::Base
        }
   end
   
-  def make_login_user(login_number, password = nil)
-    center_name = self.journal.parent.login_prefix
-    params = LoginUser.create_params(center_name, login_number)
+  def make_login_user(password = nil)
+    login = journal.parent.login_prefix
+    group_name = journal.parent.group_name_abbr
+    params = LoginUser.create_params(login, group_name)
     pw = password && {:password => password, :password_confirmation => password} || PasswordService.generate_password
     login_user = LoginUser.new(params)
     # set protected fields explicitly
-    login_user.center_id = self.journal.center_id
+    login_user.center_id = journal.center_id
     login_user.roles << Role.get(:login_bruger)
-    login_user.groups << self.journal
+    login_user.groups << journal
     login_user.password, login_user.password_confirmation = pw.values
     login_user.password_hash_type = "md5"
     login_user.last_logged_in_at = 10.years.ago
