@@ -234,8 +234,8 @@ class Journal < Group
     c["pkoen"] = self.sex
     c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c["pnation"] = self.nationality
-    c["dagsdato"] = self.created_at.strftime("%d-%b-%Y")
-    c["pfoedt"] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
+    c["dagsdato"] = self.created_at.strftime("%d-%m-%Y")
+    c["pfoedt"] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
     c
   end
   
@@ -250,8 +250,8 @@ class Journal < Group
     c[:pkoen] = self.sex
     c[:palder] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c[:pnation] = self.nationality
-    c[:dagsdato] = self.created_at.strftime("%d-%b-%Y")
-    c[:pfoedt] = self.birthdate.strftime("%d-%b-%Y")  # TODO: translate month to danish
+    c[:dagsdato] = self.created_at.strftime("%d-%m-%Y")
+    c[:pfoedt] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
     c
   end
 
