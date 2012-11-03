@@ -38,9 +38,9 @@ class CsvExportHelper
     header = journal_csv_header.keys + survey.variables.map {|v| v.var}
     
     csv_rows = csv_survey_answers.inject([]) do |rows,csa|
-      header = csa.journal.info.values
+      header_values = csa.journal.info.values
       # rows << csa.journal_info.split(';') + csa.answer.split(';;')
-      rows << header + csa.answer.split(';;')
+      rows << header_values + csa.answer.split(';;')
       rows
     end
 

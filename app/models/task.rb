@@ -1,18 +1,18 @@
 class Task < ActiveRecord::Base
   belongs_to :export_file
 
-  def create_export(survey_ids, survey_answers)
-    spawn do
-      data = CSVHelper.new.to_csv(survey_answers, survey_ids)  # TODO: add csv generation on save_answer & change_answer
-      # write data
-      self.export_file = ExportFile.create(:data => data,
-        :filename => "eksport_svar_" + Time.now.to_date.to_s + ".csv",
-        :content_type => "application/vnd.ms-excel")
+  # def create_export(survey_ids, survey_answers)
+  #   spawn do
+  #     data = CSVHelper.new.to_csv(survey_answers, survey_ids)  # TODO: add csv generation on save_answer & change_answer
+  #     # write data
+  #     self.export_file = ExportFile.create(:data => data,
+  #       :filename => "eksport_svar_" + Time.now.to_date.to_s + ".csv",
+  #       :content_type => "application/vnd.ms-excel")
 
-      self.status = "Completed"
-      self.save
-    end
-  end
+  #     self.status = "Completed"
+  #     self.save
+  #   end
+  # end
 
   def create_survey_answer_export(survey_id, survey_answers)
     spawn do

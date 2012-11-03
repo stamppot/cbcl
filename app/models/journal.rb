@@ -230,7 +230,7 @@ class Journal < Group
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
     c["pid"] = settings && eval("self.#{settings.value}") || self.code
-    c["alt_id"] = self.person_info.alt_id
+    c["alt_id"] = self.person_info.alt_id || ""
     c["pkoen"] = self.sex
     c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
     c["pnation"] = self.nationality
