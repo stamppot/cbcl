@@ -3,7 +3,7 @@ class SurveyAnswersController < ApplicationController
   layout 'survey', :only  => [ :show, :show_fast, :edit, :print ]
   # layout 'survey_print', :only => [ :print ]
 
-  @@surveys = []
+  @@surveys = {}
 
   # should answered survey (merged with answers), which can be saved (send button)
   def show # BROKEN layout
@@ -137,13 +137,16 @@ class SurveyAnswersController < ApplicationController
       journal_entry.make_survey_answer
       journal_entry.survey_answer.save
     end
-    survey_answer = journal_entry.survey_answer
-    survey_answer.done = false
-		survey_answer.journal_entry_id ||= journal_entry.id
-		survey_answer.set_answered_by(params)
-    survey_answer.save_answers(params)
-		survey_answer.center_id ||= journal_entry.journal.center_id
-    survey_answer.save
+    spawn do
+      journal_entry.survey_answer.save_draft(params)
+    end
+  #   survey_answer = journal_entry.survey_answer
+  #   survey_answer.done = false
+		# survey_answer.journal_entry_id ||= journal_entry.id
+		# survey_answer.set_answered_by(params)
+  #   survey_answer.save_answers(params)
+		# survey_answer.center_id ||= journal_entry.journal.center_id
+  #   survey_answer.save
   end
   
   def create

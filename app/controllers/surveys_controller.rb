@@ -10,7 +10,7 @@ class SurveysController < ApplicationController
   # 19-2-8 TODO: replace in_place_edit with some other edit function
   # in_place_edit_for :question, :number
 
-  @@surveys = []
+  @@surveys = {}
   
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => "post", :only => [ :destroy, :create, :update, :answer ],
@@ -31,7 +31,7 @@ class SurveysController < ApplicationController
   # for showing surveys without being able to answer them (sort demo-mode)
   def show_only
     @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
-    survey_id = params[:id]
+    survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(params[:id])
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
     @page_title = @survey.get_title
@@ -47,18 +47,18 @@ class SurveysController < ApplicationController
   end
 
   def show
-     @options = {:show_all => true, :action => "create"}
+    @options = {:show_all => true, :action => "create"}
 
-     journal_entry = JournalEntry.find(session[:journal_entry])
-     logger.info("SURVEY get: #{journal_entry.id}...")
-     cookies[:journal_entry] = journal_entry.id
-     journal_entry = JournalEntry.find(cookies[:journal_entry]) if session[:journal_entry].blank?
+    journal_entry = JournalEntry.find(session[:journal_entry])
+    logger.info("SURVEY get: #{journal_entry.id}...")
+    cookies[:journal_entry] = journal_entry.id
+    journal_entry = JournalEntry.find(cookies[:journal_entry]) if session[:journal_entry].blank?
      
-     @is_login_user = current_user.login_user?
+    @is_login_user = current_user.login_user?
      
      # don't cache now, it's page cached anyway
-     # @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
-     survey_id = params[:id].to_i
+    # @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
+    survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
      @page_title = @survey.get_title
@@ -73,7 +73,7 @@ class SurveysController < ApplicationController
     # @survey_fast = cache_fetch("survey_entry_#{@journal_entry.id}") do
     #   Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     # end
-    survey_id = params[:id]
+    survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey_fast = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
 

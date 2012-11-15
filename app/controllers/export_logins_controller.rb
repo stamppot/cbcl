@@ -30,11 +30,14 @@ class ExportLoginsController < ApplicationController
     puts csv.inspect
 
     # oo = export_xls(team.journals)
-    data = CSVHelper.new.to_csv(csv)
+    data = CSVHelper.new.logins_to_csv(csv)
     respond_to do |wants|
       # wants.csv { 
       #       send_data oo.to_xlsx.to_stream.read, :filename => "#{filename}.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"}
-      wants.csv { send_data data, :filename => "#{filename}.xlsx", :type => "text/csv"}   # send_data export_xls(csv).to_ } #export_csv(csv, filename) }
+      wants.csv {
+        headers["Content-Disposition"] = "attachment; filename=\"#{filename}.csv\"
+        send_data data, :filename => "#{filename}.csv", :type => "text/csv"
+      }   # send_data export_xls(csv).to_ } #export_csv(csv, filename) }
       wants.xls { export_csv csv, filename, format } #export_csv(csv, filename) }  
     end    
   end
@@ -50,6 +53,7 @@ class ExportLoginsController < ApplicationController
 
   def export_csv(table, filename, format = "xls", outputcharset = 'utf-16le', inputcharset = 'utf-8', type = "application/vnd.ms-excel; charset=utf-8")
     bom = "\377\376"
+    bom += Iconv.conv('utf-16le', 'utf8', table) 
     puts "BOM: #{bom} #{bom.inspect}"
     puts "csv:\n#{table}"
     extension = format[0..2]
