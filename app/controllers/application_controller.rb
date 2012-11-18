@@ -188,6 +188,14 @@ class ApplicationController < ActionController::Base
     send_data content, :filename => filename, :type => type, :content_type => type, :disposition => 'attachment'
   end
 
+  def to_danish(str)
+    if str.respond_to? :gsub
+      str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
+    else
+      str
+    end
+  end
+
   private
   def cache(key)
     unless output = CACHE.get(key)

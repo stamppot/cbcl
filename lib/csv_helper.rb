@@ -39,13 +39,14 @@ class CSVHelper
     result.gsub!(/\n$/,'')
   end
       
-  def csv_from_query(query)
+  def csv_from_query(query, col_sep = ";;")
     result = ActiveRecord::Base.connection.execute(query)
 
     csv_answers = {}  # generate csv_answer strings
     result.each_hash do |c|
+      puts "c: #{c.inspect}"
       values = SurveyAnswer.and_answer_cells.find(c["id"]).to_csv
-      answer = FasterCSV.generate_line(values, :col_sep => ";", :row_sep => :auto).gsub!(/\n$/,'').chomp
+      answer = FasterCSV.generate_line(values, :col_sep => col_sep, :row_sep => :auto).gsub!(/\n$/,'').chomp
       csv_answers[c["id"]] = [c['id'], c['survey_id'], c['journal_entry_id'], c['journal_id'], c['age'], c['sex'], answer]
     end
     return csv_answers
@@ -53,7 +54,7 @@ class CSVHelper
   
   def generate_csv_answers(csv_answers)  # hash with survey_answer_id => csv_answer string
     # partition into insert and update 
-    update_answers = CsvAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
+    update_answers = CsvSurveyAnswer.all(:conditions => ['survey_answer_id in (?)', csv_answers.keys])
     insert_survey_answer_ids = csv_answers.keys - update_answers.map {|sa| sa.survey_answer_id.to_s}
     insert_survey_answers = insert_survey_answer_ids.map {|sa_id| csv_answers[sa_id]}.compact # new survey answers    
     update_answers.each { |ca| ca.answer = csv_answers[ca.survey_answer_id.to_s].last } # add answer string
@@ -61,14 +62,15 @@ class CSVHelper
     # insert
     columns = [:survey_answer_id, :survey_id, :journal_entry_id, :journal_id, :age, :sex, :answer]
     if insert_survey_answers.any?
-      t = Time.now; insert_ca_o = CsvAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer]); e = Time.now
+      t = Time.now; insert_ca_o = CsvSurveyAnswer.import(columns, insert_survey_answers, :on_duplicate_key_update => [:answer]); e = Time.now
       puts "Time to insert #{insert_ca_o.size} survey_answers: #{e-t}"
     end
     # update
     if update_answers.any?
-      t = Time.now; updated_ca_no = CsvAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
+      t = Time.now; updated_ca_no = CsvSurveyAnswer.import([:id, :answer], update_answers, :on_duplicate_key_update => [:answer]); e = Time.now
       puts "Time to update #{update_answers.size} survey_answers: #{e-t}"
     end
+    update_answers
   end
   
   def create_survey_answer_csv(survey_answer)
@@ -81,7 +83,7 @@ class CSVHelper
 
 
   # merged pregenerated csv_answer string with header and journal information
-  def to_csv(survey_answers, survey_ids)
+  def logins_to_csv(survey_answers, survey_ids)
     journal_ids = survey_answers.build_hash { |sa| [sa.journal_id, sa.survey_id] }
     survey_ids = journal_ids.values.flatten.uniq
     
@@ -112,70 +114,8 @@ class CSVHelper
     end
   end
   
-  
-  # works
-  # def login_users(journals)
-  #   journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
-    
-  #   puts "journals with unanswered entries: #{journals.size}" if DEBUG
-  #   # {"journal_155"=> {
-  #   #   :skemaer => [{:user=>"abc-login17", :survey=>"YSR: 11-16 år", :password=>"tog4pap9", :date=>"23-10-08"}],
-  #   #   :navn=>"Frederik Fran Søndergaard" } }
-  #   results = journals.inject({}) do |results, journal|
-  #     surveys = journal.journal_entries.inject([]) do |col, entry|
-  #       if entry.login_user && entry.not_answered?
-  #         survey_name = entry.survey.get_title.gsub(/\s\(.*\)/,'')
-  #         an_entry = { :user => entry.login_user.login, :password => entry.password,
-  #           :survey => survey_name, :date => entry.created_at.strftime("%d-%m-%y") }
-  #         col << an_entry
-  #       end
-  #       col
-  #     end
 
-  #     results["journal_#{journal.code}"] = { 
-  #       :navn => journal.person_info.name,
-  #       :skemaer => surveys
-  #     } if !surveys.empty?
-
-  #     results
-  #   end
-
-  #   puts "results size: #{results.size}"  if DEBUG
-  #   # max no surveys in any journal
-  #   max = results.values.map {|h| h[:skemaer] }.max { |a,b| a.size <=> b.size }.size
-    
-  #   csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-  #     header = ["id", "navn"]
-  #     max.times do |i| 
-  #       s = "skema_#{i+1}"
-  #       header += [s, "#{s}_login", "#{s}_password", "#{s}_dato"]
-  #     end
-  #     csv << header
-      
-  #     contents = []
-  #     results.each do |journal, hash|
-  #       row = [journal, hash[:navn]]
-  #       results[journal][:skemaer].each do |survey|
-  #         row << survey[:survey]
-  #         row << survey[:user]
-  #         row << survey[:password]
-  #         row << survey[:date]
-  #       end
-  #       # puts "cols: #{row.size}  max: #{max}"
-  #       s = row.size
-  #       (max*4-s+2).times { |i| row << "" } # fill row with empty values
-  #       # puts "cols: #{row.size}  max: #{max}"
-
-  #       contents << row
-  #       contents = contents.sort { |a,b| a.first <=> b.first }
-  #     end
-  #     contents.each { |row| csv << row }
-  #   end
-    
-  #   return csv
-  # end
-
- def get_login_users(journals)
+  def get_login_users(journals)
     journals = journals.select { |journal| journal.journal_entries.any? {|e| e.not_answered? && e.login_user } }
     
     # puts "journals with unanswered entries: #{journals.size}" if DEBUG
@@ -303,46 +243,26 @@ class CSVHelper
     csv
   end
 
-  def mail_merge_login_users(journal_entries)
-    results = journal_entries.inject([]) do |results, entry|
-      if entry.login_user && entry.not_answered?
-        an_entry = {
-          :email => entry.journal.person_info.parent_email,
-          :navn => entry.journal.title,
-          :fornavn => entry.journal.firstname,
-          :login => entry.login_user.login, 
-          :password => entry.password,
-          :alt_id => entry.journal.person_info.alt_id,
-      	  :parent_name => entry.journal.person_info.parent_name
-        }
-        results << an_entry
-      end
-      results
-    end
-    
-    csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-      header = ["email", "navn", "fornavn", "login", "password", "alternativ_id", "mor_navn"]
-      csv << header
-      
-      contents = []
-      results.each do |fields|
-        # puts "fields: #{fields.inspect}"
-        row = []
-        row << fields[:email]
-        row << fields[:navn]
-        row << fields[:fornavn]
-        row << fields[:login]
-        row << fields[:password]
-       	row << fields[:alt_id]
-	      row << fields[:parent_name]
-        # row << fields[:date]
-        csv << row
-      end
-    end
-    
-    return csv
-  end
-
+  # def get_mail_merge_login_users_rows(journal_entries)
+  #   results = journal_entries.inject([]) do |results, entry|
+  #     if entry.login_user && entry.not_answered?
+  #       an_entry = {
+  #         :email => entry.journal.person_info.parent_email,
+  #         :navn => entry.journal.title,
+  #         :fornavn => entry.journal.firstname,
+  #         :login => entry.login_user.login, 
+  #         :password => entry.password,
+  #         :alt_id => entry.journal.person_info.alt_id,
+  #         :mor_navn => entry.journal.person_info.parent_name
+  #       }
+  #       results << an_entry
+  #     end
+  #     results
+  #   end
+  #   header = results.first.keys.map &:to_s
+  #   results = results.map &:values
+  #   results.unshift(header)
+  # end
 
 
   def entries_status(journal_entries)
@@ -354,7 +274,6 @@ class CSVHelper
         csv_output << [s.get_title, entry.journal.code, entry.journal.get_title, entry.status, entry.created_at.strftime("%Y-%m-%d")]
       end
     end
-    
   end
   
   

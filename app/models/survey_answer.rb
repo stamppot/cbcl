@@ -31,7 +31,7 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def age_when_answered
-     ( (self.created_at - self.journal.birthdate).to_i / 365.25).floor
+     ( (self.created_at.to_datetime - self.journal.birthdate).to_i / 365.25).floor
    end
    
   def age_now
@@ -42,17 +42,17 @@ class SurveyAnswer < ActiveRecord::Base
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
 
-  def save_draft(params, save_the_answers = true)
-		set_answered_by(params)
-    self.done = false
-    self.save   # must save here, otherwise partial answers cannot be saved becoz of lack of survey_answer.id
-    self.save_answers(params) if save_the_answers
-    # self.answers.each { |a| a.update_ratings_count }
-    Answer.transaction do
-      answers.each {|a| a.save!}
-    end
+  def save_draft(params)
+    survey_answer = journal_entry.survey_answer
+    survey_answer.done = false
+    survey_answer.journal_entry_id ||= journal_entry.id
+    survey_answer.set_answered_by(params)
+    survey_answer.save_answers(params)
+    survey_answer.center_id ||= journal_entry.journal.center_id
+    survey_answer.save
   end
-   
+  
+
   def save_final(params, save_the_answers = true)
 		set_answered_by(params)
     self.done = true
@@ -234,6 +234,7 @@ class SurveyAnswer < ActiveRecord::Base
       q_id = q_cells.delete("id")
       q_number = key.split("Q").last
       q_number = q_number.to_i
+      puts "q_id: #{q_id}, q_no: #{q_number}"
 
       an_answer = self.answers.find_by_question_id(q_id)
       an_answer ||= self.answers.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number)
@@ -259,6 +260,7 @@ class SurveyAnswer < ActiveRecord::Base
 
     t = Time.now; updated_cells_no = AnswerCell.import([:id, :value, :value_text], update_cells, :on_duplicate_key_update => [:value, :value_text]); e = Time.now
     # puts "MASS IMPORT (update) ANSWER CELLS (#{updated_cells_no.num_inserts}): #{e-t}"
+
     self.answers.each { |a| a.update_ratings_count }
     return self
   end
@@ -280,7 +282,7 @@ class SurveyAnswer < ActiveRecord::Base
   
   def save_csv_survey_answer
     vals = variable_values
-    journal_info = self.journal.info
+    j_info = self.journal.info
     options = {
       :answer => vals.values.join(';;'), 
       :variables => vals.keys.join(';;'),
@@ -293,11 +295,13 @@ class SurveyAnswer < ActiveRecord::Base
       :age => self.age_now,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
-      :header => journal_info.keys.join(';'),
-      :journal_info => to_danish(journal_info.values.join(';'))
+      :header => j_info.keys.join(';'),
+      :journal_info => to_danish(j_info.values.join(';'))
     }
     info_options = self.journal.export_info
     info_options[:palder] = self.age_when_answered
+    info_options[:alt_id] = self.journal.person_info.alt_id
+
     options[:sex] = info_options[:pkoen]
     info_options[:journal_id] = options[:journal_id]
     info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]

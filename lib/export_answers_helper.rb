@@ -1,7 +1,7 @@
 require 'fastercsv'
 # require 'facets/dictionary'
 
-class CsvExportHelper
+class ExportAnswersHelper
 
   def to_danish(str)
     if str.respond_to? :gsub
@@ -33,7 +33,7 @@ class CsvExportHelper
   end
     
   # merged pregenerated csv_answer string with header and journal information
-  def to_csv(csv_survey_answers, survey_id)
+  def export_survey_answers(csv_survey_answers, survey_id)
     survey = Survey.find(survey_id)
     header = journal_csv_header.keys + survey.variables.map {|v| v.var}
     

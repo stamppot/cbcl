@@ -131,6 +131,10 @@ class Survey < ActiveRecord::Base
     s.cell_variables.keys
   end
   
+  def short_name
+    "#{category}_#{age}" 
+  end
+
   # export to xml. Recurses through objects
   # add indentation when one object in the array is an array (of answers)
   def to_xml2

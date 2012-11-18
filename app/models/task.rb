@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
   def create_survey_answer_export(survey_id, survey_answers)
     spawn do
       logger.info "EXPORT create_survey_answer_export: survey: #{survey_id} #{survey_answers.size}"
-      data = CsvExportHelper.new.to_csv(survey_answers, survey_id)  # TODO: add csv generation on save_answer & change_answer
+      data = ExportAnswersHelper.new.export_survey_answers(survey_answers, survey_id)  # TODO: add csv generation on save_answer & change_answer
       logger.info "create_survey_answer_export: created data survey: #{survey_id} #{survey_answers.size}"
       # write data
       self.export_file = ExportFile.create(:data => data,
@@ -34,7 +34,7 @@ class Task < ActiveRecord::Base
   def create_score_rapports_export(survey_id, score_rapports)
     # spawn do
       logger.info "EXPORT create_score_rapports_export: survey: #{survey_id} #{score_rapports.size}"
-      data = CsvExportHelper.new.score_rapports_to_csv(score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
+      data = ExportAnswersHelper.new.score_rapports_to_csv(score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
       logger.info "create_score_rapports_export: created data survey: #{survey_id} #{score_rapports.size}"
       # write data
       self.export_file = ExportFile.create(:data => data,

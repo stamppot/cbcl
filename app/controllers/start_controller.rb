@@ -28,6 +28,7 @@ class StartController < ApplicationController
     survey_answer = @journal_entry.survey_answer
     @update_date = survey_answer && (survey_answer.created_at.end_of_day + 2.weeks) || Date.today
     @can_update_answer = @update_date >= Date.today
+    Rails.cache.delete("j_#{self.id}")
   end
 
   def upgrade

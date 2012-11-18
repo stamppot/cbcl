@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :journals
   map.resources :journal_entries, :only => [:show, :edit, :update]
   map.resources :export_files
-  map.resources :export_logins
+  # map.resources :export_logins
   map.resources :exports
   map.resources :faqs
   map.resources :faq_sections

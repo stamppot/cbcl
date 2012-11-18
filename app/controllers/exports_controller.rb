@@ -45,7 +45,7 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     journals = center && center.journals.count || Journal.count
     # params.delete :center if params[:center].blank?
-    params[:team] = params[:team][:id] if params[:team]
+    params[:team] = params[:team][:team] if params[:team]
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
     puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
 
