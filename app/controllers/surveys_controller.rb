@@ -73,7 +73,7 @@ class SurveysController < ApplicationController
     # @survey_fast = cache_fetch("survey_entry_#{@journal_entry.id}") do
     #   Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
     # end
-    survey_id = params[:id].to_i
+    survey_id = @journal_entry.survey_id
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey_fast = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
 

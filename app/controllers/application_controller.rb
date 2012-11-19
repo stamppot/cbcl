@@ -210,7 +210,14 @@ end
 JS_ESCAPE_MAP	=	{ '\\' => '\\\\', '</' => '<\/', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
 
 def escape_javascript(javascript)
-  return javascript
+  # puts "escape_javascript: #{javascript.inspect}"
+  return javascript.gsub("\r\n", ' ') # .gsub("\r\n", '\n')
+    gsub('\n', '\t').
+    gsub("\r", '\t').
+    gsub("\n", '\t').
+    gsub('"', '\\"').
+    gsub("'", "\\'").
+    gsub('\\', '\\\\')
   # if javascript
   #   result = javascript.gsub(%r(\\|<\/|\r\n|\3342\2200\2250|[\n\r"'])) {|match| JS_ESCAPE_MAP[match] }
   #   javascript.html_safe? ? result.html_safe : result

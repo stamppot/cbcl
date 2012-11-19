@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'fastercsv'
 
-class AddJournalsFromCsv
+class ImportJournals # AddJournalsFromCsv
 
 	# @csv_file = ""
 
@@ -63,9 +63,10 @@ class AddJournalsFromCsv
 	# 	end
 	# end
 
-	def update(file, survey_ids, center_id = 1)
+	def update(file, survey_ids, center_id)
 		surveys = Survey.find(survey_ids)
 		group = Group.find(center_id)
+		center = group.center
 
 		FasterCSV.foreach(file, :headers => true, :col_sep => ";", :row_sep => :auto) do |row|
 			puts "Row: #{row}"
@@ -77,8 +78,8 @@ class AddJournalsFromCsv
 			parent_name = row["Mnavn"]
 			parent_mail = row["Email"]
 			sex = row["gender"]
-			sex = 1 if sex == "d"
-			sex = 2 if sex == "p"
+			sex = 1 if sex == "d" || sex == "M"
+			sex = 2 if sex == "p" || sex == "K"
 
 			puts "#{journal_name}: #{alt_id}"
 			# next

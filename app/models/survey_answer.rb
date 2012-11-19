@@ -234,7 +234,7 @@ class SurveyAnswer < ActiveRecord::Base
       q_id = q_cells.delete("id")
       q_number = key.split("Q").last
       q_number = q_number.to_i
-      puts "q_id: #{q_id}, q_no: #{q_number}"
+      # puts "q_id: #{q_id}, q_no: #{q_number}"
 
       an_answer = self.answers.find_by_question_id(q_id)
       an_answer ||= self.answers.create(:survey_answer_id => self.id, :question_id => q_id, :number => q_number)

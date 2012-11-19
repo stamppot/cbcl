@@ -100,7 +100,7 @@ class Journal < Group
   end
   
   def get_name
-    person_info.name # .force_encoding("UTF-8")
+    person_info && person_info.name || title # .force_encoding("UTF-8")
   end
 
   def has_follow_up?(entry)
@@ -195,7 +195,7 @@ class Journal < Group
   end
   
   # creates entries with logins
-  def create_journal_entries(surveys, current_user, follow_up = 0)
+  def create_journal_entries(surveys, follow_up = 0)
     return true if surveys.empty?
     surveys.each do |survey|
       entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up, :group_id => self.parent_id})

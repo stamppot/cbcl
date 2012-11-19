@@ -1,5 +1,6 @@
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
+# require 'erb' # 
 
 class AnswerCell < ActiveRecord::Base
 	def self.answer_types
@@ -118,8 +119,17 @@ class AnswerCell < ActiveRecord::Base
 	end
 	
 	def javascript_escape_text(text)
-	  "'" + escape_javascript(CGI::unescape("#{text}")) + "'; "  # .gsub("\r\n", "\r")
+    unescaped = CGI::unescape("#{text}")
+    # puts "javascript_escape_text: #{escape_javascript(unescaped).inspect}"
+    # do_replace = unescaped.include? "\n"
+    # if do_replace
+    #   puts "do gsub: #{unescaped.inspect}"
+    unescaped = unescaped.gsub("\n", '%0A') # if unescaped.include? '\n'
+      # puts "done: #{unescaped.inspect}"
+    # end
+	  "unescape('" + escape_javascript(unescaped) + "'); "
   end
+
   # def to_xml
   #   r = []
   #   

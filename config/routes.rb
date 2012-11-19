@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :journals
   map.resources :journal_entries, :only => [:show, :edit, :update]
   map.resources :export_files
-  # map.resources :export_logins
+  map.resources :export_logins
   map.resources :exports
   map.resources :faqs
   map.resources :faq_sections
@@ -120,7 +120,7 @@ ActionController::Routing::Routes.draw do |map|
   map.edit_journals_email '/journals/edit_emails/:id', :controller => 'journals', :action => 'edit_email'
   map.update_journals_email '/journals/update_emails/:id', :controller => 'journals', :action => 'update_email'
 
-  map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails', :format => 'csv'
+  map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails' #, :format => 'csv'
   map.export_journal_logins 'journals/export_logins/:id', :controller => 'journals', :action => 'export_logins' #, :format => 'csv'
 
   # journal entries

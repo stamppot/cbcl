@@ -64,12 +64,14 @@ class Group < ActiveRecord::Base
     group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
   end
   
-  def login_prefix
+def login_prefix
     group_name = title.split.map {|w| w.first }.join.downcase.slice(0,4)
-    num = LoginUser.count(:conditions => ['center_id = ? and login LIKE ?', parent.nil? && id || parent.id, group_name + "%"]) + 1
+    num = LoginUser.count(:conditions => ['center_id = ? and login LIKE ?', parent.nil? && id || parent.id, group_name + "%"])
+    num = num > 1 && rand(10000) || rand(100)
     login_name = "#{group_name}-#{num}"
+
     while(LoginUser.find_by_login(login_name)) do
-      num += 1
+      num += rand(10000)
       login_name = "#{group_name}-#{num}"
     end
     login_name.gsub("Ø", "o").gsub("Æ", "ae").gsub("Å", "a")

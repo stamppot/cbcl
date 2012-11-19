@@ -174,7 +174,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
       @surveys = Survey.find(surveys)
       follow_up = params[:journal_entry][:follow_up]
-      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, current_user, follow_up)
+      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, follow_up)
       flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "er oprettet." if @group.save && valid_entries
       redirect_to @group
     else
@@ -335,15 +335,15 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end.flatten
 
     csv_helper = ExportCsvHelper.new
-    rows = csv_helper.get_mail_merge_login_users_rows(journal_entries)
-    csv = csv_helper.to_csv(rows)
+    @rows = csv_helper.get_mail_merge_login_users_rows(journal_entries)
+    # csv = csv_helper.to_csv(rows)
 
     puts "EXPORT MAILS!!!!!!!!!"
     
     respond_to do |wants|
       filename =  "logins_#{group.code.to_s.underscore}_#{Time.now.strftime('%Y%m%d%H%M')}.csv"
-      wants.csv { export_csv csv, filename, "text/csv;charset=utf-8;" }
-      wants.xls { send_data csv, :filename => filename, :type => "text/csv;charset=utf-8; ", :disposition => 'attachment' }  
+      wants.csv { export_csv csv_helper.to_csv(@rows), filename, "text/csv;charset=utf-8;" }
+      wants.xls # { send_data csv_helper.to_csv(@rows, "\t"), :filename => filename, :type => "text/csv;charset=utf-8; ", :disposition => 'attachment' }  
       # wants.html { export_csv(csv, filename) }
       # wants.csv { export_csv(csv, "#{filename}.xls") }
     end
