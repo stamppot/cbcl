@@ -37,7 +37,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def show
-    @group = cache_fetch("j_#{params[:id]}") { Journal.find(params[:id]) }
+    @group = Journal.find(params[:id]) # cache_fetch("j_#{params[:id]}") {  }
   
     alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
@@ -53,14 +53,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     # if journal is created from Team.show, then team is set to parent
     @groups = Group.get_teams_or_centers(params[:id], current_user)
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
-    # @group.code = @group.next_journal_code(current_user)
     alt_ids = [] #@group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
-
-
-    @project = Project.find(params[:project_id]) if params[:project_id]
-    # @project.journals << @group if params[:project_id]
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
@@ -69,18 +64,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     parent = Group.find(params[:group][:parent])
     params[:person_info][:name] = params[:group][:title]
     params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
-    project_params = params[:group].delete :project
     @group = Journal.new(params[:group])
     @group.person_info = @group.build_person_info(params[:person_info])
     @group.person_info.delta = true
     @group.delta = true # force index
 
-    if project_params
-      @project = Project.find(project_params)
-      @project.journals << @group
-    end
-
-    if @group.save
+    if @group.person_info.valid? && @group.save
       @group.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
       redirect_to journal_path(@group) and return
@@ -149,8 +138,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      @group = cache_fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end
-      @group.expire
+      Journal.find(params[:id], :include => :journal_entries) 
       @group.destroy
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
       redirect_to journals_path
@@ -170,15 +158,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def add_survey
     @group = Journal.find(params[:id])
     if request.post?
-      surveys = []
-      params[:survey].each { |key,val| surveys << key if val.to_i == 1 }
+      surveys = params[:survey].select { |k,v| v.to_i == 1 }.map &:first
       @surveys = Survey.find(surveys)
-      follow_up = params[:journal_entry][:follow_up]
-      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, follow_up)
+      flash[:error] = "Logins blev ikke oprettet!" unless valid_entries = @group.create_journal_entries(@surveys, params[:journal_entry][:follow_up])
       flash[:notice] = (@surveys.size > 1 && "Spørgeskemaer " || "Spørgeskemaet ") + "er oprettet." if @group.save && valid_entries
       redirect_to @group
-    else
-      # can only add surveys in age group of person
+    else       # can only add surveys in age group of person
       @follow_ups = JournalEntry.follow_ups
       @follow_up = @group.follow_up_count
       @surveys = @group.center.subscribed_surveys_in_age_group(@group.age)
@@ -186,13 +171,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
   end
 
-  # removing is a bit different than adding. This should remove the entries, the entry ids should be given in the form
-  # removes login-users too
+  # removing is a bit different than adding. This should remove the entries, the entry ids should be given in the form  # removes login-users too
   def remove_survey
     @group = Journal.find(params[:id], :include => :journal_entries)  # 
     
     if request.post?
-      entries = params[:entry].map { |key,val| key if val.to_i == 1 }.compact
+      entries = params[:entry].params[:survey].select { |k,v| v.to_i == 1 }.map &:first
       entries = JournalEntry.find(entries, :include => [:login_user, :survey_answer])
       entries.each { |entry| entry.destroy } # deletes user and survey_answer too
 
@@ -208,25 +192,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def live_search
-    @raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
-    @phrase = @raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
+    raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
+    phrase = raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
     # cpr.nr. søgning. Reverse
-    @phrase = @phrase.split("-").reverse.join if @phrase.to_i > 0
+    phrase = phrase.split("-").reverse.join if phrase.to_i > 0
 
-    @journals =
-    if @phrase.empty?
-      []
-    elsif current_user.has_role?(:superadmin)
-      Journal.search(@phrase, :order => "created_at DESC", :include => :person_info, :per_page => 40)
-    elsif current_user.has_role?(:centeradmin)
-			current_user.centers.map {|c| c.id}.inject([]) do |result, id|
-      	result + Journal.search(@phrase, :with => { :center_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
-			end
-    else
-      current_user.group_ids.inject([]) do |result, id|
-        result += Journal.search(@phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
-      end
-    end
+    @journals = Journal.search_journals(current_user, phrase)
 
     respond_to do |wants|
       wants.html  { render(:template => "journals/searchresults" )}
@@ -263,11 +234,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
      respond_to do |format|
        format.html { render "select" }
-       format.js {
-         render :update do |page|
-           page.replace_html 'journals', :partial => 'shared/select_journals'
-         end
-       }
+       format.js { render :update do |page| page.replace_html 'journals', :partial => 'shared/select_journals' end }
      end
 
   rescue ActiveRecord::RecordNotFound
@@ -282,10 +249,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     
     dest_team = Team.find params[:team]
     journals = Journal.find(params[:journals])
-    journals.each do |journal|
-      journal.parent = dest_team
-      journal.save
-    end
+    journals.each { |journal| journal.parent = dest_team }
+    journals.each { |journal| journal.save }
+
     flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
     redirect_to select_journals_path(team) and return
   end
@@ -296,9 +262,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     redirect_to project if flash[:error]
     
     journals = Journal.find(params[:journals])
-    journals.each do |journal|
-      project.journals << journal unless project.journals.include?(journal)
-    end
+    journals.each { |journal| project.journals << journal unless project.journals.include?(journal) }
     project.save
     flash[:notice] = "#{journals.size} journaler er rettet #{project.code} - #{project.name}"
     redirect_to project_path(project)
@@ -338,14 +302,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @rows = csv_helper.get_mail_merge_login_users_rows(journal_entries)
     # csv = csv_helper.to_csv(rows)
 
-    puts "EXPORT MAILS!!!!!!!!!"
-    
     respond_to do |wants|
       filename =  "logins_#{group.code.to_s.underscore}_#{Time.now.strftime('%Y%m%d%H%M')}.csv"
       wants.csv { export_csv csv_helper.to_csv(@rows), filename, "text/csv;charset=utf-8;" }
       wants.xls # { send_data csv_helper.to_csv(@rows, "\t"), :filename => filename, :type => "text/csv;charset=utf-8; ", :disposition => 'attachment' }  
-      # wants.html { export_csv(csv, filename) }
-      # wants.csv { export_csv(csv, "#{filename}.xls") }
     end
   end
 

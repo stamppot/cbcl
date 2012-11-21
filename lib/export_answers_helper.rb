@@ -57,18 +57,8 @@ class ExportAnswersHelper
   end
 
   def journal_csv_header
-    c = Dictionary.new
-    c["ssghafd"] = nil
-    c["ssghnavn"] = nil
-    c["safdnavn"] = nil
-    c["pid"] = nil
-    c["alt_id"] = nil
-    c["pkoen"] = nil
-    c["palder"] = nil
-    c["pnation"] = nil
-    c["dagsdato"] = nil
-    c["pfoedt"] = nil
-    c
+    keys = %w{ssghafd ssghnavn safdnavn pid alt_id pkoen palder pnation dagsdato pfoedt}
+    keys.inject(Dictionary.new) {|h, key| h[key] = nil; h }
   end
 
   def journal_to_csv(journal)

@@ -8,4 +8,4 @@
 </script>
 
 <%= periodically_call_remote(:url => {:action => :generating_export, :id => @task},
-     :frequency => 3.0, :condition => "generating_export == true" ) -%>
+     :frequency => 5.0, :condition => "generating_export == true" ) -%>

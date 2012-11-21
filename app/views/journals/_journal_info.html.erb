@@ -13,7 +13,7 @@
 		</tr>
 		<tr>
 			<td class="p_i">Fødselsdato:</td>
-			<td class="p"><%=h @group.birthdate.to_s(:long) %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
+			<td class="p"><%=h @group.birthdate.to_s %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Alder (år):</td>

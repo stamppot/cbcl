@@ -11,7 +11,7 @@ class ExportCsvHelper
   end
   
   def to_csv(rows, separator = ";")
-    csv = FasterCSV.generate(:col_sep => separator, :row_sep => :auto) do |csv|
+    csv = FasterCSV.generate(:col_sep => separator, :row_sep => :auto, :encoding => 'u') do |csv|
       first_row = rows.first
       is_array = first_row.is_a?(Array)
       puts "to_csv first_row: #{first_row.class}  is_array: #{is_array}"

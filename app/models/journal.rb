@@ -90,6 +90,23 @@ class Journal < Group
   #   end
   # end 
 
+  def self.search_journals(user, phrase)
+    journals =
+    if phrase.empty?
+      []
+    elsif user.has_role?(:superadmin)
+      Journal.search(phrase, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+    elsif user.has_role?(:centeradmin)
+      user.centers.map {|c| c.id}.inject([]) do |result, id|
+        result + Journal.search(phrase, :with => { :center_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+      end
+    else
+      user.group_ids.inject([]) do |result, id|
+        result += Journal.search(phrase, :with => {:parent_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+      end
+    end
+  end
+
   def self.run_rake(task_name)
     #load File.join(RAILS_ROOT, 'lib', 'tasks', 'thinking_sphinx_tasks.rake')
     #Rake::Task[task_name].invoke
