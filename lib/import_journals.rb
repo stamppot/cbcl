@@ -63,9 +63,9 @@ class ImportJournals # AddJournalsFromCsv
 	# 	end
 	# end
 
-	def update(file, survey_ids, center_id)
+	def update(file, survey_ids, team_id)
 		surveys = Survey.find(survey_ids)
-		group = Group.find(center_id)
+		group = Group.find(team_id)
 		center = group.center
 
 		FasterCSV.foreach(file, :headers => true, :col_sep => ";", :row_sep => :auto) do |row|

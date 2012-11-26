@@ -42,7 +42,6 @@ class CsvSurveyAnswer < ActiveRecord::Base
     if !options[:center].blank?
       center = Center.find(options[:center])
       options[:conditions] = ['center_id = ?', options[:center]]
-      # options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
     # options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { user.journal_ids }
     # puts "survey_answer_params: #{options.inspect}"
