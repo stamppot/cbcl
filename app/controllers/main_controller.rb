@@ -15,7 +15,7 @@ class MainController < ApplicationController
   protected
 
   def index_cache_path
-    "#{params[:controller]}_#{params[:action]}_#{current_user.highest_role.title}"
+    "#{params[:controller]}_#{params[:action]}_#{current_user.center_id}_#{current_user.highest_role.title}"
   end
 
 
