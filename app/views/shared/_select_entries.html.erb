@@ -12,6 +12,7 @@ Der er ikke fundet nogen skemaer.
 <th title="Sorter efter Status" class="sortcol" style="text-align: left;">&nbsp;&nbsp;Status&nbsp;&nbsp;</th>
 <th title="Sorter efter navn" class="sortcol">Navn</th>
 <th class="small sortcol" title="Sorter efter dato">Tilføjet</th>
+<th class="small sortcol" title="Sorter efter besvarelsesdato">Besvaret</th>
 <th class="small" title="Team"><%# any_teams_text %></th>
 </tr>
 
@@ -27,6 +28,7 @@ Der er ikke fundet nogen skemaer.
 		<td class="pj small number"><a href="/journal_entries/<%= entry.id %>"><%= entry.answer_status %></a></td>
     <td class="pj small"><span class="nobr"><a href="/journals/<%= entry.journal_id %>"><%= journal.title %></a></span></td>
     <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
+    <td class="pj" style="text-align: left;"><%= entry.answered_at && entry.answered_at.strftime("%d-%m-%Y") || " Ikke besvaret" %></td>
   </tr>
 <% end %>
 </table>
