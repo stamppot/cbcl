@@ -178,11 +178,13 @@ ActionController::Routing::Routes.draw do |map|
 
   # map.csv_entry_status_download 'reminders/download/:id', :controller => 'reminders', :action => 'download'
   map.answer_status 'reminders/show/:id/:state.:format', :controller => 'reminders', :action => 'show', :format => 'csv'
+  map.generate_journals_status_file 'reminders/generate_file/:id/:state.:format', :controller => 'reminders', :action => 'generate_file', :format => 'js'
   map.csv_entry_status_download 'reminders/download/:id.:format', :controller => 'reminders', :action => 'download', :format => 'csv'
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.get_export_logins 'export_logins/download/:id', :controller => 'export_logins', :action => 'download' #, :format => 'csv'
   # map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
+
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
   map.faq_answer 'faqs/answer/:id', :controller => 'faqs', :action => 'answer'

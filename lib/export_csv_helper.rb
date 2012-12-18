@@ -75,7 +75,7 @@ class ExportCsvHelper
         entry = entries[survey.id] && entries[survey.id].first
         survey_prefix = survey.short_name
         row["#{survey_prefix}_status".to_sym] = entry && entry.status || ""
-        row["#{survey_prefix}_login".to_sym] = entry && entry.login_user.login || ""
+        row["#{survey_prefix}_login".to_sym] = entry && entry.login_user && entry.login_user.login || ""
         row["#{survey_prefix}_password".to_sym] = entry && entry.password || ""
         row["#{survey_prefix}_oprettet".to_sym] = entry && entry.created_at.strftime("%Y-%m-%d") || ""
       end

@@ -17,30 +17,13 @@ class ExportFilesController < ApplicationController
     @file = ExportFile.find(params[:id])
     response.headers["Content-Type"] = @file.content_type
     
+    puts "download: #{@file.filename}"
+    
     send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
     :disposition => 'attachment',
     :encoding => 'utf8', 
     :type => @file.content_type,
-    :filename => URI.encode(@file.filename))
-
-    # send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
-    #       :disposition => 'attachment',
-    #       :encoding => 'utf8', 
-    #       :type => @file.content_type,
-    #       :filename => URI.encode(@file.filename))
-    
-    
-    # respond_to do |wants|
-    #   wants.html { render :text => @file.filename
-    #   }
-    #   wants.csv {
-    #     send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
-    #     :disposition => 'attachment',
-    #     :encoding => 'utf8', 
-    #     :type => @file.content_type,
-    #     :filename => URI.encode(@file.filename))
-    #   }
-    # end    
+    :filename => URI.encode(@file.filename))  
     
   rescue
     flash[:notice] = "Filen findes ikke"

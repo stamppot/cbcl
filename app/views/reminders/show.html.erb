@@ -9,12 +9,15 @@
 
 		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all", :class => 'answer_state' %><br/>
 		<input type="hidden" name="selected_state" class="selected_state" value="<%= @answer_state %>" />
-		<%# select(:journal_entry, 'state', @states, {:selected => 0}, :onchange => remote_function(:update => "message_id",
-							 :method => "get", :with => "'state=' + value", :url => { :controller => :reminders, :action => :show })) %>
+
 	</span>
 	<br/>
-	<span class="commands"><%= submit_tag t('export.entry_status'), :class => 'button download_excel' %></span>
+	<span class="commands">
+		<a class="button download_excel_file" href="javascript:void(0);" onclick="generate_file(<%= @group.id %>)" >
+			<span class="download_excel_file"><%= t('export.entry_status') %></span></a>
+	</span>
 
+	<div id="export_file"></div>
 
 
 	<div id='filter_fields' style="display:none;"> <!-- Flyt ovenover hvis det skal bruges-->
@@ -57,7 +60,6 @@
 	<%= back_button team_path(@group) %>
 </div>
 
-</div>
 
 <script type="text/javascript">
 $$('.tabs').each(function(tab_group){  
@@ -65,14 +67,14 @@ $$('.tabs').each(function(tab_group){
 });
 
 Event.observe(window, 'load', function() {
-		$$('.answer_state').each(function(e) {
-			e.observe('click', function(element) {
-				var selected_state = e.href;
-				//alert("hello: " + selected_state);
-				console.log("setting selected: " + selected_state);
-				$$("[name='selected_state']")[0].setValue(selected_state);
-			});
+	$$('.answer_state').each(function(e) {
+		e.observe('click', function(element) {
+			var selected_state = e.href;
+			//alert("hello: " + selected_state);
+			console.log("setting selected: " + selected_state);
+			$$("[name='selected_state']")[0].setValue(selected_state);
 		});
+	});
 	var select_all_box = $('select_all_box');
 	if (select_all_box) {
 		var checkboxes = select_all_box.up('form').getInputs('checkbox');
@@ -85,4 +87,16 @@ Event.observe(window, 'load', function() {
 		});
 	}
 });
+
+function generate_file(id) {
+	var state = $$("[name='selected_state']")[0].value;
+	new Ajax.Request('/reminders/generate_file/' + id, {
+  		method:'post',
+  		parameters: {id: id, state: state},
+  		onSuccess: function(transport) {
+  			eval(response);
+  		},
+  		onFailure: function() { alert('Something went wrong...'); }
+	});
+}
 </script>

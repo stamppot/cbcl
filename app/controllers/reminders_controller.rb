@@ -19,7 +19,6 @@ class RemindersController < ApplicationController
       format.html
       format.js {
         render :update do |page|
-          # todo: update hidden entry (need to make partial)
           page.replace_html 'journal_entries', :partial => 'shared/select_entries'
           page.visual_effect :highlight, 'journal_entries'
         end
@@ -27,12 +26,48 @@ class RemindersController < ApplicationController
     end
   end
   
+  def generate_file
+    @group = Group.find(params[:id])
+    selected_state = params[:state]
+    puts "selected_state: #{selected_state.inspect}"
+    selected_state = [2,3,4,5,6] if selected_state == "0"
+
+    @state = selected_state.to_a
+    @start_date = @group.created_at
+    @stop_date = DateTime.now
+
+    status = @state.join("")
+    timestamp = Time.now.strftime('%Y%m%d')
+    filename = "files/journalstatus_#{@group.group_name_abbr.underscore}-#{status}-#{timestamp}.xls" 
+
+    if !File.exists? filename
+      puts "!EXISTS"
+      @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
+        between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
+      export_csv_helper = ExportCsvHelper.new
+      rows = export_csv_helper.get_entries_status(@journal_entries)
+      export_file = ExportFile.export_xls_file rows, filename, "application/vnd.ms-excel"
+    else
+      export_file ||= ExportFile.find_by_filename filename
+    end
+
+    respond_to do |wants|
+      wants.js {
+        render :update do |page|
+          page.insert_html :after, 'export_file', link_button("Hent fil", file_download_path(export_file.id), 
+            :class => 'button download_file')
+          page.visual_effect :highlight, 'export_file'
+        end
+      }
+    end    
+  end
+
+  # old, download csv
   def download
     @group = Group.find(params[:id])
     selected_state = params[:selected_state]
     selected_state = [2,3,4,5,6] if selected_state == "0"
-   # puts "download selected_state: #{selected_state.inspect}"
-
+     puts "download selected_state: #{selected_state.inspect}"
     # set_params_and_find(params)
     @state = selected_state.to_a
     @start_date = @group.created_at
@@ -41,27 +76,19 @@ class RemindersController < ApplicationController
     #   between(@start_date, @stop_date).count
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
       between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
-
     # puts "" << @journal_entries[0..4].map(&:status).inspect
     export_csv_helper = ExportCsvHelper.new
     rows = export_csv_helper.get_entries_status(@journal_entries)
     csv = export_csv_helper.to_csv(rows)
-
     respond_to do |wants|
       timestamp = Time.now.strftime('%Y%m%d%H%M')
       filename = "journalstatus_#{@group.group_name_abbr.underscore}-#{timestamp}.csv" 
       wants.html {
         export_csv(csv, filename, 'text/csv;charset=utf-8; encoding=utf-8')
-         # send_data(csv, :filename => filename, 
-        #           :type => 'text/csv;charset=utf-8; encoding=utf-8', :disposition => 'attachment')
       }
       wants.csv {
         export_csv(csv, filename, 'text/csv;charset=utf-8; encoding=utf-8')
       }
-      # wants.csv {
-      #   send_data(csv, :filename => filename,
-      #             :type => 'text/csv;charset=utf-8; encoding=utf-8', :disposition => 'attachment')
-      # }
     end    
   end
 
