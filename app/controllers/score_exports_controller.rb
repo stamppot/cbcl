@@ -28,33 +28,6 @@ class ScoreExportsController < ApplicationController
     params[:user] = current_user.id
     @count_score_rapports = ScoreRapport.count_with_options(params.merge({:surveys => filter_surveys}))
   end
-  
-  # def filter
-  #   center = Center.find params[:center] unless params[:center].blank?
-  #   args = params
-  #   params = filter_date(args)
-  #   surveys = current_user.subscribed_surveys
-  #   params = Query.filter_age(params)
-  #   
-  #   # set default value to true unless filter is pressed
-  #   params[:surveys] ||= []
-  #   surveys = Survey.selected(params[:surveys].blank? && [] || params[:surveys].keys)
-  #   center = current_user.center if current_user.centers.size == 1
-  #   params[:center] = center if center
-  #   params[:user] = current_user.id
-  #   
-  #   journals = center && center.journals.flatten.size || Journal.count
-  #   @count_score_rapports = ScoreRapport.count_with_options(filter_date(params).merge({:surveys => surveys}))
-  #   @count_score_rapports = ScoreRapport.count if @count_score_rapports == 0
-  #   
-  #   puts "COUNT SCORE_RAPPORTS: #{@count_score_rapports}"
-  #   
-  #   render :update do |page|
-  #     page.replace_html 'results', "Journaler: #{journals}  Scorerapporter: #{@count_score_rapports.to_s}"
-  #     page.visual_effect :shake, 'results'
-  #     page.replace_html 'centertitle', center.title if center
-  #   end
-  # end
 
   def download
     center = Center.find params[:center] unless params[:center].blank?
@@ -103,6 +76,7 @@ class ScoreExportsController < ApplicationController
       start = args.delete(:start_date)
       stop  = args.delete(:stop_date)
     end
+    puts "filter_date: start: #{start.inspect}, stop: #{stop.inspect}"
     Query.set_time_args(start, stop, args) # TODO: move to better place/helper?! also used in Query
   end
 

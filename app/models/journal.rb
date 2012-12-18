@@ -178,7 +178,7 @@ class Journal < Group
   end
   
   def birth_short
-    birthdate.strftime("%d-%m-%Y")  
+    birthdate && birthdate.strftime("%d-%m-%Y") || ""
   end
 
   def sex_text
