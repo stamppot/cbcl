@@ -11,6 +11,7 @@ class CsvScoreRapport < ActiveRecord::Base
   
   def self.with_options(user, options)
     o = self.filter_params(user, options)
+    puts "with_options: #{o.inspect}"
     query = CsvScoreRapport.for_survey(o[:survey][:id]).
       between(o[:start_date], o[:stop_date]).
       aged_between(o[:start_age], o[:stop_age])
@@ -30,10 +31,14 @@ class CsvScoreRapport < ActiveRecord::Base
     if !options[:center].blank?
       center = Center.find(options[:center])
       options[:conditions] = ['center_id = ?', options[:center]]
-      options[:journal_ids] = center.journal_ids if center && !options[:journal_ids]
     end
-    options[:journal_ids] ||= user.journal_ids
+
     options
   end
   
+  private
+
+  def self.date(h)
+    Date.new(h[:year].to_i, h[:month].to_i, h[:day].to_i)
+  end
 end

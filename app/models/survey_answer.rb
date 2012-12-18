@@ -15,6 +15,8 @@ class SurveyAnswer < ActiveRecord::Base
   has_one :csv_answer
   
   named_scope :finished, :conditions => ['done = ?', true]
+  named_scope :for_center, lambda { |center_id| { :conditions => ['center_id = ?', center_id] } }
+
   named_scope :order_by, lambda { |column| { :order => column } }
   named_scope :and_answer_cells, :include => { :answers => :answer_cells }
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }

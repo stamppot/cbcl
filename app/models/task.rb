@@ -71,12 +71,17 @@ class Task < ActiveRecord::Base
 
   def create_csv_survey_answer(survey_answer)
     spawn do
-      survey_answer.save_csv_survey_answer
-      score_rapport = ScoreRapport.find_by_survey_answer_id(survey_answer.id)
-      score_rapport.save_csv_score_rapport
+      save_csv(survey_answer)
     end
   end
   
+  def save_csv(survey_answer)
+    survey_answer.save_csv_survey_answer
+    score_rapport = ScoreRapport.find_by_survey_answer_id(survey_answer.id)
+    score_rapport ||= survey_answer.generate_score_report
+    score_rapport.save_csv_score_rapport
+  end
+
   def completed?
     self.status == "Completed"
   end
