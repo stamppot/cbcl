@@ -17,7 +17,7 @@ class Letter < ActiveRecord::Base
     self.letter.gsub!('{{firstname}}', journal_entry.journal.firstname)
     self.letter.gsub!('{{fornavn}}', journal_entry.journal.firstname)
     self.letter.gsub!('{{mor_navn}}', journal_entry.journal.person_info.parent_name || "")
-    self.letter.gsub!('{{graviditetsnr}}', journal_entry.journal.person_info.alt_id || "")
+    self.letter.gsub!('{{projektnr}}', journal_entry.journal.person_info.alt_id || "")
   end
   
   def to_mail_merge
@@ -30,7 +30,7 @@ class Letter < ActiveRecord::Base
     self.letter.gsub!('{{firstname}}', '{ MERGEFIELD firstname }')
     self.letter.gsub!('{{fornavn}}', '{ MERGEFIELD fornavn }')
     self.letter.gsub!('{{mor_navn}}', '{ MERGEFIELD mor_navn }')
-    self.letter.gsub!('{{graviditetsnr}}', '{ MERGEFIELD graviditetsnr }')
+    self.letter.gsub!('{{projektnr}}', '{ MERGEFIELD projektnr }')
   end
 
   def self.find_default(surveytype)

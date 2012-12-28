@@ -3,7 +3,7 @@ class CentersController < ApplicationController
   
   def index
     @page_title = "CBCL - Centre"
-    @groups = current_user.centers
+    @groups = current_user.centers.sort_by {|c| c.title}
 		redirect_to center_url(@groups.first) if @groups.size == 1
   end
 

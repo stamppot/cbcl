@@ -41,7 +41,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
     alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
-    @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
+    @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
 
 		@answered_entries = @group.answered_entries
 		@not_answered_entries = @group.not_answered_entries
@@ -55,7 +55,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
     alt_ids = [] #@group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
-    @alt_id_name = "Graviditetsnr" # alt_id && alt_id.value || "Sekundært ID"
+    @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
@@ -93,7 +93,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @person_info = @group.person_info
     @nationalities = Nationality.all
     alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
-    @alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+    @alt_id_name = alt_id && alt_id.value || "Projektnr"
     
 
   rescue ActiveRecord::RecordNotFound

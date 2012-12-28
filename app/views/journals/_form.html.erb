@@ -24,7 +24,7 @@
   <dt><label for="person_info_parent_email"><%= 'Forælder-email' %></label></dt>
   <dd><%= text_field('person_info', 'parent_email', {:size => 25}) %></dd>
 
-  <dt><label for="person_info_alt_id"><%= 'Graviditetsnr' %></label></dt>
+  <dt><label for="person_info_alt_id"><%= 'Projektnr' %></label></dt>
   <dd><%= text_field('person_info', 'alt_id', {:size => 25}) %></dd>
 
 	<br>
@@ -47,10 +47,14 @@
 
 <script type="text/javascript">
 Event.observe(window, 'load', function() {
-	var selectedGroup = $$(".group_center").find(function(radio) { return radio.checked; }).value;
-	new Ajax.Updater('group_code', '/centers/next_journal_code',
-	{asynchronous:true, evalScripts:true, parameters:'id=' + selectedGroup});
-});
+  var code = $("group_code").value;
+  var hasCode = code != "";
+  if(!hasCode) {
+  	var selectedGroup = $$(".group_center").find(function(radio) { return radio.checked; }).value;
+	  new Ajax.Updater('group_code', '/centers/next_journal_code',
+	   {asynchronous:true, evalScripts:true, parameters:'id=' + selectedGroup});
+  }
+  });
 $$(".group_center").each(function(center){
 	center.observe('click', function(){
 		new Ajax.Updater('group_code', '/centers/next_journal_code',

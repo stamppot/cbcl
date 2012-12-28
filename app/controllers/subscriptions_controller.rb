@@ -17,6 +17,7 @@ class SubscriptionsController < ApplicationController
       current_user.centers
     end 
     
+    @centers = @centers.sort_by {|c| c.title }
     @subscription_presenters = @centers.map { |center| center.subscription_presenter(@surveys) }
 
     @subscription_counts_per_center = @centers.inject({}) {|hash, center| hash[center.id] = Subscription.subscriptions_count(center); hash }

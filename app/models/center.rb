@@ -65,7 +65,7 @@ class Center < Group
   
   def get_alt_id
     alt_id = get_setting('alt_id')
-    alt_id_name = alt_id && alt_id.value || "Sekundært ID"
+    alt_id_name = alt_id && alt_id.value || "Projektnr"
   end
 
   def get_setting(name)

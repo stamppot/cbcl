@@ -2,7 +2,6 @@
 <br/>
 
 <% @subscription_presenters.each do |@subscription_presenter| %>
-	<h3><%= t('center.center') %>:
- 	<%= link_to( h(@subscription_presenter.group.title), center_path(@subscription_presenter.group) ) %></h3>
+	<h3><%= link_to( h(@subscription_presenter.group.title), center_path(@subscription_presenter.group) ) %></h3>
 	<%= render :partial => 'subscriptions' %>
 <% end %>
