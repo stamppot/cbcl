@@ -127,6 +127,9 @@
             <div id="settings_menu" class="menu_section">
                 <div class="menu_title"><%= 'Data' %></div>
                 <%= link_to t("menu.data_export"), exports_path %>
+                <% if current_user.perms[:layout_show_scores] %>
+				<%= link_to t("menu.scores"), scores_path, :title => t('menu.scores_alt') %>
+				<% end %>
             </div>
         <% end %>
 

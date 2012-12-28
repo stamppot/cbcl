@@ -47,17 +47,13 @@ class ExportFile < ActiveRecord::Base
   end
 
   def self.export_xls_file(csv_table, filename, content_type = 'text/csv; charset=utf-8; header=present')
-    ExcelConverter.new.write_file(csv_table, filename)
+    ExcelConverter.new.write_file(csv_table, "files/#{filename}")
     # puts "CONTENT: #{content.inspect}"
 
-    export_file = if !File.exists? "files/#{filename}"
+    export_file = ExportFile.find_by_filename(filename) ||
       ExportFile.create(
         :filename => filename,
         :content_type => content_type)
-    else
-      ExportFile.find_by_filename
-    end
-    export_file
   end
   
 end

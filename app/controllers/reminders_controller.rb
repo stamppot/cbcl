@@ -29,7 +29,6 @@ class RemindersController < ApplicationController
   def generate_file
     @group = Group.find(params[:id])
     selected_state = params[:state]
-    puts "selected_state: #{selected_state.inspect}"
     selected_state = [2,3,4,5,6] if selected_state == "0"
 
     @state = selected_state.to_a
@@ -38,19 +37,19 @@ class RemindersController < ApplicationController
 
     status = @state.join("")
     timestamp = Time.now.strftime('%Y%m%d')
-    filename = "files/journalstatus_#{@group.group_name_abbr.underscore}-#{status}-#{timestamp}.xls" 
+    filename = "journalstatus_#{@group.group_name_abbr.underscore}-#{status}-#{timestamp}.xls" 
 
-    if !File.exists? filename
-      puts "!EXISTS"
+    export_file = if !File.exists? "files/#{filename}"
       @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
         between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
       export_csv_helper = ExportCsvHelper.new
       rows = export_csv_helper.get_entries_status(@journal_entries)
-      export_file = ExportFile.export_xls_file rows, filename, "application/vnd.ms-excel"
+      ExportFile.export_xls_file rows, filename, "application/vnd.ms-excel"
     else
-      export_file ||= ExportFile.find_by_filename filename
+      ExportFile.find_by_filename filename
     end
 
+    export_file = ExportFile.last
     respond_to do |wants|
       wants.js {
         render :update do |page|
@@ -67,13 +66,11 @@ class RemindersController < ApplicationController
     @group = Group.find(params[:id])
     selected_state = params[:selected_state]
     selected_state = [2,3,4,5,6] if selected_state == "0"
-     puts "download selected_state: #{selected_state.inspect}"
-    # set_params_and_find(params)
+
     @state = selected_state.to_a
     @start_date = @group.created_at
     @stop_date = DateTime.now
-    # @journal_entries_count = JournalEntry.for_parent_with_state(@group, @state).
-    #   between(@start_date, @stop_date).count
+
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
       between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
     # puts "" << @journal_entries[0..4].map(&:status).inspect
