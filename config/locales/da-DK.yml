@@ -139,14 +139,14 @@ da-DK:
       :variables: Skemavariabler
       :subscriptions: Abonnementer
       :change_password_alt: "Skift password, det tager kun et øjeblik"
-      :search_journals: "Søg:"
+      :search_journals: "Søg journal:"
       :create_user: "Tilføj Bruger"
       :letters: Breve
       :show_subscriptions: Vis Abonnementer
       :center: Center
       :search_groups: "Søg:"
       :show_journals: Vis Journaler
-      :search_users: "Søg:"
+      :search_users: "Søg bruger:"
       :manual: Manual
       :scores: Scores
       :centers: Centre
