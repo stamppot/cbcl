@@ -1,0 +1,39 @@
+<% if @journal_entries.empty? %>
+Der er ikke fundet nogen skemaer.
+<% else %>
+
+<p>Antal: <%= @journal_entries.size %></p>
+<table id="journal_list" class="sortable list">
+	<tr>
+		<!-- add checkbox -->
+<th class="small select_all_box nosort" title="Vælg"><%= check_box_tag "select_all_box", "all", false %></th>
+<th class="wide sortcol sortdesc" title="Sorter efter navn">Skema</th>
+<th title="Sorter efter Id" class="sortcol">Id</th>
+<th title="Sorter efter Status" class="sortcol" style="text-align: left;">&nbsp;&nbsp;Status&nbsp;&nbsp;</th>
+<th title="Sorter efter navn" class="sortcol">Navn</th>
+<th class="small sortcol" title="Sorter efter dato">Tilføjet</th>
+<th class="small sortcol" title="Sorter efter besvarelsesdato"><%= @is_answered ? "Svardato" : "Rykkerstatus" %></th>
+</tr>
+
+<% @journal_entries.each do |entry| %>
+	<% survey = @surveys && @surveys[entry.survey_id] || entry.survey %>
+	<% journal = entry.journal %>
+  <tr>
+		<td class="select"><%= check_box_tag "journal_entries[]", entry.id, false, :id => "journal_entry_#{entry.id}" %>
+		<td style='background-color: #<%= survey.color %>;' class="pj_name">
+			<%= label_tag "journal_#{entry.id}", survey.title %>
+		</td>
+		<td class="pj small number"><%= journal.code %></td>
+		<td class="pj small number"><a href="/journal_entries/<%= entry.id %>"><%= entry.answer_status %></a></td>
+    <td class="pj small"><span class="nobr"><a href="/journals/<%= entry.journal_id %>"><%= journal.title %></a></span></td>
+    <td class="pj" style="text-align: left;"><%= entry.created_at.strftime "%d-%m-%Y" %></td>
+    <td class="pj" style="text-align: left;"><%= entry.answered_at && entry.answered_at.strftime("%d-%m-%Y") || entry.reminder_state %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
+
+<% if params[:action] =~ /search/ %>
+	
+	<div style='align: right;'><b><%= @journal_entries.size %></b> resultat<%= 'er' if @journal_entries.size > 1 %></div>
+<% end %>

@@ -1,17 +1,17 @@
 <h2>Status på skemaer fra <%= center_or_team_text(@group) %> &quot;<%=h @group.title %>&quot;</h2>
 
 	<h3>Status</h3>
-	<% form_tag(csv_entry_status_download_path(@group) +".csv", :class => 'form', :method => :post) do %>
+	<% form_tag(csv_entry_status_download_path(@group) +".csv", :id => 'reminders', :class => 'form', :method => :post) do %>
 	<span>
 		<%= link_button "Ubesvarede", answer_status_path(@group, [2,4]), "status_unanswered", :class => 'answer_state' %>&nbsp;&nbsp;
 		<%= link_button "Kladder", answer_status_path(@group, [4]), "button status_draft", :class => 'answer_state' %>&nbsp;&nbsp;
 		<%= link_button "Besvarede", answer_status_path(@group, [5,6]), "status_answered", :class => 'answer_state' %>&nbsp;&nbsp;
 
-		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all", :class => 'answer_state' %><br/>
+		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all", :class => 'answer_state' %>&nbsp;&nbsp;
+		
+		<%# link_button "Rykket", answer_status_path(@group, [7]), "status_reminder", :class => 'answer_state' %>&nbsp;&nbsp;
+		<%# link_button "Afsluttet", answer_status_path(@group, [8]), "status_finished", :class => 'answer_state' %>&nbsp;&nbsp;
 		<br/>
-		<%= link_button "Rykket", answer_status_path(@group, [7]), "status_reminder", :class => 'answer_state' %>&nbsp;&nbsp;
-		<%= link_button "Afsluttet", answer_status_path(@group, [8]), "status_finished", :class => 'answer_state' %>&nbsp;&nbsp;
-
 
 		<input type="hidden" name="selected_state" class="selected_state" value="<%= @answer_state %>" />
 
@@ -54,7 +54,16 @@
 	<% else %>
 	<% @hide_team = true %>
 	<div id="journal_entries">
-		<%= render :partial => 'shared/select_entries', :locals => {:hide_team => true} %>
+		<% if !@is_answered %>
+		<a class="button status_all" href="javascript:void(0);" onclick="update_reminder_status(<%= @group.id %>)" >
+		<span class="">Marker som </span></a>
+		<select id="reminder_status" name="reminder_status">
+			<option value=""></option>
+			<option value="Rykket">Rykket</option>
+			<option value="Afsluttet">Afsluttet</option>
+		</select>
+		<% end %>
+		<%= render :partial => 'entries', :locals => {:hide_team => true} %>
 	</div>
 	<%# render :partial => 'shared/ajax_pagination' %>
 	<% end %>

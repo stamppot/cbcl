@@ -223,3 +223,16 @@ function search_help() {
 function hide_search_help() {
 	new Effect.Fade($("search_help")); //.hide();
 }
+
+function update_reminder_status(group_id) {
+	var params = $("reminders").serialize();
+	params += "&id=" + group_id;
+
+	new Ajax.Request('/reminders/update?' + params, {
+  		onSuccess: function(response) {
+  			// alert("success");
+    		// location.href = location.href;
+  }
+});
+}
+

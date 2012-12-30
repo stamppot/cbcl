@@ -19,19 +19,35 @@ class RemindersController < ApplicationController
       format.html
       format.js {
         render :update do |page|
-          page.replace_html 'journal_entries', :partial => 'shared/select_entries'
+          page.replace_html 'journal_entries', :partial => 'entries'
           page.visual_effect :highlight, 'journal_entries'
         end
       }
     end
   end
   
+  # update reminder status for multiple journal_entries
+  def update
+    group = Group.find params[:id]
+    puts "params: #{params.inspect}"
+
+    reminder_status = params[:reminder_status]
+    journal_entries = JournalEntry.find(params[:journal_entries])
+    journal_entries.each do |entry| 
+      entry.set_reminder_state(reminder_status)
+      puts entry.reminder_status
+      entry.save
+    end
+    redirect_to answer_status_path(group, [2,4]) 
+  end
+
   def generate_file
     @group = Group.find(params[:id])
     selected_state = params[:state]
     selected_state = [2,3,4,5,6] if selected_state == "0"
 
     @state = selected_state.to_a
+    @is_answered = @state == [5,6]
     @start_date = @group.created_at
     @stop_date = DateTime.now
 

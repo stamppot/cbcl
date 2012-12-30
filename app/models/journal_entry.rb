@@ -199,11 +199,30 @@ class JournalEntry < ActiveRecord::Base
       'Kladde'     => 4,
       'Papir'   	 => 5,    # besvaret af behandler
 			'Elektronisk' => 6,		# besvaret af login-bruger
-      'Rykket'      => 7,
-      'Afsluttet'   => 8
+      # 'Rykket'      => 7,
+      # 'Afsluttet'   => 8
        }
   end
   
+  def reminder_state
+    return "" if reminder_status.nil?
+    JournalEntry.reminder_states.invert[self.reminder_status]
+  end
+
+  def set_reminder_state(status)
+    value = JournalEntry.reminder_states[status]
+    puts "status: #{status}, value: #{value}"
+    self.reminder_status = value if value
+  end
+
+  def JournalEntry.reminder_states
+    {
+      '' => 0,
+      'Rykket' => 1,
+      'Afsluttet' => 9 
+    }
+  end
+
   def make_login_user(password = nil)
     login = journal.parent.login_prefix
     group_name = journal.parent.group_name_abbr
