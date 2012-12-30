@@ -198,7 +198,9 @@ class JournalEntry < ActiveRecord::Base
       # 'Venter'     => 3,   # venter paa at login-bruger svarer paa skemaet
       'Kladde'     => 4,
       'Papir'   	 => 5,    # besvaret af behandler
-			'Elektronisk' => 6,		# besvaret af login-bruger 
+			'Elektronisk' => 6,		# besvaret af login-bruger
+      'Rykket'      => 7,
+      'Afsluttet'   => 8
        }
   end
   

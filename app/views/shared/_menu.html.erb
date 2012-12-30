@@ -69,13 +69,37 @@
 		<%= link_to t('menu.create_journal'), new_journal_path, :title => t('menu.create_journal') %>
 		
 		<br/>
+
+		<script type="javascript/text">
+
+		</script>
+
 		<% form_tag(journal_search_path, { :onSubmit => "Element.show('spinner');" }) do %>
 			<div class="searchbox">
 				<label for="search_journals"><font size="1"><b><%= t('menu.search_journals') %></b></font></label><br>
 				<%= text_field_tag_html4 :search_journals, "", { :size => 10, :class => 'search', :placeholder => 'Søg journal' } %>
 				<img alt="spinner" id="journal_spinner" src="/images/spinner.gif" style="display:none;" >
+				<img alt="help" id="journal_help" onclick="javascript:search_help();" src="/images/help_comment.png" >
+				<span id="search_help" style="display:none;" onclick="javascript:hide_search_help();">
+					Søg på navn, fødselsdato eller journalkode.<br/>
+					<br/>
+					Dato uden bindestreger, fx: 010411<br/>
+					
+				</span>
 			</div>
 		<% end %>
+		<style>
+			#search_help {
+				cursor: hand;
+				position: absolute;
+				top: 300px;
+				left: 175px;
+				width: 180px;
+				height: 150px;
+				border: 1px solid lightblue;
+				background-color: #ffb;
+			}
+		</style>
 		<%= observe_field(:search_journals,
 			:frequency => 1.0,
 			:update => :content,

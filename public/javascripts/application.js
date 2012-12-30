@@ -213,3 +213,13 @@ function toggleReportType(formid, element) {
 	
 	document.getElementById(formid).action = input;
 }
+
+var is_showing_help = false;
+function search_help() {
+	is_showing_help = !is_showing_help;
+	$("search_help").toggle(is_showing_help);
+}
+
+function hide_search_help() {
+	new Effect.Fade($("search_help")); //.hide();
+}

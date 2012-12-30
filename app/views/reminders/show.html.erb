@@ -8,6 +8,11 @@
 		<%= link_button "Besvarede", answer_status_path(@group, [5,6]), "status_answered", :class => 'answer_state' %>&nbsp;&nbsp;
 
 		<%= link_button "Alle", answer_status_path(@group, [1,2,3,4,5,6]), "button status_all", :class => 'answer_state' %><br/>
+		<br/>
+		<%= link_button "Rykket", answer_status_path(@group, [7]), "status_reminder", :class => 'answer_state' %>&nbsp;&nbsp;
+		<%= link_button "Afsluttet", answer_status_path(@group, [8]), "status_finished", :class => 'answer_state' %>&nbsp;&nbsp;
+
+
 		<input type="hidden" name="selected_state" class="selected_state" value="<%= @answer_state %>" />
 
 	</span>
