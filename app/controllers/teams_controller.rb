@@ -46,7 +46,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     respond_to do |format|
       format.html
       format.js {
-        @teams = Team.all(:conditions => ['parent_id = ?', params[:id]])
+        @teams = Team.all(:conditions => ['parent_id = ?', params[:id]], :order => "title")
         render :update do |page|
           if @teams.any?
             page.visual_effect :highlight, 'teams'

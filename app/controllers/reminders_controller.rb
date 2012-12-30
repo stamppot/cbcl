@@ -43,35 +43,37 @@ class RemindersController < ApplicationController
 
   def generate_file
     @group = Group.find(params[:id])
-    selected_state = params[:state]
+    selected_state = params[:state].split(",").map &:to_i
     selected_state = [2,3,4,5,6] if selected_state == "0"
 
     @state = selected_state.to_a
+    # puts "@state: #{@state.inspect}"
     @is_answered = @state == [5,6]
     @start_date = @group.created_at
     @stop_date = DateTime.now
 
-    status = @state.join("")
-    timestamp = Time.now.strftime('%Y%m%d')
+    status = JournalEntry.status_name[selected_state]
+    timestamp = Time.now.strftime('%Y%m%d%H%M')
     filename = "journalstatus_#{@group.group_name_abbr.underscore}-#{status}-#{timestamp}.xls" 
 
-    export_file = if !File.exists? "files/#{filename}"
-      @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
-        between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
-      export_csv_helper = ExportCsvHelper.new
-      rows = export_csv_helper.get_entries_status(@journal_entries)
-      ExportFile.export_xls_file rows, filename, "application/vnd.ms-excel"
-    else
-      ExportFile.find_by_filename filename
-    end
+    done_file = true
+    @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
+      between(@start_date, @stop_date).all(:order => 'created_at desc', :include => [{:journal => :person_info}, :login_user]) unless @state.empty?
+    export_csv_helper = ExportCsvHelper.new
+    rows = export_csv_helper.get_entries_status(@journal_entries)
+    done_file = rows.any?
+    export_file = ExportFile.export_xls_file rows, filename, "application/vnd.ms-excel" if rows.first
 
-    export_file = ExportFile.last
     respond_to do |wants|
       wants.js {
         render :update do |page|
-          page.insert_html :after, 'export_file', link_button("Hent fil", file_download_path(export_file.id), 
-            :class => 'button download_file')
-          page.visual_effect :highlight, 'export_file'
+          if done_file
+            page.insert_html :after, 'export_file', link_button("Hent fil", file_download_path(export_file.id), 
+              :class => 'button download_file')
+            page.visual_effect :highlight, 'export_file'
+          else
+            page.insert_html :after, 'export_file', "Ingen resultater "
+          end
         end
       }
     end    
@@ -121,7 +123,7 @@ class RemindersController < ApplicationController
     params[:state] = states.map &:to_i
     # puts "#{params[:state].inspect}"
     params[:state] = params[:journal_entry][:state] if params[:journal_entry] && params[:journal_entry][:state] 
-    puts "selected_state: #{params[:selected_state].inspect}"
+    puts "selected_state: #{params[:selected_state].inspect} state: #{params[:state].inspect}"
     @state = params[:selected_state] if params[:selected_state]
     @state = states # params[:state].to_s.split(',') unless params[:state].blank?
     @state = [] if @state.nil?    [2,3] if @state.nil?

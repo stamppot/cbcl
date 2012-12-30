@@ -78,6 +78,7 @@ class ExportCsvHelper
         row["#{survey_prefix}_login".to_sym] = entry && entry.login_user && entry.login_user.login || ""
         row["#{survey_prefix}_password".to_sym] = entry && entry.password || ""
         row["#{survey_prefix}_oprettet".to_sym] = entry && entry.created_at.strftime("%Y-%m-%d") || ""
+        row["#{survey_prefix}_rykker_status".to_sym] = entry && entry.reminder_state || ""
       end
       results << row
     end

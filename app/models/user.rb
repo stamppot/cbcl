@@ -252,14 +252,14 @@ class User < ActiveRecord::Base
   
   # must reload from DB
   def teams(reload = false)
-    options = {:include => [:center, :users]}
+    options = {:include => [:center, :users], :order => "title"}
     teams =
     if self.has_access?(:team_show_all)
       Team.find(:all, options)
     elsif self.has_access?(:team_show_admin)
-      Team.in_center(self.center_id) # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
+      Team.in_center(self.center_id).sort_by &:title # Team.find(:all, :conditions => ['parent_id = ?', self.center_id])
     elsif self.has_access?(:team_show_member)
-      Team.direct_groups(self)
+      Team.direct_groups(self).sort_by &:title
     else
       []
     end

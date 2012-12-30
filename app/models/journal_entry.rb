@@ -204,6 +204,15 @@ class JournalEntry < ActiveRecord::Base
        }
   end
   
+  def JournalEntry.status_name
+    {
+      [2,3,4,5,6] => "Alle",
+      [2,4] => "Ubesvarede",
+      [4] => "Kladde",
+      [5,6] => "Besvarede"
+    }
+  end
+
   def reminder_state
     return "" if reminder_status.nil?
     JournalEntry.reminder_states.invert[self.reminder_status]

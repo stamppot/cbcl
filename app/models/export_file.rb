@@ -47,6 +47,7 @@ class ExportFile < ActiveRecord::Base
   end
 
   def self.export_xls_file(csv_table, filename, content_type = 'text/csv; charset=utf-8; header=present')
+    return unless csv_table
     ExcelConverter.new.write_file(csv_table, "files/#{filename}")
     # puts "CONTENT: #{content.inspect}"
 

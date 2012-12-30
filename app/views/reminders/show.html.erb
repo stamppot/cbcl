@@ -1,4 +1,4 @@
-<h2>Status på skemaer fra <%= center_or_team_text(@group) %> &quot;<%=h @group.title %>&quot;</h2>
+<h2>Status på skemaer fra &quot;<%=h @group.title %>&quot;</h2>
 
 	<h3>Status</h3>
 	<% form_tag(csv_entry_status_download_path(@group) +".csv", :id => 'reminders', :class => 'form', :method => :post) do %>
