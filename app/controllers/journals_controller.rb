@@ -195,7 +195,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     phrase = raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
     # cpr.nr. søgning. Reverse
-    phrase = phrase.split("-").reverse.join if phrase.to_i > 0
+
+    phrase = phrase.split("-").join if phrase =~ /\d+-\d+-\d+/
+    # phrase = phrase.split("-").reverse.join if phrase.to_i > 0
 
     @journals = Journal.search_journals(current_user, phrase)
 
