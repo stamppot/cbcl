@@ -129,6 +129,8 @@ class SurveyAnswersController < ApplicationController
     journal_entry.draft! # unless journal_entry.answered?
     return if journal_entry.answered?
 
+    request.session_options[:id] # touch (lazy) session
+    current_user.id
     # necessary to load survey here??
     # survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 30.minutes) do
     #   Survey.and_questions.find(journal_entry.survey_id)
@@ -267,7 +269,7 @@ class SurveyAnswersController < ApplicationController
 
   protected
   
-  before_filter :check_access# , :except => [:dynamic_data]
+  before_filter :check_access, :except => [:save_draft, :dynamic_data]
   
   def check_access
     redirect_to login_path and return unless current_user

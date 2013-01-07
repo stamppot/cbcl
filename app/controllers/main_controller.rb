@@ -22,9 +22,8 @@ class MainController < ApplicationController
   def check_access
     if current_user.nil?
       remove_current_user
-      redirect_to login_path and return 
-    else
-      return true
+      redirect_to login_path and return true
     end
+    return true
   end
 end

@@ -47,8 +47,9 @@ class RemindersController < ApplicationController
     selected_state = [2,3,4,5,6] if selected_state == "0"
 
     @state = selected_state.to_a
-    # puts "@state: #{@state.inspect}"
+    puts "generate #{selected_state.class} selected_state: #{selected_state.inspect}"
     @is_answered = @state == [5,6]
+    puts "is_answered: #{@is_answered}"
     @start_date = @group.created_at
     @stop_date = DateTime.now
 
