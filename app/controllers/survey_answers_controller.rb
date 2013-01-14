@@ -131,10 +131,7 @@ class SurveyAnswersController < ApplicationController
 
     request.session_options[:id] # touch (lazy) session
     current_user.id
-    # necessary to load survey here??
-    # survey = cache_fetch("survey_entry_#{journal_entry.id}", :expires_in => 30.minutes) do
-    #   Survey.and_questions.find(journal_entry.survey_id)
-    # end
+
     if journal_entry.survey_answer.nil? || !journal_entry.answered?
       journal_entry.make_survey_answer
       journal_entry.survey_answer.save
@@ -142,13 +139,6 @@ class SurveyAnswersController < ApplicationController
     spawn do
       journal_entry.survey_answer.save_draft(params)
     end
-  #   survey_answer = journal_entry.survey_answer
-  #   survey_answer.done = false
-		# survey_answer.journal_entry_id ||= journal_entry.id
-		# survey_answer.set_answered_by(params)
-  #   survey_answer.save_answers(params)
-		# survey_answer.center_id ||= journal_entry.journal.center_id
-  #   survey_answer.save
   end
   
   def create
@@ -174,6 +164,9 @@ class SurveyAnswersController < ApplicationController
 			journal_entry.answered! 
 		else 
 			journal_entry.answered_paper!
+      if !journal_entry.valid?
+        puts "journal_entry.errors: #{journal_entry.errors.inspect}  \n login_user.groups: #{journal_entry.login_user.groups.maps {|g| g.errors}.flatten.inspect}"
+      end
 		end
 		
     if !survey_answer.save_final(params)
@@ -184,7 +177,6 @@ class SurveyAnswersController < ApplicationController
     journal_entry.increment_subscription_count(survey_answer)
 
 		# puts "SURVEYANSWERCONT current_user: #{current_user.inspect} LOGIN_USER: #{current_user.login_user?}"
-    
     # login-users are shown the finish page
     if current_user and current_user.access? :all_users
       flash[:notice] = "Besvarelsen er gemt."
@@ -204,7 +196,7 @@ class SurveyAnswersController < ApplicationController
     survey_answer = @journal_entry.survey_answer
     survey = survey_answer.survey
     survey_answer.save_answers(params)
-    # survey.merge_answertype(survey_answer) # 19-7 obsoleted! answertype is saved when saving draft
+
     if survey_answer.save
       survey_answer.generate_score_report(update = true)
       Task.new.create_csv_survey_answer
@@ -240,11 +232,6 @@ class SurveyAnswersController < ApplicationController
     entry.survey_answer.age = age
     entry.answered_at = created
     entry.save
-    csv_answer = CsvAnswer.find_by_journal_entry_id(entry.id)
-    if csv_answer
-      csv_answer.age = age
-      csv_answer.save
-    end
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(entry.survey_answer_id)
     if csv_score_rapport
       csv_score_rapport.age = age if csv_score_rapport

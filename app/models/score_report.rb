@@ -56,6 +56,17 @@ class ScoreReport
     unanswered
   end
   
+  #   def self.row_age_when_answered(score_rapports)
+  #   age = ["Alder"]
+  #   score_rapports.each do |score_rapport|
+  #     report = ScoreReport.new
+  #     report.result = score_rapport.age # age_when_answered
+  #     report.percentile = "&nbsp;"
+  #     age << report
+  #   end
+  #   age
+  # end
+
   def self.scores_in_rows(score_rapports)
     scales = ScoreScale.find(:all, :order => :position)
     scales.map do |scale|

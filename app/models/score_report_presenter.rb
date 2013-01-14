@@ -2,8 +2,8 @@ class ScoreReportPresenter
 
   attr_accessor :journal, :titles, :groups, :scales, :group_titles
 
-  def create(answers_hash, journal_id)
-    puts "ScoreReportPresenter"
+  def build(answers_hash, journal_id)
+    # puts "ScoreReportPresenter"
     answers = []
     answers_hash.each { |key, val| answers << key if val.to_i == 1 } # use only checked survey answers
 
@@ -17,7 +17,7 @@ class ScoreReportPresenter
     # create survey titles row  # first header is empty, is in corner
     @titles = [""] + survey_answers.map do |sa|
       entry = entries.select { |e| e.survey_answer_id == sa.id }.first
-      "#{sa.survey.category} #{sa.survey.age}<div class='survey_info'>#{entry.get_follow_up}<br/>#{sa.created_at.strftime('%-d-%-m-%Y')}</div>"
+      "#{sa.survey.category} #{sa.survey.age}" # <div class='survey_info'>#{entry.get_follow_up}<br/>#{sa.created_at.strftime('%-d-%-m-%Y')}</div>"
     end
 
     # find or create score_rapport
@@ -25,18 +25,46 @@ class ScoreReportPresenter
     unanswered = ["Ubesvarede"]
     score_rapports.each do |score_rapport|  # find no unanswered
       report = ScoreReport.new
-      if score_rapport.unanswered > 100  # temporary, recalculate for wrong values
-        score_rapport.unanswered = score_rapport.survey_answer.no_unanswered
-        score_rapport.save
-      end
       report.result = score_rapport.unanswered
       report.percentile = "&nbsp;"
       unanswered << report
     end
 
+    info_group = []
+
+    age_when_answered = ["Alder"]
+    score_rapports.each do |score_rapport|  # age when answered
+      report = ScoreReport.new
+      report.result = score_rapport.age
+      report.percentile = "info"
+      age_when_answered << report
+    end
+    info_group << age_when_answered
+
+
+    answer_date = ["Besvarelsesdato"]
+    answer_date = survey_answers.inject(["Besvarelsesdato"]) do |col, sa|
+      report = ScoreReport.new
+      report.result = sa.created_at.strftime('%-d-%-m-%Y')
+      report.percentile = "info"
+      col << report
+    end
+    info_group << answer_date
+
+    follow_ups = ["Opfølgning"]
+    survey_answers.map do |sa|
+      entry = entries.select { |e| e.survey_answer_id == sa.id }.first
+      report = ScoreReport.new
+      report.result = entry.get_follow_up
+      report.percentile = "info"
+      follow_ups << report
+    end
+    info_group << follow_ups
+
+    # TODO: besvarelsesdato
+
     # holds scores in groups of standard, latent, cross-informant
     @groups = []
-    # calculate scores for all scales, for all survey answers
     @scales = ScoreScale.find(:all, :order => :position)
 
     @scales.each do |scale|
@@ -60,9 +88,12 @@ class ScoreReportPresenter
       @groups << rows
     end
 
+    # first group is info age_when_answered, follow_ups etc
+    @groups.insert(0, info_group)
     @groups << [unanswered] # add unanswered row
-    @group_titles = ScoreScale.all.map {|scale| scale.title}
+    @group_titles = ScoreScale.all.map {|scale| "" } #scale.title}
     @group_titles[0] = ""  # do not show standard title
+
     return self
   end
 

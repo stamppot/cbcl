@@ -38,7 +38,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   def show
     @group = Journal.find(params[:id]) # cache_fetch("j_#{params[:id]}") {  }
-  
     alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
@@ -195,6 +194,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     raw_phrase = request.raw_post.gsub("&_=", "") || params[:id]
     phrase = raw_phrase.sub(/\=$/, "").sub(/%20/, " ")
     # cpr.nr. søgning. Reverse
+    logger.info "includes ø: " + phrase if phrase.include? "Ã¸"
+    logger.info "includes ø: " + phrase if phrase.include? "ø"
+
+    phrase = phrase.gsub("Ã¸","ø")
 
     phrase = phrase.split("-").join if phrase =~ /\d+-\d+-\d+/
     # phrase = phrase.split("-").reverse.join if phrase.to_i > 0

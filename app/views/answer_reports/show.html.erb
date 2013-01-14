@@ -11,20 +11,17 @@
 
 <table id="score_report" class="outer">
 	<%- @groups.each_with_index do |group, i| %>
-   <% # survey titles in top line only
-	@titles.each_with_index do |title, j|
-	 	fst_col = (j == 0) %>
-		<th class='col<%= j %>' colspan='<%= fst_col ? 1 : 2 %>'><%= (i == 0) ? title : "&nbsp;" %></th>
-	<% end %>
-	<% if (1..group.size + 1) === i && !group.empty? %>
-   		<tr class='scale_title'>
-			<td class='scale_show_hide'>
-				<%= @group_titles[i] %>
-			</td>
-		</tr>
-	<% end %>
-
-	<%= render :partial => "score_group", :object => group %>
+   		<% # survey titles in top line only
+		@titles.each_with_index do |title, j|
+	 		fst_col = (j == 0) %>
+			<th class='col<%= j %> score_entry' colspan='<%= fst_col ? 1 : 2 %>'><%= (i == 0) ? title : "&nbsp;" %></th>
+		<% end %>
+		<% if (1..group.size + 1) === i && !group.empty? %>
+   			<tr class='scale_title'>
+				<td class='scale_show_hide'><%= @group_titles[i] %></td>
+			</tr>
+		<% end %>
+		<%= render :partial => "score_group", :object => group %>
 	<%- end %>
 </table>
 

@@ -85,6 +85,7 @@ class LettersController < ApplicationController
     @letter = Letter.find_default(entry.survey.surveytype) unless @letter
     if @letter
       @letter.insert_text_variables(entry)
+      puts "Letter: #{@letter.inspect}"
     else
       render :text => "Brugernavn: #{entry.login_user.login}<p>Password: #{entry.password}" and return
     end

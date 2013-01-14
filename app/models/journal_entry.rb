@@ -22,7 +22,7 @@ class JournalEntry < ActiveRecord::Base
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
 
   def self.follow_ups
-    [["Diagnosticering", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3]]
+    [["Diagnose", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3]]
   end
 
   def get_follow_up
@@ -220,7 +220,7 @@ class JournalEntry < ActiveRecord::Base
 
   def set_reminder_state(status)
     value = JournalEntry.reminder_states[status]
-    puts "status: #{status}, value: #{value}"
+    # puts "status: #{status}, value: #{value}"
     self.reminder_status = value if value
   end
 

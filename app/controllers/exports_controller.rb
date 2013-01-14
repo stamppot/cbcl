@@ -22,17 +22,13 @@ class ExportsController < ApplicationController
     @surveys = surveys_default_selected(@surveys, params[:surveys])
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
     
-    if current_user.centers.size == 1
-      @center = current_user.center 
-      @teams = @center.teams
-    else
-      @teams = current_user.centers.map {|c| c.teams }.flatten
-    end
+    @center = current_user.center if current_user.centers.size == 1
     params[:center] = @center if @center
     
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
-    
+  
+    @centers = Center.all(:order => 'title', :include => :teams)    
     @count_survey_answers = SurveyAnswer.filter_finished_count(current_user, params.merge({:surveys => filter_surveys}))
   end
   
@@ -45,7 +41,7 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     journals = center && center.journals.count || Journal.count
     # params.delete :center if params[:center].blank?
-    # params[:team] = params[:team][:team] if params[:team]
+    params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
     puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
 
@@ -65,7 +61,7 @@ class ExportsController < ApplicationController
     center = current_user.center if current_user.centers.size == 1
     # journals = center && center.journals.flatten.size || Journal.count
     
-    params[:team] = params[:team][:id] if params[:team]
+    params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
     csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
     # puts "DOWNLOAD csv_survey_answers: #{csv_survey_answers.size}"
     # spawns background task

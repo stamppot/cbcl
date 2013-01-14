@@ -20,7 +20,7 @@
 					 <% survey = entry.survey %>
 					 <td style='background-color: #<%= survey.color %>;'>
 					  <%# link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_show_fast_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
-					  <%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), journal_entry_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
+					<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), journal_entry_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
             <%= link_to entry.get_title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
            <td><%= t("roles.#{survey.surveytype}") %></td>
 					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
@@ -28,8 +28,8 @@
 					 <td>
 					<% @entry = entry %>
 					<%= entry.login_user.nil? ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
-										:class => 'icon', :title => 'Vis login-info'), login_letter_path(entry) + ".pdf", :popup => ['new_window, height=800,width=700']) %>
-										<%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret opfølgning", :title => "Ret opfølgning"), edit_journal_entry_path(entry) %>
+										:class => 'icon', :title => 'Vis login-info'), show_login_letter_path(entry) + ".pdf", :popup => ['new_window, height=800,width=700']) %>
+					<%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret opfølgning", :title => "Ret opfølgning"), edit_journal_entry_path(entry) %>
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 
 							:update => ('entry'<<entry.id.to_s), 

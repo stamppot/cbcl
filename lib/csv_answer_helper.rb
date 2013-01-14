@@ -318,11 +318,11 @@ class CSVAnswerHelper
     c["ssghnavn"] = nil
     c["safdnavn"] = nil
     c["pid"] = nil
-    c["alt_id"] = nil
+    c["projekt"] = nil
     c["pkoen"] = nil
     c["palder"] = nil
     c["pnation"] = nil
-    c["dagsdato"] = nil
+    c["besvarelsesdato"] = nil
     c["pfoedt"] = nil
     c
   end

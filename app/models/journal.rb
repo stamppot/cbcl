@@ -247,11 +247,11 @@ class Journal < Group
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
     c["pid"] = settings && eval("self.#{settings.value}") || self.code
-    c["alt_id"] = self.person_info.alt_id || ""
+    c["projekt"] = self.person_info.alt_id || ""
     c["pkoen"] = self.sex
-    c["palder"] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
+    c["palder"] = get_age(self.birthdate, self.created_at)  # alder på besvarelsesdatoen
     c["pnation"] = self.nationality
-    c["dagsdato"] = self.created_at.strftime("%d-%m-%Y")
+    c["besvarelsesdato"] = self.created_at.strftime("%d-%m-%Y")
     c["pfoedt"] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
     c
   end
@@ -263,13 +263,17 @@ class Journal < Group
     c[:ssghnavn] = self.center.title
     c[:safdnavn] = self.team.title
     c[:pid] = settings && eval("self.#{settings.value}") || self.code
-    c[:alt_id] = self.person_info.alt_id
+    c[:projekt] = self.person_info.alt_id
     c[:pkoen] = self.sex
-    c[:palder] = self.age  # TODO: alder skal være alder på besvarelsesdatoen
+    c[:palder] = get_age(self.birthdate, self.created_at)  # alder på besvarelsesdatoen
     c[:pnation] = self.nationality
-    c[:dagsdato] = self.created_at.strftime("%d-%m-%Y")
+    c[:besvarelsesdato] = self.created_at.strftime("%d-%m-%Y")
     c[:pfoedt] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
     c
+  end
+
+  def get_age(birth_date, end_date)
+    ( (end_date.to_datetime - birth_date).to_i / 365.25).floor
   end
 
   # protected

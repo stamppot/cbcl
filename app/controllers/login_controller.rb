@@ -7,22 +7,30 @@ class LoginController < ApplicationController
     redirect_to survey_start_path and return if current_user && current_user.login_user
     redirect_to main_path and return if current_user
   end
-  
+
+  def maintenance
+  end
+
   def login
     cookies.delete :journal_entry
     redirect_to login_path and return if request.get?
     
     if request.post?
+      # if params[:username] != 'jens'
+      #   flash[:notice] = "Maintenance mode"
+      #   render :maintenance and return
+      # end
+
       if params[:username].to_i > 0
         journal_entry = JournalEntry.find(params[:username])
         if journal_entry.password == params[:password]
           params[:username] = journal_entry.login_user.login
         end
       end
+
       if current_user && current_user.login == params[:username]
         # user = User.find_with_credentials(params[:username], params[:password])
         # flash[:notice] = "#{current_user.name}, du er allerede logget ind."
-
         if current_user.login_user?
           redirect_to survey_start_path
         else

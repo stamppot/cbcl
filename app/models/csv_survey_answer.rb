@@ -59,6 +59,8 @@ class CsvSurveyAnswer < ActiveRecord::Base
       between(o[:start_date], o[:stop_date]).
       aged_between(o[:start_age], o[:stop_age])
 
+    puts "options: #{options.inspect}"
+    puts "options[:team]: #{options[:team].inspect}"
     query = query.for_center(options[:center]) if !options[:center].blank?
     query = query.for_team(options[:team]) if !options[:team].blank?
     query
@@ -66,7 +68,7 @@ class CsvSurveyAnswer < ActiveRecord::Base
   
   # def self.with_options(options)
   def headers
-    %w{ssghafd ssghnavn safdnavn pid alt_id pkoen palder pnation dagsdato pfoedt}.join(';;')
+    %w{ssghafd ssghnavn safdnavn pid projekt pkoen palder pnation besvarelsesdato pfoedt}.join(';;')
   end
 
 end

@@ -127,7 +127,7 @@ ActionController::Routing::Routes.draw do |map|
   map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
   map.entry_remove 'journal_entries/remove/:id', :controller               => 'journal_entries', :action => 'remove', :only => :post
   map.entry_remove_answer 'journal_entries/remove_answer/:id', :controller => 'journal_entries', :action => 'remove_answer', :only => :post
-  map.login_letter 'letters/show_login/:id', :controller                   => 'letters', :action => 'show_login'
+  map.show_login_letter '/letters/show_login/:id', :controller                  => 'letters', :action => 'show_login'
   map.print_letters 'letters/show_logins/:id', :controller                 => 'letters', :action => 'show_logins'
   map.new_letter 'letters/new/:id', :controller                            => 'letters', :action => 'new'
   map.download_letter 'letters/mail_merge/:id', :controller                => 'letters', :action => 'mail_merge'
@@ -183,7 +183,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.file_download 'export_files/download/:id', :controller => 'export_files', :action => 'download'
   map.get_export_logins 'export_logins/download/:id', :controller => 'export_logins', :action => 'download' #, :format => 'csv'
-  # map.export_journals 'projects/export_journals/:id.:format', :controller => 'projects', :action => 'export_journals', :format => 'csv'
 
 
   map.new_faq 'faqs/new/:id', :controller => 'faqs', :action => 'new'
@@ -237,6 +236,8 @@ ActionController::Routing::Routes.draw do |map|
   map.change_back_form 'survey_builders/change_back_form/:id', :controller => 'survey_builders', :action => 'change_back_form'
   
   # map.destroy_survey_builder 'survey_builder/destroy', :controller => 'survey_builder', :action => 'destroy', :method => 'delete'
+
+  map.maintenance 'login/maintenance', :controller => 'login', :action => 'maintenance'
 
   map.connect '/register/confirm/:user/:token',
     :controller => 'active_rbac/registration', :action => :confirm

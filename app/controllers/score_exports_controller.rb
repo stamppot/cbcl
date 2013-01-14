@@ -37,7 +37,7 @@ class ScoreExportsController < ApplicationController
     
     center = current_user.center if current_user.centers.size == 1
     
-    params[:team] = params[:team][:id] if params[:team]
+    params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
     csv_score_rapports = CsvScoreRapport.with_options(current_user, params).all
     puts "DOWNLOAD csv_score_rapports: #{csv_score_rapports.size}"
     # spawns background task

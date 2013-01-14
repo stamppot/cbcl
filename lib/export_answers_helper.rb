@@ -12,7 +12,7 @@ class ExportAnswersHelper
   end
 
   def generate_header(journal)
-    h = %w{ssghafd ssghnavn safdnavn pid alt_id pkoen palder pnation dagsdato pfoedt}.join(';;')
+    h = %w{ssghafd ssghnavn safdnavn pid projekt pkoen palder pnation besvarelsesdato pfoedt}.join(';;')
     csv_survey_answers = CsvSurveyAnswer.find_all_by_journal_id(journal.id)
     csv_survey_answers.each {|c| c.header =  h; c.save }
   end
@@ -57,7 +57,7 @@ class ExportAnswersHelper
   end
 
   def journal_csv_header
-    keys = %w{ssghafd ssghnavn safdnavn pid alt_id pkoen palder pnation dagsdato pfoedt}
+    keys = %w{ssghafd ssghnavn safdnavn pid projekt pkoen palder pnation besvarelsesdato pfoedt}
     keys.inject(Dictionary.new) {|h, key| h[key] = nil; h }
   end
 

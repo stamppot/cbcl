@@ -132,7 +132,7 @@ Rails::Initializer.run do |config|
 # CACHE = MemCache.new memcache_options 
 # CACHE.servers = [ '127.0.0.1:11211'] 
 
-ActionController::Base.session_options[:expires] = 432000 # 5 days 
+# ActionController::Base.session_options[:expires] = 432000 # 5 days 
 # ActionController::Base.session_options[:cache] = CACHE 
 
   config.gem "newrelic_rpm"

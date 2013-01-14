@@ -34,7 +34,7 @@ class SurveyAnswer < ActiveRecord::Base
 
   def age_when_answered
      ( (self.created_at.to_datetime - self.journal.birthdate).to_i / 365.25).floor
-   end
+  end
    
   def age_now
     ( (DateTime.now - self.journal.birthdate).to_i / 365.25).floor
@@ -151,7 +151,7 @@ class SurveyAnswer < ActiveRecord::Base
                   :survey => self.survey,
               :unanswered => self.no_unanswered,
               :short_name => self.survey.category,
-                     :age => self.age_now,
+                     :age => self.age_when_answered,
                   :gender => self.journal.person_info.sex,
                :age_group => self.survey.age,
               :created_at => self.created_at,  # set to date of survey_answer
@@ -210,6 +210,7 @@ class SurveyAnswer < ActiveRecord::Base
       rapport.short_name = score.short_name
     end
     rapport.save
+    rapport.save_csv_score_rapport
     rapport
   end
         
@@ -294,13 +295,15 @@ class SurveyAnswer < ActiveRecord::Base
       :center_id => self.center_id,
       :survey_id => self.survey_id,
       :journal_entry_id => self.journal_entry_id,
-      :age => self.age_now,
+      :age => self.age_when_answered,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
       :header => j_info.keys.join(';'),
       :journal_info => to_danish(j_info.values.join(';'))
     }
     info_options = self.journal.export_info
+    info_options.delete :projekt
+    info_options.delete :besvarelsesdato
     info_options[:palder] = self.age_when_answered
     info_options[:alt_id] = self.journal.person_info.alt_id
 

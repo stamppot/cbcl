@@ -31,11 +31,11 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def create_score_rapports_export(survey_id, score_rapports)
+  def create_score_rapports_export(survey_id, csv_score_rapports)
     # spawn do
-      logger.info "EXPORT create_score_rapports_export: survey: #{survey_id} #{score_rapports.size}"
-      data = ExportAnswersHelper.new.score_rapports_to_csv(score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
-      logger.info "create_score_rapports_export: created data survey: #{survey_id} #{score_rapports.size}"
+      logger.info "EXPORT create_score_rapports_export: survey: #{survey_id} #{csv_score_rapports.size}"
+      data = ExportAnswersHelper.new.score_rapports_to_csv(csv_score_rapports, survey_id)  # TODO: add csv generation on save_answer & change_answer
+      logger.info "create_score_rapports_export: created data survey: #{survey_id} #{csv_score_rapports.size}"
       # write data
       self.export_file = ExportFile.create(:data => data,
         :type => 'text/csv; charset=utf-8; header=present',
@@ -78,7 +78,7 @@ class Task < ActiveRecord::Base
   def save_csv(survey_answer)
     survey_answer.save_csv_survey_answer
     score_rapport = ScoreRapport.find_by_survey_answer_id(survey_answer.id)
-    score_rapport ||= survey_answer.generate_score_report
+    score_rapport ||= survey_answer.generate_score_report(update = true)
     score_rapport.save_csv_score_rapport
   end
 
