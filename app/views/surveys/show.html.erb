@@ -85,8 +85,9 @@ jQuery(document).ready(function ($) {
 			params['id'] = journal_entry;
 
 			var draft_params = {
-					url: "/survey_answers/json_draft_data/" + params['id'], 
+					url: "/survey_answers/json_draft_data/" + params['id'] + ".json", 
 					method: "GET",
+					dataType: 'json',
 					parameters: params,
 					contentType: "application/json"
 				};

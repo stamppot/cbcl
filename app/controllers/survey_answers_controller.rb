@@ -134,8 +134,8 @@ class SurveyAnswersController < ApplicationController
 		end
 	end
   
-    def json_draft_data
-    @response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+  def json_draft_data
+    journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
     show_fast = params[:fast] || false
 
     cell_count = 0
@@ -148,14 +148,15 @@ class SurveyAnswersController < ApplicationController
       
     draft_cells = all_answer_cells.map {|ac| ac.get_draft_value }   # DraftCell.new(ac) }
     # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
-    logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells}"
+    logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells.to_json}"
     
     j = journal_entry.journal
     je = journal_entry
     logger.info "draft_data: cookie: #{cookies[:journal_entry]} session[:journal_entry]: #{session[:journal_entry]} entry: #{je.id} journal: #{j.id} answer_cells: #{cell_count}"
     respond_to do |format|
-      format.js {}
-      format.json { render draft_cells.to_json }
+      format.html { puts "json_draft_data html"; render :text => "hello world" }
+      format.js { puts "json_draft_data js"; render }
+      format.json { puts "json_draft_data json"; render :text => draft_cells.to_json }
         # render :update do |page|
         #   page << @response.to_s
         # end
