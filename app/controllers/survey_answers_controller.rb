@@ -103,17 +103,28 @@ class SurveyAnswersController < ApplicationController
         }
       end
     end
+  rescue RecordNotFound
+    render :update do |page|
+      logger.info "dynamic_data: fejl! #{@journal_entry.id} journal id/kode: #{@journal_entry.journal.id}/#{@journal_entry.journal.code}"
+      page.alert "Der er sket en fejl, du skal logge ud og ind igen", @journal_entry.journal.center.get_title
+      page.redirect_to logout_path
+    end
   end
   
   def draft_data
 		@response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
 		show_fast = params[:fast] || false
 
+    cell_count = 0
 		@response = if journal_entry.survey_answer
 			all_answer_cells = journal_entry.survey_answer.setup_draft_values
+      cell_count = all_answer_cells.size
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
 		end || ""
-    # puts "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    j = journal_entry.journal
+    je = journal_entry
+    logger.info "draft_data: cookie: #{cookies[:journal_entry]} session[:journal_entry]: #{session[:journal_entry]} entry: #{je.id} journal: #{j.id} answer_cells: #{cell_count}"
 		respond_to do |format|
 			format.js {
         # render :update do |page|
@@ -123,6 +134,34 @@ class SurveyAnswersController < ApplicationController
 		end
 	end
   
+    def json_draft_data
+    @response = journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
+    show_fast = params[:fast] || false
+
+    cell_count = 0
+    # @response = 
+    all_answer_cells = if journal_entry.survey_answer
+      journal_entry.survey_answer.setup_draft_values
+      # all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
+    end || []
+    cell_count = all_answer_cells.size
+      
+    draft_cells = all_answer_cells.map {|ac| ac.get_draft_value }   # DraftCell.new(ac) }
+    # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells}"
+    
+    j = journal_entry.journal
+    je = journal_entry
+    logger.info "draft_data: cookie: #{cookies[:journal_entry]} session[:journal_entry]: #{session[:journal_entry]} entry: #{je.id} journal: #{j.id} answer_cells: #{cell_count}"
+    respond_to do |format|
+      format.js {}
+      format.json { render draft_cells.to_json }
+        # render :update do |page|
+        #   page << @response.to_s
+        # end
+    end
+  end
+
   def save_draft
     return if request.get?
     journal_entry = JournalEntry.and_survey_answer.find(params[:id])
@@ -136,6 +175,10 @@ class SurveyAnswersController < ApplicationController
       journal_entry.make_survey_answer
       journal_entry.survey_answer.save
     end
+    j = journal_entry.journal
+    je = journal_entry
+    logger.info "save_draft journal: #{j.id} kode: #{j.code} entry cookie: '#{session[:journal_entry]}' entry: '#{je.id}' survey: #{je.survey_id} luser: '#{je.user_id}' #{request.env['HTTP_USER_AGENT']}"
+
     spawn do
       journal_entry.survey_answer.save_draft(params)
     end
@@ -253,6 +296,9 @@ class SurveyAnswersController < ApplicationController
     redirect_to journal_path(entry.journal)
   end
 
+  def log_error
+    logger.info "save_draft log_error params #{params.inspect}"
+  end
 
   protected
   

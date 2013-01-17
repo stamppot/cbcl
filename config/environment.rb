@@ -11,6 +11,9 @@ class Array
   end
 end
 
+# def answer_cells_to_json(answer_cells)
+#   answer_cells.map {|ac| ac.get_draft_value}.foldl(:merge)
+# end
 # class String
   # def force_encoding(charset)
   #   # yield 

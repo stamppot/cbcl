@@ -73,6 +73,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/logout', :controller        => 'login', :action => 'logout'
   map.connect '/shadow_login', :controller  => 'login', :action => 'shadow_login'
   map.connect '/shadow_logout', :controller => 'login', :action => 'shadow_logout'
+  map.connect '/log_error', :controller => 'survey_answers', :action => 'log_error'
 
   # map.connect '/shadow_login', :controller            => :login, :action => :shadow_login, :id => :id
   # map.connect '/shadow_logout', :controller           => :login, :action => :shadow_logout

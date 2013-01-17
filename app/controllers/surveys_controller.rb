@@ -30,7 +30,7 @@ class SurveysController < ApplicationController
 
   # for showing surveys without being able to answer them (sort demo-mode)
   def show_only
-    @options = {:show_all => true, :show_only => true, :action => 'show_answer'}
+    @options = {:show_all => true, :show_only => true, :action => 'show_answer', :validation => true}
     survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(params[:id])
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
@@ -47,7 +47,7 @@ class SurveysController < ApplicationController
   end
 
   def show
-    @options = {:show_all => true, :action => "create"}
+    @options = {:show_all => true, :action => "create", :validation => false}
 
     journal_entry = JournalEntry.find(session[:journal_entry])
     logger.info("SURVEY get: #{journal_entry.id}...")

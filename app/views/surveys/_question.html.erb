@@ -9,7 +9,7 @@
 	Spørgsmål: <%= in_place_editor_field :question, :number, {}, :rows => 1, :size => 2 %>
 <% end %>
 <div class='edit_question'>
-	<%= link_to_remote "Slet", :url => { :controller => 'survey_builder', :action => "delete_question", :id => id, :number => no },
+	<%# link_to_remote "Slet", :url => { :controller => 'survey_builder', :action => "delete_question", :id => id, :number => no },
 	:confirm => "Slet spørgsmål #{no}?",
 	:failure => "alert('HTTP Error ' + request.status + '!')" %>
 </div>
@@ -35,7 +35,7 @@
 		
 		no_cols = cols.size
 		cols.each do |col, cell|
-			html = cell.to_html((@options || {:show_all => true}).merge(:number => no, :last => cell.col == no_cols))
+			html = cell.to_html((@options || {:show_all => true, :disable => true}).merge(:number => no, :last => cell.col == no_cols))
 			output << html if html
 		end
 		output << "</div></td></tr>\n"

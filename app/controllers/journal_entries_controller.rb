@@ -83,6 +83,8 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
       current_user.has_journal_entry? params[:id]
       # access = journal_ids.include? j_id
     end
+    logger.info "check_access: params: #{params.inspect} cookie: #{cookies[:journal_entry]} session: #{session[:journal_entry]}"
+    redirect_to login_path if !current_user
   end
 
-  end
+end

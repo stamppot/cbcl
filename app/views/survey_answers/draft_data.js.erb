@@ -1,1 +1,20 @@
-<%= @response %>
+try {
+	<%= @response %>
+}
+ catch (_) {
+    var message = "Error setting property '" + property + "' to value '" + styles[property] + "'";
+    
+    params['message'] = message;
+		new Ajax.Request("/log_error/" + params['id'], {
+			  method: 'post',
+				parameters: params,
+				contentType: "text/javascript",
+				evalJS: false,
+			  onSuccess: function(transport) {
+					// eval(transport.responseText);
+					// wFORMS.behaviors['switch'].init();
+			  }
+			});
+    throw message;
+
+  }

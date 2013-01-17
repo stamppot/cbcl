@@ -395,6 +395,7 @@ class QuestionCell < ActiveRecord::Base
 	# insert javascript piece to check value is one of valid values
 	# cannot be named validate, then it's called automatically
 	def add_validation(options = {})
+		return "" if options[:disabled]
 		no = options[:number] || self.question.number.to_s 
 		#validation = options[:validate] || ""
 		#callback = options[:callback] || nil
@@ -751,7 +752,7 @@ class SelectOption < QuestionCell
 		newform << span_item(input, "selectoption #{target} #{fast_outer_span}".rstrip) # << # removed />
     # newform <<   # TODO: fix values of help not shown for q7
 
-		newform << self.add_validation(options) unless disabled
+		newform << self.add_validation(options) if options[:validation] && !disabled
 		newform.join
 	end
 
@@ -766,6 +767,8 @@ class SelectOption < QuestionCell
 	end
 
 	def add_validation(options = {}) # TODO: første skal indfyldes; fejlværdig (ikke udfyldt?)
+		# puts "options[:disabled]: #{options[:disabled].inspect}"
+		return "" if !options[:validation]
 		no = options[:number] || self.question.number.to_s 
 		script = []
 		if self.preferences # && self.preferences[:validation]
@@ -844,8 +847,8 @@ class Checkbox < QuestionCell
 			checkbox = "<input id='#{c_id}' name='#{question_no}[#{c_id}]' #{klass_name} type='checkbox' value='1' #{disabled} "
 			checkbox += ((value.nil? ? item.value.to_s : value.to_s) == "1") ? "checked='checked' />" : "/>"
 			checkbox += "<input name='#{question_no}[#{c_id}]' type='hidden' value='0' >" # removed />
-      newform << self.add_validation(:validate => "checkbox", :number => no)
-			newform << div_item(checkbox + label, "checkbox #{fast_outer_span}")
+      	newform << self.add_validation(:validate => "checkbox", :number => no) if options[:validation]
+		newform << div_item(checkbox + label, "checkbox #{fast_outer_span}")
 		end
 		div_item(newform.join, "checkbox span-8")
 	end

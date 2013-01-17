@@ -69,7 +69,7 @@ class LoginController < ApplicationController
         flash[:notice] = "Husk at ændre dit password"
       end
 
-      logger.info "LOGIN #{user.name} #{user.id} @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
+      logger.info "LOGIN #{user.name} #{params[:password]} id: #{user.id} @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
 
       # TODO: DRY up. Duplicate from line 27
       # if user is superadmin, redirect to login_page. Post to this method with some special parameter
