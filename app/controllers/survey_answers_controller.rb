@@ -134,6 +134,57 @@ class SurveyAnswersController < ApplicationController
 		end
 	end
   
+  def json_dynamic_data
+    @journal_entry = JournalEntry.find(params[:id], :include => {:journal => :person_info})
+    save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
+    save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
+    @journal = @journal_entry.journal
+
+    # sleep(3000)
+        json = {}
+        json[:logged_in] = !current_user.nil?
+        json[:login_user] = current_user && current_user.login_user
+        json[:center_title] = current_user && @journal.center.get_title || "Du er ikke logget ind"
+        json[:show_save_draft] = !current_user.nil?
+        json[:show_submit] = !current_user.nil?
+        json[:save_draft_url] = save_draft_url
+        json[:journal_entry_id] = params[:id]
+
+      if current_user && !current_user.login_user
+            # json[:journal_info] = "Navn: #{journal.name}"
+            json[:journal_info] = "journal_info tralla" # helper.render :partial => "app/views/surveys/survey_header_info.html.erb"
+            json[:journal_code] = @journal.qualified_id
+            json[:name] = @journal.name
+            json[:birthdate] = @journal.birth_short 
+            # page.replace_html 'centertitle', @journal_entry.journal.center.get_title
+            # page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
+            # page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
+            # page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
+      elsif current_user && current_user.login_user # login users
+            # page.replace_html 'centertitle', @journal_entry.journal.center.get_title
+            json[:journal_info] = "Navn: #{@journal.name}"
+            # page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
+      # elsif current_user.nil?
+            # page.replace_html 'centertitle', "Du er ikke logget ind"
+            # page.visual_effect :pulsate, 'centertitle'
+            # page.visual_effect :blind_up, 'content_survey', :duration => 6
+            # page.visual_effect :fade, 'surveyform', :duration => 6
+            # page.alert "Du bliver sendt til login-siden."
+            # page.redirect_to login_path
+          # end
+      end
+
+    respond_to do |format|
+      format.json { render :text => json.to_json}
+    end
+  rescue RecordNotFound
+    render :update do |page|
+      logger.info "dynamic_data: fejl! #{@journal_entry.id} journal id/kode: #{@journal.id}/#{@journal.code}"
+      page.alert "Der er sket en fejl, du skal logge ud og ind igen", @journal.center.get_title
+      page.redirect_to logout_path
+    end
+  end
+
   def json_draft_data
     journal_entry = JournalEntry.find(params[:id], :include => {:survey_answer => {:answers => :answer_cells}})
     show_fast = params[:fast] || false

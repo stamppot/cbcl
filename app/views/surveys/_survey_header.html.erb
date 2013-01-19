@@ -3,6 +3,10 @@
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
 			<%# render :partial => 'surveys/survey_header_info' %>
+			<div id="journal_info" style="display: none;">
+				<div id="journal_code">ID: </div><%# @journal_entry.journal.qualified_id %><br>
+				<div id="journal_name"> Navn: </div><%# @journal_entry.journal.name %><br>
+				<div id="journal_birthdate">F&oslash;dselsdato: </div><%# @journal_entry.journal.birth_short %><br>
 		</div>
 		<div class="surveyname"><%= @survey.get_title %></div>
 	</div>

@@ -9,7 +9,9 @@
 
 
 	<div id='draft-message' style='color:red;'></div>
-	<div id="survey_fast_input" class="command"></div>
+	<div id="survey_fast_input" class="command" style="display:none;">
+		<a href="/surveys/show_fast/" class="button" title="Besvar med hurtig indtastning"><span class="survey_fast_input">Hurtig indtastning</span></a>
+	</div>
 	<br/>
 
 
@@ -39,7 +41,10 @@
 </div>
 
 <p/> <!-- dynamic -->
-	<div id="back_button" style="display:none;"></div>
+	<div id="back_button" style="display:none;">
+		<a href="javascript:void(0);" onclick="history.go(-1);" class="button" title="Gå tilbage">
+			<span class="go_back">Tilbage</span></a>
+	</div>
 
 <script type="text/javascript">
 
@@ -59,6 +64,28 @@ function hideSpinner() {
 	// Effect.Highlight('save_draft');
 	// new Effect.Highlight('content_survey');
 	 $('#surveyform').effect("highlight", {}, 500); // requires jquery-ui
+}
+
+function onReceivedDynamicData(data) {
+	// ikke logget ind
+		// # page.replace_html 'centertitle', "Du er ikke logget ind"
+  //       # page.visual_effect :pulsate, 'centertitle'
+  //       # page.visual_effect :blind_up, 'content_survey', :duration => 6
+  //       # page.visual_effect :fade, 'surveyform', :duration => 6
+  //       # page.alert "Du bliver sendt til login-siden."
+  //       # page.redirect_to login_path
+	// behandler
+	           //  # page.replace_html 'centertitle'
+            // # page.insert_html :bottom
+            // # page.insert_html :bottom, 'survey_fast_input'
+            // # page.insert_html :bottom, 
+            // page.show 'save_draft'
+            // page.show 'submit_button'
+    // login bruger
+    	 // page.replace_html 'centertitle', 
+         //    page.insert_html :bottom, 
+         //    page.show 'save_draft'
+         //    page.show 'submit_button'
 }
 
 jQuery(document).ready(function ($) {
@@ -110,11 +137,28 @@ jQuery(document).ready(function ($) {
     		}
         });
 
-        $.get("/survey_answers/dynamic_data/" + params['id'], params, function(response) {
-        	console.log("got dynamic data: ");
-        	console.dir(response);
-        	eval(response);
+		var dynamic_params = {
+			url: "/survey_answers/json_dynamic_data/" + params['id'] + ".json", 
+			method: "GET",
+			dataType: 'json',
+			parameters: params,
+			contentType: "application/json"
+		};
+        $.ajax(dynamic_params).done(function(data) {
+				console.log("got dynamic data: ");
+        		console.dir(data);
+        		$('#centertitle').val(data.center_title);
+        		$('#save_draft').toggle(data.show_save_draft);
+        		$('#submit_button').toggle(data.show_submit);
+        		hideSpinner();
+        	// eval(response);
         });
+
+        // $.get("/survey_answers/dynamic_data/" + params['id'], params, function(response) {
+        // 	console.log("got dynamic data: ");
+        // 	console.dir(response);
+        // 	eval(response);
+        // });
         changeAction('surveyform', '/survey_answers/create/' + params['id']);
     }
 });

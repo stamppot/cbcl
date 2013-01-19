@@ -241,6 +241,7 @@ ActionController::Routing::Routes.draw do |map|
   map.maintenance 'login/maintenance', :controller => 'login', :action => 'maintenance'
 
   map.connect '/survey_answers/json_draft_data/:id.:format', :controller => 'survey_answers', :action => 'json_draft_data'
+  map.connect '/survey_answers/json_dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'json_dynamic_data'
 
 
   map.connect '/register/confirm/:user/:token',

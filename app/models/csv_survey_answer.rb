@@ -14,10 +14,10 @@ class CsvSurveyAnswer < ActiveRecord::Base
   named_scope :by_journal_and_survey, lambda { |j_id, survey_id| { :conditions => ['journal_id = ? and survey_id = ?', j_id, survey_id], :limit => survey_ids.size, :order => 'survey_id' } }
   named_scope :by_survey_answer_and_surveys, lambda { |sa_id, survey_ids| { :conditions => ['survey_answer_id = ? and survey_id IN (?)', sa_id, survey_ids], :limit => survey_ids.size, :order => 'survey_id' } }  
 
-  named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
-  named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
-  named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }
-  named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)..stop } } }
+  named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start...stop } } }
+  named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start...stop } } }
+  named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start...(Date.now) } } }
+  named_scope :to_date, lambda { |stop| { :conditions => { :created_at  => (Date.now)...stop } } }
   # named_scope :for_survey, lambda { |survey_id| { :conditions => { :survey_id => survey_id } } }
   named_scope :for_survey, lambda { |survey_id| { :conditions => ["csv_survey_answers.survey_id = ?", survey_id] } }
   named_scope :for_center, lambda { |center_id| { :conditions => ["csv_survey_answers.center_id = ?", center_id] } }
@@ -33,8 +33,8 @@ class CsvSurveyAnswer < ActiveRecord::Base
   end
   
   def self.filter_params(user, options = {})
-    options[:start_date]  ||= SurveyAnswer.first.created_at
-    options[:stop_date]   ||= SurveyAnswer.last.created_at
+    options[:start_date]  ||= SurveyAnswer.first.created_at.beginning_of_day
+    options[:stop_date]   ||= SurveyAnswer.last.created_at.end_of_day
     options[:start_age]   ||= 0
     options[:stop_age]    ||= 21
 

@@ -285,14 +285,15 @@ class SurveyAnswer < ActiveRecord::Base
   
   def save_csv_survey_answer
     vals = variable_values
-    j_info = self.journal.info
+    j = self.journal
+    j_info = j.info
     options = {
       :answer => vals.values.join(';;'), 
       :variables => vals.keys.join(';;'),
       :journal_id => self.journal_id,
       :survey_answer_id => self.id,
-      :team_id => self.journal.parent_id,
-      :center_id => self.center_id,
+      :center_id => j.center_id,
+      :team_id => j.parent_id,
       :survey_id => self.survey_id,
       :journal_entry_id => self.journal_entry_id,
       :age => self.age_when_answered,
