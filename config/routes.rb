@@ -128,7 +128,7 @@ ActionController::Routing::Routes.draw do |map|
   map.entry_show_answer 'journal_entries/show_answer/:id', :controller     => 'journal_entries', :action => 'show_answer'
   map.entry_remove 'journal_entries/remove/:id', :controller               => 'journal_entries', :action => 'remove', :only => :post
   map.entry_remove_answer 'journal_entries/remove_answer/:id', :controller => 'journal_entries', :action => 'remove_answer', :only => :post
-  map.show_login_letter '/letters/show_login/:id', :controller                  => 'letters', :action => 'show_login'
+  map.show_login_letter '/letters/show_login/:id', :controller             => 'letters', :action => 'show_login'
   map.print_letters 'letters/show_logins/:id', :controller                 => 'letters', :action => 'show_logins'
   map.new_letter 'letters/new/:id', :controller                            => 'letters', :action => 'new'
   map.download_letter 'letters/mail_merge/:id', :controller                => 'letters', :action => 'mail_merge'
@@ -242,6 +242,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/survey_answers/json_draft_data/:id.:format', :controller => 'survey_answers', :action => 'json_draft_data'
   map.connect '/survey_answers/json_dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'json_dynamic_data'
+
+  map.connect '/errors/log/:id.:format', :controller => 'errors', :action => 'log'
 
 
   map.connect '/register/confirm/:user/:token',

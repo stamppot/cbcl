@@ -106,7 +106,12 @@ class ImportJournals # AddJournalsFromCsv
 				journal.person_info.update_attributes(person_info)
 			end
 			
-			if !journal.journal_entries.any?
+			if journal.journal_entries.any? # add extra surveys
+				je_surveys = journal.journal_entries.map &:survey
+				add_surveys = surveys - je_surveys
+				puts "surveys: #{add_surveys.map &:inspect}"
+				journal.create_journal_entries(add_surveys)
+			elsif !journal.journal_entries.any?
 				journal.create_journal_entries(surveys)
 			else
 				next

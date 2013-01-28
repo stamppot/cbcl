@@ -28,8 +28,18 @@
 		<%= render :partial => "surveys/question", :collection => @survey.questions %>
 
 		<div id="submit_button" style="display:none; padding-top: 15px;">
-			<%= render :partial => 'surveys/fancy_submit_button' %>
-
+			<a class='button' style="padding-top: 5px;" id='send_form'>
+				<span onclick="submitPressed = true; document.forms[0].submit(); $('send_form').hide(); $('save_draft').hide(); $('sending_form').show();">Send svar</span>
+			</a>
+		<div id="sending_form" style="display: none;">
+			<a class='send_form button' href='#'>
+				<span class="send_survey">Sender svar...</span>
+			</a>
+		</div>
+		
+		<script type="text/javascript">
+			var submitPressed = false;
+		</script>
 			<span style="padding-left: 100px;">
 				<a class='button' id='save_draft' style="display: none;">
 					<span id="spinner"><img alt="spinner" src="/images/spinner.gif"></span>
@@ -47,6 +57,49 @@
 	</div>
 
 <script type="text/javascript">
+
+function setDraftData(d, id) {
+	var input_type;
+	var val;
+	var elem_id
+	try {
+		for (var i = 0; i < d.length; i++) {
+			var obj = d[i];
+			input_type = obj.input;
+			val = obj.value;
+			elem_id = obj.elem;
+
+			if(input_type == "radio") {
+				var $radios = $('input:radio[name="' + elem_id + '"]');
+				if($radios.is(':checked') === false) {
+     			   $radios.filter('[value=' + val + ']').attr('checked', true);
+     			}
+			}
+			else if(input_type == "text") {
+				$('#' + elem_id).val(decodeURIComponent(val));
+			}
+			else {
+				console.log("input: " + input_type + " elem_id: " + elem_id + "  val: " + val);
+				$('#' + elem_id).val(val);
+			}
+		};
+	} catch(e) {
+		var m = "Id: " + id + " Could not set elem: " + elem_id + " to val: " + val + "  input_type: " + input_type + " " + (new Date().toString());
+		console.log("Error: " + m);
+		logError(e, m, id);
+	}
+}
+
+function logError(e, message, id) {
+	var log_params = {'e' : e.toString(), "message":message}
+	$.ajax({
+			url: "/errors/log/" + id + ".json?message=" + message, 
+			method: "GET",
+			dataType: 'json',
+			parameters: log_params,
+			contentType: "application/json"
+		});
+}
 
 function initMakeItCount() {
  	var comments = $$('textarea.comment');
@@ -67,6 +120,14 @@ function hideSpinner() {
 }
 
 function onReceivedDynamicData(data) {
+	if(!data.logged_in) {
+	 $('#centertitle').effect("pulsate", {}, 1000); // requires jquery-ui
+	 $('#content_survey').effect("blind_up", {}, 1000); // requires jquery-ui
+
+		alert("Du er ikke logget ind. Du bliver sendt til login-siden.");
+		location.href = "/login";
+	}
+	else {
 	// ikke logget ind
 		// # page.replace_html 'centertitle', "Du er ikke logget ind"
   //       # page.visual_effect :pulsate, 'centertitle'
@@ -74,18 +135,25 @@ function onReceivedDynamicData(data) {
   //       # page.visual_effect :fade, 'surveyform', :duration => 6
   //       # page.alert "Du bliver sendt til login-siden."
   //       # page.redirect_to login_path
+
+      	$('#centertitle').val(data.center_title);
+        $('#save_draft').toggle(data.show_save_draft);
+        $('#submit_button').toggle(data.show_submit);
+        hideSpinner();
+
+        if(!data.login_user) {
+        	$('#survey_fast_input').show();
+        }
 	// behandler
 	           //  # page.replace_html 'centertitle'
-            // # page.insert_html :bottom
             // # page.insert_html :bottom, 'survey_fast_input'
-            // # page.insert_html :bottom, 
             // page.show 'save_draft'
             // page.show 'submit_button'
     // login bruger
     	 // page.replace_html 'centertitle', 
-         //    page.insert_html :bottom, 
          //    page.show 'save_draft'
          //    page.show 'submit_button'
+     }
 }
 
 jQuery(document).ready(function ($) {
@@ -121,7 +189,8 @@ jQuery(document).ready(function ($) {
 			$.ajax(draft_params).done(function(data) {
 				console.log("got draft_data: ");
 				console.dir(data);
-				eval(data);
+				// eval(data);
+				setDraftData(data, params['id'] );
 				wFORMS.behaviors['switch'].init();
 			});
 		}
@@ -131,6 +200,7 @@ jQuery(document).ready(function ($) {
 // 			// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
 		$('#surveyform').delayedObserver(save_interval, function(element, value) {
     		if(doSave) {
+    			alert("delayedObserver ");
 				$.post(save_draft_url, function(response) {
 
 				});  			
@@ -147,10 +217,7 @@ jQuery(document).ready(function ($) {
         $.ajax(dynamic_params).done(function(data) {
 				console.log("got dynamic data: ");
         		console.dir(data);
-        		$('#centertitle').val(data.center_title);
-        		$('#save_draft').toggle(data.show_save_draft);
-        		$('#submit_button').toggle(data.show_submit);
-        		hideSpinner();
+        		onReceivedDynamicData(data);
         	// eval(response);
         });
 

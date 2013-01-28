@@ -197,7 +197,7 @@ class SurveyAnswersController < ApplicationController
     end || []
     cell_count = all_answer_cells.size
       
-    draft_cells = all_answer_cells.map {|ac| ac.get_draft_value }   # DraftCell.new(ac) }
+    draft_cells = all_answer_cells.map {|ac| ac.json_draft_value }   # DraftCell.new(ac) }
     # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
     logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells.to_json}"
     

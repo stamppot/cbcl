@@ -293,7 +293,7 @@ class SurveyAnswer < ActiveRecord::Base
       :journal_id => self.journal_id,
       :survey_answer_id => self.id,
       :center_id => j.center_id,
-      :team_id => j.parent_id,
+      :team_id => (j.parent_id == j.center_id) && nil || j.parent_id,
       :survey_id => self.survey_id,
       :journal_entry_id => self.journal_entry_id,
       :age => self.age_when_answered,
