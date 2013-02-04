@@ -13,6 +13,9 @@
 	<%= stylesheet_link_tag_html4 'cbcl', :media => 'all' %>
 	<% stylesheet_link_tag_html4 'buttons' %>
 
+	<!--[if lt IE 9]>
+		<script src="javascripts/IE9.js"></script>
+	<![endif]-->
 	<% if !current_user.login_user? %>
  	<%= javascript_include_tag 'prototype' %>
  	<%= javascript_include_tag 'scriptaculous' %>
@@ -21,7 +24,9 @@
 
  	<%= javascript_include_tag 'css_browser_selector' %>
  	<% javascript_include_tag 'validation' %>
- 	<%= javascript_include_tag 'application' %>
+
+ 	<%= javascript_include_tag 'cookies' %>
+	<%= javascript_include_tag 'application' %>
 	<%= javascript_include_tag 'flash' %>
 	<%= javascript_include_tag 'curvy-corners' %>
 	<%= javascript_include_tag 'livepipe/livepipe' %>
@@ -55,7 +60,7 @@
 </div>
 <script type="text/javascript">
 Event.observe(window, 'load', function() {
-	var user_name = document.cookies().get('user_name');
+	var user_name = Cookies.get('user_name');
 	if(!(typeof(user_name) == "undefined")) {
 		var elem = getElemns('user_info');
 		elem.innerHTML = decodeURIComponent(user_name.replace(/\+/g, " "));

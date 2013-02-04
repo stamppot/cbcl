@@ -3,7 +3,7 @@
 class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
-  layout "survey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
+  layout "jsurvey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
 
   caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last; entry =~ /journal_entry=(\d+)/ }
   
@@ -56,12 +56,12 @@ class SurveysController < ApplicationController
      
     @is_login_user = current_user.login_user?
      
-     # don't cache now, it's page cached anyway
+    # don't cache now, it's page cached anyway
     # @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
     survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
-     @page_title = @survey.get_title
+    @page_title = @survey.get_title
 
       rescue ActiveRecord::RecordNotFound
    end

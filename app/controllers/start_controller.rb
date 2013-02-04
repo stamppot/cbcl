@@ -16,10 +16,17 @@ class StartController < ApplicationController
   end
 
   def continue
+    # if !current_user.name.include? 'Jens'
+    #   flash[:notice] = "System er under vedligeholdelse. Kom tilbage senere."
+    #   redirect_to maintenance_path and return
+    # end
+
     @journal_entry = JournalEntry.find_by_user_id(current_user.id)
     je = @journal_entry
+    @journal = je.journal
     cookies[:journal_entry] = @journal_entry.id # session[:journal_entry]
-    logger.info "LOGIN_USER conti #{user_name} journal: #{@journal.journal.title} entry cookie: '#{session[:journal_entry]}' entry: '#{@journal_entry.id}' luser: '#{je.user_id}' @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
+    user_name = je.login_user.name
+    logger.info "LOGIN_USER conti #{user_name} journal: #{@journal.title} entry cookie: '#{session[:journal_entry]}' entry: '#{je.id}' luser: '#{je.user_id}' @ #{9.hours.from_now.to_s(:short)}: #{request.env['HTTP_USER_AGENT']}"
     @survey = @journal_entry.survey
   end
 

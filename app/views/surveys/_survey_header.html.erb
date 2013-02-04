@@ -2,24 +2,29 @@
 <div id="survey_header" class="span-24">
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
-			<%# render :partial => 'surveys/survey_header_info' %>
 			<div id="journal_info" style="display: none;">
-				<div id="journal_code">ID: </div><%# @journal_entry.journal.qualified_id %><br>
-				<div id="journal_name"> Navn: </div><%# @journal_entry.journal.name %><br>
-				<div id="journal_birthdate">F&oslash;dselsdato: </div><%# @journal_entry.journal.birth_short %><br>
+				<div>ID: <span id="journal_code"></span> </div>
+				<div>Navn: <span id="journal_name"></span></div>
+				<div>F&oslash;dselsdato: <span id="journal_birthdate"></span></div>
 		</div>
 		<div class="surveyname"><%= @survey.get_title %></div>
 	</div>
 </div>
 <%- else %>
 <%# back_button journal_path(@journal_entry) %>
-<div id="back_button"></div>
+<div id="back_button"><%= back_button("") %></div>
 <div id="survey_header" class="span-24">
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>
-		<div id="survey_journal_info">
-			<div class="surveyinfo"></div>
-		</div>
+
 		<div class="surveyname"><%= @survey.get_title %></div>
+			<div id="survey_journal_info">
+				<div id="journal_info" style="display: none;">
+				<!-- <div class="surveyinfo"></div> -->
+				<span>ID: <span id="journal_code"></span> </span><br/>
+				<span>Navn: <span id="journal_name"></span></span><br/>
+				<span>F&oslash;dselsdato: <span id="journal_birthdate"></span></span><br/>
+			</div>
+		</div>
 	</div>
 </div>
 <%- end %>

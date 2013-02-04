@@ -6,12 +6,12 @@
 	<%= stylesheet_link_tag 'cbcl' %>
 
 	<% if Rails.env == 'development' %>	
-		<%= javascript_include_tag 'jquery-1.3.2.min' %>
+		<%= javascript_include_tag 'jquery-1.9.0.min' %>
 		<%= javascript_include_tag 'jquery.watermark.min' %>
 		<%= javascript_include_tag 'flash' %>
 	<% else %>
 		<% bundle do %>
-		<%= javascript_include_tag 'jquery-1.3.2.min' %>
+		<%= javascript_include_tag 'jquery-1.9.0.min' %>
 		<%= javascript_include_tag 'jquery.watermark.min' %>
 		<%= javascript_include_tag 'flash' %>
 		<% end %>

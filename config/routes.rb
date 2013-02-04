@@ -242,6 +242,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/survey_answers/json_draft_data/:id.:format', :controller => 'survey_answers', :action => 'json_draft_data'
   map.connect '/survey_answers/json_dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'json_dynamic_data'
+  map.connect '/survey_answers/draft_data/:id.:format', :controller => 'survey_answers', :action => 'draft_data'
+  map.connect '/survey_answers/dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'dynamic_data'
 
   map.connect '/errors/log/:id.:format', :controller => 'errors', :action => 'log'
 

@@ -18,20 +18,8 @@ Inspector = {
     }
 };
 
-// cookies.js
-var Document = {
-  cookies: function(document){
-    return $A(document.cookie.split("; ")).inject($H({}), function(memo, pair){
-      pair = pair.split('=');
-      memo.set(pair[0], pair[1]);
-      return memo;
-    });
-  }
-};
-Object.extend(document, { cookies: Document.cookies.methodize() });
-
 function get_journal_entry_id() {
-  if(document.cookies().get('journal_entry') == "true"){
+  if(Cookies.get('journal_entry') == "true"){
     $('login_box').show();
   }
 }

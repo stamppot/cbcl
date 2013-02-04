@@ -63,6 +63,12 @@ class ImportJournals # AddJournalsFromCsv
 	# 	end
 	# end
 
+    # when 1 then "cc"  # cbcl 1,5-5 # change
+    # when 2 then "ccy" # CBCL 6-16
+    # when 3 then "ct"  # CTRF pædagog 1,5-5
+    # when 4 then "tt"  # TRF lærer 6-16
+    # when 5 then "ycy" # YSR 6-16
+    	
 	def update(file, survey_ids, team_id)
 		surveys = Survey.find(survey_ids)
 		group = Group.find(team_id)

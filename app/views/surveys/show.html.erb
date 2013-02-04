@@ -1,6 +1,8 @@
 <div class="container">
-	<%= render :partial => 'layouts/info_header' %>
-
+	<div id="infoheader" class="prepend-1 span-23">
+	<div id='centertitle' class="span-22"><%= @center_title %></div>
+</div>
+<div class="span24">&nbsp;</div>
 <br/>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
@@ -79,13 +81,11 @@ function setDraftData(d, id) {
 				$('#' + elem_id).val(decodeURIComponent(val));
 			}
 			else {
-				console.log("input: " + input_type + " elem_id: " + elem_id + "  val: " + val);
 				$('#' + elem_id).val(val);
 			}
 		};
 	} catch(e) {
 		var m = "Id: " + id + " Could not set elem: " + elem_id + " to val: " + val + "  input_type: " + input_type + " " + (new Date().toString());
-		console.log("Error: " + m);
 		logError(e, m, id);
 	}
 }
@@ -102,81 +102,100 @@ function logError(e, message, id) {
 }
 
 function initMakeItCount() {
- 	var comments = $$('textarea.comment');
-  comments.each(function(comment) {
-    makeItCount(comment.id, 2000);
-  });	
-	// var textfields = $$('textarea.textfield');
-	//   textfields.each(function(textfield) {
-	//     makeItCount(textfield.id, 220);
-	//   });
+ 	// var comments = $('textarea.comment');
+  //  	console.log("textarea: " + comments.length);
+  //  	for (var i = 0; i < comments.length; i++) {
+  //  		makeItCount(comments[i].id, 2000);
+  //  	};
 }
 
 function hideSpinner() {
 	$('#spinner').hide();
-	// Effect.Highlight('save_draft');
-	// new Effect.Highlight('content_survey');
-	 $('#surveyform').effect("highlight", {}, 500); // requires jquery-ui
+	$('#surveyform').effect("highlight", {}, 500); // requires jquery-ui
 }
 
 function onReceivedDynamicData(data) {
 	if(!data.logged_in) {
-	 $('#centertitle').effect("pulsate", {}, 1000); // requires jquery-ui
-	 $('#content_survey').effect("blind_up", {}, 1000); // requires jquery-ui
-
+	    $('#centertitle').effect("pulsate", {}, 1000); // requires jquery-ui
+	    $('#content_survey').effect("blind_up", {}, 1000); // requires jquery-ui
 		alert("Du er ikke logget ind. Du bliver sendt til login-siden.");
 		location.href = "/login";
 	}
 	else {
-	// ikke logget ind
-		// # page.replace_html 'centertitle', "Du er ikke logget ind"
-  //       # page.visual_effect :pulsate, 'centertitle'
-  //       # page.visual_effect :blind_up, 'content_survey', :duration => 6
-  //       # page.visual_effect :fade, 'surveyform', :duration => 6
-  //       # page.alert "Du bliver sendt til login-siden."
-  //       # page.redirect_to login_path
-
-      	$('#centertitle').val(data.center_title);
         $('#save_draft').toggle(data.show_save_draft);
         $('#submit_button').toggle(data.show_submit);
         hideSpinner();
 
         if(!data.login_user) {
+   	      	$('#centertitle').html(data.center_title);
+	      	$('#journal_code').html(data.journal_code);
+    	  	$('#journal_name').html(data.journal_info);
+      		$('#journal_birthdate').html(data.birthdate);
+	      	$('#journal_info').show();
         	$('#survey_fast_input').show();
         }
-	// behandler
-	           //  # page.replace_html 'centertitle'
-            // # page.insert_html :bottom, 'survey_fast_input'
-            // page.show 'save_draft'
-            // page.show 'submit_button'
-    // login bruger
-    	 // page.replace_html 'centertitle', 
-         //    page.show 'save_draft'
-         //    page.show 'submit_button'
-     }
+    }
 }
 
+function auto_save(id, changed_items) {
+	// console.log("auto save: " + new Date().toString());
+	var params = $('#surveyform').serialize();
+	// console.log("params: " + params);
+	// console.dir(params);
+	$.post('/survey_answers/save_draft/' + id, params)
+	.done(function() { $('#surveyform').effect("highlight", {}, 500); });
+};
+
+function add_to_changed(arr, e) {
+	// console.dir(e);
+	var id = e.target.id;
+	if(e.type == 'radio') {
+		id = id.substring(0, id.length-2);
+	}
+	arr[id] = e.target.value;
+	// console.dir(arr);
+};
+
+var changed_items = {};
+
 jQuery(document).ready(function ($) {
-	console.log("document ready");
-	var doSave = true;
+	var hasChanged = false;
+
+	var count = 0;
+
+	var timer = $.timer(function() {
+			count++;
+			// console.log(count);
+			if(hasChanged) {
+				hasChanged = false;
+				timer.reset();
+				count = 0;
+				auto_save(params['id'], changed_items);
+			}
+			// $('.count').html(count);
+		}, 60000, false); // n seconds
+
 // 	// do not add submit button when it's show only
 	var doNotCall = document.location.href.match(/show_only/);
-	var formParams = null;
+
 	if(doNotCall == null) {
-		// var val = /([0-9]+)$/;
-		//   	var matches = document.location.href.match(val);
+		var val = /([0-9]+)$/;
+		var matches = document.location.href.match(val);
+		// console.dir(matches);
 		var params = {};
-		// params['id'] = matches[1];
-		var save_interval = 60;
+
 		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
+		if(matches[1] > 10)
+			params['id'] = matches[1];
+	
 		var journal_entry = $.cookie('journal_entry');
-		if((typeof(journal_entry) == "undefined")) {
+		if((typeof(journal_entry) === "undefined")) {
 			alert("Fejl: Kan ikke hente brugerinformation: ");
 		}
 
 		var save_draft_url = '/survey_answers/save_draft/0';
 		
-		if(!(typeof(journal_entry) == "undefined")) {
+		if((typeof(journal_entry) !== "undefined")) {
 			params['id'] = journal_entry;
 
 			var draft_params = {
@@ -187,25 +206,32 @@ jQuery(document).ready(function ($) {
 					contentType: "application/json"
 				};
 			$.ajax(draft_params).done(function(data) {
-				console.log("got draft_data: ");
-				console.dir(data);
-				// eval(data);
+				// console.log("got draft_data: ");
 				setDraftData(data, params['id'] );
 				wFORMS.behaviors['switch'].init();
 			});
 		}
 
-			var set_values_interval = 2;
-			save_draft_url = '/survey_answers/save_draft/' + params['id'];
-// 			// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
-		$('#surveyform').delayedObserver(save_interval, function(element, value) {
-    		if(doSave) {
-    			alert("delayedObserver ");
-				$.post(save_draft_url, function(response) {
+		var set_values_interval = 2;
+		save_draft_url = '/survey_answers/save_draft/' + params['id'];
+ 		// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
 
-				});  			
-    		}
-        });
+		/// observe any changes to input fields, set 
+		$('body').on('change', "#surveyform input, #surveyform textarea", function(e) {
+			hasChanged = true;
+			// console.log("on change input " + new Date().toString() + ' changed: ');
+			// console.dir(e.target);
+			timer.reset();
+			add_to_changed(changed_items, e);
+		});
+
+		$('#surveyform').bind('input propertychange', function(e) {
+			hasChanged = true;
+			timer.reset();
+			add_to_changed(changed_items, e);
+			// console.log( new Date().toString() + ' changed: ');
+		});
+
 
 		var dynamic_params = {
 			url: "/survey_answers/json_dynamic_data/" + params['id'] + ".json", 
@@ -215,20 +241,24 @@ jQuery(document).ready(function ($) {
 			contentType: "application/json"
 		};
         $.ajax(dynamic_params).done(function(data) {
-				console.log("got dynamic data: ");
-        		console.dir(data);
+				// console.log("got dynamic data: ");
+        		// console.dir(data);
         		onReceivedDynamicData(data);
-        	// eval(response);
+        		timer.play();
         });
 
-        // $.get("/survey_answers/dynamic_data/" + params['id'], params, function(response) {
-        // 	console.log("got dynamic data: ");
-        // 	console.dir(response);
-        // 	eval(response);
-        // });
+        $('body').delegate('#save_draft', 'click', function() {
+        	timer.reset();
+        	auto_save(params['id'], changed_items);
+        });
+
         changeAction('surveyform', '/survey_answers/create/' + params['id']);
+
+        initMakeItCount();
     }
 });
+
+
 // 			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
 // 			// save values every 60 seconds
 // 			new Form.Observer('surveyform', save_interval, function(element, value) {

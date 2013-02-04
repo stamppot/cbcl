@@ -85,7 +85,7 @@ Event.observe(window, 'load', function() {
 		e.observe('click', function(element) {
 			var selected_state = e.href;
 			//alert("hello: " + selected_state);
-			console.log("setting selected: " + selected_state);
+			// console.log("setting selected: " + selected_state);
 			$$("[name='selected_state']")[0].setValue(selected_state);
 		});
 	});

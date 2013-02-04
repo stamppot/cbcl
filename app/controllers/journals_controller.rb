@@ -137,7 +137,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      Journal.find(params[:id], :include => :journal_entries) 
+      @group = Journal.find(params[:id], :include => :journal_entries) 
       @group.destroy
       flash[:notice] = "Journalen #{@group.title} er blevet slettet."
       redirect_to journals_path

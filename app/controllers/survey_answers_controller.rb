@@ -121,7 +121,7 @@ class SurveyAnswersController < ApplicationController
       cell_count = all_answer_cells.size
 			all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
 		end || ""
-    logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
+    # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
     j = journal_entry.journal
     je = journal_entry
     logger.info "draft_data: cookie: #{cookies[:journal_entry]} session[:journal_entry]: #{session[:journal_entry]} entry: #{je.id} journal: #{j.id} answer_cells: #{cell_count}"
@@ -140,39 +140,23 @@ class SurveyAnswersController < ApplicationController
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
     @journal = @journal_entry.journal
 
-    # sleep(3000)
-        json = {}
-        json[:logged_in] = !current_user.nil?
-        json[:login_user] = current_user && current_user.login_user
-        json[:center_title] = current_user && @journal.center.get_title || "Du er ikke logget ind"
-        json[:show_save_draft] = !current_user.nil?
-        json[:show_submit] = !current_user.nil?
-        json[:save_draft_url] = save_draft_url
-        json[:journal_entry_id] = params[:id]
+    json = {}
+    json[:logged_in] = !current_user.nil?
+    json[:login_user] = current_user && current_user.login_user
+    json[:center_title] = current_user && @journal.center.get_title || "Du er ikke logget ind"
+    json[:show_save_draft] = !current_user.nil?
+    json[:show_submit] = !current_user.nil?
+    json[:save_draft_url] = save_draft_url
+    json[:journal_entry_id] = params[:id]
 
-      if current_user && !current_user.login_user
-            # json[:journal_info] = "Navn: #{journal.name}"
-            json[:journal_info] = "journal_info tralla" # helper.render :partial => "app/views/surveys/survey_header_info.html.erb"
-            json[:journal_code] = @journal.qualified_id
-            json[:name] = @journal.name
-            json[:birthdate] = @journal.birth_short 
-            # page.replace_html 'centertitle', @journal_entry.journal.center.get_title
-            # page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info'
-            # page.insert_html :bottom, 'survey_fast_input', :partial => 'surveys/fast_input_button'
-            # page.insert_html :bottom, 'back_button', :partial => 'surveys/back_button'
-      elsif current_user && current_user.login_user # login users
-            # page.replace_html 'centertitle', @journal_entry.journal.center.get_title
-            json[:journal_info] = "Navn: #{@journal.name}"
-            # page.insert_html :bottom, 'survey_journal_info', :partial => 'surveys/survey_header_info_login_user'
-      # elsif current_user.nil?
-            # page.replace_html 'centertitle', "Du er ikke logget ind"
-            # page.visual_effect :pulsate, 'centertitle'
-            # page.visual_effect :blind_up, 'content_survey', :duration => 6
-            # page.visual_effect :fade, 'surveyform', :duration => 6
-            # page.alert "Du bliver sendt til login-siden."
-            # page.redirect_to login_path
-          # end
-      end
+    if current_user && !current_user.login_user
+      json[:journal_info] = @journal.name
+      json[:journal_code] = @journal.qualified_id
+      json[:name] = @journal.name
+      json[:birthdate] = @journal.birth_short 
+    elsif current_user && current_user.login_user # login users
+      json[:journal_info] = @journal.name
+    end
 
     respond_to do |format|
       format.json { render :text => json.to_json}
@@ -193,7 +177,6 @@ class SurveyAnswersController < ApplicationController
     # @response = 
     all_answer_cells = if journal_entry.survey_answer
       journal_entry.survey_answer.setup_draft_values
-      # all_answer_cells.inject([]) {|col,ac| col << ac.javascript_set_value(show_fast); col }.flatten.compact.join
     end || []
     cell_count = all_answer_cells.size
       

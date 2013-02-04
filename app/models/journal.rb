@@ -12,7 +12,6 @@ class Journal < Group
   has_many :survey_answers
   has_many :csv_answers
   has_many :score_rapports, :through => :survey_answers
-  has_and_belongs_to_many :projects
   
   
   has_many :answered_entries_by_personnel,
@@ -148,11 +147,11 @@ class Journal < Group
   end
   
   def destroy_journal_entries
-    self.journal_entries.each { |entry| entry.destroy_and_remove_answers! }
+    self.journal_entries.compact.each { |entry| puts "Entry: #{entry.inspect}"; entry.destroy_and_remove_answers! }
   end
   
   def destroy_person_info
-    self.person_info.destroy
+    self.person_info.destroy if self.person_info
   end
   
   # show all login-users for journal. Go through journal_entries
