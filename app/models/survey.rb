@@ -94,18 +94,6 @@ class Survey < ActiveRecord::Base
     years = age.split("-")
     return Range.new(years.first.to_f, years.last.to_f)
   end
-  
-  # shortest name used for prefix for statistics variables
-  # def prefix
-  #   pre = case id
-  #   when 1 then "cc"  # cbcl 1,5-5 # change
-  #   when 2 then "ccy" # CBCL 6-16
-  #   when 3 then "ct"  # CTRF pædagog 1,5-5
-  #   when 4 then "tt"  # TRF lærer 6-16
-  #   when 5 then "ycy" # YSR 6-16
-  #   end
-  #   return pre
-  # end
 
   # set variable values in survey's question cells. Use vars when they exist, otherwise create a value
   def set_variables
