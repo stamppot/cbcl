@@ -16,7 +16,7 @@ class CsvExportHelper
     header = journal_csv_header.keys + survey.scores.map {|s| s.variable}
     
     csv_rows = csv_score_rapports.inject([]) do |rows,csa|
-      rows << csa.journal.info.values.map {|v| to_danish(v)} + csa.answer.split(';;')
+      rows << csa.survey_answer.info.values.map {|v| to_danish(v)} + csa.answer.split(';;')
       rows
     end
 
@@ -32,7 +32,7 @@ class CsvExportHelper
     header = journal_csv_header.keys + survey.variables.map {|v| v.var}
     
     csv_rows = csv_survey_answers.inject([]) do |rows,csa|
-      rows << csa.journal_info.split(';') + csa.answer.split(';;')
+      rows << csa.journal_info.split(';;') + csa.answer.split(';;')
       rows
     end
 

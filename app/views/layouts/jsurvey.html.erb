@@ -18,19 +18,29 @@
 
 	<%= stylesheet_link_tag 'survey_fix', :media => :all %>
 
+	<% if !Rails.env.development? %>
 	<% bundle do %>
-	<%= javascript_include_tag 'cookies' %>
-	<%= javascript_include_tag 'application' %>
-	<%= javascript_include_tag 'jquery-1.9.0.min' %>
-	<%= javascript_include_tag 'jquery-ui-1.10.0.custom.min' %>
-	<%= javascript_include_tag 'jquery.cookie' %>
-	<%= javascript_include_tag 'jquery.timer' %>
-	<%= javascript_include_tag 'wforms/wforms_core' %>
-	<%= javascript_include_tag 'wforms/wforms_switch' %>
-	<%= javascript_include_tag 'jcharcount' %>
-	<% end %>
-	
-	<script type="text/javascript">
+		<%= javascript_include_tag 'cookies' %>
+		<%= javascript_include_tag 'application' %>
+		<%= javascript_include_tag 'jquery-1.9.0.min' %>
+		<%= javascript_include_tag 'jquery-ui-1.10.0.custom.min' %>
+		<%= javascript_include_tag 'jquery.cookie' %>
+		<%= javascript_include_tag 'jquery.timer' %>
+		<%= javascript_include_tag 'wforms/wforms_core' %>
+		<%= javascript_include_tag 'wforms/wforms_switch' %>
+		<%= javascript_include_tag 'jcharcount' %>
+		<% end %>
+	<% else %>
+		<%= javascript_include_tag 'cookies' %>
+		<%= javascript_include_tag 'application' %>
+		<%= javascript_include_tag 'jquery-1.9.0.min' %>
+		<%= javascript_include_tag 'jquery-ui-1.10.0.custom.min' %>
+		<%= javascript_include_tag 'jquery.cookie' %>
+		<%= javascript_include_tag 'jquery.timer' %>
+		<%= javascript_include_tag 'wforms/wforms_core' %>
+		<%= javascript_include_tag 'wforms/wforms_switch' %>
+		<%= javascript_include_tag 'jcharcount' %>
+	<% end %> <script type="text/javascript">
 		var curvyCornersVerbose = false;
 	</script>
 	

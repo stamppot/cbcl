@@ -52,8 +52,9 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<form action="/answer_reports/show.pdf" id="show_score_rapports" method="post">
+		<form action="/answer_reports/show/<%= @group.id %>.pdf<%= '?random=' << rand(10000000).to_s %>" id="show_score_rapports" method="post">
 			<%= hidden_field_tag 'journal_id', @group.id %>
+			<%= hidden_field_tag 'random_for_ie', rand(1000000) %>
 		<div id="answered_surveys">
 		<table id="answered" class="surveys">
 		<% if answered_count %>
@@ -66,7 +67,9 @@
 		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
 					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
-						<%= link_to entry.get_title, survey_answer_path(entry), :title => 'Vis Besvarelse' %></td>
+						<%= link_to entry.get_title, journal_entry_path(entry), :title => 'Vis Besvarelse' %>
+						<%# link_to entry.get_title, survey_answer_path(entry), :title => 'Vis Besvarelse' %>
+					</td>
 					 <td><%= entry.answered_at.strftime "%-d-%-m-%Y" %> 
 						 <%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret besvarelsesdato", :title => "Ret besvarelsesdato"), edit_date_survey_answers_path(entry) %>
 					 </td>
@@ -99,6 +102,8 @@
 		<% if answered_count %>
 		  <div class="commands">
 				<div class="button">
+					<%# link_button t('score.show_report'), answer_report_path(@group), :class => 'button score_calculate',  :title => 'Tilføj skemaer' %>
+		
 					<%= submit_tag t('score.show_report'), :class => 'button score_calculate', :format => 'pdf' %>
 					<label><input type="checkbox" checked="checked" name="extended_scorereport" id="select_scorereport" onchange="toggleReportType('show_score_rapports', 'select_scorereport');">Med besvarelser</label>&nbsp;&nbsp;
 					<select autocomplete="off" id="select_format" name="format" onchange="toggleActionFormat('show_score_rapports', 'select_format')">

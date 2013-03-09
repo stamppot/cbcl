@@ -52,7 +52,9 @@ class JournalEntry < ActiveRecord::Base
                              :journal_entry_id => self.id,
                              :journal_id => self.journal_id,
                              :surveytype => self.survey.surveytype,
-                             :center_id => self.journal.center_id)   
+                             :center_id => self.journal.center_id)
+    self.survey_answer.alt_id = self.journal.person_info.alt_id if self.journal.person_info
+    self.survey_answer.team_id = self.journal.parent_id if self.journal.parent.is_a?(Team)
     self.survey_answer.journal_entry = self
     self.survey_answer
   end
@@ -248,7 +250,7 @@ class JournalEntry < ActiveRecord::Base
     self.password = pw[:password]
     self.login_user = login_user
     unless login_user.valid?
-      raise InvalidUserException "invalid LoginUser: #{login_user.inspect}"
+      raise InvalidUserException("invalid LoginUser: #{login_user.inspect}")
     end
     return login_user
   end

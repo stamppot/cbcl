@@ -116,6 +116,8 @@ ActionController::Routing::Routes.draw do |map|
   map.destroy_journal '/journals/destroy/:id', :controller     => 'journals', :action => 'destroy'
   map.journal_add_survey '/journals/add_survey/:id', :controller       => 'journals', :action => 'add_survey'
   map.journal_remove_survey '/journals/remove_survey/:id', :controller => 'journals', :action => 'remove_survey'
+  map.journal_report 'answer_reports/show/:id.:format', :controller => 'answer_reports', :action => 'show' #, :format => 'csv'
+
 
   # map.add_project_journals '/journals/add/:id', :controller => 'projects', :action => 'add_journals'
   map.edit_journals_email '/journals/edit_emails/:id', :controller => 'journals', :action => 'edit_email'

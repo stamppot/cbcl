@@ -10,18 +10,18 @@ class FillExportVariables
     fill_all_tables([survey_answer], vars)
   end
   
-  def fill_journal_infos
-    columns = %w{journal_id ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt pkoen_datatype palder_datatype pnation_datatype dagsdato_datatype pfoedt_datatype}
-    numeric, string, date = 0, 1, 2
-    journal_rows = Journal.all.map { |j| j.info.values + [string,numeric,string,date,date] }
-    ExportJournalInfo.import(columns, journal_rows)
-  end
+  # def fill_journal_infos
+  #   columns = %w{journal_id ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt pkoen_datatype palder_datatype pnation_datatype dagsdato_datatype pfoedt_datatype}
+  #   numeric, string, date = 0, 1, 2
+  #   journal_rows = Journal.all.map { |j| j.info.values + [string,numeric,string,date,date] }
+  #   ExportJournalInfo.import(columns, journal_rows)
+  # end
 
-  def fill_journal_info(journal)
-    columns = %w{journal_id ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt}
-    ExportJournalInfo.import(columns, [journal.info.values], :on_duplicate_key_update => [:dags_dato])
-    updated_cells_no = AnswerCell.import(:on_duplicate_key_update => [:value, :value_text])
-  end
+  # def fill_journal_info(journal)
+  #   columns = %w{journal_id ssghafd ssghnavn safdnavn pid pkoen palder pnation dagsdato pfoedt}
+  #   ExportJournalInfo.import(columns, [journal.info.values], :on_duplicate_key_update => [:dags_dato])
+  #   updated_cells_no = AnswerCell.import(:on_duplicate_key_update => [:value, :value_text])
+  # end
       
   def fill_all_tables(survey_answers = nil, variables = nil)
     variables ||= Variable.all

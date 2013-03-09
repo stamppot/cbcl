@@ -18,7 +18,7 @@ class ScoreRapport < ActiveRecord::Base
     csv_survey_answers.first.variables
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
       csv_output << (headers + survey_headers_flat(survey_ids).keys)  # header
-      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "").split(";") }
+      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "").split(";;") }
     end
   end
   
@@ -91,7 +91,7 @@ class ScoreRapport < ActiveRecord::Base
     vals = variable_values
     return if self.survey_answer.nil?
     journal = self.survey_answer.journal
-    journal_info = journal.info
+    journal_info = self.survey_answer.info
     options = {
       :answer => vals.values.join(';;'), 
       :variables => vals.keys.join(';;'),
@@ -100,15 +100,12 @@ class ScoreRapport < ActiveRecord::Base
       :team_id => journal.parent_id,
       :center_id => self.center_id,
       :survey_id => self.survey_id,
-      # :journal_entry_id => self.journal_entry_id,
       :age => self.age,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
-      # :header => journal_info.keys.join(';'),
-      # :journal_info => to_danish(journal_info.values.join(';'))
     }
-    info_options = journal.export_info
-    options[:sex] = info_options[:pkoen]
+    # info_options = journal.export_info
+    options[:sex] = journal.sex # info_options[:pkoen]
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(options[:survey_answer_id])
     csv_score_rapport ||= CsvScoreRapport.new(options)
     csv_score_rapport.answer = vals.values.join(';;')

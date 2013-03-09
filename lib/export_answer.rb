@@ -55,9 +55,9 @@ class ExportAnswer
     row.detect {|col| col.first == "journal_id"}.second
   end
   
-  def self.get_export_journal_info(journal)
-    ExportJournalInfo.find_by_journal_id(journal.is_a?(Journal) && journal.id || journal)
-  end
+  # def self.get_export_journal_info(journal)
+  #   ExportJournalInfo.find_by_journal_id(journal.is_a?(Journal) && journal.id || journal)
+  # end
 
   #SELECT * FROM export_journal_infos ji inner join export_answer_cc_variables cc ON cc.journal_id = ji.journal_id inner join export_answer_ccy_variables ccy ON ccy.journal_id = ji.journal_id inner join export_answer_ct_variables ct ON ct.journal_id = ji.journal_id;  
   def join_query

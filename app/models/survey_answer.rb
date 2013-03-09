@@ -8,11 +8,13 @@ class SurveyAnswer < ActiveRecord::Base
   belongs_to :survey
   belongs_to :journal
   belongs_to :center
+  belongs_to :team
   has_many :answers, :dependent => :destroy, :include => [ :answer_cells ], :order => :number
   #belongs_to :journal_entry
   has_one :journal_entry
-  has_one :score_rapport
-  has_one :csv_answer
+  has_one :score_rapport, :dependent => :destroy, :include => [ :score_results ]
+  has_one :csv_survey_answer, :dependent => :destroy
+  has_one :csv_score_rapport, :dependent => :destroy
   
   named_scope :finished, :conditions => ['done = ?', true]
   named_scope :for_center, lambda { |center_id| { :conditions => ['center_id = ?', center_id] } }
@@ -101,6 +103,24 @@ class SurveyAnswer < ActiveRecord::Base
     a.order_by
   end
   
+    # info on journal in array of hashes
+  def info
+    j = self.journal
+    # settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
+    c = Dictionary.new # ActiveSupport::OrderedHash.new
+    c["ssghafd"] = j.parent.group_code
+    c["ssghnavn"] = self.center.title
+    c["safdnavn"] = j.parent.title
+    c["pid"] = j.code #settings && eval("self.#{settings.value}") || j.code
+    c["projekt"] = j.person_info.alt_id || ""
+    c["pkoen"] = j.sex
+    c["palder"] = self.age_when_answered  # alder på besvarelsesdatoen
+    c["pnation"] = j.nationality
+    c["besvarelsesdato"] = self.created_at.strftime("%d-%m-%Y")
+    c["pfoedt"] = j.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
+    c
+  end
+
   # def cell_vals(prefix = nil)
   #   prefix ||= self.survey.prefix
   #   a = []
@@ -136,13 +156,29 @@ class SurveyAnswer < ActiveRecord::Base
     self.max_answer.add_missing_cells
   end
   
-  def sex
+  def sex_text
     PersonInfo.sexes.invert[self[:sex]]
   end
   
   # get all scores related to this survey answer.
   def scores
     Survey.find(survey_id, :include => { :scores => :score_items } ).scores
+  end
+
+  def update_score_report(update = false)
+    rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
+    args = { :survey_name => self.survey.get_title,
+                  :survey => self.survey,
+              :unanswered => self.no_unanswered,
+              :short_name => self.survey.category,
+                     :age => self.age_when_answered,
+                  :gender => self.journal.person_info.sex,
+               :age_group => self.survey.age,
+              :created_at => self.created_at,  # set to date of survey_answer
+               :center_id => self.center_id,
+        :survey_answer_id => self.id
+            }
+    rapport.update_attributes(args) if update && !rapport.new_record?
   end
 
   def generate_score_report(update = false)
@@ -285,53 +321,33 @@ class SurveyAnswer < ActiveRecord::Base
   
   def save_csv_survey_answer
     vals = variable_values
-    j = self.journal
-    j_info = j.info
     options = {
       :answer => vals.values.join(';;'), 
-      :variables => vals.keys.join(';;'),
       :journal_id => self.journal_id,
       :survey_answer_id => self.id,
-      :center_id => j.center_id,
-      :team_id => (j.parent_id == j.center_id) && nil || j.parent_id,
+      :center_id => self.center_id,
+      :team_id => self.team_id,
       :survey_id => self.survey_id,
       :journal_entry_id => self.journal_entry_id,
       :age => self.age_when_answered,
+      :sex => self.journal.sex,
       :created_at => self.created_at,
       :updated_at => self.updated_at,
-      :header => j_info.keys.join(';'),
-      :journal_info => to_danish(j_info.values.join(';'))
+      :journal_info => to_danish(self.info.values.join(';;'))
     }
-    info_options = self.journal.export_info
-    info_options.delete :projekt
-    info_options.delete :besvarelsesdato
-    info_options[:palder] = self.age_when_answered
-    info_options[:alt_id] = self.journal.person_info.alt_id
-
-    options[:sex] = info_options[:pkoen]
-    info_options[:journal_id] = options[:journal_id]
-    info_options[:team_id] = options[:team_id] unless options[:team_id] == options[:center_id]
-    info_options[:center_id] = options[:center_id]
     
-    csv_survey_answer = CsvSurveyAnswer.new(options)
-    journal_info = JournalInfo.new(info_options)
-    csv_survey_answer.save
-    journal_info.save
+    csa = self.csv_survey_answer
+    if csa
+      csa.update_attributes(options)
+    else
+      csa = CsvSurveyAnswer.create(options)
+    end
   end
     
   def to_danish(str)
     str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
   end
-  
-  # def make_csv_answer
-  #      c = CSVHelper.new
-  #      c.generate_csv_answer_line(c.survey_answer_csv_query)
-  #    end
     
-  # def create_csv_answer!
-  #   CSVHelper.new.create_survey_answer_csv(self)
-  # end
-  
   def self.create_csv_answers!
     CSVHelper.new.generate_all_csv_answers
   end

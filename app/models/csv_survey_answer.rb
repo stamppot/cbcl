@@ -28,7 +28,7 @@ class CsvSurveyAnswer < ActiveRecord::Base
     csv_survey_answers.first.variables
     output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
       csv_output << (headers + survey_headers_flat(survey_ids).keys)  # header
-      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "").split(";") }
+      rows.each { |line| csv_output << line.gsub(/^\"|\"$/, "").split(";;") }
     end
   end
   

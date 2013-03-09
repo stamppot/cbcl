@@ -85,9 +85,9 @@ def login_prefix
     
     
     #  DANISH_CHARS = "\u00c0-\u00d6\u00d8-\u00f6\u00f8"
-    validates_format_of     :title, # \00c0-\00d6\00d8-\00f6\u00f8
-                            :with => %r{^[\(w|Æ|Ø|Å|æ|ø|å|,|\w) \$\^\-\.#\*\+&'"]*$},
-                            :message => 'må ikke indeholde ugyldige tegn.'
+    # validates_format_of     :title, # \00c0-\00d6\00d8-\00f6\u00f8
+    #                         :with => %r{^[\(w|Æ|Ø|Å|æ|ø|å|,|\w) \$\^\-\.#\*\+&'"]*$},
+    #                         :message => 'må ikke indeholde ugyldige tegn.'
     validates_length_of     :title, 
                             :in => 2..100, :allow_nil => true,
                             :too_long => 'skal have mindre end 100 bogstaver.', 

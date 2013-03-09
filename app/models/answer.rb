@@ -1,11 +1,10 @@
-# require 'facets/dictionary'
 require 'lib/hashery'
 require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
+
 class Answer < ActiveRecord::Base
   belongs_to :survey_answer
   belongs_to :question
-  # has_many :test_cells
   has_many :answer_cells, :dependent => :delete_all, :order => 'row, col ASC'  # order by row, col
   has_many :variables
   validates_presence_of :question_id, :survey_answer_id
@@ -81,49 +80,6 @@ class Answer < ActiveRecord::Base
 			end
     return cells
   end
-
-  # def cell_vals(prefix = nil)
-  #   answer = Dictionary.new
-  #   prefix = survey_answer.survey.prefix unless prefix
-  #   q = self.question.number.to_roman.downcase
-  #   answer[:number] = self.question.number
-  #   cells = []
-  #   
-  #   self.answer_cells.each_with_index do |cell, i|
-  #     c = {}
-  #     type = :Integer
-  #     # value = cell.value.blank? && '#NULL!' || cell.value
-  #     if var = Variable.get_by_question(self.question_id, cell.row, cell.col) # variable exists
-  #       c[:var] = var.var.to_sym
-  #     else  # default var name
-  #       answer_type = cell.answer_type
-  #       item = cell.item || ""
-  #       # answer_type, item = self.question.get_answertype(cell.row, cell.col)
-  #       if (item.nil? or !(item =~ /hv$/)) && answer_type =~ /Comment|Text/
-  #         item << "hv" 
-  #         type = :String
-  #       end
-  #       var = "#{prefix}#{q}#{item}".to_sym
-  #       c[:var] = var
-  #       # cs[var] = 
-  #       # if answer_type =~ /ListItem|Comment|Text/ && !cell.value.blank?
-  #       #   type = "String"
-  #       #   cell.value = CGI.unescape(cell.value).gsub(/\r\n?/, ' ').strip
-  #       if cell.text? || !cell.cell_value.blank?
-  #         type = :String
-  #         cell.value_text = CGI.unescape(cell.value_text || "").gsub(/\r\n?/, ' ').strip
-  #       end
-  #       # value = cell.value.to_i if type == :Integer && !cell.value.blank?
-  #       value = cell.value.to_i if !cell.text? && !cell.value.blank?
-  #       c[:type] = type
-  #       c[:v] = value
-  #       # puts c.inspect
-  #       cells << c
-  #     end
-  #   end
-  #   answer[:cells] = cells
-  #   return answer
-  # end
   
 
   # returns array of cells. Sets answertype
@@ -211,14 +167,14 @@ class Answer < ActiveRecord::Base
 					if cell.value != 9 && result = position_values.assoc(cell.cell_value.to_s)
 					  pos = result.last
             cell.position = pos unless pos.nil?
-						puts "ERRRORR value cell pos nil: #{cell.inspect}" if pos.nil?
+						# puts "ERRRORR value cell pos nil: #{cell.inspect}" if pos.nil?
 					end
 				elsif cell.value_text
 				  position_values = q_cells[row][col].value_to_text
 					if result = position_values.assoc(cell.cell_value.to_s)
 						pos = result.last
 						cell.position = pos unless pos.nil?
-						puts "ERRRORR value_text cell pos nil: #{cell.inspect}" if pos.nil?
+						# puts "ERRRORR value_text cell pos nil: #{cell.inspect}" if pos.nil?
 					end
 				end  
 			end
