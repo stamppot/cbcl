@@ -1,4 +1,4 @@
-<%	roles = @survey_fast.answer_by.sort_by { |r| r.last }
+<%	roles = @survey.answer_by.sort_by { |r| r.last }
 		values = roles.map { |r| r.last }
 		errormsg = "Ugyldig værdi. Brug " << values.join(", ")
 		script = "\t\t<script type='text/javascript'>\n"

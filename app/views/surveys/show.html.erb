@@ -6,7 +6,29 @@
 <br/>
 
 <% cache(:action => 'show', :action_suffix => 'survey') do %>
-	<%= render :partial => 'surveys/survey_header' %>
+<%- if @is_login_user %>
+<div id="survey_header">
+	<div class="survey" style='background-color: #<%= @survey.color %>;'>
+		<div id="survey_journal_info">
+			<%# render :partial => 'surveys/survey_header_info' %>
+		</div>
+		<div class="surveyname"><%= @survey.title %></div>
+	</div>
+</div>
+<%- else %>
+<%# back_button journal_path(@journal_entry) %>
+<div id="back_button"></div>
+<div id="survey_header">
+	<div class="survey" style='background-color: #<%= @survey.color %>;'>
+		<div id="survey_journal_info">
+			<%= render :partial => 'surveys/survey_header_info' %>
+		</div>
+		<div class="surveyname"><%= @survey.title %></div>
+	</div>
+</div>
+<%- end %></div>
+<br>
+
 <br/>
 
 

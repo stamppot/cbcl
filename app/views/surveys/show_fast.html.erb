@@ -1,23 +1,24 @@
 <div id="survey_header">
-<%= render :partial => 'surveys/back_button' %>
+<%= render :partial => 'surveys/back_button', :locals => {:journal => @journal} %>
+
 <%- if @is_login_user %>
 <div id="survey_header">
-	<div class="survey" style='background-color: #<%= @survey_fast.color %>;'>
+	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
 			<%# render :partial => 'surveys/survey_header_info' %>
 		</div>
-		<div class="surveyname"><%= @survey_fast.title %></div>
+		<div class="surveyname"><%= @survey.title %></div>
 	</div>
 </div>
 <%- else %>
 <%# back_button journal_path(@journal_entry) %>
 <div id="back_button"></div>
 <div id="survey_header">
-	<div class="survey" style='background-color: #<%= @survey_fast.color %>;'>
+	<div class="survey" style='background-color: #<%= @survey.color %>;'>
 		<div id="survey_journal_info">
 			<%= render :partial => 'surveys/survey_header_info' %>
 		</div>
-		<div class="surveyname"><%= @survey_fast.title %></div>
+		<div class="surveyname"><%= @survey.title %></div>
 	</div>
 </div>
 <%- end %></div>
@@ -29,9 +30,9 @@
 <div class="command">
 	<% url = 
 	if @options[:show_only]
-		survey_show_only_path(@survey_fast)
+		survey_show_only_path(@survey)
 	else
-		survey_path(@survey_fast)
+		survey_path(@survey)
 	end %>
 	<%= link_button t('survey.input'), url, 'survey_input', :title => 'Besvar med normal indtastning' %>
 </div>
@@ -50,7 +51,7 @@
 	</div>
 	<br>
 
-	<%= render :partial => "surveys/question_fast", :collection => @survey_fast.questions %>
+	<%= render :partial => "surveys/question_fast", :collection => @survey.questions %>
 	<%= render :partial => 'fancy_submit_button' %>
 	
 	<% unless @options[:action] =~ /show/ %>

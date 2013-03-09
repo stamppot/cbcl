@@ -126,6 +126,7 @@ class AnswerCell < ActiveRecord::Base
   end
 
   def javascript_get_value(fast = false)
+    puts "FIRST ONE: javascript_get_value"
     # return "" if fast && value == 9 || (!self.text && (value.blank? || value == 9))
     result = if rating
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
@@ -152,6 +153,7 @@ class AnswerCell < ActiveRecord::Base
   end
 
   def javascript_get_value(fast = false)
+    puts "SECOND ONE: javascript_get_value"
     # return "" if fast && value == 9 || (!self.text && (value.blank? || value == 9))
     result = if rating
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"

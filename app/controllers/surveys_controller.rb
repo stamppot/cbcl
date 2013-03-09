@@ -53,7 +53,8 @@ class SurveysController < ApplicationController
     logger.info("SURVEY get: #{journal_entry.id}...")
     cookies[:journal_entry] = journal_entry.id
     journal_entry = JournalEntry.find(cookies[:journal_entry]) if session[:journal_entry].blank?
-     
+    
+    @journal = journal_entry.journal
     @is_login_user = current_user.login_user?
      
     # don't cache now, it's page cached anyway
@@ -69,27 +70,26 @@ class SurveysController < ApplicationController
   # non-caching method
   def show_fast                             # 11-2 it's fastest to preload all needed objects
     @options = {:action => "create", :hidden => true, :fast => true}
-    @journal_entry = JournalEntry.find(params[:id]) 
+    @journal_entry = JournalEntry.find(session[:journal_entry])
+    puts "SHOWFAST JOURNAL_ENTRY: #{@journal_entry.inspect}"
+    # journal_entry = JournalEntry.find(params[:id]) 
     @journal = @journal_entry.journal
-    # @survey_fast = cache_fetch("survey_entry_#{@journal_entry.id}") do
-    #   Survey.and_questions.find(@journal_entry.survey_id) # removed .and_questions
-    # end
     survey_id = @journal_entry.survey_id
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
-    @survey_fast = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
+    @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
 
-    @page_title = @survey_fast.get_title
+    @page_title = @survey.get_title
   
     @survey_fast_answer = nil
     if @journal_entry.survey_answer.nil?  # survey_answer not created before
-      journal = @journal_entry.journal
-      @survey_fast_answer = SurveyAnswer.create(:survey_id => @survey_fast.id, :age => journal.age, :sex => journal.sex_text, :journal => journal,
-          :surveytype => @survey_fast.surveytype, :nationality => journal.nationality, :journal_entry => @journal_entry,
-          :center_id => @journal_entry.journal.center_id)
-      @survey_fast_answer.journal_entry = @journal_entry
+      @journal = @journal_entry.journal
+      @survey_fast_answer = SurveyAnswer.create(:survey_id => @survey.id, :age => @journal.age, :sex => @journal.sex_text, 
+        :journal => @journal, :surveytype => @survey.surveytype, :nationality => @journal.nationality, 
+        :journal_entry => @journal_entry, :center_id => @journal.center_id)
+      # @survey_fast_answer.journal_entry = journal_entry
     else  # survey_answer was started/created, so a draft is saved
       @survey_fast_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id) # removed .and_answers
-      @survey_fast.merge_survey_answer(@survey_fast_answer)  # insert existing answers
+      @survey.merge_survey_answer(@survey_fast_answer)  # insert existing answers
     end
     unless @journal_entry.survey_answer
       @journal_entry.survey_answer = @survey_fast_answer

@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   # Index Route
   #map.connect '', :controller => 'survey', :action => :list
   map.connect '/score_scales/order', :controller => 'score_scales', :action => 'order'
+  map.connect '/surveys/show_fast', :controller => 'surveys', :action => 'show_fast'
 
   # Install the default route as the lowest priority.
   map.resources :skemas
@@ -246,6 +247,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/survey_answers/json_dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'json_dynamic_data'
   map.connect '/survey_answers/draft_data/:id.:format', :controller => 'survey_answers', :action => 'draft_data'
   map.connect '/survey_answers/dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'dynamic_data'
+
 
   map.connect '/errors/log/:id.:format', :controller => 'errors', :action => 'log'
 

@@ -1,22 +1,22 @@
 <%- if @is_login_user %>
 <div id="survey_header" class="span-24">
-	<div class="survey" style='background-color: #<%= @survey.color %>;'>
+	<div class="survey" style='background-color: #<%= @color %>;'>
 		<div id="survey_journal_info">
 			<div id="journal_info" style="display: none;">
 				<div>ID: <span id="journal_code"></span> </div>
 				<div>Navn: <span id="journal_name"></span></div>
 				<div>F&oslash;dselsdato: <span id="journal_birthdate"></span></div>
 		</div>
-		<div class="surveyname"><%= @survey.get_title %></div>
+		<div class="surveyname"><%= @title %></div>
 	</div>
 </div>
 <%- else %>
 <%# back_button journal_path(@journal_entry) %>
 <div id="back_button"><%= back_button("") %></div>
 <div id="survey_header" class="span-24">
-	<div class="survey" style='background-color: #<%= @survey.color %>;'>
+	<div class="survey" style='background-color: #<%= @color %>;'>
 
-		<div class="surveyname"><%= @survey.get_title %></div>
+		<div class="surveyname"><%= @title %></div>
 			<div id="survey_journal_info">
 				<div id="journal_info" style="display: none;">
 				<!-- <div class="surveyinfo"></div> -->

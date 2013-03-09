@@ -4,7 +4,7 @@
 <br/>
 
 <%# cache(:action => 'show', :action_suffix => 'survey') do %>
-	<%= render :partial => 'surveys/survey_header' %>
+	<%= render :partial => 'surveys/survey_header', :locals => {:title => @survey.title, :color => @survey.color, :is_login_user => @is_login_user} %>
 <br/>
 
 
