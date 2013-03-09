@@ -24,11 +24,7 @@ class ImportJournals # AddJournalsFromCsv
 			parent_name = row["Mnavn"]
 			parent_mail = row["Email"]
 			sex = row["gender"]
-			sex = if sex == "d" || sex == "M" || sex == "1"
-				1
-			else 
-				2 # if sex == "p" || sex == "K" || sex == "2"
-			end
+			sex = sex == "d" || sex == "M" || sex == "1" && 1 || 2
 
 			puts "#{journal_name}: #{alt_id} #{b}"
 			# next
@@ -61,31 +57,34 @@ class ImportJournals # AddJournalsFromCsv
 				journal.person_info.update_attributes(person_info)
 			end if do_save
 			
-			if surveys.any?
-				if journal.journal_entries.any? # add extra surveys
-					je_surveys = journal.journal_entries.map &:survey
-					add_surveys = surveys - je_surveys
-					puts "surveys: #{add_surveys.map &:inspect}"
-					journal.create_journal_entries(add_surveys) if do_save
-				elsif !journal.journal_entries.any?
-					journal.create_journal_entries(surveys) if do_save
-				end
-			end
+			add_surveys_and_entries(journal, surveys, do_save)
 
 			puts "! #{journal.title}: Invalid: #{journal.inspect}" unless journal.person_info
 				
 			if journal.person_info.valid? && do_save
-				# journal.save
 				journal.person_info.save
 				puts "#{journal.person_info.inspect}"
-			else
-				if !journal.person_info.valid?
-					puts "person_info: #{journal.person_info.errors.inspect}"
-					puts "journal: #{journal.errors.inspect}"
-				end
 			end
+
+			if !journal.person_info.valid?
+				puts "person_info: #{journal.person_info.errors.inspect}"
+				puts "journal: #{journal.errors.inspect}"
+			end
+			
 			# puts "journal: #{journal.inspect}  #{journal.person_info.inspect} Valid: #{journal.valid?} #{journal.errors.inspect}"
 		end
+	end
+
+	def add_surveys_and_entries(journal, surveys = [], do_save = false)
+		if surveys.any?
+			if journal.journal_entries.any? # add extra surveys
+				je_surveys = journal.journal_entries.map &:survey
+				add_surveys = surveys - je_surveys
+				puts "surveys: #{add_surveys.map &:inspect}"
+				journal.create_journal_entries(add_surveys) if do_save
+			elsif !journal.journal_entries.any?
+				journal.create_journal_entries(surveys) if do_save
+			end
 	end
 
 	def get_date(d)
