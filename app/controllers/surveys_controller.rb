@@ -34,6 +34,7 @@ class SurveysController < ApplicationController
     survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(params[:id])
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
+    @color = @survey.color
     @page_title = @survey.get_title
     # flash[:notice] = "Denne side viser ikke et brugbart spørgeskema. Du har tilgang til besvarelser gennem journaler."
     render :template => 'surveys/show', :layout => "layouts/survey"
@@ -50,7 +51,7 @@ class SurveysController < ApplicationController
     @options = {:show_all => true, :action => "create", :validation => false}
 
     journal_entry = JournalEntry.find(session[:journal_entry])
-    logger.info("SURVEY get: #{journal_entry.id}...")
+    logger.info("SURVEY get entry from session: #{journal_entry.id}... current_user: #{current_user.inspect}")
     cookies[:journal_entry] = journal_entry.id
     journal_entry = JournalEntry.find(cookies[:journal_entry]) if session[:journal_entry].blank?
     
@@ -62,6 +63,7 @@ class SurveysController < ApplicationController
     survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
+    @color = @survey.color
     @page_title = @survey.get_title
 
       rescue ActiveRecord::RecordNotFound
@@ -101,11 +103,6 @@ class SurveysController < ApplicationController
       flash[:error] = "Kunne ikke finde skema for journal."
       redirect_to surveys_path
   end
-
-  # def print # TODO: fetch from cache with key survey_1
-  #   @survey = Survey.and_questions.find(params[:id])
-  #   @page_title = "CBCL - Udskriv Spørgeskema: " << @survey.get_title
-  # end
 
   def new
     @survey = Survey.new

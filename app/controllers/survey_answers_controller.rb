@@ -68,6 +68,7 @@ class SurveyAnswersController < ApplicationController
     save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
 
+    logger.info "dynamic_data: current_user: #{current_user.inspect} entry: #{@journal_entry.inspect}"
     # sleep(3000)
     respond_to do |format|
       if current_user.nil?
@@ -124,6 +125,7 @@ class SurveyAnswersController < ApplicationController
     # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
     j = journal_entry.journal
     je = journal_entry
+    logger.info "draft: current_user: #{current_user.inspect} entry: #{@journal_entry.inspect}"
     logger.info "draft_data: cookie: #{cookies[:journal_entry]} session[:journal_entry]: #{session[:journal_entry]} entry: #{je.id} journal: #{j.id} answer_cells: #{cell_count}"
 		respond_to do |format|
 			format.js {
@@ -139,7 +141,8 @@ class SurveyAnswersController < ApplicationController
     save_interval = current_user && current_user.login_user && 30 || 20 # change to 900, 60
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
     @journal = @journal_entry.journal
-
+    
+    logger.info "dynamic json: current_user: #{current_user.inspect} entry: #{@journal_entry.inspect}  journal: #{@journal.inspect}"
     json = {}
     json[:logged_in] = !current_user.nil?
     json[:login_user] = current_user && current_user.login_user
@@ -182,7 +185,7 @@ class SurveyAnswersController < ApplicationController
       
     draft_cells = all_answer_cells.map {|ac| ac.json_draft_value }   # DraftCell.new(ac) }
     # logger.info "JAVASCRIPT DRAFT RESPONSE: #{@response}"
-    logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells.to_json}"
+    # logger.info "JAVASCRIPT DRAFT CELLS: #{draft_cells.to_json}"
     
     j = journal_entry.journal
     je = journal_entry
@@ -295,21 +298,36 @@ class SurveyAnswersController < ApplicationController
   end
 
   def edit_date
-    @entry = JournalEntry.find(params[:id])
+    @journal_entry = JournalEntry.find(params[:id])
+    # @date = @journal_entry.created
+    @follow_up = @journal_entry.get_follow_up
+    @follow_ups = JournalEntry.follow_ups
+    puts "follow_up: #{@follow_up}"
+    puts "follow_ups: #{@follow_ups.inspect}"
     render :layout => 'cbcl'
   end
 
   # update survey_answer, journal_entry.answered_at, csv_survey_answers.age, csv_score_rapports.age | created_at, csv_answers.age
   def update_date
     entry = JournalEntry.find(params[:journal_entry][:id])
-    d = params[:survey_answer][:created].split("/").map {|p| p.to_i }
+    entry.follow_up = params[:journal_entry][:follow_up]
+    date_param = params[:journal_entry][:created]
+
+    if date_param.blank?
+      entry.save
+      flash[:notice] = "Opfølgning er rettet"
+      redirect_to journaL_path(entry.journal)
+    end
+
+    sep = date_param.include?("/") && "/" || date_param.include?("-") && "-"
+    d = date_param.split(sep).map {|p| p.to_i }
     date = [d[2],d[1],d[0]]
-    puts "date: #{date.inspect}"
     created = Date.new(*date)
-    age = ((created - entry.journal.person_info.birthdate).to_i / 365.25).floor
+    age = ((created - entry.journal.birthdate).to_i / 365.25).floor
     entry.survey_answer.age = age
     entry.answered_at = created
     entry.save
+  
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(entry.survey_answer_id)
     if csv_score_rapport
       csv_score_rapport.age = age if csv_score_rapport
@@ -328,6 +346,7 @@ class SurveyAnswersController < ApplicationController
       score_rapport.save
     end
     
+    flash[:notice] = "Besvarelsesdato og opfølgning er rettet"
     redirect_to journal_path(entry.journal)
   end
 

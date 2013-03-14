@@ -18,7 +18,8 @@ class AnswerReportsController < ApplicationController
       survey_answer = SurveyAnswer.and_answer_cells.find(journal_entry.survey_answer_id)
       survey = Survey.and_questions.find(survey_answer.survey_id)
       questions = survey.merge_report_answer(survey_answer)
-      @answer_texts << {:questions => questions, :survey => survey}
+      puts "created_at: #{survey_answer.created_at}"
+      @answer_texts << {:questions => questions, :survey => survey, :answer_date => survey_answer.created_at}
     end
     
     @page_title = "CBCL - Udvidet Svarrapport: " << @journal.title

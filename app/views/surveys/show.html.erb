@@ -5,28 +5,9 @@
 <div class="span24">&nbsp;</div>
 <br/>
 
-<% cache(:action => 'show', :action_suffix => 'survey') do %>
-<%- if @is_login_user %>
-	<div id="survey_header">
-		<div class="survey" style='background-color: #<%= @survey.color %>;'>
-			<div id="survey_journal_info">
-				<%# render :partial => 'surveys/survey_header_info' %>
-			</div>
-			<div class="surveyname"><%= @survey.title %></div>
-		</div>
-	</div>
-	<%- else %>
-	<%# back_button journal_path(@journal_entry) %>
-	<div id="back_button"></div>
-	<div id="survey_header">
-		<div class="survey" style='background-color: #<%= @survey.color %>;'>
-			<div id="survey_journal_info">
-				<%= render :partial => 'surveys/survey_header_info' %>
-			</div>
-			<div class="surveyname"><%= @survey.title %></div>
-		</div>
-	</div>
-<%- end %>
+
+<%= render :partial => 'surveys/survey_header' %>
+
 <br>
 
 <br/>
@@ -151,11 +132,11 @@ function onReceivedDynamicData(data) {
         if(!data.login_user) {
    	      	$('#centertitle').html(data.center_title);
 	      	$('#journal_code').html(data.journal_code);
-    	  	$('#journal_name').html(data.journal_info);
-      		$('#journal_birthdate').html(data.birthdate);
-	      	$('#journal_info').show();
         	$('#survey_fast_input').show();
         }
+    	$('#journal_name').html(data.journal_info);
+      	$('#journal_birthdate').html(data.birthdate);
+	    $('#journal_info').show();
     }
 }
 
@@ -281,106 +262,5 @@ jQuery(document).ready(function ($) {
 });
 
 
-// 			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
-// 			// save values every 60 seconds
-// 			new Form.Observer('surveyform', save_interval, function(element, value) {
-// 				if(doSave) {
-// 					new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams});
-// 				}
-// 			});
-// 			//]]>
-// 		}
-// 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
-// 		// set form action to this journal_entry
-// 		changeAction('surveyform', '/survey_answers/create/' + params['id']);
-		
-		
-// 		$('save_draft').show();
-// 	}
-
-// 	$('spinner').hide();
-
-// 	$('save_draft').observe('click', function(el) {
-// 		doSave = false;
-// 		$('spinner').show();
-// 		new Ajax.Updater('draft-message', save_draft_url,
-// 				{ asynchronous:true, evalScripts:true, parameters:formParams, onComplete:hideSpinner });
-// 			return false;
-// 		});
-// 		// limit text input in textboxes
-// 	initMakeItCount();
-// });
-
-
-// Event.observe(window, 'load', function() {
-// 	// updated 05/12 18.07 CET
-
-// 	var doSave = true;
-// 	// do not add submit button when it's show only
-// 	var doNotCall = document.location.href.match(/show_only/);
-// 	var formParams = null;
-// 	if(doNotCall == null) {
-// 		// var val = /([0-9]+)$/;
-// 		//   	var matches = document.location.href.match(val);
-// 		var params = {};
-// 		// params['id'] = matches[1];
-// 		var save_interval = 60;
-// 		// if there's no cookie, the id in URL is a journal_entry (else a survey_id), and thus not answered by a login user
-// 		var journal_entry = document.cookies().get('journal_entry');
-// 		if((typeof(journal_entry) == "undefined")) {
-// 			alert("Fejl: Kan ikke hente brugerinformation: ");
-// 		}
-
-// 		var save_draft_url = '/survey_answers/save_draft/0';
-		
-// 		if(!(typeof(journal_entry) == "undefined")) {
-// 			params['id'] = journal_entry;
-
-// 			new Ajax.Request("/survey_answers/draft_data/" + params['id'], {
-// 			  method: 'post',
-// 				parameters: params,
-// 				contentType: "text/javascript",
-// 				evalJS: true,  // TODO: do not eval, return hash elem -> value
-// 			  onSuccess: function(transport) {
-// 					eval(transport.responseText);
-// 					wFORMS.behaviors['switch'].init();
-// 			  }
-// 			});
-
-// 			var set_values_interval = 2;
-// 			save_draft_url = '/survey_answers/save_draft/' + params['id'];
-// 			// set values in params every 5 seconds, so when clicking save_draft, the values can be saved
-// 			new Form.Observer('surveyform', set_values_interval, function(element, value) { formParams = value; });
-// 			// save values every 60 seconds
-// 			new Form.Observer('surveyform', save_interval, function(element, value) {
-// 				if(doSave) {
-// 					new Ajax.Updater('draft-message', save_draft_url, {asynchronous:true, evalScripts:true, parameters:formParams});
-// 				}
-// 			});
-// 			//]]>
-// 		}
-// 		get_dynamic_fragments("/survey_answers/dynamic_data", params);
-// 		// set form action to this journal_entry
-// 		changeAction('surveyform', '/survey_answers/create/' + params['id']);
-		
-		
-// 		$('save_draft').show();
-// 	}
-
-// 	$('spinner').hide();
-
-// 	$('save_draft').observe('click', function(el) {
-// 		doSave = false;
-// 		$('spinner').show();
-// 		new Ajax.Updater('draft-message', save_draft_url,
-// 				{ asynchronous:true, evalScripts:true, parameters:formParams, onComplete:hideSpinner });
-// 			return false;
-// 		});
-// 		// limit text input in textboxes
-// 	initMakeItCount();
-// });
-
-
 </script>
-<% end %>
-</script>
+

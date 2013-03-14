@@ -3,18 +3,26 @@
 
 <h2>Ret besvarelsesdato</h2>
 
-Den oprindelige besvarelsesdato er: <%= @entry.created_at.strftime("%-d-%m-%-y") %>.
+Den oprindelige besvarelsesdato er: <%= @journal_entry.created_at.strftime("%-d-%m-%-y") %>.
 
-<% form_tag :action => 'update_date', :id => @entry do %>
-	<%= hidden_field :journal_entry, :id, :value => @entry.id %>
-	<%= text_field :survey_answer, :created, :id => "survey_answer_date", :class => "datePick" %>
+<% form_tag :action => 'update_date', :id => @journal_entry do %>
+	<p>
+	<div>
+		Opfølgning: <%= "<label for=\"survey_follow_up\">" %>
+		<%= select :journal_entry, "follow_up", @follow_ups, :selected => @follow_up %>
+	</div>
+	<p/>
+
+	<%= hidden_field :journal_entry, :id, :value => @journal_entry.id %>
+	<input class="datePick" id="survey_answer_date" name="journal_entry[created]" size="30" type="text" value="<%= @journal_entry.created_at.strftime('%d/%m/%Y') %>">
+	<%# text_field :survey_answer, :created, :id => "survey_answer_date", :class => "datePick" %>
 	<p/>
 	<div id="calendar"></div>
  
 	<%= submit_tag t('save_changes'), :class => 'button save', :confirm => 'Er du sikker på at du vil ændre besvarelsesdatoen?' %>
 <% end %>
 
-<%= back_button journal_path(@entry.journal) %>
+<%= back_button journal_path(@journal_entry.journal) %>
 
 
 <script type="text/javascript">

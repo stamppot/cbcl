@@ -2,8 +2,9 @@ class StartController < ApplicationController
 
   def start
     user_name = cookies[:user_name]
-    cookies.delete :user_name if current_user.login_user?
+    cookies.delete :user_name # if current_user.login_user?
     @journal_entry = JournalEntry.find_by_user_id(current_user.id)
+    # logger.info "Start: current_user: #{current_user.inspect} journal_entry: #{@journal_entry.inspect}"
     session[:journal_entry] ||= @journal_entry.id
     j = @journal_entry.journal
     je = @journal_entry

@@ -17,8 +17,8 @@
 				end
 			when "listitem":
 				newform << "<td class='question'>"
-        answer_item_set = true if @cell.col == 1
-			  newform << span_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
+		        answer_item_set = true if @cell.col == 1
+			    newform << span_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)
 				answer_item_set = true;
 			end
 			newform << "</td>"

@@ -125,35 +125,34 @@ class AnswerCell < ActiveRecord::Base
     { :elem => input_name, :value => javascript_get_value, :input => input_type }
   end
 
-  def javascript_get_value(fast = false)
-    puts "FIRST ONE: javascript_get_value"
-    # return "" if fast && value == 9 || (!self.text && (value.blank? || value == 9))
-    result = if rating
-      # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
-      value != 9 && value || "" 
-    elsif self.checkbox?
-      self.value
-    elsif self.text
-      # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
-      # "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
-      javascript_escape_text(self.value_text)
-    else
-      if self.value_text
-        javascript_escape_text(self.value_text)
-      else
-        javascript_escape_text(self.value)
-      end
-      self.value
-    end
-    result
-  end
+  # def javascript_get_value(fast = false) # bruges vist ikke
+  #   puts "FIRST ONE: javascript_get_value"
+  #   # return "" if fast && value == 9 || (!self.text && (value.blank? || value == 9))
+  #   result = if rating
+  #     # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"
+  #     value != 9 && value || "" 
+  #   elsif self.checkbox?
+  #     self.value
+  #   elsif self.text
+  #     # puts "TextSET JS VAL #{self.answer_type}: " +       "$('#{html_value_id(fast)}').value = '#{self.value_text}';"
+  #     # "$('#{html_id}').value = " + CGI::unescape("\"#{self.value_text}\";")
+  #     javascript_escape_text(self.value_text)
+  #   else
+  #     if self.value_text
+  #       javascript_escape_text(self.value_text)
+  #     else
+  #       javascript_escape_text(self.value)
+  #     end
+  #     self.value
+  #   end
+  #   result
+  # end
 
   def json_draft_value
     { :elem => input_name, :value => javascript_get_value, :input => input_type }
   end
 
   def javascript_get_value(fast = false)
-    puts "SECOND ONE: javascript_get_value"
     # return "" if fast && value == 9 || (!self.text && (value.blank? || value == 9))
     result = if rating
       # puts "RatingSET JS VAL #{self.answer_type}: " + "$('#{html_value_id(fast)}').checked = #{self.value != 9};"

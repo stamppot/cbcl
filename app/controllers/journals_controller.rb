@@ -350,7 +350,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def check_access
     redirect_to login_path and return unless current_user
     if current_user.access?(:login_user)
-      JournalEntry.find_by_id_and_user_id(params[:id], luser.id)
+      JournalEntry.find_by_id_and_user_id(params[:id], current_user.id)
     elsif current_user.access?(:all_users)
       current_user.has_journal? params[:id]
     end

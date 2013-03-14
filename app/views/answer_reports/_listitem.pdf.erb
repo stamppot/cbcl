@@ -1,6 +1,7 @@
 <% if @cell %>
 <td class="question">
 	<%=
+	answer_item = @cell.svar_item(false)
 	item = @cell.question_items.first
   answer_item_set = true if @cell.col == 1
   span_item(((answer_item_set || @cell.col > 2) ? "" : answer_item) + item.text, "listitemtext".strip)

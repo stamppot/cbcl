@@ -12,7 +12,7 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     journal_entry = JournalEntry.find(params[:id], :include => :journal)
     session[:journal_entry] = journal_entry.id
     cookies[:journal_entry] = journal_entry.id
-    logger.info "Setting session[:journal_entry] to #{journal_entry.id} for #{journal_entry.journal.title}"
+    # logger.info "Setting session[:journal_entry] to #{journal_entry.id} for #{journal_entry.journal.title}"
     
     if params[:fast]
       redirect_to survey_show_fast_path(journal_entry.id) and return # caching disabled, so not .survey_id
