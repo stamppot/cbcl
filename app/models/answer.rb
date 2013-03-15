@@ -66,7 +66,6 @@ class Answer < ActiveRecord::Base
 			if var
 				var.value = cell.value || "#NULL!"
 				var.datatype = cell.datatype
-				cells[var.var.to_sym] = var
 			else  # default var name
 				item = cell.item
 				var = Variable.new({:row => cell.row, :col => cell.col, 
@@ -75,8 +74,9 @@ class Answer < ActiveRecord::Base
 					item << "hv" if !(item =~ /hv$/) && cell.class.to_s =~ /Comment|Text/
 					var.var = "#{prefix}#{q}#{item}"
 					var.value = cell.value.blank? && "#NULL" || cell.value
-					cells[var.var.to_sym] = var
+					# cells[var.var.to_sym] = var
 				end
+        cells[var.var.to_sym] = var
 			end
     return cells
   end
