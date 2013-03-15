@@ -89,13 +89,13 @@ class AnswerCell < ActiveRecord::Base
 
   def html_value_id(fast = false)
     if rating
-      puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
+      # puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
       # return "" unless position
       position && "q#{answer.number}_#{row}_#{col}_#{position-1}" || "q#{answer.number}_#{row}_#{col}"
-    elsif rating && position.nil? # rating with unchosen value
-    elsif self.text
+    # elsif rating && position.nil? # rating with unchosen value
+    # elsif self.text
       # puts "TExt cell (#{self.answer_type}): q#{answer.number}_#{row}_#{col} - value: #{self.value_text}"
-      "q#{answer.number}_#{row}_#{col}"
+      # "q#{answer.number}_#{row}_#{col}"
     else
       # puts "SmtH else than TEXt or RATing: #{self.answer_type}  value: #{self.value} or #{self.value_text}"
       "q#{answer.number}_#{row}_#{col}"
@@ -104,13 +104,13 @@ class AnswerCell < ActiveRecord::Base
 	
   def input_name(fast = false)
     if rating
-      puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
+      # puts "ERRRRROOOORRRRR: HTML_VALUE position #{position}: q#{answer.number}_#{row}_#{col}" unless position
       # return "" unless position
       "Q#{answer.number}[q#{answer.number}_#{row}_#{col}]"
     # elsif rating && position.nil? # rating with unchosen value
-    elsif self.text
+    # elsif self.text
       # puts "TExt cell (#{self.answer_type}): q#{answer.number}_#{row}_#{col} - value: #{self.value_text}"
-      "q#{answer.number}_#{row}_#{col}"
+      # "q#{answer.number}_#{row}_#{col}"
     else
       # puts "SmtH else than TEXt or RATing: #{self.answer_type}  value: #{self.value} or #{self.value_text}"
       "q#{answer.number}_#{row}_#{col}"
@@ -209,28 +209,4 @@ class AnswerCell < ActiveRecord::Base
 	  "unescape('" + escape_javascript(unescaped) + "'); "
   end
 
-  # def to_xml
-  #   r = []
-  #   
-  # def to_xml
-  #   t.column :answertype, :string, :limit => 20
-  #   t.column :col, :int, :null => false
-  #   t.column :row, :int, :null => false
-  #   t.column :item, :string, :limit => 5
-  #   t.column :value, :string
-  #   xml = []
-  #   xml << "<answer_cell answer_type='#{self.answertype}' col='#{self.col.to_s}' row='#{self.row.to_s}'>"
-  #   xml << "  <item>#{self.item}</item>"
-  #   xml << "  <value>#{self.value}</value>"
-  #   xml << "</answer_cell>"
-  # end
 end
-
-# class RatingAnswer < AnswerCell
-# end
-# 
-# class SelectOptionAnswer < AnswerCell
-# end
-# 
-# class CheckboxAnswer < AnswerCell
-# end
