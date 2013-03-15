@@ -26,7 +26,7 @@ class AnswerCell < ActiveRecord::Base
     else  # other types
       self.value_text = CGI.escape(new_value) if new_value != self.value_text  # TODO: escape value
     end
-    return changed?
+    changed?
   end
   
   def change_value!(new_value, valid_values = {})
@@ -39,15 +39,11 @@ class AnswerCell < ActiveRecord::Base
 	
   # comparison based on row first, then column
   def <=>(other)
-    if self.row == other.row
-      self.col <=> other.col
-    else
-      self.row <=> other.row
-    end
+    self.row == other.row && self.col <=> other.col || self.row <=> other.row
   end
 
   def equal(cell)
-  return (id = cell.id) && (answer_id == cell.answer_id) && (col == cell.col) && (row == cell.row) &&
+    (id = cell.id) && (answer_id == cell.answer_id) && (col == cell.col) && (row == cell.row) &&
     (item = cell.item) && (value = cell.value)
   end
 	
