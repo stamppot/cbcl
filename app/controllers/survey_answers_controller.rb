@@ -12,9 +12,6 @@ class SurveyAnswersController < ApplicationController
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     cookies[:journal_entry] = @journal_entry.id
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    # @survey = cache_fetch("survey_entry_#{@journal_entry.id}", :expires_in => 15.minutes) do
-    #   Survey.and_questions.find(@survey_answer.survey_id)
-    # end
     @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
     @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
@@ -26,10 +23,6 @@ class SurveyAnswersController < ApplicationController
     @options = {:action => "show", :answers => true}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = @journal_entry.survey_answer
-    # @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-    #   Survey.and_questions.find(@journal_entry.survey_id)
-    # end
-    # @survey = Survey.and_questions.find(@journal_entry.survey_id)
     @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
     @survey = @@surveys[@journal_entry.survey_id]
     @survey.merge_survey_answer(@survey_answer)
@@ -38,17 +31,9 @@ class SurveyAnswersController < ApplicationController
   end
 
   def edit
-    # @options = {:answers => true, :show_all => true, :action => "edit"}
     journal_entry = JournalEntry.find(params[:id])
     session[:journal_entry] = params[:id]
     redirect_to survey_path(journal_entry.survey_id)
-    # @survey_answer = @journal_entry.survey_answer
-    # @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-    #   Survey.and_questions.find(@survey_answer.survey_id)
-    # end
-    # @survey.merge_survey_answer(@survey_answer)
-    # @page_title = "CBCL - Ret Svar: " << @survey.get_title
-    # render :layout => 'survey', :template => 'survey_answers/show'
   end
 
   def print
@@ -142,7 +127,7 @@ class SurveyAnswersController < ApplicationController
     save_draft_url = "/survey_answers/save_draft/#{@journal_entry.id}"
     @journal = @journal_entry.journal
     
-    logger.info "dynamic json: current_user: #{current_user.inspect} entry: #{@journal_entry.inspect}  journal: #{@journal.inspect}"
+    logger.info "dynamic json: current_user: #{current_user.inspect} center: #{@journal.center.get_title} entry: #{@journal_entry.inspect}  journal: #{@journal.inspect}"
     json = {}
     json[:logged_in] = !current_user.nil?
     json[:login_user] = current_user && current_user.login_user
@@ -327,7 +312,10 @@ class SurveyAnswersController < ApplicationController
     entry.survey_answer.age = age
     entry.answered_at = created
     entry.save
-  
+    
+    entry.survey_answer.created_at = created
+    entry.survey_answer.save
+    
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(entry.survey_answer_id)
     if csv_score_rapport
       csv_score_rapport.age = age if csv_score_rapport

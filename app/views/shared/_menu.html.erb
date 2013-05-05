@@ -176,11 +176,11 @@
 		<%= link_to t('menu.manual'), manual_url, :class => "new_window", :onclick => "window.open(\"#{manual_url}\"); return false;",
 		:title => t('menu.manual') %>
 		<%= link_to t('menu.show_faq'), faqs_path, :title => t('menu.faq_alt') %>
-		<% if shadow_user? %>
-			<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
-		<% else %>
+		<%# if shadow_user? %>
+			<%# link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
+		<%# else %>
 			<%= link_to t('logout'), logout_path, :title => t('logout_alt') %>
-		<% end %>
+		<%# end %>
 	</div>
 
 </div>

@@ -43,9 +43,12 @@ class ScoreReportPresenter
 
 
     answer_date = ["Besvarelsesdato"]
-    answer_date = survey_answers.inject(["Besvarelsesdato"]) do |col, sa|
+    answer_date = score_rapports.inject(["Besvarelsesdato"]) do |col, sc|
+      #  survey_answers.inject(["Besvarelsesdato"]) do |col, sa|
       report = ScoreReport.new
-      report.result = sa.created_at.strftime('%-d-%-m-%Y')
+      created = sc.created_at
+      # created = sa.csv_survey_answer.created_at if sa.csv_survey_answer
+      report.result = created.strftime('%-d-%-m-%Y')
       report.percentile = "info"
       col << report
     end

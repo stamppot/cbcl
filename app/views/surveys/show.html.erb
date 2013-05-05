@@ -32,7 +32,7 @@
 		<br/>
 		<%= render :partial => "surveys/question", :collection => @survey.questions %>
 
-		<div id="submit_button" style="display:none; padding-top: 15px;">
+		<div id="submit_button" style="display:normal; padding-top: 15px;">
 			<a class='button' style="padding-top: 5px;" id='send_form'>
 				<span onclick="submitPressed = true; document.forms[0].submit(); $('send_form').hide(); $('save_draft').hide(); $('sending_form').show();">Send svar</span>
 			</a>
@@ -130,10 +130,10 @@ function onReceivedDynamicData(data) {
         hideSpinner();
 
         if(!data.login_user) {
-   	      	$('#centertitle').html(data.center_title);
 	      	$('#journal_code').html(data.journal_code);
         	$('#survey_fast_input').show();
         }
+      	$('#centertitle').html(data.center_title);
     	$('#journal_name').html(data.journal_info);
       	$('#journal_birthdate').html(data.birthdate);
 	    $('#journal_info').show();
