@@ -22,7 +22,7 @@ class JournalEntry < ActiveRecord::Base
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
 
   def self.follow_ups
-    [["Diagnose", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3]]
+    [["Diagnose", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3], ["Afslutning", 4]]
   end
 
   def get_follow_up

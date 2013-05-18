@@ -61,12 +61,12 @@ class ImportJournals # AddJournalsFromCsv
 
 			puts "! #{journal.title}: Invalid: #{journal.inspect}" unless journal.person_info
 				
-			if journal.person_info.valid? && do_save
+			if journal.person_info && journal.person_info.valid? && do_save
 				journal.person_info.save
 				puts "#{journal.person_info.inspect}"
 			end
 
-			if !journal.person_info.valid?
+			if journal.person_info && !journal.person_info.valid?
 				puts "person_info: #{journal.person_info.errors.inspect}"
 				puts "journal: #{journal.errors.inspect}"
 			end
@@ -85,6 +85,7 @@ class ImportJournals # AddJournalsFromCsv
 			elsif !journal.journal_entries.any?
 				journal.create_journal_entries(surveys) if do_save
 			end
+		end
 	end
 
 	def get_date(d)
@@ -117,5 +118,4 @@ class ImportJournals # AddJournalsFromCsv
 			return Date.new(y,m,d)
 		end
 	end
-
 end

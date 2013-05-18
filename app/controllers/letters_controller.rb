@@ -25,6 +25,7 @@ class LettersController < ApplicationController
     end
     @groups = @groups.map {|g| [g.title, g.id] } if @groups.any?
     @groups.unshift ["Alle grupper", nil] if current_user.admin? && !params[:id] && !Letter.default_letters_exist?
+    @follow_ups = JournalEntry.follow_ups
   end
 
   def edit
@@ -32,6 +33,7 @@ class LettersController < ApplicationController
     @role_types = Survey.surveytypes
     @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
     @groups.unshift ["Alle grupper", nil] if current_user.admin?
+    @follow_ups = JournalEntry.follow_ups
   end
 
   def create
@@ -39,8 +41,7 @@ class LettersController < ApplicationController
     @group = Group.find_by_id params[:letter][:group_id]
     @letter.group = @group
     
-    
-    existing_letter = @group.letters.select {|l| l.group_id == @group.id && l.surveytype == params[:letter][:surveytype] }
+    existing_letter = @group.letters.select {|l| l.group_id == @group.id && l.surveytype == params[:letter][:surveytype] && l.follow_up == params[:letter][:follow_up] }
     if existing_letter.any?
       flash[:error] = "Gruppen '#{@group.title}' har allerede et brev af typen '#{Survey.get_survey_type(@letter.surveytype)}'. V&aelig;lg en anden gruppe"
     end
@@ -52,6 +53,8 @@ class LettersController < ApplicationController
       @group = [@letter.group.title, @letter.group.id]
       @role_types = Survey.surveytypes
       @groups = [@group]
+      # @letter.follow_up = params[:letter][:follow_up].blank? && -1 || params[:letter][:follow_up].to_i
+      @follow_ups = JournalEntry.follow_ups
       render :new, :params => params and return
     end
   end
@@ -80,8 +83,8 @@ class LettersController < ApplicationController
     entry = JournalEntry.find(params[:id], :include => :login_user)
     @login_user = entry.login_user
     # find letter for team, center, system
-    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id])
-    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless @letter
+    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.parent_id, entry.follow_up])
+    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.center_id, entry.follow_up]) unless @letter
     @letter = Letter.find_default(entry.survey.surveytype) unless @letter
     if @letter
       @letter.insert_text_variables(entry)
@@ -98,8 +101,8 @@ class LettersController < ApplicationController
     # find letter for team, center, system
 		entry_letters = []
 		entries.each do |entry|
-    	letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id])
-    	letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
+      @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.parent_id, entry.follow_up])
+      @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.center_id, entry.follow_up]) unless @letter
     	letter = Letter.find_default(entry.survey.surveytype) unless letter
 			entry_letters << [entry, letter]
 		end

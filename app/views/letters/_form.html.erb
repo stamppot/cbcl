@@ -13,6 +13,11 @@
 			<td class="t_i"><%= select :letter, :group_id, @groups %></td>
 		</tr>
 		<tr>
+			<td class="t_i"><label for="letter_follow_up">Opfølgning:</label></td>
+			<% follow_up = @letter.follow_up || -1 %>
+			<td class="t_i"><%= select :letter, :follow_up, @follow_ups, :include_blank => true %></td>
+		</tr>
+		<tr>
 			<td class="t_i">Indhold:</td>
 			<td class="t"><%= tinymce(:letter, :letter) %></td>
 		</tr>

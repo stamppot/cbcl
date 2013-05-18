@@ -5,8 +5,13 @@ class Letter < ActiveRecord::Base
   validates_presence_of :letter
   validates_presence_of :name
   validates_presence_of :surveytype
-  validates_uniqueness_of :surveytype, :scope => :group_id, :message => "Der findes allerede et brev for denne skematype for gruppen . Har du valgt den rigtige gruppe?"
-  
+  validates_uniqueness_of :surveytype, :scope => [:group_id, :follow_up], :message => "Der findes allerede et brev for denne skematype og opfølning for gruppen. Har du valgt den rigtige gruppe?"
+
+  def get_follow_up
+    self.follow_up ||= 0
+    JournalEntry.follow_ups[follow_up].first
+  end
+
   def insert_text_variables(journal_entry)
     self.letter.gsub!('{{login}}', journal_entry.login_user.login)
     self.letter.gsub!('{{brugernavn}}', journal_entry.login_user.login)

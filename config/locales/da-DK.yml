@@ -369,6 +369,7 @@ da-DK:
         :letter: 
           :group: Gruppe
           :surveytype: Skematype
+          :letter: Indhold
         :team: 
           :title: Navn
           :code: Teamkode
@@ -435,8 +436,10 @@ da-DK:
                 :blank: skal angives.
           :letter: 
             :attributes: 
+              :letter:
+                :blank: er tomt
               :surveytype: 
-                :taken: Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?
+                :taken: Der findes allerede et brev for denne skematype og opfølning for gruppen. Har du valgt den rigtige gruppe?
           :center: 
             :attributes: 
               :code: 
