@@ -3,19 +3,38 @@
 <span class="h3">Brevformularer</span>
 </p>
 
+<form id="filter" action="/letters/" method="get">
+<table id="searchfilter">
+	<tr>
+		<td>Filtrer søgning: </td>
+		<td><%= select(:group, :id, @groups.map {|t| [t.title, t.id]}, {:include_blank => "Center/team"}) %></td>
+		<td><%= select(:survey, :surveytype, @surveys.map {|s| [Survey.get_survey_type(s.surveytype), s.surveytype]}, :include_blank => 'Skema') %></td>
+		<td><%= select(:follow_up, nil, @follow_ups, :include_blank => 'Opfølgning') %></td>
+		<td><input type="submit" name="filter" value="Filtrer" class="button"></td>
+		<td><input type="submit" name="remove_filter" value="Vis alle" class="button"></td>
+	<tr>
+</table>
+</form>
+
+<% if @letters.blank? %>
+	<h3><%= "Ingen breve fundet, tilpas dit filter" %></h3>
+<% else %>
+
 <table id="letter_list" class="sortable list" class="letters">
   <tr>
 		<th class="wide" title=<%= t('name') %>><%= t('name') %></th>
-		<th title="<%= t('group') %>"><%= t('group') %></th>
 		<th>Brev til</th>
+		<th>Opfølgning</th>
+		<th title="<%= t('group') %>"><%= t('group') %></th>
 		<th class="nosort" style="width: 75px;"><%= t('action') %></th>
   </tr>
 
 <% @letters.each do |letter| %>
   <tr>
 		<td><a href="/letters/<%= letter.id %>"><%= letter.name %></a><%# link_to letter.name, letter_path(letter) %></td>
-		<td><%= letter.group.nil? && "Alle centre" || letter.group.title %></td>
 		<td><%= t("roles.#{letter.surveytype}") %></td>
+		<td><%= letter.get_follow_up %></td>
+		<td><%= letter.group.nil? && "Alle centre" || letter.group.title %></td>
 	    <td>
 	    	<a title="Ret brev" href="/letters/<%= letter.id %>/edit"><img border="0" title="Ret brev" src="/images/icon_edit_mailbox.gif" class="icon" alt="Icon_edit_mailbox"></a>
 	    	<a onclick="window.open(this.href,'new_window, height=800,width=700','new_window, height=800,width=700');return false;" href="/letters/mail_merge/1"><img border="0" title="Hent brevskabelon" src="/images/letter_forward.png" class="icon" alt="Letter_forward"></a>
@@ -26,7 +45,7 @@
   </tr>
 <% end %>
 </table>
-
+<% end %>
 <br />
 
 <%= link_button t('letter.new'), new_letter_path, 'letter_new' %>

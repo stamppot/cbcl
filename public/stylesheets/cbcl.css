@@ -1197,6 +1197,10 @@ li.tab a.active {
 	padding-left: 20px;
 }
 
+table#searchfilter td {
+	border: 0;
+}
+
 @media print {  
     body { background-color: #FFF; }
 		body, p, ol, ul, td { font-size: 9px; }

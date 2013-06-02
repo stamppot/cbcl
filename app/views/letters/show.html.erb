@@ -17,6 +17,10 @@
 		<td class="t_i"><%= t("roles.#{@letter.surveytype}") %></td>
 	</tr>
 	<tr>
+		<td class="t_i">Opfoelgning:</td>
+		<td class="t_i"><%= @letter.get_follow_up %></td>
+	</tr>
+	<tr>
 		<td class="t_i">Indhold:</td>
 		<td><%= @letter.letter %></td>
 	</tr>

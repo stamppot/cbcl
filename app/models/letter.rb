@@ -9,7 +9,7 @@ class Letter < ActiveRecord::Base
 
   def get_follow_up
     self.follow_up ||= 0
-    JournalEntry.follow_ups[follow_up].first
+    JournalEntry.follow_ups[self.follow_up].first
   end
 
   def insert_text_variables(journal_entry)
@@ -48,5 +48,26 @@ class Letter < ActiveRecord::Base
   
   def surveytype_exist
     "Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?"
+  end
+
+  def self.filter(options = {})
+    query = [""]
+    if options[:survey] && !options[:survey][:surveytype].blank?
+      # puts "filter letter surveytype #{options[:survey][:surveytype]}"
+      query.first << (!query.first.blank? ? "&& surveytype = ? " : "surveytype = ? ")
+      query << options[:survey][:surveytype]
+    end
+    if options[:group] &&  !options[:group][:id].blank?
+      # puts "filter letter group_id #{options[:group][:id]}"
+      query.first << (!query.first.blank? ? "&& group_id = ? " : "group_id = ? ")
+      query << options[:group][:id]
+    end
+    if options[:follow_up] && !options[:follow_up].first.blank?
+      # puts "filter letter follow_up #{options[:follow_up]}"
+      query.first << (!query.first.blank? ? "&& follow_up = ? " : "follow_up = ? ")
+      query << options[:follow_up].first.first
+    end
+    # puts "query options: #{query.inspect}"
+    @letters = Letter.all(:conditions => query)
   end
 end

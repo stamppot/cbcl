@@ -3,10 +3,24 @@ class LettersController < ApplicationController
   
   def index
     if current_user.admin?
-      @letters = Letter.all(:include => :group)
+      # vis ikke alle breve til admin, kun i dennes center
+      @groups = [current_user.centers.first] + current_user.centers.first.children.inject([]) { |col, team| col << team if team.instance_of?(Team); col }
     else
-      @letters = current_user.center_and_teams.map { |g| g.letters }.compact.flatten
+      @groups = current_user.center_and_teams
     end
+    @surveys = []
+    @letters = []
+    if !params[:remove_filter].blank?
+      @group = Group.find(params[:group][:id]) if params[:group] && !params[:group][:id].blank?
+      @surveys = Survey.find_by_surveytype(params[:survey][:surveytype]) if params[:survey] && !params[:survey][:surveytype].blank?
+      @letters = @groups.map {|g| g.letters }.compact.flatten
+    else
+      @surveys = Survey.find([2,3,4,5])
+      @letters = Letter.filter(params)
+    end      
+    @group = Group.find(params[:group][:id]) if params[:group] && !params[:group][:id].blank?
+    @survey = Survey.find_by_surveytype(params[:survey][:surveytype]) if params[:survey]
+    @follow_ups = JournalEntry.follow_ups
   end
 
   def show
