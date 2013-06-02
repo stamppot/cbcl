@@ -88,7 +88,7 @@
 				</span>
 			</div>
 		<% end %>
-		<style>
+		<style type="text/css">
 			#search_help {
 				cursor: hand;
 				position: absolute;
@@ -160,7 +160,7 @@
 
 
 	<% if current_user.perms[:layout_show_letters] %>
-	<div id="settings_menu" class="menu_section">
+	<div id="letters_menu" class="menu_section">
 		<div class="menu_title"><%= 'Formularer' %></div>
 		<%# if current_user.perms[:layout_show_settings_menu] %>
 			<%# link_to t('menu.nationalities'), nationalities_path, :title => t('menu.nationalities') %>

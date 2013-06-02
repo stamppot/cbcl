@@ -211,7 +211,7 @@ var calendarConfig = {
     minDate: new Date(1990,1,1)
 }
 
-console.log(calendarConfig.minDate);
+//console.log(calendarConfig.minDate);
 calendarConfig.maxDate = new Date(calendarConfig.minDate.getTime() + (364 * 24 * 60 * 60 * 1000));
 
 
@@ -252,5 +252,3 @@ function getFirstDayofMonth(year, month) {
     day = new Date(year, month, 0).getDay();
     return day;
 }
-
-

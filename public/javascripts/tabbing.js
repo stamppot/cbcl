@@ -188,7 +188,8 @@ function tabNext(valid, input) {
 			nextelem.select();
 		}
 		else
-			nextelem.focus();
+			if((typeof nextelem) !== 'undefined')
+				nextelem.focus();
 	} 
 	else {
 		// alert("not valid: " + input.id);

@@ -6,8 +6,8 @@
 <p><br></p>
 
 <%- if current_user.access?(:faq_show) %>
-	<div id="journal_help">
-		<a href="/journals/" title="Journaler" alt="Journaler"><img src="/images/journal_64.png" border=0 align="middle" />
+	<div id="journals_help">
+		<a href="/journals/" title="Journaler"><img src="/images/journal_64.png" alt="Journaler" border=0 align="middle" />
 		<span class="h3">Journaler</span></a><p>Patienter kan oprettes i menuen Journaler. Her kan du også søge på eksisterende patienter. Søg enten på navn, ID, eller cprnr.</p>
 	</div>
 <% end %>
@@ -16,7 +16,7 @@
 
 <%- if current_user.access?(:team_new_edit_delete) %>
 	<div id="team_help">
-		<a href="/teams/" title="Teams" alt="Teams"><img src="/images/users_64.png" border=0 align="middle" />
+		<a href="/teams/" title="Teams"><img src="/images/users_64.png" alt="Teams" border=0 align="middle" />
 		<span class="h3">Teams</span></a><p>Du kan oprette teams under menupunktet 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
 	</div>
 <% end %>
@@ -24,7 +24,7 @@
 
 <%- if current_user.access?(:faq_admin) %>
 	<div id="center_help">
-		<a href="/centers/" title="Centre" alt="Centre"><span class="h3">Centre</span></a>
+		<a href="/centers/" title="Centre"><span class="h3">Centre</span></a>
 		<p>Du kan oprette centre og teams under menupunkterne 'Centre' og 'Teams'. Herunder kan du se yderligere information, fx. hvilke brugere og journaler, der er tilknyttet.</p>
 	</div>
 

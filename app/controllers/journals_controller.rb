@@ -42,6 +42,14 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
 
+    # increment click if it's not been used in the last 5 minutes
+    journal_click = JournalClickCounter.find_by_user_id_and_journal_id(current_user.id, @group.id) || JournalClickCounter.create(:user_id => current_user.id, :journal_id => @group.id)
+    if journal_click.updated_at < 5.minutes.ago
+      journal_click.clicks += 1
+      journal_click.save
+    end
+    # if(journal_click.updated_at)
+
 		@answered_entries = @group.answered_entries
 		@not_answered_entries = @group.not_answered_entries
   end

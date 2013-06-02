@@ -12,7 +12,7 @@ class Journal < Group
   has_many :survey_answers
   has_many :csv_answers
   has_many :score_rapports, :through => :survey_answers
-  
+  has_many :journal_click_counters # has one per user  
   
   has_many :answered_entries_by_personnel,
            :class_name => 'JournalEntry',
@@ -76,6 +76,7 @@ class Journal < Group
      indexes :title, :sortable => true
      indexes :code, :sortable => true
      indexes person_info.cpr, :as => :person_info_cpr
+     indexes person_info.alt_id, :as => :person_info_alt_id
 		 # indexes center_id
      # attributes
      has parent_id, center_id, created_at, updated_at

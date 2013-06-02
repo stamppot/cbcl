@@ -67,10 +67,11 @@ Event.observe(window, 'load', function() {
 	}
 	else {
 	<% if shadow_user? %>
-		elem.innerHTML = decodeURIComponent(user_name.replace(/\+/g, " ")) + <%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>
+		elem.innerHTML = decodeURIComponent(user_name.replace(/\+/g, " ")); + "<%= link_to img_tag_html4('door.png', :border => 0, :class => 'icon', :alt => t('logout_shadow'), :title => t('logout_shadow')), shadow_logout_path %>"
 	<% end %>
 	}
 });
+
 </script>
 </body>
 </html>
