@@ -8,8 +8,7 @@ class Letter < ActiveRecord::Base
   validates_uniqueness_of :surveytype, :scope => [:group_id, :follow_up], :message => "Der findes allerede et brev for denne skematype og opfølning for gruppen. Har du valgt den rigtige gruppe?"
 
   def get_follow_up
-    self.follow_up ||= 0
-    JournalEntry.follow_ups[self.follow_up].first
+    JournalEntry.follow_ups[self.follow_up || 0].first
   end
 
   def insert_text_variables(journal_entry)
@@ -53,8 +52,8 @@ class Letter < ActiveRecord::Base
   def self.find_by_priority(entry)
     letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.parent_id, entry.follow_up])
     letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.center_id, entry.follow_up]) unless letter
-    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id]) unless letter
-    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
+    # letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id]) unless letter
+    # letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
     letter = Letter.find_default(entry.survey.surveytype) unless letter
     letter
   end
