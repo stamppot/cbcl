@@ -50,6 +50,15 @@ class Letter < ActiveRecord::Base
     "Der findes allerede et brev for denne skematype. Har du valgt den rigtige gruppe?"
   end
 
+  def self.find_by_priority(entry)
+    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.parent_id, entry.follow_up])
+    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.center_id, entry.follow_up]) unless letter
+    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id]) unless letter
+    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
+    letter = Letter.find_default(entry.survey.surveytype) unless letter
+    letter
+  end
+
   def self.filter(options = {})
     query = [""]
     if options[:survey] && !options[:survey][:surveytype].blank?

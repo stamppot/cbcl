@@ -97,15 +97,11 @@ class LettersController < ApplicationController
     entry = JournalEntry.find(params[:id], :include => :login_user)
     @login_user = entry.login_user
     # find letter for team, center, system
-    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.parent_id, entry.follow_up])
-    @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.center_id, entry.follow_up]) unless @letter
-    @letter = Letter.find_default(entry.survey.surveytype) unless @letter
-    if @letter
-      @letter.insert_text_variables(entry)
-      puts "Letter: #{@letter.inspect}"
-    else
-      render :text => "Brugernavn: #{entry.login_user.login}<p>Password: #{entry.password}" and return
+    @letter = Letter.find_by_priority(entry)
+    if @letter.nil?
+      render :text => "Intet brev fundet. Brugernavn: #{entry.login_user.login}<p>Password: #{entry.password}" and return
     end
+    @letter.insert_text_variables(entry)
     render :layout => 'letters'
   end
   
@@ -114,11 +110,9 @@ class LettersController < ApplicationController
 		entries = journal.not_answered_entries
     # find letter for team, center, system
 		entry_letters = []
-		entries.each do |entry|
-      @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.parent_id, entry.follow_up])
-      @letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? && follow_up = ?', entry.journal.center_id, entry.follow_up]) unless @letter
-    	letter = Letter.find_default(entry.survey.surveytype) unless letter
-			entry_letters << [entry, letter]
+		entry_letters = entries.map do |entry|
+      letter = Letter.find_by_priority(entry)
+			[entry, letter]
 		end
 		@letters = entry_letters.map do |pair|
 			letter = pair.last
