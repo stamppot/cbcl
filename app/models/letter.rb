@@ -59,23 +59,29 @@ class Letter < ActiveRecord::Base
   end
 
   def self.filter(options = {})
-    query = [""]
-    if options[:survey] && !options[:survey][:surveytype].blank?
+    query = ""
+    query_params = []
+    surveytype = options[:survey] && options[:survey][:surveytype]
+    if !surveytype.blank?
       # puts "filter letter surveytype #{options[:survey][:surveytype]}"
-      query.first << (!query.first.blank? ? "&& surveytype = ? " : "surveytype = ? ")
-      query << options[:survey][:surveytype]
+      query << "&& " if !query.blank?
+      query << "surveytype = ? "
+      query_params << surveytype
     end
-    if options[:group] &&  !options[:group][:id].blank?
+    group = options[:group][:id]
+    if !group.blank?
       # puts "filter letter group_id #{options[:group][:id]}"
-      query.first << (!query.first.blank? ? "&& group_id = ? " : "group_id = ? ")
-      query << options[:group][:id]
+      query << "&& " if !query.blank?
+      query << "group_id = ? "
+      query_params << group
     end
-    if options[:follow_up] && !options[:follow_up].first.blank?
+    follow_up = options[:follow_up]
+    if !follow_up.blank?
       # puts "filter letter follow_up #{options[:follow_up]}"
-      query.first << (!query.first.blank? ? "&& follow_up = ? " : "follow_up = ? ")
-      query << options[:follow_up].first.first
+      query << "&& " if !query.blank?
+      query << "follow_up = ? "
+      query_params << follow_up
     end
-    # puts "query options: #{query.inspect}"
-    @letters = Letter.all(:conditions => query)
+    @letters = Letter.all(:conditions => [query, query_params])
   end
 end
