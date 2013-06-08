@@ -19,7 +19,7 @@ class Center < Group
   has_many :survey_answers           
 	has_many :center_settings
 	
-  validates_format_of :code, :with => /[0-9][0-9][0-9][0-9]/ #:is => 4 #, :message => "skal være 4 cifre"
+  validates_format_of :code, :with => /\A[0-9][0-9][0-9][0-9]\z/ #:is => 4 #, :message => "skal være 4 cifre"
   validates_uniqueness_of :code #, :message => "skal være unik"
   
   named_scope :search_title_or_code, lambda { |phrase| { :conditions => ["groups.title LIKE ? OR groups.code LIKE ?", phrase = "%" + phrase.sub(/\=$/, "") + "%", phrase] } }
