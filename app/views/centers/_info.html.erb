@@ -44,11 +44,9 @@
 			JournalHandlinger:
 		</td>
 		<td class="t">
-			<span class="action wide actions">
-				<a title="Flyt journaler" href="/journals/select_move/<%= @group.id %>"><img border="0" title="Flyt journaler" src="/images/document_move_24.png?" class="icon" alt="Flyt journaler"></a>
-			</span>
-			<a href="/reminders/<%= @group.id %>"><img border="0" title="Status besvarelser" src="/images/traffic-light_24.png" class="icon" alt="Status besvarelser"></a>
-			<a title="Eksporter brevfletningsdata" href="/journals/export_mails/<%= @group.id %>.csv"><img border="0" title="Eksporter brevfletningsdata" src="/images/documents_email_24.png" class="icon" alt="Documents_email_24"></a>
+			<a class="bigbutton" title="Flyt journaler" href="/journals/select_move/<%= @group.id %>"><span class="move_journals">Flyt journaler</span></a>
+			<a class="bigbutton" href="/reminders/<%= @group.id %>" title="Status besvarelser"><span class="reminders">Status besvarelser</span></a>
+			<a class="bigbutton" title="Eksporter brevfletningsdata" href="/journals/export_mails/<%= @group.id %>.csv" title="Eksporter brevfletningsdata"><span class="lettermix">Hent brevfletninger</span></a>
 		</td>
 	</div>
 	</tr>

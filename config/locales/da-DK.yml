@@ -163,7 +163,7 @@ da-DK:
       :entry_status: Eksporter til Excel
       :data: "Dataudtræk"
       :logins: Eksporter logins
-      :logins_short: "logins-udtræk"
+      :logins_short: "Logins-udtræk"
       :journal_letter_data: Eksporter brevfletningsdata
     user_id: ID
     next: "Næste"

@@ -1201,6 +1201,48 @@ table#searchfilter td {
 	border: 0;
 }
 
+a.bigbutton, input.bigbutton {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	color:#555555;
+	font-weight:bold;
+	/*line-height:36px;*/
+	/*margin-bottom:10px;*/
+	text-decoration:none;
+	text-indent:10px;
+	padding: 6px 5px 7px 7px;
+}
+a:hover.bigbutton {
+	/*padding: 13px 5px 3px 10px;*/
+	color:#0066CC;
+	background-color: #ddd;
+	border: 1px solid #000;
+}
+a:active.bigbutton {
+	background-color: #aaa;
+	border: 1px solid #000;
+}
+
+.bigbutton span {
+	padding-top: 2px;
+	padding-bottom: 9px;
+	padding-left: 31px;
+}
+.bigbutton .move_journals {
+	background: url("/images/document_move_24.png") 0px 0px no-repeat;
+}
+.bigbutton .reminders {
+	background: url("/images/traffic-light_24.png") 0px 0px no-repeat;
+}
+.bigbutton .lettermix {
+	background: url("/images/documents_email_24.png") 0px 0px no-repeat;
+}
+.bigbutton .export_logins {
+	background: url("/images/page_excel.png") 0px 0px no-repeat;
+}
+
 @media print {  
     body { background-color: #FFF; }
 		body, p, ol, ul, td { font-size: 9px; }
