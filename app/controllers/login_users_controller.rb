@@ -1,6 +1,7 @@
 class LoginUsersController < ApplicationController # < ActiveRbac::ComponentController
   helper RbacHelper
 
+  attr_protected :login_user
   # We force users to use POST on the state changing actions.
   verify :method       => "post",
          :only         => [ :create, :update, :destroy ],
@@ -53,41 +54,6 @@ class LoginUsersController < ApplicationController # < ActiveRbac::ComponentCont
     @page_title = "Ny login-bruger for journal #{@group.title}"
   end
 
-  # Creates a new user. +create+ is only accessible via POST and renders
-  # the same form as #new on validation errors.
-  # def create
-  #   @user = LoginUser.new(params[:user])
-  #   @entry = JournalEntry.find(params[:id])
-  #   @group = @entry.journal
-  #   @entry.login_user = @user
-  #   @entry.awaiting_answer
-  #   # in case of error, roles and groups must be set to render form again
-  #   params[:user][:roles] = [] if params[:user][:roles].nil?
-  #   params[:user][:groups] = [] if params[:user][:groups].nil?
-  #   @user.password = params.delete(:password)
-  #   @user.password_confirmation = params.delete(:password_confirmation)
-  # 
-  #   @groups = Group.find(params[:user].delete(:groups)) # ].collect { |i| Group.find(i) }
-  #   
-  #   @roles = params[:user][:roles].collect { |i| Role.find(i) }
-  #   @user.roles = @roles
-  #   @user.groups = @groups << @group
-  #   @user.password_hash_type = "md5"
-  #   
-  #    # assign properties to user
-  #    if @user.valid? and @entry.save and @user.save
-  #      flash[:notice] = 'Login-bruger blev oprettet.'
-  #      redirect_to login_user_path(@user)
-  #    else
-  #      flash[:errors] = "Login-brugeren kunne ikke oprettes."
-  #      render :action => :new, :id => @group, :surveytype => @surveytype
-  #    end
-  # 
-  # rescue ActiveRecord::RecordNotFound
-  #   flash[:error] = 'You sent an invalid request.'
-  # #  redirect_to :action => :list
-  # end
-
   # Loads the user identified by the :id parameter from the url fragment from
   # the database and displays an edit form with the user.
   def edit
@@ -120,6 +86,7 @@ class LoginUsersController < ApplicationController # < ActiveRbac::ComponentCont
     
     # Bulk-Assign the other attributes from the form.
     if @user.valid? and @user.update_attributes(params[:user])
+      @user.login_user = 1
       @user.save
       flash[:notice] = 'Brugeren er opdateret.'
       redirect_to :action => :show, :id => @user
