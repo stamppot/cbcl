@@ -10,14 +10,12 @@ class ExportFilesController < ApplicationController
   end
 
   def show
-    @export_file = ExportFile.find(params[:id])
+    @export_file = ExportFile.find(params[:id].to_i)
   end
 
   def download
-    @file = ExportFile.find(params[:id])
+    @file = ExportFile.find(params[:id].to_i)
     response.headers["Content-Type"] = @file.content_type
-    
-    puts "download: #{@file.filename}"
     
     send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
     :disposition => 'attachment',
