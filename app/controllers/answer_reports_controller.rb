@@ -3,8 +3,10 @@ class AnswerReportsController < ApplicationController
   layout 'no_menu'
   
   def show
-    redirect_to journals(params[:journal_id]) and return if params[:answers].nil?
-    
+    if params[:answers].nil?if params[:answers].nil?
+      journal_id = params[:journal_id].to_i
+      redirect_to journals(journal_id) and return 
+    end 
     score_report = ScoreReportPresenter.new.build(params[:answers], params[:journal_id])
     @journal = score_report.journal
     @titles  = score_report.titles #.map {|t| t.gsub("nn", "<br/>")}
