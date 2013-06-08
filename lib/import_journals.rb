@@ -24,7 +24,7 @@ class ImportJournals # AddJournalsFromCsv
 			parent_name = row["Mnavn"]
 			parent_mail = row["Email"]
 			sex = row["gender"]
-			sex = sex == "d" || sex == "M" || sex == "1" && 1 || 2
+			sex = sex == "d" || sex == "M" || sex == "1" || sex == "Pige" && 1 || 2
 
 			puts "#{journal_name}: #{alt_id} #{b}"
 			# next
@@ -109,6 +109,11 @@ class ImportJournals # AddJournalsFromCsv
 			m = d[5..6].to_i
 			d = d[8..9].to_i
 			puts "y-m-d #{y}-#{m}-#{d}"
+			return Date.new(y,m,d)
+		elsif d.length == 10 && d[4] == "-" # yyyy-mm-dd
+			y = d[0..3].to_i
+			m = d[5..6].to_i
+			d = d[8..9].to_i
 			return Date.new(y,m,d)
 		else 	  # dd-mm-yyyy 
 			y = d[6..9].to_i

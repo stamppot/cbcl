@@ -25,6 +25,7 @@ class LettersController < ApplicationController
 
   def show
     @letter = Letter.find(params[:id])
+    @page_title = @letter.name
   end
 
   def new
@@ -47,6 +48,7 @@ class LettersController < ApplicationController
     @role_types = Survey.surveytypes
     @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
     @groups.unshift ["Alle grupper", nil] if current_user.admin?
+    @page_title = @letter.name
     @follow_ups = JournalEntry.follow_ups
   end
 
@@ -102,6 +104,7 @@ class LettersController < ApplicationController
       render :text => "Intet brev fundet. Brugernavn: #{entry.login_user.login}<p>Password: #{entry.password}" and return
     end
     @letter.insert_text_variables(entry)
+    @page_title = @letter.name
     render :layout => 'letters'
   end
   

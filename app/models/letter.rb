@@ -8,7 +8,8 @@ class Letter < ActiveRecord::Base
   validates_uniqueness_of :surveytype, :scope => [:group_id, :follow_up], :message => "Der findes allerede et brev for denne skematype og opfølning for gruppen. Har du valgt den rigtige gruppe?"
 
   def get_follow_up
-    JournalEntry.follow_ups[self.follow_up || 0].first
+    self.follow_up ||= 0
+    JournalEntry.follow_ups[self.follow_up].first
   end
 
   def insert_text_variables(journal_entry)
@@ -50,38 +51,49 @@ class Letter < ActiveRecord::Base
   end
 
   def self.find_by_priority(entry)
-    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.parent_id, entry.follow_up])
-    letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ? and (follow_up = ? or follow_up is null)', entry.journal.center_id, entry.follow_up]) unless letter
-    # letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.parent_id]) unless letter
-    # letter = Letter.find_by_surveytype(entry.survey.surveytype, :conditions => ['group_id = ?', entry.journal.center_id]) unless letter
-    letter = Letter.find_default(entry.survey.surveytype) unless letter
+    st = entry.survey.surveytype
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up = ?', entry.journal.parent_id, entry.follow_up])
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up is null', entry.journal.parent_id]) unless letter
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up = ?', entry.journal.center_id, entry.follow_up]) unless letter
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up is null', entry.journal.center_id]) unless letter
+    letter = Letter.find_default(st) unless letter
     letter
   end
 
-  def self.filter(options = {})
-    query = ""
-    query_params = []
-    surveytype = options[:survey] && options[:survey][:surveytype]
-    if !surveytype.blank?
+  def self.get_conditions(surveytype = nil, group_id = nil, follow_up = nil, include_null = false)
+    query = [""]
+    if surveytype
       # puts "filter letter surveytype #{options[:survey][:surveytype]}"
-      query << "&& " if !query.blank?
-      query << "surveytype = ? "
-      query_params << surveytype
+      s_query = (!query.first.blank? ? "&& surveytype = ? " : "surveytype = ? ")
+      s_query << "or surveytype is null " if include_null
+      query.first << s_query
+      query << surveytype
     end
-    group = options[:group][:id]
-    if !group.blank?
+    if group_id
       # puts "filter letter group_id #{options[:group][:id]}"
-      query << "&& " if !query.blank?
-      query << "group_id = ? "
-      query_params << group
+      g_query = (!query.first.blank? ? "&& group_id = ? " : "group_id = ? ")
+      query.first << g_query
+      query << group_id
     end
-    follow_up = options[:follow_up]
-    if !follow_up.blank?
+    if follow_up
       # puts "filter letter follow_up #{options[:follow_up]}"
-      query << "&& " if !query.blank?
-      query << "follow_up = ? "
-      query_params << follow_up
+      f_query = (!query.first.blank? ? "&& follow_up = ? " : "follow_up = ? ")
+      f_query = "or follow_up is null" if include_null
+      query.first << f_query
+      query << follow_up
     end
-    @letters = Letter.all(:conditions => [query, query_params])
+    # puts "query options: #{query.inspect}"
+    {:conditions => query}
+#    @letters = Letter.all(:conditions => query)
+  end
+
+
+  def self.filter(options = {})
+    surveytype = options[:survey] && options[:survey][:surveytype]
+    group_id = options[:group] && options[:group][:id]
+    follow_up = options[:follow_up] && options[:follow_up]
+    query = [""]
+    cond = Letter.get_conditions(surveytype, group_id, follow_up)
+    @letters = Letter.all(cond)
   end
 end
