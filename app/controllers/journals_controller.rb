@@ -322,21 +322,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
   end
 
-  # # get login_users in all journals in team
-  # def export_logins
-  #   team = Group.find(params[:id])
-  #   csv = CSVHelper.new.get_login_users(team.journals)
-  #   filename = group.title.underscore + "_" + "-logins_#{timestamp = Time.now.strftime('%Y%m%d%H%M')}.csv"
-  #   puts "EXPORT LOGIENS!!!!!!!!!"
-  #   respond_to do |wants|
-  #     wants.csv { export_csv content, filename, "text/csv;charset=utf-8; encoding=utf-8" }
-  #     wants.xls { send_data content, :filename => "#{filename}.xls", :type => "text/csv;charset=utf-8; encoding=utf-8", :disposition => 'attachment' }  
-  #     # wants.csv { export_csv(csv, filename, "text/csv; charset=utf-8;") }
-  #     # wants.xls { export_csv(csv, filename, "text/csv; charset=utf-8;") }
-  #     # wants.xls { send_xsl_data 'filename' } #export_csv(csv, filename) }
-  #   end    
-  # end
-
   protected
   before_filter :user_access #, :except => [ :list, :index, :show ]
 
