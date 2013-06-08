@@ -29,7 +29,7 @@ class Variable < ActiveRecord::Base
   
   def self.survey_variables(survey_id = nil)
     if survey_id
-      @@survey_variables[survey_id]
+      @@survey_variables[survey_id.to_i]
     else
       @@survey_variables
     end
