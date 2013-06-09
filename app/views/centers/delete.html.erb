@@ -3,7 +3,11 @@
 
 <p>
 Er du sikker på at du vil slette centeret &quot;<%= @group.title %>&quot;?
-Alle brugere vil blive fjernet fra dette center og alle teams herunder vil blive slettet. <strong>Denne handling kan ikke fortrydes</strong>.
+Alle brugere vil blive fjernet fra dette center og alle teams herunder vil blive slettet.
+Abonnementer og brugsdata vil også blive slettet!!
+<br/>
+<br/>
+ <strong>Denne handling kan ikke fortrydes</strong>.
 </p>
 
 <% form_tag center_path(@group), :method => :delete do %>

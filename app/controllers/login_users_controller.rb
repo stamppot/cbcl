@@ -1,7 +1,7 @@
 class LoginUsersController < ApplicationController # < ActiveRbac::ComponentController
   helper RbacHelper
 
-  attr_protected :login_user
+  # attr_protected :login_user
   # We force users to use POST on the state changing actions.
   verify :method       => "post",
          :only         => [ :create, :update, :destroy ],

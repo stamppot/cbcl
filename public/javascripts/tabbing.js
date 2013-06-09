@@ -183,16 +183,13 @@ function binary_search(elements, input) {  // input == value to find
 function tabNext(valid, input) {
 	if(valid) {
     var nextelem = $(input.form[getIndex(input)]);
- 	  if(nextelem.value == "9") {  // when element is prefilled with 'no answer', select to ease input
+ 	  	if((typeof nextelem) !== 'undefined' && nextelem.value == "9") {  // when element is prefilled with 'no answer', select to ease input
 			nextelem.focus();  // both focus and select, then the window scrolls along
 			nextelem.select();
 		}
 		else
 			if((typeof nextelem) !== 'undefined')
 				nextelem.focus();
-	} 
-	else {
-		// alert("not valid: " + input.id);
 	}
 };
 

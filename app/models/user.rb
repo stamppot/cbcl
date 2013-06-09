@@ -431,23 +431,6 @@ class User < ActiveRecord::Base
   
   def status
     I18n.translate("user.states.#{state}")
-    # case self.state
-    # when 1: 'ubekræftet'
-    # when 2: 'bekræftet'
-    # when 3: 'låst'
-    # when 4: 'slettet'
-    # when 5: 'retrieved_password'
-    #   # The user has just retrieved his password and he must now
-    #   # it. The user cannot anything in this state but change his
-    #   # password after having logged in and retrieve another one.
-    # when 6: 'retrieved_password'
-    # when 'ubekræftet': 1
-    # when 'bekræftet': 2
-    # when 'låst': 3
-    # when 'slettet': 4
-    # when 'new_password': 5
-    # when 'retrieved_password': 6
-    # end
   end
 
   def User.stateToStatus(hash)

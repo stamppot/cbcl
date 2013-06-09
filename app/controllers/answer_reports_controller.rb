@@ -3,7 +3,7 @@ class AnswerReportsController < ApplicationController
   layout 'no_menu'
   
   def show
-    if params[:answers].nil?if params[:answers].nil?
+    if params[:answers].nil?
       journal_id = params[:journal_id].to_i
       redirect_to journals(journal_id) and return 
     end 

@@ -15,13 +15,14 @@ class ExportFilesController < ApplicationController
 
   def download
     @file = ExportFile.find(params[:id].to_i)
+    filename = @file.filename
     response.headers["Content-Type"] = @file.content_type
     
     send_file(EXPORT_FILES_STORAGE_PATH + @file.filename, 
     :disposition => 'attachment',
     :encoding => 'utf8', 
     :type => @file.content_type,
-    :filename => URI.encode(@file.filename))  
+    :filename => URI.encode(filename))  
     
   rescue
     flash[:notice] = "Filen findes ikke"

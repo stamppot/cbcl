@@ -105,6 +105,7 @@ class CentersController < ApplicationController
   def destroy
     @group = Center.find(params[:id])
     if(not params[:yes].nil?) && @group.teams.empty?
+      @group.subscriptions.each {|sub| sub.periods.each &:destroy }
       @group.destroy
       flash[:notice] = 'Centret er blevet slettet.'
       redirect_to centers_path
