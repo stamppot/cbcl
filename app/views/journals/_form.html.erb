@@ -13,7 +13,7 @@
   <dd><%= select 'person_info', 'sex', PersonInfo.sexes.to_a %></dd>
 
   <dt><label for="person_info_birthdate"><%= t('birthdate') %></label></dt>
-  <dd><%= date_select 'person_info', 'birthdate', {:start_year => Date.today.year-21, :end_year => Date.today.year, :order => [:day, :month, :year] } %></dd>
+  <dd><%= date_select 'person_info', 'birthdate', {:start_year => Date.today.year-25, :end_year => Date.today.year, :order => [:day, :month, :year] } %></dd>
 
   <dt><label for="person_info_nationality"><%= t('nationality') %></label></dt>
   <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
