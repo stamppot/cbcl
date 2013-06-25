@@ -190,6 +190,15 @@ class User < ActiveRecord::Base
     end
   end
   
+  def assigned_centers_and_teams
+    if(self.has_access?(:admin))
+      c = Center.find(1)
+      groups = [c] + c.teams
+    else
+      self.center_and_teams
+    end
+  end
+
   def center_and_teams
     if(self.has_access?(:admin))
       Group.center_and_teams

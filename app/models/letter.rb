@@ -1,14 +1,20 @@
 class Letter < ActiveRecord::Base
   belongs_to :group
-  
+  belongs_to :center
+
   validates_associated :group, :allow_blank => true
   validates_presence_of :letter
   validates_presence_of :name
   validates_presence_of :surveytype
   validates_uniqueness_of :surveytype, :scope => [:group_id, :follow_up], :message => "Der findes allerede et brev for denne skematype og opfølning for gruppen. Har du valgt den rigtige gruppe?"
 
+  named_scope :for_center, lambda { |group| { :conditions => ['center_id = ?', group.is_a?(Center) ? group.id : group], :order => 'created_at desc' } }
+  named_scope :with_cond, lambda { |cond| cond }
+
+
   def get_follow_up
-    self.follow_up ||= 0
+    # self.follow_up ||= 0
+    return "Alle" unless self.follow_up  
     JournalEntry.follow_ups[self.follow_up].first
   end
 
@@ -62,27 +68,27 @@ class Letter < ActiveRecord::Base
 
   def self.get_conditions(surveytype = nil, group_id = nil, follow_up = nil, include_null = false)
     query = [""]
-    if surveytype
+    if !surveytype.blank?
       # puts "filter letter surveytype #{options[:survey][:surveytype]}"
-      s_query = (!query.first.blank? ? "&& surveytype = ? " : "surveytype = ? ")
+      s_query = (!query.first.blank? ? "and surveytype = ? " : "surveytype = ? ")
       s_query << "or surveytype is null " if include_null
       query.first << s_query
       query << surveytype
     end
-    if group_id
+    if !group_id.blank?
       # puts "filter letter group_id #{options[:group][:id]}"
-      g_query = (!query.first.blank? ? "&& group_id = ? " : "group_id = ? ")
+      g_query = (!query.first.blank? ? "and group_id = ? " : "group_id = ? ")
       query.first << g_query
       query << group_id
     end
-    if follow_up
+    puts "follow_up: #{follow_up}"
+    if !follow_up.blank?
       # puts "filter letter follow_up #{options[:follow_up]}"
-      f_query = (!query.first.blank? ? "&& follow_up = ? " : "follow_up = ? ")
+      f_query = (!query.first.blank? ? "and follow_up = ? " : "follow_up = ? ")
       f_query = "or follow_up is null" if include_null
       query.first << f_query
       query << follow_up
     end
-    # puts "query options: #{query.inspect}"
     {:conditions => query}
 #    @letters = Letter.all(:conditions => query)
   end
@@ -91,9 +97,9 @@ class Letter < ActiveRecord::Base
   def self.filter(options = {})
     surveytype = options[:survey] && options[:survey][:surveytype]
     group_id = options[:group] && options[:group][:id]
-    follow_up = options[:follow_up] && options[:follow_up]
+    follow_up = options[:follow_up] && !options[:follow_up][:follow_up].blank? && options[:follow_up][:follow_up].to_i
     query = [""]
     cond = Letter.get_conditions(surveytype, group_id, follow_up)
-    @letters = Letter.all(cond)
+    @letters = Letter.for_center(options[:center_id]).with_cond(cond)
   end
 end

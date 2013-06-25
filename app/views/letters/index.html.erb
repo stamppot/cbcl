@@ -9,9 +9,9 @@
 		<td>Filtrer søgning: </td>
 		<td><%= select(:group, :id, @groups.map {|t| [t.title, t.id]}, {:include_blank => "Center/team"}) %></td>
 		<td><%= select(:survey, :surveytype, @surveys.map {|s| [Survey.get_survey_type(s.surveytype), s.surveytype]}, :include_blank => 'Skema') %></td>
-		<td><%= select(:follow_up, nil, @follow_ups, :include_blank => 'Opfølgning') %></td>
+		<td><%= select(:follow_up, :follow_up, @follow_ups, :include_blank => 'Opfølgning') %></td>
 		<td><input type="submit" name="filter" value="Filtrer" class="button"></td>
-		<td><input type="submit" name="remove_filter" value="Vis alle" class="button"></td>
+		<td><a href="/letters/" class="button">Vis alle</a></td>
 	<tr>
 </table>
 </form>

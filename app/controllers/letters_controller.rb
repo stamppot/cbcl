@@ -1,26 +1,25 @@
+# encoding: utf-8
+
 class LettersController < ApplicationController
   layout 'wysiwyg'
   
   def index
-    if current_user.admin?
-      # vis ikke alle breve til admin, kun i dennes center
+    if current_user.admin?  # vis ikke alle breve til admin, kun i dennes center
       @groups = [current_user.centers.first] + current_user.centers.first.children.inject([]) { |col, team| col << team if team.instance_of?(Team); col }
     else
       @groups = current_user.center_and_teams
     end
-    @surveys = []
-    @letters = []
-    if !params[:remove_filter].blank?
-      @group = Group.find(params[:group][:id]) if params[:group] && !params[:group][:id].blank?
-      @surveys = Survey.find_by_surveytype(params[:survey][:surveytype]) if params[:survey] && !params[:survey][:surveytype].blank?
-      @letters = @groups.map {|g| g.letters }.compact.flatten
-    else
-      @surveys = Survey.find([2,3,4,5])
-      @letters = Letter.filter(params)
-    end      
+    params[:center_id] = current_user.center_id || 1
+    params[:group].delete :id if params[:group] && params[:group][:id].blank?
+    params[:group] ||= {:id => current_user.center_id}
+    @letters = Letter.filter(params)
     @group = Group.find(params[:group][:id]) if params[:group] && !params[:group][:id].blank?
+    @surveys = Survey.find([2,3,4,5])
     @survey = Survey.find_by_surveytype(params[:survey][:surveytype]) if params[:survey]
     @follow_ups = JournalEntry.follow_ups
+    
+    @letters = Letter.all(:conditions => 'group_id is null') + @letters if current_user.admin?
+    @letters = Letter.all if params[:all]
   end
 
   def show
@@ -36,7 +35,7 @@ class LettersController < ApplicationController
       @role_types.delete_if {|r| used_roles.include?(r.last) }
       Group.find([params[:id]])
     else
-      current_user.center_and_teams
+      current_user.assigned_centers_and_teams
     end
     @groups = @groups.map {|g| [g.title, g.id] } if @groups.any?
     @groups.unshift ["Alle grupper", nil] if current_user.admin? && !params[:id] && !Letter.default_letters_exist?
@@ -50,13 +49,19 @@ class LettersController < ApplicationController
     @groups.unshift ["Alle grupper", nil] if current_user.admin?
     @page_title = @letter.name
     @follow_ups = JournalEntry.follow_ups
+
+    if !current_user.center_and_teams.map(&:id).include?(@letter.group_id)
+	    flash[:notice] = "Kan ikke rette andres breve!" 
+	    redirect_to letters_path and return
+    end
+    # logger.info "group_ids: #{current_user.center_and_teams.map(&:id).inspect}, letter.group: #{@letter.group_id}"
   end
 
   def create
     @letter = Letter.new(params[:letter])
     @group = Group.find_by_id params[:letter][:group_id]
     @letter.group = @group
-    
+    @letter.center = @group.center
     existing_letter = @group.letters.select {|l| l.group_id == @group.id && l.surveytype == params[:letter][:surveytype] && l.follow_up == params[:letter][:follow_up] }
     if existing_letter.any?
       flash[:error] = "Gruppen '#{@group.title}' har allerede et brev af typen '#{Survey.get_survey_type(@letter.surveytype)}'. V&aelig;lg en anden gruppe"
@@ -77,11 +82,13 @@ class LettersController < ApplicationController
 
   def update
     @letter = Letter.find(params[:id])
-
+    
     if @letter.update_attributes(params[:letter])
       flash[:notice] = 'Brevet er rettet.'
       redirect_to(@letter) and return
     else
+      @group = [@letter.group.title, @letter.group.id]
+      @follow_ups = JournalEntry.follow_ups
       @role_types = Survey.surveytypes
       @groups = current_user.center_and_teams.map {|g| [g.title, g.id] }
       render :edit
