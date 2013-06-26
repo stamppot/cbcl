@@ -20,13 +20,10 @@ class AddLetterCenter < ActiveRecord::Migration
 
   def self.update
 	  Letter.all.each do |l|
-        unless l.group.nil?
-  	 	   l.center_id = l.group.is_a?(Team) && l.group.center_id  || l.group_id
-           if l.center_id.nil? && !l.group.nil?
-                l.center_id = l.group_id
-            end
-	       l.save
-        end
+      if l.center_id.nil?
+        l.center_id = (l.group.is_a?(Team) && l.group.center_id || l.group.id)
+        l.save
+      end
   	end
   end
 end
