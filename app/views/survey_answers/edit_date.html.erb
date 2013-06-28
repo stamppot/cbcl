@@ -9,12 +9,12 @@ Den oprindelige besvarelsesdato er: <%= @journal_entry.created_at.strftime("%-d-
 	<p>
 	<div>
 		Opfølgning: <%= "<label for=\"survey_follow_up\">" %>
-		<%= select :journal_entry, "follow_up", @follow_ups, :selected => @follow_up %>
+		<%= select :journal_entry, :follow_up, @follow_ups %>
 	</div>
 	<p/>
 
 	<%= hidden_field :journal_entry, :id, :value => @journal_entry.id %>
-	<input class="datePick" id="survey_answer_date" name="journal_entry[created]" size="30" type="text" value="<%= @journal_entry.created_at.strftime('%d/%m/%Y') %>">
+	<input class="datePick" id="survey_answer_date" name="journal_entry[created]" size="30" type="text" value="<%= @journal_entry.answered_at.strftime('%d/%m/%Y') %>">
 	<%# text_field :survey_answer, :created, :id => "survey_answer_date", :class => "datePick" %>
 	<p/>
 	<div id="calendar"></div>

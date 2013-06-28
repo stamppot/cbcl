@@ -75,6 +75,18 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
     redirect_to journal_path(@journal_entry.journal)
   end
 
+  def edit_notes
+    @journal_entry = JournalEntry.find(params[:id])
+    @notes
+  end
+
+  def update_notes
+    @journal_entry = JournalEntry.find(params[:id])
+    @journal_entry.notes = params[:journal_entry][:notes]
+    @journal_entry.save
+    redirect_to journal_path(@journal_entry.journal)
+  end
+
   protected
   
   def check_access

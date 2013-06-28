@@ -36,12 +36,12 @@ class CsvSurveyAnswer < ActiveRecord::Base
     options[:start_date]  ||= SurveyAnswer.first.created_at.beginning_of_day
     options[:stop_date]   ||= SurveyAnswer.last.created_at.end_of_day
     options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
+    options[:stop_age]    ||= 28
 
-    options[:center] = user.center if !user.access?(:superadmin)
+    options[:center] = user.center.id if !user.access?(:superadmin)
     if !options[:center].blank?
       center = Center.find(options[:center])
-      options[:conditions] = ['center_id = ?', options[:center]]
+      options[:conditions] = ['center_id = ?', center.id]
     end
     # options[:journal_ids] ||= cache_fetch("journal_ids_user_#{self.id}", :expires_in => 10.minutes) { user.journal_ids }
     # puts "survey_answer_params: #{options.inspect}"
@@ -59,9 +59,11 @@ class CsvSurveyAnswer < ActiveRecord::Base
       between(o[:start_date], o[:stop_date]).
       aged_between(o[:start_age], o[:stop_age])
 
-    puts "options: #{options.inspect}"
+    puts "options.: #{options.inspect}"
     puts "options[:team]: #{options[:team].inspect}"
+    options.delete[:team] if options[:team].blank?
     query = query.for_center(options[:center]) if !options[:center].blank?
+    puts "query: #{query.inspect}"
     query = query.for_team(options[:team]) if !options[:team].blank?
     query
   end

@@ -134,7 +134,9 @@ ActionController::Routing::Routes.draw do |map|
   map.print_letters 'letters/show_logins/:id', :controller                 => 'letters', :action => 'show_logins'
   map.new_letter 'letters/new/:id', :controller                            => 'letters', :action => 'new'
   map.download_letter 'letters/mail_merge/:id', :controller                => 'letters', :action => 'mail_merge'
-    
+  map.edit_notes 'journal_entries/edit_notes/:id', :controller => 'journal_entries', :action => 'edit_notes'
+  map.update_notes 'journal_entries/update_notes/:id', :controller => 'journal_entries', :action => 'update_notes'
+
   # map.destroy_login 'journal_entries/destroy_login/:id', :controller     => 'journal_entries', :action => 'destroy_login', :only => :post
   
   map.user_search 'users/live_search/:id', :controller   => 'users', :action => 'live_search'
@@ -166,10 +168,10 @@ ActionController::Routing::Routes.draw do |map|
   map.set_subscription_not 'subscriptions/set_subscription_note/:id', :controller => 'subscriptions', :action => 'set_subscription_note'
   map.center_subscriptions 'subscriptions/center/:center_id.:format', :controller => 'subscriptions', :action => 'center'
   
-  map.select_project_journals '/projects/select/:id', :controller => 'projects', :action => 'select'
-  map.add_project_journals '/projects/add_journals/:id', :controller => 'projects', :action => 'add_journals'
-  map.edit_journals_email '/projects/edit_journals_email/:id', :controller => 'projects', :action => 'edit_journals_email'
-  map.update_journals_email '/projects/update_journals_email/:id', :controller => 'projects', :action => 'update_journals_email'
+  # map.select_project_journals '/projects/select/:id', :controller => 'projects', :action => 'select'
+  # map.add_project_journals '/projects/add_journals/:id', :controller => 'projects', :action => 'add_journals'
+  # map.edit_journals_email '/projects/edit_journals_email/:id', :controller => 'projects', :action => 'edit_journals_email'
+  # map.update_journals_email '/projects/update_journals_email/:id', :controller => 'projects', :action => 'update_journals_email'
   
   map.csv_download 'exports/download/:id', :controller => 'exports', :action => 'download'
   map.set_age_range 'exports/set_age_range/:id', :controller => 'exports', :action => 'set_age_range'

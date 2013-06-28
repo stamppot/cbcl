@@ -112,6 +112,13 @@ class Journal < Group
     #Rake::Task[task_name].invoke
   end
 
+  def update_birthdate!(params)
+    new_birthdate = Date.new params["birthdate(1i)"].to_i, params["birthdate(2i)"].to_i, params["birthdate(3i)"]
+    return false if new_birthdate == self.person_info.birthdate
+    person_info.birthdate = new_birthdate
+    person_info.save
+  end
+
   def get_project_code
     projects.any? && projects.first.code || ""
   end

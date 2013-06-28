@@ -285,7 +285,7 @@ class SurveyAnswersController < ApplicationController
   def edit_date
     @journal_entry = JournalEntry.find(params[:id])
     # @date = @journal_entry.created
-    @follow_up = @journal_entry.get_follow_up
+    # @follow_up = @journal_entry.get_follow_up
     @follow_ups = JournalEntry.follow_ups
     puts "follow_up: #{@follow_up}"
     puts "follow_ups: #{@follow_ups.inspect}"
@@ -324,6 +324,7 @@ class SurveyAnswersController < ApplicationController
     end
     csv_survey_answer = CsvSurveyAnswer.find_by_journal_entry_id(entry.id)
     if csv_survey_answer
+      csv_survey_answer.created_at = created
       csv_survey_answer.age = age if csv_survey_answer
       csv_survey_answer.save
     end

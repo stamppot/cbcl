@@ -48,7 +48,7 @@ class Query
     ["AND #{tablecolumn}.created_at BETWEEN '#{dates[:start_date]}' AND '#{dates[:stop_date]}' "]
   end
   
-  def age_filter(age_low = 1, age_hi = 21)
+  def age_filter(age_low = 1, age_hi = 28)
     ["AND survey_answers.age BETWEEN #{age_low} AND #{age_hi} "]
    end
    
@@ -68,7 +68,7 @@ class Query
      ["AND #{tablecolumn} IN (#{entry_ids.join(', ')}) "]
    end
    
-   def journal_to_survey_answers(surveys, entries = [], startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 21)
+   def journal_to_survey_answers(surveys, entries = [], startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 28)
      survey = Survey.all.map {|s| s.id} if surveys.empty?
      entries = entries.blank? ? [] : filter_entries(entries)
      self.query = self.select(["journal_entries.survey_answer_id, journal_entries.journal_id"]).join << 
@@ -176,11 +176,11 @@ class Query
      self.query = (self.select_clause << self.from_where << self.group_by('subscriptions.id')).join(' ')     
    end
    
-   def query_journal_to_survey_answers(surveys, entries, startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 21)
+   def query_journal_to_survey_answers(surveys, entries, startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 28)
      do_query(journal_to_survey_answers(surveys, entries, startdate, stopdate, age_low, age_high)).build_hash { |elem| [elem["journal_id"], elem["survey_answer_id"]] }
    end
 
-   def user_journal_entries(entries, surveys, startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 21)
+   def user_journal_entries(entries, surveys, startdate = 100.years.ago, stopdate = Time.now.utc, age_low = 1, age_high = 28)
       self.query = self.select(["survey_answers.journal_entry_id"]).join << 
           (self.small_join_clause << date_filter("survey_answers", startdate, stopdate) << done_filter << 
            age_filter(age_low, age_high) << survey_filter(surveys) << filter_entries(entries) << group_by("survey_answer_id")).join
@@ -202,7 +202,7 @@ class Query
    
    def self.filter_age(args)
      args[:age_start] ||= 1
-     args[:age_stop] ||= 21
+     args[:age_stop] ||= 28
 
      if args[:age] && (start_age = args[:age][:start].to_i) && (stop_age = args[:age][:stop].to_i)
        if start_age <= stop_age

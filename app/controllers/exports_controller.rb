@@ -6,15 +6,15 @@ class ExportsController < ApplicationController
     
     args = params
     # set default dates
-    params[:start_date] ||= (SurveyAnswer.first && SurveyAnswer.first.created_at)
-    params[:stop_date] ||= (SurveyAnswer.last && SurveyAnswer.last.created_at)
+    params[:start_date] ||= (JournalEntry.first_answered.first.answered_at - 1.year)
+    params[:stop_date] ||= (JournalEntry.last_answered.first.answered_at + 1.week)
 
     params = filter_date(args)
     @start_date, @stop_date = params[:start_date], params[:stop_date]
 
     # filter age
     @start_age = params[:age_start] = 1
-    @stop_age = params[:age_stop]  = 21
+    @stop_age = params[:age_stop]  = 28
     params = Query.filter_age(args)
 
     @surveys = current_user.subscribed_surveys
@@ -23,7 +23,7 @@ class ExportsController < ApplicationController
     filter_surveys = @surveys.collect_if(:selected) { |s| s.id }
     
     @center = current_user.center if current_user.centers.size == 1
-    params[:center] = @center if @center
+    params[:center] = @center.id if @center
     
     # clean params
     params.delete(:action); params.delete(:controller); params.delete(:limit); params.delete(:offset)
@@ -42,8 +42,9 @@ class ExportsController < ApplicationController
     journals = center && center.journals.count || Journal.count
     # params.delete :center if params[:center].blank?
     params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
+    # puts "options ..: #{params.inspect}"
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
-    puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
+    # puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
 
     render :update do |page|
       page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{count_survey_answers.to_s}"

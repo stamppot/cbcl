@@ -10,7 +10,7 @@
 		<table id="not_answered" class="surveys">
 			<tr>
 				<th>Spørgeskema</th>
-				<th>Type</th>
+				<th>Noter</th>
 				<th>Tilføjet</th>
 				<th><%= t('state') %></th>
 				<th class="nosort"><%= t('action') %></th>
@@ -18,18 +18,23 @@
 		<% @not_answered_entries.each do |entry| %>
 			 	 <tr id='<%= "entry" + entry.id.to_s %>'>
 					 <% survey = entry.survey %>
-					 <td style='background-color: #<%= survey.color %>;'>
+					 <td style='background-color: #<%= survey.color %>; min-width: 320px;'>
 					  <%# link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), survey_show_fast_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
 					<%= link_to img_tag_html4("icon_input.gif", :border => 0, :alt => "Hurtig indtastning", :title => "Vis hurtig indtastning"), journal_entry_path(entry, :fast => true), :title => 'Besvar med hurtig indtastning', :style => 'float: right; width: 16px;' %>
-            <%= link_to entry.get_title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;</td>
-           <td><%= t("roles.#{survey.surveytype}") %></td>
+            <%= link_to entry.get_title, journal_entry_path(entry), :title => 'Besvar' %>&nbsp;&nbsp;
+        	</td>
+            <td style="max-width: 200px;"><%= entry.notes %> <%# t("roles.#{survey.surveytype}") %></td>
 					 <td><%= entry.created_at.strftime "%d-%m-%Y" %>
 					 <td><%= entry.status %></td>
-					 <td>
+					 <td style="min-width: 100px;">
 					<% @entry = entry %>
 					<%= entry.login_user.nil? ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : link_to(img_tag_html4('icon_edit_mailbox.gif', :border => 0, 
 										:class => 'icon', :title => 'Vis login-info'), show_login_letter_path(entry) + ".pdf", :popup => ['new_window, height=800,width=700']) %>
 					<%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret opfølgning", :title => "Ret opfølgning"), edit_journal_entry_path(entry) %>
+					<a href="/journal_entries/edit_notes/<%= entry.id %>" title="Noter">
+						<img src="/images/tag_blue.png" alt="Noter" title="Noter" border=0 align="right" />
+					</a>
+
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 
 							:update => ('entry'<<entry.id.to_s), 
@@ -60,32 +65,32 @@
 		<% if answered_count %>
 			<th><%= t('survey.survey') %></th>
 			<th><%= t('status.answered') %></th>
+			<th><%= "Noter" %></th>
 			<th><%= "Besvarelse" %></th>
 			<th><%= "af" %></th>
 			<th class="nosort"><%= t('action') %></th>
 			<% @answered_entries.each do |entry| %>
 		 	 	<tr id='<%= "entry_answer" + entry.id.to_s %>'>
-					 <td class="no_border" style='background-color: #<%= entry.survey.color %>;'>
+					 <td class="no_border" style='background-color: #<%= entry.survey.color %>; min-width: 320px;'>
 						<%= check_box "answers", entry.id, { :class => 'no_border'} %>
 						<%= link_to entry.get_title, journal_entry_path(entry), :title => 'Vis Besvarelse' %>
+						&nbsp;&nbsp;
 						<%# link_to entry.get_title, survey_answer_path(entry), :title => 'Vis Besvarelse' %>
 					</td>
-					 <td><%= entry.answered_at.strftime "%-d-%-m-%Y" %> 
-						 <%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret besvarelsesdato", :title => "Ret besvarelsesdato"), edit_date_survey_answers_path(entry) %>
+					 <td style="min-width: 100px;"><%= entry.answered_at.strftime "%-d-%-m-%Y" %> 
+						 <%= link_to img_tag_html4("pencil.png", :border => 0, :alt => "Ret besvarelsesdato", :title => "Ret besvarelsesdato", :align => "right"), edit_date_survey_answers_path(entry) %>
 					 </td>
+					 <td style="max-width: 200px;"><%= entry.notes %></td>
 					 <td><%= entry.status %></td>
 					 <td>
-						<%= if entry.answered_by
-							 		t("roles.#{entry.answered_by}")
-							  else
-								 	entry.status
-								end %>
+						<%= entry.answered_by && t("roles.#{entry.answered_by}") || entry.status %>
 					 </td>
-					 <td><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-									(survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>&nbsp;&nbsp;
-					
-							<%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ),
-									edit_survey_answer_path(entry), :title => 'Ret besvarelse' %>
+					 <td style="min-width: 100px;"><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
+									(survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>
+						<a href="/journal_entries/edit_notes/<%= entry.id %>" title="Noter">
+							<img src="/images/tag_blue.png" alt="Noter" title="Noter" border=0 align="right" />
+						</a>
+							<%= link_to img_tag_html4("icon_input.gif", :border=>0, :alt => 'Ret besvarelse', :title => 'Ret besvarelse' ), edit_survey_answer_path(entry), :title => 'Ret besvarelse' %>
  							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
 							:update => ('entry_answer' << entry.id.to_s), 

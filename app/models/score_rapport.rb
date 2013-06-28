@@ -26,7 +26,7 @@ class ScoreRapport < ActiveRecord::Base
     options[:start_date]  ||= ScoreRapport.first.created_at
     options[:stop_date]   ||= ScoreRapport.last.created_at
     options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
+    options[:stop_age]    ||= 28
 
     options[:center] = user.center if !user.access?(:superadmin)
     if !options[:center].blank?
@@ -48,7 +48,7 @@ class ScoreRapport < ActiveRecord::Base
     options[:start_date]  ||= ScoreRapport.first.created_at
     options[:stop_date]   ||= ScoreRapport.last.created_at
     options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
+    options[:stop_age]    ||= 28
     options[:surveys]     ||= Survey.all.map {|s| s.id}
     if !options[:center].blank?
       options[:journal_ids] = options[:center].journal_ids if options[:center] && !options[:journal_ids]

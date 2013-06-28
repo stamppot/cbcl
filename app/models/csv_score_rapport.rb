@@ -25,12 +25,12 @@ class CsvScoreRapport < ActiveRecord::Base
     options[:start_date]  ||= ScoreRapport.first.created_at
     options[:stop_date]   ||= ScoreRapport.last.created_at
     options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
+    options[:stop_age]    ||= 28
 
     options[:center] = user.center if !user.access?(:superadmin)
     if !options[:center].blank?
       center = Center.find(options[:center])
-      options[:conditions] = ['center_id = ?', options[:center]]
+      options[:conditions] = ['center_id = ?', center.id]
     end
 
     options

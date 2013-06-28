@@ -20,6 +20,8 @@ class JournalEntry < ActiveRecord::Base
   named_scope :for_states, lambda { |states| { :conditions => ["state IN (?)", states]}}
   named_scope :with_cond, lambda { |cond| cond }
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
+  named_scope :first_answered, lambda { { :conditions => ['answered_at is not null'], :order => 'answered_at asc', :limit => 1}}
+  named_scope :last_answered, lambda { { :conditions => ['answered_at is not null'], :order => 'answered_at desc', :limit => 1}}
 
   def self.follow_ups
     [["Diagnose", 0], ["1. opfølgning", 1], ["2. opfølgning", 2], ["3. opfølgning", 3], ["Afslutning", 4]]

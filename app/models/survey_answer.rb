@@ -41,7 +41,16 @@ class SurveyAnswer < ActiveRecord::Base
   def age_now
     ( (DateTime.now - self.journal.birthdate).to_i / 365.25).floor
   end
-    
+  
+  def update_age!
+    age = age_when_answered
+    csv_survey_answer.age = age
+    csv_score_rapport.age = age
+    self.save
+    csv_survey_answer.save
+    csv_score_rapport.save
+  end
+
   def to_csv
     self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
   end
@@ -371,7 +380,7 @@ class SurveyAnswer < ActiveRecord::Base
     options[:start_date]  ||= SurveyAnswer.first.created_at
     options[:stop_date]   ||= SurveyAnswer.last.created_at
     options[:start_age]   ||= 0
-    options[:stop_age]    ||= 21
+    options[:stop_age]    ||= 28
     # options[:surveys]     ||= Survey.all.map {|s| s.id}
     if !options[:center].blank?
       center = Center.find(options[:center])
