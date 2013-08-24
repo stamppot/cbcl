@@ -27,7 +27,9 @@
   <dt><label for="person_info_alt_id"><%= 'Projektnr' %></label></dt>
   <dd><%= text_field('person_info', 'alt_id', {:size => 25}) %></dd>
 
-	<br>
+	<br/>
+
+  <% if !@any_answered_entries %>
   <dt><label>Vælg center/team:</label></dt>
   <dd>
     <%= node_tree(@groups) do |group|
@@ -63,4 +65,10 @@ $$(".group_center").each(function(center){
 });
 $('group_code').focus();
 </script>
+
+<% else %>
+  <dt><%= center_or_team_text(@group.parent) %></label></dt>
+  <dd><%= @group.parent.title %></dd>
+  <br/>
+<% end %>
 <!--[eoform:user]-->

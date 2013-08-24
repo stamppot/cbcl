@@ -113,9 +113,9 @@ module ApplicationHelper
     end
   end
   
-  def center_or_team_text(group)
-    group.is_a?(Team) ? "Team" : "Center"
-  end
+  # def center_or_team_text(group)
+  #   group.is_a?(Team) ? "Team" : "Center"
+  # end
 
   def center_or_team_url(group)
     if group.is_a? Team
@@ -150,7 +150,7 @@ module ApplicationHelper
 		if groups.respond_to? :any?
 			groups.any? && groups.first.is_a?(Center) && "Center" || "Team"
 		else
-			"Center"
+      groups.is_a?(Team) ? "Team" : "Center"
 		end
 	end
 	

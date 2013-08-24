@@ -101,6 +101,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @nationalities = Nationality.all
     alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
     @alt_id_name = alt_id && alt_id.value || "Projektnr"
+    @any_answered_entries = @group.answered_entries.any?
     
 
   rescue ActiveRecord::RecordNotFound
