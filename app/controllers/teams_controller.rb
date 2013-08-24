@@ -148,24 +148,25 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     @groups = current_user.center
     @group = Team.find(params[:id])
     # get an array of roles and set the role associations
-    params[:group][:roles] = [] if params[:group][:roles].nil?
-    roles = params[:group][:roles].collect { |i| Role.find(i) }
-    @group.roles = roles
+    # params[:group][:roles] = [] if params[:group][:roles].nil?
+    # roles = params[:group][:roles].collect { |i| Role.find(i) }
+    # @group.roles = roles
 
     # set parent manually
-    @group.parent = params[:group][:parent].blank? && nil || Center.find(params[:group][:parent])
+    # @group.parent = params[:group][:parent].blank? && nil || Center.find(params[:group][:parent])
 
     # Bulk-Assign the other attributes from the form.
     if @group.update_attributes(params[:group])
       flash[:notice] = 'Teamet er opdateret.'
       redirect_to team_url(@group) and return
     else
+      flash[:error] = 'Teamet kunne ikke opdateres.'
       render edit_team_url(@group) and return
     end
 
-  rescue RecursionInTree
-    @role.errors.add :parent, "must not be a descendant of itself"
-    render edit_team_url(@group)
+  # rescue RecursionInTree
+  #   @role.errors.add :parent, "must not be a descendant of itself"
+  #   render edit_team_url(@group)
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'You sent an invalid request.'
     redirect_to teams_url

@@ -8,7 +8,11 @@ class ImportJournals # AddJournalsFromCsv
     # when 3 then "ct"  # CTRF pædagog 1,5-5
     # when 4 then "tt"  # TRF lærer 6-16
     # when 5 then "ycy" # YSR 6-16
-    	
+    
+    def initialize
+    	puts "update(file, [survey_ids], team_id, do_save)"
+    end
+
 	def update(file, survey_ids, team_id, do_save = false)
 		surveys = Survey.find(survey_ids)
 		group = Group.find(team_id)
@@ -51,7 +55,7 @@ class ImportJournals # AddJournalsFromCsv
 			
 			if !journal.person_info
 				journal.build_person_info(person_info)
-				puts "#{journal.title}: Invalid: #{journal.person_info.inspect}" if !journal.person_info.valid?
+				puts "#{journal.title}: Invalid: #{journal.person_info.inspect}" if do_save && !journal.person_info.valid?
 				journal.person_info.save 
 			else
 				journal.person_info.update_attributes(person_info)
@@ -59,7 +63,7 @@ class ImportJournals # AddJournalsFromCsv
 			
 			add_surveys_and_entries(journal, surveys, do_save)
 
-			puts "! #{journal.title}: Invalid: #{journal.inspect}" unless journal.person_info
+			puts "! #{journal.title}: Invalid: #{journal.inspect}" if do_save && !journal.person_info
 				
 			if journal.person_info && journal.person_info.valid? && do_save
 				journal.person_info.save

@@ -3,7 +3,7 @@
 
 # this class holds the calculated values for a given group
 
-require 'statsample'
+# require 'statsample'
 # require 'facets'
 
 class SumScoreGroups

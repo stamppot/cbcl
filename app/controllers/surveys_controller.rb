@@ -71,6 +71,7 @@ class SurveysController < ApplicationController
 
   # non-caching method
   def show_fast                             # 11-2 it's fastest to preload all needed objects
+    # redirect_to maintenance_path and return
     @options = {:action => "create", :hidden => true, :fast => true}
     @journal_entry = JournalEntry.find(session[:journal_entry])
     puts "SHOWFAST JOURNAL_ENTRY: #{@journal_entry.inspect}"

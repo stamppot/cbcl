@@ -1,8 +1,19 @@
 <h2>Redigering af team</h2>
 
 <% form_tag team_path(@group), :method => :put do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Anvend', { :class => 'normal' } %>
+  <%# render :partial => 'form' %>
+<table class="team_info">
+	<tr>
+		<td class="t_i"><label for="group_title">Navn:</label></td>
+	  	<td class="t_i"><%= text_field 'group', 'title'  %></td>
+	</tr>
+	<tr>
+		<td class="t_i"><label for="group_code">Kode:</label></td>
+		<td class="t"><%= text_field 'group', 'code'  %></td>
+	</tr>
+</table>
+<br/>
+  <%= submit_tag 'Anvend', { :class => 'normal save button' } %>
 <% end %>
 
 <p/>

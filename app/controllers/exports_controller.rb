@@ -34,17 +34,15 @@ class ExportsController < ApplicationController
   
   def filter
     center = Center.find params[:center] unless params[:center].blank?
-    args = params
+    center = current_user.center if current_user.centers.size == 1
+    args = params.clone
     params = filter_date(args)
     params = Query.filter_age(params)
-    
-    center = current_user.center if current_user.centers.size == 1
+    params[:team] = params[:team].delete :id if params[:team] && params[:team][:id]
+
     journals = center && center.journals.count || Journal.count
-    # params.delete :center if params[:center].blank?
-    params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
-    # puts "options ..: #{params.inspect}"
+
     count_survey_answers = CsvSurveyAnswer.with_options(current_user, params).count
-    # puts "DOWNLOAD filter count_csv_survey_answers: #{count_survey_answers}"
 
     render :update do |page|
       page.replace_html 'results', "Journaler: #{journals}  Skemaer: #{count_survey_answers.to_s}"
@@ -55,21 +53,26 @@ class ExportsController < ApplicationController
 
   def download
     center = Center.find params[:center] unless params[:center].blank?
-    args = params
+    center = current_user.center if current_user.centers.size == 1
+    args = params.clone
     params = filter_date(args)
     params = Query.filter_age(params)
-    
-    center = current_user.center if current_user.centers.size == 1
-    # journals = center && center.journals.flatten.size || Journal.count
-    
-    params[:team] = params[:team].delete :team if params[:team] && params[:team][:team]
+    params[:team] = params[:team].delete :id if params[:team] && params[:team][:id]
+
     csv_survey_answers = CsvSurveyAnswer.with_options(current_user, params).all
-    # puts "DOWNLOAD csv_survey_answers: #{csv_survey_answers.size}"
-    # spawns background task
+
     @task = Task.create(:status => "In progress")
     @task.create_survey_answer_export(params[:survey][:id], csv_survey_answers)
   end
-  
+
+  # def get_params(params)
+  #   args = params
+  #   params = filter_date(args)
+  #   params = Query.filter_age(params)
+  #   params[:team] = params[:team].delete :id if params[:team] && params[:team][:id]
+  #   params
+  # end
+
   # a periodic updater checks the progress of the export data generation 
   def generating_export
     @task = Task.find(params[:id])

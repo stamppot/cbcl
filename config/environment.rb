@@ -138,7 +138,7 @@ Rails::Initializer.run do |config|
 # ActionController::Base.session_options[:expires] = 432000 # 5 days 
 # ActionController::Base.session_options[:cache] = CACHE 
 
-  config.gem "newrelic_rpm"
+  # config.gem "newrelic_rpm"
   # config.gem 'ar-extensions'
   
 	# config.gem 'thinking-sphinx', :version => '1.3.20', :lib => 'thinking_sphinx'
@@ -174,14 +174,14 @@ EXPORT_FILES_STORAGE_PATH = "./files/"
 #   :password => 'cbcl-sdu'
 # }
 
-if RAILS_ENV == "production"
-  ExceptionNotification::Notifier.exception_recipients = %w(stamppot@gmail.com)
-  ExceptionNotification::Notifier.sender_address =
-    %("Application Error" <error@cbcl-sdu.dk>)
+#if RAILS_ENV == "production"
+  #ExceptionNotification::Notifier.exception_recipients = %w(stamppot@gmail.com)
+  #ExceptionNotification::Notifier.sender_address =
+  #  %("Application Error" <error@cbcl-sdu.dk>)
 
  # defaults to "[ERROR] "
-  ExceptionNotification::Notifier.email_prefix = "[CBCL] "
-end
+  #ExceptionNotification::Notifier.email_prefix = "[CBCL] "
+#end
 
 # CACHE = MemCache.new('127.0.0.1') #if false #ENV['RAILS_ENV'] == 'production'
 CACHE = {}

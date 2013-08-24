@@ -242,7 +242,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # map.destroy_survey_builder 'survey_builder/destroy', :controller => 'survey_builder', :action => 'destroy', :method => 'delete'
 
-  map.maintenance 'login/maintenance', :controller => 'login', :action => 'maintenance'
+  map.maintenance 'main/maintenance', :controller => 'main', :action => 'maintenance'
 
   map.connect '/survey_answers/json_draft_data/:id.:format', :controller => 'survey_answers', :action => 'json_draft_data'
   map.connect '/survey_answers/json_dynamic_data/:id.:format', :controller => 'survey_answers', :action => 'json_dynamic_data'

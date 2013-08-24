@@ -1,4 +1,4 @@
-require 'statsample'
+# require 'statsample'
 
 class ZScoreGroup
   attr_accessor :score_results, :age_group, :gender, :sum_score, :ages, :title, :scale
