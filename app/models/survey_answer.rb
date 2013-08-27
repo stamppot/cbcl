@@ -21,6 +21,7 @@ class SurveyAnswer < ActiveRecord::Base
 
   named_scope :order_by, lambda { |column| { :order => column } }
   named_scope :and_answer_cells, :include => { :answers => :answer_cells }
+  named_scope :and_questions, :include => { :survey => :questions }
   named_scope :between, lambda { |start, stop| { :conditions => { :created_at  => start..stop } } }
   named_scope :aged_between, lambda { |start, stop| { :conditions => { :age  => start..stop } } }
   named_scope :from_date, lambda { |start| { :conditions => { :created_at  => start..(Date.now) } } }

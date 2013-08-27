@@ -1,6 +1,23 @@
 <div id="survey_header">
 <%= render :partial => 'surveys/back_button', :locals => {:journal => @journal} %>
 
+<script type="text/javascript">
+	var answer_cells = <%= @survey_answer_json %>;
+
+	function urldecode(url) {
+  		return decodeURIComponent(url.toString().gsub(/\+/, ' '));
+	}
+
+	Event.observe(window, 'load', function() {  
+		for(var i = 0; i< answer_cells.length; i++) {
+			var cell = answer_cells[i];
+			console.log(cell.css_id + ": " + cell.val + " " + urldecode(cell.val));
+			$(cell.css_id).setValue(urldecode(cell.val));
+
+		}
+	});
+</script>
+
 <%- if @is_login_user %>
 <div id="survey_header">
 	<div class="survey" style='background-color: #<%= @survey.color %>;'>

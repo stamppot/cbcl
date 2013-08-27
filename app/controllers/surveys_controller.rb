@@ -3,7 +3,7 @@
 class SurveysController < ApplicationController
   helper SurveyHelper
   layout 'cbcl', :except => [ :show, :show_fast, :show_answer, :show_answer2 ]
-  layout "jsurvey", :only  => [ :show, :show_answer, :edit, :show_answer2, :change_answer ]
+  layout "jsurvey", :only  => [ :show, :show_fast, :show_answer, :edit, :show_answer2, :change_answer ]
 
   caches_page :show, :if => Proc.new { |c| entry = c.request.env['HTTP_COOKIE'].split(";").last; entry =~ /journal_entry=(\d+)/ }
   
@@ -58,8 +58,6 @@ class SurveysController < ApplicationController
     @journal = journal_entry.journal
     @is_login_user = current_user.login_user?
      
-    # don't cache now, it's page cached anyway
-    # @survey = Survey.and_questions.find(params[:id]) #cache_fetch("survey_#{params[:id]}") { Survey.and_questions.find(params[:id]) }
     survey_id = params[:id].to_i
     @@surveys[survey_id] ||= Survey.and_questions.find(survey_id)
     @survey = @@surveys[survey_id] #Survey.and_questions.find(params[:id])
@@ -91,11 +89,11 @@ class SurveysController < ApplicationController
         :journal_entry => @journal_entry, :center_id => @journal.center_id)
       # @survey_fast_answer.journal_entry = journal_entry
     else  # survey_answer was started/created, so a draft is saved
-      @survey_fast_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id) # removed .and_answers
-      @survey.merge_survey_answer(@survey_fast_answer)  # insert existing answers
+      survey_answer = SurveyAnswer.and_answer_cells.and_questions.find(@journal_entry.survey_answer_id, :include => {:survey => :questions}) # removed .and_answers
+      @survey_answer_json = survey_answer.answers.map {|a| a.answer_cells.map {|cell| CellJson.new(cell) } }.flatten.to_json
     end
     unless @journal_entry.survey_answer
-      @journal_entry.survey_answer = @survey_fast_answer
+      @journal_entry.survey_answer = survey_answer
       @journal_entry.save
     end
     render :layout => "layouts/survey_fast"
