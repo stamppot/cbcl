@@ -130,8 +130,8 @@ class RemindersController < ApplicationController
     @state = [] if @state.nil?    [2,3] if @state.nil?
     @answer_state = @state.join(",")
     @state = JournalEntry.states.values if params[:state] == "0"
-    @start_date = @group.created_at
-    @stop_date = DateTime.now
+    @start_date = @group.created_at.beginning_of_day
+    @stop_date = DateTime.now.end_of_day
     @journal_entries_count = JournalEntry.for_parent_with_state(@group, @state).
       between(@start_date, @stop_date).count
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).

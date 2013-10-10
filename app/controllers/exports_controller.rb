@@ -6,8 +6,8 @@ class ExportsController < ApplicationController
     
     args = params
     # set default dates
-    params[:start_date] ||= (JournalEntry.first_answered.first.answered_at - 1.year)
-    params[:stop_date] ||= (JournalEntry.last_answered.first.answered_at + 1.week)
+    params[:start_date] ||= (JournalEntry.first_answered.first.answered_at.beginning_of_month)
+    params[:stop_date] ||= (JournalEntry.last_answered.first.answered_at.end_of_month)
 
     params = filter_date(args)
     @start_date, @stop_date = params[:start_date], params[:stop_date]
