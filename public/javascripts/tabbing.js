@@ -180,16 +180,79 @@ function binary_search(elements, input) {  // input == value to find
 // 	return true;
 // }
 
+function getWindowHeight() {
+		var body  = document.body;
+		var docEl = document.documentElement;
+		return window.innerHeight || 
+      (docEl && docEl.clientHeight) ||
+      (body  && body.clientHeight)  || 
+      0;
+}
+
+function scrollElemToCenter(id, duration) {
+  var el = $(id);
+  var winHeight = getWindowHeight();
+  var offsetTop = el.offsetTop;
+  if (offsetTop > winHeight) { 
+    var y = offsetTop - (winHeight-el.offsetHeight)/2;
+    // wo animation: scrollTo(0, y);
+    scrollToAnim(y, duration);
+  }
+}
+
+function interpolate(source,target,pos) { return (source+(target-source)*pos); }
+function easing(pos) { return (-Math.cos(pos*Math.PI)/2) + 0.5; }
+
+function scrollToAnim(targetTop, duration) {
+  duration || (duration = 500);
+  var start    = +new Date,
+      finish   = start + duration,
+      startTop = getScrollRoot().scrollTop,
+      interval = setInterval(function(){
+        var now = +new Date, 
+            pos = (now>finish) ? 1 : (now-start)/duration;
+        var y = interpolate(startTop, targetTop, easing(pos)) >> 0;
+        window.scrollTo(0, y);
+        if(now > finish) { 
+          clearInterval(interval);
+        }
+      }, 10);
+} 
+
+// var getScrollRoot = (function() {
+// var SCROLL_ROOT;
+//  return function() {
+//    if (!SCROLL_ROOT) {
+//      var bodyScrollTop  = document.body.scrollTop;
+//      var docElScrollTop = document.documentElement.scrollTop;
+//      window.scrollBy(0, 1);
+//      if (document.body.scrollTop != bodyScrollTop)
+//        (SCROLL_ROOT = document.body);
+//      else 
+//        (SCROLL_ROOT = document.documentElement);
+//      window.scrollBy(0, -1);
+//    }
+//    return SCROLL_ROOT;
+//  };
+// })();
+
+
 function tabNext(valid, input) {
 	if(valid) {
     var nextelem = $(input.form[getIndex(input)]);
+    			// console.log('input1: ' + input.id);
+    			// console.log('input2: ' + nextelem);
  	  	if((typeof nextelem) !== 'undefined' && nextelem.value == "9") {  // when element is prefilled with 'no answer', select to ease input
 			nextelem.focus();  // both focus and select, then the window scrolls along
 			nextelem.select();
+			// console.log('input: ' + input);
+			// scrollTo(input.id, input.offsetTop-300);
 		}
 		else
-			if((typeof nextelem) !== 'undefined')
+			if((typeof nextelem) !== 'undefined') {
 				nextelem.focus();
+			// scrollTo(input.id, input.offsetTop-300);
+			}
 	}
 };
 
@@ -197,6 +260,7 @@ function tabPrev(valid, input) {
 	if(valid) {
     var prevelem = input.form[getIndexPrevious(input)];
  	  $(prevelem).focus();
+			// scrollTo(input.id, input.offsetTop-300);
 	} 
 	else {
 	}
