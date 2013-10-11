@@ -104,7 +104,6 @@ class ScoreRapport < ActiveRecord::Base
       :created_at => self.created_at,
       :updated_at => self.updated_at,
     }
-    # info_options = journal.export_info
     options[:sex] = journal.sex # info_options[:pkoen]
     csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(options[:survey_answer_id])
     csv_score_rapport ||= CsvScoreRapport.new(options)

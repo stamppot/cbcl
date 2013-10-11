@@ -263,21 +263,21 @@ class Journal < Group
     c
   end
   
-  def export_info
-		settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
-    c = {}
-    c[:ssghafd] = self.parent.group_code
-    c[:ssghnavn] = self.center.title
-    c[:safdnavn] = self.team.title
-    c[:pid] = settings && eval("self.#{settings.value}") || self.code
-    c[:projekt] = self.person_info.alt_id
-    c[:pkoen] = self.sex
-    c[:palder] = get_age(self.birthdate, self.created_at)  # alder på besvarelsesdatoen
-    c[:pnation] = self.nationality
-    c[:besvarelsesdato] = "-" #self.created_at.strftime("%d-%m-%Y")
-    c[:pfoedt] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
-    c
-  end
+  # def export_info
+		# settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
+  #   c = {}
+  #   c[:ssghafd] = self.parent.group_code
+  #   c[:ssghnavn] = self.center.title
+  #   c[:safdnavn] = self.team.title
+  #   c[:pid] = settings && eval("self.#{settings.value}") || self.code
+  #   c[:projekt] = self.person_info.alt_id
+  #   c[:pkoen] = self.sex
+  #   c[:palder] = get_age(self.birthdate, self.created_at)  # alder på besvarelsesdatoen
+  #   c[:pnation] = self.nationality
+  #   c[:besvarelsesdato] = "-" #self.created_at.strftime("%d-%m-%Y")
+  #   c[:pfoedt] = self.birthdate.strftime("%d-%m-%Y")  # TODO: translate month to danish
+  #   c
+  # end
 
   def get_age(birth_date, end_date)
     ( (end_date.to_datetime - birth_date).to_i / 365.25).floor

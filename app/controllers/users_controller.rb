@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController # ActiveRbac::ComponentController
   layout 'cbcl'
-
+  
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
   
@@ -103,9 +103,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
     if request.get?
       @user.password = ""
     else # post
-      @user.update_password(params[:user][:password])
-      @user.state = 2
-      @user.save
+      @user.change_password!(params[:user][:password])
       flash[:notice] = "Dit password er ændret."
       redirect_to surveys_path
     end

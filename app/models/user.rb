@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
   # user must belong to a group unless he's superadmin or admin
   validates_associated :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
   validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
-
+  validates_presence_of :password
+  
   attr_accessor :perms
 
 	define_index do
@@ -335,6 +336,12 @@ class User < ActiveRecord::Base
   #   group_ids = [center_id] + teams.map(&:id)
   #   connection.execute("select id from journal_entries je where je.group_id in (#{group_ids.join(',')})")
   # end
+
+  def change_password!(password)
+    self.update_password(params[:user][:password])
+    self.state = 2
+    self.save
+  end
 
   def has_journal_entry?(journal_entry_id)
     return true if admin?

@@ -21,7 +21,7 @@ class Answer < ActiveRecord::Base
     self.answer_cells(true).find(:first, :conditions => ['row = ? AND col = ?', row, col] )
   end
 
-  def to_csv(prefix = nil)
+  def cell_values(prefix = nil)
     cells = Dictionary.new
     prefix = survey_answer.survey.prefix unless prefix
     q = self.question.number.to_roman.downcase
@@ -51,35 +51,35 @@ class Answer < ActiveRecord::Base
     return cells
   end
 
-  alias :cell_values :to_csv
+  # alias :cell_values :to_csv
 
 	# TODO: rewrite assuming all variables exists (no if statement), create new variable or set variable values (datatype)
-  def get_variables(prefix = nil)
-    cells = Dictionary.new
-    prefix ||= self.survey_answer.survey.prefix
-    q = self.number.to_roman.downcase
-    # cells[:number] = self.question.number
+  # def get_variables(prefix = nil)
+  #   cells = Dictionary.new
+  #   prefix ||= self.survey_answer.survey.prefix
+  #   q = self.number.to_roman.downcase
+  #   # cells[:number] = self.question.number
 
-    # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
-		self.answer_cells.map do |cell|
-			var = Variable.get_by_question(id, cell.row, cell.col)
-			if var
-				var.value = cell.value || "#NULL!"
-				var.datatype = cell.datatype
-			else  # default var name
-				item = cell.item
-				var = Variable.new({:row => cell.row, :col => cell.col, 
-					:question_id => self.question.id, :survey_id => self.question.survey_id, 
-					:item => cell.item, :datatype => cell.datatype})
-					item << "hv" if !(item =~ /hv$/) && cell.class.to_s =~ /Comment|Text/
-					var.var = "#{prefix}#{q}#{item}"
-					var.value = cell.value.blank? && "#NULL" || cell.value
-					# cells[var.var.to_sym] = var
-				end
-        cells[var.var.to_sym] = var
-			end
-    return cells
-  end
+  #   # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
+		# self.answer_cells.map do |cell|
+		# 	var = Variable.get_by_question(id, cell.row, cell.col)
+		# 	if var
+		# 		var.value = cell.value || "#NULL!"
+		# 		var.datatype = cell.datatype
+		# 	else  # default var name
+		# 		item = cell.item
+		# 		var = Variable.new({:row => cell.row, :col => cell.col, 
+		# 			:question_id => self.question.id, :survey_id => self.question.survey_id, 
+		# 			:item => cell.item, :datatype => cell.datatype})
+		# 			item << "hv" if !(item =~ /hv$/) && cell.class.to_s =~ /Comment|Text/
+		# 			var.var = "#{prefix}#{q}#{item}"
+		# 			var.value = cell.value.blank? && "#NULL" || cell.value
+		# 			# cells[var.var.to_sym] = var
+		# 		end
+  #       cells[var.var.to_sym] = var
+		# 	end
+  #   return cells
+  # end
   
 
   # returns array of cells. Sets answertype
@@ -191,20 +191,20 @@ class Answer < ActiveRecord::Base
     return output
   end
   
-  def to_xml
-    xml = []
-    xml << "<answer question='#{self.number.to_s}' question_id='#{self.question_id.to_s}' >"
-    xml << "  <answer_cells>"
-    if self == self.parent_max_answer
-      self.parent.cell_values.each do |var, val|
-        "<v >"
-      end
-    else
-      xml << self.answer_cells.collect { |answer_cell| answer_cell.to_xml }
-    end
-    xml << "  </answer_cells>"
-    xml << "</answer>"
-  end
+  # def to_xml
+  #   xml = []
+  #   xml << "<answer question='#{self.number.to_s}' question_id='#{self.question_id.to_s}' >"
+  #   xml << "  <answer_cells>"
+  #   if self == self.parent_max_answer
+  #     self.parent.cell_values.each do |var, val|
+  #       "<v >"
+  #     end
+  #   else
+  #     xml << self.answer_cells.collect { |answer_cell| answer_cell.to_xml }
+  #   end
+  #   xml << "  </answer_cells>"
+  #   xml << "</answer>"
+  # end
   
   def set_missing_items
     q_cells = cache_fetch("question_cells_#{self.question_id}") { self.question.rows_of_cols }

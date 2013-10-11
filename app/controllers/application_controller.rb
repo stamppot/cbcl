@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_filter :configure_charsets
   before_filter :set_permissions, :except => [:dynamic_data, :logout, :finish]
   before_filter :check_logged_in, :except => [:login]
-  before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout]
+  before_filter :check_access, :except => [:dynamic_data, :finish, :logout, :shadow_logout, :check_controller_access]
   before_filter :center_title, :except => [:dynamic_data, :logout, :login]
   before_filter :cookies_required, :except => [:login, :logout, :upgrade]
 
@@ -154,26 +154,8 @@ class ApplicationController < ActionController::Base
         if params[:action] =~ /edit|update|delete|destroy|show|show.*|add|remove/
           # RAILS_DEFAULT_LOGGER.debug "Checking access for user #{current_user.login}:\n#{params[:controller]} id: #{params[:id]}\n\n"
           id = params[:id].to_i
-          # puts "checking access... params: #{params.inspect}"
-          case params[:controller]
-          when /faq/
-            access = current_user.access?(:superadmin) || current_user.access?(:admin)
-          when /score_reports|answer_reports/  # TODO: test this one!!!
-            access = if params[:answers]
-              params[:answers].keys.all? { |entry| current_user.has_journal? entry }
-            else
-              current_user.has_journal? id
-            end
-          when /scores/
-            access = current_user.access? :superadmin
-          when /group|role/
-            access = current_user.access? :superadmin
-          else
-            puts "APP CHECKACCESS #{params.inspect}"
-            access = current_user.access? :superadmin
-          end
-          return access
-        end
+          return check_controller_access(params[:controller], params[:answers])  # access
+        # end
       else
         puts "ACCESS FAILED: #{params.inspect}"
         params.clear
@@ -181,6 +163,28 @@ class ApplicationController < ActionController::Base
       end
     end
     return true
+  end
+
+  def check_controller_access(controller, answers)
+    case controller
+      when /faq/
+        access = current_user.access?(:superadmin) || current_user.access?(:admin)
+      when /score_reports|answer_reports/  # TODO: test this one!!!
+        access = if answers
+          answers.keys.all? { |entry| current_user.has_journal? entry }
+        else
+          current_user.has_journal? id
+        end
+      when /scores/
+        access = current_user.access? :superadmin
+      when /group|role/
+        access = current_user.access? :superadmin
+      else
+        puts "APP CHECKACCESS #{params.inspect}"
+        access = current_user.access? :superadmin
+      end
+      return access
+    end
   end
 
   def export_csv(csv, filename, type = "application/vnd.ms-excel; charset=utf-8")

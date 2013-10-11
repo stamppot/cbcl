@@ -52,9 +52,6 @@ class SurveyAnswer < ActiveRecord::Base
     csv_score_rapport.save
   end
 
-  def to_csv
-    self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
-  end
 
   def save_draft(params)
     survey_answer = journal_entry.survey_answer
@@ -100,12 +97,16 @@ class SurveyAnswer < ActiveRecord::Base
 		self.no_unanswered == 0
 	end
 	
-	def get_variables # do not cache, coz the cells are merged with answer cells
-    d = Dictionary.new
-    self.answers.each { |answer| d = d.merge!(answer.get_variables(survey.prefix)) }
-    d.order_by
-  end
+	# def get_variables # do not cache, coz the cells are merged with answer cells
+ #    d = Dictionary.new
+ #    self.answers.each { |answer| d = d.merge!(answer.get_variables(survey.prefix)) }
+ #    d.order_by
+ #  end
   
+  # def to_csv
+  #   self.survey.cell_variables.merge!(self.cell_values(self.survey.prefix)).values
+  # end
+
   def cell_values(prefix = nil)
     prefix ||= self.survey.prefix
     a = Dictionary.new
@@ -391,27 +392,27 @@ class SurveyAnswer < ActiveRecord::Base
     options
   end
 
-  def to_xml(options = {})
-    if options[:builder]
-      build_xml(options[:builder])
-    else
-      xml = Builder::XmlMarkup.new
-      xml.__send__(:survey_answer, {:created => self.created_at}) do
-        xml.answers do
-          # self.rapports.map(&:score_rapports).each do |rapport|
-          self.cell_vals.each do |answer_vals|
-            xml.__send__(:answer, {:number => answer_vals[:number]}) do
-              xml.cells do
-                answer_vals[:cells].each do |cell_h|
-                  attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
-                  xml.__send__(:cell, attrs)
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
+  # def to_xml(options = {})
+  #   if options[:builder]
+  #     build_xml(options[:builder])
+  #   else
+  #     xml = Builder::XmlMarkup.new
+  #     xml.__send__(:survey_answer, {:created => self.created_at}) do
+  #       xml.answers do
+  #         # self.rapports.map(&:score_rapports).each do |rapport|
+  #         self.cell_vals.each do |answer_vals|
+  #           xml.__send__(:answer, {:number => answer_vals[:number]}) do
+  #             xml.cells do
+  #               answer_vals[:cells].each do |cell_h|
+  #                 attrs = {:v => cell_h[:v], :var => cell_h[:var], :type => cell_h[:type] }
+  #                 xml.__send__(:cell, attrs)
+  #               end
+  #             end
+  #           end
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
   
 end

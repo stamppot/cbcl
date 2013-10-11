@@ -138,34 +138,34 @@ class Question < ActiveRecord::Base
     end
   end
   
-  def get_variables(prefix = nil)
-    cells = Dictionary.new
-    prefix ||= survey.prefix
+  # def get_variables(prefix = nil)
+  #   cells = Dictionary.new
+  #   prefix ||= survey.prefix
 
-    q = self.number.to_roman.downcase
-    # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
-    self.question_cells.answerable.map do |cell|
-      # if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
-        var = Variable.get_by_question(id, cell.row, cell.col)
-        if var
-					var.item = cell.answer_item
-					var.value = cell.value || "#NULL!"
-					var.datatype = cell.datatype.to_s
-          cells[var.var.to_sym] = var
-        else  # default var name
-          item = cell.answer_item
-					var = Variable.new({:row => cell.row, :col => cell.col, 
-						:question_id => cell.question_id, :survey_id => survey.id, 
-						:item => cell.answer_item, :datatype => cell.datatype.to_s})
-					item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
-					var.var = "#{prefix}#{q}#{item}"
-					var.value = cell.value.blank? && "#NULL" || cell.value
-          cells[var.var.to_sym] = var
-        end
-      # end
-    end
-    return cells
-  end
+  #   q = self.number.to_roman.downcase
+  #   # puts "answerable cells for q: #{self.id} n: #{self.number} :: #{self.question_cells.answerable.count}"
+  #   self.question_cells.answerable.map do |cell|
+  #     # if cell.class.to_s =~ /Rating|Checkbox|ListItemComment|SelectOption|TextBox/
+  #       var = Variable.get_by_question(id, cell.row, cell.col)
+  #       if var
+		# 			var.item = cell.answer_item
+		# 			var.value = cell.value || "#NULL!"
+		# 			var.datatype = cell.datatype.to_s
+  #         cells[var.var.to_sym] = var
+  #       else  # default var name
+  #         item = cell.answer_item
+		# 			var = Variable.new({:row => cell.row, :col => cell.col, 
+		# 				:question_id => cell.question_id, :survey_id => survey.id, 
+		# 				:item => cell.answer_item, :datatype => cell.datatype.to_s})
+		# 			item << "hv" if !(item =~ /hv$/) && cell.type =~ /Comment|Text/
+		# 			var.var = "#{prefix}#{q}#{item}"
+		# 			var.value = cell.value.blank? && "#NULL" || cell.value
+  #         cells[var.var.to_sym] = var
+  #       end
+  #     # end
+  #   end
+  #   return cells
+  # end
   
   # contains only answerable cells
   def cell_variables(prefix = nil)

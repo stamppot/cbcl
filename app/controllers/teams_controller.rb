@@ -1,19 +1,6 @@
 class TeamsController < ApplicationController # < ActiveRbac::ComponentController
   # The RbacHelper allows us to render +acts_as_tree+ AR elegantly
   helper RbacHelper
-  
-  # We force users to use POST on the state changing actions.
-  # verify :method       => :delete, :only => :destroy, :redirect_to => :show, :add_flash => { :error => 'Wrong request type: cannot delete'}
-  # verify :method       => :post,
-  #        :only         => [ :create, :update, :destroy ],
-  #        :redirect_to  => teams_url,
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
-  #         
-  # # We force users to use GET on all other methods, though.
-  # verify :method       => :get,
-  #        :only         => [ :index, :list, :show, :new, :delete ],
-  #        :redirect_to  => teams_url,
-  #        :add_flash    => { :error => 'You sent an invalid request!' }
 
   def login_users
     @team = Team.find(params[:id])
@@ -245,8 +232,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     
     dest_team = Team.find params[:team]
     journals = Journal.find(params[:journals])
-    journals.each { |journal| journal.parent = dest_team }
-    journals.each { |journal| journal.save }
+    journals.each { |journal| journal.parent = dest_team; journal.save }
 
     flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
     redirect_to select_journals_path(team) and return

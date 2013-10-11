@@ -87,7 +87,7 @@
 						<%= entry.answered_by && t("roles.#{entry.answered_by}") || entry.status %>
 					 </td>
 					 <td style="min-width: 100px;"><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-									(survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>
+									(print_survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>
 						<a href="/journal_entries/edit_notes/<%= entry.id %>" title="Noter">
 							<img src="/images/tag_blue.png" alt="Noter" title="Noter" border=0 align="right" />
 						</a>

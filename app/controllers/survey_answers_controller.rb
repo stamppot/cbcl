@@ -19,16 +19,16 @@ class SurveyAnswersController < ApplicationController
     render :layout => 'survey' # :template => 'surveys/show'
   end
 
-  def show_fast
-    @options = {:action => "show", :answers => true}
-    @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
-    @survey_answer = @journal_entry.survey_answer
-    @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
-    @survey = @@surveys[@journal_entry.survey_id]
-    @survey.merge_survey_answer(@survey_answer)
-    @page_title = "CBCL - Vis Svar: " << @survey.get_title
-    render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
-  end
+  # def show_fast
+  #   @options = {:action => "show", :answers => true}
+  #   @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
+  #   @survey_answer = @journal_entry.survey_answer
+  #   @@surveys[@journal_entry.survey_id] ||= Survey.and_questions.find(@survey_answer.survey_id)
+  #   @survey = @@surveys[@journal_entry.survey_id]
+  #   @survey.merge_survey_answer(@survey_answer)
+  #   @page_title = "CBCL - Vis Svar: " << @survey.get_title
+  #   render :template => 'surveys/show_fast' #, :layout => "layouts/showsurvey"
+  # end
 
   def edit
     journal_entry = JournalEntry.find(params[:id])
@@ -36,13 +36,11 @@ class SurveyAnswersController < ApplicationController
     redirect_to survey_path(journal_entry.survey_id)
   end
 
-  def print
+  def print # this is dangerous because it changes @survey
     @options = {:answers => true, :disabled => false, :action => "print"}
     @journal_entry = JournalEntry.and_survey_answer.find(params[:id])
     @survey_answer = SurveyAnswer.and_answer_cells.find(@journal_entry.survey_answer_id)
-    @survey = cache_fetch("survey_#{@journal_entry.id}", :expires_in => 15.minutes) do
-      Survey.and_questions.find(@survey_answer.survey_id)
-    end
+    @survey = Survey.and_questions.find(@survey_answer.survey_id)
     @survey.merge_survey_answer(@survey_answer)
     @page_title = "CBCL - Udskriv Svar: " << @survey.get_title
   end
