@@ -199,10 +199,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def my_groups
+    if self.id == 1
+      center_and_teams
+    elsif(self.has_access?(:admin))
+      centers = self.groups.select {|g| g.is_a?(Center)}
+      centers += centers.map {|c| c.teams}.flatten
+    else
+      center_and_teams
+    end
+  end
+
   def center_and_teams
     if(self.has_access?(:admin))
+      # puts "CENTER_AND_TEAMS: admin"
       Group.center_and_teams
     else
+      puts "CENTER_AND_TEAMS: #{self.roles.map &:title}"
+
       groups = self.centers
       groups.each do |center| 
         center.children.each { |team| groups << team if team.instance_of? Team }

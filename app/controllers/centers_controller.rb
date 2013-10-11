@@ -201,17 +201,17 @@ class CentersController < ApplicationController
   def next_journal_code
     center = Center.find_by_id(params[:id])
     center = Team.find(params[:id]).center unless center
-    journal = Journal.find(params[:journal_id])
+    journal = Journal.find_by_id(params[:journal_id])
     code = journal && journal.code || nil
     next_journal_code = center.next_journal_code(code)
 
     respond_to do |format|
       format.js {
         render :update do |page|
-          if next_journal_code != code
+          # if next_journal_code != code
             page << "$('group_code').value='" + next_journal_code.to_s + "';"
             page.visual_effect :pulsate, 'group_code'
-          end
+          # end
         end
       }
     end
