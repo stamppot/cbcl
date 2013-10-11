@@ -47,9 +47,7 @@ class RemindersController < ApplicationController
     selected_state = [2,3,4,5,6] if selected_state == "0"
 
     @state = selected_state.to_a
-    puts "generate #{selected_state.class} selected_state: #{selected_state.inspect}"
     @is_answered = @state == [5,6]
-    puts "is_answered: #{@is_answered}"
     @start_date = @group.created_at
     @stop_date = DateTime.now
 
@@ -92,7 +90,6 @@ class RemindersController < ApplicationController
 
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
       between(@start_date, @stop_date).all(:order => 'created_at desc') unless @state.empty?
-    # puts "" << @journal_entries[0..4].map(&:status).inspect
     export_csv_helper = ExportCsvHelper.new
     rows = export_csv_helper.get_entries_status(@journal_entries)
     csv = export_csv_helper.to_csv(rows)

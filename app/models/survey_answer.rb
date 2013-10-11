@@ -353,7 +353,7 @@ class SurveyAnswer < ActiveRecord::Base
       csa = CsvSurveyAnswer.create(options)
     end
   end
-    
+  
   def to_danish(str)
     str.gsub("Ã¸", "ø").gsub("Ã¦", "æ").gsub("Ã…", "Å")
   end

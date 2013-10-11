@@ -243,19 +243,7 @@ class CSVHelper
     csv
   end
 
-
-  # def entries_status(journal_entries)
-  #   surveys = Survey.all.to_hash(&:id).invert
-  #   output = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv_output|
-  #     csv_output << %w{skema kode navn status tilfoejet}    # header
-  #     journal_entries.each do |entry|                       # rows
-  #       s = surveys[entry.survey_id]
-  #       csv_output << [s.get_title, entry.journal.code, entry.journal.get_title, entry.status, entry.created_at.strftime("%Y-%m-%d")]
-  #     end
-  #   end
-  # end
-  
-  
+ 
   # header vars grouped by survey
   def survey_headers(survey_ids)
     # s_headers = cache_fetch("survey_headers_#{survey_ids.join('-')}", :expires_in => 15.minutes) do
@@ -280,118 +268,6 @@ class CSVHelper
     result.order_by
   end
 
-  # def join_table_survey_answers_mixed(survey_ids, entries)
-  #   s_headers = survey_headers_flat(survey_ids)
-    
-  #   t1 = Time.now
-  #   survey_answers = entries.map {|e| e.survey_answer_id }
-  #   sa_table = survey_answers.inject(Dictionary.new) do |h, sa|
-  #     sa_obj = cache_fetch("survey_answer_#{sa}") do SurveyAnswer.and_answer_cells.find_by_id(sa) end
-  #     h[sa] = sa_obj.cell_values unless sa_obj.blank?
-  #     h
-  #   end    # join table (hash)
-  #   e1 = Time.now
-  #   puts "PROFILE join_table_survey_answers_mixed, cell_values: #{e1-t1}"
-  #   # duplicate_check = check_duplicate_survey_answers_per_journal(entries)
-    
-  #   query = Query.new
-  #   tbl_j_sa = query.query_journal_to_survey_answers(survey_ids, entries.map {|e| e.id })
-    
-  #   t3 = Time.now
-  #   # tbl_j_sa.each { |j, sa_ids| puts "j_sa: #{j}: #{sa_ids.inspect}"}
-  #   tbl_j_sa.each do |j, sa_ids|  # merge survey answers with survey headers
-  #     tbl_j_sa[j] = s_headers.merge(sa_ids.map { |sa_id| sa_table[sa_id.to_i] }.foldl(:merge!)).values
-  #   end
-  #   e3 = Time.now
-  #   puts "PROFILE join_table_survey_answers_mixed, headers_merge: #{e3-t3}"
-    
-  #   # TODO: add journal_info
-  #   tbl_j_sa
-  # end
-
-  # def journal_table_to_csv(table_journals_sas, s_headers)
-  #   journals = cache_fetch("journals_#{table_journals_sas.keys.join('_')}", :expires_in => 3.minutes) do
-  #     Journal.find(table_journals_sas.keys).to_hash_with_key { |j| j.id } #.inject({}) { |col, j| col[j.id] = j; col }
-  #   end
-  #   headers = journal_csv_header.merge(s_headers)
-  
-  #   csv = FasterCSV.generate(:col_sep => ";", :row_sep => :auto) do |csv|
-  #     csv << headers.keys
-      
-  #     contents = []
-  #     table_journals_sas.each do |journal, vals|
-  #       row = [journals[journal].to_csv, vals].flatten
-  #       contents << row
-  #     end
-  #     contents.each { |row| csv << row }
-  #   end
-  #   return csv
-  # end
-
-  # def filter_valid_entries(entries)
-  #   # entries.each { |e| puts "NOT AN ENTRY: #{e.inspect}" unless e.is_a?(JournalEntry)}
-  #   entries.map { |e| e.valid_for_csv? }.compact
-  # end
-  
-  # This one does the complete job
-  # def entries_to_csv(entries, survey_ids)
-  #   s_headers = survey_headers_flat(survey_ids)
-  #   entries = filter_valid_entries(entries)
-  #   journal_table_to_csv(join_table_survey_answers_mixed(survey_ids, filter_valid_entries(entries)), s_headers)
-  # end
-    
-  # fill survey answers where no survey has been answered
-  # def fill_csv_answer(survey_headers, answer_values)
-  #   # t = Time.now
-  #   results = Dictionary.new
-  #   survey_headers.each do |survey_id, h_group|
-  #     s = results[survey_id] = Dictionary.new
-      
-  #     a_s = answer_values[survey_id] # TODO use this instead of below in !if
-  #     h_group.each do |key, rest|  # fill in blanks
-  #       if !(a_g = answer_values[survey_id])  # fill where survey is missing
-  #         s[key] = ""
-  #       else
-  #         s[key] = a_g[key]
-  #       end
-  #     end
-  #   end
-  #   results
-  # end
- 
-  # works, but slow
-  # def journal_entries(entries)
-  #   t = Time.now
-  #   survey_ids = entries.map {|e| e.survey_id}.uniq
-  #   s_headers = survey_headers(survey_ids)
-  #   headers = journal_csv_header.merge(s_headers)
-  #   e = Time.now
-  #   puts "generate survey_headers: #{e-t}"
-  #   # by journal, get all survey_answers, grouped by entry_id
-  #   sa_ids = entries.map { |e| e.survey_answer_id }
-  #   sas = SurveyAnswer.with_journals.for_surveys(survey_ids).all(:conditions => ['survey_answers.id IN (?)', sa_ids], :include => {:answers => :answer_cells})   # add survey_id contraint for indexes
-
-  #   group_by_journal = sas.build_hash { |elem| [elem.journal_entry.journal, elem] } # TODO: test
-  #   e1 = Time.now
-    
-  #   # for each answer in journal, fill answer
-  #   rows = []
-  #   # count_fill = 0
-  #   group_by_journal.each_with_index do |tuple, i|
-  #     journal = tuple.first
-  #     journal_info = Dictionary.new
-  #     journal_info[:journal] = journal.to_csv
-  #     # s_headers.each do |survey_id, |
-  #     filled_answers = fill_csv_answer(s_headers, survey_answers_groups(tuple.last)) # sas for all entries in one journal
-  #     # count_fill += 1
-  #     rows << journal_info.merge(filled_answers)
-  #   end
-  #   e2 = Time.now
-  #   # puts "Time journal_entries get all answers: #{e1-t}"
-  #   # puts "Time journal_entries total: #{e2-t}"
-  #   # puts "Count fill_csv_answer: #{count_fill}"
-  #   rows
-  # end
   
   def journal_csv_header
     c = Dictionary.new

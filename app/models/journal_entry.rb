@@ -236,6 +236,35 @@ class JournalEntry < ActiveRecord::Base
     }
   end
 
+  def update_date(created)
+    age = ((created - self.journal.birthdate).to_i / 365.25).floor
+    self.survey_answer.age = age
+    self.answered_at = created
+    self.save
+    
+    self.survey_answer.created_at = created
+    self.survey_answer.save
+    
+    csv_score_rapport = CsvScoreRapport.find_by_survey_answer_id(self.survey_answer_id)
+    if csv_score_rapport
+      csv_score_rapport.age = age if csv_score_rapport
+      csv_score_rapport.created_at = created
+      csv_score_rapport.save
+    end
+    csv_survey_answer = CsvSurveyAnswer.find_by_journal_entry_id(self.id)
+    if csv_survey_answer
+      csv_survey_answer.created_at = created
+      csv_survey_answer.age = age if csv_survey_answer
+      csv_survey_answer.save
+    end
+    score_rapport = ScoreRapport.find_by_survey_answer_id(self.survey_answer_id)
+    if score_rapport
+      score_rapport.age = age
+      score_rapport.created_at = created
+      score_rapport.save
+    end
+  end
+
   def make_login_user(password = nil)
     login = journal.parent.login_prefix
     group_name = journal.parent.group_name_abbr

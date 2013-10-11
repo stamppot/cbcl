@@ -1,4 +1,3 @@
-# This is the controller that provides CRUD functionality for the Center model.
 class CentersController < ApplicationController
   
   def index
@@ -10,25 +9,12 @@ class CentersController < ApplicationController
   def show
     @group = Center.find(params[:id])
     @page_title = "CBCL - Center " + @group.title
-    # @users = User.users.in_center(@group).paginate(:all, :page => params[:page], :per_page => 15)
-    # @centeradmins = User.users.in_center(@group).all(:joins => :roles, :conditions => ['role_id = 3'])
     @team_count = Team.for_center(@group).count
     @journals = []    
-    # @journals = if @group.teams.size == 0
-    #   Journal.for_parent(@group).by_code.paginate(:all, :page => 1, :per_page => journals_per_page) || []
-    # else
-    #   Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => journals_per_page)
-    # end
-
-    # puts "Journals: #{@journals.size}"
-    # @subscription_presenter = @group.subscription_presenter
-    # @subscriptions = @group.subscriptions
-    # @surveys = current_user.surveys.group_by {|s| s.id}
     @hide_team = true
 
     respond_to do |format|
       format.html {
-        # puts "CENTERS/#{params[:id]} HTML"
          redirect_to team_path(@group) and return if @group.instance_of?(Team) }
       format.rjs {
         render :update do |page|
@@ -82,7 +68,6 @@ class CentersController < ApplicationController
     @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
-    # assign properties to group
     if @group.save
       flash[:notice] = 'Centeret er blevet opdateret'
       redirect_to(centers_path)
@@ -208,10 +193,8 @@ class CentersController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          # if next_journal_code != code
-            page << "$('group_code').value='" + next_journal_code.to_s + "';"
-            page.visual_effect :pulsate, 'group_code'
-          # end
+          page << "$('group_code').value='" + next_journal_code.to_s + "';"
+          page.visual_effect :pulsate, 'group_code'
         end
       }
     end

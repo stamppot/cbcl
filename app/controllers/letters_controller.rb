@@ -9,10 +9,8 @@ class LettersController < ApplicationController
     else
       @groups = current_user.center_and_teams
     end
- #   params = {:follow_up => {:follow_up => ""}, :survey => {:surveytype =>""}, :group => {:id=>""}}
     params[:center_id] = current_user.center_id || 1
     params[:group].delete :id if params[:group] && params[:group][:id].blank?
-    # params[:group] ||= {:id => current_user.center_id}
     @letters = Letter.filter(params)
     @group = Group.find(params[:group][:id]) if params[:group] && !params[:group][:id].blank?
     @surveys = Survey.find([2,3,4,5])
@@ -55,7 +53,6 @@ class LettersController < ApplicationController
 	    flash[:notice] = "Kan ikke rette andres breve!" 
 	    redirect_to letters_path and return
     end
-    # logger.info "group_ids: #{current_user.center_and_teams.map(&:id).inspect}, letter.group: #{@letter.group_id}"
   end
 
   def create

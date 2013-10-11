@@ -60,7 +60,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     # if journal is created from Team.show, then team is set to parent
     @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
     @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
-    alt_ids = [] #@group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
+    alt_ids = []
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
     @surveys = current_user.subscribed_surveys
@@ -240,7 +240,6 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = Journal.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
     @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
-    # @teams = current_user.teams
     @journal_count = Journal.for_parent(@group).count
 
      respond_to do |format|
@@ -282,7 +281,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @project = Project.find(params[:id])
     @group = @project.center
     @page_title = "CBCL - Center " + @group.title
-    @journals = @project.journals #.for_center(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
+    @journals = @project.journals
   end
 
   def update_journals_email
