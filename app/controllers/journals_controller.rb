@@ -96,16 +96,14 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @page_title = "Rediger journal"
 
     @group = Journal.find(params[:id], :include => [:person_info])
-    @groups = current_user.center_and_teams
     @person_info = @group.person_info
     @nationalities = Nationality.all
     alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
     @alt_id_name = alt_id && alt_id.value || "Projektnr"
     @any_answered_entries = @group.answered_entries.any?
-    
 
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = 'Denne journal kunne ikke findes.'
+    flash[:error] = 'Journalen kunne ikke findes.'
     redirect_to journals_path
   end
 
@@ -115,10 +113,9 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = Journal.find(params[:id], :include => :journal_entries)
     @group.person_info.update_attributes(params[:person_info])
     @group.update_attributes(params[:group])
-    @group.center = @group.parent && @group.parent.center
         
     if @group.save
-      flash[:notice] = 'Journal er opdateret.'
+      flash[:notice] = 'Journalen er opdateret.'
       redirect_to journal_path(@group)
     else
       @nationalities = Nationality.all
@@ -239,15 +236,15 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     redirect_to teams_url
   end
 
-  def select_move # nb. :id is Team id!
-    @group = Team.find(params[:id])
+  def select_group # nb. :id is Team id!
+    @group = Journal.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
-    @teams = current_user.teams
+    @groups = current_user.center_and_teams # Group.get_teams_or_centers(params[:id], current_user)
+    # @teams = current_user.teams
     @journal_count = Journal.for_parent(@group).count
 
      respond_to do |format|
-       format.html { render "select" }
+       format.html { render "select_group" }
        format.js { render :update do |page| page.replace_html 'journals', :partial => 'shared/select_journals' end }
      end
 
@@ -257,17 +254,16 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
   
   def move
-    team = Team.find(params[:id])
-    flash[:error] = 'Ingen journaler er valgt' if params[:journals].blank?
-    redirect_to team if flash[:error]
-    
-    dest_team = Team.find params[:team]
-    journals = Journal.find(params[:journals])
-    journals.each { |journal| journal.parent = dest_team }
-    journals.each { |journal| journal.save }
+    journal = Journal.find(params[:id])
+    team = journal.parent
+    flash[:error] = 'Ingen gruppe er valgt' if params[:group].blank?
+    redirect_to journal if flash[:error]
 
-    flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
-    redirect_to select_journals_path(team) and return
+    dest = Group.find(params[:group][:parent])
+    journal.parent = dest
+    journal.save    
+    flash[:notice] = "Journalen '#{journal.title}' er flyttet fra #{team.title} til #{dest.title}"
+    redirect_to journal_path(journal) and return
   end
 
   def add_journals

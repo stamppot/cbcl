@@ -1,7 +1,82 @@
 <h2>Opret journal</h2>
 
 <% form_tag journals_path, :name => 'journal_form' do %>
-	<%= render :partial => 'form' %>
+
+<%= error_messages_for 'group' %>
+
+<!--[form:user]-->
+
+<dl>
+  <dt><label for="group_code"><%= t('id') %></label></dt>
+  <dd><%= text_field 'group', 'code', { :size => 5 }  %></dd>
+
+  <dt><label for="group_title"><%= t('name') %></label></dt>
+  <dd><%= text_field 'group', 'title'  %></dd>
+
+  <dt><label for="person_info_sex"><%= t('gender') %></label></dt>
+  <dd><%= select 'person_info', 'sex', PersonInfo.sexes.to_a %></dd>
+
+  <dt><label for="person_info_birthdate"><%= t('birthdate') %></label></dt>
+  <dd><%= date_select 'person_info', 'birthdate', {:start_year => Date.today.year-25, :end_year => Date.today.year, :order => [:day, :month, :year] } %></dd>
+
+  <dt><label for="person_info_nationality"><%= t('nationality') %></label></dt>
+  <dd><%= collection_select('person_info', 'nationality', @nationalities, :country, :country) %></dd>
+
+  <dt><label for="person_info_parent_name"><%= 'Forælder' %></label></dt>
+  <dd><%= text_field('person_info', 'parent_name', {:size => 40}) %></dd>
+
+  <dt><label for="person_info_parent_email"><%= 'Forælder-email' %></label></dt>
+  <dd><%= text_field('person_info', 'parent_email', {:size => 25}) %></dd>
+
+  <dt><label for="person_info_alt_id"><%= 'Projektnr' %></label></dt>
+  <dd><%= text_field('person_info', 'alt_id', {:size => 25}) %></dd>
+
+	<br/>
+
+  <% if !@any_answered_entries %>
+  <dt><label>Vælg center/team:</label></dt>
+  <dd>
+    <%= node_tree(@groups) do |group|
+					onclick = 
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group
+          result += "<label for=\"group_parent_#{group.id}\">#{group.title}</label> "
+          result
+        end %>
+  </dd>
+
+  <% if @project %>
+  <dt><label for="journal_project"><%= 'Projekt' %></label></dt>
+  <dd><%= radio_button :group, :project, @project.id, {:checked => true} %><%= @project.code %> - <%= @project.name %></dd>
+  <% end %>
+</dl>
+
+<script type="text/javascript">
+Event.observe(window, 'load', function() {
+  var code = $("group_code").value;
+  var hasCode = code != "";
+  if(!hasCode) {
+  	var selectedGroup = $$(".group_center").find(function(radio) { return radio.checked; }).value;
+	  new Ajax.Updater('group_code', '/centers/next_journal_code',
+	   {asynchronous:true, evalScripts:true, parameters:'id=' + selectedGroup});
+  }
+  });
+$$(".group_center").each(function(center){
+	center.observe('click', function(){
+		new Ajax.Updater('group_code', '/centers/next_journal_code',
+		{asynchronous:true, evalScripts:true, parameters:'id=' + center.value});
+	});
+});
+$('group_code').focus();
+</script>
+
+<% else %>
+  <dt><%= center_or_team_text(@group.parent) %></label></dt>
+  <dd><%= @group.parent.title %></dd>
+  <br/>
+<% end %>
+<!--[eoform:user]-->
+
 	<%= submit_tag t('create'), :name => 'submit[create]', :class => 'button journal_add' %>
 <% end %>
 

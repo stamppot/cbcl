@@ -221,6 +221,37 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
     end
   end
 
+  def select_move_journals # nb. :id is Team id!
+    @group = Team.find(params[:id])
+    @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
+    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
+    @teams = current_user.teams
+    @journal_count = Journal.for_parent(@group).count
+
+     respond_to do |format|
+       format.html { render "select" }
+       format.js { render :update do |page| page.replace_html 'journals', :partial => 'shared/select_journals' end }
+     end
+
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = 'Du har ikke adgang til dette team.'
+    redirect_to teams_url
+  end
+
+  def move_journals
+    team = Team.find(params[:id])
+    flash[:error] = 'Ingen journaler er valgt' if params[:journals].blank?
+    redirect_to team if flash[:error]
+    
+    dest_team = Team.find params[:team]
+    journals = Journal.find(params[:journals])
+    journals.each { |journal| journal.parent = dest_team }
+    journals.each { |journal| journal.save }
+
+    flash[:notice] = "Journaler er flyttet fra #{team.title} til team #{dest_team.title}"
+    redirect_to select_journals_path(team) and return
+  end
+
   protected
   before_filter :behandler_access, :only => [ :list, :index, :show ]
   # before_filter :teamadmin_access, :only => [ :edit ]

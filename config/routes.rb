@@ -104,9 +104,13 @@ ActionController::Routing::Routes.draw do |map|
   map.center_teams 'teams/center/:center_id.:format', :controller => 'teams', :action => 'center'
   map.delete_team '/teams/delete/:id', :controller => 'teams', :action => 'delete'
   map.journals_for_center '/journals/center/:id', :controller => 'journals', :action => 'center'
-  map.select_journals '/journals/select/:id', :controller => 'journals', :action => 'select'
-  map.select_move_journals '/journals/select_move/:id', :controller => 'journals', :action => 'select_move'
-  map.move_journals '/journals/move/:id', :controller => 'journals', :action => 'move'
+  map.select_journals '/teams/select_journals/:id', :controller => 'teams', :action => 'select_journals'
+  map.select_move_journals '/teams/select_move_journals/:id', :controller => 'teams', :action => 'select_move_journals'
+  # map.move_journals '/journals/move/:id', :controller => 'journals', :action => 'move'
+  
+  # should be to group?
+  map.move_journal_to_group '/journals/select_group/:id', :controller => 'journals', :action => 'select_group'
+  map.move_journal '/journals/move/:id', :controller => 'journals', :action => 'move'
 
   map.journal_search 'journals/live_search/:id', :controller   => 'journals', :action => 'live_search'
   map.new_journal 'journals/new/:id', :controller              => 'journals', :action => 'new'
@@ -122,6 +126,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.add_project_journals '/journals/add/:id', :controller => 'projects', :action => 'add_journals'
   map.edit_journals_email '/journals/edit_emails/:id', :controller => 'journals', :action => 'edit_email'
   map.update_journals_email '/journals/update_emails/:id', :controller => 'journals', :action => 'update_email'
+  map.edit_journals_group '/journals/edit_group/:id', :controller => 'journals', :action => 'edit_group'
+  map.update_journals_group '/journals/update_group/:id', :controller => 'journals', :action => 'update_group'
 
   map.export_journals 'journals/export_mails/:id.:format', :controller => 'journals', :action => 'export_mails' #, :format => 'csv'
   map.export_journal_logins 'journals/export_logins/:id', :controller => 'journals', :action => 'export_logins' #, :format => 'csv'

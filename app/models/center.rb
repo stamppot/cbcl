@@ -121,8 +121,9 @@ class Center < Group
     highest_code && highest_code.succ || 1
   end
     
-  def next_journal_code
+  def next_journal_code(code)
     highest_code = Journal.maximum('code', :conditions => ["center_id = ?", self.id])
+    return code if highest_code == code
     highest_code && highest_code.succ || 1 # Journal.find(highest_id).code.succ || 1
   end
 

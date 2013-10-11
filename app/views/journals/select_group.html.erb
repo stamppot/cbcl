@@ -1,0 +1,63 @@
+<h2>Flyt Journal</h2>
+
+<% form_tag move_journal_url(@group), :method => :put do %>
+
+<%= error_messages_for 'group' %>
+
+<!--[form:user]-->
+
+<dl>
+  <dt><<%= t('code') %></label></dt>
+
+<span>For at undgå at to journaler har samme kode i et team, kan journalkoden kan blive ændret ved valg af nyt team.</span>
+  <dt><label for="group_code"><%= t('code') %></label></dt>
+  <dd><%= @group.code %>&nbsp;&nbsp;Ny kode:<%= text_field :group, :code, :size => 5 %></dd>
+
+  <dt><label for="group_title"><%= t('name') %></label></dt>
+  <dd><%= @group.title %></dd>
+
+  <dt><label for="group_group"><%= t('group') %></label></dt>
+  <dd><%= @group.parent.title %></dd>
+
+	<br/>
+
+  <dt><label>Vælg center/team:</label></dt>
+  <dd>
+    <%= node_tree(@groups) do |group|
+					onclick = 
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group
+          result += "<label for=\"group_parent_#{group.id}\">#{group.title}</label> "
+          result
+        end %>
+  </dd>
+
+</dl>
+
+<script type="text/javascript">
+Event.observe(window, 'load', function() {
+  var code = $("group_code").value;
+  var hasCode = code != "";
+
+  if(!hasCode) {
+  	var selectedGroup = $$(".group_center").find(function(radio) { return radio.checked; }).value;
+	  new Ajax.Updater('group_code', '/centers/next_journal_code',
+	   {asynchronous:true, evalScripts:true, parameters: {id: selectedGroup}});
+  }
+  });
+  var journal_id = <%= @group.id %>;
+$$(".group_center").each(function(center){
+	center.observe('click', function(){
+		new Ajax.Updater('group_code', '/centers/next_journal_code',
+		{asynchronous:true, evalScripts:true, parameters: {id:center.value, journal_id: journal_id}});
+	});
+});
+$('group_code').focus();
+</script>
+
+<!--[eoform:user]-->
+
+  <%= submit_tag t('save_changes'), :class => 'button journal_edit' %>
+<% end %>
+
+<%= back_button journal_url(@group) %>

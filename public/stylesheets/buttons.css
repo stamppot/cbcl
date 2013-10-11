@@ -169,6 +169,10 @@ a .download_excel_file {
 	background:url('/images/page_excel.png') no-repeat 0px 0px;
 	padding-left: 27px;
 }
+a .move_journal {
+	background:url('/images/journal_move.png') no-repeat 0px 0px;
+	padding-left: 27px;	
+}
 a .go_back {
 	background:url('/images/arrow_undo.png') no-repeat 0px 0px;
 	padding-left: 27px;
