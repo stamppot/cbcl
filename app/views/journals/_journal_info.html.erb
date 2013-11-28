@@ -42,10 +42,10 @@
 			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
 		</tr>
 		<tr>
-			<td class="p_i"><%= center_or_team_text(@group.parent) %>:</td>
-			<% if @group.parent != nil %>
-		  <%   group = @group.parent.class.to_s.underscore %> 
-		  <td class="p"><%= link_to h(@group.parent.title), @group.parent, :title => "Vis #{group.camelize}" %></td>
+			<td class="p_i"><%= center_or_team_text(@group.group) %>:</td>
+			<% if @group.group != nil %>
+		  <%   group = @group.group.class.to_s.underscore %> 
+		  <td class="p"><%= link_to h(@group.group.title), @group.group, :title => "Vis #{group.camelize}" %></td>
 		  <% else %>
 		  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
 		  <% end %>

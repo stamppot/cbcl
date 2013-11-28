@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
   validates_associated :roles
   validates_presence_of :roles#, :message => "skal angives"
   # user must belong to a group unless he's superadmin or admin
-  validates_associated :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
-  validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) }
+  validates_associated :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) && !user.login_user }
+  validates_presence_of :groups, :if => Proc.new { |user| !user.has_role?(:superadmin, :admin) && !user.login_user }
   validates_presence_of :password
   
   attr_accessor :perms

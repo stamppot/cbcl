@@ -58,8 +58,8 @@ class Letter < ActiveRecord::Base
 
   def self.find_by_priority(entry)
     st = entry.survey.surveytype
-    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up = ?', entry.journal.parent_id, entry.follow_up])
-    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up is null', entry.journal.parent_id]) unless letter
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up = ?', entry.journal.group_id, entry.follow_up])
+    letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up is null', entry.journal.group_id]) unless letter
     letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up = ?', entry.journal.center_id, entry.follow_up]) unless letter
     letter = Letter.find_by_surveytype(st, :conditions => ['group_id = ? and follow_up is null', entry.journal.center_id]) unless letter
     letter = Letter.find_default(st) unless letter

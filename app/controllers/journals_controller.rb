@@ -68,7 +68,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def create
-    parent = Group.find(params[:group][:parent])
+    parent = Group.find(params[:group].delete(:group))
+    params[:group][:group] = parent
     params[:person_info][:name] = params[:group][:title]
     params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
     @group = Journal.new(params[:group])
@@ -81,6 +82,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
       flash[:notice] = 'Journalen er oprettet.'
       redirect_to journal_path(@group) and return
     else
+      flash[:error] = @group.errors.inspect
       @groups = Group.get_teams_or_centers(params[:id], current_user)
       @nationalities = Nationality.find(:all)
       @surveys = current_user.subscribed_surveys
@@ -88,7 +90,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
 
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + @group.errors.inspect
+    flash[:error] += 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + (@group && @group.errors.inspect || "")
     redirect_to journals_path
   end
 
@@ -258,7 +260,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     flash[:error] = 'Ingen gruppe er valgt' if params[:group].blank?
     redirect_to journal if flash[:error]
 
-    dest = Group.find(params[:group][:parent])
+    dest = Group.find(params[:group][:group])
     journal.group = dest
     journal.save    
     flash[:notice] = "Journalen '#{journal.title}' er flyttet fra #{team.title} til #{dest.title}"

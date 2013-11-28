@@ -20,7 +20,7 @@ Der er ikke oprettet journaler.
 		<td class="pj small"><span class="nobr"><%= g.birth_short %></span></td>
 		<td class="pj small"><span class="nobr"><%= g.created_at.to_date.strftime("%d-%m-%Y") %></span></td>
 		<% unless @hide_team %>
-		<td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.parent.get_name %></td>
+		<td class="pj" style="text-align: left;"><%= @hide_team %> <%= g.group.get_name %></td>
 		<% end %>
 		<td class="pj">
 			<a title="Rediger Journal" href="/journals/<%= g.id %>/edit"><img border="0" title="Rediger Journal" src="/images/journal_edit.png" class="icon" alt="Journal_edit"></a>

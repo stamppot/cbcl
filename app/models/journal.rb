@@ -4,6 +4,7 @@
 # require 'hashery'
 class Journal < ActiveRecord::Base # Group
   belongs_to :center
+  belongs_to :group
   has_one :person_info #, :dependent => :destroy
   # has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
@@ -79,7 +80,8 @@ class Journal < ActiveRecord::Base # Group
      indexes person_info.alt_id, :as => :person_info_alt_id
 		 # indexes center_id
      # attributes
-     has parent_id, center_id, created_at, updated_at
+     # has group_id, center_id, created_at, updated_at
+     has center_id, created_at, updated_at
 
      set_property :delta => true
    end
@@ -169,7 +171,7 @@ class Journal < ActiveRecord::Base # Group
   
   # can a journal belong to one or more teams?  No, just one. Or a Center!
   def team
-    return parent
+    return group
   end
   
   def name
@@ -222,7 +224,7 @@ class Journal < ActiveRecord::Base # Group
   def create_journal_entries(surveys, follow_up = 0)
     return true if surveys.empty?
     surveys.each do |survey|
-      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up, :group_id => self.parent_id})
+      entry = JournalEntry.new({:survey => survey, :state => 2, :journal => self, :follow_up => follow_up, :group_id => self.group_id})
       entry.journal_id = self.id
       # login_number = "#{self.code}#{survey.id}"
       entry.make_login_user

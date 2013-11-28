@@ -34,9 +34,9 @@
   <dd>
     <%= node_tree(@groups) do |group|
 					onclick = 
-          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.group == group
-          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.group != group
-          result += "<label for=\"group_parent_#{group.id}\">#{group.title}</label> "
+          result = "<input class=\"group_center\" id=\"group_group_#{group.id}\" type=\"radio\" name=\"group[group]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.group == group
+          result = "<input class=\"group_center\" id=\"group_group_#{group.id}\" type=\"radio\" name=\"group[group]\" value=\"#{group.id}\" /> " if @group.group != group
+          result += "<label for=\"group_group_#{group.id}\">#{group.title}</label> "
           result
         end %>
   </dd>
