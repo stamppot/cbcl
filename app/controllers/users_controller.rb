@@ -51,6 +51,7 @@ class UsersController < ApplicationController # ActiveRbac::ComponentController
 
   def create
     @user = current_user.create_user(params[:user])
+    @user.role_ids_str = @user.role_ids.join(',')
     # assign properties to user
     if @user.save
       flash[:notice] = 'Brugeren blev oprettet.'

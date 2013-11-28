@@ -38,8 +38,8 @@
   <dd>
     <%= node_tree(@groups) do |group|
 					onclick = 
-          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.parent == group
-          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.parent != group
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" checked=\"checked\" /> " if @group.group == group
+          result = "<input class=\"group_center\" id=\"group_parent_#{group.id}\" type=\"radio\" name=\"group[parent]\" value=\"#{group.id}\" /> " if @group.group != group
           result += "<label for=\"group_parent_#{group.id}\">#{group.title}</label> "
           result
         end %>
@@ -71,8 +71,8 @@ $('group_code').focus();
 </script>
 
 <% else %>
-  <dt><%= center_or_team_text(@group.parent) %></label></dt>
-  <dd><%= @group.parent.title %></dd>
+  <dt><%= center_or_team_text(@group.group) %></label></dt>
+  <dd><%= @group.group.title %></dd>
   <br/>
 <% end %>
 <!--[eoform:user]-->

@@ -2,7 +2,7 @@
 # require 'facets/dictionary'
 #require 'rake'
 # require 'hashery'
-class Journal < Group
+class Journal < ActiveRecord::Base # Group
   belongs_to :center
   has_one :person_info #, :dependent => :destroy
   # has_many :journal_entries, :order => 'created_at', :dependent => :destroy
@@ -51,8 +51,8 @@ class Journal < Group
   validates_presence_of :name#, :message => "Navn skal angives"
   validates_presence_of :sex #, :message => "Køn skal angives"
   validates_presence_of :nationality #, :message => "Nationalitet skal angives"
-  validates_associated :parent #, :message => "Et Center eller team skal angives"
-  validates_presence_of :parent
+  validates_associated :group #, :message => "Et Center eller team skal angives"
+  validates_presence_of :group
   validates_associated :center
   validates_presence_of :center
   # validates_presence_of :person_info
@@ -64,10 +64,10 @@ class Journal < Group
   named_scope :and_entries, :include => :journal_entries
   # named_scope :and_login_users, :include => { :journal_entries => :login_user }
   named_scope :and_person_info, :include => :person_info
-  named_scope :for_parent, lambda { |group| { :conditions => ['parent_id = ?', group.is_a?(Group) ? group.id : group], :order => 'created_at desc' } }
+  named_scope :for_parent, lambda { |group| { :conditions => ['group_id = ?', group.is_a?(Group) ? group.id : group], :order => 'created_at desc' } }
   named_scope :for_center, lambda { |group| { :conditions => ['center_id = ?', group.is_a?(Center) ? group.id : group], :order => 'created_at desc' } }
   named_scope :by_code, :order => 'code ASC'
-  named_scope :for_groups, lambda { |group_ids| { :conditions => ['parent_id IN (?)', group_ids] } }
+  named_scope :for_groups, lambda { |group_ids| { :conditions => ['group_id IN (?)', group_ids] } }
   named_scope :for, lambda { |journal_id| { :conditions => ['id = ?', journal_id] } }
   
   

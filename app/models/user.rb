@@ -136,6 +136,7 @@ class User < ActiveRecord::Base
 
       user.roles = roles if roles.any?
       user.groups = groups if groups.any?
+      user.role_ids_str = user.roles.map(&:id).join(',')
 
       user.center = groups.first.center unless groups.empty? or user.has_role?(:superadmin)
       user.save

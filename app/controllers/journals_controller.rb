@@ -16,7 +16,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def center
-    options = { :include => :parent, :page => params[:page], :per_page => per_page }
+    options = { :include => :group, :page => params[:page], :per_page => per_page }
     @group = Group.find params[:id]
     @journals = Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => (journals_per_page || 20))
 
@@ -32,7 +32,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   
   def index
-    options = { :include => :parent, :page => params[:page], :per_page => per_page }
+    options = { :include => :group, :page => params[:page], :per_page => per_page }
     @journals = current_user.journals(options) || [] # TODO: Move to configuration option
   end
 
@@ -59,7 +59,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @group = Journal.new
     # if journal is created from Team.show, then team is set to parent
     @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
-    @group.parent, @group.center = @groups.first, @groups.first.center if @groups.any?
+    @group.group, @group.center = @groups.first, @groups.first.center if @groups.any?
     alt_ids = []
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
@@ -238,7 +238,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
 
   def select_group # nb. :id is Team id!
     @group = Journal.find(params[:id])
-    @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
+    @page_title = "CBCL - Center " + @group.group.title + ", team " + @group.title
     @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
     @journal_count = Journal.for_parent(@group).count
 
@@ -254,12 +254,12 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   
   def move
     journal = Journal.find(params[:id])
-    team = journal.parent
+    team = journal.group
     flash[:error] = 'Ingen gruppe er valgt' if params[:group].blank?
     redirect_to journal if flash[:error]
 
     dest = Group.find(params[:group][:parent])
-    journal.parent = dest
+    journal.group = dest
     journal.save    
     flash[:notice] = "Journalen '#{journal.title}' er flyttet fra #{team.title} til #{dest.title}"
     redirect_to journal_path(journal) and return
