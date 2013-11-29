@@ -95,7 +95,7 @@
  							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
 							:update => ('entry_answer' << entry.id.to_s), 
-							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.get_title}'\n fra journalen #{@group.get_title}?",
+							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.get_title}'\n fra journalen #{@group.title}?",
 					 		:url => entry_remove_answer_path(entry)) %>      
 						</td>
 	

@@ -70,7 +70,7 @@ class Journal < ActiveRecord::Base # Group
   named_scope :by_code, :order => 'code ASC'
   named_scope :for_groups, lambda { |group_ids| { :conditions => ['group_id IN (?)', group_ids] } }
   named_scope :for, lambda { |journal_id| { :conditions => ['id = ?', journal_id] } }
-  
+  named_scope :all_parents, lambda { |group_ids| { :conditions => ['group_id IN (?)', group_ids]}}
   
   define_index do
      # fields
