@@ -192,7 +192,7 @@ class JournalEntry < ActiveRecord::Base
   end
   
   def JournalEntry.for_parent_with_state(group, states)
-    JournalEntry.for_states(states).with_cond(:conditions => ['group_id = ?', group.is_a?(Group) && group.id || group], :joins => :journal)
+    JournalEntry.for_states(states).with_cond(:conditions => ['journal_entries.group_id = ?', group.is_a?(Group) && group.id || group], :joins => :journal)
   end
   
   def JournalEntry.states  # ikke besvaret, besvaret, venter på svar (login-user)

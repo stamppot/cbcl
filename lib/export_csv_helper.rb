@@ -65,10 +65,11 @@ class ExportCsvHelper
       row = Dictionary.new
       row[:kode] = j.code
       row[:navn] = j.title
+      row[:køn] = j.sex_text
       row[:fornavn] = to_danish(j.firstname)
-      row[:email] = j.person_info.parent_email
-      row[:alt_id] = j.person_info.alt_id
-      row[:mor_navn] = to_danish(j.person_info.parent_name)
+      row[:email] = j.parent_email
+      row[:alt_id] = j.alt_id
+      row[:mor_navn] = to_danish(j.parent_name)
 
       entries = journal_entries.group_by(&:survey_id)
       surveys.each do |survey|
