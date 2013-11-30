@@ -40,6 +40,8 @@ class JournalEntriesController < ApplicationController # < ActiveRbac::Component
         page.remove elem
       end
     end
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Skemaet kunne ikke findes.'
   end
 
   # remove an answer and the associated login-user. Remove entries from the journal_entry

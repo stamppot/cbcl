@@ -50,7 +50,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   def show
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @journals = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
+    @journals = Journal.for_parent(@group).by_code.paginate(:all, :page => params[:page], :per_page => journals_per_page) || []
     @journal_count = Journal.for_parent(@group).count
     @users = @group.users
     @user_count = @users.count
@@ -211,7 +211,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   def select_move_journals # nb. :id is Team id!
     @group = Team.find(params[:id])
     @page_title = "CBCL - Center " + @group.parent.title + ", team " + @group.title
-    @groups = Journal.for_parent(@group).by_code.and_person_info.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
+    @groups = Journal.for_parent(@group).by_code.paginate(:all, :page => params[:page], :per_page => journals_per_page*2, :order => 'title') || []
     @teams = current_user.teams
     @journal_count = Journal.for_parent(@group).count
 

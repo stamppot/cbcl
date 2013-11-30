@@ -1,51 +1,51 @@
 	<table class="journal_info">
 		<tr>
 			<td class="p_i">ID:</td>
-			<td class="p"><%=h @group.qualified_id %></td>
+			<td class="p"><%=h @journal.qualified_id %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Journalnavn:</td>
-			<td class="p"><%=h @group.get_name %></td>
+			<td class="p"><%=h @journal.get_name %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Køn:</td>
-			<td class="p"><%=h @group.sex_text %></td>
+			<td class="p"><%=h @journal.sex_text %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Fødselsdato:</td>
-			<td class="p"><%=h @group.birthdate.to_s %><%= "&nbsp;" + image_tag('/images/cake.png') if(@group.birthdate.day == Time.now.day && @group.birthdate.month == Time.now.month) %></td>
+			<td class="p"><%=h @journal.birthdate.to_s %><%= "&nbsp;" + image_tag('/images/cake.png') if(@journal.birthdate.day == Time.now.day && @journal.birthdate.month == Time.now.month) %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Alder (år):</td>
-			<td class="p"><%=h @group.age %></td>
+			<td class="p"><%=h @journal.age %></td>
 		</tr>
 		<tr>
 			<td class="p_i">Nationalitet:</td>
-			<td class="p"><%=h @group.nationality %></td>
+			<td class="p"><%=h @journal.nationality %></td>
 		</tr>
-		<% if !@group.person_info.parent_name.blank? %>
+		<% if !@journal.parent_name.blank? %>
 		<tr>
 			<td class="p_i">Forælder:</td>
-			<td class="p"><%=h @group.person_info.parent_name %></td>
+			<td class="p"><%=h @journal.parent_name %></td>
 		</tr>
 		<% end %>
 		<tr>
 			<td class="p_i">Forælder-email:</td>
-			<td class="p"><%=h @group.person_info.parent_email %></td>
+			<td class="p"><%=h @journal.parent_email %></td>
 		</tr>
 		<tr>
 			<td class="p_i"><%= @alt_id_name %>:</td>
-			<td class="p"><%=h @group.person_info.alt_id %></td>
+			<td class="p"><%=h @journal.alt_id %></td>
 		</tr>
 		<tr>
 			<td class="p_i"><%= t('status.created') %>:</td>
-			<td class="p"><%=h @group.created_at.to_formatted_s(:long) %></td>
+			<td class="p"><%=h @journal.created_at.to_formatted_s(:long) %></td>
 		</tr>
 		<tr>
-			<td class="p_i"><%= center_or_team_text(@group.group) %>:</td>
-			<% if @group.group != nil %>
-		  <%   group = @group.group.class.to_s.underscore %> 
-		  <td class="p"><%= link_to h(@group.group.title), @group.group, :title => "Vis #{group.camelize}" %></td>
+			<td class="p_i"><%= center_or_team_text(@journal.group) %>:</td>
+		  <% if @journal.group %>
+		  <%   group = @journal.group.class.to_s.underscore %> 
+		  <td class="p"><%= link_to h(@journal.group.title), @journal.group, :title => "Vis #{group.camelize}" %></td>
 		  <% else %>
 		  	<td class="p">Ingen overordnet, denne journal er ikke tilknyttet et team eller center (bør ikke kunne ske)</td>
 		  <% end %>

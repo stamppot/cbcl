@@ -27,8 +27,8 @@ class Letter < ActiveRecord::Base
     self.letter.gsub!('{{navn}}', journal_entry.journal.title)
     self.letter.gsub!('{{firstname}}', journal_entry.journal.firstname)
     self.letter.gsub!('{{fornavn}}', journal_entry.journal.firstname)
-    self.letter.gsub!('{{mor_navn}}', journal_entry.journal.person_info.parent_name || "")
-    self.letter.gsub!('{{projektnr}}', journal_entry.journal.person_info.alt_id || "")
+    self.letter.gsub!('{{mor_navn}}', journal_entry.journal.parent_name || "")
+    self.letter.gsub!('{{projektnr}}', journal_entry.journal.alt_id || "")
   end
   
   def to_mail_merge

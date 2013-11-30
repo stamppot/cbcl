@@ -5,7 +5,7 @@
 class Journal < ActiveRecord::Base # Group
   belongs_to :center
   belongs_to :group
-  has_one :person_info #, :dependent => :destroy
+  # has_one :person_info #, :dependent => :destroy
   # has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :journal_entries, :order => 'created_at', :dependent => :destroy
   has_many :login_users, :through => :journal_entries, :source => :journal_entries
@@ -36,19 +36,22 @@ class Journal < ActiveRecord::Base # Group
   
   # delegate :name, :to        => :person_info
   # delegate :sex, :to         => :person_info
-  delegate :birthdate, :to   => :person_info, :allow_nil => true
-  delegate :nationality, :to => :person_info
-  delegate :age, :to         => :person_info
-  delegate :sex_text, :to    => :person_info
-  
+  # delegate :birthdate, :to   => :person_info, :allow_nil => true
+  # delegate :nationality, :to => :person_info
+  # delegate :age, :to         => :person_info
+  # delegate :sex_text, :to    => :person_info
+ 
+  before_save :set_cpr_nr
+ 
   after_save    :expire_cache
 	after_create  :index_search, :expire_cache
   after_destroy :expire_cache
-  after_destroy :destroy_journal_entries
-  after_destroy :destroy_person_info
+  # after_destroy :destroy_journal_entries
+  # after_destroy :destroy_person_info
   
   # ID is mandatory
   validates_presence_of :code #, :message => "ID skal gives"
+  validates_format_of :code, :with => /\d+/
   validates_presence_of :name#, :message => "Navn skal angives"
   validates_presence_of :sex #, :message => "Køn skal angives"
   validates_presence_of :nationality #, :message => "Nationalitet skal angives"
@@ -60,11 +63,15 @@ class Journal < ActiveRecord::Base # Group
   # validates_associated :person_info
   # journal code must be unique within the same center
   validates_uniqueness_of :code, :scope => :center_id #, :message => "bruges allerede. Vælg andet ID."
-  # TODO: validates_associated or existence_of (see Advanced Rails recipes or Rails Way)
+  validates_presence_of :sex, :message => "Køn skal angives"
+  validates_presence_of :nationality, :message => "Nationalitet skal angives"
+  validates_format_of :parent_email, :with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i  
   
+ 
+
   named_scope :and_entries, :include => :journal_entries
   # named_scope :and_login_users, :include => { :journal_entries => :login_user }
-  named_scope :and_person_info, :include => :person_info
+  # named_scope :and_person_info, :include => :person_info
   named_scope :for_parent, lambda { |group| { :conditions => ['group_id = ?', group.is_a?(Group) ? group.id : group], :order => 'created_at desc' } }
   named_scope :for_center, lambda { |group| { :conditions => ['center_id = ?', group.is_a?(Center) ? group.id : group], :order => 'created_at desc' } }
   named_scope :by_code, :order => 'code ASC'
@@ -76,9 +83,11 @@ class Journal < ActiveRecord::Base # Group
      # fields
      indexes :title, :sortable => true
      indexes :code, :sortable => true
-     indexes person_info.cpr, :as => :person_info_cpr
-     indexes person_info.alt_id, :as => :person_info_alt_id
-		 # indexes center_id
+     # indexes person_info.cpr, :as => :person_info_cpr
+     # indexes person_info.alt_id, :as => :person_info_alt_id
+		 indexes :cpr
+     indexes :alt_id
+     # indexes center_id
      # attributes
      # has group_id, center_id, created_at, updated_at
      has center_id, created_at, updated_at
@@ -92,12 +101,31 @@ class Journal < ActiveRecord::Base # Group
   #   end
   # end 
 
+  def Journal.sexes
+    {
+      'dreng' => 1,
+      'pige' => 2
+    }
+  end
+
+  def self.nationalities
+    Nationality.all
+  end
+
+  def sex_text
+    Journal.sexes.invert[self.sex]
+  end
+  
+  def age
+    ( (Date.today - self.birthdate).to_i / 365.25).floor
+  end
+
   def self.search_journals(user, phrase)
     journals =
     if phrase.empty?
       []
     elsif user.has_role?(:superadmin)
-      Journal.search(phrase, :order => "created_at DESC", :include => :person_info, :per_page => 40)
+      Journal.search(phrase, :order => "created_at DESC", :per_page => 40)
     elsif user.has_role?(:centeradmin)
       user.centers.map {|c| c.id}.inject([]) do |result, id|
         result + Journal.search(phrase, :with => { :center_id => id }, :order => "created_at DESC", :include => :person_info, :per_page => 40)
@@ -114,11 +142,17 @@ class Journal < ActiveRecord::Base # Group
     #Rake::Task[task_name].invoke
   end
 
+  def set_cpr_nr
+    dato = self.birthdate.to_s.split("-")
+    dato[0] = dato[0][2..3]
+    self.cpr = dato.reverse.join
+  end
+
   def update_birthdate!(params)
     new_birthdate = Date.new params["birthdate(1i)"].to_i, params["birthdate(2i)"].to_i, params["birthdate(3i)"]
-    return false if new_birthdate == self.person_info.birthdate
-    person_info.birthdate = new_birthdate
-    person_info.save
+    return false if new_birthdate == self.birthdate
+    birthdate = new_birthdate
+    save
   end
 
   def get_project_code
@@ -126,7 +160,7 @@ class Journal < ActiveRecord::Base # Group
   end
   
   def get_name
-    person_info && person_info.name || title # .force_encoding("UTF-8")
+    title
   end
 
   def has_follow_up?(entry)
@@ -153,6 +187,12 @@ class Journal < ActiveRecord::Base # Group
     Rails.cache.delete_matched(/journals_groups_(#{self.center_id})/)
     Rails.cache.delete_matched(/journals_all_paged_(.*)_#{REGISTRY[:journals_per_page]}/)
     # Rails.cache.delete_matched(/journal_ids_user_(.*)/)
+    self.team.users.map do |user|
+      (1..3).each do |i|
+        Rails.cache.delete_matched(/journals_groups_#{user.center_id}_paged_#{i}_#{REGISTRY[:journals_per_page]}/)
+        Rails.cache.delete_matched(/journals_groups_#{user.group_ids.join("_")}_paged_#{i}_#{REGISTRY[:journals_per_page]}/)
+      end
+    end
 		self.team.users.map {|user| user.expire_cache}
   end
   
@@ -160,9 +200,9 @@ class Journal < ActiveRecord::Base # Group
     self.journal_entries.compact.each { |entry| puts "Entry: #{entry.inspect}"; entry.destroy_and_remove_answers! }
   end
   
-  def destroy_person_info
-    self.person_info.destroy if self.person_info
-  end
+  # def destroy_person_info
+  #   self.person_info.destroy if self.person_info
+  # end
   
   # show all login-users for journal. Go through journal_entries
   def login_users
@@ -181,27 +221,12 @@ class Journal < ActiveRecord::Base # Group
   def firstname
     self.title.split(' ').first
   end
-  
-  def birthdate
-    self.person_info && self.person_info.birthdate
-  end
-  
+    
   def birth_short
     birthdate && birthdate.strftime("%d-%m-%Y") || ""
   end
 
-  def sex_text
-    PersonInfo.sexes.invert[self.sex]
-  end
-
-  def sex
-    self.person_info && self.person_info.sex
-  end
-
-  def nationality
-    self.person_info && self.person_info.nationality
-  end
-  
+ 
   # sets the next journal code based on its center or current_user
   def next_journal_code(user)
     center = self.center && self.center || user.center
@@ -252,11 +277,11 @@ class Journal < ActiveRecord::Base # Group
   def info
 		settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
     c = Dictionary.new # ActiveSupport::OrderedHash.new
-    c["ssghafd"] = self.parent.group_code
+    c["ssghafd"] = self.group.group_code
     c["ssghnavn"] = self.center.title
     c["safdnavn"] = self.team.title
     c["pid"] = settings && eval("self.#{settings.value}") || self.code
-    c["projekt"] = self.person_info.alt_id || ""
+    c["projekt"] = self.alt_id || ""
     c["pkoen"] = self.sex
     c["palder"] = get_age(self.birthdate, self.created_at)  # alder på oprettelsesdato
     c["pnation"] = self.nationality

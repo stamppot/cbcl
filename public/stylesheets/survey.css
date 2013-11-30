@@ -98,6 +98,11 @@ td {
 /*  border: 1px #029 dashed;*/
 }
 
+
+.button {
+  cursor: pointer;
+}
+
 /*************** buttons **********/
 a.button, input.button {
 	background-color: #eee;

@@ -119,11 +119,11 @@ class SurveyAnswer < ActiveRecord::Base
     j = self.journal
     # settings = CenterSetting.find_by_center_id_and_name(self.center_id, "use_as_code_column")
     c = Dictionary.new # ActiveSupport::OrderedHash.new
-    c["ssghafd"] = j.parent.group_code
+    c["ssghafd"] = j.group.group_code
     c["ssghnavn"] = self.center.title
-    c["safdnavn"] = j.parent.title
+    c["safdnavn"] = j.group.title
     c["pid"] = j.code #settings && eval("self.#{settings.value}") || j.code
-    c["projekt"] = j.person_info.alt_id || ""
+    c["projekt"] = j.alt_id || ""
     c["pkoen"] = j.sex
     c["palder"] = self.age_when_answered  # alder på besvarelsesdatoen
     c["pnation"] = j.nationality
@@ -177,13 +177,13 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def update_score_report(update = false)
-    rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
+    rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => :journal})
     args = { :survey_name => self.survey.get_title,
                   :survey => self.survey,
               :unanswered => self.no_unanswered,
               :short_name => self.survey.category,
                      :age => self.age_when_answered,
-                  :gender => self.journal.person_info.sex,
+                  :gender => self.journal.sex,
                :age_group => self.survey.age,
               :created_at => self.created_at,  # set to date of survey_answer
                :center_id => self.center_id,
@@ -193,13 +193,13 @@ class SurveyAnswer < ActiveRecord::Base
   end
 
   def generate_score_report(update = false)
-    rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => {:journal => :person_info}})
+    rapport = ScoreRapport.find_by_survey_answer_id(self.id, :include => {:survey_answer => :journal})
     args = { :survey_name => self.survey.get_title,
                   :survey => self.survey,
               :unanswered => self.no_unanswered,
               :short_name => self.survey.category,
                      :age => self.age_when_answered,
-                  :gender => self.journal.person_info.sex,
+                  :gender => self.journal.sex,
                :age_group => self.survey.age,
               :created_at => self.created_at,  # set to date of survey_answer
                :center_id => self.center_id,

@@ -18,7 +18,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def center
     options = { :include => :group, :page => params[:page], :per_page => per_page }
     @group = Group.find params[:id]
-    @journals = Journal.for_center(@group).by_code.and_person_info.paginate(:all, :page => 1, :per_page => (journals_per_page || 20))
+    @journals = Journal.for_center(@group).by_code.paginate(:all, :page => 1, :per_page => (journals_per_page || 20))
 
     respond_to do |format|
       format.html { render :index }
@@ -37,52 +37,44 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def show
-    @group = Journal.find(params[:id]) # cache_fetch("j_#{params[:id]}") {  }
-    alt_ids = [] # @group.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
+    @journal = Journal.find(params[:id]) # cache_fetch("j_#{params[:id]}") {  }
+    alt_ids = [] # @journal.center.center_settings.find(:conditions => ["name = 'alt_id_name'"])
     alt_id = alt_ids.any? && alt_ids.first || ""
     @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
-
-    # increment click if it's not been used in the last 5 minutes
-    journal_click = JournalClickCounter.find_by_user_id_and_journal_id(current_user.id, @group.id) || JournalClickCounter.create(:user_id => current_user.id, :journal_id => @group.id)
-    if journal_click.updated_at < 5.minutes.ago
-      journal_click.clicks += 1
-      journal_click.save
-    end
-    # if(journal_click.updated_at)
-
-		@answered_entries = @group.answered_entries
-		@not_answered_entries = @group.not_answered_entries
+		@answered_entries = @journal.answered_entries
+		@not_answered_entries = @journal.not_answered_entries
   end
 
   def new
     @page_title = "Opret ny journal"
-    @group = Journal.new
+    @journal = Journal.new
     # if journal is created from Team.show, then team is set to parent
-    @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
-    @group.group, @group.center = @groups.first, @groups.first.center if @groups.any?
+    @groups = current_user.my_groups
+    @journal.group, @journal.center = @groups.first, @groups.first.center if @groups.any?
     alt_ids = []
     alt_id = alt_ids.any? && alt_ids.first || ""
-    @alt_id_name = "Projektnr" # alt_id && alt_id.value || "Projektnr"
+    @alt_id_name = "AltID" # alt_id && alt_id.value || "Projektnr"
     @surveys = current_user.subscribed_surveys
     @nationalities = Nationality.all
   end
 
   def create
-    parent = Group.find(params[:group].delete(:group))
-    params[:group][:group] = parent
-    params[:person_info][:name] = params[:group][:title]
-    params[:group][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
-    @group = Journal.new(params[:group])
-    @group.person_info = @group.build_person_info(params[:person_info])
-    @group.person_info.delta = true
-    @group.delta = true # force index
+    parent = Group.find(params[:journal][:group])
+    params[:journal][:group] = parent
+    # params[:person_info][:name] = params[:group][:title]
+    params[:journal][:center_id] = parent.is_a?(Team) && parent.center_id || parent.id
+    @journal = Journal.new(params[:journal])
+    # @group.person_info = @group.build_person_info(params[:person_info])
+    # @group.person_info.delta = true
+    @journal.delta = true # force index
 
-    if @group.person_info.valid? && @group.save
-      @group.expire_cache
+    if @journal.save
+      @journal.expire_cache
       flash[:notice] = 'Journalen er oprettet.'
-      redirect_to journal_path(@group) and return
+      logger.info "Created journal, go to group: #{@journal.id}"
+      redirect_to journal_path(@journal) and return
     else
-      flash[:error] = @group.errors.inspect
+      flash[:error] = @journal.errors.inspect
       @groups = Group.get_teams_or_centers(params[:id], current_user)
       @nationalities = Nationality.find(:all)
       @surveys = current_user.subscribed_surveys
@@ -90,19 +82,17 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
 
   rescue ActiveRecord::RecordNotFound
-    flash[:error] += 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + (@group && @group.errors.inspect || "")
+    flash[:error] += 'Du sendte en ugyldig forespørgsel. ' + params.inspect + "<br>" + (@journal && @journal.errors.inspect || "")
     redirect_to journals_path
   end
 
   def edit
     @page_title = "Rediger journal"
-
-    @group = Journal.find(params[:id], :include => [:person_info])
-    @person_info = @group.person_info
+    @journal = Journal.find(params[:id])
     @nationalities = Nationality.all
-    alt_id = @group.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
+    alt_id = @journal.center.center_settings.first(:conditions => ["name = 'alt_id_name'"])
     @alt_id_name = alt_id && alt_id.value || "Projektnr"
-    @any_answered_entries = @group.answered_entries.any?
+    @any_answered_entries = @journal.answered_entries.any?
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.'
@@ -110,19 +100,16 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   end
 
   def update
-    params[:person_info][:name] = params[:group][:title]    # save name in person_info too                                    
-
-    @group = Journal.find(params[:id], :include => :journal_entries)
-    @group.person_info.update_attributes(params[:person_info])
-    @group.update_attributes(params[:group])
+    @journal = Journal.find(params[:id], :include => :journal_entries)
+    @journal.update_attributes(params[:journal])
         
-    if @group.save
+    if @journal.save
       flash[:notice] = 'Journalen er opdateret.'
-      redirect_to journal_path(@group)
+      redirect_to journal_path(@journal)
     else
       @nationalities = Nationality.all
-      @groups = Group.get_teams_or_centers(params[:id], current_user)
-      render edit_journal_path(@group)
+      @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
+      render edit_journal_path(@journal)
     end
 
   rescue ActiveRecord::RecordNotFound
@@ -133,8 +120,8 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # displays a "Do you really want to delete it?" form. It
   # posts to #destroy.
   def delete
-    @group = cache_fetch("j_#{params[:id]}") do Journal.find(params[:id], :include => :journal_entries) end #Journal.find(params[:id].to_i)
-
+    @journal = Journal.find(params[:id])
+  
   rescue ActiveRecord::RecordNotFound
     flash[:error] = 'Journalen kunne ikke findes.'
     redirect_to journals_path
@@ -145,9 +132,10 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   # Removes survey_answer for all journal_entries
   def destroy
     if not params[:yes].nil?   # slet journal gruppe
-      @group = Journal.find(params[:id], :include => :journal_entries) 
-      @group.destroy
-      flash[:notice] = "Journalen #{@group.title} er blevet slettet."
+      @journal = Journal.find(params[:id], :include => :journal_entries)
+      # @group.journal_entries.map &:destroy
+      @journal.destroy
+      flash[:notice] = "Journalen #{@journal.title} er blevet slettet."
       redirect_to journals_path
     else
       flash[:notice] = 'Journalen blev ikke slettet.'
@@ -155,7 +143,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     end
 
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = 'Journalen kunne ikke findes.' << "  id: " << params[:id] << "   entry: " << @group.journal_entries.inspect
+    flash[:error] = 'Journalen kunne ikke findes.' << "  id: " << params[:id] << "   entry: " << @journal.journal_entries.inspect
     redirect_to journals_path
   rescue => e
     flash[:error] = "Exception: #{e}"
@@ -241,7 +229,7 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
   def select_group # nb. :id is Team id!
     @group = Journal.find(params[:id])
     @page_title = "CBCL - Center " + @group.group.title + ", team " + @group.title
-    @groups = current_user.my_groups # Group.get_teams_or_centers(params[:id], current_user)
+    @groups = current_user.my_groups
     @journal_count = Journal.for_parent(@group).count
 
      respond_to do |format|
@@ -286,11 +274,11 @@ class JournalsController < ApplicationController # < ActiveRbac::ComponentContro
     @journals = @project.journals
   end
 
-  def update_journals_email
+  def update_journals_email # TODO: check where this is used, update params (was person_info, now group)
     params[:journals].each do |journal_params|
       journal = Journal.find(journal_params[:id])
-      journal.person_info.parent_email = journal_params[:person_info][:parent_email]
-      journal.person_info.save
+      journal.parent_email = journal_params[:group][:parent_email]
+      journal.save
     end
     flash[:notice] = "Forældre-mails er rettet"
     redirect_to project_path(params[:project][:id])

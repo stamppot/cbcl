@@ -1247,6 +1247,10 @@ a:active.bigbutton {
 	background: url("/images/page_excel.png") 0px 0px no-repeat;
 }
 
+.button {
+  cursor: pointer;
+}
+
 @media print {  
     body { background-color: #FFF; }
 		body, p, ol, ul, td { font-size: 9px; }

@@ -1,7 +1,7 @@
-<%# cache @group.cache_key do  %>
-	<h2>Journal &quot;<%=h @group.get_name %>&quot;</h2>
+<%# cache @journal.cache_key do  %>
+	<h2>Journal &quot;<%=h @journal.get_name %>&quot;</h2>
 	
-	<%# cache "#{@group.cache_key}_info" do %>
+	<%# cache "#{@journal.cache_key}_info" do %>
 		<%= render :partial => 'journal_info' %>
 	<%# end %>
 	
@@ -38,7 +38,7 @@
 					<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern skema')), 
 							:update => ('entry'<<entry.id.to_s), 
-							:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.get_title}'\n fra journalen #{@group.get_name}?",
+							:confirm => "Vil du fjerne spørgeskemaet '#{entry.survey.get_title}'\n fra journalen #{@journal.get_name}?",
 					 		:url => entry_remove_path(entry)) %></td>
 				 </tr>
 		<% end %>
@@ -48,9 +48,9 @@
 	<p/>
 	
 	<div class="commands">
-		<%= link_button t('survey.add'), journal_add_survey_path(@group), 'journal_add_surveys', :title => 'Tilføj skemaer' %>
-		<%= link_button t('survey.remove'), journal_remove_survey_path(@group), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
-		<%= link_button t('letter.print'), print_letters_path(@group) + ".pdf", 'letters_print', :title => 'Udskriv breve', :popup => ['new_window, height=800,width=800'] %>
+		<%= link_button t('survey.add'), journal_add_survey_path(@journal), 'journal_add_surveys', :title => 'Tilføj skemaer' %>
+		<%= link_button t('survey.remove'), journal_remove_survey_path(@journal), 'journal_remove_surveys', :title => 'Fjern skemaer' %>
+		<%= link_button t('letter.print'), print_letters_path(@journal) + ".pdf", 'letters_print', :title => 'Udskriv breve', :popup => ['new_window, height=800,width=800'] %>
 	</div>
 	<br/>
 	
@@ -58,8 +58,8 @@
 		<br/>
 		<hr/>
 		<h4><%= t('survey.answered') %></h4>
-		<form action="/answer_reports/show/<%= @group.id %>.pdf<%= '?random=' << rand(10000000).to_s %>" id="show_score_rapports" method="post">
-			<%= hidden_field_tag 'journal_id', @group.id %>
+		<form action="/answer_reports/show/<%= @journal.id %>.pdf<%= '?random=' << rand(10000000).to_s %>" id="show_score_rapports" method="post">
+			<%= hidden_field_tag 'journal_id', @journal.id %>
 			<%= hidden_field_tag 'random_for_ie', rand(1000000) %>
 		<div id="answered_surveys">
 		<table id="answered" class="surveys">
@@ -87,7 +87,7 @@
 						<%= entry.answered_by && t("roles.#{entry.answered_by}") || entry.status %>
 					 </td>
 					 <td style="min-width: 100px;"><%= link_to img_tag_html4("printer.png", :border=>0, :alt => 'Udskriv besvarelse', :title => 'Udskriv besvarelse' ),
-									(print_survey_answer_path(entry) + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>
+									('/survey_answers/print/' + entry.id.to_s + ".pdf"), :format => 'pdf', :title => 'Udskriv besvarelse' %>
 						<a href="/journal_entries/edit_notes/<%= entry.id %>" title="Noter">
 							<img src="/images/tag_blue.png" alt="Noter" title="Noter" border=0 align="right" />
 						</a>
@@ -95,7 +95,7 @@
  							<%= link_to_remote((img_tag_html4('icon_delete_survey.gif', :border => 0, 
 										:class => 'icon icon_delete', :title => 'Fjern besvarelse')), 
 							:update => ('entry_answer' << entry.id.to_s), 
-							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.get_title}'\n fra journalen #{@group.title}?",
+							:confirm => "Vil du fjerne besvarelsen '#{entry.survey.get_title}'\n fra journalen #{@journal.title}?",
 					 		:url => entry_remove_answer_path(entry)) %>      
 						</td>
 	
@@ -108,7 +108,7 @@
 		<% if answered_count %>
 		  <div class="commands">
 				<div class="button">
-					<%# link_button t('score.show_report'), answer_report_path(@group), :class => 'button score_calculate',  :title => 'Tilføj skemaer' %>
+					<%# link_button t('score.show_report'), answer_report_path(@journal), :class => 'button score_calculate',  :title => 'Tilføj skemaer' %>
 		
 					<%= submit_tag t('score.show_report'), :class => 'button score_calculate', :format => 'pdf' %>
 					<label><input type="checkbox" checked="checked" name="extended_scorereport" id="select_scorereport" onchange="toggleReportType('show_score_rapports', 'select_scorereport');">Med besvarelser</label>&nbsp;&nbsp;
@@ -124,7 +124,7 @@
 	<% end %>
 
 	<div class="commands">
-		<%= link_button t('edit'), edit_journal_path(@group), 'journal_edit', :title => t('edit') %>
+		<%= link_button t('edit'), edit_journal_path(@journal), 'journal_edit', :title => t('edit') %>
 		<%= back_button journals_path %>
 	</div>
 	

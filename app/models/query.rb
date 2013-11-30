@@ -11,7 +11,7 @@ class Query
   # end
   
   # def select_all
-  #   ["select journal_entry_id, journal_entries.journal_id, journal_entries.survey_id, journal_entries.survey_answer_id, person_infos.birthdate "]
+  #   ["select journal_entry_id, journal_entries.journal_id, journal_entries.survey_id, journal_entries.survey_answer_id, journals.birthdate "]
   # end
 
   # def small_join_clause
@@ -30,8 +30,8 @@ class Query
       joins.each {|a,b| clause << "AND #{a} = #{b}"}
       clause
     else
-      ["FROM journal_entries, groups, survey_answers, person_infos ",
-        "WHERE journal_entries.journal_id = groups.id AND groups.type = 'Journal' ",
+      ["FROM journal_entries, survey_answers, journals ", # removed groups in from clause
+        "WHERE journal_entries.journal_id = journals.id ",
         "AND journal_entries.survey_answer_id = survey_answers.id ",
         "AND journal_entries.journal_id = person_infos.journal_id "]
     end.join(' ')

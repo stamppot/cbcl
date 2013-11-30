@@ -57,7 +57,7 @@ class RemindersController < ApplicationController
 
     done_file = true
     @journal_entries = JournalEntry.for_parent_with_state(@group, @state).
-      between(@start_date, @stop_date).all(:order => 'created_at desc', :include => [{:journal => :person_info}, :login_user]) unless @state.empty?
+      between(@start_date, @stop_date).all(:order => 'created_at desc', :include => [:journal, :login_user]) unless @state.empty?
     export_csv_helper = ExportCsvHelper.new
     rows = export_csv_helper.get_entries_status(@journal_entries)
     done_file = rows.any?

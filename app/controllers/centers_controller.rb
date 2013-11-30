@@ -193,8 +193,8 @@ class CentersController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          page << "$('group_code').value='" + next_journal_code.to_s + "';"
-          page.visual_effect :pulsate, 'group_code'
+          page << "$('journal_code').value='" + next_journal_code.to_s + "';"
+          page.visual_effect :pulsate, 'journal_code'
         end
       }
     end

@@ -55,7 +55,7 @@ class JournalEntry < ActiveRecord::Base
                              :journal_id => self.journal_id,
                              :surveytype => self.survey.surveytype,
                              :center_id => self.journal.center_id)
-    self.survey_answer.alt_id = self.journal.person_info.alt_id if self.journal.person_info
+    self.survey_answer.alt_id = self.journal.alt_id if self.journal
     self.survey_answer.team_id = self.journal.group_id if self.journal.group.is_a?(Team)
     self.survey_answer.journal_entry = self
     self.survey_answer
