@@ -281,7 +281,7 @@ class JournalEntry < ActiveRecord::Base
     self.password = pw[:password]
     self.login_user = login_user
     unless login_user.valid?
-      raise InvalidUserException("invalid LoginUser: #{login_user.inspect}")
+      raise Exception("invalid LoginUser: #{login_user.inspect}")
     end
     return login_user
   end

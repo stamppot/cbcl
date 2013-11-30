@@ -11,7 +11,7 @@
 
 	<% @users.each do |user| %>
 	<tr>
-		<td><%= link_to user.name.blank? && user.login || user.name, user_path(user), :title => t('user.show'), :class => (user.state != 2) && 'unconfirmed' || '' %></td>
+		<td><%= link_to user.name.blank? && user.login || user.name, user_path(user), :title => t('user.show') %></td>
 		<td><%= (roles = user.roles).any? && t("roles.#{roles.first.title}").capitalize || " " -%></td>
 		<% if current_user.access?(:user_show_teams) and !(groups = user.groups.teams).empty?
 			   groups = groups.map { |g| g.title }.join(", ")

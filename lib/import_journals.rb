@@ -22,7 +22,7 @@ class ImportJournals # AddJournalsFromCsv
 			puts "Row: #{row}"
 			next if row.blank?
 
-			alt_id = row["alt_id"]
+			alt_id = row["alt_id"] || row["Graviditetsid"]
 			b = row["birthdate"]
 			journal_name = row["journalnavn"] || row["Bnavn"]
 			parent_name = row["Mnavn"]
@@ -40,42 +40,27 @@ class ImportJournals # AddJournalsFromCsv
 				next
 			end
 
-			birthdate = get_date(b) #Date.new(2000 + b[4..5].to_i, b[2..3].to_i, b[0..1].to_i)
+			birthdate = get_date(b)
 
 			puts "birthdate: #{birthdate}"
-			person_info = {:birthdate => birthdate, :parent_email => parent_mail, :name => journal_name,
-				:parent_name => parent_name, :alt_id => alt_id, :nationality => "Dansk", :sex => sex }
-			args = {:title => journal_name, :parent_id => group.id, :center_id => group.center_id}
+			args = {
+				:title => journal_name, :group_id => group.id, :center_id => group.center_id,
+				:birthdate => birthdate, :parent_email => parent_mail, :title => journal_name,
+				:parent_name => parent_name, :alt_id => alt_id, :nationality => "Dansk", :sex => sex
+			}
 
 			if !journal
 				args[:code] = center.next_journal_code
 				journal = Journal.new(args)
-				journal.save if do_save
+				puts journal.errors.inspect if !journal.valid?
+				if do_save
+					journal.save
+					puts "Saved journal: #{journal.id}  #{journal.title}"
+				end
 			end
-			
-			if !journal.person_info
-				journal.build_person_info(person_info)
-				puts "#{journal.title}: Invalid: #{journal.person_info.inspect}" if do_save && !journal.person_info.valid?
-				journal.person_info.save 
-			else
-				journal.person_info.update_attributes(person_info)
-			end if do_save
 			
 			add_surveys_and_entries(journal, surveys, do_save)
-
-			puts "! #{journal.title}: Invalid: #{journal.inspect}" if do_save && !journal.person_info
 				
-			if journal.person_info && journal.person_info.valid? && do_save
-				journal.person_info.save
-				puts "#{journal.person_info.inspect}"
-			end
-
-			if journal.person_info && !journal.person_info.valid?
-				puts "person_info: #{journal.person_info.errors.inspect}"
-				puts "journal: #{journal.errors.inspect}"
-			end
-			
-			# puts "journal: #{journal.inspect}  #{journal.person_info.inspect} Valid: #{journal.valid?} #{journal.errors.inspect}"
 		end
 	end
 

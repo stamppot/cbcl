@@ -27,7 +27,7 @@ class TeamsController < ApplicationController # < ActiveRbac::ComponentControlle
   def index
     @page_title = "CBCL - Liste af teams"
 		@hide_team = true
-    @teams_by_center = current_user.teams.group_by { |team| team.center }
+    # @teams_by_center = current_user.teams.group_by { |team| team.center }
     @teams = current_user.teams
 
     respond_to do |format|
