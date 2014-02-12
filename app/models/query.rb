@@ -32,8 +32,7 @@ class Query
     else
       ["FROM journal_entries, survey_answers, journals ", # removed groups in from clause
         "WHERE journal_entries.journal_id = journals.id ",
-        "AND journal_entries.survey_answer_id = survey_answers.id ",
-        "AND journal_entries.journal_id = person_infos.journal_id "]
+        "AND journal_entries.survey_answer_id = survey_answers.id "]
     end.join(' ')
   end
 

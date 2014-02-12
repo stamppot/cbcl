@@ -78,6 +78,7 @@ class Journal < ActiveRecord::Base # Group
   named_scope :for_groups, lambda { |group_ids| { :conditions => ['group_id IN (?)', group_ids] } }
   named_scope :for, lambda { |journal_id| { :conditions => ['id = ?', journal_id] } }
   named_scope :all_parents, lambda { |group_ids| { :conditions => ['group_id IN (?)', group_ids]}}
+  named_scope :in_center, lambda { |center| { :conditions => ['center_id = ?', center.is_a?(Center) ? center.id : center] } }
   
   define_index do
      # fields
@@ -108,12 +109,12 @@ class Journal < ActiveRecord::Base # Group
     }
   end
 
-  def self.nationalities
-    Nationality.all
-  end
-
   def sex_text
     Journal.sexes.invert[self.sex]
+  end
+
+  def self.nationalities
+    Nationality.all
   end
   
   def age

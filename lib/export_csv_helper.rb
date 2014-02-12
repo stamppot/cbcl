@@ -29,13 +29,13 @@ class ExportCsvHelper
     results = journal_entries.inject([]) do |results, entry|
       if entry.login_user && entry.not_answered?
         row = {
-          :email => entry.journal.person_info.parent_email,
+          :email => entry.journal.parent_email,
           :navn => to_danish(entry.journal.title),
           :fornavn => to_danish(entry.journal.firstname),
           :login => entry.login_user.login, 
           :password => entry.password,
-          :alt_id => entry.journal.person_info.alt_id,
-          :mor_navn => to_danish(entry.journal.person_info.parent_name)
+          :alt_id => entry.journal.alt_id,
+          :mor_navn => to_danish(entry.journal.parent_name)
         }
         results << row
       end

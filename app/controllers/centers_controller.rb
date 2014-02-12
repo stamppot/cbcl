@@ -65,7 +65,7 @@ class CentersController < ApplicationController
     @group = Center.find_by_id(params[:id])
     @group.build_center_info unless @group.center_info
 
-    @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
+    # @group.subscription_service.update_subscriptions(params[:group].delete(:surveys) || [])
     @group.update_attributes(params[:group])
 
     if @group.save

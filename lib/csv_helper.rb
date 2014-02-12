@@ -134,11 +134,11 @@ class CSVHelper
       end
 
       results["journal_#{journal.code}"] = { 
-        :name => journal.person_info.name,
-        :first_name => journal.person_info.name.split(" ").first,
-        :parent_email => journal.person_info.parent_email,
-        :parent_name => journal.person_info.parent_name,
-        :alt_id => journal.person_info.alt_id,
+        :name => journal.name,
+        :first_name => journal.name.split(" ").first,
+        :parent_email => journal.parent_email,
+        :parent_name => journal.parent_name,
+        :alt_id => journal.alt_id,
         :skemaer => surveys
       } if !surveys.empty?
 
@@ -190,13 +190,13 @@ class CSVHelper
         col
       end
 
-      # parent_email = journal.person_info.parent_email || ""
+      # parent_email = journal.parent_email || ""
       results["journal_#{journal.code}"] = { 
-        :name => journal.person_info.name,
-        :first_name => journal.person_info.name.split(" ").first,
-        :parent_email => journal.person_info.parent_email,
-        :parent_name => journal.person_info.parent_name,
-        :alt_id => journal.person_info.alt_id,
+        :name => journal.name,
+        :first_name => journal.name.split(" ").first,
+        :parent_email => journal.parent_email,
+        :parent_name => journal.parent_name,
+        :alt_id => journal.alt_id,
         :skemaer => surveys
       } if !surveys.empty?
 
