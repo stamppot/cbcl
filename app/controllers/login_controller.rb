@@ -53,16 +53,16 @@ class LoginController < ApplicationController
 
       user = User.find_with_credentials(params[:username], params[:password])    # Try to log the user in.
 #      temp_login = user.nil?
-      user = LoginUser.find_by_login(params[:username]) if params[:password].length > 6 and user.nil? # because of missing pw's, let login_users login by name temporarily!!! 
-      temp_login = temp_login && user
+      # user = LoginUser.find_by_login(params[:username]) if params[:password].length > 6 and user.nil? # because of missing pw's, let login_users login by name temporarily!!! 
+      # temp_login = temp_login && user
       raise ActiveRecord::RecordNotFound if !temp_login && user.nil?    # Check whether a user with these credentials could be found.
       # raise ActiveRecord::RecordNotFound unless User.state_allows_login?(user.state)    # Check that the user has the correct state
       # done below #  write_user_to_session(user)    # Write the user into the session object.
       
       journal_entry = JournalEntry.find_by_user_id(user.id)
-      temp_login = temp_login && ["Mads", "Dennis", "Lucas", "Daniel", "Wissam", "Klara"].include?(first_name)
-      if !temp_login && !user
-        Rails.logger("TEMP Login failed: #{params[:username]} #{params[:password]}")
+      # temp_login = temp_login && ["Mads", "Dennis", "Lucas", "Daniel", "Wissam", "Klara"].include?(first_name)
+      if !user
+        Rails.logger("Login failed: #{params[:username]} #{params[:password]}")
 	      raise ActiveRecord::RecordNotFound
       end
 
